@@ -1,7 +1,11 @@
 package com.elhady.movies.data.remote.service
 
 import com.elhady.movies.data.remote.response.MovieResponse
+import com.elhady.utilities.Constants
 import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import retrofit2.http.GET
 
 interface MovieService {
@@ -17,6 +21,13 @@ interface MovieService {
     @GET("movie/now_playing")
     suspend fun getNowPlayingMovies(): Response<MovieResponse>
 
+}
 
+object ApiRequest{
+    private val retrofit = Retrofit.Builder()
+        .baseUrl(Constants.BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 
+    val service = retrofit.create(MovieService::class.java)
 }
