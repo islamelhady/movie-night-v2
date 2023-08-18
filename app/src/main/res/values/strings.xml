@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">movies</string>
+    <string name="app_name">Movies</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_search">Search</string>
+    <string name="title_favorite">Favorite</string>
+    <string name="title_profile">Profile</string>
 </resources>

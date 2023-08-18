@@ -37,6 +37,7 @@ android {
 
     buildFeatures {
         dataBinding = true
+        viewBinding = true
     }
 }
 
@@ -55,4 +56,8 @@ dependencies {
 
     implementation ("androidx.fragment:fragment-ktx:1.6.1")
     implementation ("androidx.activity:activity-ktx:1.7.2")
+
+    // navigation
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.2")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.2")
 }
