@@ -1,7 +1,9 @@
 package com.elhady.movies.data.remote.service
 
+import com.elhady.movies.data.remote.AuthInterceptor
 import com.elhady.movies.data.remote.response.MovieResponse
 import com.elhady.utilities.Constants
+import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,6 +14,7 @@ interface MovieService {
 
     @GET("movie/popular")
     suspend fun getPopularMovies(): Response<MovieResponse>
+
     @GET("movie/upcoming")
     suspend fun getUpcomingMovies(): Response<MovieResponse>
 
@@ -23,9 +26,12 @@ interface MovieService {
 
 }
 
-object ApiRequest{
+object ApiRequest {
+    private val client = OkHttpClient.Builder().addInterceptor(AuthInterceptor()).build()
+
     private val retrofit = Retrofit.Builder()
         .baseUrl(Constants.BASE_URL)
+        .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
