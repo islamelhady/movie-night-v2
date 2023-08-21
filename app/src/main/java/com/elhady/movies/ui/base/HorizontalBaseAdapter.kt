@@ -2,31 +2,38 @@ package com.elhady.movies.ui.base
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.BR
+import com.elhady.movies.databinding.HorizontalRecyclerBinding
+import com.elhady.movies.ui.home.HomeViewModel
+import com.elhady.movies.ui.home.adapters.CategoryAdapter
 
-abstract class HorizontalBaseAdapter<T>(private val adapter: T) :
-    RecyclerView.Adapter<HorizontalBaseAdapter.HorizontalBaseViewHolder>() {
+abstract class HorizontalBaseAdapter<T>(
+    private val adapter: BaseAdapter<T>,
+    private val viewModel: BaseViewModel
+) : RecyclerView.Adapter<HorizontalBaseAdapter.HorizontalWrapperViewHolder<T>>() {
 
-    abstract val layoutID: Int
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HorizontalBaseViewHolder {
-        return ItemViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), layoutID, parent, false))
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): HorizontalWrapperViewHolder<T> {
+        return HorizontalWrapperViewHolder(
+            HorizontalRecyclerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        )
     }
 
-    override fun onBindViewHolder(holder: HorizontalBaseViewHolder, position: Int) {
-        if (holder is ItemViewHolder) bind(holder)
+    override fun onBindViewHolder(holder: HorizontalWrapperViewHolder<T>, position: Int) {
+        holder.bind(adapter, viewModel)
     }
 
-    override fun getItemCount() = 1
+    override fun getItemCount(): Int = 1
 
-    private fun bind(holder: HorizontalBaseViewHolder){
-        holder.binding.apply {
-            setVariable(BR.adapter, adapter)
+    class HorizontalWrapperViewHolder<T>(val binding: HorizontalRecyclerBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(adapter: BaseAdapter<T>, viewModel: BaseViewModel) {
+            binding.recyclerView.adapter = adapter
+            binding.viewModel = viewModel as HomeViewModel?
         }
     }
-
-    class ItemViewHolder(binding: ViewDataBinding): HorizontalBaseViewHolder(binding)
-    abstract class HorizontalBaseViewHolder(val binding: ViewDataBinding): RecyclerView.ViewHolder(binding.root)
 }

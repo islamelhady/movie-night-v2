@@ -4,16 +4,14 @@
     <data>
         <variable
             name="item"
-            type="com.elhady.movies.data.Movie" />
+            type="String" />
 
     </data>
-
 
     <TextView
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_margin="8dp"
-        android:text="@{item.name}">
-
-    </TextView>
+        android:text="@{item}"
+        android:textColor="@color/black"/>
 </layout>

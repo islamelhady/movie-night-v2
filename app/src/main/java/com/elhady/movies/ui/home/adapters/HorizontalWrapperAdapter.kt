@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.databinding.HorizontalRecyclerBinding
 
-class HorizontalWrapperAdapter(val adapter: HorizontalAdapter) :
+class HorizontalWrapperAdapter(val adapter: CategoryAdapter) :
     RecyclerView.Adapter<HorizontalWrapperAdapter.HorizontalWrapperViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -28,7 +28,7 @@ class HorizontalWrapperAdapter(val adapter: HorizontalAdapter) :
     override fun getItemCount(): Int = 1
     class HorizontalWrapperViewHolder(private val binding: HorizontalRecyclerBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(adapter: HorizontalAdapter) {
+        fun bind(adapter: CategoryAdapter) {
             binding.recyclerView.adapter = adapter
         }
     }
