@@ -1,11 +1,16 @@
 package com.elhady.movies.ui.home
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.room.Room
 import com.elhady.movies.R
+import com.elhady.movies.data.database.MovieDatabase
+import com.elhady.movies.data.database.entity.Saved
+import com.elhady.movies.data.database.entity.SearchHistory
 import com.elhady.movies.databinding.FragmentHomeBinding
 import com.elhady.movies.ui.base.BaseFragment
 import com.elhady.movies.ui.home.adapters.HorizontalAdapter
