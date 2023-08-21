@@ -2,7 +2,7 @@ package com.elhady.movies.data.remote.service
 
 import com.elhady.movies.data.remote.AuthInterceptor
 import com.elhady.movies.data.remote.response.MovieResponse
-import com.elhady.utilities.Constants
+import com.elhady.movies.utilities.Constants
 import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit

@@ -1,6 +1,6 @@
 package com.elhady.movies.data.remote
 
-import com.elhady.utilities.Constants
+import com.elhady.movies.utilities.Constants
 import okhttp3.Interceptor
 import okhttp3.Response
 

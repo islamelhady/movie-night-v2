@@ -1,4 +1,4 @@
-package com.elhady.utilities
+package com.elhady.movies.utilities
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
