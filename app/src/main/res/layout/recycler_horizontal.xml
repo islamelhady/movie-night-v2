@@ -8,6 +8,10 @@
             name="viewModel"
             type="com.elhady.movies.ui.home.HomeViewModel" />
 
+        <variable
+            name="adapter"
+            type="com.elhady.movies.ui.home.adapters.CategoryAdapter" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,11 +19,12 @@
         android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/category_recycler_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:items="@{viewModel.data2}"
+            android:adapter="@{adapter}"
+            app:items="@{viewModel.data}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

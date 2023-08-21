@@ -14,6 +14,8 @@ class MovieImageAdapter(private val items: List<Movie>) : BaseAdapter<Movie>(ite
 }
 
 class HorizontalMovieImageAdapter(adapter: MovieImageAdapter, viewModel: HomeViewModel) :
-    HorizontalBaseAdapter<Movie>(adapter, viewModel)
+    HorizontalBaseAdapter<BaseAdapter<Movie>, HomeViewModel>(adapter, viewModel) {
+    override val layoutID: Int = R.layout.recycler_movie
+}
 
 

@@ -24,11 +24,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         }.build()
         val concatAdapter = ConcatAdapter(
             config,
-            HorizontalCategoryAdapter(CategoryAdapter(emptyList()), viewModel),
-            HorizontalCategoryAdapter(CategoryAdapter(emptyList()), viewModel),
-            HorizontalCategoryAdapter(CategoryAdapter(emptyList()), viewModel),
-            HorizontalCategoryAdapter(CategoryAdapter(emptyList()), viewModel),
-            HorizontalCategoryAdapter(CategoryAdapter(emptyList()), viewModel),
+//            HorizontalCategoryAdapter(CategoryAdapter(emptyList()), viewModel),
+//            HorizontalCategoryAdapter(CategoryAdapter(emptyList()), viewModel),
+//            HorizontalCategoryAdapter(CategoryAdapter(emptyList()), viewModel),
+//            HorizontalCategoryAdapter(CategoryAdapter(emptyList()), viewModel),
+//            HorizontalCategoryAdapter(CategoryAdapter(emptyList()), viewModel),
+            HorizontalMovieImageAdapter(MovieImageAdapter(emptyList()),viewModel)
+
 
         )
 
