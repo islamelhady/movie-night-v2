@@ -10,7 +10,6 @@ import com.elhady.movies.databinding.FragmentHomeBinding
 import com.elhady.movies.ui.base.BaseFragment
 import com.elhady.movies.ui.home.adapters.HorizontalAdapter
 import com.elhady.movies.ui.home.adapters.HorizontalWrapperAdapter
-import com.elhady.movies.ui.home.adapters.MovieImageAdapter
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
@@ -18,9 +17,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override val viewModel: HomeViewModel by viewModels()
 
 
-    val data1 = listOf("movie1", "movie2", "movie3")
-    val data2 = listOf("artist1", "artist2", "artist3")
-    val data3 = listOf("islam1", "islam2", "islam3")
+    val data1 = listOf("movie1", "movie2", "movie3","movie4", "movie5", "movie6","movie7", "movie8", "movie9")
+    val data2 = listOf("artist1", "artist2", "artist3","artist4", "artist5", "artist6","artist7", "artist8", "artist9")
+    val data3 = listOf("islam1", "islam2", "islam3","islam4", "islam5", "islam6","islam7", "islam8", "islam9")
+
 
     val horizontalAdapter = HorizontalAdapter(data1)
     val horizontalAdapter2 = HorizontalAdapter(data2)
