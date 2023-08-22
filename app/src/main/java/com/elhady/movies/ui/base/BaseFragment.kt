@@ -11,11 +11,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.elhady.movies.BR
 
-abstract class BaseFragment<VDB: ViewDataBinding, VM: ViewModel>: Fragment(){
+abstract class BaseFragment<VDB: ViewDataBinding>: Fragment(){
 
     abstract val layoutIdFragment: Int
-    lateinit var viewModel: VM
-    abstract val viewModelClass: Class<VM>
+//    lateinit var viewModel: VM
+    abstract val viewModel: ViewModel
 
     private lateinit var _binding: VDB
     protected val binding: VDB
@@ -26,7 +26,7 @@ abstract class BaseFragment<VDB: ViewDataBinding, VM: ViewModel>: Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(this)[viewModelClass]
+//        viewModel = ViewModelProvider(this)[viewModelClass]
         _binding = DataBindingUtil.inflate(inflater, layoutIdFragment, container, false)
         _binding.apply {
             lifecycleOwner = viewLifecycleOwner
