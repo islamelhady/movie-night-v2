@@ -3,7 +3,9 @@ package com.elhady.movies.ui.search
 import com.elhady.movies.R
 import com.elhady.movies.databinding.FragmentSearchBinding
 import com.elhady.movies.ui.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
 
     override val layoutIdFragment: Int = R.layout.fragment_search

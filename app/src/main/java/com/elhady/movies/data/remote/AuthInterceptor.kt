@@ -3,8 +3,9 @@ package com.elhady.movies.data.remote
 import com.elhady.movies.utilities.Constants
 import okhttp3.Interceptor
 import okhttp3.Response
+import javax.inject.Inject
 
-class AuthInterceptor : Interceptor {
+class AuthInterceptor @Inject constructor() : Interceptor {
 
     private val apiKey = Constants.API_KEY
 

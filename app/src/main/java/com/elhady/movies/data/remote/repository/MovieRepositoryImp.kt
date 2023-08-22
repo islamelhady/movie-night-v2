@@ -7,8 +7,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 import java.lang.Exception
+import javax.inject.Inject
 
-class MovieRepositoryImp(val movieService: MovieService) : MovieRepository {
+class MovieRepositoryImp @Inject constructor(private val movieService: MovieService) : MovieRepository {
     override fun getPopularMovies(): Flow<State<MovieResponse>> {
        return wrapWithFlow { movieService.getPopularMovies() }
     }

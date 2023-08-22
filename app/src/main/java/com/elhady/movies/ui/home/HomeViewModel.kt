@@ -4,10 +4,13 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import com.elhady.movies.data.Category
 import com.elhady.movies.data.Movie
+import com.elhady.movies.data.remote.repository.MovieRepository
 import com.elhady.movies.ui.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-@SuppressLint("SuspiciousIndentation")
-class HomeViewModel : BaseViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(private val repository: MovieRepository) : BaseViewModel() {
 
     val data2 = MutableLiveData<List<Movie>>()
 

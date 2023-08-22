@@ -10,7 +10,9 @@ import com.elhady.movies.ui.home.adapters.CategoryAdapter
 import com.elhady.movies.ui.home.adapters.HorizontalCategoryAdapter
 import com.elhady.movies.ui.home.adapters.HorizontalMovieImageAdapter
 import com.elhady.movies.ui.home.adapters.MovieImageAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     override val layoutIdFragment: Int = R.layout.fragment_home

@@ -3,7 +3,9 @@ package com.elhady.movies.ui.profile
 import com.elhady.movies.R
 import com.elhady.movies.databinding.FragmentProfileBinding
 import com.elhady.movies.ui.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>() {
 
     override val layoutIdFragment: Int = R.layout.fragment_profile
