@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Movies" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.Movies" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorPrimary">@color/brand_color</item>
@@ -8,8 +8,52 @@
 
         <item name="android:statusBarColor">@color/background_color</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
-
     </style>
 
-    <style name="Theme.Movies" parent="Base.Theme.Movies" />
+
+    <style name="SimiBold">
+        <item name="fontFamily">@font/ubuntu_mono_bold</item>
+        <item name="android:textColor">@color/shade_primary_color</item>
+    </style>
+
+    <style name="SimiBold.Large">
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
+
+    <style name="SimiBold.Medium">
+        <item name="android:textSize">@dimen/text_medium</item>
+    </style>
+
+    <style name="SimiBold.Small">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+
+
+    <style name="Regular">
+        <item name="fontFamily">@font/ubuntu_regular</item>
+        <item name="android:textColor">@color/shade_primary_color</item>
+    </style>
+
+    <style name="Regular.Small">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+
+    <style name="Regular.Small.Secondary">
+        <item name="android:textColor">@color/shade_secondary_color</item>
+    </style>
+
+    <style name="Regular.Small.ternary">
+        <item name="android:textColor">@color/shade_ternary_color</item>
+    </style>
+
+
+    <style name="Regular.Medium">
+        <item name="android:textSize">@dimen/text_medium</item>
+    </style>
+
+    <style name="Regular.Medium.Secondary">
+        <item name="android:textColor">@color/shade_secondary_color</item>
+    </style>
+
+
 </resources>
