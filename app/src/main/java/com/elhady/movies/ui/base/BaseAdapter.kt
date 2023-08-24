@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.BR
 
 interface BaseInteractionListener
-abstract class BaseAdapter<T>(private var items: List<T>) :
-    RecyclerView.Adapter<BaseAdapter.BaseViewHolder>() {
+abstract class BaseAdapter<T>(
+    private var items: List<T>,
+    private val listener: BaseInteractionListener
+): RecyclerView.Adapter<BaseAdapter.BaseViewHolder>() {
 
     abstract val layoutID: Int
 

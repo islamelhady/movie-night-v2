@@ -6,7 +6,7 @@
 
         <variable
             name="adapterRecycler"
-            type="com.elhady.movies.ui.home.adapters.MovieImageAdapter" />
+            type="com.elhady.movies.ui.home.adapters.CategoryAdapter" />
 
         <variable
             name="viewModel"
@@ -15,13 +15,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@android:color/darker_gray">
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Movie"
+            android:text="Category"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,19 +30,18 @@
             android:id="@+id/see_all_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{() -> viewModel.seeAllMovie()}"
+            android:onClick="@{() -> viewModel.seeAllCategory()}"
             android:text="See All"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/movieView"
+            android:id="@+id/categoryRecyclerView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:adapter="@{adapterRecycler}"
             android:orientation="horizontal"
-            app:items="@{viewModel.data2}"
+            app:items="@{viewModel.data}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

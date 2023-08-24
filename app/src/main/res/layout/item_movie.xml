@@ -5,19 +5,17 @@
 
         <variable
             name="listener"
-            type="com.elhady.movies.ui.home.adapters.CategoryInteractionListener" />
-
+            type="com.elhady.movies.ui.home.adapters.MovieInteractionListener" />
 
         <variable
             name="item"
-            type="com.elhady.movies.data.remote.test.Category" />
+            type="com.elhady.movies.data.remote.test.Movie" />
     </data>
 
     <TextView
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_margin="8dp"
-        android:onClick="@{() -> listener.onClickCategory(item.categoryName)}"
-        android:textColor="@color/black"
-        android:text="@{item.categoryName}" />
+        android:onClick="@{() -> listener.onClickMovie(item.name)}"
+        android:text="@{item.name}" />
 </layout>

@@ -7,12 +7,12 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.BR
 
-abstract class HorizontalBaseAdapter<T, M>(
-    private val adapter: T,
+abstract class HorizontalBaseAdapter<M, T>(
     private val viewModel: M
 ) : RecyclerView.Adapter<HorizontalBaseAdapter.BaseViewHolder>() {
 
     abstract val layoutID: Int
+    abstract val adapter: T
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return ItemViewHolder(
