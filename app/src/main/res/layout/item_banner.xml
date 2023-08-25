@@ -23,6 +23,7 @@
             android:layout_height="120dp"
             android:layout_margin="8dp"
             android:gravity="center"
+            android:background="@color/yellow"
             android:onClick="@{() -> listener.onClickBanner(item.name)}"
             android:text="@{item.name}"
             app:layout_constraintTop_toTopOf="parent"
