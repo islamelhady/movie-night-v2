@@ -1,7 +1,9 @@
 package com.elhady.movies.data.remote.repository
 
 import com.elhady.movies.data.remote.State
-import com.elhady.movies.data.remote.response.MovieResponse
+import com.elhady.movies.data.remote.response.BaseResponse
+import com.elhady.movies.data.remote.response.MovieDto
+import com.elhady.movies.data.remote.response.PersonDto
 import com.elhady.movies.data.remote.service.MovieService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -10,20 +12,28 @@ import java.lang.Exception
 import javax.inject.Inject
 
 class MovieRepositoryImp @Inject constructor(private val movieService: MovieService) : MovieRepository {
-    override fun getPopularMovies(): Flow<State<MovieResponse>> {
+    override fun getPopularMovies(): Flow<State<BaseResponse<MovieDto>>> {
        return wrapWithFlow { movieService.getPopularMovies() }
     }
 
-    override fun getUpcomingMovies(): Flow<State<MovieResponse>> {
+    override fun getUpcomingMovies(): Flow<State<BaseResponse<MovieDto>>> {
         return wrapWithFlow { movieService.getUpcomingMovies() }
     }
 
-    override fun getTopRatedMovies(): Flow<State<MovieResponse>> {
+    override fun getTopRatedMovies(): Flow<State<BaseResponse<MovieDto>>> {
         return wrapWithFlow { movieService.getTopRatedMovies() }
     }
 
-    override fun getNowPlayingMovies(): Flow<State<MovieResponse>> {
+    override fun getNowPlayingMovies(): Flow<State<BaseResponse<MovieDto>>> {
         return wrapWithFlow { movieService.getNowPlayingMovies() }
+    }
+
+    override fun getTrendingPerson(): Flow<State<BaseResponse<PersonDto>>> {
+        return wrapWithFlow {movieService.getTrendingPerson()}
+    }
+
+    override fun getTrendingMovie(): Flow<State<BaseResponse<MovieDto>>> {
+        return wrapWithFlow { movieService.getTrendingMovie() }
     }
 
     private fun <T> wrapWithFlow(function: suspend () -> Response<T>): Flow<State<T>> {
