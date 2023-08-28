@@ -5,4 +5,6 @@
     <string name="title_search">Search</string>
     <string name="title_favorite">Favorite</string>
     <string name="title_profile">Profile</string>
+    <string name="see_all">See all</string>
+
 </resources>

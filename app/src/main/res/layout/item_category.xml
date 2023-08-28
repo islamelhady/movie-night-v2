@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -14,14 +15,58 @@
             type="com.elhady.movies.data.remote.test.Category" />
     </data>
 
-    <TextView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_margin="8dp"
-        android:gravity="center"
-        android:background="@color/brand_color"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/spacing_medium"
+        android:backgroundTint="@color/background_color"
         android:onClick="@{() -> listener.onClickCategory(item.categoryName)}"
-        android:textColor="@color/black"
-        android:text="@{item.categoryName}"
-        tools:text="category name"/>
+        app:cardCornerRadius="@dimen/radius_medium"
+        app:cardElevation="0dp"
+        app:strokeColor="@color/shade_quaternary_color"
+        app:strokeWidth="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/brand_color"
+            android:padding="@dimen/spacing_medium">
+
+            <TextView
+                android:id="@+id/categoryName"
+                style="@style/Regular.Small"
+                android:paddingBottom="@dimen/spacing_small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.categoryName}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Category name" />
+
+            <TextView
+                android:id="@+id/textMovie"
+                style="@style/Regular.Small.ternary"
+                android:paddingBottom="@dimen/spacing_small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="300 Movies"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/categoryName"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/shapeableImageView"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/background_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textMovie"
+                app:shapeAppearanceOverlay="@style/CardCorners.Small" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 </layout>
