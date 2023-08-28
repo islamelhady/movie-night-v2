@@ -4,13 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.elhady.movies.data.database.daos.MovieDao
 import com.elhady.movies.data.database.entity.SearchHistory
 import com.elhady.movies.data.database.entity.WatchList
 
 @Database(entities = [WatchList::class, SearchHistory::class], version = 1)
 abstract class MovieDatabase : RoomDatabase() {
-    abstract fun searchHistoryDao(): SearchHistoryDao
-    abstract fun watchDao(): WatchDao
+    abstract fun movieDao(): MovieDao
 
     companion object {
 
