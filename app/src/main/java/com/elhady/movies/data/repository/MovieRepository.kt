@@ -1,4 +1,4 @@
-package com.elhady.movies.data.remote.repository
+package com.elhady.movies.data.repository
 
 import com.elhady.movies.data.remote.State
 import com.elhady.movies.data.remote.response.BaseResponse

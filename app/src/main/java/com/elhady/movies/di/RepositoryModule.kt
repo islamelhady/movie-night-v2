@@ -1,7 +1,7 @@
 package com.elhady.movies.di
 
-import com.elhady.movies.data.remote.repository.MovieRepository
-import com.elhady.movies.data.remote.repository.MovieRepositoryImp
+import com.elhady.movies.data.repository.MovieRepository
+import com.elhady.movies.data.repository.MovieRepositoryImp
 import com.elhady.movies.data.remote.service.MovieService
 import dagger.Module
 import dagger.Provides

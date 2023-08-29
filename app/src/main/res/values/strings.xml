@@ -11,5 +11,8 @@
     <string name="latest">Latest</string>
     <string name="popular">Popular</string>
     <string name="tv_shows">TV Shows</string>
+    <string name="title_celebrity">Celebrities</string>
+    <string name="title_airing_today">Airing today</string>
+    <string name="text_movies">%s Movies</string>
 
 </resources>

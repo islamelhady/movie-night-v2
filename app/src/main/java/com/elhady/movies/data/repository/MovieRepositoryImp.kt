@@ -1,19 +1,23 @@
-package com.elhady.movies.data.remote.repository
+package com.elhady.movies.data.repository
 
 import com.elhady.movies.data.remote.State
 import com.elhady.movies.data.remote.response.BaseResponse
 import com.elhady.movies.data.remote.response.MovieDto
 import com.elhady.movies.data.remote.response.PersonDto
 import com.elhady.movies.data.remote.service.MovieService
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import okhttp3.Dispatcher
 import retrofit2.Response
 import java.lang.Exception
 import javax.inject.Inject
 
-class MovieRepositoryImp @Inject constructor(private val movieService: MovieService) : MovieRepository {
+class MovieRepositoryImp @Inject constructor(private val movieService: MovieService) :
+    MovieRepository {
     override fun getPopularMovies(): Flow<State<BaseResponse<MovieDto>>> {
-       return wrapWithFlow { movieService.getPopularMovies() }
+       return wrapWithFlow { movieService.getPopularMovies() }.flowOn(Dispatchers.IO)
     }
 
     override fun getUpcomingMovies(): Flow<State<BaseResponse<MovieDto>>> {
