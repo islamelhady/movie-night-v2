@@ -14,5 +14,11 @@
     <string name="title_celebrity">Celebrities</string>
     <string name="title_airing_today">Airing today</string>
     <string name="text_movies">%s Movies</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login_to_your_account">Lgin to your account</string>
+    <string name="login">Login</string>
+    <string name="don_t_have_an_account">Don’t have an account?</string>
+    <string name="sign_up">Sign up</string>
 
 </resources>
