@@ -3,9 +3,15 @@ package com.elhady.movies.data.remote.service
 import com.elhady.movies.data.remote.response.BaseResponse
 import com.elhady.movies.data.remote.response.MovieDto
 import com.elhady.movies.data.remote.response.PersonDto
+import com.elhady.movies.data.remote.response.login.RequestTokenResponse
+import com.elhady.movies.data.remote.response.login.SessionResponse
 import com.elhady.movies.domain.TrendingTimeWindow
 import retrofit2.Response
+import retrofit2.http.Field
+import retrofit2.http.FieldMap
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface MovieService {
@@ -27,5 +33,17 @@ interface MovieService {
 
     @GET("trending/movie/{time_window}")
     suspend fun getTrendingMovie(@Path("time_window") timeWindow: String = TrendingTimeWindow.WEEK.value): Response<BaseResponse<MovieDto>>
+
+    @GET("authentication/token/new")
+    suspend fun getRequestToken() : Response<RequestTokenResponse>
+
+
+    @POST("authentication/token/validate_with_login")
+    suspend fun validateRequestTokenWithLogin(@FieldMap body:  Map<String,Any>) : Response<RequestTokenResponse>
+
+
+    @FormUrlEncoded
+    @POST("authentication/session/new")
+    suspend fun createSession(@Field("request_token")  requestToken : String) : Response<SessionResponse>
 }
 
