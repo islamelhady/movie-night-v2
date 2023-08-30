@@ -35,15 +35,16 @@ interface MovieService {
     suspend fun getTrendingMovie(@Path("time_window") timeWindow: String = TrendingTimeWindow.WEEK.value): Response<BaseResponse<MovieDto>>
 
     @GET("authentication/token/new")
-    suspend fun getRequestToken() : Response<RequestTokenResponse>
+    suspend fun getRequestToken(): Response<RequestTokenResponse>
 
 
+    @FormUrlEncoded
     @POST("authentication/token/validate_with_login")
-    suspend fun validateRequestTokenWithLogin(@FieldMap body:  Map<String,Any>) : Response<RequestTokenResponse>
+    suspend fun validateRequestTokenWithLogin(@FieldMap body: Map<String, Any>): Response<RequestTokenResponse>
 
 
     @FormUrlEncoded
     @POST("authentication/session/new")
-    suspend fun createSession(@Field("request_token")  requestToken : String) : Response<SessionResponse>
+    suspend fun createSession(@Field("request_token") requestToken: String): Response<SessionResponse>
 }
 
