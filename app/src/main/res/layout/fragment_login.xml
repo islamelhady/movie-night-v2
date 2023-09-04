@@ -69,6 +69,7 @@
             app:helperText="@{viewModel.passwordHelperText}"
             android:hint="@string/password"
             app:errorEnabled="true"
+            app:errorTextColor="@color/yellow"
             app:layout_constraintTop_toBottomOf="@+id/user_name"
             app:startIconDrawable="@drawable/ic_key">
 
@@ -88,6 +89,7 @@
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="40dp"
             android:onClick="@{()->viewModel.onClickLogin()}"
+            app:hideWhenLoading="@{viewModel.loginRequestState}"
             android:text="@string/login"
             android:textAppearance="@style/SimiBold.Medium"
             app:cornerRadius="@dimen/radius_small"
@@ -98,6 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:visibility="gone"
+            app:showWhenLoading="@{viewModel.loginRequestState}"
             app:indicatorColor="@color/brand_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

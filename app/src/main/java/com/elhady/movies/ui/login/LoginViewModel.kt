@@ -13,7 +13,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val accountRepository: AccountRepository, val textValidation: TextValidation): ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val accountRepository: AccountRepository,
+    val textValidation: TextValidation
+) : ViewModel() {
 
     val userName = MutableLiveData("")
     val password = MutableLiveData("")
@@ -56,7 +59,15 @@ class LoginViewModel @Inject constructor(private val accountRepository: AccountR
 
     fun login() {
         viewModelScope.launch {
-            accountRepository.loginWithUsernameAndPassword(userName.value.toString(), password.value.toString())
+            val login = accountRepository.loginWithUsernameAndPassword(
+                userName.value.toString(),
+                password.value.toString()
+            )
+            if(login){
+                onLoginSuccessfully()
+            }else{
+                onLoginError("ERROR")
+            }
         }
     }
 
