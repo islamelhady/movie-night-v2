@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.elhady.movies.data.remote.State
 import com.elhady.movies.data.repository.AccountRepository
 import com.elhady.movies.utilities.Event
-import com.elhady.movies.utilities.TextValidation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,7 +14,6 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
-    val textValidation: TextValidation
 ) : ViewModel() {
 
     val userName = MutableLiveData("")
@@ -34,23 +32,6 @@ class LoginViewModel @Inject constructor(
     val loginEvent: LiveData<Event<Boolean>> = _loginEvent
 
 
-    fun onClickLogin() {
-        if (isValidUserName() && isValidPassword()) {
-            whenFormIsValid()
-        }
-    }
-
-    private fun isValidPassword(): Boolean {
-        val validPassword = textValidation.validPassword(password.value.toString())
-        _passwordHelperText.postValue(validPassword)
-        return validPassword == null
-    }
-
-    private fun isValidUserName(): Boolean {
-        val validUserName = textValidation.validFiled(userName.value.toString())
-        _userNameHelperText.postValue(validUserName)
-        return validUserName == null
-    }
 
 
     private fun whenFormIsValid() {
