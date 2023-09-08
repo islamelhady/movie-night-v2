@@ -25,7 +25,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         listOf(
             HorizontalAdapter<BannerAdapter>(Types.BannerType, viewModel),
             HorizontalAdapter<MovieImageAdapter>(Types.MovieType, viewModel),
-            HorizontalAdapter<CategoryAdapter>(Types.CategoryType, viewModel)
+            HorizontalAdapter<CategoryAdapter>(Types.CategoryType, viewModel),
+            HorizontalAdapter<CategoryAdapter>(Types.CategoryType, viewModel),
         )
     }
 
