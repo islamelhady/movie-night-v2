@@ -7,4 +7,9 @@
     <string name="title_profile">Profile</string>
     <string name="see_all">See all</string>
 
+    <string name="top_rated">Top Rated</string>
+    <string name="latest">Latest</string>
+    <string name="popular">Popular</string>
+    <string name="tv_shows">TV Shows</string>
+
 </resources>
