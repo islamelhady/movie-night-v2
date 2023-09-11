@@ -16,9 +16,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     override val viewModel: LoginViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.loginEvent.observe(viewLifecycleOwner, EventObserve {
-            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-        })
     }
 
 }

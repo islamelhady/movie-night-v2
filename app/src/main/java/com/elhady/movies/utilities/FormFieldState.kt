@@ -6,4 +6,7 @@ sealed interface FormFieldState{
     fun isValid(): Boolean{
         return this is Valid
     }
+
+    fun errorMessage() = if (this is InValid) message else null
+
 }

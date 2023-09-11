@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="20dp"
-            app:helperText="@{viewModel.userNameHelperText}"
+            app:helperText="@{viewModel.loginUiState.userNameHelperText}"
             android:hint="@string/username"
             app:helperTextEnabled="true"
             app:layout_constraintTop_toBottomOf="@+id/textView"
@@ -53,7 +53,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="@={viewModel.userName}"
+                android:afterTextChanged="@{(username) -> viewModel.onUserNameInputChange(username)}"
                 android:maxLines="1"
                 android:textAppearance="@style/Regular.Medium" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -66,7 +66,6 @@
             android:layout_marginTop="20dp"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@color/shade_secondary_color"
-            app:helperText="@{viewModel.passwordHelperText}"
             android:hint="@string/password"
             app:errorEnabled="true"
             app:errorTextColor="@color/yellow"
@@ -76,7 +75,6 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="@={viewModel.password}"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:textAppearance="@style/Regular.Medium" />
@@ -88,7 +86,6 @@
             android:layout_height="56dp"
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="40dp"
-            app:hideWhenLoading="@{viewModel.loginRequestState}"
             android:text="@string/login"
             android:textAppearance="@style/SimiBold.Medium"
             app:cornerRadius="@dimen/radius_small"
@@ -99,7 +96,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:visibility="gone"
-            app:showWhenLoading="@{viewModel.loginRequestState}"
             app:indicatorColor="@color/brand_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
