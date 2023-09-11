@@ -46,6 +46,7 @@
             android:layout_marginTop="20dp"
             app:helperText="@{viewModel.loginUiState.userNameHelperText}"
             android:hint="@string/username"
+            app:helperTextTextColor="@color/yellow"
             app:helperTextEnabled="true"
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:startIconDrawable="@drawable/ic_profile">
@@ -67,8 +68,9 @@
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@color/shade_secondary_color"
             android:hint="@string/password"
+            app:helperText="@{viewModel.loginUiState.passwordHelperText}"
             app:errorEnabled="true"
-            app:errorTextColor="@color/yellow"
+            app:helperTextTextColor="@color/yellow"
             app:layout_constraintTop_toBottomOf="@+id/user_name"
             app:startIconDrawable="@drawable/ic_key">
 
@@ -76,6 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:inputType="textPassword"
+                android:afterTextChanged="@{(password) -> viewModel.onPasswordInputChange(password)}"
                 android:maxLines="1"
                 android:textAppearance="@style/Regular.Medium" />
         </com.google.android.material.textfield.TextInputLayout>

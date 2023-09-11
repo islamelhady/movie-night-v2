@@ -32,7 +32,24 @@ class LoginViewModel @Inject constructor(
             it.copy(
                 userName = username.toString(),
                 userNameHelperText = usernameFieldState.errorMessage() ?: "",
-                isValidForm = validateFieldUseCase(loginUiState.value.userName, loginUiState.value.password)
+                isValidForm = validateFieldUseCase(
+                    loginUiState.value.userName,
+                    loginUiState.value.password
+                )
+            )
+        }
+    }
+
+    fun onPasswordInputChange(password: CharSequence) {
+        val passwordFieldState = validatePasswordUseCase(password.toString())
+        _loginUiState.update {
+            it.copy(
+                password = password.toString(),
+                passwordHelperText = passwordFieldState.errorMessage() ?: "",
+                isValidForm = validateFieldUseCase(
+                    loginUiState.value.userName,
+                    loginUiState.value.password
+                )
             )
         }
     }
