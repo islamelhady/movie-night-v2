@@ -1,6 +1,8 @@
 package com.elhady.movies.ui.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.LoginWithUsernameAndPasswordUseCase
 import com.elhady.movies.domain.usecases.ValidateFieldUseCase
 import com.elhady.movies.domain.usecases.ValidatePasswordUseCase
@@ -10,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -51,6 +54,23 @@ class LoginViewModel @Inject constructor(
                     loginUiState.value.password
                 )
             )
+        }
+    }
+
+    fun login() {
+        viewModelScope.launch {
+            _loginUiState.update {
+                it.copy(isLoading = true)
+            }
+            val loginState = loginWithUsernameAndPasswordUseCase(
+                loginUiState.value.userName,
+                loginUiState.value.password
+            )
+            if (loginState) {
+                _loginUiState.update {
+                    it.copy(isLoading = false)
+                }
+            }
         }
     }
 }
