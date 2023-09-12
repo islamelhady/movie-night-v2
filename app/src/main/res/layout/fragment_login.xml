@@ -47,7 +47,6 @@
             app:helperText="@{viewModel.loginUiState.userNameHelperText}"
             android:hint="@string/username"
             app:helperTextTextColor="@color/yellow"
-            app:helperTextEnabled="true"
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:startIconDrawable="@drawable/ic_profile">
 

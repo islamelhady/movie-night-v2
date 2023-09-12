@@ -6,9 +6,11 @@ import com.elhady.movies.data.repository.MovieRepositoryImp
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.repository.AccountRepository
 import com.elhady.movies.data.repository.AccountRepositoryImp
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 

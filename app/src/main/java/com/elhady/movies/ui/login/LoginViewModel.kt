@@ -1,6 +1,5 @@
 package com.elhady.movies.ui.login
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.LoginWithUsernameAndPasswordUseCase
@@ -57,20 +56,41 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun login() {
+    fun login(){
         viewModelScope.launch {
-            _loginUiState.update {
-                it.copy(isLoading = true)
-            }
-            val loginState = loginWithUsernameAndPasswordUseCase(
-                loginUiState.value.userName,
-                loginUiState.value.password
-            )
-            if (loginState) {
+            try {
                 _loginUiState.update {
-                    it.copy(isLoading = false)
+                    it.copy(isLoading = true)
                 }
+                val loginState = loginWithUsernameAndPasswordUseCase(
+                    loginUiState.value.userName,
+                    loginUiState.value.password
+                )
+                if (loginState) {
+                   onLoginSuccess()
+                    resetForm()
+                }
+            }catch (e: Exception){
+                onLoginError(e.message.toString())
             }
         }
+    }
+
+    private fun onLoginSuccess(){
+        _loginUiState.update { it.copy(isLoading = false) }
+        _loginUiEvent.update { Event(LoginUiEvent.LoginEvent)}
+    }
+    private fun onLoginError(message: String) {
+        _loginUiState.update {
+            it.copy(
+                isLoading = false,
+                error = message,
+                passwordHelperText = message
+            )
+        }
+    }
+
+    private fun resetForm() {
+        _loginUiState.update { it.copy(userName = "", password = "") }
     }
 }

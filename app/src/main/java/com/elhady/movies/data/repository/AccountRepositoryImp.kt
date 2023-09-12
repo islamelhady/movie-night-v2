@@ -3,8 +3,9 @@ package com.elhady.movies.data.repository
 import com.elhady.movies.data.DataClassParser
 import com.elhady.movies.data.remote.response.login.ErrorResponse
 import com.elhady.movies.data.remote.service.MovieService
+import javax.inject.Inject
 
-class AccountRepositoryImp(
+class AccountRepositoryImp @Inject constructor(
     private val movieService: MovieService,
     val dataClassParser: DataClassParser
 ) :
