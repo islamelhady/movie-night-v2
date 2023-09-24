@@ -2,6 +2,7 @@ package com.elhady.movies.di
 
 import android.content.Context
 import androidx.room.Room
+import com.elhady.movies.data.DataStorePreferences
 import com.elhady.movies.data.database.MovieDatabase
 import dagger.Module
 import dagger.Provides
@@ -21,4 +22,8 @@ object DatabaseModule {
     fun provideRoomDatabase(@ApplicationContext context: Context): MovieDatabase {
         return Room.databaseBuilder(context, MovieDatabase::class.java, "MovieDatabase").build()
     }
+
+    @Provides
+    @Singleton
+    fun provideDataStorePreferences(@ApplicationContext context: Context) = DataStorePreferences(context)
 }

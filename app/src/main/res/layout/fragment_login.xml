@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.elhady.movies.ui.login.LoginViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_color">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:shadowColor="@color/shade_secondary_color"
+            android:src="@drawable/login_movie"
+            app:layout_constraintHeight_percent=".40"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/SimiBold.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_medium"
+            android:layout_marginTop="20dp"
+            android:text="@string/login_to_your_account"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_medium"
+            android:layout_marginTop="20dp"
+            app:helperText="@{viewModel.userNameHelperText}"
+            android:hint="@string/username"
+            app:helperTextEnabled="true"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:startIconDrawable="@drawable/ic_profile">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="@={viewModel.userName}"
+                android:maxLines="1"
+                android:textAppearance="@style/Regular.Medium" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_medium"
+            android:layout_marginTop="20dp"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/shade_secondary_color"
+            app:helperText="@{viewModel.passwordHelperText}"
+            android:hint="@string/password"
+            app:errorEnabled="true"
+            app:errorTextColor="@color/yellow"
+            app:layout_constraintTop_toBottomOf="@+id/user_name"
+            app:startIconDrawable="@drawable/ic_key">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="@={viewModel.password}"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:textAppearance="@style/Regular.Medium" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/loginButton"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginHorizontal="@dimen/spacing_medium"
+            android:layout_marginTop="40dp"
+            app:hideWhenLoading="@{viewModel.loginRequestState}"
+            android:text="@string/login"
+            android:textAppearance="@style/SimiBold.Medium"
+            app:cornerRadius="@dimen/radius_small"
+            app:layout_constraintTop_toBottomOf="@+id/password" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:visibility="gone"
+            app:showWhenLoading="@{viewModel.loginRequestState}"
+            app:indicatorColor="@color/brand_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/password"
+            app:trackColor="@color/shade_primary_color" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/don_t_have_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:text="@string/don_t_have_an_account"
+            android:textAppearance="@style/Regular.Medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias=".40"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/sign_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_too_small"
+            android:text="@string/sign_up"
+            android:textColor="@color/brand_color"
+            app:layout_constraintBottom_toBottomOf="@id/don_t_have_account"
+            app:layout_constraintStart_toEndOf="@+id/don_t_have_account"
+            app:layout_constraintTop_toTopOf="@+id/don_t_have_account" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

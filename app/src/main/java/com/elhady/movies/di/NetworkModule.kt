@@ -3,6 +3,7 @@ package com.elhady.movies.di
 import com.elhady.movies.data.remote.AuthInterceptor
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.utilities.Constants
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,4 +49,8 @@ object NetworkModule {
     fun provideAuthInterceptor(): AuthInterceptor {
         return AuthInterceptor()
     }
+
+    @Provides
+    @Singleton
+    fun provideGson():Gson = Gson()
 }
