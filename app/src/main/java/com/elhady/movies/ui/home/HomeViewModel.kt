@@ -1,59 +1,50 @@
 package com.elhady.movies.ui.home
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.elhady.movies.data.remote.repository.MovieRepository
-import com.elhady.movies.data.remote.test.Category
-import com.elhady.movies.data.remote.test.Movie
-import com.elhady.movies.ui.home.adapters.BannerInteractionListener
-import com.elhady.movies.ui.home.adapters.CategoryInteractionListener
+import androidx.lifecycle.viewModelScope
+import com.elhady.movies.data.remote.State
+import com.elhady.movies.data.remote.response.BaseResponse
+import com.elhady.movies.data.remote.response.MovieDto
+import com.elhady.movies.data.repository.MovieRepository
 import com.elhady.movies.ui.home.adapters.MovieInteractionListener
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val movieRepository: MovieRepository) :
-    ViewModel(), CategoryInteractionListener, MovieInteractionListener, BannerInteractionListener {
+    ViewModel(), MovieInteractionListener {
 
-    val data2 = MutableLiveData<List<Movie>>()
+    private val _popularMovies = MutableLiveData<State<BaseResponse<MovieDto>>>()
+    val popularMovie: LiveData<State<BaseResponse<MovieDto>>>
+        get() = _popularMovies
 
-    val data = MutableLiveData<List<Category>>()
+    fun getPopular() {
+        viewModelScope.launch {
+            try {
+                movieRepository.getPopularMovies().collect {
 
-    private val list = mutableListOf<Category>()
-
-    init {
-        for (i in 0..10)
-            list.add(Category("TEST $i", i))
-        val movies = mutableListOf(
-            Movie("Test 1", ""),
-            Movie("Test 2", ""),
-            Movie("Test 3", ""),
-            Movie("Test 4", ""),
-            Movie("Test 5", ""),
-            Movie("Test 6", "")
-        )
-        data2.postValue(movies)
-        data.postValue(list)
+                    _popularMovies.postValue(it)
+                }
+            }catch (e: Exception){
+                Log.d("ViewModel", e.message.toString())
+            }
+        }
     }
 
-    override fun onClickCategory(name: String) {
-        Log.e("TEST", name)
+
+
+
+    init {
+        getPopular()
     }
 
     override fun onClickMovie(name: String) {
-        Log.e("TEST", name)
+        TODO("Not yet implemented")
     }
 
-    fun seeAllCategory() {
-        Log.e("TEST", "All category")
-    }
 
-    fun seeAllMovie() {
-        Log.e("TEST", "All Movie")
-    }
-
-    override fun onClickBanner(name: String) {
-        Log.e("TEST", "All banner")
-    }
 }

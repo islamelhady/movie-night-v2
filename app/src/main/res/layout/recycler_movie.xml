@@ -40,7 +40,6 @@
             android:layout_marginBottom="@dimen/spacing_small"
             android:src="@drawable/ic_arrow_forward"
             app:tint="@color/brand_color"
-            android:onClick="@{() -> viewModel.seeAllMovie()}"
             app:layout_constraintBottom_toTopOf="@+id/movieView"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -49,7 +48,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_too_small"
-            android:onClick="@{() -> viewModel.seeAllMovie()}"
             android:text="@string/see_all"
             android:textColor="@color/brand_color"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
@@ -62,9 +60,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:adapter="@{adapterRecycler}"
             android:orientation="horizontal"
-            app:items="@{viewModel.data2}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
