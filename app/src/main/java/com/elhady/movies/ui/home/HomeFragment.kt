@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.elhady.movies.R
 import com.elhady.movies.data.remote.State
 import com.elhady.movies.databinding.FragmentHomeBinding
 import com.elhady.movies.ui.base.BaseFragment
 import com.elhady.movies.ui.home.adapters.MovieImageAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
@@ -28,15 +30,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         setupAdapter()
 
-        viewModel.popularMovie.observe(viewLifecycleOwner){
-            when(it){
-                is State.Success -> it.data?.items?.let {
-                        it1 -> adapterMovie?.setItem(it1)
-                }
-                is  State.Error-> Log.e("HomeFragment", "Error" )
-                is State.Loading -> Log.e("HomeFragment", "Loading" )
-            }
-        }
+       viewLifecycleOwner.lifecycleScope.launch {
+           viewModel.homeUiState.collect{
+               adapterMovie?.setItem(mutableListOf())
+           }
+       }
     }
 
     private fun setupAdapter() {

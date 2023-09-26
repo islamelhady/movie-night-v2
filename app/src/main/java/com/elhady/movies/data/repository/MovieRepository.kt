@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
 
-    fun getPopularMovies(): Flow<State<BaseResponse<MovieDto>>>
+    suspend fun getPopularMovies(): Flow<List<MovieDto>>
 
     fun getUpcomingMovies(): Flow<State<BaseResponse<MovieDto>>>
 

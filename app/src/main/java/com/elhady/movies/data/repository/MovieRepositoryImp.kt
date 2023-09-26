@@ -16,8 +16,14 @@ import javax.inject.Inject
 
 class MovieRepositoryImp @Inject constructor(private val movieService: MovieService) :
     MovieRepository {
-    override fun getPopularMovies(): Flow<State<BaseResponse<MovieDto>>> {
-       return wrapWithFlow { movieService.getPopularMovies() }.flowOn(Dispatchers.IO)
+    override suspend fun getPopularMovies(): Flow<List<MovieDto>> {
+//       return wrapWithFlow { movieService.getPopularMovies() }.flowOn(Dispatchers.IO)
+        return flow {
+            val response = movieService.getPopularMovies()
+            if (response.isSuccessful) {
+                response.body()?.items
+            }
+        }
     }
 
     override fun getUpcomingMovies(): Flow<State<BaseResponse<MovieDto>>> {
@@ -33,7 +39,7 @@ class MovieRepositoryImp @Inject constructor(private val movieService: MovieServ
     }
 
     override fun getTrendingPerson(): Flow<State<BaseResponse<PersonDto>>> {
-        return wrapWithFlow {movieService.getTrendingPerson()}
+        return wrapWithFlow { movieService.getTrendingPerson() }
     }
 
     override fun getTrendingMovie(): Flow<State<BaseResponse<MovieDto>>> {
