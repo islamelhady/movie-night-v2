@@ -1,74 +1,96 @@
 package com.elhady.movies.ui.login
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.elhady.movies.data.remote.State
-import com.elhady.movies.data.repository.AccountRepository
+import com.elhady.movies.domain.usecases.LoginWithUsernameAndPasswordUseCase
+import com.elhady.movies.domain.usecases.ValidateFieldUseCase
+import com.elhady.movies.domain.usecases.ValidatePasswordUseCase
+import com.elhady.movies.domain.usecases.ValidateUsernameFieldUseCase
 import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val accountRepository: AccountRepository,
+    private val loginWithUsernameAndPasswordUseCase: LoginWithUsernameAndPasswordUseCase,
+    private val validateFieldUseCase: ValidateFieldUseCase,
+    private val validateUsernameFieldUseCase: ValidateUsernameFieldUseCase,
+    private val validatePasswordUseCase: ValidatePasswordUseCase
 ) : ViewModel() {
 
-    val userName = MutableLiveData("")
-    val password = MutableLiveData("")
+    private val _loginUiState = MutableStateFlow(LoginUiState())
+    val loginUiState = _loginUiState.asStateFlow()
 
-    private val _passwordHelperText = MutableLiveData("")
-    val passwordHelperText: LiveData<String> = _passwordHelperText
+    private val _loginUiEvent = MutableStateFlow<Event<LoginUiEvent?>>(Event(null))
+    val loginUiEvent = _loginUiEvent.asStateFlow()
 
-    private val _userNameHelperText = MutableLiveData("")
-    val userNameHelperText: LiveData<String> = _userNameHelperText
-
-    private val _loginRequestState = MutableLiveData<State<Boolean>>()
-    val loginRequestState: LiveData<State<Boolean>> = _loginRequestState
-
-    private val _loginEvent = MutableLiveData<Event<Boolean>>()
-    val loginEvent: LiveData<Event<Boolean>> = _loginEvent
-
-
-
-
-    private fun whenFormIsValid() {
-        login()
+    fun onUserNameInputChange(username: CharSequence) {
+        val usernameFieldState = validateUsernameFieldUseCase(username.toString())
+        _loginUiState.update {
+            it.copy(
+                userName = username.toString(),
+                userNameHelperText = usernameFieldState.errorMessage() ?: "",
+                isValidForm = validateFieldUseCase(
+                    loginUiState.value.userName,
+                    loginUiState.value.password
+                )
+            )
+        }
     }
 
-    fun login() {
-        viewModelScope.launch {
-            val login = accountRepository.loginWithUsernameAndPassword(
-                userName.value.toString(),
-                password.value.toString()
+    fun onPasswordInputChange(password: CharSequence) {
+        val passwordFieldState = validatePasswordUseCase(password.toString())
+        _loginUiState.update {
+            it.copy(
+                password = password.toString(),
+                passwordHelperText = passwordFieldState.errorMessage() ?: "",
+                isValidForm = validateFieldUseCase(
+                    loginUiState.value.userName,
+                    loginUiState.value.password
+                )
             )
-            if(login){
-                onLoginSuccessfully()
-            }else{
-                onLoginError("ERROR")
+        }
+    }
+
+    fun login(){
+        viewModelScope.launch {
+            try {
+                _loginUiState.update {
+                    it.copy(isLoading = true)
+                }
+                val loginState = loginWithUsernameAndPasswordUseCase(
+                    loginUiState.value.userName,
+                    loginUiState.value.password
+                )
+                if (loginState) {
+                   onLoginSuccess()
+                    resetForm()
+                }
+            }catch (e: Exception){
+                onLoginError(e.message.toString())
             }
         }
     }
 
-    private fun onLoginSuccessfully() {
-        _loginRequestState.postValue(State.Success(true))
-        _loginEvent.postValue(Event(true))
-        resetForm()
-
+    private fun onLoginSuccess(){
+        _loginUiState.update { it.copy(isLoading = false) }
+        _loginUiEvent.update { Event(LoginUiEvent.LoginEvent)}
     }
-
     private fun onLoginError(message: String) {
-        _loginRequestState.postValue(State.Error(message))
-        _passwordHelperText.postValue(message)
-
+        _loginUiState.update {
+            it.copy(
+                isLoading = false,
+                error = message,
+                passwordHelperText = message
+            )
+        }
     }
-
 
     private fun resetForm() {
-        userName.postValue(null)
-        password.postValue(null)
+        _loginUiState.update { it.copy(userName = "", password = "") }
     }
-
 }

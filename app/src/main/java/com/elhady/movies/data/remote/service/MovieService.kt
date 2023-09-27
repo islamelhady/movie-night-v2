@@ -38,6 +38,7 @@ interface MovieService {
     suspend fun getRequestToken(): Response<RequestTokenResponse>
 
 
+    @JvmSuppressWildcards
     @FormUrlEncoded
     @POST("authentication/token/validate_with_login")
     suspend fun validateRequestTokenWithLogin(@FieldMap body: Map<String, Any>): Response<RequestTokenResponse>

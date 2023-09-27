@@ -44,16 +44,16 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="20dp"
-            app:helperText="@{viewModel.userNameHelperText}"
+            app:helperText="@{viewModel.loginUiState.userNameHelperText}"
             android:hint="@string/username"
-            app:helperTextEnabled="true"
+            app:helperTextTextColor="@color/yellow"
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:startIconDrawable="@drawable/ic_profile">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="@={viewModel.userName}"
+                android:afterTextChanged="@{(username) -> viewModel.onUserNameInputChange(username)}"
                 android:maxLines="1"
                 android:textAppearance="@style/Regular.Medium" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -66,18 +66,18 @@
             android:layout_marginTop="20dp"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@color/shade_secondary_color"
-            app:helperText="@{viewModel.passwordHelperText}"
             android:hint="@string/password"
+            app:helperText="@{viewModel.loginUiState.passwordHelperText}"
             app:errorEnabled="true"
-            app:errorTextColor="@color/yellow"
+            app:helperTextTextColor="@color/yellow"
             app:layout_constraintTop_toBottomOf="@+id/user_name"
             app:startIconDrawable="@drawable/ic_key">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="@={viewModel.password}"
                 android:inputType="textPassword"
+                android:afterTextChanged="@{(password) -> viewModel.onPasswordInputChange(password)}"
                 android:maxLines="1"
                 android:textAppearance="@style/Regular.Medium" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -86,9 +86,11 @@
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="56dp"
+            android:enabled="@{viewModel.loginUiState.validForm}"
+            android:onClick="@{() -> viewModel.login()}"
+            app:hideIfTrue="@{viewModel.loginUiState.loading}"
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="40dp"
-            app:hideWhenLoading="@{viewModel.loginRequestState}"
             android:text="@string/login"
             android:textAppearance="@style/SimiBold.Medium"
             app:cornerRadius="@dimen/radius_small"
@@ -98,8 +100,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
+            android:indeterminate="true"
             android:visibility="gone"
-            app:showWhenLoading="@{viewModel.loginRequestState}"
+            isVisible="@{viewModel.loginUiState.loading}"
             app:indicatorColor="@color/brand_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

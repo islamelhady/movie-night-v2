@@ -42,3 +42,13 @@ fun <T> hideWhenLoading(view: View, state: State<T>?) {
         view.visibility = View.VISIBLE
     }
 }
+
+@BindingAdapter(value = ["hideIfTrue"])
+fun hideIfTrue(view: View, visible: Boolean){
+    view.isVisible = !visible
+}
+
+@BindingAdapter(value = ["isVisible"])
+fun isVisible(view: View, visible: Boolean){
+    view.isVisible = visible
+}
