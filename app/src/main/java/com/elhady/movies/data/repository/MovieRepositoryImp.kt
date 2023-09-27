@@ -21,7 +21,7 @@ class MovieRepositoryImp @Inject constructor(private val movieService: MovieServ
         return flow {
             val response = movieService.getPopularMovies()
             if (response.isSuccessful) {
-                response.body()?.items
+                response.body()?.items?.let { emit(it) }
             }
         }
     }

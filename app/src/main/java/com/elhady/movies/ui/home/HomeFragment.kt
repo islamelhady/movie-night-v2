@@ -32,7 +32,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
        viewLifecycleOwner.lifecycleScope.launch {
            viewModel.homeUiState.collect{
-               adapterMovie?.setItem(mutableListOf())
+               adapterMovie?.setItem(it.popularUiState)
            }
        }
     }
