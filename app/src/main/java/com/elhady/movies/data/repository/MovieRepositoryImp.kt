@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class MovieRepositoryImp @Inject constructor(private val movieService: MovieService) :
     MovieRepository {
-    override suspend fun getPopularMovies(): Flow<List<MovieDto>> {
+    override fun getPopularMovies(): Flow<List<MovieDto>> {
 //       return wrapWithFlow { movieService.getPopularMovies() }.flowOn(Dispatchers.IO)
         return flow {
             val response = movieService.getPopularMovies()

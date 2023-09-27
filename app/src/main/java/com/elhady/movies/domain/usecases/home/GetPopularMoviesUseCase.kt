@@ -1,6 +1,5 @@
 package com.elhady.movies.domain.usecases.home
 
-import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.repository.MovieRepository
 import com.elhady.movies.domain.mappers.PopularMovieMapper
 import com.elhady.movies.domain.models.PopularMovie
@@ -12,7 +11,7 @@ class GetPopularMoviesUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
     private val popularMovieMapper: PopularMovieMapper
 ) {
-    suspend operator fun invoke(): Flow<List<PopularMovie>> {
+    operator fun invoke(): Flow<List<PopularMovie>> {
         return movieRepository.getPopularMovies().map {
             it.map(popularMovieMapper::map)
         }
