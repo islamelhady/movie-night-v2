@@ -9,9 +9,6 @@
             name="listener"
             type="com.elhady.movies.ui.home.adapters.MovieInteractionListener" />
 
-        <variable
-            name="item"
-            type="com.elhady.movies.data.remote.response.MovieDto" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/brand_color"
-            app:movieImage="@{item.posterPath}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +31,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:text="@{item.originalTitle}"
             tools:text="Movie"
             android:gravity="center"
             android:textColor="@color/black"

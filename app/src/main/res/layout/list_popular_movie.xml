@@ -4,16 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="adapterRecycler"
+            type="com.elhady.movies.ui.home.adapters.PopularMovieAdapter" />
 
     </data>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/recycler_popular_movie"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_color"
+        android:adapter="@{adapterRecycler}"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="vertical"
-        tools:listitem="@layout/list_popular_movie" />
-
+        android:orientation="horizontal"
+        tools:listitem="@layout/item_popular_movie" />
 </layout>
+

@@ -1,5 +1,5 @@
 package com.elhady.movies.ui.home
 
 data class HomeUiState(
-    val popularUiState: List<PopularUiState> = emptyList()
+    val popularMovie: HomeItem = HomeItem.Slider(emptyList()),
 )

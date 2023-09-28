@@ -6,6 +6,7 @@ import com.elhady.movies.data.repository.MovieRepositoryImp
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.repository.AccountRepository
 import com.elhady.movies.data.repository.AccountRepositoryImp
+import com.elhady.movies.domain.mappers.PopularMovieMapper
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -20,8 +21,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideRepository(movieService: MovieService): MovieRepository{
-        return MovieRepositoryImp(movieService)
+    fun provideRepository(movieService: MovieService,popularMovieMapper: PopularMovieMapper): MovieRepository{
+        return MovieRepositoryImp(movieService,popularMovieMapper)
     }
 
     @Provides

@@ -4,11 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <variable
-            name="adapterRecycler"
-            type="com.elhady.movies.ui.home.adapters.PopularMovieAdapter" />
-
         <variable
             name="viewModel"
             type="com.elhady.movies.ui.home.HomeViewModel" />
@@ -26,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
-            android:text="Movie"
+            android:text="Upcoming"
             android:textColor="@color/brand_color"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"

@@ -8,9 +8,6 @@ import com.elhady.movies.ui.home.PopularUiState
 class PopularMovieAdapter(items: List<PopularUiState>, listener: MovieInteractionListener) :
     BaseAdapter<PopularUiState>(items, listener) {
     override val layoutID: Int = R.layout.item_popular_movie
-    override fun areItemContent(oldItem: PopularUiState, newItem: PopularUiState): Boolean {
-        return true
-    }
 }
 
 interface MovieInteractionListener : BaseInteractionListener {

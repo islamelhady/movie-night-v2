@@ -4,25 +4,39 @@ import com.elhady.movies.data.remote.State
 import com.elhady.movies.data.remote.response.BaseResponse
 import com.elhady.movies.data.remote.response.MovieDto
 import com.elhady.movies.data.remote.response.PersonDto
+import com.elhady.movies.data.remote.response.genre.GenreDto
+import com.elhady.movies.data.remote.response.genre.GenreResponse
 import com.elhady.movies.data.remote.service.MovieService
+import com.elhady.movies.domain.mappers.PopularMovieMapper
+import com.elhady.movies.domain.models.PopularMovie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import okhttp3.Dispatcher
 import retrofit2.Response
 import java.lang.Exception
 import javax.inject.Inject
 
-class MovieRepositoryImp @Inject constructor(private val movieService: MovieService) :
+class MovieRepositoryImp @Inject constructor(
+    private val movieService: MovieService,
+    private val popularMovieMapper: PopularMovieMapper
+) :
     MovieRepository {
     override fun getPopularMovies(): Flow<List<MovieDto>> {
-//       return wrapWithFlow { movieService.getPopularMovies() }.flowOn(Dispatchers.IO)
         return flow {
             val response = movieService.getPopularMovies()
             if (response.isSuccessful) {
                 response.body()?.items?.let { emit(it) }
             }
+        }
+    }
+
+    override suspend fun getRefreshPopular(): Flow<List<PopularMovie>> {
+        val genre = getGenreMovies()
+        return getPopularMovies().map { items ->
+            items.map { popularMovieMapper.map(it, genre!!) }
         }
     }
 
@@ -44,6 +58,10 @@ class MovieRepositoryImp @Inject constructor(private val movieService: MovieServ
 
     override fun getTrendingMovie(): Flow<State<BaseResponse<MovieDto>>> {
         return wrapWithFlow { movieService.getTrendingMovie() }
+    }
+
+    override suspend fun getGenreMovies(): List<GenreDto>? {
+        return movieService.getGenreMovies().body()?.genres
     }
 
     private fun <T> wrapWithFlow(function: suspend () -> Response<T>): Flow<State<T>> {

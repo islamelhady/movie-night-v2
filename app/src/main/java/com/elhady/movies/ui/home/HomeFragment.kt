@@ -1,13 +1,14 @@
 package com.elhady.movies.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.elhady.movies.R
 import com.elhady.movies.databinding.FragmentHomeBinding
 import com.elhady.movies.ui.base.BaseFragment
-import com.elhady.movies.ui.home.adapters.PopularMovieAdapter
+import com.elhady.movies.ui.home.adapters.HomeAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -16,7 +17,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override val layoutIdFragment: Int = R.layout.fragment_home
     override val viewModel: HomeViewModel by viewModels()
-    private var adapterMovie: PopularMovieAdapter? = null
+    private var homeAdapter: HomeAdapter? = null
 
 
 
@@ -29,15 +30,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         setupAdapter()
 
        viewLifecycleOwner.lifecycleScope.launch {
-           viewModel.homeUiState.collect{
-               adapterMovie?.setItem(it.popularUiState)
+           viewModel.homeUiState.collect{item ->
+               homeAdapter?.setItems(mutableListOf(item.popularMovie))
            }
        }
     }
 
     private fun setupAdapter() {
-        adapterMovie = PopularMovieAdapter(mutableListOf(), viewModel)
-        binding.recyclerView.adapter = adapterMovie
+        homeAdapter = HomeAdapter(mutableListOf(), viewModel)
+        binding.recyclerView.adapter = homeAdapter
     }
 
 
