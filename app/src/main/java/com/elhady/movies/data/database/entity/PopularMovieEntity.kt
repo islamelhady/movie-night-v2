@@ -8,5 +8,6 @@ data class PopularMovieEntity(
     @PrimaryKey val id: Int,
     val imageUrl: String,
     val title: String,
-    val movieRate: Double
+    val movieRate: Double,
+    val genres: List<String>
 )
