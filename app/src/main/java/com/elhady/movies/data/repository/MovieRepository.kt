@@ -1,5 +1,6 @@
 package com.elhady.movies.data.repository
 
+import com.elhady.movies.data.database.entity.PopularMovieEntity
 import com.elhady.movies.data.remote.State
 import com.elhady.movies.data.remote.response.BaseResponse
 import com.elhady.movies.data.remote.response.MovieDto
@@ -11,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
 
-    fun getPopularMovies(): Flow<List<MovieDto>>
+    suspend fun getPopularMovies(): Flow<List<PopularMovieEntity>>
 
     fun getUpcomingMovies(): Flow<State<BaseResponse<MovieDto>>>
 
@@ -25,5 +26,4 @@ interface MovieRepository {
 
     suspend fun getGenreMovies(): List<GenreDto>?
 
-    suspend fun getRefreshPopular(): Flow<List<PopularMovie>>
 }
