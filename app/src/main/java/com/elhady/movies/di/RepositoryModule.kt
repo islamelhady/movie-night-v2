@@ -1,6 +1,9 @@
 package com.elhady.movies.di
 
+import com.elhady.movies.data.AppConfiguration
+import com.elhady.movies.data.AppConfigurator
 import com.elhady.movies.data.DataClassParser
+import com.elhady.movies.data.DataStorePreferences
 import com.elhady.movies.data.database.daos.MovieDao
 import com.elhady.movies.data.repository.MovieRepository
 import com.elhady.movies.data.repository.MovieRepositoryImp
@@ -20,8 +23,14 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideRepository(movieService: MovieService, popularMovieMapper: MovieMapper, movieDao: MovieDao): MovieRepository{
-        return MovieRepositoryImp(movieService,popularMovieMapper, movieDao)
+    fun provideRepository(movieService: MovieService, popularMovieMapper: MovieMapper, movieDao: MovieDao, appConfiguration: AppConfiguration): MovieRepository{
+        return MovieRepositoryImp(movieService,popularMovieMapper, movieDao, appConfiguration)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAppConfig(dataStorePreferences: DataStorePreferences): AppConfiguration{
+        return AppConfigurator(dataStorePreferences)
     }
 
     @Provides

@@ -1,12 +1,16 @@
 package com.elhady.movies.data.repository
 
 import com.elhady.movies.data.remote.State
+import com.elhady.movies.data.remote.response.BaseResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 
-open class BaseRepository {
-    protected fun <I, O> wrap(function: suspend () -> Response<I>, mapper: (I) -> O): Flow<State<O>> {
+abstract class BaseRepository {
+    protected fun <I, O> wrap(
+        function: suspend () -> Response<I>,
+        mapper: (I) -> O
+    ): Flow<State<O>> {
         return flow {
             emit(State.Loading)
             try {
@@ -22,4 +26,21 @@ open class BaseRepository {
             }
         }
     }
+
+    protected suspend fun <T> wrapWithService(
+        request: suspend () -> Response<BaseResponse<T>>,
+    ): Flow<List<T>> {
+        return flow {
+            val response = request()
+            if (response.isSuccessful) {
+                response.body()?.items?.let {
+                    emit(it)
+                }
+            }
+        }
+    }
+
+
+
+
 }
