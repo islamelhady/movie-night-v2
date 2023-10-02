@@ -5,14 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.home.GetPopularMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetUpcomingMoviesUseCase
-import com.elhady.movies.ui.home.adapters.MovieInteractionListener
+import com.elhady.movies.ui.adapters.MovieInteractionListener
+import com.elhady.movies.ui.home.adapters.HomeInteractionListener
 import com.elhady.movies.ui.home.homeUiState.HomeUiState
 import com.elhady.movies.ui.mappers.MediaUiMapper
-import com.elhady.movies.ui.models.MediaUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,7 +23,7 @@ class HomeViewModel @Inject constructor(
     private val mediaUiMapper: MediaUiMapper,
     private val getUpcomingMoviesUseCase: GetUpcomingMoviesUseCase
 ) :
-    ViewModel(), MovieInteractionListener {
+    ViewModel(), HomeInteractionListener, MovieInteractionListener {
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
     val homeUiState = _homeUiState.asStateFlow()
@@ -71,6 +70,10 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun onClickMovie(name: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(movieID: Int) {
         TODO("Not yet implemented")
     }
 
