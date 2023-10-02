@@ -4,11 +4,15 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.home.GetPopularMoviesUseCase
+import com.elhady.movies.domain.usecases.home.GetUpcomingMoviesUseCase
 import com.elhady.movies.ui.home.adapters.MovieInteractionListener
 import com.elhady.movies.ui.home.homeUiState.HomeUiState
+import com.elhady.movies.ui.mappers.MediaUiMapper
+import com.elhady.movies.ui.models.MediaUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,7 +20,9 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getPopularMoviesUseCase: GetPopularMoviesUseCase,
-    private val popularUiMapper: PopularUiMapper
+    private val popularUiMapper: PopularUiMapper,
+    private val mediaUiMapper: MediaUiMapper,
+    private val getUpcomingMoviesUseCase: GetUpcomingMoviesUseCase
 ) :
     ViewModel(), MovieInteractionListener {
 
@@ -26,9 +32,9 @@ class HomeViewModel @Inject constructor(
     private fun getPopular() {
         viewModelScope.launch {
             try {
-                getPopularMoviesUseCase().collect {items ->
+                getPopularMoviesUseCase().collect { items ->
                     if (items.isNotEmpty()) {
-                       val popularUiState = items.map(popularUiMapper::map)
+                        val popularUiState = items.map(popularUiMapper::map)
                         _homeUiState.update {
                             it.copy(popularMovie = HomeItem.Slider(popularUiState))
                         }
@@ -41,9 +47,27 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun getUpcomingMovies() {
+        viewModelScope.launch {
+            try {
+                getUpcomingMoviesUseCase().collect { items ->
+                    if (items.isNotEmpty()) {
+                        val upcomingItems = items.map(mediaUiMapper::map)
+                        _homeUiState.update {
+                            it.copy(upcomingMovie = HomeItem.Upcoming(upcomingItems))
+                        }
+                    }
+                }
+            }catch (e: Exception){
+                Log.d("upcoming" , e.message.toString())
+            }
+        }
+    }
+
 
     init {
         getPopular()
+        getUpcomingMovies()
     }
 
     override fun onClickMovie(name: String) {
