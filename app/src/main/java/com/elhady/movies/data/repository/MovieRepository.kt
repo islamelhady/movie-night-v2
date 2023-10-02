@@ -1,6 +1,7 @@
 package com.elhady.movies.data.repository
 
 import com.elhady.movies.data.local.database.entity.PopularMovieEntity
+import com.elhady.movies.data.local.database.entity.UpcomingMovieEntity
 import com.elhady.movies.data.remote.State
 import com.elhady.movies.data.remote.response.BaseResponse
 import com.elhady.movies.data.remote.response.MovieDto
@@ -12,7 +13,7 @@ interface MovieRepository {
 
     suspend fun getPopularMovies(): Flow<List<PopularMovieEntity>>
 
-    fun getUpcomingMovies(): Flow<State<BaseResponse<MovieDto>>>
+    suspend fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
 
     fun getTopRatedMovies(): Flow<State<BaseResponse<MovieDto>>>
 
