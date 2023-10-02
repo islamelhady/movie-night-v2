@@ -3,7 +3,7 @@ package com.elhady.movies.ui.home.adapters
 import com.elhady.movies.R
 import com.elhady.movies.ui.base.BaseAdapter
 import com.elhady.movies.ui.base.BaseInteractionListener
-import com.elhady.movies.ui.home.PopularUiState
+import com.elhady.movies.ui.home.homeUiState.PopularUiState
 
 class PopularMovieAdapter(items: List<PopularUiState>, listener: MovieInteractionListener) :
     BaseAdapter<PopularUiState>(items, listener) {

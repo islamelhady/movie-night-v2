@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.home.GetPopularMoviesUseCase
 import com.elhady.movies.ui.home.adapters.MovieInteractionListener
+import com.elhady.movies.ui.home.homeUiState.HomeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getPopularMoviesUseCase: GetPopularMoviesUseCase
+    private val getPopularMoviesUseCase: GetPopularMoviesUseCase,
+    private val popularUiMapper: PopularUiMapper
 ) :
     ViewModel(), MovieInteractionListener {
 
@@ -26,15 +28,7 @@ class HomeViewModel @Inject constructor(
             try {
                 getPopularMoviesUseCase().collect {items ->
                     if (items.isNotEmpty()) {
-                       val popularUiState = items.map {
-                           PopularUiState(
-                               movieId = it.movieId,
-                               imageUrl = it.imageUrl,
-                               title = it.title,
-                               movieRate = it.movieRate,
-                               genre = it.genre
-                           )
-                       }
+                       val popularUiState = items.map(popularUiMapper::map)
                         _homeUiState.update {
                             it.copy(popularMovie = HomeItem.Slider(popularUiState))
                         }

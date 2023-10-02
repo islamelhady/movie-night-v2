@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.elhady.movies.ui.home.PopularUiState" />
+            type="com.elhady.movies.ui.home.homeUiState.PopularUiState" />
 
     </data>
 
