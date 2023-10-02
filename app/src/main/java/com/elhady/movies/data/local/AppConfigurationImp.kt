@@ -1,4 +1,4 @@
-package com.elhady.movies.data
+package com.elhady.movies.data.local
 
 import javax.inject.Inject
 

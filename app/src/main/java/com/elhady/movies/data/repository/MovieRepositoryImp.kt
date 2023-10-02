@@ -1,8 +1,8 @@
 package com.elhady.movies.data.repository
 
-import com.elhady.movies.data.AppConfiguration
-import com.elhady.movies.data.database.daos.MovieDao
-import com.elhady.movies.data.database.entity.PopularMovieEntity
+import com.elhady.movies.data.local.AppConfiguration
+import com.elhady.movies.data.local.database.daos.MovieDao
+import com.elhady.movies.data.local.database.entity.PopularMovieEntity
 import com.elhady.movies.data.remote.State
 import com.elhady.movies.data.remote.response.BaseResponse
 import com.elhady.movies.data.remote.response.MovieDto
@@ -10,13 +10,8 @@ import com.elhady.movies.data.remote.response.PersonDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.domain.mappers.MovieMapper
-import com.elhady.movies.domain.models.PopularMovie
 import com.elhady.movies.utilities.Constants
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
-import retrofit2.Response
-import java.lang.Exception
 import java.util.Date
 import javax.inject.Inject
 

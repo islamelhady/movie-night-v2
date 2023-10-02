@@ -1,4 +1,4 @@
-package com.elhady.movies.data.database
+package com.elhady.movies.data.local
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter

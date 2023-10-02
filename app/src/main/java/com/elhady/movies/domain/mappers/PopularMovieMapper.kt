@@ -1,6 +1,6 @@
 package com.elhady.movies.domain.mappers
 
-import com.elhady.movies.data.database.entity.PopularMovieEntity
+import com.elhady.movies.data.local.database.entity.PopularMovieEntity
 import com.elhady.movies.domain.models.PopularMovie
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package com.elhady.movies.data
+package com.elhady.movies.data.local
 
 
 interface AppConfiguration {

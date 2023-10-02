@@ -1,8 +1,8 @@
 package com.elhady.movies.di
 
-import com.elhady.movies.data.AppConfiguration
-import com.elhady.movies.data.AppConfigurationImp
-import com.elhady.movies.data.DataStorePreferences
+import com.elhady.movies.data.local.AppConfiguration
+import com.elhady.movies.data.local.AppConfigurationImp
+import com.elhady.movies.data.local.DataStorePreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
