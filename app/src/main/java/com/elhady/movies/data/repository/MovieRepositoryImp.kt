@@ -26,7 +26,7 @@ class MovieRepositoryImp @Inject constructor(
     private val movieDao: MovieDao,
     private val appConfiguration: AppConfiguration
 ) :
-    MovieRepository {
+    MovieRepository , BaseRepository(){
 
     override suspend fun getPopularMovies(): Flow<List<PopularMovieEntity>>{
         refreshOneTimePerDay(
@@ -36,7 +36,7 @@ class MovieRepositoryImp @Inject constructor(
         return movieDao.getPopularMovies()
     }
 
-    suspend fun refreshPopularMovies(currentDate: Date){
+   private suspend fun refreshPopularMovies(currentDate: Date){
         val genre = getGenreMovies() ?: emptyList()
         wrap(
             { movieService.getPopularMovies() },
@@ -77,48 +77,5 @@ class MovieRepositoryImp @Inject constructor(
         return movieService.getGenreMovies().body()?.genres
     }
 
-    protected suspend fun <T, E> wrap(
-        request: suspend () -> Response<BaseResponse<T>>,
-        mapper: (List<T>?) -> List<E>?,
-        insertIntoDatabase: suspend (List<E>) -> Unit
-    ) {
-        val response = request()
-        if (response.isSuccessful) {
-            val items = response.body()?.items
-            mapper(items)?.let {
-                insertIntoDatabase(it)
-            }
-        } else {
-            throw Throwable()
-        }
-    }
 
-    private suspend fun refreshOneTimePerDay(
-        requestDate:Long?,
-        refreshData :  suspend (Date) -> Unit){
-        val currentDate = Date()
-        if (requestDate != null) {
-            if (Date(requestDate).after(currentDate)) {
-                refreshData(currentDate)
-            }
-        } else {
-            refreshData(currentDate)
-        }
-    }
-
-    private fun <T> wrapWithFlow(function: suspend () -> Response<T>): Flow<State<T>> {
-        return flow {
-            emit(State.Loading)
-            try {
-                val response = function()
-                if (response.isSuccessful) {
-                    emit(State.Success(response.body()))
-                } else {
-                    emit(State.Error(response.message()))
-                }
-            } catch (e: Exception) {
-                emit(State.Error(e.message.toString()))
-            }
-        }
-    }
 }

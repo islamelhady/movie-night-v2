@@ -2,9 +2,11 @@ package com.elhady.movies.data.repository
 
 import com.elhady.movies.data.remote.State
 import com.elhady.movies.data.remote.response.BaseResponse
+import com.elhady.movies.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
+import java.util.Date
 
 abstract class BaseRepository {
     protected fun <I, O> wrap(
@@ -40,7 +42,48 @@ abstract class BaseRepository {
         }
     }
 
+    protected suspend fun <T, E> wrap(
+        request: suspend () -> Response<BaseResponse<T>>,
+        mapper: (List<T>?) -> List<E>?,
+        insertIntoDatabase: suspend (List<E>) -> Unit
+    ) {
+        val response = request()
+        if (response.isSuccessful) {
+            val items = response.body()?.items
+            mapper(items)?.let {
+                insertIntoDatabase(it)
+            }
+        } else {
+            throw Throwable()
+        }
+    }
 
+    protected fun <T> wrapWithFlow(function: suspend () -> Response<T>): Flow<State<T>> {
+        return flow {
+            emit(State.Loading)
+            try {
+                val response = function()
+                if (response.isSuccessful) {
+                    emit(State.Success(response.body()))
+                } else {
+                    emit(State.Error(response.message()))
+                }
+            } catch (e: java.lang.Exception) {
+                emit(State.Error(e.message.toString()))
+            }
+        }
+    }
 
-
+    protected suspend fun refreshOneTimePerDay(
+        requestDate:Long?,
+        refreshData :  suspend (Date) -> Unit){
+        val currentDate = Date()
+        if (requestDate != null) {
+            if (Date(requestDate).after(currentDate)) {
+                refreshData(currentDate)
+            }
+        } else {
+            refreshData(currentDate)
+        }
+    }
 }
