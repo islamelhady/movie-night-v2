@@ -3,6 +3,8 @@ package com.elhady.movies.data.repository
 import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.MovieDao
 import com.elhady.movies.data.local.database.entity.PopularMovieEntity
+import com.elhady.movies.data.local.database.entity.TrendingMovieEntity
+import com.elhady.movies.data.local.database.mappers.TrendingMovieMapper
 import com.elhady.movies.data.remote.State
 import com.elhady.movies.data.remote.response.BaseResponse
 import com.elhady.movies.data.remote.response.MovieDto
@@ -19,11 +21,12 @@ class MovieRepositoryImp @Inject constructor(
     private val movieService: MovieService,
     private val popularMovieMapper: MovieMapper,
     private val movieDao: MovieDao,
-    private val appConfiguration: AppConfiguration
+    private val appConfiguration: AppConfiguration,
+    private val trendingMovieMapper: TrendingMovieMapper
 ) :
-    MovieRepository , BaseRepository(){
+    MovieRepository, BaseRepository() {
 
-    override suspend fun getPopularMovies(): Flow<List<PopularMovieEntity>>{
+    override suspend fun getPopularMovies(): Flow<List<PopularMovieEntity>> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constants.POPULAR_MOVIE_REQUEST_DATE_KEY),
             ::refreshPopularMovies
@@ -31,7 +34,7 @@ class MovieRepositoryImp @Inject constructor(
         return movieDao.getPopularMovies()
     }
 
-   private suspend fun refreshPopularMovies(currentDate: Date){
+    private suspend fun refreshPopularMovies(currentDate: Date) {
         val genre = getGenreMovies() ?: emptyList()
         wrap(
             { movieService.getPopularMovies() },
@@ -42,7 +45,10 @@ class MovieRepositoryImp @Inject constructor(
             },
             {
                 movieDao.insertPopularMovie(it)
-                appConfiguration.saveRequestDate(Constants.POPULAR_MOVIE_REQUEST_DATE_KEY, currentDate.time)
+                appConfiguration.saveRequestDate(
+                    Constants.POPULAR_MOVIE_REQUEST_DATE_KEY,
+                    currentDate.time
+                )
             }
         )
     }
@@ -64,12 +70,33 @@ class MovieRepositoryImp @Inject constructor(
         return wrapWithFlow { movieService.getTrendingPerson() }
     }
 
-    override fun getTrendingMovie(): Flow<State<BaseResponse<MovieDto>>> {
-        return wrapWithFlow { movieService.getTrendingMovie() }
+    override suspend fun getTrendingMovie(): Flow<List<TrendingMovieEntity>> {
+        refreshOneTimePerDay(
+            appConfiguration.getRequestDate(Constants.TRENDING_MOVIE_REQUEST_DATE_KEY),
+            ::refreshTrendingMovies
+        )
+        return movieDao.getAllTrendingMovies()
     }
 
-    suspend fun refreshTrendingMovies(currentDate: Date){
-        wrap({movieService.getTrendingMovie()}, {})
+    suspend fun refreshTrendingMovies(currentDate: Date) {
+        wrap(
+            {
+                movieService.getTrendingMovie()
+            },
+            {
+                it?.map {
+                    trendingMovieMapper.map(it)
+                }
+            },
+            {
+                movieDao.deleteTrendingMovies()
+                movieDao.insertTrendingMovies(it)
+                appConfiguration.saveRequestDate(
+                    Constants.TRENDING_MOVIE_REQUEST_DATE_KEY,
+                    currentDate.time
+                )
+            }
+        )
     }
 
     override suspend fun getGenreMovies(): List<GenreDto>? {

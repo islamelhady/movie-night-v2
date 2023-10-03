@@ -1,13 +1,14 @@
 package com.elhady.movies.data.local.database.daos
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.elhady.movies.data.local.database.entity.PopularMovieEntity
 import com.elhady.movies.data.local.database.entity.TrendingMovieEntity
+import com.elhady.movies.data.remote.response.MovieDto
 import kotlinx.coroutines.flow.Flow
+import kotlin.reflect.KFunction1
 
 @Dao
 interface MovieDao {
