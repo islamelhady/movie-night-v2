@@ -68,6 +68,10 @@ class MovieRepositoryImp @Inject constructor(
         return wrapWithFlow { movieService.getTrendingMovie() }
     }
 
+    suspend fun refreshTrendingMovies(currentDate: Date){
+        wrap({movieService.getTrendingMovie()}, {})
+    }
+
     override suspend fun getGenreMovies(): List<GenreDto>? {
         return movieService.getGenreMovies().body()?.genres
     }

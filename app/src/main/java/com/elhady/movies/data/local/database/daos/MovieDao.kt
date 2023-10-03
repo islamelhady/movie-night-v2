@@ -1,10 +1,12 @@
 package com.elhady.movies.data.local.database.daos
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.elhady.movies.data.local.database.entity.PopularMovieEntity
+import com.elhady.movies.data.local.database.entity.TrendingMovieEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -18,4 +20,12 @@ interface MovieDao {
     @Query("SELECT * FROM POPULAR_MOVIE_TABLE")
     fun getPopularMovies(): Flow<List<PopularMovieEntity>>
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertTrendingMovies(items: List<TrendingMovieEntity>)
+
+    @Query("DELETE FROM TRENDING_MOVIE_TABLE")
+    fun deleteTrendingMovies()
+
+    @Query("SELECT * FROM TRENDING_MOVIE_TABLE")
+    fun getAllTrendingMovies(): Flow<List<TrendingMovieEntity>>
 }
