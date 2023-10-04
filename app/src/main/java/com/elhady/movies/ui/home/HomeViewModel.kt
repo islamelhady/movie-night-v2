@@ -7,7 +7,6 @@ import com.elhady.movies.domain.usecases.home.GetPopularMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetTrendingMovieUseCase
 import com.elhady.movies.domain.usecases.home.GetUpcomingMoviesUseCase
 import com.elhady.movies.ui.adapters.MovieInteractionListener
-import com.elhady.movies.ui.adapters.TrendingInteractionListener
 import com.elhady.movies.ui.home.adapters.HomeInteractionListener
 import com.elhady.movies.ui.home.homeUiState.HomeUiState
 import com.elhady.movies.ui.mappers.MediaUiMapper
@@ -26,7 +25,7 @@ class HomeViewModel @Inject constructor(
     private val getUpcomingMoviesUseCase: GetUpcomingMoviesUseCase,
     private val getTrendingMovieUseCase: GetTrendingMovieUseCase
 ) :
-    ViewModel(), HomeInteractionListener, MovieInteractionListener, TrendingInteractionListener {
+    ViewModel(), HomeInteractionListener, MovieInteractionListener {
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
     val homeUiState = _homeUiState.asStateFlow()
@@ -60,25 +59,25 @@ class HomeViewModel @Inject constructor(
                         }
                     }
                 }
-            }catch (e: Exception){
-                Log.d("upcoming" , e.message.toString())
+            } catch (e: Exception) {
+                Log.d("upcoming", e.message.toString())
             }
         }
     }
 
-    fun getTrendingMovie() {
+    private fun getTrendingMovie() {
         viewModelScope.launch {
             try {
                 getTrendingMovieUseCase().collect { items ->
-                    val trendingItems = items.map(mediaUiMapper::map)
-                    if (trendingItems.isNotEmpty()){
+                    if (items.isNotEmpty()) {
+                        val trendingItems = items.map(mediaUiMapper::map)
                         _homeUiState.update {
-                            it.copy(trendingMovie = it.trendingMovie )
+                            it.copy(trendingMovie = HomeItem.Trending(trendingItems))
                         }
                     }
                 }
-            }catch (e: Exception){
-                Log.i("",e.message.toString())
+            } catch (e: Exception) {
+                Log.i("", e.message.toString())
             }
         }
     }

@@ -3,7 +3,7 @@ package com.elhady.movies.di
 import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.DataClassParser
 import com.elhady.movies.data.local.database.daos.MovieDao
-import com.elhady.movies.data.local.database.mappers.TrendingMovieMapper
+import com.elhady.movies.data.local.mappers.TrendingMovieMapper
 import com.elhady.movies.data.local.mappers.UpcomingMovieMapper
 import com.elhady.movies.data.repository.MovieRepository
 import com.elhady.movies.data.repository.MovieRepositoryImp

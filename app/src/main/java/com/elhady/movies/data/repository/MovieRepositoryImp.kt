@@ -4,7 +4,7 @@ import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.MovieDao
 import com.elhady.movies.data.local.database.entity.PopularMovieEntity
 import com.elhady.movies.data.local.database.entity.TrendingMovieEntity
-import com.elhady.movies.data.local.database.mappers.TrendingMovieMapper
+import com.elhady.movies.data.local.mappers.TrendingMovieMapper
 import com.elhady.movies.data.local.database.entity.UpcomingMovieEntity
 import com.elhady.movies.data.local.mappers.UpcomingMovieMapper
 import com.elhady.movies.data.remote.State
@@ -107,8 +107,8 @@ class MovieRepositoryImp @Inject constructor(
             {
                 movieService.getTrendingMovie()
             },
-            {
-                it?.map {
+            { items ->
+                items?.map {
                     trendingMovieMapper.map(it)
                 }
             },

@@ -1,4 +1,4 @@
-package com.elhady.movies.data.local.database.mappers
+package com.elhady.movies.data.local.mappers
 
 import com.elhady.movies.data.local.database.entity.TrendingMovieEntity
 import com.elhady.movies.data.remote.response.MovieDto

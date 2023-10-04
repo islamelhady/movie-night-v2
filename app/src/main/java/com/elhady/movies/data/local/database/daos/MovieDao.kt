@@ -23,10 +23,10 @@ interface MovieDao {
     fun getPopularMovies(): Flow<List<PopularMovieEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTrendingMovies(items: List<TrendingMovieEntity>)
+    suspend fun insertTrendingMovies(items: List<TrendingMovieEntity>)
 
     @Query("DELETE FROM TRENDING_MOVIE_TABLE")
-    fun deleteTrendingMovies()
+    suspend fun deleteTrendingMovies()
 
     @Query("SELECT * FROM TRENDING_MOVIE_TABLE")
     fun getAllTrendingMovies(): Flow<List<TrendingMovieEntity>>

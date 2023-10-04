@@ -49,6 +49,7 @@ class HomeAdapter(
                     BR.adapterRecycler,
                     MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener)
                 )
+                holder.binding.setVariable(BR.movieType, currentHomeItem.type)
             }
 
             is HomeItem.Trending -> {
@@ -56,6 +57,7 @@ class HomeAdapter(
                     BR.adapterRecycler,
                     MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener)
                 )
+                holder.binding.setVariable(BR.movieType, currentHomeItem.type)
             }
         }
     }

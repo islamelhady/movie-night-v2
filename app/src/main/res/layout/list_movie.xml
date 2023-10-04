@@ -11,6 +11,9 @@
         <variable
             name="adapterRecycler"
             type="com.elhady.movies.ui.adapters.MovieAdapter" />
+        <variable
+            name="movieType"
+            type="com.elhady.movies.domain.enums.HomeItemType" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
-            android:text="Upcoming"
+            android:text="@{movieType.value}"
             android:textColor="@color/brand_color"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
