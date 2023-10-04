@@ -24,7 +24,7 @@ class MovieRepositoryImp @Inject constructor(
     private val popularMovieMapper: MovieMapper,
     private val movieDao: MovieDao,
     private val appConfiguration: AppConfiguration,
-    private val trendingMovieMapper: TrendingMovieMapper
+    private val trendingMovieMapper: TrendingMovieMapper,
     private val upcomingMovieMapper: UpcomingMovieMapper
 ) :
     MovieRepository, BaseRepository() {
