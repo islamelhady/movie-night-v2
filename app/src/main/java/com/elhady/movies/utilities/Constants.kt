@@ -14,6 +14,7 @@ object Constants {
     const val IMAGE_PATH = "https://image.tmdb.org/t/p/w500"
 
     const val POPULAR_MOVIE_REQUEST_DATE_KEY = "popular_movie_request_date"
+    const val UPCOMING_MOVIE_REQUEST_DATE_KEY = "upcoming_movie_request_date"
 
     fun <T> LifecycleOwner.collectLast(flow: Flow<T>, action: suspend (T) -> Unit) {
         lifecycleScope.launch {
