@@ -7,6 +7,8 @@ import com.elhady.movies.BR
 import com.elhady.movies.R
 import com.elhady.movies.ui.adapters.MovieAdapter
 import com.elhady.movies.ui.adapters.MovieInteractionListener
+import com.elhady.movies.ui.adapters.TrendingAdapter
+import com.elhady.movies.ui.adapters.TrendingInteractionListener
 import com.elhady.movies.ui.base.BaseAdapter
 import com.elhady.movies.ui.base.BaseInteractionListener
 import com.elhady.movies.ui.home.HomeItem
@@ -36,11 +38,25 @@ class HomeAdapter(
     private fun bind(holder: ItemViewHolder, position: Int) {
         when (val currentHomeItem = homeItems[position]) {
             is HomeItem.Slider -> {
-                holder.binding.setVariable(BR.adapterRecycler, PopularMovieAdapter(currentHomeItem.items, listener as HomeInteractionListener))
+                holder.binding.setVariable(
+                    BR.adapterRecycler,
+                    PopularMovieAdapter(currentHomeItem.items, listener as HomeInteractionListener)
+                )
             }
 
             is HomeItem.Upcoming -> {
-                holder.binding.setVariable(BR.adapterRecycler, MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener) )}
+                holder.binding.setVariable(
+                    BR.adapterRecycler,
+                    MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener)
+                )
+            }
+
+            is HomeItem.Trending -> {
+                holder.binding.setVariable(
+                    BR.adapterRecycler,
+                    MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener)
+                )
+            }
         }
     }
 
@@ -55,10 +71,12 @@ class HomeAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-            return when (homeItems[position]) {
-                is HomeItem.Slider -> R.layout.list_popular_movie
-                is HomeItem.Upcoming -> R.layout.list_upcoming_movie
-            }
+        return when (homeItems[position]) {
+            is HomeItem.Slider -> R.layout.list_popular_movie
+            is HomeItem.Upcoming,
+            is HomeItem.Trending,
+            -> R.layout.list_movie
+        }
     }
 
 

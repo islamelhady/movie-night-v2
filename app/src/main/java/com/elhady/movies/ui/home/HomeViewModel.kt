@@ -4,8 +4,10 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.home.GetPopularMoviesUseCase
+import com.elhady.movies.domain.usecases.home.GetTrendingMovieUseCase
 import com.elhady.movies.domain.usecases.home.GetUpcomingMoviesUseCase
 import com.elhady.movies.ui.adapters.MovieInteractionListener
+import com.elhady.movies.ui.adapters.TrendingInteractionListener
 import com.elhady.movies.ui.home.adapters.HomeInteractionListener
 import com.elhady.movies.ui.home.homeUiState.HomeUiState
 import com.elhady.movies.ui.mappers.MediaUiMapper
@@ -21,9 +23,10 @@ class HomeViewModel @Inject constructor(
     private val getPopularMoviesUseCase: GetPopularMoviesUseCase,
     private val popularUiMapper: PopularUiMapper,
     private val mediaUiMapper: MediaUiMapper,
-    private val getUpcomingMoviesUseCase: GetUpcomingMoviesUseCase
+    private val getUpcomingMoviesUseCase: GetUpcomingMoviesUseCase,
+    private val getTrendingMovieUseCase: GetTrendingMovieUseCase
 ) :
-    ViewModel(), HomeInteractionListener, MovieInteractionListener {
+    ViewModel(), HomeInteractionListener, MovieInteractionListener, TrendingInteractionListener {
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
     val homeUiState = _homeUiState.asStateFlow()
@@ -63,10 +66,28 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun getTrendingMovie() {
+        viewModelScope.launch {
+            try {
+                getTrendingMovieUseCase().collect { items ->
+                    val trendingItems = items.map(mediaUiMapper::map)
+                    if (trendingItems.isNotEmpty()){
+                        _homeUiState.update {
+                            it.copy(trendingMovie = it.trendingMovie )
+                        }
+                    }
+                }
+            }catch (e: Exception){
+                Log.i("",e.message.toString())
+            }
+        }
+    }
+
 
     init {
         getPopular()
         getUpcomingMovies()
+        getTrendingMovie()
     }
 
     override fun onClickMovie(name: String) {

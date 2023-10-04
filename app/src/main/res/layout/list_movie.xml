@@ -29,7 +29,8 @@
             android:textColor="@color/brand_color"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Upcoming"/>
 
         <ImageView
             android:id="@+id/imageView"
