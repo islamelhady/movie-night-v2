@@ -7,6 +7,10 @@
         <variable
             name="viewModel"
             type="com.elhady.movies.ui.home.HomeViewModel" />
+
+        <variable
+            name="adapterRecycler"
+            type="com.elhady.movies.ui.adapters.MovieAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -55,8 +59,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:orientation="horizontal"
+            android:adapter="@{adapterRecycler}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -6,9 +6,10 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.elhady.movies.data.local.database.entity.PopularMovieEntity
 import com.elhady.movies.data.local.database.entity.TrendingMovieEntity
+import com.elhady.movies.data.local.database.entity.UpcomingMovieEntity
 import com.elhady.movies.data.remote.response.MovieDto
 import kotlinx.coroutines.flow.Flow
-import kotlin.reflect.KFunction1
+
 
 @Dao
 interface MovieDao {
@@ -29,4 +30,15 @@ interface MovieDao {
 
     @Query("SELECT * FROM TRENDING_MOVIE_TABLE")
     fun getAllTrendingMovies(): Flow<List<TrendingMovieEntity>>
+    
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertUpcomingMovie(items: List<UpcomingMovieEntity>)
+
+    @Query("DELETE FROM UPCOMING_MOVIE_TABLE")
+    suspend fun deleteUpcomingMovies()
+
+    @Query("SELECT * FROM UPCOMING_MOVIE_TABLE")
+    fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
+
+
 }
