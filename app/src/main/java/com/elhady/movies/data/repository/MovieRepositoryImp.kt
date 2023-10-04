@@ -1,44 +1,52 @@
 package com.elhady.movies.data.repository
 
+import com.elhady.movies.data.local.AppConfiguration
+import com.elhady.movies.data.local.database.daos.MovieDao
+import com.elhady.movies.data.local.database.entity.PopularMovieEntity
 import com.elhady.movies.data.remote.State
 import com.elhady.movies.data.remote.response.BaseResponse
 import com.elhady.movies.data.remote.response.MovieDto
 import com.elhady.movies.data.remote.response.PersonDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
-import com.elhady.movies.data.remote.response.genre.GenreResponse
 import com.elhady.movies.data.remote.service.MovieService
-import com.elhady.movies.domain.mappers.PopularMovieMapper
-import com.elhady.movies.domain.models.PopularMovie
-import kotlinx.coroutines.Dispatchers
+import com.elhady.movies.domain.mappers.MovieMapper
+import com.elhady.movies.utilities.Constants
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
-import okhttp3.Dispatcher
-import retrofit2.Response
-import java.lang.Exception
+import java.util.Date
 import javax.inject.Inject
 
 class MovieRepositoryImp @Inject constructor(
     private val movieService: MovieService,
-    private val popularMovieMapper: PopularMovieMapper
+    private val popularMovieMapper: MovieMapper,
+    private val movieDao: MovieDao,
+    private val appConfiguration: AppConfiguration
 ) :
-    MovieRepository {
-    override fun getPopularMovies(): Flow<List<MovieDto>> {
-        return flow {
-            val response = movieService.getPopularMovies()
-            if (response.isSuccessful) {
-                response.body()?.items?.let { emit(it) }
-            }
-        }
+    MovieRepository , BaseRepository(){
+
+    override suspend fun getPopularMovies(): Flow<List<PopularMovieEntity>>{
+        refreshOneTimePerDay(
+            appConfiguration.getRequestDate(Constants.POPULAR_MOVIE_REQUEST_DATE_KEY),
+            ::refreshPopularMovies
+        )
+        return movieDao.getPopularMovies()
     }
 
-    override suspend fun getRefreshPopular(): Flow<List<PopularMovie>> {
-        val genre = getGenreMovies()
-        return getPopularMovies().map { items ->
-            items.map { popularMovieMapper.map(it, genre!!) }
-        }
+   private suspend fun refreshPopularMovies(currentDate: Date){
+        val genre = getGenreMovies() ?: emptyList()
+        wrap(
+            { movieService.getPopularMovies() },
+            { items ->
+                items?.map {
+                    popularMovieMapper.map(it, genre)
+                }
+            },
+            {
+                movieDao.insertPopularMovie(it)
+                appConfiguration.saveRequestDate(Constants.POPULAR_MOVIE_REQUEST_DATE_KEY, currentDate.time)
+            }
+        )
     }
+
 
     override fun getUpcomingMovies(): Flow<State<BaseResponse<MovieDto>>> {
         return wrapWithFlow { movieService.getUpcomingMovies() }
@@ -64,19 +72,5 @@ class MovieRepositoryImp @Inject constructor(
         return movieService.getGenreMovies().body()?.genres
     }
 
-    private fun <T> wrapWithFlow(function: suspend () -> Response<T>): Flow<State<T>> {
-        return flow {
-            emit(State.Loading)
-            try {
-                val response = function()
-                if (response.isSuccessful) {
-                    emit(State.Success(response.body()))
-                } else {
-                    emit(State.Error(response.message()))
-                }
-            } catch (e: Exception) {
-                emit(State.Error(e.message.toString()))
-            }
-        }
-    }
+
 }

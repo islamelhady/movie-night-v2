@@ -1,7 +1,6 @@
 package com.elhady.movies.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -17,12 +16,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override val layoutIdFragment: Int = R.layout.fragment_home
     override val viewModel: HomeViewModel by viewModels()
-    private var homeAdapter: HomeAdapter? = null
-
-
-
-
-
+    private lateinit var homeAdapter: HomeAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -31,7 +25,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
        viewLifecycleOwner.lifecycleScope.launch {
            viewModel.homeUiState.collect{item ->
-               homeAdapter?.setItems(mutableListOf(item.popularMovie))
+               homeAdapter.setItems(mutableListOf(item.popularMovie))
            }
        }
     }
@@ -40,6 +34,4 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         homeAdapter = HomeAdapter(mutableListOf(), viewModel)
         binding.recyclerView.adapter = homeAdapter
     }
-
-
 }

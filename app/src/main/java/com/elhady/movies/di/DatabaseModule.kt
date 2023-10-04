@@ -2,8 +2,11 @@ package com.elhady.movies.di
 
 import android.content.Context
 import androidx.room.Room
-import com.elhady.movies.data.DataStorePreferences
-import com.elhady.movies.data.database.MovieDatabase
+import com.elhady.movies.data.local.DataStorePreferences
+import com.elhady.movies.data.local.Converters
+import com.elhady.movies.data.local.database.MovieDatabase
+import com.elhady.movies.data.local.database.daos.MovieDao
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,12 +18,24 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
 
-    private lateinit var movieDatabase: MovieDatabase
+    @Singleton
+    @Provides
+    fun provideRoomDatabase(@ApplicationContext context: Context, converters: Converters): MovieDatabase {
+        return Room.databaseBuilder(context, MovieDatabase::class.java, "MovieDatabase")
+            .addTypeConverter(converters)
+            .build()
+    }
 
     @Singleton
     @Provides
-    fun provideRoomDatabase(@ApplicationContext context: Context): MovieDatabase {
-        return Room.databaseBuilder(context, MovieDatabase::class.java, "MovieDatabase").build()
+    fun provideConverter(gson: Gson): Converters {
+        return Converters(gson)
+    }
+
+    @Singleton
+    @Provides
+    fun provideMovieDao(movieDatabase: MovieDatabase): MovieDao {
+        return movieDatabase.movieDao()
     }
 
     @Provides
