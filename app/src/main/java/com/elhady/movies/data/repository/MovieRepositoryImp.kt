@@ -3,6 +3,8 @@ package com.elhady.movies.data.repository
 import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.MovieDao
 import com.elhady.movies.data.local.database.entity.PopularMovieEntity
+import com.elhady.movies.data.local.database.entity.TrendingMovieEntity
+import com.elhady.movies.data.local.database.mappers.TrendingMovieMapper
 import com.elhady.movies.data.local.database.entity.UpcomingMovieEntity
 import com.elhady.movies.data.local.mappers.UpcomingMovieMapper
 import com.elhady.movies.data.remote.State
@@ -22,6 +24,7 @@ class MovieRepositoryImp @Inject constructor(
     private val popularMovieMapper: MovieMapper,
     private val movieDao: MovieDao,
     private val appConfiguration: AppConfiguration,
+    private val trendingMovieMapper: TrendingMovieMapper
     private val upcomingMovieMapper: UpcomingMovieMapper
 ) :
     MovieRepository, BaseRepository() {
@@ -91,8 +94,33 @@ class MovieRepositoryImp @Inject constructor(
         return wrapWithFlow { movieService.getTrendingPerson() }
     }
 
-    override fun getTrendingMovie(): Flow<State<BaseResponse<MovieDto>>> {
-        return wrapWithFlow { movieService.getTrendingMovie() }
+    override suspend fun getTrendingMovie(): Flow<List<TrendingMovieEntity>> {
+        refreshOneTimePerDay(
+            appConfiguration.getRequestDate(Constants.TRENDING_MOVIE_REQUEST_DATE_KEY),
+            ::refreshTrendingMovies
+        )
+        return movieDao.getAllTrendingMovies()
+    }
+
+    suspend fun refreshTrendingMovies(currentDate: Date) {
+        wrap(
+            {
+                movieService.getTrendingMovie()
+            },
+            {
+                it?.map {
+                    trendingMovieMapper.map(it)
+                }
+            },
+            {
+                movieDao.deleteTrendingMovies()
+                movieDao.insertTrendingMovies(it)
+                appConfiguration.saveRequestDate(
+                    Constants.TRENDING_MOVIE_REQUEST_DATE_KEY,
+                    currentDate.time
+                )
+            }
+        )
     }
 
     override suspend fun getGenreMovies(): List<GenreDto>? {
