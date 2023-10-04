@@ -1,6 +1,6 @@
-package com.elhady.movies.domain.models
+package com.elhady.movies.ui.home.homeUiState
 
-data class PopularMovie(
+data class PopularUiState(
     val movieId: Int,
     val imageUrl: String,
     val title: String,

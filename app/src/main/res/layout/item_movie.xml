@@ -7,11 +7,12 @@
 
         <variable
             name="listener"
-            type="com.elhady.movies.ui.home.adapters.MovieInteractionListener" />
+            type="com.elhady.movies.ui.adapters.MovieInteractionListener" />
 
         <variable
             name="item"
-            type="com.elhady.movies.data.remote.response.MovieDto" />
+            type="com.elhady.movies.ui.models.MediaUiState" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,28 +21,16 @@
         android:layout_marginHorizontal="@dimen/spacing_small">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/shapeableImageView"
+            android:id="@+id/shape_image_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/brand_color"
-            app:movieImage="@{item.posterPath}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:movieImage="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:text="@{item.originalTitle}"
-            tools:text="Movie"
-            android:gravity="center"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

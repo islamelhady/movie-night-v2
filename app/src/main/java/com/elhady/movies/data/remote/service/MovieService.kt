@@ -3,6 +3,8 @@ package com.elhady.movies.data.remote.service
 import com.elhady.movies.data.remote.response.BaseResponse
 import com.elhady.movies.data.remote.response.MovieDto
 import com.elhady.movies.data.remote.response.PersonDto
+import com.elhady.movies.data.remote.response.genre.GenreDto
+import com.elhady.movies.data.remote.response.genre.GenreResponse
 import com.elhady.movies.data.remote.response.login.RequestTokenResponse
 import com.elhady.movies.data.remote.response.login.SessionResponse
 import com.elhady.movies.domain.TrendingTimeWindow
@@ -47,5 +49,8 @@ interface MovieService {
     @FormUrlEncoded
     @POST("authentication/session/new")
     suspend fun createSession(@Field("request_token") requestToken: String): Response<SessionResponse>
+
+    @GET("genre/movie/list")
+    suspend fun getGenreMovies(): Response<GenreResponse>
 }
 

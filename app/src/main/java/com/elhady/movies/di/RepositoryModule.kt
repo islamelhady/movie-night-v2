@@ -1,16 +1,18 @@
 package com.elhady.movies.di
 
+import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.DataClassParser
+import com.elhady.movies.data.local.database.daos.MovieDao
+import com.elhady.movies.data.local.mappers.UpcomingMovieMapper
 import com.elhady.movies.data.repository.MovieRepository
 import com.elhady.movies.data.repository.MovieRepositoryImp
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.repository.AccountRepository
 import com.elhady.movies.data.repository.AccountRepositoryImp
-import dagger.Binds
+import com.elhady.movies.domain.mappers.MovieMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -20,8 +22,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideRepository(movieService: MovieService): MovieRepository{
-        return MovieRepositoryImp(movieService)
+    fun provideRepository(movieService: MovieService, popularMovieMapper: MovieMapper, movieDao: MovieDao, appConfiguration: AppConfiguration, upcomingMovieMapper: UpcomingMovieMapper): MovieRepository{
+        return MovieRepositoryImp(movieService,popularMovieMapper, movieDao, appConfiguration, upcomingMovieMapper)
     }
 
     @Provides

@@ -1,4 +1,4 @@
-package com.elhady.movies.domain.usecases
+package com.elhady.movies.domain.usecases.login
 
 import javax.inject.Inject
 

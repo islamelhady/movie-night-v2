@@ -2,10 +2,10 @@ package com.elhady.movies.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.elhady.movies.domain.usecases.LoginWithUsernameAndPasswordUseCase
-import com.elhady.movies.domain.usecases.ValidateFieldUseCase
-import com.elhady.movies.domain.usecases.ValidatePasswordUseCase
-import com.elhady.movies.domain.usecases.ValidateUsernameFieldUseCase
+import com.elhady.movies.domain.usecases.login.LoginWithUsernameAndPasswordUseCase
+import com.elhady.movies.domain.usecases.login.ValidateFieldUseCase
+import com.elhady.movies.domain.usecases.login.ValidatePasswordUseCase
+import com.elhady.movies.domain.usecases.login.ValidateUsernameFieldUseCase
 import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

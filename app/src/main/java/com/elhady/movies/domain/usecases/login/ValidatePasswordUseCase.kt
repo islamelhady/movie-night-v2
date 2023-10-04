@@ -1,4 +1,4 @@
-package com.elhady.movies.domain.usecases
+package com.elhady.movies.domain.usecases.login
 
 import com.elhady.movies.utilities.FormFieldState
 import javax.inject.Inject

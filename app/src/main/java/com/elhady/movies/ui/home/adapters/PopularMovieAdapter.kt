@@ -3,17 +3,14 @@ package com.elhady.movies.ui.home.adapters
 import com.elhady.movies.R
 import com.elhady.movies.ui.base.BaseAdapter
 import com.elhady.movies.ui.base.BaseInteractionListener
-import com.elhady.movies.ui.home.PopularUiState
+import com.elhady.movies.ui.home.homeUiState.PopularUiState
 
-class PopularMovieAdapter(items: List<PopularUiState>, listener: MovieInteractionListener) :
+class PopularMovieAdapter(items: List<PopularUiState>, listener: HomeInteractionListener) :
     BaseAdapter<PopularUiState>(items, listener) {
     override val layoutID: Int = R.layout.item_popular_movie
-    override fun areItemContent(oldItem: PopularUiState, newItem: PopularUiState): Boolean {
-        return true
-    }
 }
 
-interface MovieInteractionListener : BaseInteractionListener {
+interface HomeInteractionListener : BaseInteractionListener {
     fun onClickMovie(name: String)
 }
 

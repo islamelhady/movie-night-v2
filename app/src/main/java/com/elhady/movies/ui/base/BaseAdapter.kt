@@ -16,7 +16,7 @@ abstract class BaseAdapter<T>(
 
     abstract val layoutID: Int
 
-    fun setItem(newItems: List<T>) {
+    open fun setItems(newItems: List<T>) {
         val diffUtil = DiffUtil.calculateDiff(
             BaseDiffUtil(
                 items,
@@ -28,11 +28,13 @@ abstract class BaseAdapter<T>(
         diffUtil.dispatchUpdatesTo(this)
     }
 
+    override fun getItemCount() = items.size
+
     open fun areItemSame(oldItem: T, newItem: T): Boolean {
         return oldItem?.equals(newItem) == true
     }
 
-    abstract fun areItemContent(oldItem: T, newItem: T): Boolean
+    open fun areItemContent(oldItem: T, newItem: T) = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ItemViewHolder(
@@ -47,8 +49,6 @@ abstract class BaseAdapter<T>(
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         if (holder is ItemViewHolder) bind(holder, position)
     }
-
-    override fun getItemCount() = items.size
 
     private fun bind(holder: ItemViewHolder, position: Int) {
         holder.binding.apply {

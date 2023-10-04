@@ -9,11 +9,11 @@ import javax.inject.Inject
 
 class GetPopularMoviesUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
-    private val popularMovieMapper: PopularMovieMapper
+    private val movieMapper: PopularMovieMapper
 ) {
-    operator fun invoke(): Flow<List<PopularMovie>> {
+    suspend operator fun invoke(): Flow<List<PopularMovie>> {
         return movieRepository.getPopularMovies().map {
-            it.map(popularMovieMapper::map)
+            it.map(movieMapper::map)
         }
     }
 }
