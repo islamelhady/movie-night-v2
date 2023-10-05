@@ -1,9 +1,11 @@
 package com.elhady.movies.data.local.database.daos
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.elhady.movies.data.local.database.entity.NowPlayingMovieEntity
 import com.elhady.movies.data.local.database.entity.PopularMovieEntity
 import com.elhady.movies.data.local.database.entity.TrendingMovieEntity
 import com.elhady.movies.data.local.database.entity.UpcomingMovieEntity
@@ -39,6 +41,16 @@ interface MovieDao {
 
     @Query("SELECT * FROM UPCOMING_MOVIE_TABLE")
     fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertNowPlayingMovies(items: List<NowPlayingMovieEntity>)
+
+    @Query("DELETE FROM NOW_PLAYING_MOVIE_TABLE")
+    suspend fun deleteNowPlayingMovies()
+
+    @Query("SELECT * FROM NOW_PLAYING_MOVIE_TABLE")
+    fun getAllNowPlayingMovies(): Flow<List<NowPlayingMovieEntity>>
+
 
 
 }
