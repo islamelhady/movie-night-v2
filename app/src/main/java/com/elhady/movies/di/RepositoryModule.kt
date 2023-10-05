@@ -12,6 +12,7 @@ import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.repository.AccountRepository
 import com.elhady.movies.data.repository.AccountRepositoryImp
 import com.elhady.movies.data.local.mappers.MovieMapper
+import com.elhady.movies.data.local.mappers.TopRatedMovieMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,8 +25,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideRepository(movieService: MovieService, popularMovieMapper: MovieMapper, movieDao: MovieDao, appConfiguration: AppConfiguration, upcomingMovieMapper: UpcomingMovieMapper, trendingMovieMapper: TrendingMovieMapper, nowPlayingMovieMapper: NowPlayingMovieMapper): MovieRepository{
-        return MovieRepositoryImp(movieService,popularMovieMapper, movieDao, appConfiguration,trendingMovieMapper , upcomingMovieMapper, nowPlayingMovieMapper)
+    fun provideRepository(movieService: MovieService, popularMovieMapper: MovieMapper, movieDao: MovieDao, appConfiguration: AppConfiguration, upcomingMovieMapper: UpcomingMovieMapper, trendingMovieMapper: TrendingMovieMapper, nowPlayingMovieMapper: NowPlayingMovieMapper, topRatedMovieMapper: TopRatedMovieMapper): MovieRepository{
+        return MovieRepositoryImp(movieService,popularMovieMapper, movieDao, appConfiguration,trendingMovieMapper , upcomingMovieMapper, nowPlayingMovieMapper, topRatedMovieMapper)
     }
 
     @Provides

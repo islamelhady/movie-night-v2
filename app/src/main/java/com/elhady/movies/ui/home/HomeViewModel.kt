@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.home.GetNowPlayingMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetPopularMoviesUseCase
+import com.elhady.movies.domain.usecases.home.GetTopRatedMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetTrendingMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetUpcomingMoviesUseCase
 import com.elhady.movies.ui.adapters.MovieInteractionListener
@@ -26,7 +27,8 @@ class HomeViewModel @Inject constructor(
     private val mediaUiMapper: MediaUiMapper,
     private val getUpcomingMoviesUseCase: GetUpcomingMoviesUseCase,
     private val getTrendingMovieUseCase: GetTrendingMoviesUseCase,
-    private val getNowPlayingMoviesUseCase: GetNowPlayingMoviesUseCase
+    private val getNowPlayingMoviesUseCase: GetNowPlayingMoviesUseCase,
+    private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase
 ) :
     ViewModel(), HomeInteractionListener, MovieInteractionListener {
 
@@ -103,12 +105,30 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun getTopRatedMovies() {
+        viewModelScope.launch {
+            try {
+                getTopRatedMoviesUseCase().collect { items ->
+                    if (items.isNotEmpty()) {
+                        val topRatedItems = items.map(mediaUiMapper::map)
+                        _homeUiState.update {
+                            it.copy(topRatedMovie = HomeItem.TopRated(topRatedItems))
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.i("", "")
+            }
+        }
+    }
+
 
     init {
         getPopular()
         getUpcomingMovies()
         getTrendingMovie()
         getNowPlayingMovies()
+        getTopRatedMovies()
     }
 
     override fun onClickMovie(name: String) {

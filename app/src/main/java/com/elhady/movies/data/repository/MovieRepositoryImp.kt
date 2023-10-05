@@ -5,6 +5,7 @@ import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.MovieDao
 import com.elhady.movies.data.local.database.entity.NowPlayingMovieEntity
 import com.elhady.movies.data.local.database.entity.PopularMovieEntity
+import com.elhady.movies.data.local.database.entity.TopRatedMovieEntity
 import com.elhady.movies.data.local.database.entity.TrendingMovieEntity
 import com.elhady.movies.data.local.mappers.TrendingMovieMapper
 import com.elhady.movies.data.local.database.entity.UpcomingMovieEntity
@@ -17,6 +18,7 @@ import com.elhady.movies.data.remote.response.PersonDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.local.mappers.MovieMapper
+import com.elhady.movies.data.local.mappers.TopRatedMovieMapper
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 import javax.inject.Inject
@@ -28,7 +30,8 @@ class MovieRepositoryImp @Inject constructor(
     private val appConfiguration: AppConfiguration,
     private val trendingMovieMapper: TrendingMovieMapper,
     private val upcomingMovieMapper: UpcomingMovieMapper,
-    private val nowPlayingMovieMapper: NowPlayingMovieMapper
+    private val nowPlayingMovieMapper: NowPlayingMovieMapper,
+    private val topRatedMovieMapper: TopRatedMovieMapper
 ) :
     MovieRepository, BaseRepository() {
 
@@ -91,8 +94,26 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    override fun getTopRatedMovies(): Flow<State<BaseResponse<MovieDto>>> {
-        return wrapWithFlow { movieService.getTopRatedMovies() }
+    /**
+     *  Top Rated Movies
+     */
+    override suspend fun getTopRatedMovies(): Flow<List<TopRatedMovieEntity>> {
+        refreshOneTimePerDay(appConfiguration.getRequestDate(Constants.TOP_RATED_MOVIE_REQUEST_DATE_KEY), ::refreshTopRatedMovies)
+        return movieDao.getTopRatedMovies()
+    }
+
+    suspend fun refreshTopRatedMovies(currentDate: Date){
+        wrap(
+            {movieService.getTopRatedMovies()},
+            { items ->
+                items?.map { topRatedMovieMapper.map(it) }
+            },
+            {
+                movieDao.deleteTopRatedMovies()
+                movieDao.insertTopRatedMovies(it)
+                appConfiguration.saveRequestDate(Constants.TOP_RATED_MOVIE_REQUEST_DATE_KEY, currentDate.time)
+            }
+        )
     }
 
     /**

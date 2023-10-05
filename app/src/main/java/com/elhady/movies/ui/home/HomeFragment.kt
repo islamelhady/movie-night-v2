@@ -25,7 +25,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
        viewLifecycleOwner.lifecycleScope.launch {
            viewModel.homeUiState.collect{items ->
-               homeAdapter.setItems(mutableListOf(items.popularMovie, items.upcomingMovie, items.trendingMovie, items.nowPlayingMovie))
+               homeAdapter.setItems(mutableListOf(items.popularMovie, items.upcomingMovie, items.trendingMovie, items.nowPlayingMovie, items.topRatedMovie))
            }
        }
     }

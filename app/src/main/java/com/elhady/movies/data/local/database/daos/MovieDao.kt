@@ -7,9 +7,11 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.elhady.movies.data.local.database.entity.NowPlayingMovieEntity
 import com.elhady.movies.data.local.database.entity.PopularMovieEntity
+import com.elhady.movies.data.local.database.entity.TopRatedMovieEntity
 import com.elhady.movies.data.local.database.entity.TrendingMovieEntity
 import com.elhady.movies.data.local.database.entity.UpcomingMovieEntity
 import com.elhady.movies.data.remote.response.MovieDto
+import dagger.hilt.InstallIn
 import kotlinx.coroutines.flow.Flow
 
 
@@ -64,4 +66,17 @@ interface MovieDao {
 
     @Query("SELECT * FROM NOW_PLAYING_MOVIE_TABLE")
     fun getNowPlayingMovies(): Flow<List<NowPlayingMovieEntity>>
+
+    /**
+     *  Top Rated Movies
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTopRatedMovies(items: List<TopRatedMovieEntity>)
+
+    @Query("DELETE FROM TOP_RATED_MOVIE_TABLE")
+    suspend fun deleteTopRatedMovies()
+
+    @Query("SELECT * FROM TOP_RATED_MOVIE_TABLE")
+    fun getTopRatedMovies(): Flow<List<TopRatedMovieEntity>>
+
 }
