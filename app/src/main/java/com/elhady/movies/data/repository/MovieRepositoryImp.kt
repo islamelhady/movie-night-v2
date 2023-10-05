@@ -2,10 +2,12 @@ package com.elhady.movies.data.repository
 
 import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.MovieDao
+import com.elhady.movies.data.local.database.entity.NowPlayingMovieEntity
 import com.elhady.movies.data.local.database.entity.PopularMovieEntity
 import com.elhady.movies.data.local.database.entity.TrendingMovieEntity
 import com.elhady.movies.data.local.mappers.TrendingMovieMapper
 import com.elhady.movies.data.local.database.entity.UpcomingMovieEntity
+import com.elhady.movies.data.local.mappers.NowPlayingMovieMapper
 import com.elhady.movies.data.local.mappers.UpcomingMovieMapper
 import com.elhady.movies.data.remote.State
 import com.elhady.movies.data.remote.response.BaseResponse
@@ -25,7 +27,8 @@ class MovieRepositoryImp @Inject constructor(
     private val movieDao: MovieDao,
     private val appConfiguration: AppConfiguration,
     private val trendingMovieMapper: TrendingMovieMapper,
-    private val upcomingMovieMapper: UpcomingMovieMapper
+    private val upcomingMovieMapper: UpcomingMovieMapper,
+    private val nowPlayingMovieMapper: NowPlayingMovieMapper
 ) :
     MovieRepository, BaseRepository() {
 
@@ -86,8 +89,29 @@ class MovieRepositoryImp @Inject constructor(
         return wrapWithFlow { movieService.getTopRatedMovies() }
     }
 
-    override fun getNowPlayingMovies(): Flow<State<BaseResponse<MovieDto>>> {
-        return wrapWithFlow { movieService.getNowPlayingMovies() }
+    override suspend fun getNowPlayingMovies(): Flow<List<NowPlayingMovieEntity>> {
+        refreshOneTimePerDay(
+            appConfiguration.getRequestDate(Constants.NOW_PLAYING_MOVIE_REQUEST_DATE_KEY),
+            ::refreshNowPlayingMovies
+        )
+        return movieDao.getNowPlayingMovies()
+    }
+
+    private suspend fun refreshNowPlayingMovies(currentDate: Date) {
+        wrap(
+            { movieService.getNowPlayingMovies() },
+            { items ->
+                items?.map { nowPlayingMovieMapper.map(it) }
+            },
+            {
+                movieDao.deleteNowPlayingMovies()
+                movieDao.insertNowPlayingMovies(it)
+                appConfiguration.saveRequestDate(
+                    Constants.NOW_PLAYING_MOVIE_REQUEST_DATE_KEY,
+                    currentDate.time
+                )
+            }
+        )
     }
 
     override fun getTrendingPerson(): Flow<State<BaseResponse<PersonDto>>> {

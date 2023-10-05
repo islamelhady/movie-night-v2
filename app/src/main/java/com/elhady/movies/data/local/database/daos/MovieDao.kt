@@ -49,7 +49,7 @@ interface MovieDao {
     suspend fun deleteNowPlayingMovies()
 
     @Query("SELECT * FROM NOW_PLAYING_MOVIE_TABLE")
-    fun getAllNowPlayingMovies(): Flow<List<NowPlayingMovieEntity>>
+    fun getNowPlayingMovies(): Flow<List<NowPlayingMovieEntity>>
 
 
 

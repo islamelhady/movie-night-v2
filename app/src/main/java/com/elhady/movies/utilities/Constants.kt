@@ -18,6 +18,7 @@ object Constants {
     const val TRENDING_MOVIE_REQUEST_DATE_KEY = "trending_movie_request_date"
 
     const val UPCOMING_MOVIE_REQUEST_DATE_KEY = "upcoming_movie_request_date"
+    const val NOW_PLAYING_MOVIE_REQUEST_DATE_KEY = "now_playing_movie_request_date"
 
 
     fun <T> LifecycleOwner.collectLast(flow: Flow<T>, action: suspend (T) -> Unit) {

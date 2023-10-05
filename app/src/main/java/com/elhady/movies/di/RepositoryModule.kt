@@ -3,6 +3,7 @@ package com.elhady.movies.di
 import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.DataClassParser
 import com.elhady.movies.data.local.database.daos.MovieDao
+import com.elhady.movies.data.local.mappers.NowPlayingMovieMapper
 import com.elhady.movies.data.local.mappers.TrendingMovieMapper
 import com.elhady.movies.data.local.mappers.UpcomingMovieMapper
 import com.elhady.movies.data.repository.MovieRepository
@@ -23,8 +24,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideRepository(movieService: MovieService, popularMovieMapper: MovieMapper, movieDao: MovieDao, appConfiguration: AppConfiguration, upcomingMovieMapper: UpcomingMovieMapper, trendingMovieMapper: TrendingMovieMapper): MovieRepository{
-        return MovieRepositoryImp(movieService,popularMovieMapper, movieDao, appConfiguration,trendingMovieMapper , upcomingMovieMapper )
+    fun provideRepository(movieService: MovieService, popularMovieMapper: MovieMapper, movieDao: MovieDao, appConfiguration: AppConfiguration, upcomingMovieMapper: UpcomingMovieMapper, trendingMovieMapper: TrendingMovieMapper, nowPlayingMovieMapper: NowPlayingMovieMapper): MovieRepository{
+        return MovieRepositoryImp(movieService,popularMovieMapper, movieDao, appConfiguration,trendingMovieMapper , upcomingMovieMapper, nowPlayingMovieMapper)
     }
 
     @Provides

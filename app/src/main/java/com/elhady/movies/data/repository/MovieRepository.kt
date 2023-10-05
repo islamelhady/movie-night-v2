@@ -1,5 +1,6 @@
 package com.elhady.movies.data.repository
 
+import com.elhady.movies.data.local.database.entity.NowPlayingMovieEntity
 import com.elhady.movies.data.local.database.entity.PopularMovieEntity
 import com.elhady.movies.data.local.database.entity.TrendingMovieEntity
 import com.elhady.movies.data.local.database.entity.UpcomingMovieEntity
@@ -18,7 +19,7 @@ interface MovieRepository {
 
     fun getTopRatedMovies(): Flow<State<BaseResponse<MovieDto>>>
 
-    fun getNowPlayingMovies(): Flow<State<BaseResponse<MovieDto>>>
+    suspend fun getNowPlayingMovies(): Flow<List<NowPlayingMovieEntity>>
 
     fun getTrendingPerson(): Flow<State<BaseResponse<PersonDto>>>
 
