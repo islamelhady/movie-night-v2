@@ -3,6 +3,7 @@ package com.elhady.movies.ui.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.domain.usecases.home.GetNowPlayingMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetPopularMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetTrendingMovieUseCase
 import com.elhady.movies.domain.usecases.home.GetUpcomingMoviesUseCase
@@ -23,7 +24,8 @@ class HomeViewModel @Inject constructor(
     private val popularUiMapper: PopularUiMapper,
     private val mediaUiMapper: MediaUiMapper,
     private val getUpcomingMoviesUseCase: GetUpcomingMoviesUseCase,
-    private val getTrendingMovieUseCase: GetTrendingMovieUseCase
+    private val getTrendingMovieUseCase: GetTrendingMovieUseCase,
+    private val getNowPlayingMoviesUseCase: GetNowPlayingMoviesUseCase
 ) :
     ViewModel(), HomeInteractionListener, MovieInteractionListener {
 
@@ -82,11 +84,30 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun getNowPlayingMovies() {
+        viewModelScope.launch {
+            try {
+                getNowPlayingMoviesUseCase().collect { items ->
+                    if (items.isNotEmpty()) {
+                        val nowPlayingItems = items.map(mediaUiMapper::map)
+                        _homeUiState.update {
+                            it.copy(nowPlayingMovie = HomeItem.NowPlaying(nowPlayingItems))
+                        }
+                    }
+
+                }
+            } catch (e: Exception) {
+                Log.i("", "")
+            }
+        }
+    }
+
 
     init {
         getPopular()
         getUpcomingMovies()
         getTrendingMovie()
+        getNowPlayingMovies()
     }
 
     override fun onClickMovie(name: String) {

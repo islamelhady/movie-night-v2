@@ -8,4 +8,5 @@ sealed interface HomeItem{
     data class Slider(val items: List<PopularUiState>): HomeItem
     data class Upcoming(val items: List<MediaUiState>, val type: HomeItemType = HomeItemType.UPCOMING): HomeItem
     data class Trending(val items: List<MediaUiState>, val type: HomeItemType = HomeItemType.TRENDING): HomeItem
+    data class NowPlaying(val items: List<MediaUiState>, val type: HomeItemType = HomeItemType.NOW_PLAYING): HomeItem
 }
