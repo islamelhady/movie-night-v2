@@ -1,4 +1,4 @@
-package com.elhady.movies.ui.home.homeUiState
+package com.elhady.movies.ui.models
 
 data class PopularUiState(
     val movieId: Int,

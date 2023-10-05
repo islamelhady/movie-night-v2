@@ -1,8 +1,8 @@
-package com.elhady.movies.ui.home
+package com.elhady.movies.ui.mappers
 
 import com.elhady.movies.domain.mappers.Mapper
 import com.elhady.movies.domain.models.PopularMovie
-import com.elhady.movies.ui.home.homeUiState.PopularUiState
+import com.elhady.movies.ui.models.PopularUiState
 import javax.inject.Inject
 
 class PopularUiMapper @Inject constructor(): Mapper<PopularMovie, PopularUiState> {

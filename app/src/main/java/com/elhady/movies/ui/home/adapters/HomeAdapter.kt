@@ -7,8 +7,6 @@ import com.elhady.movies.BR
 import com.elhady.movies.R
 import com.elhady.movies.ui.adapters.MovieAdapter
 import com.elhady.movies.ui.adapters.MovieInteractionListener
-import com.elhady.movies.ui.adapters.TrendingAdapter
-import com.elhady.movies.ui.adapters.TrendingInteractionListener
 import com.elhady.movies.ui.base.BaseAdapter
 import com.elhady.movies.ui.base.BaseInteractionListener
 import com.elhady.movies.ui.home.HomeItem
@@ -59,6 +57,19 @@ class HomeAdapter(
                 )
                 holder.binding.setVariable(BR.movieType, currentHomeItem.type)
             }
+
+            is HomeItem.NowPlaying -> {
+                holder.binding.setVariable(
+                    BR.adapterRecycler,
+                    MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener)
+                )
+                holder.binding.setVariable(BR.movieType, currentHomeItem.type)
+            }
+
+            is HomeItem.TopRated -> {
+                holder.binding.setVariable(BR.adapterRecycler, MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener))
+                holder.binding.setVariable(BR.movieType, currentHomeItem.type)
+            }
         }
     }
 
@@ -77,6 +88,8 @@ class HomeAdapter(
             is HomeItem.Slider -> R.layout.list_popular_movie
             is HomeItem.Upcoming,
             is HomeItem.Trending,
+            is HomeItem.NowPlaying,
+            is HomeItem.TopRated,
             -> R.layout.list_movie
         }
     }

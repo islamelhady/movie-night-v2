@@ -3,13 +3,16 @@ package com.elhady.movies.ui.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.domain.usecases.home.GetNowPlayingMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetPopularMoviesUseCase
-import com.elhady.movies.domain.usecases.home.GetTrendingMovieUseCase
+import com.elhady.movies.domain.usecases.home.GetTopRatedMoviesUseCase
+import com.elhady.movies.domain.usecases.home.GetTrendingMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetUpcomingMoviesUseCase
 import com.elhady.movies.ui.adapters.MovieInteractionListener
 import com.elhady.movies.ui.home.adapters.HomeInteractionListener
 import com.elhady.movies.ui.home.homeUiState.HomeUiState
 import com.elhady.movies.ui.mappers.MediaUiMapper
+import com.elhady.movies.ui.mappers.PopularUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,7 +26,9 @@ class HomeViewModel @Inject constructor(
     private val popularUiMapper: PopularUiMapper,
     private val mediaUiMapper: MediaUiMapper,
     private val getUpcomingMoviesUseCase: GetUpcomingMoviesUseCase,
-    private val getTrendingMovieUseCase: GetTrendingMovieUseCase
+    private val getTrendingMovieUseCase: GetTrendingMoviesUseCase,
+    private val getNowPlayingMoviesUseCase: GetNowPlayingMoviesUseCase,
+    private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase
 ) :
     ViewModel(), HomeInteractionListener, MovieInteractionListener {
 
@@ -82,11 +87,48 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun getNowPlayingMovies() {
+        viewModelScope.launch {
+            try {
+                getNowPlayingMoviesUseCase().collect { items ->
+                    if (items.isNotEmpty()) {
+                        val nowPlayingItems = items.map(mediaUiMapper::map)
+                        _homeUiState.update {
+                            it.copy(nowPlayingMovie = HomeItem.NowPlaying(nowPlayingItems))
+                        }
+                    }
+
+                }
+            } catch (e: Exception) {
+                Log.i("", "")
+            }
+        }
+    }
+
+    private fun getTopRatedMovies() {
+        viewModelScope.launch {
+            try {
+                getTopRatedMoviesUseCase().collect { items ->
+                    if (items.isNotEmpty()) {
+                        val topRatedItems = items.map(mediaUiMapper::map)
+                        _homeUiState.update {
+                            it.copy(topRatedMovie = HomeItem.TopRated(topRatedItems))
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.i("", "")
+            }
+        }
+    }
+
 
     init {
         getPopular()
         getUpcomingMovies()
         getTrendingMovie()
+        getNowPlayingMovies()
+        getTopRatedMovies()
     }
 
     override fun onClickMovie(name: String) {
