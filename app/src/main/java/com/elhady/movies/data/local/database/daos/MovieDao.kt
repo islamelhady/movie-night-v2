@@ -15,6 +15,10 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MovieDao {
+
+    /**
+     * Popular Movies
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPopularMovie(items: List<PopularMovieEntity>)
 
@@ -24,6 +28,10 @@ interface MovieDao {
     @Query("SELECT * FROM POPULAR_MOVIE_TABLE")
     fun getPopularMovies(): Flow<List<PopularMovieEntity>>
 
+    /**
+     * Trending Movies
+     */
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTrendingMovies(items: List<TrendingMovieEntity>)
 
@@ -32,7 +40,10 @@ interface MovieDao {
 
     @Query("SELECT * FROM TRENDING_MOVIE_TABLE")
     fun getAllTrendingMovies(): Flow<List<TrendingMovieEntity>>
-    
+
+    /**
+     * Upcoming Movies
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertUpcomingMovie(items: List<UpcomingMovieEntity>)
 
@@ -42,6 +53,9 @@ interface MovieDao {
     @Query("SELECT * FROM UPCOMING_MOVIE_TABLE")
     fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
 
+    /**
+     * Now Playing Movies
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNowPlayingMovies(items: List<NowPlayingMovieEntity>)
 
@@ -50,7 +64,4 @@ interface MovieDao {
 
     @Query("SELECT * FROM NOW_PLAYING_MOVIE_TABLE")
     fun getNowPlayingMovies(): Flow<List<NowPlayingMovieEntity>>
-
-
-
 }

@@ -1,5 +1,6 @@
 package com.elhady.movies.data.repository
 
+import com.elhady.movies.data.Constants
 import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.MovieDao
 import com.elhady.movies.data.local.database.entity.NowPlayingMovieEntity
@@ -15,8 +16,7 @@ import com.elhady.movies.data.remote.response.MovieDto
 import com.elhady.movies.data.remote.response.PersonDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.data.remote.service.MovieService
-import com.elhady.movies.domain.mappers.MovieMapper
-import com.elhady.movies.utilities.Constants
+import com.elhady.movies.data.local.mappers.MovieMapper
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 import javax.inject.Inject
@@ -32,6 +32,9 @@ class MovieRepositoryImp @Inject constructor(
 ) :
     MovieRepository, BaseRepository() {
 
+    /**
+     *  Popular Movies
+     */
     override suspend fun getPopularMovies(): Flow<List<PopularMovieEntity>> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constants.POPULAR_MOVIE_REQUEST_DATE_KEY),
@@ -59,6 +62,9 @@ class MovieRepositoryImp @Inject constructor(
         )
     }
 
+    /**
+     *  Upcoming Movies
+     */
 
     override suspend fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>> {
         refreshOneTimePerDay(
@@ -89,6 +95,9 @@ class MovieRepositoryImp @Inject constructor(
         return wrapWithFlow { movieService.getTopRatedMovies() }
     }
 
+    /**
+     *  Now Playing Movies
+     */
     override suspend fun getNowPlayingMovies(): Flow<List<NowPlayingMovieEntity>> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constants.NOW_PLAYING_MOVIE_REQUEST_DATE_KEY),
@@ -118,6 +127,9 @@ class MovieRepositoryImp @Inject constructor(
         return wrapWithFlow { movieService.getTrendingPerson() }
     }
 
+    /**
+     *  Trending Movies
+     */
     override suspend fun getTrendingMovie(): Flow<List<TrendingMovieEntity>> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constants.TRENDING_MOVIE_REQUEST_DATE_KEY),
@@ -147,9 +159,11 @@ class MovieRepositoryImp @Inject constructor(
         )
     }
 
+    /**
+     *  Genre Movies
+     */
     override suspend fun getGenreMovies(): List<GenreDto>? {
         return movieService.getGenreMovies().body()?.genres
     }
-
 
 }

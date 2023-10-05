@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetTrendingMovieUseCase @Inject constructor(
+class GetTrendingMoviesUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
     private val trendingMovieMapper: TrendingMovieMapper
 ) {

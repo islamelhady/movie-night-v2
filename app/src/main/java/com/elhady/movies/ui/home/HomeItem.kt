@@ -1,7 +1,7 @@
 package com.elhady.movies.ui.home
 
 import com.elhady.movies.domain.enums.HomeItemType
-import com.elhady.movies.ui.home.homeUiState.PopularUiState
+import com.elhady.movies.ui.models.PopularUiState
 import com.elhady.movies.ui.models.MediaUiState
 
 sealed interface HomeItem{

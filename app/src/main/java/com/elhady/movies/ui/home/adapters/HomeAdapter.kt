@@ -7,8 +7,6 @@ import com.elhady.movies.BR
 import com.elhady.movies.R
 import com.elhady.movies.ui.adapters.MovieAdapter
 import com.elhady.movies.ui.adapters.MovieInteractionListener
-import com.elhady.movies.ui.adapters.TrendingAdapter
-import com.elhady.movies.ui.adapters.TrendingInteractionListener
 import com.elhady.movies.ui.base.BaseAdapter
 import com.elhady.movies.ui.base.BaseInteractionListener
 import com.elhady.movies.ui.home.HomeItem

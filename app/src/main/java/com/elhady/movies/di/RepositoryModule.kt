@@ -11,7 +11,7 @@ import com.elhady.movies.data.repository.MovieRepositoryImp
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.repository.AccountRepository
 import com.elhady.movies.data.repository.AccountRepositoryImp
-import com.elhady.movies.domain.mappers.MovieMapper
+import com.elhady.movies.data.local.mappers.MovieMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
