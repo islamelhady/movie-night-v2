@@ -13,11 +13,10 @@ import com.elhady.movies.data.local.mappers.NowPlayingMovieMapper
 import com.elhady.movies.data.local.mappers.UpcomingMovieMapper
 import com.elhady.movies.data.remote.State
 import com.elhady.movies.data.remote.response.BaseResponse
-import com.elhady.movies.data.remote.response.MovieDto
 import com.elhady.movies.data.remote.response.PersonDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.data.remote.service.MovieService
-import com.elhady.movies.data.local.mappers.MovieMapper
+import com.elhady.movies.data.local.mappers.PopularMovieMapper
 import com.elhady.movies.data.local.mappers.TopRatedMovieMapper
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
@@ -25,7 +24,7 @@ import javax.inject.Inject
 
 class MovieRepositoryImp @Inject constructor(
     private val movieService: MovieService,
-    private val popularMovieMapper: MovieMapper,
+    private val popularMovieMapper: PopularMovieMapper,
     private val movieDao: MovieDao,
     private val appConfiguration: AppConfiguration,
     private val trendingMovieMapper: TrendingMovieMapper,

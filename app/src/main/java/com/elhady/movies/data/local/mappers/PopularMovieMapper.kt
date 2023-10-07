@@ -6,7 +6,7 @@ import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.utilities.Constants
 import javax.inject.Inject
 
-class MovieMapper @Inject constructor()  {
+class PopularMovieMapper @Inject constructor()  {
     fun map(movie: MovieDto, genreList: List<GenreDto>): PopularMovieEntity {
         return PopularMovieEntity(
             id = movie.id ?: 0,

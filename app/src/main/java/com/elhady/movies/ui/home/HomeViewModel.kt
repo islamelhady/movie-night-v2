@@ -42,7 +42,7 @@ class HomeViewModel @Inject constructor(
                     if (items.isNotEmpty()) {
                         val popularUiState = items.map(popularUiMapper::map)
                         _homeUiState.update {
-                            it.copy(popularMovie = HomeItem.Slider(popularUiState))
+                            it.copy(popularMovie = HomeItem.Slider(popularUiState), isLoading = false)
                         }
                     }
                 }
@@ -60,7 +60,7 @@ class HomeViewModel @Inject constructor(
                     if (items.isNotEmpty()) {
                         val upcomingItems = items.map(mediaUiMapper::map)
                         _homeUiState.update {
-                            it.copy(upcomingMovie = HomeItem.Upcoming(upcomingItems))
+                            it.copy(upcomingMovie = HomeItem.Upcoming(upcomingItems), isLoading = false)
                         }
                     }
                 }
@@ -77,7 +77,7 @@ class HomeViewModel @Inject constructor(
                     if (items.isNotEmpty()) {
                         val trendingItems = items.map(mediaUiMapper::map)
                         _homeUiState.update {
-                            it.copy(trendingMovie = HomeItem.Trending(trendingItems))
+                            it.copy(trendingMovie = HomeItem.Trending(trendingItems), isLoading = false)
                         }
                     }
                 }
@@ -94,7 +94,7 @@ class HomeViewModel @Inject constructor(
                     if (items.isNotEmpty()) {
                         val nowPlayingItems = items.map(mediaUiMapper::map)
                         _homeUiState.update {
-                            it.copy(nowPlayingMovie = HomeItem.NowPlaying(nowPlayingItems))
+                            it.copy(nowPlayingMovie = HomeItem.NowPlaying(nowPlayingItems), isLoading = false)
                         }
                     }
 
@@ -112,7 +112,7 @@ class HomeViewModel @Inject constructor(
                     if (items.isNotEmpty()) {
                         val topRatedItems = items.map(mediaUiMapper::map)
                         _homeUiState.update {
-                            it.copy(topRatedMovie = HomeItem.TopRated(topRatedItems))
+                            it.copy(topRatedMovie = HomeItem.TopRated(topRatedItems), isLoading = false)
                         }
                     }
                 }
@@ -124,6 +124,9 @@ class HomeViewModel @Inject constructor(
 
 
     init {
+        _homeUiState.update {
+            it.copy(isLoading = true)
+        }
         getPopular()
         getUpcomingMovies()
         getTrendingMovie()
