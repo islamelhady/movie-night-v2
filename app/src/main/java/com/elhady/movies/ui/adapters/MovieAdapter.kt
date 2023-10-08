@@ -11,5 +11,5 @@ class MovieAdapter(items: List<MediaUiState>, listener: MovieInteractionListener
 }
 
 interface MovieInteractionListener : BaseInteractionListener {
-    fun onClick(movieID: Int)
+    fun onClickMovie(movieID: Int)
 }

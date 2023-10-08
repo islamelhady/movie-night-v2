@@ -8,11 +8,16 @@
             name="item"
             type="com.elhady.movies.ui.models.PopularUiState" />
 
+        <variable
+            name="listener"
+            type="com.elhady.movies.ui.adapters.MovieInteractionListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="@{() -> listener.onClickMovie(item.movieId)}"
         android:paddingVertical="@dimen/spacing_small">
 
         <com.google.android.material.imageview.ShapeableImageView

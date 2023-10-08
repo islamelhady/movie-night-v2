@@ -53,6 +53,7 @@ abstract class BaseAdapter<T>(
     private fun bind(holder: ItemViewHolder, position: Int) {
         holder.binding.apply {
             setVariable(BR.item, items[position])
+            setVariable(BR.listener, listener)
         }
     }
 

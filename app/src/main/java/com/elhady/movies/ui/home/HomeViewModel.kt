@@ -9,10 +9,11 @@ import com.elhady.movies.domain.usecases.home.GetTopRatedMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetTrendingMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetUpcomingMoviesUseCase
 import com.elhady.movies.ui.adapters.MovieInteractionListener
-import com.elhady.movies.ui.home.adapters.HomeInteractionListener
+import com.elhady.movies.ui.home.homeUiState.HomeUiEvent
 import com.elhady.movies.ui.home.homeUiState.HomeUiState
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.mappers.PopularUiMapper
+import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,10 +31,13 @@ class HomeViewModel @Inject constructor(
     private val getNowPlayingMoviesUseCase: GetNowPlayingMoviesUseCase,
     private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase
 ) :
-    ViewModel(), HomeInteractionListener, MovieInteractionListener {
+    ViewModel(), MovieInteractionListener {
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
     val homeUiState = _homeUiState.asStateFlow()
+
+    private val _homeUiEvent = MutableStateFlow<Event<HomeUiEvent?>>(Event(null))
+    val homeUiEvent = _homeUiEvent.asStateFlow()
 
     private fun getPopular() {
         viewModelScope.launch {
@@ -134,12 +138,10 @@ class HomeViewModel @Inject constructor(
         getTopRatedMovies()
     }
 
-    override fun onClickMovie(name: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onClick(movieID: Int) {
-        TODO("Not yet implemented")
+    override fun onClickMovie(movieID: Int) {
+        _homeUiEvent.update {
+            Event(HomeUiEvent.ClickMovieEvent(movieID))
+        }
     }
 
 

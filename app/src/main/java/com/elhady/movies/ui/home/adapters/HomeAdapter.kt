@@ -38,7 +38,7 @@ class HomeAdapter(
             is HomeItem.Slider -> {
                 holder.binding.setVariable(
                     BR.adapterRecycler,
-                    PopularMovieAdapter(currentHomeItem.items, listener as HomeInteractionListener)
+                    PopularMovieAdapter(currentHomeItem.items, listener as MovieInteractionListener)
                 )
             }
 
