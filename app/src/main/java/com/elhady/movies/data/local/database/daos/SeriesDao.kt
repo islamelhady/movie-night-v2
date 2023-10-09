@@ -17,7 +17,7 @@ interface SeriesDao {
     suspend fun insertOnTheAirSeries(items: List<OnTheAirSeriesEntity>)
 
     @Query("DELETE FROM ON_THE_AIR_SERIES_TABLE")
-    suspend fun deleteOnTheAirSeries(items: List<OnTheAirSeriesEntity>)
+    suspend fun deleteOnTheAirSeries()
 
     fun getOnTheAirSeries(): Flow<List<OnTheAirSeriesEntity>>
 }
