@@ -70,6 +70,12 @@ class HomeAdapter(
                 holder.binding.setVariable(BR.adapterRecycler, MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener))
                 holder.binding.setVariable(BR.movieType, currentHomeItem.type)
             }
+
+            is HomeItem.OnTheAirSeries -> {
+                holder.binding.setVariable(BR.adapterRecycler, MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener))
+                holder.binding.setVariable(BR.movieType, currentHomeItem.type)
+            }
+
         }
     }
 
@@ -90,6 +96,7 @@ class HomeAdapter(
             is HomeItem.Trending,
             is HomeItem.NowPlaying,
             is HomeItem.TopRated,
+            is HomeItem.OnTheAirSeries
             -> R.layout.list_movie
         }
     }
