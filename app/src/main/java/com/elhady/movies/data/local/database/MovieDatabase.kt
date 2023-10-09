@@ -9,7 +9,7 @@ import com.elhady.movies.data.local.database.entity.UpcomingMovieEntity
 import com.elhady.movies.data.local.database.entity.TrendingMovieEntity
 import com.elhady.movies.data.local.Converters
 import com.elhady.movies.data.local.database.entity.NowPlayingMovieEntity
-import com.elhady.movies.data.local.database.entity.OnTheAirSeriesEntity
+import com.elhady.movies.data.local.database.entity.series.OnTheAirSeriesEntity
 import com.elhady.movies.data.local.database.entity.TopRatedMovieEntity
 
 @TypeConverters(Converters::class)
