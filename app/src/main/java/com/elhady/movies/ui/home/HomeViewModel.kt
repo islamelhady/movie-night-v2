@@ -8,6 +8,7 @@ import com.elhady.movies.domain.usecases.home.GetPopularMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetTopRatedMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetTrendingMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetUpcomingMoviesUseCase
+import com.elhady.movies.domain.usecases.home.series.GetAiringTodaySeriesUseCase
 import com.elhady.movies.domain.usecases.home.series.GetOnTheAirSeriesUseCase
 import com.elhady.movies.ui.adapters.MovieInteractionListener
 import com.elhady.movies.ui.home.homeUiState.HomeUiEvent
@@ -32,7 +33,8 @@ class HomeViewModel @Inject constructor(
     private val getTrendingMovieUseCase: GetTrendingMoviesUseCase,
     private val getNowPlayingMoviesUseCase: GetNowPlayingMoviesUseCase,
     private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase,
-    private val getOnTheAirSeriesUseCase: GetOnTheAirSeriesUseCase
+    private val getOnTheAirSeriesUseCase: GetOnTheAirSeriesUseCase,
+    private val getAiringTodaySeriesUseCase: GetAiringTodaySeriesUseCase
 ) :
     ViewModel(), MovieInteractionListener {
 
@@ -52,6 +54,7 @@ class HomeViewModel @Inject constructor(
         getNowPlayingMovies()
         getTopRatedMovies()
         getOnTheAirSeries()
+        getAiringTodaySeries()
     }
 
     /**
@@ -173,9 +176,26 @@ class HomeViewModel @Inject constructor(
                         )
                     }
                 }
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 Log.i("", "")
             }
+        }
+    }
+
+    fun getAiringTodaySeries() {
+        viewModelScope.launch {
+            try {
+                getAiringTodaySeriesUseCase().collect { items ->
+                    val airingTodaySeries = items.map {
+                        mediaUiMapper.map(it)
+                    }
+                    _homeUiState.update {
+                        it.copy(airingTodaySeries = HomeItem.AiringTodaySeries(airingTodaySeries))
+                    }
+                }
+            } catch (e: Exception) {
+            }
+            Log.d("", "")
         }
     }
 
