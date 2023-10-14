@@ -5,6 +5,7 @@ import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.SeriesDao
 import com.elhady.movies.data.local.database.entity.series.AiringTodaySeriesEntity
 import com.elhady.movies.data.local.database.entity.series.OnTheAirSeriesEntity
+import com.elhady.movies.data.local.mappers.series.AiringSeriesMapper
 import com.elhady.movies.data.local.mappers.series.OnTheAirSeriesMapper
 import com.elhady.movies.data.remote.service.MovieService
 import kotlinx.coroutines.flow.Flow
@@ -14,6 +15,7 @@ import javax.inject.Inject
 class SeriesRepositoryImp @Inject constructor(
     private val movieService: MovieService,
     private val onTheAirSeriesMapper: OnTheAirSeriesMapper,
+    private val airingSeriesMapper: AiringSeriesMapper,
     private val seriesDao: SeriesDao,
     private val appConfiguration: AppConfiguration
 ) : BaseRepository(), SeriesRepository {
@@ -22,7 +24,32 @@ class SeriesRepositoryImp @Inject constructor(
      *  Airing Today Series
      */
     override suspend fun getAiringTodaySeries(): Flow<List<AiringTodaySeriesEntity>> {
-        TODO("Not yet implemented")
+        refreshOneTimePerDay(
+            appConfiguration.getRequestDate(Constants.AIRING_TODAY_SERIES_REQUEST_DATE_KEY),
+            ::refreshAiringTodaySeries
+        )
+        return seriesDao.getAiringTodaySeries()
+    }
+
+    private suspend fun refreshAiringTodaySeries(currentDate: Date) {
+        wrap(
+            {
+                movieService.getAiringTodayTV()
+            },
+            { items ->
+                items?.map {
+                    airingSeriesMapper.map(it)
+                }
+            },
+            {
+                seriesDao.deleteAiringTodaySeries()
+                seriesDao.insertAiringTodaySeries(it)
+                appConfiguration.saveRequestDate(
+                    Constants.AIRING_TODAY_SERIES_REQUEST_DATE_KEY,
+                    currentDate.time
+                )
+            }
+        )
     }
 
     /**
