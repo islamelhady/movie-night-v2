@@ -8,8 +8,10 @@ import com.elhady.movies.domain.usecases.home.GetPopularMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetTopRatedMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetTrendingMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetUpcomingMoviesUseCase
+import com.elhady.movies.domain.usecases.home.series.GetAiringTodaySeriesUseCase
 import com.elhady.movies.domain.usecases.home.series.GetOnTheAirSeriesUseCase
 import com.elhady.movies.ui.adapters.MovieInteractionListener
+import com.elhady.movies.ui.home.adapters.AiringTodayInteractionListener
 import com.elhady.movies.ui.home.homeUiState.HomeUiEvent
 import com.elhady.movies.ui.home.homeUiState.HomeUiState
 import com.elhady.movies.ui.mappers.MediaUiMapper
@@ -32,9 +34,10 @@ class HomeViewModel @Inject constructor(
     private val getTrendingMovieUseCase: GetTrendingMoviesUseCase,
     private val getNowPlayingMoviesUseCase: GetNowPlayingMoviesUseCase,
     private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase,
-    private val getOnTheAirSeriesUseCase: GetOnTheAirSeriesUseCase
+    private val getOnTheAirSeriesUseCase: GetOnTheAirSeriesUseCase,
+    private val getAiringTodaySeriesUseCase: GetAiringTodaySeriesUseCase
 ) :
-    ViewModel(), MovieInteractionListener {
+    ViewModel(), MovieInteractionListener, AiringTodayInteractionListener {
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
     val homeUiState = _homeUiState.asStateFlow()
@@ -52,6 +55,7 @@ class HomeViewModel @Inject constructor(
         getNowPlayingMovies()
         getTopRatedMovies()
         getOnTheAirSeries()
+        getAiringTodaySeries()
     }
 
     /**
@@ -173,9 +177,26 @@ class HomeViewModel @Inject constructor(
                         )
                     }
                 }
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 Log.i("", "")
             }
+        }
+    }
+
+    private fun getAiringTodaySeries() {
+        viewModelScope.launch {
+            try {
+                getAiringTodaySeriesUseCase().collect { items ->
+                    val airingTodaySeries = items.map {
+                        mediaUiMapper.map(it)
+                    }
+                    _homeUiState.update {
+                        it.copy(airingTodaySeries = HomeItem.AiringTodaySeries(airingTodaySeries))
+                    }
+                }
+            } catch (e: Exception) {
+            }
+            Log.d("", "")
         }
     }
 
@@ -184,6 +205,10 @@ class HomeViewModel @Inject constructor(
         _homeUiEvent.update {
             Event(HomeUiEvent.ClickMovieEvent(movieID))
         }
+    }
+
+    override fun onClick(mediaID: Int) {
+        TODO("Not yet implemented")
     }
 
 
