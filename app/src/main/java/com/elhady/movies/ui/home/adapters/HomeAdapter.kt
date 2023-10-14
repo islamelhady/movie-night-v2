@@ -78,6 +78,7 @@ class HomeAdapter(
 
             is HomeItem.AiringTodaySeries -> {
                 holder.binding.setVariable(BR.adapterRecycler, AiringTodayAdapter(currentHomeItem.items.take(6), listener as AiringTodayInteractionListener))
+                holder.binding.setVariable(BR.count, currentHomeItem.items.size)
             }
         }
     }
