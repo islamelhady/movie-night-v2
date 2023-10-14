@@ -6,7 +6,7 @@ import com.elhady.movies.domain.mappers.Mapper
 import com.elhady.movies.utilities.Constants
 import javax.inject.Inject
 
-class AiringSeriesMapper @Inject constructor() : Mapper<TVShowDto, AiringTodaySeriesEntity> {
+class AiringTodaySeriesMapper @Inject constructor() : Mapper<TVShowDto, AiringTodaySeriesEntity> {
     override fun map(input: TVShowDto): AiringTodaySeriesEntity {
         return AiringTodaySeriesEntity(
             id = input.id ?: 0,

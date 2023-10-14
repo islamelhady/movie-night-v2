@@ -76,6 +76,9 @@ class HomeAdapter(
                 holder.binding.setVariable(BR.movieType, currentHomeItem.type)
             }
 
+            is HomeItem.AiringTodaySeries -> {
+                holder.binding.setVariable(BR.adapterRecycler, MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener))
+            }
         }
     }
 
@@ -96,7 +99,8 @@ class HomeAdapter(
             is HomeItem.Trending,
             is HomeItem.NowPlaying,
             is HomeItem.TopRated,
-            is HomeItem.OnTheAirSeries
+            is HomeItem.OnTheAirSeries,
+            is HomeItem.AiringTodaySeries,
             -> R.layout.list_movie
         }
     }
