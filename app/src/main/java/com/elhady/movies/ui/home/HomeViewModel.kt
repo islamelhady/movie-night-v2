@@ -8,6 +8,7 @@ import com.elhady.movies.domain.usecases.home.GetPopularMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetTopRatedMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetTrendingMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetUpcomingMoviesUseCase
+import com.elhady.movies.domain.usecases.home.series.GetOnTheAirSeriesUseCase
 import com.elhady.movies.ui.adapters.MovieInteractionListener
 import com.elhady.movies.ui.home.homeUiState.HomeUiEvent
 import com.elhady.movies.ui.home.homeUiState.HomeUiState
@@ -17,6 +18,7 @@ import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,7 +31,8 @@ class HomeViewModel @Inject constructor(
     private val getUpcomingMoviesUseCase: GetUpcomingMoviesUseCase,
     private val getTrendingMovieUseCase: GetTrendingMoviesUseCase,
     private val getNowPlayingMoviesUseCase: GetNowPlayingMoviesUseCase,
-    private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase
+    private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase,
+    private val getOnTheAirSeriesUseCase: GetOnTheAirSeriesUseCase
 ) :
     ViewModel(), MovieInteractionListener {
 
@@ -39,6 +42,21 @@ class HomeViewModel @Inject constructor(
     private val _homeUiEvent = MutableStateFlow<Event<HomeUiEvent?>>(Event(null))
     val homeUiEvent = _homeUiEvent.asStateFlow()
 
+    init {
+        _homeUiState.update {
+            it.copy(isLoading = true)
+        }
+        getPopular()
+        getUpcomingMovies()
+        getTrendingMovie()
+        getNowPlayingMovies()
+        getTopRatedMovies()
+        getOnTheAirSeries()
+    }
+
+    /**
+     *  Movies
+     */
     private fun getPopular() {
         viewModelScope.launch {
             try {
@@ -46,7 +64,10 @@ class HomeViewModel @Inject constructor(
                     if (items.isNotEmpty()) {
                         val popularUiState = items.map(popularUiMapper::map)
                         _homeUiState.update {
-                            it.copy(popularMovie = HomeItem.Slider(popularUiState), isLoading = false)
+                            it.copy(
+                                popularMovie = HomeItem.Slider(popularUiState),
+                                isLoading = false
+                            )
                         }
                     }
                 }
@@ -64,7 +85,10 @@ class HomeViewModel @Inject constructor(
                     if (items.isNotEmpty()) {
                         val upcomingItems = items.map(mediaUiMapper::map)
                         _homeUiState.update {
-                            it.copy(upcomingMovie = HomeItem.Upcoming(upcomingItems), isLoading = false)
+                            it.copy(
+                                upcomingMovie = HomeItem.Upcoming(upcomingItems),
+                                isLoading = false
+                            )
                         }
                     }
                 }
@@ -81,7 +105,10 @@ class HomeViewModel @Inject constructor(
                     if (items.isNotEmpty()) {
                         val trendingItems = items.map(mediaUiMapper::map)
                         _homeUiState.update {
-                            it.copy(trendingMovie = HomeItem.Trending(trendingItems), isLoading = false)
+                            it.copy(
+                                trendingMovie = HomeItem.Trending(trendingItems),
+                                isLoading = false
+                            )
                         }
                     }
                 }
@@ -98,7 +125,10 @@ class HomeViewModel @Inject constructor(
                     if (items.isNotEmpty()) {
                         val nowPlayingItems = items.map(mediaUiMapper::map)
                         _homeUiState.update {
-                            it.copy(nowPlayingMovie = HomeItem.NowPlaying(nowPlayingItems), isLoading = false)
+                            it.copy(
+                                nowPlayingMovie = HomeItem.NowPlaying(nowPlayingItems),
+                                isLoading = false
+                            )
                         }
                     }
 
@@ -116,7 +146,10 @@ class HomeViewModel @Inject constructor(
                     if (items.isNotEmpty()) {
                         val topRatedItems = items.map(mediaUiMapper::map)
                         _homeUiState.update {
-                            it.copy(topRatedMovie = HomeItem.TopRated(topRatedItems), isLoading = false)
+                            it.copy(
+                                topRatedMovie = HomeItem.TopRated(topRatedItems),
+                                isLoading = false
+                            )
                         }
                     }
                 }
@@ -126,17 +159,26 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-
-    init {
-        _homeUiState.update {
-            it.copy(isLoading = true)
+    /**
+     *  Series
+     */
+    private fun getOnTheAirSeries() {
+        viewModelScope.launch {
+            try {
+                getOnTheAirSeriesUseCase().collect { items ->
+                    val onTheAirItems = items.map(mediaUiMapper::map)
+                    _homeUiState.update {
+                        it.copy(
+                            onTheAirSeries = HomeItem.OnTheAirSeries(onTheAirItems)
+                        )
+                    }
+                }
+            }catch (e: Exception){
+                Log.i("", "")
+            }
         }
-        getPopular()
-        getUpcomingMovies()
-        getTrendingMovie()
-        getNowPlayingMovies()
-        getTopRatedMovies()
     }
+
 
     override fun onClickMovie(movieID: Int) {
         _homeUiEvent.update {

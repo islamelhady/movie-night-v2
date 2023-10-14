@@ -6,6 +6,7 @@ import com.elhady.movies.data.local.DataStorePreferences
 import com.elhady.movies.data.local.Converters
 import com.elhady.movies.data.local.database.MovieDatabase
 import com.elhady.movies.data.local.database.daos.MovieDao
+import com.elhady.movies.data.local.database.daos.SeriesDao
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -36,6 +37,12 @@ object DatabaseModule {
     @Provides
     fun provideMovieDao(movieDatabase: MovieDatabase): MovieDao {
         return movieDatabase.movieDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideSeriesDao(movieDatabase: MovieDatabase): SeriesDao{
+        return movieDatabase.seriesDao()
     }
 
     @Provides

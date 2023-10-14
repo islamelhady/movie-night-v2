@@ -7,6 +7,7 @@ import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.data.remote.response.genre.GenreResponse
 import com.elhady.movies.data.remote.response.login.RequestTokenResponse
 import com.elhady.movies.data.remote.response.login.SessionResponse
+import com.elhady.movies.data.remote.response.tvShow.TVShowDto
 import com.elhady.movies.domain.TrendingTimeWindow
 import retrofit2.Response
 import retrofit2.http.Field
@@ -35,6 +36,9 @@ interface MovieService {
 
     @GET("trending/movie/{time_window}")
     suspend fun getTrendingMovie(@Path("time_window") timeWindow: String = TrendingTimeWindow.WEEK.value): Response<BaseResponse<MovieDto>>
+
+    @GET("tv/on_the_air")
+    suspend fun getOnTheAirTV(): Response<BaseResponse<TVShowDto>>
 
     @GET("authentication/token/new")
     suspend fun getRequestToken(): Response<RequestTokenResponse>

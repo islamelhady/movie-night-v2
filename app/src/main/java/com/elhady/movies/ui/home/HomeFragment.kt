@@ -34,7 +34,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         items.upcomingMovie,
                         items.trendingMovie,
                         items.nowPlayingMovie,
-                        items.topRatedMovie
+                        items.topRatedMovie,
+                        items.onTheAirSeries
                     )
                 )
             }
