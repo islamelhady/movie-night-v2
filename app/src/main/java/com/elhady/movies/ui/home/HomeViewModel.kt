@@ -11,6 +11,7 @@ import com.elhady.movies.domain.usecases.home.GetUpcomingMoviesUseCase
 import com.elhady.movies.domain.usecases.home.series.GetAiringTodaySeriesUseCase
 import com.elhady.movies.domain.usecases.home.series.GetOnTheAirSeriesUseCase
 import com.elhady.movies.ui.adapters.MovieInteractionListener
+import com.elhady.movies.ui.home.adapters.AiringTodayInteractionListener
 import com.elhady.movies.ui.home.homeUiState.HomeUiEvent
 import com.elhady.movies.ui.home.homeUiState.HomeUiState
 import com.elhady.movies.ui.mappers.MediaUiMapper
@@ -36,7 +37,7 @@ class HomeViewModel @Inject constructor(
     private val getOnTheAirSeriesUseCase: GetOnTheAirSeriesUseCase,
     private val getAiringTodaySeriesUseCase: GetAiringTodaySeriesUseCase
 ) :
-    ViewModel(), MovieInteractionListener {
+    ViewModel(), MovieInteractionListener, AiringTodayInteractionListener {
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
     val homeUiState = _homeUiState.asStateFlow()
@@ -182,7 +183,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getAiringTodaySeries() {
+    private fun getAiringTodaySeries() {
         viewModelScope.launch {
             try {
                 getAiringTodaySeriesUseCase().collect { items ->
@@ -204,6 +205,10 @@ class HomeViewModel @Inject constructor(
         _homeUiEvent.update {
             Event(HomeUiEvent.ClickMovieEvent(movieID))
         }
+    }
+
+    override fun onClick(mediaID: Int) {
+        TODO("Not yet implemented")
     }
 
 

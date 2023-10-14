@@ -77,7 +77,7 @@ class HomeAdapter(
             }
 
             is HomeItem.AiringTodaySeries -> {
-                holder.binding.setVariable(BR.adapterRecycler, MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener))
+                holder.binding.setVariable(BR.adapterRecycler, AiringTodayAdapter(currentHomeItem.items.take(6), listener as AiringTodayInteractionListener))
             }
         }
     }
@@ -95,12 +95,12 @@ class HomeAdapter(
     override fun getItemViewType(position: Int): Int {
         return when (homeItems[position]) {
             is HomeItem.Slider -> R.layout.list_popular_movie
+            is HomeItem.AiringTodaySeries -> R.layout.list_airing_today
             is HomeItem.Upcoming,
             is HomeItem.Trending,
             is HomeItem.NowPlaying,
             is HomeItem.TopRated,
             is HomeItem.OnTheAirSeries,
-            is HomeItem.AiringTodaySeries,
             -> R.layout.list_movie
         }
     }

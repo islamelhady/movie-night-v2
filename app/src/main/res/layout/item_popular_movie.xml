@@ -71,7 +71,7 @@
             android:drawablePadding="@dimen/spacing_too_small"
             android:gravity="start|center"
             android:text="@{String.valueOf(item.movieRate)}"
-            android:textColor="@color/yellow"
+            android:textColor="@color/red"
             app:drawableStartCompat="@drawable/ic_star_filled"
             app:layout_constraintBaseline_toBaselineOf="@id/text_movie_name"
             app:layout_constraintStart_toEndOf="@+id/text_movie_name"
