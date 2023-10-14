@@ -37,6 +37,12 @@ interface MovieService {
     @GET("trending/movie/{time_window}")
     suspend fun getTrendingMovie(@Path("time_window") timeWindow: String = TrendingTimeWindow.WEEK.value): Response<BaseResponse<MovieDto>>
 
+    /**
+     *   TV SERIES LISTS
+     */
+    @GET("tv/airing_today")
+    suspend fun getAiringTodayTV(): Response<BaseResponse<TVShowDto>>
+
     @GET("tv/on_the_air")
     suspend fun getOnTheAirTV(): Response<BaseResponse<TVShowDto>>
 

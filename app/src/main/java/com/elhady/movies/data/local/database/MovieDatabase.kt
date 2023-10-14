@@ -12,10 +12,11 @@ import com.elhady.movies.data.local.database.daos.SeriesDao
 import com.elhady.movies.data.local.database.entity.NowPlayingMovieEntity
 import com.elhady.movies.data.local.database.entity.series.OnTheAirSeriesEntity
 import com.elhady.movies.data.local.database.entity.TopRatedMovieEntity
+import com.elhady.movies.data.local.database.entity.series.AiringTodaySeriesEntity
 
 @TypeConverters(Converters::class)
 @Database(
-    entities = [PopularMovieEntity::class, UpcomingMovieEntity::class, TrendingMovieEntity::class, NowPlayingMovieEntity::class, TopRatedMovieEntity::class, OnTheAirSeriesEntity::class],
+    entities = [PopularMovieEntity::class, UpcomingMovieEntity::class, TrendingMovieEntity::class, NowPlayingMovieEntity::class, TopRatedMovieEntity::class, OnTheAirSeriesEntity::class, AiringTodaySeriesEntity::class],
     version = 1
 )
 

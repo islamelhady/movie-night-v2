@@ -3,6 +3,7 @@ package com.elhady.movies.data.repository
 import com.elhady.movies.data.Constants
 import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.SeriesDao
+import com.elhady.movies.data.local.database.entity.series.AiringTodaySeriesEntity
 import com.elhady.movies.data.local.database.entity.series.OnTheAirSeriesEntity
 import com.elhady.movies.data.local.mappers.series.OnTheAirSeriesMapper
 import com.elhady.movies.data.remote.service.MovieService
@@ -16,6 +17,13 @@ class SeriesRepositoryImp @Inject constructor(
     private val seriesDao: SeriesDao,
     private val appConfiguration: AppConfiguration
 ) : BaseRepository(), SeriesRepository {
+
+    /**
+     *  Airing Today Series
+     */
+    override suspend fun getAiringTodaySeries(): Flow<List<AiringTodaySeriesEntity>> {
+        TODO("Not yet implemented")
+    }
 
     /**
      *  On The Air Series
