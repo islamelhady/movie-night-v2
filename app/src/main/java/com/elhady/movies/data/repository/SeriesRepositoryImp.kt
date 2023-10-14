@@ -8,8 +8,9 @@ import com.elhady.movies.data.local.mappers.series.OnTheAirSeriesMapper
 import com.elhady.movies.data.remote.service.MovieService
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
+import javax.inject.Inject
 
-class SeriesRepositoryImp(
+class SeriesRepositoryImp @Inject constructor(
     private val movieService: MovieService,
     private val onTheAirSeriesMapper: OnTheAirSeriesMapper,
     private val seriesDao: SeriesDao,

@@ -8,6 +8,7 @@ import com.elhady.movies.data.local.database.entity.PopularMovieEntity
 import com.elhady.movies.data.local.database.entity.UpcomingMovieEntity
 import com.elhady.movies.data.local.database.entity.TrendingMovieEntity
 import com.elhady.movies.data.local.Converters
+import com.elhady.movies.data.local.database.daos.SeriesDao
 import com.elhady.movies.data.local.database.entity.NowPlayingMovieEntity
 import com.elhady.movies.data.local.database.entity.series.OnTheAirSeriesEntity
 import com.elhady.movies.data.local.database.entity.TopRatedMovieEntity
@@ -20,4 +21,5 @@ import com.elhady.movies.data.local.database.entity.TopRatedMovieEntity
 
 abstract class MovieDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
+    abstract fun seriesDao(): SeriesDao
 }
