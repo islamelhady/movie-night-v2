@@ -1,15 +1,14 @@
 package com.elhady.movies.data.repository
 
-import com.elhady.movies.data.local.database.entity.AdventureMovieEntity
-import com.elhady.movies.data.local.database.entity.MysteryMovieEntity
-import com.elhady.movies.data.local.database.entity.NowPlayingMovieEntity
-import com.elhady.movies.data.local.database.entity.PopularMovieEntity
-import com.elhady.movies.data.local.database.entity.TopRatedMovieEntity
-import com.elhady.movies.data.local.database.entity.TrendingMovieEntity
-import com.elhady.movies.data.local.database.entity.UpcomingMovieEntity
+import com.elhady.movies.data.local.database.entity.movies.AdventureMovieEntity
+import com.elhady.movies.data.local.database.entity.movies.MysteryMovieEntity
+import com.elhady.movies.data.local.database.entity.movies.NowPlayingMovieEntity
+import com.elhady.movies.data.local.database.entity.movies.PopularMovieEntity
+import com.elhady.movies.data.local.database.entity.movies.TopRatedMovieEntity
+import com.elhady.movies.data.local.database.entity.movies.TrendingMovieEntity
+import com.elhady.movies.data.local.database.entity.movies.UpcomingMovieEntity
 import com.elhady.movies.data.remote.State
 import com.elhady.movies.data.remote.response.BaseResponse
-import com.elhady.movies.data.remote.response.MovieDto
 import com.elhady.movies.data.remote.response.PersonDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
 import kotlinx.coroutines.flow.Flow

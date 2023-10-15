@@ -1,4 +1,4 @@
-package com.elhady.movies.ui.adapters
+package com.elhady.movies.ui.home.adapters
 
 import com.elhady.movies.R
 import com.elhady.movies.ui.base.BaseAdapter

@@ -1,7 +1,6 @@
 package com.elhady.movies.ui.home.adapters
 
 import com.elhady.movies.R
-import com.elhady.movies.ui.adapters.MovieInteractionListener
 import com.elhady.movies.ui.base.BaseAdapter
 import com.elhady.movies.ui.models.PopularUiState
 

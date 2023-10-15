@@ -2,7 +2,7 @@ package com.elhady.movies.di
 
 import com.elhady.movies.data.remote.AuthInterceptor
 import com.elhady.movies.data.remote.service.MovieService
-import com.elhady.movies.utilities.Constant
+import com.elhady.movies.utilities.Constants
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -24,7 +24,7 @@ object NetworkModule {
         gsonConverterFactory: GsonConverterFactory
     ): MovieService {
         val retrofit = Retrofit.Builder()
-            .baseUrl(Constant.BASE_URL)
+            .baseUrl(Constants.BASE_URL)
             .client(client)
             .addConverterFactory(gsonConverterFactory)
             .build()

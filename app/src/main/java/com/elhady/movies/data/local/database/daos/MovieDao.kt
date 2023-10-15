@@ -1,19 +1,16 @@
 package com.elhady.movies.data.local.database.daos
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.elhady.movies.data.local.database.entity.AdventureMovieEntity
-import com.elhady.movies.data.local.database.entity.MysteryMovieEntity
-import com.elhady.movies.data.local.database.entity.NowPlayingMovieEntity
-import com.elhady.movies.data.local.database.entity.PopularMovieEntity
-import com.elhady.movies.data.local.database.entity.TopRatedMovieEntity
-import com.elhady.movies.data.local.database.entity.TrendingMovieEntity
-import com.elhady.movies.data.local.database.entity.UpcomingMovieEntity
-import com.elhady.movies.data.remote.response.MovieDto
-import dagger.hilt.InstallIn
+import com.elhady.movies.data.local.database.entity.movies.AdventureMovieEntity
+import com.elhady.movies.data.local.database.entity.movies.MysteryMovieEntity
+import com.elhady.movies.data.local.database.entity.movies.NowPlayingMovieEntity
+import com.elhady.movies.data.local.database.entity.movies.PopularMovieEntity
+import com.elhady.movies.data.local.database.entity.movies.TopRatedMovieEntity
+import com.elhady.movies.data.local.database.entity.movies.TrendingMovieEntity
+import com.elhady.movies.data.local.database.entity.movies.UpcomingMovieEntity
 import kotlinx.coroutines.flow.Flow
 
 

@@ -1,6 +1,6 @@
 package com.elhady.movies.data
 
-object Constants {
+object Constant {
     /**
      *  Movies
      */

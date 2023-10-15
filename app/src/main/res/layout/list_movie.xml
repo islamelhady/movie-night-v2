@@ -10,7 +10,7 @@
 
         <variable
             name="adapterRecycler"
-            type="com.elhady.movies.ui.adapters.MovieAdapter" />
+            type="com.elhady.movies.ui.home.adapters.MovieAdapter" />
         <variable
             name="movieType"
             type="com.elhady.movies.domain.enums.HomeItemType" />

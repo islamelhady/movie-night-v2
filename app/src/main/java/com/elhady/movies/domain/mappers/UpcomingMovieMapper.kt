@@ -1,6 +1,6 @@
 package com.elhady.movies.domain.mappers
 
-import com.elhady.movies.data.local.database.entity.UpcomingMovieEntity
+import com.elhady.movies.data.local.database.entity.movies.UpcomingMovieEntity
 import com.elhady.movies.domain.models.Media
 import javax.inject.Inject
 

@@ -5,8 +5,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.elhady.movies.BR
 import com.elhady.movies.R
-import com.elhady.movies.ui.adapters.MovieAdapter
-import com.elhady.movies.ui.adapters.MovieInteractionListener
 import com.elhady.movies.ui.base.BaseAdapter
 import com.elhady.movies.ui.base.BaseInteractionListener
 import com.elhady.movies.ui.home.HomeItem

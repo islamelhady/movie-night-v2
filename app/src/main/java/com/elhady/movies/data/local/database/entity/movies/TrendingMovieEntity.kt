@@ -1,4 +1,4 @@
-package com.elhady.movies.data.local.database.entity
+package com.elhady.movies.data.local.database.entity.movies
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

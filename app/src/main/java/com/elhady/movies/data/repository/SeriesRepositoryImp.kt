@@ -1,6 +1,6 @@
 package com.elhady.movies.data.repository
 
-import com.elhady.movies.data.Constants
+import com.elhady.movies.data.Constant
 import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.SeriesDao
 import com.elhady.movies.data.local.database.entity.series.AiringTodaySeriesEntity
@@ -28,7 +28,7 @@ class SeriesRepositoryImp @Inject constructor(
      */
     override suspend fun getAiringTodaySeries(): Flow<List<AiringTodaySeriesEntity>> {
         refreshOneTimePerDay(
-            appConfiguration.getRequestDate(Constants.AIRING_TODAY_SERIES_REQUEST_DATE_KEY),
+            appConfiguration.getRequestDate(Constant.AIRING_TODAY_SERIES_REQUEST_DATE_KEY),
             ::refreshAiringTodaySeries
         )
         return seriesDao.getAiringTodaySeries()
@@ -36,11 +36,9 @@ class SeriesRepositoryImp @Inject constructor(
 
     private suspend fun refreshAiringTodaySeries(currentDate: Date) {
         wrap(
-            {
-                movieService.getAiringTodayTV()
-            },
-            { items ->
-                items?.map {
+            { movieService.getAiringTodayTV() },
+            { list ->
+                list?.map {
                     airingSeriesMapper.map(it)
                 }
             },
@@ -48,7 +46,7 @@ class SeriesRepositoryImp @Inject constructor(
                 seriesDao.deleteAiringTodaySeries()
                 seriesDao.insertAiringTodaySeries(it)
                 appConfiguration.saveRequestDate(
-                    Constants.AIRING_TODAY_SERIES_REQUEST_DATE_KEY,
+                    Constant.AIRING_TODAY_SERIES_REQUEST_DATE_KEY,
                     currentDate.time
                 )
             }
@@ -60,7 +58,7 @@ class SeriesRepositoryImp @Inject constructor(
      */
     override suspend fun getOnTheAirSeries(): Flow<List<OnTheAirSeriesEntity>> {
         refreshOneTimePerDay(
-            appConfiguration.getRequestDate(Constants.ON_THE_AIR_SERIES_REQUEST_DATE_KEY),
+            appConfiguration.getRequestDate(Constant.ON_THE_AIR_SERIES_REQUEST_DATE_KEY),
             ::refreshOnTheAirSeries
         )
         return seriesDao.getOnTheAirSeries()
@@ -68,11 +66,9 @@ class SeriesRepositoryImp @Inject constructor(
 
     private suspend fun refreshOnTheAirSeries(currentDate: Date) {
         wrap(
-            {
-                movieService.getOnTheAirTV()
-            },
-            { items ->
-                items?.map {
+            { movieService.getOnTheAirTV() },
+            { list ->
+                list?.map {
                     onTheAirSeriesMapper.map(it)
                 }
             },
@@ -80,14 +76,20 @@ class SeriesRepositoryImp @Inject constructor(
                 seriesDao.deleteOnTheAirSeries()
                 seriesDao.insertOnTheAirSeries(it)
                 appConfiguration.saveRequestDate(
-                    Constants.ON_THE_AIR_SERIES_REQUEST_DATE_KEY,
+                    Constant.ON_THE_AIR_SERIES_REQUEST_DATE_KEY,
                     currentDate.time
                 )
             })
     }
 
+    /**
+     *  TV Series Lists
+     * * Popular
+     * * Top Rated
+     * * Airing Today
+     */
     override suspend fun getTVSeriesLists(): Flow<List<TVSeriesListsEntity>> {
-        refreshOneTimePerDay(appConfiguration.getRequestDate(Constants.TV_SERIES_LISTS_REQUEST_DATE_KEY), ::refreshTVSeriesLists)
+        refreshOneTimePerDay(appConfiguration.getRequestDate(Constant.TV_SERIES_LISTS_REQUEST_DATE_KEY), ::refreshTVSeriesLists)
         return seriesDao.getTVSeriesLists()
     }
 
@@ -104,7 +106,7 @@ class SeriesRepositoryImp @Inject constructor(
         }
         seriesDao.deleteTVSeriesLists()
         seriesDao.insertTVSeriesLists(items)
-        appConfiguration.saveRequestDate(Constants.TV_SERIES_LISTS_REQUEST_DATE_KEY, currentDate.time)
+        appConfiguration.saveRequestDate(Constant.TV_SERIES_LISTS_REQUEST_DATE_KEY, currentDate.time)
     }
 
 }

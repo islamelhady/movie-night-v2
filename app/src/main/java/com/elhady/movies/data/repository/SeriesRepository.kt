@@ -9,6 +9,5 @@ interface SeriesRepository {
 
     suspend fun getAiringTodaySeries(): Flow<List<AiringTodaySeriesEntity>>
     suspend fun getOnTheAirSeries(): Flow<List<OnTheAirSeriesEntity>>
-
     suspend fun getTVSeriesLists(): Flow<List<TVSeriesListsEntity>>
 }

@@ -13,7 +13,7 @@ import com.elhady.movies.domain.usecases.home.GetUpcomingMoviesUseCase
 import com.elhady.movies.domain.usecases.home.series.GetAiringTodaySeriesUseCase
 import com.elhady.movies.domain.usecases.home.series.GetOnTheAirSeriesUseCase
 import com.elhady.movies.domain.usecases.home.series.GetTVSeriesListsUseCase
-import com.elhady.movies.ui.adapters.MovieInteractionListener
+import com.elhady.movies.ui.home.adapters.MovieInteractionListener
 import com.elhady.movies.ui.home.adapters.AiringTodayInteractionListener
 import com.elhady.movies.ui.home.homeUiState.HomeUiEvent
 import com.elhady.movies.ui.home.homeUiState.HomeUiState
@@ -23,7 +23,6 @@ import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -68,7 +67,7 @@ class HomeViewModel @Inject constructor(
     }
 
     /**
-     *  Movies
+     *  Popular Movies
      */
     private fun getPopular() {
         viewModelScope.launch {
@@ -91,6 +90,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     *  Upcoming Movies
+     */
     private fun getUpcomingMovies() {
         viewModelScope.launch {
             try {
@@ -111,6 +113,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     *  Trending Movies
+     */
     private fun getTrendingMovie() {
         viewModelScope.launch {
             try {
@@ -131,6 +136,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     *  Now Playing Movies
+     */
     private fun getNowPlayingMovies() {
         viewModelScope.launch {
             try {
@@ -152,6 +160,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     *  Top Popular Movies
+     */
     private fun getTopRatedMovies() {
         viewModelScope.launch {
             try {
@@ -172,6 +183,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     *  Mystery Movies
+     */
     private fun getMysteryMovies(){
         viewModelScope.launch {
             try {
@@ -189,6 +203,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     *  Adventure Movies
+     */
     private fun getAdventureMovies(){
         viewModelScope.launch {
             try {
@@ -207,7 +224,7 @@ class HomeViewModel @Inject constructor(
     }
 
     /**
-     *  Series
+     *  On The Air Series
      */
     private fun getOnTheAirSeries() {
         viewModelScope.launch {
@@ -226,6 +243,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     *  Airing Today Series
+     */
     private fun getAiringTodaySeries() {
         viewModelScope.launch {
             try {
@@ -243,6 +263,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     *  TV Series Lists
+     * * Popular
+     * * Top Rated
+     * * Latest
+     */
     private fun getTVSeriesLists(){
         viewModelScope.launch {
             try {
