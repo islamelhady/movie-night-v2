@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.elhady.movies.data.local.DataStorePreferences
 import com.elhady.movies.data.local.Converters
 import com.elhady.movies.data.local.database.MovieDatabase
+import com.elhady.movies.data.local.database.daos.ActorDao
 import com.elhady.movies.data.local.database.daos.MovieDao
 import com.elhady.movies.data.local.database.daos.SeriesDao
 import com.google.gson.Gson
@@ -43,6 +44,12 @@ object DatabaseModule {
     @Provides
     fun provideSeriesDao(movieDatabase: MovieDatabase): SeriesDao{
         return movieDatabase.seriesDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideActorDao(movieDatabase: MovieDatabase): ActorDao{
+        return movieDatabase.actorsDao()
     }
 
     @Provides

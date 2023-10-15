@@ -5,8 +5,9 @@ import com.elhady.movies.domain.mappers.actor.ActorsMapper
 import com.elhady.movies.domain.models.Actor
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class GetTrendingActorsUseCase(
+class GetTrendingActorsUseCase @Inject constructor(
     private val repository: ActorRepository,
     private val actorMapper: ActorsMapper
 ) {
