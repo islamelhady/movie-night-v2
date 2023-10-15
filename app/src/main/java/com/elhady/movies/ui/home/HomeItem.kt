@@ -13,4 +13,5 @@ sealed interface HomeItem{
     data class OnTheAirSeries(val items: List<MediaUiState>, val type: HomeItemType = HomeItemType.ON_THE_AIR_SERIES): HomeItem
     data class AiringTodaySeries(val items: List<MediaUiState>, val type: HomeItemType = HomeItemType.AIRING_TODAY_SERIES): HomeItem
     data class TVSeriesLists(val items: List<MediaUiState>): HomeItem
+    data class Mystery(val items: List<MediaUiState>, val type: HomeItemType = HomeItemType.MYSTERY): HomeItem
 }

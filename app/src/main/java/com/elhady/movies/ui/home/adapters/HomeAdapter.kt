@@ -67,17 +67,29 @@ class HomeAdapter(
             }
 
             is HomeItem.TopRated -> {
-                holder.binding.setVariable(BR.adapterRecycler, MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener))
+                holder.binding.setVariable(
+                    BR.adapterRecycler,
+                    MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener)
+                )
                 holder.binding.setVariable(BR.movieType, currentHomeItem.type)
             }
 
             is HomeItem.OnTheAirSeries -> {
-                holder.binding.setVariable(BR.adapterRecycler, MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener))
+                holder.binding.setVariable(
+                    BR.adapterRecycler,
+                    MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener)
+                )
                 holder.binding.setVariable(BR.movieType, currentHomeItem.type)
             }
 
             is HomeItem.AiringTodaySeries -> {
-                holder.binding.setVariable(BR.adapterRecycler, AiringTodayAdapter(currentHomeItem.items.take(6), listener as AiringTodayInteractionListener))
+                holder.binding.setVariable(
+                    BR.adapterRecycler,
+                    AiringTodayAdapter(
+                        currentHomeItem.items.take(6),
+                        listener as AiringTodayInteractionListener
+                    )
+                )
                 holder.binding.setVariable(BR.count, currentHomeItem.items.size)
             }
 
@@ -85,11 +97,18 @@ class HomeAdapter(
                 holder.binding.run {
                     if (currentHomeItem.items.isNotEmpty()) {
                         holder.binding.setVariable(BR.topRated, currentHomeItem.items.first())
-                        holder.binding. setVariable(BR.popular, currentHomeItem.items[1])
-                        holder.binding. setVariable(BR.latest, currentHomeItem.items.last())
-
+                        holder.binding.setVariable(BR.popular, currentHomeItem.items[1])
+                        holder.binding.setVariable(BR.latest, currentHomeItem.items.last())
                     }
                 }
+            }
+
+            is HomeItem.Mystery -> {
+                holder.binding.setVariable(
+                    BR.adapterRecycler,
+                    MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener)
+                )
+                holder.binding.setVariable(BR.movieType, currentHomeItem.type)
             }
         }
     }
@@ -114,6 +133,7 @@ class HomeAdapter(
             is HomeItem.NowPlaying,
             is HomeItem.TopRated,
             is HomeItem.OnTheAirSeries,
+            is HomeItem.Mystery,
             -> R.layout.list_movie
         }
     }

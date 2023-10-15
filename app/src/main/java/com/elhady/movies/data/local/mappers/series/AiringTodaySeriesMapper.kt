@@ -3,7 +3,7 @@ package com.elhady.movies.data.local.mappers.series
 import com.elhady.movies.data.local.database.entity.series.AiringTodaySeriesEntity
 import com.elhady.movies.data.remote.response.tvShow.TVShowDto
 import com.elhady.movies.domain.mappers.Mapper
-import com.elhady.movies.utilities.Constants
+import com.elhady.movies.utilities.Constant
 import javax.inject.Inject
 
 class AiringTodaySeriesMapper @Inject constructor() : Mapper<TVShowDto, AiringTodaySeriesEntity> {
@@ -11,7 +11,7 @@ class AiringTodaySeriesMapper @Inject constructor() : Mapper<TVShowDto, AiringTo
         return AiringTodaySeriesEntity(
             id = input.id ?: 0,
             name = input.name ?: "",
-            imageUrl = (Constants.IMAGE_PATH + input.posterPath)
+            imageUrl = (Constant.IMAGE_PATH + input.posterPath)
         )
     }
 }

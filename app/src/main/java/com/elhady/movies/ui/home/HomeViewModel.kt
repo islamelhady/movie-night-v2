@@ -3,6 +3,7 @@ package com.elhady.movies.ui.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.domain.usecases.home.GetMysteryMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetNowPlayingMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetPopularMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetTopRatedMoviesUseCase
@@ -37,7 +38,8 @@ class HomeViewModel @Inject constructor(
     private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase,
     private val getOnTheAirSeriesUseCase: GetOnTheAirSeriesUseCase,
     private val getAiringTodaySeriesUseCase: GetAiringTodaySeriesUseCase,
-    private val getTVSeriesListsUseCase: GetTVSeriesListsUseCase
+    private val getTVSeriesListsUseCase: GetTVSeriesListsUseCase,
+    private val getMysteryMoviesUseCase: GetMysteryMoviesUseCase
 ) :
     ViewModel(), MovieInteractionListener, AiringTodayInteractionListener {
 
@@ -59,6 +61,7 @@ class HomeViewModel @Inject constructor(
         getOnTheAirSeries()
         getAiringTodaySeries()
         getTVSeriesLists()
+        getMysteryMovies()
     }
 
     /**
@@ -162,6 +165,23 @@ class HomeViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Log.i("", "")
+            }
+        }
+    }
+
+    fun getMysteryMovies(){
+        viewModelScope.launch {
+            try {
+                getMysteryMoviesUseCase().collect{list->
+                    val mysteryItems = list.map {
+                        mediaUiMapper.map(it)
+                    }
+                    _homeUiState.update {
+                        it.copy(mysteryMovies = HomeItem.Mystery(mysteryItems))
+                    }
+                }
+            }catch (e: Exception){
+                Log.i("","")
             }
         }
     }
