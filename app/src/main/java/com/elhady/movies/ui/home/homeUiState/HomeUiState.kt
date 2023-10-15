@@ -7,5 +7,12 @@ data class HomeUiState(
     val upcomingMovie: HomeItem = HomeItem.Upcoming(emptyList()),
     val trendingMovie: HomeItem = HomeItem.Trending(emptyList()),
     val nowPlayingMovie: HomeItem = HomeItem.NowPlaying(emptyList()),
-    val topRatedMovie: HomeItem = HomeItem.TopRated(emptyList())
+    val topRatedMovie: HomeItem = HomeItem.TopRated(emptyList()),
+    val onTheAirSeries: HomeItem = HomeItem.OnTheAirSeries(emptyList()),
+    val airingTodaySeries: HomeItem = HomeItem.AiringTodaySeries(emptyList()),
+    val tvSeriesLists: HomeItem = HomeItem.TVSeriesLists(emptyList()),
+    val mysteryMovies: HomeItem = HomeItem.Mystery(emptyList()),
+    val adventureMovies: HomeItem = HomeItem.Adventure(emptyList()),
+    val actors: HomeItem = HomeItem.Actor(emptyList()),
+    val isLoading: Boolean = false
 )

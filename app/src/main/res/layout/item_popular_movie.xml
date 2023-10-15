@@ -8,11 +8,16 @@
             name="item"
             type="com.elhady.movies.ui.models.PopularUiState" />
 
+        <variable
+            name="listener"
+            type="com.elhady.movies.ui.home.adapters.MovieInteractionListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="@{() -> listener.onClickMovie(item.movieId)}"
         android:paddingVertical="@dimen/spacing_small">
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -66,7 +71,7 @@
             android:drawablePadding="@dimen/spacing_too_small"
             android:gravity="start|center"
             android:text="@{String.valueOf(item.movieRate)}"
-            android:textColor="@color/yellow"
+            android:textColor="@color/red"
             app:drawableStartCompat="@drawable/ic_star_filled"
             app:layout_constraintBaseline_toBaselineOf="@id/text_movie_name"
             app:layout_constraintStart_toEndOf="@+id/text_movie_name"

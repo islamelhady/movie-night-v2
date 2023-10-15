@@ -1,17 +1,16 @@
 package com.elhady.movies.data.local.database.daos
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.elhady.movies.data.local.database.entity.NowPlayingMovieEntity
-import com.elhady.movies.data.local.database.entity.PopularMovieEntity
-import com.elhady.movies.data.local.database.entity.TopRatedMovieEntity
-import com.elhady.movies.data.local.database.entity.TrendingMovieEntity
-import com.elhady.movies.data.local.database.entity.UpcomingMovieEntity
-import com.elhady.movies.data.remote.response.MovieDto
-import dagger.hilt.InstallIn
+import com.elhady.movies.data.local.database.entity.movies.AdventureMovieEntity
+import com.elhady.movies.data.local.database.entity.movies.MysteryMovieEntity
+import com.elhady.movies.data.local.database.entity.movies.NowPlayingMovieEntity
+import com.elhady.movies.data.local.database.entity.movies.PopularMovieEntity
+import com.elhady.movies.data.local.database.entity.movies.TopRatedMovieEntity
+import com.elhady.movies.data.local.database.entity.movies.TrendingMovieEntity
+import com.elhady.movies.data.local.database.entity.movies.UpcomingMovieEntity
 import kotlinx.coroutines.flow.Flow
 
 
@@ -78,5 +77,29 @@ interface MovieDao {
 
     @Query("SELECT * FROM TOP_RATED_MOVIE_TABLE")
     fun getTopRatedMovies(): Flow<List<TopRatedMovieEntity>>
+
+    /**
+     *  Mystery Movies
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMysteryMovies(items: List<MysteryMovieEntity>)
+
+    @Query("DELETE FROM MYSTERY_MOVIE_TABLE")
+    suspend fun deleteMysteryMovies()
+
+    @Query("SELECT * FROM MYSTERY_MOVIE_TABLE")
+    fun getMysteryMovies(): Flow<List<MysteryMovieEntity>>
+
+    /**
+     *  Adventure Movies
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAdventureMovies(items: List<AdventureMovieEntity>)
+
+    @Query("DELETE FROM ADVENTURE_MOVIE_TABLE")
+    suspend fun deleteAdventureMovies()
+
+    @Query("select * from ADVENTURE_MOVIE_TABLE")
+    fun getAdventureMovies(): Flow<List<AdventureMovieEntity>>
 
 }
