@@ -29,33 +29,25 @@
             android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
             android:text="@{movieType.value}"
-            android:textColor="@color/brand_color"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Upcoming"/>
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginEnd="@dimen/spacing_small"
-            android:layout_marginBottom="@dimen/spacing_small"
-            android:src="@drawable/ic_arrow_forward"
-            app:tint="@color/brand_color"
-            app:layout_constraintBottom_toTopOf="@+id/movieView"
-            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
+            android:id="@+id/text_see_all"
             style="@style/Regular.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_too_small"
+            android:layout_marginBottom="@dimen/spacing_too_small"
             android:text="@string/see_all"
             android:textColor="@color/brand_color"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView"
-            app:layout_constraintEnd_toStartOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="@+id/imageView" />
+            app:drawableEndCompat="@drawable/ic_arrow_forward"
+            android:gravity="center"
+            app:layout_constraintBaseline_toBaselineOf="@id/title"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
         <androidx.recyclerview.widget.RecyclerView
