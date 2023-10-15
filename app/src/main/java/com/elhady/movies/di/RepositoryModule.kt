@@ -16,6 +16,7 @@ import com.elhady.movies.data.local.mappers.PopularMovieMapper
 import com.elhady.movies.data.local.mappers.TopRatedMovieMapper
 import com.elhady.movies.data.local.mappers.series.AiringTodaySeriesMapper
 import com.elhady.movies.data.local.mappers.series.OnTheAirSeriesMapper
+import com.elhady.movies.data.local.mappers.series.TVSeriesListsMapper
 import com.elhady.movies.data.repository.SeriesRepository
 import com.elhady.movies.data.repository.SeriesRepositoryImp
 import dagger.Module
@@ -36,8 +37,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideSeriesRepository(movieService: MovieService, onTheAirSeriesMapper: OnTheAirSeriesMapper, airingSeriesMapper: AiringTodaySeriesMapper, seriesDao: SeriesDao, appConfiguration: AppConfiguration): SeriesRepository{
-        return SeriesRepositoryImp(movieService,onTheAirSeriesMapper, airingSeriesMapper, seriesDao, appConfiguration)
+    fun provideSeriesRepository(movieService: MovieService, onTheAirSeriesMapper: OnTheAirSeriesMapper, airingSeriesMapper: AiringTodaySeriesMapper, tvSeriesListsMapper: TVSeriesListsMapper, seriesDao: SeriesDao, appConfiguration: AppConfiguration): SeriesRepository{
+        return SeriesRepositoryImp(movieService,onTheAirSeriesMapper, airingSeriesMapper,tvSeriesListsMapper , seriesDao, appConfiguration)
     }
 
     @Provides

@@ -10,6 +10,7 @@ import com.elhady.movies.domain.usecases.home.GetTrendingMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetUpcomingMoviesUseCase
 import com.elhady.movies.domain.usecases.home.series.GetAiringTodaySeriesUseCase
 import com.elhady.movies.domain.usecases.home.series.GetOnTheAirSeriesUseCase
+import com.elhady.movies.domain.usecases.home.series.GetTVSeriesListsUseCase
 import com.elhady.movies.ui.adapters.MovieInteractionListener
 import com.elhady.movies.ui.home.adapters.AiringTodayInteractionListener
 import com.elhady.movies.ui.home.homeUiState.HomeUiEvent
@@ -35,7 +36,8 @@ class HomeViewModel @Inject constructor(
     private val getNowPlayingMoviesUseCase: GetNowPlayingMoviesUseCase,
     private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase,
     private val getOnTheAirSeriesUseCase: GetOnTheAirSeriesUseCase,
-    private val getAiringTodaySeriesUseCase: GetAiringTodaySeriesUseCase
+    private val getAiringTodaySeriesUseCase: GetAiringTodaySeriesUseCase,
+    private val getTVSeriesListsUseCase: GetTVSeriesListsUseCase
 ) :
     ViewModel(), MovieInteractionListener, AiringTodayInteractionListener {
 
@@ -56,6 +58,7 @@ class HomeViewModel @Inject constructor(
         getTopRatedMovies()
         getOnTheAirSeries()
         getAiringTodaySeries()
+        getTVSeriesLists()
     }
 
     /**
@@ -195,8 +198,23 @@ class HomeViewModel @Inject constructor(
                     }
                 }
             } catch (e: Exception) {
+                Log.d("", "")
             }
-            Log.d("", "")
+        }
+    }
+
+    private fun getTVSeriesLists(){
+        viewModelScope.launch {
+            try {
+                getTVSeriesListsUseCase().collect{ list->
+                    val seriesItems =  list.map(mediaUiMapper::map)
+                    _homeUiState.update {
+                        it.copy(tvSeriesLists = HomeItem.TVSeriesLists(seriesItems))
+                    }
+                }
+            } catch (e: Exception) {
+                Log.d("", "")
+            }
         }
     }
 

@@ -10,5 +10,6 @@ data class HomeUiState(
     val topRatedMovie: HomeItem = HomeItem.TopRated(emptyList()),
     val onTheAirSeries: HomeItem = HomeItem.OnTheAirSeries(emptyList()),
     val airingTodaySeries: HomeItem = HomeItem.AiringTodaySeries(emptyList()),
+    val tvSeriesLists: HomeItem = HomeItem.TVSeriesLists(emptyList()),
     val isLoading: Boolean = false
 )
