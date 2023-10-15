@@ -2,8 +2,10 @@ package com.elhady.movies.di
 
 import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.DataClassParser
+import com.elhady.movies.data.local.database.daos.ActorDao
 import com.elhady.movies.data.local.database.daos.MovieDao
 import com.elhady.movies.data.local.database.daos.SeriesDao
+import com.elhady.movies.data.local.mappers.actors.ActorsMapper
 import com.elhady.movies.data.local.mappers.movies.AdventureMoviesMapper
 import com.elhady.movies.data.local.mappers.movies.MysteryMoviesMapper
 import com.elhady.movies.data.local.mappers.movies.NowPlayingMovieMapper
@@ -19,6 +21,8 @@ import com.elhady.movies.data.local.mappers.movies.TopRatedMovieMapper
 import com.elhady.movies.data.local.mappers.series.AiringTodaySeriesMapper
 import com.elhady.movies.data.local.mappers.series.OnTheAirSeriesMapper
 import com.elhady.movies.data.local.mappers.series.TVSeriesListsMapper
+import com.elhady.movies.data.repository.ActorRepository
+import com.elhady.movies.data.repository.ActorRepositoryImp
 import com.elhady.movies.data.repository.SeriesRepository
 import com.elhady.movies.data.repository.SeriesRepositoryImp
 import dagger.Module
@@ -41,6 +45,12 @@ object RepositoryModule {
     @Singleton
     fun provideSeriesRepository(movieService: MovieService, onTheAirSeriesMapper: OnTheAirSeriesMapper, airingSeriesMapper: AiringTodaySeriesMapper, tvSeriesListsMapper: TVSeriesListsMapper, seriesDao: SeriesDao, appConfiguration: AppConfiguration): SeriesRepository{
         return SeriesRepositoryImp(movieService,onTheAirSeriesMapper, airingSeriesMapper,tvSeriesListsMapper , seriesDao, appConfiguration)
+    }
+
+    @Provides
+    @Singleton
+    fun provideActorsRepository(service: MovieService,actorsMapper: ActorsMapper,actorDao: ActorDao, appConfiguration: AppConfiguration): ActorRepository{
+        return ActorRepositoryImp(service, actorsMapper, actorDao, appConfiguration)
     }
 
     @Provides

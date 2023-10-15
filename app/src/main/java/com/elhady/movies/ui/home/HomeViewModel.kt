@@ -10,19 +10,23 @@ import com.elhady.movies.domain.usecases.home.GetPopularMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetTopRatedMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetTrendingMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetUpcomingMoviesUseCase
+import com.elhady.movies.domain.usecases.home.actor.GetTrendingActorsUseCase
 import com.elhady.movies.domain.usecases.home.series.GetAiringTodaySeriesUseCase
 import com.elhady.movies.domain.usecases.home.series.GetOnTheAirSeriesUseCase
 import com.elhady.movies.domain.usecases.home.series.GetTVSeriesListsUseCase
+import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 import com.elhady.movies.ui.home.adapters.MovieInteractionListener
 import com.elhady.movies.ui.home.adapters.AiringTodayInteractionListener
 import com.elhady.movies.ui.home.homeUiState.HomeUiEvent
 import com.elhady.movies.ui.home.homeUiState.HomeUiState
+import com.elhady.movies.ui.mappers.ActorUiMapper
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.mappers.PopularUiMapper
 import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -40,9 +44,12 @@ class HomeViewModel @Inject constructor(
     private val getAiringTodaySeriesUseCase: GetAiringTodaySeriesUseCase,
     private val getTVSeriesListsUseCase: GetTVSeriesListsUseCase,
     private val getMysteryMoviesUseCase: GetMysteryMoviesUseCase,
-    private val getAdventureMoviesUseCase: GetAdventureMoviesUseCase
+    private val getAdventureMoviesUseCase: GetAdventureMoviesUseCase,
+    private val getTrendingActorsUseCase: GetTrendingActorsUseCase,
+    private val actorUiMapper: ActorUiMapper
 ) :
-    ViewModel(), MovieInteractionListener, AiringTodayInteractionListener {
+    ViewModel(), MovieInteractionListener, AiringTodayInteractionListener,
+    ActorInteractionListener {
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
     val homeUiState = _homeUiState.asStateFlow()
@@ -64,6 +71,7 @@ class HomeViewModel @Inject constructor(
         getTVSeriesLists()
         getMysteryMovies()
         getAdventureMovies()
+        getTrendingActors()
     }
 
     /**
@@ -186,10 +194,10 @@ class HomeViewModel @Inject constructor(
     /**
      *  Mystery Movies
      */
-    private fun getMysteryMovies(){
+    private fun getMysteryMovies() {
         viewModelScope.launch {
             try {
-                getMysteryMoviesUseCase().collect{list->
+                getMysteryMoviesUseCase().collect { list ->
                     val mysteryItems = list.map {
                         mediaUiMapper.map(it)
                     }
@@ -197,8 +205,8 @@ class HomeViewModel @Inject constructor(
                         it.copy(mysteryMovies = HomeItem.Mystery(mysteryItems))
                     }
                 }
-            }catch (e: Exception){
-                Log.i("","")
+            } catch (e: Exception) {
+                Log.i("", "")
             }
         }
     }
@@ -206,10 +214,10 @@ class HomeViewModel @Inject constructor(
     /**
      *  Adventure Movies
      */
-    private fun getAdventureMovies(){
+    private fun getAdventureMovies() {
         viewModelScope.launch {
             try {
-                getAdventureMoviesUseCase().collect{list->
+                getAdventureMoviesUseCase().collect { list ->
                     val adventureItems = list.map {
                         mediaUiMapper.map(it)
                     }
@@ -217,8 +225,8 @@ class HomeViewModel @Inject constructor(
                         it.copy(adventureMovies = HomeItem.Adventure(adventureItems))
                     }
                 }
-            }catch (e: Exception){
-                Log.i("","")
+            } catch (e: Exception) {
+                Log.i("", "")
             }
         }
     }
@@ -269,11 +277,11 @@ class HomeViewModel @Inject constructor(
      * * Top Rated
      * * Latest
      */
-    private fun getTVSeriesLists(){
+    private fun getTVSeriesLists() {
         viewModelScope.launch {
             try {
-                getTVSeriesListsUseCase().collect{ list->
-                    val seriesItems =  list.map(mediaUiMapper::map)
+                getTVSeriesListsUseCase().collect { list ->
+                    val seriesItems = list.map(mediaUiMapper::map)
                     _homeUiState.update {
                         it.copy(tvSeriesLists = HomeItem.TVSeriesLists(seriesItems))
                     }
@@ -284,6 +292,27 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     *  Trending Actors
+     */
+    private fun getTrendingActors() {
+        viewModelScope.launch {
+            try {
+                getTrendingActorsUseCase().collect { list ->
+                    val actorItems = list.map {
+                        actorUiMapper.map(it)
+                    }
+                    _homeUiState.update {
+                        it.copy(actors = HomeItem.Actor(actorItems))
+                    }
+                }
+            }  catch (e: Exception) {
+                Log.d("", "")
+            }
+        }
+
+    }
+
 
     override fun onClickMovie(movieID: Int) {
         _homeUiEvent.update {
@@ -292,6 +321,10 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun onClick(mediaID: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickActor(actorID: Int) {
         TODO("Not yet implemented")
     }
 

@@ -116,6 +116,10 @@ class HomeAdapter(
                 )
                 holder.binding.setVariable(BR.movieType, currentHomeItem.type)
             }
+
+            is HomeItem.Actor -> {
+                holder.binding.setVariable(BR.adapterRecycler, ActorAdapter(currentHomeItem.items,listener as ActorInteractionListener, R.layout.item_actor))
+            }
         }
     }
 
@@ -134,6 +138,7 @@ class HomeAdapter(
             is HomeItem.Slider -> R.layout.list_popular_movie
             is HomeItem.AiringTodaySeries -> R.layout.list_airing_today
             is HomeItem.TVSeriesLists -> R.layout.list_tv_series
+            is HomeItem.Actor -> R.layout.list_actors
             is HomeItem.Upcoming,
             is HomeItem.Trending,
             is HomeItem.NowPlaying,
