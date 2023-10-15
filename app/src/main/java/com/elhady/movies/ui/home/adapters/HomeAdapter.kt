@@ -110,6 +110,14 @@ class HomeAdapter(
                 )
                 holder.binding.setVariable(BR.movieType, currentHomeItem.type)
             }
+
+            is HomeItem.Adventure -> {
+                holder.binding.setVariable(
+                    BR.adapterRecycler,
+                    MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener)
+                )
+                holder.binding.setVariable(BR.movieType, currentHomeItem.type)
+            }
         }
     }
 
@@ -134,6 +142,7 @@ class HomeAdapter(
             is HomeItem.TopRated,
             is HomeItem.OnTheAirSeries,
             is HomeItem.Mystery,
+            is HomeItem.Adventure,
             -> R.layout.list_movie
         }
     }

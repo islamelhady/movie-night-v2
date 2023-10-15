@@ -3,6 +3,7 @@ package com.elhady.movies.data.repository
 import com.elhady.movies.data.Constants
 import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.MovieDao
+import com.elhady.movies.data.local.database.entity.AdventureMovieEntity
 import com.elhady.movies.data.local.database.entity.MysteryMovieEntity
 import com.elhady.movies.data.local.database.entity.NowPlayingMovieEntity
 import com.elhady.movies.data.local.database.entity.PopularMovieEntity
@@ -10,6 +11,7 @@ import com.elhady.movies.data.local.database.entity.TopRatedMovieEntity
 import com.elhady.movies.data.local.database.entity.TrendingMovieEntity
 import com.elhady.movies.data.local.mappers.TrendingMovieMapper
 import com.elhady.movies.data.local.database.entity.UpcomingMovieEntity
+import com.elhady.movies.data.local.mappers.AdventureMoviesMapper
 import com.elhady.movies.data.local.mappers.MysteryMoviesMapper
 import com.elhady.movies.data.local.mappers.NowPlayingMovieMapper
 import com.elhady.movies.data.local.mappers.UpcomingMovieMapper
@@ -34,7 +36,8 @@ class MovieRepositoryImp @Inject constructor(
     private val upcomingMovieMapper: UpcomingMovieMapper,
     private val nowPlayingMovieMapper: NowPlayingMovieMapper,
     private val topRatedMovieMapper: TopRatedMovieMapper,
-    private val mysteryMoviesMapper: MysteryMoviesMapper
+    private val mysteryMoviesMapper: MysteryMoviesMapper,
+    private val adventureMoviesMapper: AdventureMoviesMapper
 ) :
     MovieRepository, BaseRepository() {
 
@@ -193,15 +196,17 @@ class MovieRepositoryImp @Inject constructor(
      *  Mystery Movies
      */
     override suspend fun getMysteryMovies(): Flow<List<MysteryMovieEntity>> {
-        refreshOneTimePerDay(appConfiguration.getRequestDate(Constants.MYSTERY_MOVIE_REQUEST_DATE_KEY), ::refreshMysteryMovies)
+        refreshOneTimePerDay(
+            appConfiguration.getRequestDate(Constants.MYSTERY_MOVIE_REQUEST_DATE_KEY),
+            ::refreshMysteryMovies
+        )
         return movieDao.getMysteryMovies()
     }
 
     suspend fun refreshMysteryMovies(currentDate: Date) {
         wrap(
             { movieService.getMoviesListByGenre(genreID = Constant.MYSTERY_ID) },
-            {
-              list->
+            { list ->
                 list?.map {
                     mysteryMoviesMapper.map(it)
                 }
@@ -209,7 +214,37 @@ class MovieRepositoryImp @Inject constructor(
             {
                 movieDao.deleteMysteryMovies()
                 movieDao.insertMysteryMovies(it)
-                appConfiguration.saveRequestDate(Constants.MYSTERY_MOVIE_REQUEST_DATE_KEY, currentDate.time)
+                appConfiguration.saveRequestDate(
+                    Constants.MYSTERY_MOVIE_REQUEST_DATE_KEY,
+                    currentDate.time
+                )
+            }
+        )
+    }
+
+    /**
+     *  Adventure Movies
+     */
+    override suspend fun getAdventureMovies(): Flow<List<AdventureMovieEntity>> {
+        refreshOneTimePerDay(appConfiguration.getRequestDate(Constants.ADVENTURE_MOVIE_REQUEST_DATE_KEY), ::refreshAdventureMovies)
+        return movieDao.getAdventureMovies()
+    }
+
+    suspend fun refreshAdventureMovies(currentDate: Date) {
+        wrap(
+            { movieService.getMoviesListByGenre(genreID = Constant.ADVENTURE_ID) },
+            { list ->
+                list?.map {
+                    adventureMoviesMapper.map(it)
+                }
+            },
+            {
+                movieDao.deleteAdventureMovies()
+                movieDao.insertAdventureMovies(it)
+                appConfiguration.saveRequestDate(
+                    Constants.ADVENTURE_MOVIE_REQUEST_DATE_KEY,
+                    currentDate.time
+                )
             }
         )
     }

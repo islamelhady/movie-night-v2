@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.elhady.movies.data.local.database.entity.AdventureMovieEntity
 import com.elhady.movies.data.local.database.entity.MysteryMovieEntity
 import com.elhady.movies.data.local.database.entity.NowPlayingMovieEntity
 import com.elhady.movies.data.local.database.entity.PopularMovieEntity
@@ -91,5 +92,17 @@ interface MovieDao {
 
     @Query("SELECT * FROM MYSTERY_MOVIE_TABLE")
     fun getMysteryMovies(): Flow<List<MysteryMovieEntity>>
+
+    /**
+     *  Adventure Movies
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAdventureMovies(items: List<AdventureMovieEntity>)
+
+    @Query("DELETE FROM ADVENTURE_MOVIE_TABLE")
+    suspend fun deleteAdventureMovies()
+
+    @Query("select * from ADVENTURE_MOVIE_TABLE")
+    fun getAdventureMovies(): Flow<List<AdventureMovieEntity>>
 
 }

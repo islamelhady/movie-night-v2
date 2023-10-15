@@ -3,6 +3,7 @@ package com.elhady.movies.ui.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.domain.usecases.home.GetAdventureMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetMysteryMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetNowPlayingMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetPopularMoviesUseCase
@@ -39,7 +40,8 @@ class HomeViewModel @Inject constructor(
     private val getOnTheAirSeriesUseCase: GetOnTheAirSeriesUseCase,
     private val getAiringTodaySeriesUseCase: GetAiringTodaySeriesUseCase,
     private val getTVSeriesListsUseCase: GetTVSeriesListsUseCase,
-    private val getMysteryMoviesUseCase: GetMysteryMoviesUseCase
+    private val getMysteryMoviesUseCase: GetMysteryMoviesUseCase,
+    private val getAdventureMoviesUseCase: GetAdventureMoviesUseCase
 ) :
     ViewModel(), MovieInteractionListener, AiringTodayInteractionListener {
 
@@ -62,6 +64,7 @@ class HomeViewModel @Inject constructor(
         getAiringTodaySeries()
         getTVSeriesLists()
         getMysteryMovies()
+        getAdventureMovies()
     }
 
     /**
@@ -169,7 +172,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getMysteryMovies(){
+    private fun getMysteryMovies(){
         viewModelScope.launch {
             try {
                 getMysteryMoviesUseCase().collect{list->
@@ -178,6 +181,23 @@ class HomeViewModel @Inject constructor(
                     }
                     _homeUiState.update {
                         it.copy(mysteryMovies = HomeItem.Mystery(mysteryItems))
+                    }
+                }
+            }catch (e: Exception){
+                Log.i("","")
+            }
+        }
+    }
+
+    private fun getAdventureMovies(){
+        viewModelScope.launch {
+            try {
+                getAdventureMoviesUseCase().collect{list->
+                    val adventureItems = list.map {
+                        mediaUiMapper.map(it)
+                    }
+                    _homeUiState.update {
+                        it.copy(adventureMovies = HomeItem.Adventure(adventureItems))
                     }
                 }
             }catch (e: Exception){
