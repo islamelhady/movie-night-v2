@@ -80,6 +80,17 @@ class HomeAdapter(
                 holder.binding.setVariable(BR.adapterRecycler, AiringTodayAdapter(currentHomeItem.items.take(6), listener as AiringTodayInteractionListener))
                 holder.binding.setVariable(BR.count, currentHomeItem.items.size)
             }
+
+            is HomeItem.TVSeriesLists -> {
+                holder.binding.run {
+                    if (currentHomeItem.items.isNotEmpty()) {
+                        holder.binding.setVariable(BR.topRated, currentHomeItem.items.first())
+                        holder.binding. setVariable(BR.popular, currentHomeItem.items[1])
+                        holder.binding. setVariable(BR.latest, currentHomeItem.items.last())
+
+                    }
+                }
+            }
         }
     }
 
@@ -97,6 +108,7 @@ class HomeAdapter(
         return when (homeItems[position]) {
             is HomeItem.Slider -> R.layout.list_popular_movie
             is HomeItem.AiringTodaySeries -> R.layout.list_airing_today
+            is HomeItem.TVSeriesLists -> R.layout.list_tv_series
             is HomeItem.Upcoming,
             is HomeItem.Trending,
             is HomeItem.NowPlaying,

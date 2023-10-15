@@ -207,9 +207,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 getTVSeriesListsUseCase().collect{ list->
-                    val seriesItems =   list.map {
-                        mediaUiMapper.map(it)
-                    }
+                    val seriesItems =  list.map(mediaUiMapper::map)
                     _homeUiState.update {
                         it.copy(tvSeriesLists = HomeItem.TVSeriesLists(seriesItems))
                     }

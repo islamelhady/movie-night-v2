@@ -99,6 +99,9 @@ class SeriesRepositoryImp @Inject constructor(
         movieService.getTopRatedTV().body()?.items?.first()?.let {
             items.add(tvSeriesListsMapper.map(it))
         }
+        movieService.getAiringTodayTV().body()?.items?.first()?.let {
+            items.add(tvSeriesListsMapper.map(it))
+        }
         seriesDao.deleteTVSeriesLists()
         seriesDao.insertTVSeriesLists(items)
         appConfiguration.saveRequestDate(Constants.TV_SERIES_LISTS_REQUEST_DATE_KEY, currentDate.time)
