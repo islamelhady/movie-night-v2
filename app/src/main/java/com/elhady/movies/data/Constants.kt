@@ -9,6 +9,8 @@ object Constants {
     const val UPCOMING_MOVIE_REQUEST_DATE_KEY = "upcoming_movie_request_date"
     const val NOW_PLAYING_MOVIE_REQUEST_DATE_KEY = "now_playing_movie_request_date"
     const val TOP_RATED_MOVIE_REQUEST_DATE_KEY = "top_rated_movie_request_date"
+    const val MYSTERY_MOVIE_REQUEST_DATE_KEY = "mystery_movie_request_date"
+    const val ADVENTURE_MOVIE_REQUEST_DATE_KEY = "adventure_movie_request_date"
 
     /**
      *  Series

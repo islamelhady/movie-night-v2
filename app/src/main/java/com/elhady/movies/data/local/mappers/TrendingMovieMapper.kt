@@ -3,7 +3,7 @@ package com.elhady.movies.data.local.mappers
 import com.elhady.movies.data.local.database.entity.TrendingMovieEntity
 import com.elhady.movies.data.remote.response.MovieDto
 import com.elhady.movies.domain.mappers.Mapper
-import com.elhady.movies.utilities.Constants
+import com.elhady.movies.utilities.Constant
 import javax.inject.Inject
 
 class TrendingMovieMapper @Inject constructor(): Mapper<MovieDto, TrendingMovieEntity> {
@@ -11,7 +11,7 @@ class TrendingMovieMapper @Inject constructor(): Mapper<MovieDto, TrendingMovieE
         return TrendingMovieEntity(
             id = input.id ?: 0,
             name = input.title ?: "",
-            imageUrl = (Constants.IMAGE_PATH + input.posterPath)
+            imageUrl = (Constant.IMAGE_PATH + input.posterPath)
         )
     }
 }

@@ -4,6 +4,8 @@ import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.DataClassParser
 import com.elhady.movies.data.local.database.daos.MovieDao
 import com.elhady.movies.data.local.database.daos.SeriesDao
+import com.elhady.movies.data.local.mappers.AdventureMoviesMapper
+import com.elhady.movies.data.local.mappers.MysteryMoviesMapper
 import com.elhady.movies.data.local.mappers.NowPlayingMovieMapper
 import com.elhady.movies.data.local.mappers.TrendingMovieMapper
 import com.elhady.movies.data.local.mappers.UpcomingMovieMapper
@@ -31,8 +33,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideRepository(movieService: MovieService, popularMovieMapper: PopularMovieMapper, movieDao: MovieDao, appConfiguration: AppConfiguration, upcomingMovieMapper: UpcomingMovieMapper, trendingMovieMapper: TrendingMovieMapper, nowPlayingMovieMapper: NowPlayingMovieMapper, topRatedMovieMapper: TopRatedMovieMapper): MovieRepository{
-        return MovieRepositoryImp(movieService,popularMovieMapper, movieDao, appConfiguration,trendingMovieMapper , upcomingMovieMapper, nowPlayingMovieMapper, topRatedMovieMapper)
+    fun provideRepository(movieService: MovieService, popularMovieMapper: PopularMovieMapper, movieDao: MovieDao, appConfiguration: AppConfiguration, upcomingMovieMapper: UpcomingMovieMapper, trendingMovieMapper: TrendingMovieMapper, nowPlayingMovieMapper: NowPlayingMovieMapper, topRatedMovieMapper: TopRatedMovieMapper,mysteryMoviesMapper: MysteryMoviesMapper, adventureMoviesMapper: AdventureMoviesMapper): MovieRepository{
+        return MovieRepositoryImp(movieService,popularMovieMapper, movieDao, appConfiguration,trendingMovieMapper , upcomingMovieMapper, nowPlayingMovieMapper, topRatedMovieMapper, mysteryMoviesMapper, adventureMoviesMapper)
     }
 
     @Provides

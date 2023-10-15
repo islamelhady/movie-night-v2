@@ -3,7 +3,7 @@ package com.elhady.movies.data.local.mappers
 import com.elhady.movies.data.local.database.entity.PopularMovieEntity
 import com.elhady.movies.data.remote.response.MovieDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
-import com.elhady.movies.utilities.Constants
+import com.elhady.movies.utilities.Constant
 import javax.inject.Inject
 
 class PopularMovieMapper @Inject constructor()  {
@@ -12,7 +12,7 @@ class PopularMovieMapper @Inject constructor()  {
             id = movie.id ?: 0,
             title = movie.title ?: "",
             movieRate = movie.voteAverage ?: 0.0,
-            imageUrl = (Constants.IMAGE_PATH + movie.backdropPath),
+            imageUrl = (Constant.IMAGE_PATH + movie.backdropPath),
             genres = getGenreNames(movie.genreIds, genreList)
         )
     }
