@@ -4,4 +4,4 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "TV_SERIES_TABLE")
-data class TVSeriesEntity(@PrimaryKey val id: Int, val name: String, val imageUrl: String)
+data class TVSeriesListsEntity(@PrimaryKey val id: Int, val name: String, val imageUrl: String)

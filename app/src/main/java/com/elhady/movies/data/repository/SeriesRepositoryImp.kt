@@ -5,9 +5,10 @@ import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.SeriesDao
 import com.elhady.movies.data.local.database.entity.series.AiringTodaySeriesEntity
 import com.elhady.movies.data.local.database.entity.series.OnTheAirSeriesEntity
-import com.elhady.movies.data.local.database.entity.series.TVSeriesEntity
+import com.elhady.movies.data.local.database.entity.series.TVSeriesListsEntity
 import com.elhady.movies.data.local.mappers.series.AiringTodaySeriesMapper
 import com.elhady.movies.data.local.mappers.series.OnTheAirSeriesMapper
+import com.elhady.movies.data.local.mappers.series.TVSeriesListsMapper
 import com.elhady.movies.data.remote.service.MovieService
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
@@ -17,6 +18,7 @@ class SeriesRepositoryImp @Inject constructor(
     private val movieService: MovieService,
     private val onTheAirSeriesMapper: OnTheAirSeriesMapper,
     private val airingSeriesMapper: AiringTodaySeriesMapper,
+    private val tvSeriesListsMapper: TVSeriesListsMapper,
     private val seriesDao: SeriesDao,
     private val appConfiguration: AppConfiguration
 ) : BaseRepository(), SeriesRepository {
@@ -64,10 +66,6 @@ class SeriesRepositoryImp @Inject constructor(
         return seriesDao.getOnTheAirSeries()
     }
 
-    override suspend fun getTVSeriesLists(): Flow<List<TVSeriesEntity>> {
-        TODO("Not yet implemented")
-    }
-
     private suspend fun refreshOnTheAirSeries(currentDate: Date) {
         wrap(
             {
@@ -86,6 +84,24 @@ class SeriesRepositoryImp @Inject constructor(
                     currentDate.time
                 )
             })
+    }
+
+    override suspend fun getTVSeriesLists(): Flow<List<TVSeriesListsEntity>> {
+        refreshOneTimePerDay(appConfiguration.getRequestDate(Constants.TV_SERIES_LISTS_REQUEST_DATE_KEY), ::refreshTVSeriesLists)
+        return seriesDao.getTVSeriesLists()
+    }
+
+    private suspend fun refreshTVSeriesLists(currentDate: Date){
+        val items = mutableListOf<TVSeriesListsEntity>()
+        movieService.getPopularTV().body()?.items?.first()?.let {
+            items.add(tvSeriesListsMapper.map(it))
+        }
+        movieService.getTopRatedTV().body()?.items?.first()?.let {
+            items.add(tvSeriesListsMapper.map(it))
+        }
+        seriesDao.deleteTVSeriesLists()
+        seriesDao.insertTVSeriesLists(items)
+        appConfiguration.saveRequestDate(Constants.TV_SERIES_LISTS_REQUEST_DATE_KEY, currentDate.time)
     }
 
 }

@@ -15,4 +15,5 @@ object Constants {
      */
     const val ON_THE_AIR_SERIES_REQUEST_DATE_KEY = "on_the_air_series_request_date"
     const val AIRING_TODAY_SERIES_REQUEST_DATE_KEY = "air_today_series_request_date"
+    const val TV_SERIES_LISTS_REQUEST_DATE_KEY = "tv_series_lists_request_date"
 }

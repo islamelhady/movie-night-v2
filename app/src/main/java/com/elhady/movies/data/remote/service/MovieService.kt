@@ -52,6 +52,9 @@ interface MovieService {
     @GET("tv/popular")
     suspend fun getPopularTV(): Response<BaseResponse<TVShowDto>>
 
+    @GET("tv/top_rated")
+    suspend fun getTopRatedTV(): Response<BaseResponse<TVShowDto>>
+
     @GET("authentication/token/new")
     suspend fun getRequestToken(): Response<RequestTokenResponse>
 
