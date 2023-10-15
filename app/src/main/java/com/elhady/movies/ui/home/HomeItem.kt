@@ -1,6 +1,7 @@
 package com.elhady.movies.ui.home
 
 import com.elhady.movies.domain.enums.HomeItemType
+import com.elhady.movies.ui.models.ActorUiState
 import com.elhady.movies.ui.models.PopularUiState
 import com.elhady.movies.ui.models.MediaUiState
 
@@ -15,4 +16,5 @@ sealed interface HomeItem{
     data class TVSeriesLists(val items: List<MediaUiState>): HomeItem
     data class Mystery(val items: List<MediaUiState>, val type: HomeItemType = HomeItemType.MYSTERY): HomeItem
     data class Adventure(val items: List<MediaUiState>, val type: HomeItemType = HomeItemType.ADVENTURE): HomeItem
+    data class Actor(val items: List<ActorUiState>): HomeItem
 }
