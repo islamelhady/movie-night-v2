@@ -5,6 +5,7 @@ import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.SeriesDao
 import com.elhady.movies.data.local.database.entity.series.AiringTodaySeriesEntity
 import com.elhady.movies.data.local.database.entity.series.OnTheAirSeriesEntity
+import com.elhady.movies.data.local.database.entity.series.TVSeriesEntity
 import com.elhady.movies.data.local.mappers.series.AiringTodaySeriesMapper
 import com.elhady.movies.data.local.mappers.series.OnTheAirSeriesMapper
 import com.elhady.movies.data.remote.service.MovieService
@@ -61,6 +62,10 @@ class SeriesRepositoryImp @Inject constructor(
             ::refreshOnTheAirSeries
         )
         return seriesDao.getOnTheAirSeries()
+    }
+
+    override suspend fun getTVSeriesLists(): Flow<List<TVSeriesEntity>> {
+        TODO("Not yet implemented")
     }
 
     private suspend fun refreshOnTheAirSeries(currentDate: Date) {

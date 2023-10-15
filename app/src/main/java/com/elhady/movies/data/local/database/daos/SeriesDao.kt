@@ -1,11 +1,13 @@
 package com.elhady.movies.data.local.database.daos
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.elhady.movies.data.local.database.entity.series.AiringTodaySeriesEntity
 import com.elhady.movies.data.local.database.entity.series.OnTheAirSeriesEntity
+import com.elhady.movies.data.local.database.entity.series.TVSeriesEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -34,4 +36,19 @@ interface SeriesDao {
 
     @Query("SELECT * FROM AIRING_TODAY_SERIES_TABLE")
     fun getAiringTodaySeries(): Flow<List<AiringTodaySeriesEntity>>
+
+    /**
+     *  TV Series Lists:
+     * * Popular
+     * * Top Rated
+     * * On The Air
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTVSeriesLists(items: List<TVSeriesEntity>)
+
+    @Query("DELETE FROM TV_SERIES_TABLE")
+    suspend fun deleteTVSeriesLists()
+
+    @Query("SELECT * FROM TV_SERIES_TABLE")
+    fun getTVSeriesLists(): Flow<List<TVSeriesEntity>>
 }
