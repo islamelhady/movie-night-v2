@@ -55,6 +55,13 @@ interface MovieService {
     @GET("tv/top_rated")
     suspend fun getTopRatedTV(): Response<BaseResponse<TVShowDto>>
 
+    /**
+     *   DISCOVER
+     * * Movies
+     */
+    @GET("discover/movie")
+    suspend fun getMoviesListByGenre(@Query("with_genres") genreID: Int, @Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
+
     @GET("authentication/token/new")
     suspend fun getRequestToken(): Response<RequestTokenResponse>
 
