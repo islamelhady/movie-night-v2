@@ -14,5 +14,6 @@ data class HomeUiState(
     val mysteryMovies: HomeItem = HomeItem.Mystery(emptyList()),
     val adventureMovies: HomeItem = HomeItem.Adventure(emptyList()),
     val actors: HomeItem = HomeItem.Actor(emptyList()),
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val error: List<String> = emptyList()
 )
