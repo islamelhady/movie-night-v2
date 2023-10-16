@@ -56,8 +56,12 @@ class HomeViewModel @Inject constructor(
     val homeUiEvent = _homeUiEvent.asStateFlow()
 
     init {
+        getData()
+    }
+
+    private fun getData(){
         _homeUiState.update {
-            it.copy(isLoading = true)
+            it.copy(isLoading = true, error = emptyList())
         }
         getPopular()
         getUpcomingMovies()
