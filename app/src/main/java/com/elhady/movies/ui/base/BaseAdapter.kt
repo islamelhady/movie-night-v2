@@ -14,7 +14,7 @@ abstract class BaseAdapter<T>(
     private val listener: BaseInteractionListener
 ): RecyclerView.Adapter<BaseAdapter.BaseViewHolder>() {
 
-    abstract val layoutID: Int
+    protected abstract val layoutID: Int
 
     open fun setItems(newItems: List<T>) {
         val diffUtil = DiffUtil.calculateDiff(

@@ -2,6 +2,8 @@ package com.elhady.movies.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.domain.enums.AllMediaType
+import com.elhady.movies.domain.enums.HomeItemType
 import com.elhady.movies.domain.usecases.home.GetAdventureMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetMysteryMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetNowPlayingMoviesUseCase
@@ -352,6 +354,22 @@ class HomeViewModel @Inject constructor(
     override fun onClickMovie(movieID: Int) {
         _homeUiEvent.update {
             Event(HomeUiEvent.ClickMovieEvent(movieID))
+        }
+    }
+
+    override fun onClickSeeAllMovies(mediaType: HomeItemType) {
+        val type = when(mediaType){
+            HomeItemType.TRENDING -> TODO()
+            HomeItemType.UPCOMING -> AllMediaType.UPCOMING
+            HomeItemType.NOW_PLAYING -> TODO()
+            HomeItemType.TOP_RATED -> TODO()
+            HomeItemType.ON_THE_AIR_SERIES -> TODO()
+            HomeItemType.AIRING_TODAY_SERIES -> TODO()
+            HomeItemType.MYSTERY -> TODO()
+            HomeItemType.ADVENTURE -> TODO()
+        }
+        _homeUiEvent.update {
+            Event(HomeUiEvent.ClickSeeAllMoviesEvent(type))
         }
     }
 

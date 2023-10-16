@@ -74,6 +74,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     )
                 )
             }
+
+            is HomeUiEvent.ClickSeeAllMoviesEvent -> {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToMoviesFragment(event.mediaType)
+                )
+            }
         }
     }
 
