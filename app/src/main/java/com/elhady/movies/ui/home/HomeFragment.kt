@@ -10,6 +10,7 @@ import com.elhady.movies.databinding.FragmentHomeBinding
 import com.elhady.movies.ui.base.BaseFragment
 import com.elhady.movies.ui.home.adapters.HomeAdapter
 import com.elhady.movies.ui.home.homeUiState.HomeUiEvent
+import com.elhady.movies.utilities.Constants.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -24,7 +25,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         setupAdapter()
+        collectHomeData()
+        collectEvent()
 
+    }
+
+    private fun setupAdapter() {
+        homeAdapter = HomeAdapter(mutableListOf(), viewModel)
+        binding.recyclerView.adapter = homeAdapter
+    }
+
+    private fun collectHomeData() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.homeUiState.collect { items ->
                 homeAdapter.setItems(
@@ -44,19 +55,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 )
             }
         }
-
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.homeUiEvent.collect{
-                it.getContentIfNotHandled()?.let {
-                    onEventClick(it)
-                }
-            }
-        }
-
     }
 
-    fun onEventClick(event: HomeUiEvent) {
+    private fun collectEvent() {
+        collectLast(viewModel.homeUiEvent){ event ->
+            event.getContentIfNotHandled()?.let {
+                onEventClick(it)
+            }
+        }
+    }
+
+    private fun onEventClick(event: HomeUiEvent) {
         when (event) {
             is HomeUiEvent.ClickMovieEvent -> {
                 findNavController().navigate(
@@ -69,9 +78,4 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
 
-
-    private fun setupAdapter() {
-        homeAdapter = HomeAdapter(mutableListOf(), viewModel)
-        binding.recyclerView.adapter = homeAdapter
-    }
 }
