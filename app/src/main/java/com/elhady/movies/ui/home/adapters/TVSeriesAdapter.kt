@@ -11,5 +11,5 @@ class TVSeriesAdapter(items: List<MediaUiState>, val listener: TVSeriesInteracti
 
 interface TVSeriesInteractionListener: BaseInteractionListener{
     fun onClickTVSeries(mediaID: Int)
-    fun onClickSeeAllTVSeries(type: AllMediaType)
+    fun onClickAllTVSeries(type: AllMediaType)
 }

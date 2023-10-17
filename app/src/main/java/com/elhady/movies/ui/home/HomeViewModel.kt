@@ -391,8 +391,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    override fun onClickSeeAllTVSeries(type: AllMediaType) {
-
+    override fun onClickAllTVSeries(type: AllMediaType) {
+        _homeUiEvent.update {
+            Event(HomeUiEvent.ClickSeeAllSeriesEvent(type))
+        }
     }
 
 }
