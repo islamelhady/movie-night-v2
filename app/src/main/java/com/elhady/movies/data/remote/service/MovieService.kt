@@ -48,7 +48,10 @@ interface MovieService {
     suspend fun getTrendingMovie(@Path("time_window") timeWindow: String = TrendingTimeWindow.WEEK.value): Response<BaseResponse<MovieDto>>
 
     @GET("trending/person/{time_window}")
-    suspend fun getTrendingPerson(@Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value): Response<BaseResponse<PersonDto>>
+    suspend fun getTrendingPerson(
+        @Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value,
+        @Query("page") page: Int = 1
+    ): Response<BaseResponse<PersonDto>>
 
 
     /**
@@ -84,7 +87,10 @@ interface MovieService {
      * * Mystery Movies
      */
     @GET("discover/movie")
-    suspend fun getMoviesListByGenre(@Query("with_genres") genreID: Int, @Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
+    suspend fun getMoviesListByGenre(
+        @Query("with_genres") genreID: Int,
+        @Query("page") page: Int = 1
+    ): Response<BaseResponse<MovieDto>>
 
 
     /**
