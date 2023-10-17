@@ -3,6 +3,7 @@ package com.elhady.movies.data.repository
 import androidx.paging.PagingConfig
 import com.elhady.movies.data.remote.State
 import com.elhady.movies.data.remote.response.BaseResponse
+import com.elhady.movies.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
@@ -11,7 +12,7 @@ import java.util.Date
 abstract class BaseRepository {
 
 
-    val pagingConfig = PagingConfig(pageSize = 50, prefetchDistance = 5, enablePlaceholders = false)
+    val pagingConfig = PagingConfig(pageSize = Constants.ITEMS_PER_PAGE, prefetchDistance = 5, enablePlaceholders = false)
 
     protected fun <I, O> wrap(
         function: suspend () -> Response<I>,

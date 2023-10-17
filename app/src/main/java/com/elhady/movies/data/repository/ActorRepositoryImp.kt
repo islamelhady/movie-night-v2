@@ -56,7 +56,7 @@ class ActorRepositoryImp @Inject constructor(
      *  Paging All Actors
      */
     override suspend fun getAllActors(): Pager<Int, PersonDto> {
-        return Pager(config = pagingConfig) { actorDataSource }
+        return Pager(config = pagingConfig, pagingSourceFactory = { actorDataSource })
     }
 
 

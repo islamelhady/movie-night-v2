@@ -21,6 +21,7 @@ import com.elhady.movies.data.local.mappers.movies.TopRatedMovieMapper
 import com.elhady.movies.data.local.mappers.series.AiringTodaySeriesMapper
 import com.elhady.movies.data.local.mappers.series.OnTheAirSeriesMapper
 import com.elhady.movies.data.local.mappers.series.TVSeriesListsMapper
+import com.elhady.movies.data.repository.ActorDataSource
 import com.elhady.movies.data.repository.ActorRepository
 import com.elhady.movies.data.repository.ActorRepositoryImp
 import com.elhady.movies.data.repository.SeriesRepository
@@ -49,8 +50,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideActorsRepository(service: MovieService,actorsMapper: ActorsMapper,actorDao: ActorDao, appConfiguration: AppConfiguration): ActorRepository{
-        return ActorRepositoryImp(service, actorsMapper, actorDao, appConfiguration)
+    fun provideActorsRepository(service: MovieService,actorsMapper: ActorsMapper,actorDao: ActorDao, appConfiguration: AppConfiguration, actorDataSource: ActorDataSource): ActorRepository{
+        return ActorRepositoryImp(service, actorsMapper, actorDao, appConfiguration, actorDataSource)
     }
 
     @Provides
