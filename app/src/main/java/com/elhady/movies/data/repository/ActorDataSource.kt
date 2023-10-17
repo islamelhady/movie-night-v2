@@ -4,8 +4,9 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.elhady.movies.data.remote.response.PersonDto
 import com.elhady.movies.data.remote.service.MovieService
+import javax.inject.Inject
 
-class ActorDataSource(private val service: MovieService) : PagingSource<Int, PersonDto>() {
+class ActorDataSource @Inject constructor(private val service: MovieService) : PagingSource<Int, PersonDto>() {
     override fun getRefreshKey(state: PagingState<Int, PersonDto>): Int? {
         return state.anchorPosition
     }
