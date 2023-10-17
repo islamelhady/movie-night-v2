@@ -17,7 +17,7 @@ import com.elhady.movies.domain.usecases.home.series.GetOnTheAirSeriesUseCase
 import com.elhady.movies.domain.usecases.home.series.GetTVSeriesListsUseCase
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 import com.elhady.movies.ui.home.adapters.MovieInteractionListener
-import com.elhady.movies.ui.home.adapters.AiringTodayInteractionListener
+import com.elhady.movies.ui.home.adapters.TVSeriesInteractionListener
 import com.elhady.movies.ui.home.homeUiState.HomeUiEvent
 import com.elhady.movies.ui.home.homeUiState.HomeUiState
 import com.elhady.movies.ui.mappers.ActorUiMapper
@@ -48,7 +48,7 @@ class HomeViewModel @Inject constructor(
     private val getTrendingActorsUseCase: GetTrendingActorsUseCase,
     private val actorUiMapper: ActorUiMapper
 ) :
-    ViewModel(), MovieInteractionListener, AiringTodayInteractionListener,
+    ViewModel(), MovieInteractionListener, TVSeriesInteractionListener,
     ActorInteractionListener {
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
@@ -359,27 +359,40 @@ class HomeViewModel @Inject constructor(
 
     override fun onClickSeeAllMovies(mediaType: HomeItemType) {
         val type = when(mediaType){
-            HomeItemType.TRENDING -> TODO()
+            HomeItemType.TRENDING -> AllMediaType.TRENDING
             HomeItemType.UPCOMING -> AllMediaType.UPCOMING
-            HomeItemType.NOW_PLAYING -> TODO()
-            HomeItemType.TOP_RATED -> TODO()
+            HomeItemType.NOW_PLAYING -> AllMediaType.NOW_PLAYING
+            HomeItemType.TOP_RATED -> AllMediaType.TOP_RATED
             HomeItemType.ON_THE_AIR_SERIES -> TODO()
             HomeItemType.AIRING_TODAY_SERIES -> TODO()
-            HomeItemType.MYSTERY -> TODO()
-            HomeItemType.ADVENTURE -> TODO()
+            HomeItemType.MYSTERY -> AllMediaType.MYSTERY
+            HomeItemType.ADVENTURE -> AllMediaType.ADVENTURE
         }
         _homeUiEvent.update {
             Event(HomeUiEvent.ClickSeeAllMoviesEvent(type))
         }
     }
 
-    override fun onClick(mediaID: Int) {
-        TODO("Not yet implemented")
+    override fun onClickSeeAllActors() {
+        _homeUiEvent.update {
+            Event(HomeUiEvent.ClickSeeAllActorsEvent)
+        }
+    }
+
+    override fun onClickTVSeries(mediaID: Int) {
+        _homeUiEvent.update {
+            Event(HomeUiEvent.ClickAiringTodayEvent(mediaID))
+        }
     }
 
     override fun onClickActor(actorID: Int) {
-        TODO("Not yet implemented")
+        _homeUiEvent.update {
+            Event(HomeUiEvent.ClickActorEvent(actorID))
+        }
     }
 
+    override fun onClickSeeAllTVSeries(type: AllMediaType) {
+
+    }
 
 }

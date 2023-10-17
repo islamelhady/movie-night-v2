@@ -80,6 +80,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     HomeFragmentDirections.actionHomeFragmentToMoviesFragment(event.mediaType)
                 )
             }
+
+           is HomeUiEvent.ClickSeeAllActorsEvent -> {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToActorsFragment()
+                )
+            }
+
+            is HomeUiEvent.ClickActorEvent -> {
+                findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToActorDetailsFragment()
+                )
+            }
+
+            is HomeUiEvent.ClickAiringTodayEvent -> {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToMovieDetailsFragment(event.mediaID)
+                )
+            }
+
+            is HomeUiEvent.ClickSeeAllSeriesEvent -> TODO()
         }
     }
 

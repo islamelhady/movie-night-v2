@@ -3,7 +3,6 @@ package com.elhady.movies.ui.home.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.BR
 import com.elhady.movies.R
 import com.elhady.movies.ui.base.BaseAdapter
@@ -91,9 +90,9 @@ class HomeAdapter(
             is HomeItem.AiringTodaySeries -> {
                 holder.binding.setVariable(
                     BR.adapterRecycler,
-                    AiringTodayAdapter(
+                    TVSeriesAdapter(
                         currentHomeItem.items.take(6),
-                        listener as AiringTodayInteractionListener
+                        listener as TVSeriesInteractionListener, R.layout.item_airing_today
                     )
                 )
                 holder.binding.setVariable(BR.count, currentHomeItem.items.size)
@@ -105,6 +104,7 @@ class HomeAdapter(
                         holder.binding.setVariable(BR.topRated, currentHomeItem.items.first())
                         holder.binding.setVariable(BR.popular, currentHomeItem.items[1])
                         holder.binding.setVariable(BR.latest, currentHomeItem.items.last())
+                        holder.binding.setVariable(BR.listener, listener as TVSeriesInteractionListener )
                     }
                 }
             }
@@ -126,7 +126,7 @@ class HomeAdapter(
             }
 
             is HomeItem.Actor -> {
-                holder.binding.setVariable(BR.adapterRecycler, ActorAdapter(currentHomeItem.items,listener as ActorInteractionListener, R.layout.item_actor))
+                holder.binding.setVariable(BR.adapterRecycler, ActorAdapter(currentHomeItem.items, listener as ActorInteractionListener, R.layout.item_actor))
             }
         }
     }

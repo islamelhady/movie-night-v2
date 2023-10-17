@@ -17,8 +17,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="@{ () -> listener.onClickMovie(item.id)}">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/shape_image_view"
@@ -27,6 +26,7 @@
             android:layout_marginHorizontal="@dimen/spacing_small"
             android:background="@color/brand_color"
             app:layout_constraintDimensionRatio="1:1.5"
+            android:onClick="@{ () -> listener.onClickMovie(item.id)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
