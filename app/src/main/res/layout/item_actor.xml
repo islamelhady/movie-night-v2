@@ -8,6 +8,10 @@
         <variable
             name="item"
             type="com.elhady.movies.ui.models.ActorUiState" />
+
+        <variable
+            name="listener"
+            type="com.elhady.movies.ui.home.adapters.ActorInteractionListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,6 +27,7 @@
             android:layout_margin="@dimen/spacing_too_small"
             android:background="@color/brand_color"
             android:scaleType="centerCrop"
+            android:onClick="@{ () -> listener.onClickActor(item.id)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

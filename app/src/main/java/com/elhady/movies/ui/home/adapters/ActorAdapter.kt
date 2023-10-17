@@ -4,10 +4,11 @@ import com.elhady.movies.ui.base.BaseAdapter
 import com.elhady.movies.ui.base.BaseInteractionListener
 import com.elhady.movies.ui.models.ActorUiState
 
-class ActorAdapter(items: List<ActorUiState>, listener: ActorInteractionListener, layout: Int): BaseAdapter<ActorUiState>(items, listener) {
+class ActorAdapter(items: List<ActorUiState>, val listener: ActorInteractionListener, layout: Int): BaseAdapter<ActorUiState>(items, listener) {
     override val layoutID: Int = layout
 }
 
 interface ActorInteractionListener: BaseInteractionListener{
     fun onClickActor(actorID: Int)
+    fun onClickSeeAllActors()
 }

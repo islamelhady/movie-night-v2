@@ -11,6 +11,7 @@
         <variable
             name="adapterRecycler"
             type="com.elhady.movies.ui.home.adapters.MovieAdapter" />
+
         <variable
             name="movieType"
             type="com.elhady.movies.domain.enums.HomeItemType" />
@@ -43,6 +44,7 @@
             android:layout_marginEnd="@dimen/spacing_too_small"
             android:layout_marginBottom="@dimen/spacing_too_small"
             android:text="@string/see_all"
+            android:onClick="@{() -> adapterRecycler.listener.onClickSeeAllMovies(movieType)}"
             android:textColor="@color/brand_color"
             app:drawableEndCompat="@drawable/ic_arrow_forward"
             android:gravity="center"

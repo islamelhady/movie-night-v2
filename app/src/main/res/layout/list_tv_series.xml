@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="com.elhady.movies.domain.enums.AllMediaType"/>
+
+        <variable
+            name="listener"
+            type="com.elhady.movies.ui.home.adapters.TVSeriesInteractionListener"/>
+
         <variable
             name="topRated"
             type="com.elhady.movies.ui.models.MediaUiState" />
@@ -41,6 +47,7 @@
             android:layout_marginStart="@dimen/spacing_medium"
             android:background="@color/brand_color"
             app:movieImage="@{topRated.imageUrl}"
+            android:onClick="@{() -> listener.onClickAllTVSeries(AllMediaType.TOP_RATED)}"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="@+id/image_popular"
             app:layout_constraintEnd_toStartOf="@+id/image_latest"
@@ -68,6 +75,7 @@
             android:background="@color/brand_color"
             android:scaleType="centerCrop"
             app:movieImage="@{latest.imageUrl}"
+            android:onClick="@{ () -> listener.onClickAllTVSeries(AllMediaType.LATEST)}"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
@@ -94,6 +102,7 @@
             android:background="@color/brand_color"
             app:movieImage="@{popular.imageUrl}"
             android:scaleType="centerCrop"
+            android:onClick="@{ () -> listener.onClickAllTVSeries(AllMediaType.POPULAR)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@+id/image_latest"

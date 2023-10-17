@@ -7,6 +7,10 @@
             name="item"
             type="com.elhady.movies.ui.models.MediaUiState" />
 
+        <variable
+            name="listener"
+            type="com.elhady.movies.ui.home.adapters.TVSeriesInteractionListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,6 +23,7 @@
             android:layout_height="0dp"
             android:background="@color/red"
             android:scaleType="centerCrop"
+            android:onClick="@{ () -> listener.onClickTVSeries(item.id)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1.5"
             app:layout_constraintEnd_toEndOf="parent"

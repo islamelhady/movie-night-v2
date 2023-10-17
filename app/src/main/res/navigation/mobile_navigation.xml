@@ -13,6 +13,15 @@
         <action
             android:id="@+id/action_homeFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_moviesFragment"
+            app:destination="@id/moviesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_actorsFragment"
+            app:destination="@id/actorsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_actorDetailsFragment"
+            app:destination="@id/actorDetailsFragment" />
     </fragment>
 
     <fragment
@@ -52,4 +61,24 @@
             android:name="movieID"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/moviesFragment"
+        android:name="com.elhady.movies.ui.movies.MoviesFragment"
+        android:label="fragment_movies"
+        tools:layout="@layout/fragment_movies" >
+        <argument
+            android:name="type"
+            app:argType="com.elhady.movies.domain.enums.AllMediaType" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/actorsFragment"
+        android:name="com.elhady.movies.ui.actors.ActorsFragment"
+        android:label="fragment_actors"
+        tools:layout="@layout/fragment_actors" />
+    <fragment
+        android:id="@+id/actorDetailsFragment"
+        android:name="com.elhady.movies.ui.actorDetails.ActorDetailsFragment"
+        android:label="fragment_actor_details"
+        tools:layout="@layout/fragment_actor_details" />
 </navigation>
