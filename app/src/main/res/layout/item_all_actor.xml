@@ -32,7 +32,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:posterImage="@{item.imageUrl}"
+            app:movieImage="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/Circle"
             tools:src="@color/brand_color" />
 

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.map
 import com.elhady.movies.domain.usecases.GetAllActorsUseCase
+import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 import com.elhady.movies.ui.mappers.ActorUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,7 @@ import javax.inject.Inject
 class ActorsViewModel @Inject constructor(
     private val getAllActorsUseCase: GetAllActorsUseCase,
     private val actorUiMapper: ActorUiMapper
-) : ViewModel() {
+) : ViewModel() , ActorInteractionListener{
 
     private val _actorsUiState = MutableStateFlow(ActorsUiState())
     val actorsUiState = _actorsUiState.asStateFlow()
@@ -40,6 +41,14 @@ class ActorsViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    override fun onClickActor(actorID: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSeeAllActors() {
+        TODO("Not yet implemented")
     }
 
 
