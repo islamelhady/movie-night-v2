@@ -6,6 +6,7 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
 import com.elhady.movies.domain.usecases.GetAllActorsUseCase
+import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 import com.elhady.movies.ui.mappers.ActorUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,19 +21,21 @@ import javax.inject.Inject
 class ActorsViewModel @Inject constructor(
     private val getAllActorsUseCase: GetAllActorsUseCase,
     private val actorUiMapper: ActorUiMapper
-) : ViewModel() , ActorInteractionListener{
+) : BaseViewModel(), ActorInteractionListener{
 
     private val _actorsUiState = MutableStateFlow(ActorsUiState())
     val actorsUiState = _actorsUiState.asStateFlow()
 
     init {
-        getDate()
+        getData()
     }
 
-    fun getDate(){
+    override fun getData() {
         _actorsUiState.update { it.copy(isLoading = true) }
         getAllActors()
     }
+
+
     private fun getAllActors() {
         viewModelScope.launch {
             val items = getAllActorsUseCase().map { paging ->

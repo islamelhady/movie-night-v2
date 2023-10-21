@@ -10,7 +10,7 @@
 
         <variable
             name="viewModel"
-            type="com.elhady.movies.ui.actors.ActorsViewModel" />
+            type="com.elhady.movies.ui.base.BaseViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
             android:text="@string/retry"
-            android:onClick="@{() -> viewModel.getDate()}"
+            android:onClick="@{() -> viewModel.getData()}"
             android:textColor="@color/white_primary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

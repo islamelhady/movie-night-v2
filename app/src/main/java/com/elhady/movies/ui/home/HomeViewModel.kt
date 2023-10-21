@@ -1,6 +1,5 @@
 package com.elhady.movies.ui.home
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.enums.AllMediaType
 import com.elhady.movies.domain.enums.HomeItemType
@@ -15,6 +14,7 @@ import com.elhady.movies.domain.usecases.home.actor.GetTrendingActorsUseCase
 import com.elhady.movies.domain.usecases.home.series.GetAiringTodaySeriesUseCase
 import com.elhady.movies.domain.usecases.home.series.GetOnTheAirSeriesUseCase
 import com.elhady.movies.domain.usecases.home.series.GetTVSeriesListsUseCase
+import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 import com.elhady.movies.ui.home.adapters.MovieInteractionListener
 import com.elhady.movies.ui.home.adapters.TVSeriesInteractionListener
@@ -48,7 +48,7 @@ class HomeViewModel @Inject constructor(
     private val getTrendingActorsUseCase: GetTrendingActorsUseCase,
     private val actorUiMapper: ActorUiMapper
 ) :
-    ViewModel(), MovieInteractionListener, TVSeriesInteractionListener,
+    BaseViewModel(), MovieInteractionListener, TVSeriesInteractionListener,
     ActorInteractionListener {
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
@@ -61,7 +61,7 @@ class HomeViewModel @Inject constructor(
         getData()
     }
 
-    private fun getData(){
+    override fun getData(){
         _homeUiState.update {
             it.copy(isLoading = true, error = emptyList())
         }

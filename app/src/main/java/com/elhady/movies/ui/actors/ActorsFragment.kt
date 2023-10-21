@@ -10,9 +10,9 @@ import com.elhady.movies.databinding.FragmentActorsBinding
 import com.elhady.movies.ui.adapter.LoadAdapter
 import com.elhady.movies.ui.base.BaseFragment
 import com.elhady.movies.ui.models.ActorUiState
-import com.elhady.movies.utilities.Constants.collect
-import com.elhady.movies.utilities.Constants.collectLast
-import com.elhady.movies.utilities.Constants.setSpanSize
+import com.elhady.movies.utilities.collect
+import com.elhady.movies.utilities.collectLast
+import com.elhady.movies.utilities.setSpanSize
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

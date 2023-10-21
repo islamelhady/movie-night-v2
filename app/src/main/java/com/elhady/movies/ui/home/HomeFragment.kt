@@ -10,7 +10,7 @@ import com.elhady.movies.databinding.FragmentHomeBinding
 import com.elhady.movies.ui.base.BaseFragment
 import com.elhady.movies.ui.home.adapters.HomeAdapter
 import com.elhady.movies.ui.home.homeUiState.HomeUiEvent
-import com.elhady.movies.utilities.Constants.collectLast
+import com.elhady.movies.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
