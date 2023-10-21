@@ -2,6 +2,8 @@ package com.elhady.movies.ui.actors
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import androidx.paging.map
 import com.elhady.movies.domain.usecases.GetAllActorsUseCase
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
@@ -24,6 +26,11 @@ class ActorsViewModel @Inject constructor(
     val actorsUiState = _actorsUiState.asStateFlow()
 
     init {
+        getDate()
+    }
+
+    fun getDate(){
+        _actorsUiState.update { it.copy(isLoading = true) }
         getAllActors()
     }
     private fun getAllActors() {
@@ -39,6 +46,26 @@ class ActorsViewModel @Inject constructor(
                     isLoading = false,
                     error = emptyList()
                 )
+            }
+        }
+    }
+
+    fun setErrorUiState(combinedLoadStates: CombinedLoadStates) {
+        when (combinedLoadStates.refresh) {
+            is LoadState.NotLoading -> {
+                _actorsUiState.update {
+                    it.copy(isLoading = false, error = emptyList())
+                }
+            }
+            is LoadState.Loading -> {
+                _actorsUiState.update {
+                    it.copy(isLoading = true, error = emptyList())
+                }
+            }
+            is LoadState.Error -> {
+                _actorsUiState.update {
+                    it.copy(isLoading = false, error = listOf(Error("")))
+                }
             }
         }
     }

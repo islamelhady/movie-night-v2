@@ -10,6 +10,7 @@ import com.elhady.movies.databinding.FragmentActorsBinding
 import com.elhady.movies.ui.adapter.LoadAdapter
 import com.elhady.movies.ui.base.BaseFragment
 import com.elhady.movies.ui.models.ActorUiState
+import com.elhady.movies.utilities.Constants.collect
 import com.elhady.movies.utilities.Constants.collectLast
 import com.elhady.movies.utilities.Constants.setSpanSize
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
     override val layoutIdFragment: Int = R.layout.fragment_actors
     override val viewModel: ActorsViewModel by viewModels()
-    private val actorsAdapter by lazy{
+    private val actorsAdapter by lazy {
         ActorsAdapter(viewModel)
     }
 
@@ -28,6 +29,7 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
 
         setAdapter()
     }
+
     private fun setAdapter() {
         val footerAdapter = LoadAdapter(actorsAdapter::retry)
         binding.recyclerActors.adapter = actorsAdapter.withLoadStateFooter(footerAdapter)
@@ -35,8 +37,7 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
         val mManager = binding.recyclerActors.layoutManager as GridLayoutManager
         mManager.setSpanSize(footerAdapter, actorsAdapter, mManager.spanCount)
 
-//        collect(flow = actorsAdapter.loadStateFlow,
-//            action = { viewModel.setErrorUiState(it) })
+        collect(flow = actorsAdapter.loadStateFlow, action = { viewModel.setErrorUiState(it) })
 
         collectLast(viewModel.actorsUiState.value.actors, ::setAllActors)
     }

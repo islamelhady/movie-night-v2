@@ -28,6 +28,14 @@ object Constants {
         }
     }
 
+    fun <T> LifecycleOwner.collect(flow: Flow<T>, action: suspend (T) -> Unit) {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                flow.collect(action)
+            }
+        }
+    }
+
     fun <T : Any> GridLayoutManager.setSpanSize(
         footerAdapter: LoadAdapter, adapter: BasePagingAdapter<T>, spanCount: Int
     ) {

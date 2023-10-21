@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.elhady.movies.ui.actors.ActorsViewModel" />
 
     </data>
 
@@ -18,11 +21,22 @@
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:hideIfTrue="@{viewModel.actorsUiState.loading}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:spanCount="5"
-            tools:listitem="@layout/item_actor"/>
+            app:spanCount="3"
+            tools:listitem="@layout/item_all_actor"/>
+
+
+        <include
+            layout="@layout/loading"
+            isVisible="@{viewModel.actorsUiState.loading}"/>
+
+        <include
+            layout="@layout/error"
+            app:viewModel="@{viewModel}"
+            isVisible="@{!viewModel.actorsUiState.error.isEmpty()}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

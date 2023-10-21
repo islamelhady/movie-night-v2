@@ -10,7 +10,7 @@
 
         <variable
             name="viewModel"
-            type="com.elhady.movies.ui.home.HomeViewModel" />
+            type="com.elhady.movies.ui.actors.ActorsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
             android:text="@string/retry"
+            android:onClick="@{() -> viewModel.getDate()}"
             android:textColor="@color/white_primary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="title_lost_connection,animation_lost_connection,description_lost_connection,button_retry"
-            app:isVisible="@{isError}" />
+            isVisible="@{isError}" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
