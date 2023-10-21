@@ -1,6 +1,5 @@
 package com.elhady.movies.ui.actors
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
