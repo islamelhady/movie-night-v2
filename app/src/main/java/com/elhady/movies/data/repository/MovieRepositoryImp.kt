@@ -1,5 +1,6 @@
 package com.elhady.movies.data.repository
 
+import androidx.paging.Pager
 import com.elhady.movies.data.Constant
 import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.MovieDao
@@ -106,6 +107,14 @@ class MovieRepositoryImp @Inject constructor(
                     currentDate.time
                 )
             })
+    }
+
+    /**
+     *  All Popular Movies
+     */
+
+    override suspend fun getAllUpcomingMovies(): Pager<Int, PersonDto> {
+        TODO("Not yet implemented")
     }
 
     /**

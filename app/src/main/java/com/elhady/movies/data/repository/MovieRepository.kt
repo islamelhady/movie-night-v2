@@ -1,5 +1,6 @@
 package com.elhady.movies.data.repository
 
+import androidx.paging.Pager
 import com.elhady.movies.data.local.database.entity.movies.AdventureMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.MysteryMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.NowPlayingMovieEntity
@@ -18,6 +19,8 @@ interface MovieRepository {
     suspend fun getPopularMovies(): Flow<List<PopularMovieEntity>>
 
     suspend fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
+
+    suspend fun getAllUpcomingMovies(): Pager<Int, PersonDto>
 
     suspend fun getTopRatedMovies(): Flow<List<TopRatedMovieEntity>>
 
