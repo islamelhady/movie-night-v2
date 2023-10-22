@@ -76,7 +76,7 @@ interface MovieService {
     suspend fun getOnTheAirTV(@Query("page") page: Int = 1): Response<BaseResponse<TVShowDto>>
 
     @GET("tv/popular")
-    suspend fun getPopularTV(): Response<BaseResponse<TVShowDto>>
+    suspend fun getPopularTV(@Query("page") page: Int =1): Response<BaseResponse<TVShowDto>>
 
     @GET("tv/top_rated")
     suspend fun getTopRatedTV(@Query("page") page: Int = 1): Response<BaseResponse<TVShowDto>>
