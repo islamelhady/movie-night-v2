@@ -18,7 +18,7 @@ class GetAllMediaByTypeUseCase @Inject constructor(
     suspend operator fun invoke(type: AllMediaType): Flow<PagingData<Media>> {
         return when(type){
             AllMediaType.UPCOMING -> wrapper(repository::getAllUpcomingMovies ,movieDtoMapper::map)
-            AllMediaType.TRENDING -> TODO()
+            AllMediaType.TRENDING -> wrapper(repository::getAllTrendingMovies, movieDtoMapper::map)
             AllMediaType.NOW_PLAYING -> TODO()
             AllMediaType.MYSTERY -> TODO()
             AllMediaType.ADVENTURE -> TODO()
@@ -27,14 +27,6 @@ class GetAllMediaByTypeUseCase @Inject constructor(
             AllMediaType.TOP_RATED -> TODO()
         }
     }
-
-//    suspend fun upcoming(){
-//        repository.getAllUpcomingMovies().flow.map { pagingData ->
-//            pagingData.map {
-//                movieDtoMapper.map(it)
-//            }
-//        }
-//    }
 
     private suspend fun <T : Any> wrapper(
         data: suspend () -> Pager<Int, T>,

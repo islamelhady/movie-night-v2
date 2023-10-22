@@ -40,7 +40,8 @@ class MovieRepositoryImp @Inject constructor(
     private val topRatedMovieMapper: TopRatedMovieMapper,
     private val mysteryMoviesMapper: MysteryMoviesMapper,
     private val adventureMoviesMapper: AdventureMoviesMapper,
-    private val upcomingMovieDataSource: UpcomingMovieDataSource
+    private val upcomingMovieDataSource: UpcomingMovieDataSource,
+    private val trendingMovieDataSource: TrendingMovieDataSource
 ) : MovieRepository, BaseRepository() {
 
     /**
@@ -207,6 +208,13 @@ class MovieRepositoryImp @Inject constructor(
                 )
             }
         )
+    }
+
+    /**
+     *  All Trending Movies
+     */
+    override suspend fun getAllTrendingMovies(): Pager<Int, MovieDto> {
+        return Pager(config = pagingConfig, pagingSourceFactory = { trendingMovieDataSource } )
     }
 
     /**

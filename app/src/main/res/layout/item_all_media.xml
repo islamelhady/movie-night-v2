@@ -27,25 +27,11 @@
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:movieImage="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium"
             tools:src="@color/brand_color" />
-
-        <TextView
-            android:id="@+id/cast_name"
-            style="@style/Regular.Small.Secondary"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:ellipsize="end"
-            android:lines="2"
-            android:text="Name"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_actor"
-            tools:text="Name"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
