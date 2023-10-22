@@ -35,6 +35,8 @@ interface MovieRepository {
 
     suspend fun getAdventureMovies(): Flow<List<AdventureMovieEntity>>
 
+    suspend fun getAllAdventureMovies(): Pager<Int, MovieDto>
+
     suspend fun getTrendingMovie(): Flow<List<TrendingMovieEntity>>
 
     suspend fun getAllTrendingMovies(): Pager<Int, MovieDto>

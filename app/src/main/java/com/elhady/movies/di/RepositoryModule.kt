@@ -26,6 +26,7 @@ import com.elhady.movies.data.repository.ActorRepository
 import com.elhady.movies.data.repository.ActorRepositoryImp
 import com.elhady.movies.data.repository.SeriesRepository
 import com.elhady.movies.data.repository.SeriesRepositoryImp
+import com.elhady.movies.data.repository.mediaDataSource.AdventureMovieDataSource
 import com.elhady.movies.data.repository.mediaDataSource.MysteryMovieDataSource
 import com.elhady.movies.data.repository.mediaDataSource.NowPlayingMovieDataSource
 import com.elhady.movies.data.repository.mediaDataSource.TrendingMovieDataSource
@@ -42,8 +43,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideRepository(movieService: MovieService, popularMovieMapper: PopularMovieMapper, movieDao: MovieDao, appConfiguration: AppConfiguration, upcomingMovieMapper: UpcomingMovieMapper, trendingMovieMapper: TrendingMovieMapper, nowPlayingMovieMapper: NowPlayingMovieMapper, topRatedMovieMapper: TopRatedMovieMapper, mysteryMoviesMapper: MysteryMoviesMapper, adventureMoviesMapper: AdventureMoviesMapper, upcomingMovieDataSource: UpcomingMovieDataSource, trendingMovieDataSource: TrendingMovieDataSource, nowPlayingMovieDataSource: NowPlayingMovieDataSource, mysteryMovieDataSource: MysteryMovieDataSource): MovieRepository{
-        return MovieRepositoryImp(movieService,popularMovieMapper, movieDao, appConfiguration,trendingMovieMapper , upcomingMovieMapper, nowPlayingMovieMapper, topRatedMovieMapper, mysteryMoviesMapper, adventureMoviesMapper, upcomingMovieDataSource, trendingMovieDataSource, nowPlayingMovieDataSource, mysteryMovieDataSource)
+    fun provideRepository(movieService: MovieService, popularMovieMapper: PopularMovieMapper, movieDao: MovieDao, appConfiguration: AppConfiguration, upcomingMovieMapper: UpcomingMovieMapper, trendingMovieMapper: TrendingMovieMapper, nowPlayingMovieMapper: NowPlayingMovieMapper, topRatedMovieMapper: TopRatedMovieMapper, mysteryMoviesMapper: MysteryMoviesMapper, adventureMoviesMapper: AdventureMoviesMapper, upcomingMovieDataSource: UpcomingMovieDataSource, trendingMovieDataSource: TrendingMovieDataSource, nowPlayingMovieDataSource: NowPlayingMovieDataSource, mysteryMovieDataSource: MysteryMovieDataSource, adventureMovieDataSource: AdventureMovieDataSource): MovieRepository{
+        return MovieRepositoryImp(movieService,popularMovieMapper, movieDao, appConfiguration,trendingMovieMapper , upcomingMovieMapper, nowPlayingMovieMapper, topRatedMovieMapper, mysteryMoviesMapper, adventureMoviesMapper, upcomingMovieDataSource, trendingMovieDataSource, nowPlayingMovieDataSource, mysteryMovieDataSource, adventureMovieDataSource)
     }
 
     @Provides
