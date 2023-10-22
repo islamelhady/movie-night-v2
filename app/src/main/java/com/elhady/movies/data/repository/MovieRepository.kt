@@ -27,11 +27,11 @@ interface MovieRepository {
 
     suspend fun getNowPlayingMovies(): Flow<List<NowPlayingMovieEntity>>
 
+    suspend fun getAllNowPlayingMovies(): Pager<Int, MovieDto>
+
     suspend fun getMysteryMovies(): Flow<List<MysteryMovieEntity>>
 
     suspend fun getAdventureMovies(): Flow<List<AdventureMovieEntity>>
-
-    fun getTrendingPerson(): Flow<State<BaseResponse<PersonDto>>>
 
     suspend fun getTrendingMovie(): Flow<List<TrendingMovieEntity>>
 

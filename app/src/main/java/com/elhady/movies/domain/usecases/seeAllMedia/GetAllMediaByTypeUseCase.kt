@@ -19,7 +19,7 @@ class GetAllMediaByTypeUseCase @Inject constructor(
         return when(type){
             AllMediaType.UPCOMING -> wrapper(repository::getAllUpcomingMovies ,movieDtoMapper::map)
             AllMediaType.TRENDING -> wrapper(repository::getAllTrendingMovies, movieDtoMapper::map)
-            AllMediaType.NOW_PLAYING -> TODO()
+            AllMediaType.NOW_PLAYING -> wrapper(repository::getAllNowPlayingMovies, movieDtoMapper::map)
             AllMediaType.MYSTERY -> TODO()
             AllMediaType.ADVENTURE -> TODO()
             AllMediaType.LATEST -> TODO()
