@@ -24,6 +24,7 @@ import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.local.mappers.movies.PopularMovieMapper
 import com.elhady.movies.data.local.mappers.movies.TopRatedMovieMapper
 import com.elhady.movies.data.remote.response.MovieDto
+import com.elhady.movies.data.repository.mediaDataSource.MysteryMovieDataSource
 import com.elhady.movies.data.repository.mediaDataSource.NowPlayingMovieDataSource
 import com.elhady.movies.data.repository.mediaDataSource.TrendingMovieDataSource
 import com.elhady.movies.data.repository.mediaDataSource.UpcomingMovieDataSource
@@ -45,7 +46,8 @@ class MovieRepositoryImp @Inject constructor(
     private val adventureMoviesMapper: AdventureMoviesMapper,
     private val upcomingMovieDataSource: UpcomingMovieDataSource,
     private val trendingMovieDataSource: TrendingMovieDataSource,
-    private val nowPlayingMovieDataSource: NowPlayingMovieDataSource
+    private val nowPlayingMovieDataSource: NowPlayingMovieDataSource,
+    private val mysteryMovieDataSource: MysteryMovieDataSource
 ) : MovieRepository, BaseRepository() {
 
     /**
@@ -222,7 +224,7 @@ class MovieRepositoryImp @Inject constructor(
      *  All Trending Movies
      */
     override suspend fun getAllTrendingMovies(): Pager<Int, MovieDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { trendingMovieDataSource } )
+        return Pager(config = pagingConfig, pagingSourceFactory = { trendingMovieDataSource })
     }
 
     /**
@@ -253,6 +255,14 @@ class MovieRepositoryImp @Inject constructor(
                 )
             }
         )
+    }
+
+    /**
+     *  All Mystery Movies
+     */
+
+    override suspend fun getAllMysteryMovies(): Pager<Int, MovieDto> {
+        return Pager(config = pagingConfig, pagingSourceFactory = { mysteryMovieDataSource })
     }
 
     /**
