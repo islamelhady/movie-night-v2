@@ -23,6 +23,7 @@ import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.local.mappers.movies.PopularMovieMapper
 import com.elhady.movies.data.local.mappers.movies.TopRatedMovieMapper
+import com.elhady.movies.data.remote.response.MovieDto
 import com.elhady.movies.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
@@ -38,9 +39,9 @@ class MovieRepositoryImp @Inject constructor(
     private val nowPlayingMovieMapper: NowPlayingMovieMapper,
     private val topRatedMovieMapper: TopRatedMovieMapper,
     private val mysteryMoviesMapper: MysteryMoviesMapper,
-    private val adventureMoviesMapper: AdventureMoviesMapper
-) :
-    MovieRepository, BaseRepository() {
+    private val adventureMoviesMapper: AdventureMoviesMapper,
+    private val upcomingMovieDataSource: UpcomingMovieDataSource
+) : MovieRepository, BaseRepository() {
 
     /**
      *  Popular Movies
@@ -112,9 +113,8 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  All Popular Movies
      */
-
-    override suspend fun getAllUpcomingMovies(): Pager<Int, PersonDto> {
-        TODO("Not yet implemented")
+    override suspend fun getAllUpcomingMovies(): Pager<Int, MovieDto> {
+        return Pager(config = pagingConfig, pagingSourceFactory = { upcomingMovieDataSource })
     }
 
     /**

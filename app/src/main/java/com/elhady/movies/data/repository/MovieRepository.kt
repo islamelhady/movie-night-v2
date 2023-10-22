@@ -10,6 +10,7 @@ import com.elhady.movies.data.local.database.entity.movies.TrendingMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.UpcomingMovieEntity
 import com.elhady.movies.data.remote.State
 import com.elhady.movies.data.remote.response.BaseResponse
+import com.elhady.movies.data.remote.response.MovieDto
 import com.elhady.movies.data.remote.response.PersonDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
 import kotlinx.coroutines.flow.Flow
@@ -20,7 +21,7 @@ interface MovieRepository {
 
     suspend fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
 
-    suspend fun getAllUpcomingMovies(): Pager<Int, PersonDto>
+    suspend fun getAllUpcomingMovies(): Pager<Int, MovieDto>
 
     suspend fun getTopRatedMovies(): Flow<List<TopRatedMovieEntity>>
 

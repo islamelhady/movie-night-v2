@@ -1,32 +1,53 @@
 package com.elhady.movies.ui.movies
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.paging.PagingData
+import androidx.recyclerview.widget.GridLayoutManager
 import com.elhady.movies.R
+import com.elhady.movies.databinding.FragmentMoviesBinding
+import com.elhady.movies.ui.adapter.LoadAdapter
+import com.elhady.movies.ui.base.BaseFragment
+import com.elhady.movies.ui.models.MediaUiState
+import com.elhady.movies.utilities.collect
+import com.elhady.movies.utilities.collectLast
+import com.elhady.movies.utilities.setSpanSize
+import dagger.hilt.android.AndroidEntryPoint
 
-class MoviesFragment : Fragment() {
+@AndroidEntryPoint
+class MoviesFragment : BaseFragment<FragmentMoviesBinding>() {
 
-    companion object {
-        fun newInstance() = MoviesFragment()
+    override val layoutIdFragment: Int = R.layout.fragment_movies
+    override val viewModel: MoviesViewModel by viewModels()
+    private val allMediaAdapter by lazy {
+        AllMediaAdapter(viewModel)
     }
 
-    private lateinit var viewModel: MoviesViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_movies, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setAdapter()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MoviesViewModel::class.java)
-        // TODO: Use the ViewModel
+    private fun setAdapter() {
+        val footerAdapter = LoadAdapter(allMediaAdapter::retry)
+        binding.recyclerAllMedia.adapter = allMediaAdapter.withLoadStateFooter(footerAdapter)
+
+        val layoutManager = binding.recyclerAllMedia.layoutManager as GridLayoutManager
+        layoutManager.setSpanSize(
+            footerAdapter = footerAdapter,
+            adapter = allMediaAdapter,
+            spanCount = layoutManager.spanCount
+        )
+
+        collect(flow = allMediaAdapter.loadStateFlow,
+            action = { viewModel.setErrorUiState(it) })
+
+        collectLast(flow = viewModel.uiState.value.allMedia, ::setAllMedia)
+    }
+
+    private suspend fun setAllMedia(itemsPagingData: PagingData<MediaUiState>) {
+        allMediaAdapter.submitData(pagingData = itemsPagingData)
     }
 
 }
