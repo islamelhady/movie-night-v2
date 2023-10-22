@@ -4,27 +4,31 @@ import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.elhady.movies.data.repository.MovieRepository
+import com.elhady.movies.data.repository.SeriesRepository
 import com.elhady.movies.domain.enums.AllMediaType
 import com.elhady.movies.domain.mappers.movie.MovieDtoMapper
+import com.elhady.movies.domain.mappers.series.TVShowDtoMapper
 import com.elhady.movies.domain.models.Media
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GetAllMediaByTypeUseCase @Inject constructor(
-    private val repository: MovieRepository,
-    private val movieDtoMapper: MovieDtoMapper
+    private val movieRepository: MovieRepository,
+    private val seriesRepository: SeriesRepository,
+    private val movieDtoMapper: MovieDtoMapper,
+    private val tvShowDtoMapper: TVShowDtoMapper
 ) {
     suspend operator fun invoke(type: AllMediaType): Flow<PagingData<Media>> {
         return when(type){
-            AllMediaType.UPCOMING -> wrapper(repository::getAllUpcomingMovies ,movieDtoMapper::map)
-            AllMediaType.TRENDING -> wrapper(repository::getAllTrendingMovies, movieDtoMapper::map)
-            AllMediaType.NOW_PLAYING -> wrapper(repository::getAllNowPlayingMovies, movieDtoMapper::map)
-            AllMediaType.MYSTERY -> wrapper(repository::getAllMysteryMovies, movieDtoMapper::map)
-            AllMediaType.ADVENTURE -> wrapper(repository::getAllAdventureMovies, movieDtoMapper::map)
+            AllMediaType.UPCOMING -> wrapper(movieRepository::getAllUpcomingMovies ,movieDtoMapper::map)
+            AllMediaType.TRENDING -> wrapper(movieRepository::getAllTrendingMovies, movieDtoMapper::map)
+            AllMediaType.NOW_PLAYING -> wrapper(movieRepository::getAllNowPlayingMovies, movieDtoMapper::map)
+            AllMediaType.MYSTERY -> wrapper(movieRepository::getAllMysteryMovies, movieDtoMapper::map)
+            AllMediaType.ADVENTURE -> wrapper(movieRepository::getAllAdventureMovies, movieDtoMapper::map)
             AllMediaType.LATEST -> TODO()
             AllMediaType.POPULAR -> TODO()
-            AllMediaType.TOP_RATED -> TODO()
+            AllMediaType.TOP_RATED -> wrapper(seriesRepository::getAllTopRatedTV, tvShowDtoMapper::map)
         }
     }
 

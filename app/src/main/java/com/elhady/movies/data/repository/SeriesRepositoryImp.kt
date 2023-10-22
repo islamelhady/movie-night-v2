@@ -1,5 +1,6 @@
 package com.elhady.movies.data.repository
 
+import androidx.paging.Pager
 import com.elhady.movies.data.Constant
 import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.SeriesDao
@@ -9,7 +10,9 @@ import com.elhady.movies.data.local.database.entity.series.TVSeriesListsEntity
 import com.elhady.movies.data.local.mappers.series.AiringTodaySeriesMapper
 import com.elhady.movies.data.local.mappers.series.OnTheAirSeriesMapper
 import com.elhady.movies.data.local.mappers.series.TVSeriesListsMapper
+import com.elhady.movies.data.remote.response.tvShow.TVShowDto
 import com.elhady.movies.data.remote.service.MovieService
+import com.elhady.movies.data.repository.mediaDataSource.TopRatedTVDataSource
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 import javax.inject.Inject
@@ -20,7 +23,8 @@ class SeriesRepositoryImp @Inject constructor(
     private val airingSeriesMapper: AiringTodaySeriesMapper,
     private val tvSeriesListsMapper: TVSeriesListsMapper,
     private val seriesDao: SeriesDao,
-    private val appConfiguration: AppConfiguration
+    private val appConfiguration: AppConfiguration,
+    private val topRatedTVDataSource: TopRatedTVDataSource
 ) : BaseRepository(), SeriesRepository {
 
     /**
@@ -107,6 +111,13 @@ class SeriesRepositoryImp @Inject constructor(
         seriesDao.deleteTVSeriesLists()
         seriesDao.insertTVSeriesLists(items)
         appConfiguration.saveRequestDate(Constant.TV_SERIES_LISTS_REQUEST_DATE_KEY, currentDate.time)
+    }
+
+    /**
+     *  All Top Rated TV
+     */
+    override fun getAllTopRatedTV(): Pager<Int, TVShowDto> {
+        return Pager(config = pagingConfig, pagingSourceFactory = { topRatedTVDataSource })
     }
 
 }
