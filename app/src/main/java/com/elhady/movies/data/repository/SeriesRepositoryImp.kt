@@ -15,6 +15,7 @@ import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.repository.mediaDataSource.series.LatestTVDataSource
 import com.elhady.movies.data.repository.mediaDataSource.series.OnTheAirTVDataSource
 import com.elhady.movies.data.repository.mediaDataSource.series.PopularTVDataSource
+import com.elhady.movies.data.repository.mediaDataSource.series.SeriesDataSourceContainer
 import com.elhady.movies.data.repository.mediaDataSource.series.TopRatedTVDataSource
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
@@ -27,10 +28,7 @@ class SeriesRepositoryImp @Inject constructor(
     private val tvSeriesListsMapper: TVSeriesListsMapper,
     private val seriesDao: SeriesDao,
     private val appConfiguration: AppConfiguration,
-    private val topRatedTVDataSource: TopRatedTVDataSource,
-    private val popularTVDataSource: PopularTVDataSource,
-    private val latestTVDataSource: LatestTVDataSource,
-    private val onTheAirTVDataSource: OnTheAirTVDataSource
+    private val seriesDataSourceContainer: SeriesDataSourceContainer
 ) : BaseRepository(), SeriesRepository {
 
     /**
@@ -97,7 +95,7 @@ class SeriesRepositoryImp @Inject constructor(
      *  All On The Air Series
      */
     override fun getAllOnTheAirSeries(): Pager<Int, TVShowDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { onTheAirTVDataSource })
+        return Pager(config = pagingConfig, pagingSourceFactory = { seriesDataSourceContainer.onTheAirTVDataSource })
     }
 
     /**
@@ -137,21 +135,21 @@ class SeriesRepositoryImp @Inject constructor(
      *  All Top Rated TV
      */
     override fun getAllTopRatedTV(): Pager<Int, TVShowDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { topRatedTVDataSource })
+        return Pager(config = pagingConfig, pagingSourceFactory = { seriesDataSourceContainer.topRatedTVDataSource })
     }
 
     /**
      *  All Popular TV
      */
     override fun getAllPopularTV(): Pager<Int, TVShowDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { popularTVDataSource })
+        return Pager(config = pagingConfig, pagingSourceFactory = { seriesDataSourceContainer.popularTVDataSource })
     }
 
     /**
      *  All Latest TV
      */
     override fun getAllLatestTV(): Pager<Int, TVShowDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { latestTVDataSource })
+        return Pager(config = pagingConfig, pagingSourceFactory = { seriesDataSourceContainer.latestTVDataSource })
     }
 
 }

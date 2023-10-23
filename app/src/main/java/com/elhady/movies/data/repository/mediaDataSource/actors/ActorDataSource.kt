@@ -1,15 +1,11 @@
 package com.elhady.movies.data.repository.mediaDataSource.actors
 
-import androidx.paging.PagingSource
-import androidx.paging.PagingState
 import com.elhady.movies.data.remote.response.PersonDto
 import com.elhady.movies.data.remote.service.MovieService
+import com.elhady.movies.data.repository.mediaDataSource.BasePagingSource
 import javax.inject.Inject
 
-class ActorDataSource @Inject constructor(private val service: MovieService) : PagingSource<Int, PersonDto>() {
-    override fun getRefreshKey(state: PagingState<Int, PersonDto>): Int? {
-        return state.anchorPosition
-    }
+class ActorDataSource @Inject constructor(private val service: MovieService) : BasePagingSource<PersonDto>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PersonDto> {
         val pageNumber = params.key ?: 1
