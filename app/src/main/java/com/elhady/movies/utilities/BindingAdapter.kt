@@ -16,7 +16,7 @@ import com.elhady.movies.ui.base.BaseAdapter
 import com.google.android.material.imageview.ShapeableImageView
 
 @BindingAdapter("app:movieImage")
-fun bindMovieImage(image: ShapeableImageView, imageURL: String?) {
+fun bindMovieImage(image: ImageView, imageURL: String?) {
     imageURL?.let {
         image.load(imageURL) {
             error(R.drawable.ic_launcher_background)

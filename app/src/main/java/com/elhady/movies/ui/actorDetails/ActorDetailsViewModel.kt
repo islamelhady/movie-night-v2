@@ -38,7 +38,8 @@ class ActorDetailsViewModel @Inject constructor(
             _uIState.update {
                 it.copy(
                     id = actorDetails.id,
-                    name = actorDetails.name
+                    name = actorDetails.name,
+                    imageUrl = actorDetails.imageUrl
                 )
             }
         }

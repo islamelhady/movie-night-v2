@@ -10,21 +10,47 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.motion.widget.MotionLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.actorDetails.ActorDetailsFragment">
+        app:layoutDescription="@xml/fragment_actor_details_scene">
 
-        <TextView
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/actor_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@{viewModel.uiState.name}"
-            android:textSize="33sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:movieImage="@{viewModel.uiState.imageUrl}"
+            android:shadowColor="@color/shade_secondary_color"
+            app:layout_constraintHeight_percent=".40"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="name"/>
+            tools:src="@drawable/login_movie"/>
+        
+        <View
+            android:id="@+id/actor_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:src="@drawable/shadow_shape"
+            app:layout_constraintHeight_percent=".40"
+            app:layout_constraintTop_toTopOf="@id/actor_image"
+            app:layout_constraintEnd_toEndOf="@id/actor_image"
+            app:layout_constraintStart_toStartOf="@id/actor_image"
+            />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/actor_name"
+            style="@style/SimiBold.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.uiState.name}"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/actor_image"
+            tools:text="name" />
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

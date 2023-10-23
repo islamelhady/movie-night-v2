@@ -8,7 +8,8 @@ class ActorDetailsUiMapper @Inject constructor() : Mapper<ActorDetails, ActorDet
     override fun map(input: ActorDetails): ActorDetailsUiState {
         return ActorDetailsUiState(
             id = input.id,
-            name = input.name
+            name = input.name,
+            imageUrl = input.imageUrl
         )
     }
 }

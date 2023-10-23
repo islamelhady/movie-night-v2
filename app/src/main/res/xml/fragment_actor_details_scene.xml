@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/actor_image"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".40"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+            android:id="@+id/actor_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:src="@drawable/shadow_shape"
+            app:layout_constraintEnd_toEndOf="@id/actor_image"
+            app:layout_constraintHeight_percent=".40"
+            app:layout_constraintStart_toStartOf="@id/actor_image"
+            app:layout_constraintTop_toTopOf="@id/actor_image" />
+
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/actor_image"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:alpha="0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+            android:id="@+id/actor_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:alpha="0"
+            android:src="@drawable/shadow_shape"
+            app:layout_constraintEnd_toEndOf="@id/actor_image"
+            app:layout_constraintStart_toStartOf="@id/actor_image"
+            app:layout_constraintTop_toTopOf="@id/actor_image" />
+
+
+    </ConstraintSet>
+
+    <Transition
+        app:constraintSetEnd="@id/end"
+        app:constraintSetStart="@+id/start">
+
+        <OnClick
+            app:clickAction="transitionToEnd"
+            app:targetId="@id/actor_image" />
+
+    </Transition>
+
+
+</MotionScene>
