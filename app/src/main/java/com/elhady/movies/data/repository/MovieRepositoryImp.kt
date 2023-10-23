@@ -16,19 +16,17 @@ import com.elhady.movies.data.local.mappers.movies.AdventureMoviesMapper
 import com.elhady.movies.data.local.mappers.movies.MysteryMoviesMapper
 import com.elhady.movies.data.local.mappers.movies.NowPlayingMovieMapper
 import com.elhady.movies.data.local.mappers.movies.UpcomingMovieMapper
-import com.elhady.movies.data.remote.State
-import com.elhady.movies.data.remote.response.BaseResponse
-import com.elhady.movies.data.remote.response.PersonDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.local.mappers.movies.PopularMovieMapper
 import com.elhady.movies.data.local.mappers.movies.TopRatedMovieMapper
 import com.elhady.movies.data.remote.response.MovieDto
-import com.elhady.movies.data.repository.mediaDataSource.AdventureMovieDataSource
-import com.elhady.movies.data.repository.mediaDataSource.MysteryMovieDataSource
-import com.elhady.movies.data.repository.mediaDataSource.NowPlayingMovieDataSource
-import com.elhady.movies.data.repository.mediaDataSource.TrendingMovieDataSource
-import com.elhady.movies.data.repository.mediaDataSource.UpcomingMovieDataSource
+import com.elhady.movies.data.repository.mediaDataSource.movies.AdventureMovieDataSource
+import com.elhady.movies.data.repository.mediaDataSource.movies.MovieDataSourceContainer
+import com.elhady.movies.data.repository.mediaDataSource.movies.MysteryMovieDataSource
+import com.elhady.movies.data.repository.mediaDataSource.movies.NowPlayingMovieDataSource
+import com.elhady.movies.data.repository.mediaDataSource.movies.TrendingMovieDataSource
+import com.elhady.movies.data.repository.mediaDataSource.movies.UpcomingMovieDataSource
 import com.elhady.movies.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
@@ -45,11 +43,7 @@ class MovieRepositoryImp @Inject constructor(
     private val topRatedMovieMapper: TopRatedMovieMapper,
     private val mysteryMoviesMapper: MysteryMoviesMapper,
     private val adventureMoviesMapper: AdventureMoviesMapper,
-    private val upcomingMovieDataSource: UpcomingMovieDataSource,
-    private val trendingMovieDataSource: TrendingMovieDataSource,
-    private val nowPlayingMovieDataSource: NowPlayingMovieDataSource,
-    private val mysteryMovieDataSource: MysteryMovieDataSource,
-    private val adventureMovieDataSource: AdventureMovieDataSource
+    private val movieDataSourceContainer: MovieDataSourceContainer
 ) : MovieRepository, BaseRepository() {
 
     /**
@@ -122,8 +116,8 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  All Popular Movies
      */
-    override suspend fun getAllUpcomingMovies(): Pager<Int, MovieDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { upcomingMovieDataSource })
+    override fun getAllUpcomingMovies(): Pager<Int, MovieDto> {
+        return Pager(config = pagingConfig, pagingSourceFactory = { movieDataSourceContainer.upcomingMovieDataSource })
     }
 
     /**
@@ -186,8 +180,8 @@ class MovieRepositoryImp @Inject constructor(
      *  All Trending Movies
      */
 
-    override suspend fun getAllNowPlayingMovies(): Pager<Int, MovieDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { nowPlayingMovieDataSource })
+    override fun getAllNowPlayingMovies(): Pager<Int, MovieDto> {
+        return Pager(config = pagingConfig, pagingSourceFactory = { movieDataSourceContainer.nowPlayingMovieDataSource })
     }
 
     /**
@@ -225,8 +219,8 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  All Trending Movies
      */
-    override suspend fun getAllTrendingMovies(): Pager<Int, MovieDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { trendingMovieDataSource })
+    override fun getAllTrendingMovies(): Pager<Int, MovieDto> {
+        return Pager(config = pagingConfig, pagingSourceFactory = { movieDataSourceContainer.trendingMovieDataSource })
     }
 
     /**
@@ -263,8 +257,8 @@ class MovieRepositoryImp @Inject constructor(
      *  All Mystery Movies
      */
 
-    override suspend fun getAllMysteryMovies(): Pager<Int, MovieDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { mysteryMovieDataSource })
+    override fun getAllMysteryMovies(): Pager<Int, MovieDto> {
+        return Pager(config = pagingConfig, pagingSourceFactory = { movieDataSourceContainer.mysteryMovieDataSource })
     }
 
     /**
@@ -300,8 +294,8 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  All Adventure Movies
      */
-    override suspend fun getAllAdventureMovies(): Pager<Int, MovieDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { adventureMovieDataSource })
+    override fun getAllAdventureMovies(): Pager<Int, MovieDto> {
+        return Pager(config = pagingConfig, pagingSourceFactory = { movieDataSourceContainer.adventureMovieDataSource })
     }
 
 }

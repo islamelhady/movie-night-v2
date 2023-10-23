@@ -8,7 +8,7 @@ import com.elhady.movies.data.local.database.entity.actor.ActorEntity
 import com.elhady.movies.data.local.mappers.actors.ActorsMapper
 import com.elhady.movies.data.remote.response.PersonDto
 import com.elhady.movies.data.remote.service.MovieService
-import com.elhady.movies.data.repository.mediaDataSource.ActorDataSource
+import com.elhady.movies.data.repository.mediaDataSource.actors.ActorDataSource
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 import javax.inject.Inject

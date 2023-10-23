@@ -21,25 +21,25 @@ interface MovieRepository {
 
     suspend fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
 
-    suspend fun getAllUpcomingMovies(): Pager<Int, MovieDto>
+    fun getAllUpcomingMovies(): Pager<Int, MovieDto>
 
     suspend fun getTopRatedMovies(): Flow<List<TopRatedMovieEntity>>
 
     suspend fun getNowPlayingMovies(): Flow<List<NowPlayingMovieEntity>>
 
-    suspend fun getAllNowPlayingMovies(): Pager<Int, MovieDto>
+    fun getAllNowPlayingMovies(): Pager<Int, MovieDto>
 
     suspend fun getMysteryMovies(): Flow<List<MysteryMovieEntity>>
 
-    suspend fun getAllMysteryMovies(): Pager<Int, MovieDto>
+    fun getAllMysteryMovies(): Pager<Int, MovieDto>
 
     suspend fun getAdventureMovies(): Flow<List<AdventureMovieEntity>>
 
-    suspend fun getAllAdventureMovies(): Pager<Int, MovieDto>
+    fun getAllAdventureMovies(): Pager<Int, MovieDto>
 
     suspend fun getTrendingMovie(): Flow<List<TrendingMovieEntity>>
 
-    suspend fun getAllTrendingMovies(): Pager<Int, MovieDto>
+    fun getAllTrendingMovies(): Pager<Int, MovieDto>
 
     suspend fun getGenreMovies(): List<GenreDto>?
 

@@ -1,14 +1,12 @@
-package com.elhady.movies.data.repository.mediaDataSource
+package com.elhady.movies.data.repository.mediaDataSource.movies
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.elhady.movies.data.remote.response.MovieDto
 import com.elhady.movies.data.remote.service.MovieService
-import com.elhady.movies.utilities.Constants
 import javax.inject.Inject
 
-class AdventureMovieDataSource @Inject constructor(private val service: MovieService) :
-    PagingSource<Int, MovieDto>() {
+class UpcomingMovieDataSource @Inject constructor(private val service: MovieService) : PagingSource<Int, MovieDto>() {
     override fun getRefreshKey(state: PagingState<Int, MovieDto>): Int? {
         return state.anchorPosition
     }
@@ -17,7 +15,7 @@ class AdventureMovieDataSource @Inject constructor(private val service: MovieSer
         val pageNumber = params.key ?: 1
 
         return try {
-            val response = service.getMoviesListByGenre(genreID = Constants.ADVENTURE_ID, page = pageNumber)
+            val response = service.getUpcomingMovies(page = pageNumber)
 
             LoadResult.Page(
                 data = response.body()?.items ?: emptyList(),
@@ -28,5 +26,4 @@ class AdventureMovieDataSource @Inject constructor(private val service: MovieSer
             LoadResult.Error(error)
         }
     }
-
 }
