@@ -75,7 +75,11 @@
         android:id="@+id/actorsFragment"
         android:name="com.elhady.movies.ui.actors.ActorsFragment"
         android:label="fragment_actors"
-        tools:layout="@layout/fragment_actors" />
+        tools:layout="@layout/fragment_actors" >
+        <action
+            android:id="@+id/action_actorsFragment_to_actorDetailsFragment"
+            app:destination="@id/actorDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/actorDetailsFragment"
         android:name="com.elhady.movies.ui.actorDetails.ActorDetailsFragment"

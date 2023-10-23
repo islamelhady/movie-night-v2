@@ -3,6 +3,7 @@ package com.elhady.movies.ui.actors
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.elhady.movies.R
@@ -28,6 +29,7 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         setAdapter()
+        collectEvent()
     }
 
     private fun setAdapter() {
@@ -45,4 +47,21 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
     private suspend fun setAllActors(itemsPagingData: PagingData<ActorUiState>) {
         actorsAdapter.submitData(pagingData = itemsPagingData)
     }
+
+    private fun collectEvent(){
+        collectLast(flow = viewModel.actorsUiEvent){ event ->
+            event?.getContentIfNotHandled()?.let {
+                onEvent(it)
+            }
+        }
+    }
+
+    private fun onEvent(event: ActorsUiEvent){
+        when(event){
+            is ActorsUiEvent.ClickActorEvent -> {
+                findNavController().navigate(ActorsFragmentDirections.actionActorsFragmentToActorDetailsFragment())
+            }
+        }
+    }
+
 }
