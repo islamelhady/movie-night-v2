@@ -89,7 +89,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
             is HomeUiEvent.ClickActorEvent -> {
                 findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToActorDetailsFragment()
+                HomeFragmentDirections.actionHomeFragmentToActorDetailsFragment(event.actorID)
                 )
             }
 

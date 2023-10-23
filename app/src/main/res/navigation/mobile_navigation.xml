@@ -84,5 +84,9 @@
         android:id="@+id/actorDetailsFragment"
         android:name="com.elhady.movies.ui.actorDetails.ActorDetailsFragment"
         android:label="fragment_actor_details"
-        tools:layout="@layout/fragment_actor_details" />
+        tools:layout="@layout/fragment_actor_details" >
+        <argument
+            android:name="actorID"
+            app:argType="integer" />
+    </fragment>
 </navigation>

@@ -59,7 +59,7 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
     private fun onEvent(event: ActorsUiEvent){
         when(event){
             is ActorsUiEvent.ClickActorEvent -> {
-                findNavController().navigate(ActorsFragmentDirections.actionActorsFragmentToActorDetailsFragment())
+                findNavController().navigate(ActorsFragmentDirections.actionActorsFragmentToActorDetailsFragment(event.actorID))
             }
         }
     }
