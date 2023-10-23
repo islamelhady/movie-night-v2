@@ -76,9 +76,9 @@ class ActorsViewModel @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun onClickSeeAllActors() {
-        TODO("Not yet implemented")
-    }
+//    override fun onClickSeeAllActors() {
+//        TODO("Not yet implemented")
+//    }
 
 
 }

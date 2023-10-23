@@ -10,5 +10,5 @@ class ActorAdapter(items: List<ActorUiState>, val listener: ActorInteractionList
 
 interface ActorInteractionListener: BaseInteractionListener{
     fun onClickActor(actorID: Int)
-    fun onClickSeeAllActors()
+//    fun onClickSeeAllActors()
 }

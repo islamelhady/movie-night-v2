@@ -10,6 +10,7 @@ import com.elhady.movies.ui.adapter.MediaAdapter
 import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseAdapter
 import com.elhady.movies.ui.base.BaseInteractionListener
+import com.elhady.movies.ui.home.HomeInteractionListener
 import com.elhady.movies.ui.home.HomeItem
 import com.elhady.movies.ui.models.MediaUiState
 
@@ -107,6 +108,7 @@ class HomeAdapter(
 
             is HomeItem.Actor -> {
                 holder.binding.setVariable(BR.adapterRecycler, ActorAdapter(currentHomeItem.items, listener as ActorInteractionListener, R.layout.item_actor))
+                holder.binding.setVariable(BR.listener, listener as HomeInteractionListener)
             }
         }
     }
