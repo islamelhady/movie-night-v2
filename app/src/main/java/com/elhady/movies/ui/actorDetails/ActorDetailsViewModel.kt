@@ -24,6 +24,9 @@ class ActorDetailsViewModel @Inject constructor(
     private val _uIState = MutableStateFlow(ActorDetailsUiState())
     val uiState = _uIState.asStateFlow()
 
+    init {
+        getData()
+    }
     override fun getData() {
         getActorDetails()
     }
