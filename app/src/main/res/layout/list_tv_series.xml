@@ -47,7 +47,7 @@
             android:layout_marginStart="@dimen/spacing_medium"
             android:background="@color/brand_color"
             app:movieImage="@{topRated.imageUrl}"
-            android:onClick="@{() -> listener.onClickAllTVSeries(AllMediaType.TOP_RATED)}"
+            android:onClick="@{() -> listener.onClickAllTVSeries(AllMediaType.TOP_RATED_TV)}"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="@+id/image_popular"
             app:layout_constraintEnd_toStartOf="@+id/image_latest"

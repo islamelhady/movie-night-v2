@@ -363,7 +363,7 @@ class HomeViewModel @Inject constructor(
             HomeItemType.TRENDING -> AllMediaType.TRENDING
             HomeItemType.UPCOMING -> AllMediaType.UPCOMING
             HomeItemType.NOW_PLAYING -> AllMediaType.NOW_PLAYING
-            HomeItemType.TOP_RATED -> AllMediaType.TOP_RATED
+            HomeItemType.TOP_RATED -> AllMediaType.TOP_RATED_MOVIE
             HomeItemType.ON_THE_AIR_SERIES -> TODO()
             HomeItemType.MYSTERY -> AllMediaType.MYSTERY
             HomeItemType.ADVENTURE -> AllMediaType.ADVENTURE
