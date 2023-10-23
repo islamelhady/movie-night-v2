@@ -10,4 +10,6 @@ interface ActorRepository {
 
     suspend fun getTrendingActors(): Flow<List<ActorEntity>>
     suspend fun getAllActors(): Pager<Int, PersonDto>
+
+    suspend fun getActorDetails(actorID: Int): PersonDto?
 }

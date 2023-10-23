@@ -58,5 +58,13 @@ class ActorRepositoryImp @Inject constructor(
         return Pager(config = pagingConfig, pagingSourceFactory = { actorDataSource })
     }
 
+    /**
+     *  Actors Details
+     */
+
+    override suspend fun getActorDetails(actorID: Int): PersonDto? {
+        return service.getActorDetails(actorID).body()
+    }
+
 
 }
