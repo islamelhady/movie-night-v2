@@ -21,7 +21,7 @@
     <string name="don_t_have_an_account">Don’t have an account?</string>
     <string name="sign_up">Sign up</string>
     <string name="airing_today_title">Airing today</string>
-    <string name="actors">Actors</string>
+    <string name="actors">Popular actors</string>
     <string name="oops">Oops!</string>
     <string name="description">There is no internet connection\nPlease check it out</string>
     <string name="retry">Retry</string>

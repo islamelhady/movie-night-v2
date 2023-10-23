@@ -22,19 +22,19 @@ class ActorRepositoryImp @Inject constructor(
 ) : BaseRepository(), ActorRepository {
 
     /**
-     *  Trending Actors
+     *  Popular Persons
      */
-    override suspend fun getTrendingActors(): Flow<List<ActorEntity>> {
+    override suspend fun getPopularPersons(): Flow<List<ActorEntity>> {
         refreshOneTimePerDay(
-            appConfiguration.getRequestDate(Constant.ACTOR_TRENDING_REQUEST_DATE_KEY),
-            ::refreshTrendingActors
+            appConfiguration.getRequestDate(Constant.POPULAR_PERSON_REQUEST_DATE_KEY),
+            ::refreshPopularPersons
         )
         return actorDao.getActors()
     }
 
-    private suspend fun refreshTrendingActors(currentDate: Date) {
+    private suspend fun refreshPopularPersons(currentDate: Date) {
         wrap(
-            { service.getTrendingPerson() },
+            { service.getPopularPerson() },
             { list ->
                 list?.map {
                     actorsMapper.map(it)
@@ -44,7 +44,7 @@ class ActorRepositoryImp @Inject constructor(
                 actorDao.deleteActors()
                 actorDao.insertActors(it)
                 appConfiguration.saveRequestDate(
-                    Constant.ACTOR_TRENDING_REQUEST_DATE_KEY,
+                    Constant.POPULAR_PERSON_REQUEST_DATE_KEY,
                     currentDate.time
                 )
             }
@@ -52,18 +52,18 @@ class ActorRepositoryImp @Inject constructor(
     }
 
     /**
-     *  Paging All Actors
+     *  Paging All Persons
      */
-    override suspend fun getAllActors(): Pager<Int, PersonDto> {
+    override suspend fun getAllPopularPersons(): Pager<Int, PersonDto> {
         return Pager(config = pagingConfig, pagingSourceFactory = { actorDataSource })
     }
 
     /**
-     *  Actors Details
+     *  Persons Details
      */
 
-    override suspend fun getActorDetails(actorID: Int): PersonDto? {
-        return service.getActorDetails(actorID).body()
+    override suspend fun getPersonsDetails(actorID: Int): PersonDto? {
+        return service.getPersonsDetails(actorID).body()
     }
 
 

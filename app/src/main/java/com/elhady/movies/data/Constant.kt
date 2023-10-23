@@ -22,5 +22,5 @@ object Constant {
     /**
      *  Actors
      */
-    const val ACTOR_TRENDING_REQUEST_DATE_KEY = "actor_trending_request_date"
+    const val POPULAR_PERSON_REQUEST_DATE_KEY = "popular_persons_request_date"
 }

@@ -10,7 +10,7 @@ class GetActorDetailsUseCase @Inject constructor(
     private val actorDetailsMapper: ActorDetailsMapper
 ) {
     suspend operator fun invoke(actorID: Int): ActorDetails {
-        val response = repository.getActorDetails(actorID = actorID)
+        val response = repository.getPersonsDetails(actorID = actorID)
         return if (response != null) {
             actorDetailsMapper.map(response)
         } else {

@@ -10,7 +10,7 @@ class ActorDataSource @Inject constructor(private val service: MovieService) : B
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PersonDto> {
         val pageNumber = params.key ?: 1
         return try {
-            val response = service.getTrendingPerson(page = pageNumber)
+            val response = service.getPopularPerson(page = pageNumber)
             LoadResult.Page(
                 data = response.body()?.items ?: emptyList(),
                 prevKey = null,

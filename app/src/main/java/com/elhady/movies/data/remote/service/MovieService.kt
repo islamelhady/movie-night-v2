@@ -54,8 +54,13 @@ interface MovieService {
     ): Response<BaseResponse<PersonDto>>
 
     @GET("person/{person_id}")
-    suspend fun getActorDetails(@Path("person_id") actorId: Int): Response<PersonDto>
+    suspend fun getPersonsDetails(@Path("person_id") actorId: Int): Response<PersonDto>
 
+    /**
+     *  PEOPLE LISTS
+     */
+    @GET("person/popular")
+    suspend fun getPopularPerson(@Query("page") page: Int = 1): Response<BaseResponse<PersonDto>>
 
     /**
      *  GENRES
