@@ -29,6 +29,7 @@ class GetAllMediaByTypeUseCase @Inject constructor(
             AllMediaType.LATEST -> wrapper(seriesRepository::getAllLatestTV, tvShowDtoMapper::map)
             AllMediaType.POPULAR -> wrapper(seriesRepository::getAllPopularTV, tvShowDtoMapper::map)
             AllMediaType.TOP_RATED -> wrapper(seriesRepository::getAllTopRatedTV, tvShowDtoMapper::map)
+            AllMediaType.ON_THE_AIR -> wrapper(seriesRepository::getAllTopRatedTV, tvShowDtoMapper::map)
         }
     }
 

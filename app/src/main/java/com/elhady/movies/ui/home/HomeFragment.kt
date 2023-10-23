@@ -93,7 +93,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 )
             }
 
-            is HomeUiEvent.ClickAiringTodayEvent -> {
+            is HomeUiEvent.ClickSeriesEvent -> {
                 findNavController().navigate(
                     HomeFragmentDirections.actionHomeFragmentToMovieDetailsFragment(event.mediaID)
                 )

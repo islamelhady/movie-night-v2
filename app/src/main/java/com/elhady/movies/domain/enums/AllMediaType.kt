@@ -9,4 +9,5 @@ enum class AllMediaType {
     LATEST,
     POPULAR,
     TOP_RATED,
+    ON_THE_AIR
 }
