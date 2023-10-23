@@ -27,7 +27,7 @@ interface MovieService {
      * * Now Playing
      */
     @GET("movie/popular")
-    suspend fun getPopularMovies(): Response<BaseResponse<MovieDto>>
+    suspend fun getPopularMovies(@Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
 
     @GET("movie/upcoming")
     suspend fun getUpcomingMovies(@Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>

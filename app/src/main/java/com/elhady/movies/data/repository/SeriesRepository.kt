@@ -13,6 +13,8 @@ interface SeriesRepository {
 
     suspend fun getOnTheAirSeries(): Flow<List<OnTheAirSeriesEntity>>
 
+    fun getAllOnTheAirSeries(): Pager<Int, TVShowDto>
+
     suspend fun getTVSeriesLists(): Flow<List<TVSeriesListsEntity>>
 
     fun getAllTopRatedTV(): Pager<Int, TVShowDto>
