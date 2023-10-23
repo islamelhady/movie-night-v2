@@ -39,7 +39,12 @@ class ActorDetailsViewModel @Inject constructor(
                 it.copy(
                     id = actorDetails.id,
                     name = actorDetails.name,
-                    imageUrl = actorDetails.imageUrl
+                    image = actorDetails.image,
+                    placeOfBirth = actorDetails.placeOfBirth,
+                    birthday = actorDetails.birthday,
+                    biography = actorDetails.biography,
+                    knownForDepartment = actorDetails.knownForDepartment,
+                    gender = actorDetails.gender
                 )
             }
         }

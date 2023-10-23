@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
-            app:movieImage="@{viewModel.uiState.imageUrl}"
+            app:movieImage="@{viewModel.uiState.image}"
             android:shadowColor="@color/shade_secondary_color"
             app:layout_constraintHeight_percent=".40"
             app:layout_constraintTop_toTopOf="parent"

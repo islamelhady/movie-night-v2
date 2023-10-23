@@ -9,7 +9,12 @@ class ActorDetailsUiMapper @Inject constructor() : Mapper<ActorDetails, ActorDet
         return ActorDetailsUiState(
             id = input.id,
             name = input.name,
-            imageUrl = input.imageUrl
+            image = input.image,
+            biography = input.biography,
+            birthday = input.birthday,
+            placeOfBirth = input.placeOfBirth,
+            gender = input.gender,
+            knownForDepartment = input.knownForDepartment
         )
     }
 }
