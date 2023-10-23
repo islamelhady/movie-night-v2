@@ -32,6 +32,7 @@ import com.elhady.movies.data.repository.mediaDataSource.NowPlayingMovieDataSour
 import com.elhady.movies.data.repository.mediaDataSource.series.TopRatedTVDataSource
 import com.elhady.movies.data.repository.mediaDataSource.TrendingMovieDataSource
 import com.elhady.movies.data.repository.mediaDataSource.UpcomingMovieDataSource
+import com.elhady.movies.data.repository.mediaDataSource.series.LatestTVDataSource
 import com.elhady.movies.data.repository.mediaDataSource.series.PopularTVDataSource
 import dagger.Module
 import dagger.Provides
@@ -51,8 +52,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideSeriesRepository(movieService: MovieService, onTheAirSeriesMapper: OnTheAirSeriesMapper, airingSeriesMapper: AiringTodaySeriesMapper, tvSeriesListsMapper: TVSeriesListsMapper, seriesDao: SeriesDao, appConfiguration: AppConfiguration, topRatedTVDataSource: TopRatedTVDataSource, popularTVDataSource: PopularTVDataSource): SeriesRepository{
-        return SeriesRepositoryImp(movieService,onTheAirSeriesMapper, airingSeriesMapper,tvSeriesListsMapper , seriesDao, appConfiguration, topRatedTVDataSource, popularTVDataSource)
+    fun provideSeriesRepository(movieService: MovieService, onTheAirSeriesMapper: OnTheAirSeriesMapper, airingSeriesMapper: AiringTodaySeriesMapper, tvSeriesListsMapper: TVSeriesListsMapper, seriesDao: SeriesDao, appConfiguration: AppConfiguration, topRatedTVDataSource: TopRatedTVDataSource, popularTVDataSource: PopularTVDataSource, latestTVDataSource: LatestTVDataSource): SeriesRepository{
+        return SeriesRepositoryImp(movieService,onTheAirSeriesMapper, airingSeriesMapper,tvSeriesListsMapper , seriesDao, appConfiguration, topRatedTVDataSource, popularTVDataSource, latestTVDataSource)
     }
 
     @Provides

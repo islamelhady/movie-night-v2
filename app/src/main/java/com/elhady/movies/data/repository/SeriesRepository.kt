@@ -18,4 +18,6 @@ interface SeriesRepository {
     fun getAllTopRatedTV(): Pager<Int, TVShowDto>
 
     fun getAllPopularTV(): Pager<Int, TVShowDto>
+
+    fun getAllLatestTV(): Pager<Int, TVShowDto>
 }

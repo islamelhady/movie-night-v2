@@ -12,6 +12,7 @@ import com.elhady.movies.data.local.mappers.series.OnTheAirSeriesMapper
 import com.elhady.movies.data.local.mappers.series.TVSeriesListsMapper
 import com.elhady.movies.data.remote.response.tvShow.TVShowDto
 import com.elhady.movies.data.remote.service.MovieService
+import com.elhady.movies.data.repository.mediaDataSource.series.LatestTVDataSource
 import com.elhady.movies.data.repository.mediaDataSource.series.PopularTVDataSource
 import com.elhady.movies.data.repository.mediaDataSource.series.TopRatedTVDataSource
 import kotlinx.coroutines.flow.Flow
@@ -26,7 +27,8 @@ class SeriesRepositoryImp @Inject constructor(
     private val seriesDao: SeriesDao,
     private val appConfiguration: AppConfiguration,
     private val topRatedTVDataSource: TopRatedTVDataSource,
-    private val popularTVDataSource: PopularTVDataSource
+    private val popularTVDataSource: PopularTVDataSource,
+    private val latestTVDataSource: LatestTVDataSource
 ) : BaseRepository(), SeriesRepository {
 
     /**
@@ -127,6 +129,13 @@ class SeriesRepositoryImp @Inject constructor(
      */
     override fun getAllPopularTV(): Pager<Int, TVShowDto> {
         return Pager(config = pagingConfig, pagingSourceFactory = { popularTVDataSource })
+    }
+
+    /**
+     *  All Latest TV
+     */
+    override fun getAllLatestTV(): Pager<Int, TVShowDto> {
+        return Pager(config = pagingConfig, pagingSourceFactory = { latestTVDataSource })
     }
 
 }
