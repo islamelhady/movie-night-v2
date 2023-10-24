@@ -7,6 +7,7 @@ import com.elhady.movies.data.local.database.daos.ActorDao
 import com.elhady.movies.data.local.database.entity.actor.ActorEntity
 import com.elhady.movies.data.local.mappers.actors.ActorsMapper
 import com.elhady.movies.data.remote.response.PersonDto
+import com.elhady.movies.data.remote.response.actor.MovieCreditsDto
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.repository.mediaDataSource.actors.ActorDataSource
 import kotlinx.coroutines.flow.Flow
@@ -63,7 +64,14 @@ class ActorRepositoryImp @Inject constructor(
      */
 
     override suspend fun getPersonsDetails(actorID: Int): PersonDto? {
-        return service.getPersonsDetails(actorID).body()
+        return service.getPersonsDetails(actorID = actorID).body()
+    }
+
+    /**
+     *  Movie Credits
+     */
+    override suspend fun getPersonMovies(actorID: Int): MovieCreditsDto? {
+        return service.getPersonMovies(actorID = actorID).body()
     }
 
 

@@ -23,7 +23,7 @@
             android:scaleType="centerCrop"
             android:shadowColor="@color/shade_secondary_color"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent=".40"
+            app:layout_constraintHeight_percent=".70"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:movieImage="@{viewModel.uiState.image}"
@@ -35,7 +35,7 @@
             android:layout_height="0dp"
             android:background="@drawable/shadow_shape"
             app:layout_constraintEnd_toEndOf="@id/actor_image"
-            app:layout_constraintHeight_percent=".40"
+            app:layout_constraintHeight_percent=".70"
             app:layout_constraintStart_toStartOf="@id/actor_image"
             app:layout_constraintTop_toTopOf="@id/actor_image" />
 

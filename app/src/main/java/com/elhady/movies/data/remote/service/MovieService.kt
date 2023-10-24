@@ -3,6 +3,7 @@ package com.elhady.movies.data.remote.service
 import com.elhady.movies.data.remote.response.BaseResponse
 import com.elhady.movies.data.remote.response.MovieDto
 import com.elhady.movies.data.remote.response.PersonDto
+import com.elhady.movies.data.remote.response.actor.MovieCreditsDto
 import com.elhady.movies.data.remote.response.genre.GenreResponse
 import com.elhady.movies.data.remote.response.login.RequestTokenResponse
 import com.elhady.movies.data.remote.response.login.SessionResponse
@@ -53,14 +54,18 @@ interface MovieService {
         @Query("page") page: Int = 1
     ): Response<BaseResponse<PersonDto>>
 
-    @GET("person/{person_id}")
-    suspend fun getPersonsDetails(@Path("person_id") actorId: Int): Response<PersonDto>
 
     /**
      *  PEOPLE LISTS
      */
     @GET("person/popular")
     suspend fun getPopularPerson(@Query("page") page: Int = 1): Response<BaseResponse<PersonDto>>
+
+    @GET("person/{person_id}")
+    suspend fun getPersonsDetails(@Path("person_id") actorID: Int): Response<PersonDto>
+
+    @GET("person/{person_id}/movie_credits")
+    suspend fun getPersonMovies(@Path("person_id") actorID: Int): Response<MovieCreditsDto>
 
     /**
      *  GENRES

@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.GetActorDetailsUseCase
+import com.elhady.movies.domain.usecases.GetActorsMoviesUseCase
 import com.elhady.movies.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +17,9 @@ import javax.inject.Inject
 class ActorDetailsViewModel @Inject constructor(
     state: SavedStateHandle,
     private val getActorDetailsUseCase: GetActorDetailsUseCase,
-    private val actorDetailsUiMapper: ActorDetailsUiMapper
+    private val actorDetailsUiMapper: ActorDetailsUiMapper,
+    private val getActorsMoviesUseCase: GetActorsMoviesUseCase,
+    private val actorMoviesUiMapper: ActorMoviesUiMapper
 ) : BaseViewModel() {
 
     private val args = ActorDetailsFragmentArgs.fromSavedStateHandle(state)
@@ -33,8 +36,11 @@ class ActorDetailsViewModel @Inject constructor(
 
     private fun getActorDetails() {
         viewModelScope.launch {
-            val actorDetails = getActorDetailsUseCase(args.actorID)
-            actorDetailsUiMapper.map(actorDetails)
+            val actorDetails = actorDetailsUiMapper.map(getActorDetailsUseCase(args.actorID))
+            val actorMovies = getActorsMoviesUseCase(args.actorID).map {
+                actorMoviesUiMapper.map(it)
+            }
+
             _uIState.update {
                 it.copy(
                     id = actorDetails.id,
@@ -44,7 +50,8 @@ class ActorDetailsViewModel @Inject constructor(
                     birthday = actorDetails.birthday,
                     biography = actorDetails.biography,
                     knownForDepartment = actorDetails.knownForDepartment,
-                    gender = actorDetails.gender
+                    gender = actorDetails.gender,
+                    actorMovies = actorMovies
                 )
             }
         }
