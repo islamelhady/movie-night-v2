@@ -8,6 +8,7 @@ import com.elhady.movies.domain.usecases.GetActorDetailsUseCase
 import com.elhady.movies.domain.usecases.GetActorsMoviesUseCase
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.MovieInteractionListener
+import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,10 +25,13 @@ class ActorDetailsViewModel @Inject constructor(
     private val actorMoviesUiMapper: ActorMoviesUiMapper
 ) : BaseViewModel(), MovieInteractionListener {
 
-    private val args = ActorDetailsFragmentArgs.fromSavedStateHandle(state)
+    val args = ActorDetailsFragmentArgs.fromSavedStateHandle(state)
 
     private val _uIState = MutableStateFlow(ActorDetailsUiState())
     val uiState = _uIState.asStateFlow()
+
+    private val _uiEvent = MutableStateFlow<Event<ActorDetailsUiEvent>?>(null)
+    val uiEvent = _uiEvent.asStateFlow()
 
     init {
         getData()
@@ -72,11 +76,21 @@ class ActorDetailsViewModel @Inject constructor(
     }
 
     override fun onClickMovie(movieID: Int) {
-        TODO("Not yet implemented")
+        _uiEvent.update {
+            Event(ActorDetailsUiEvent.ClickMovieEvent(movieID = movieID))
+        }
     }
 
     override fun onClickSeeAllMovies(mediaType: HomeItemType) {
-        TODO("Not yet implemented")
+        _uiEvent.update {
+            Event(ActorDetailsUiEvent.ClickSeeAllEvent)
+        }
+    }
+
+    fun onClickBackButton(){
+        _uiEvent.update {
+            Event(ActorDetailsUiEvent.ClickBackButton)
+        }
     }
 
 

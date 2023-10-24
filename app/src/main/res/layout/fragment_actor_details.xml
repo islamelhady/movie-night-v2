@@ -59,6 +59,7 @@
             android:layout_marginTop="@dimen/spacing_medium"
             android:background="@drawable/back_button_shape"
             android:padding="@dimen/spacing_small"
+            android:onClick="@{() -> viewModel.onClickBackButton()}"
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
