@@ -22,7 +22,7 @@ class ActorDetailsViewModel @Inject constructor(
     private val actorDetailsUiMapper: ActorDetailsUiMapper,
     private val getActorsMoviesUseCase: GetActorsMoviesUseCase,
     private val actorMoviesUiMapper: ActorMoviesUiMapper
-) : BaseViewModel() ,MovieInteractionListener{
+) : BaseViewModel(), MovieInteractionListener {
 
     private val args = ActorDetailsFragmentArgs.fromSavedStateHandle(state)
 
@@ -32,31 +32,43 @@ class ActorDetailsViewModel @Inject constructor(
     init {
         getData()
     }
+
     override fun getData() {
+        _uIState.update { it.copy(isLoading = true, error = emptyList()) }
         getActorDetails()
     }
 
     private fun getActorDetails() {
         viewModelScope.launch {
-            val actorDetails = actorDetailsUiMapper.map(getActorDetailsUseCase(args.actorID))
-            val actorMovies = getActorsMoviesUseCase(args.actorID).map {
-                actorMoviesUiMapper.map(it)
-            }
+            try {
+                val actorDetails = actorDetailsUiMapper.map(getActorDetailsUseCase(args.actorID))
+                val actorMovies = getActorsMoviesUseCase(args.actorID).map {
+                    actorMoviesUiMapper.map(it)
+                }
 
-            _uIState.update {
-                it.copy(
-                    id = actorDetails.id,
-                    name = actorDetails.name,
-                    image = actorDetails.image,
-                    placeOfBirth = actorDetails.placeOfBirth,
-                    birthday = actorDetails.birthday,
-                    biography = actorDetails.biography,
-                    knownForDepartment = actorDetails.knownForDepartment,
-                    gender = actorDetails.gender,
-                    actorMovies = actorMovies
-                )
+                _uIState.update {
+                    it.copy(
+                        id = actorDetails.id,
+                        name = actorDetails.name,
+                        image = actorDetails.image,
+                        placeOfBirth = actorDetails.placeOfBirth,
+                        birthday = actorDetails.birthday,
+                        biography = actorDetails.biography,
+                        knownForDepartment = actorDetails.knownForDepartment,
+                        gender = actorDetails.gender,
+                        actorMovies = actorMovies,
+                        isLoading = false,
+                        isSuccess = true
+                    )
+                }
+            } catch (error: Throwable) {
+                onError(error.message.toString())
             }
         }
+    }
+
+    private fun onError(message: String) {
+        _uIState.update { it.copy(error = listOf(Error(message = message)), isLoading = false) }
     }
 
     override fun onClickMovie(movieID: Int) {

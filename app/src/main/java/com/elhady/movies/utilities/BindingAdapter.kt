@@ -71,3 +71,14 @@ fun usePagerSnapHelperWithRecycler(recycler: RecyclerView, useSnapHelper: Boolea
     if (useSnapHelper)
         PagerSnapHelper().attachToRecyclerView(recycler)
 }
+
+@BindingAdapter(value = ["showWhenListNotEmpty"])
+fun<T> showWhenListNotEmpty(view: View, list: List<T>){
+    view.isVisible = list.isNotEmpty() == true
+}
+
+@BindingAdapter(value = ["showWhenTextNotEmpty"])
+fun showWhenTextNotEmpty(view: View, text: String){
+    view.isVisible = text.isNotEmpty()
+}
+

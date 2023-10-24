@@ -23,6 +23,7 @@
             android:scaleType="centerCrop"
             android:shadowColor="@color/shade_secondary_color"
             app:layout_constraintEnd_toEndOf="parent"
+            isVisible="@{viewModel.uiState.success}"
             app:layout_constraintHeight_percent=".70"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -75,7 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/background_color"
-                android:visibility="visible">
+                isVisible="@{viewModel.uiState.success}">
 
                 <TextView
                     android:id="@+id/gender_title"
@@ -182,6 +183,7 @@
                     style="@style/SimiBold.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    showWhenListNotEmpty="@{viewModel.uiState.actorMovies}"
                     android:layout_marginStart="@dimen/radius_medium"
                     android:layout_marginTop="@dimen/spacing_large"
                     android:text="@string/movies"
@@ -195,6 +197,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/spacing_small"
                     android:gravity="center"
+                    showWhenListNotEmpty="@{viewModel.uiState.actorMovies}"
                     android:text="@string/see_all"
                     android:textColor="@color/brand_color"
                     app:drawableEndCompat="@drawable/ic_arrow_forward"
@@ -208,6 +211,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:clipToPadding="false"
+                    showWhenListNotEmpty="@{viewModel.uiState.actorMovies}"
                     android:orientation="horizontal"
                     android:paddingHorizontal="@dimen/spacing_medium"
                     app:items="@{viewModel.uiState.actorMovies}"
@@ -222,6 +226,7 @@
                     style="@style/SimiBold.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    showWhenTextNotEmpty="@{viewModel.uiState.biography}"
                     android:layout_marginStart="@dimen/radius_medium"
                     android:layout_marginTop="@dimen/radius_large"
                     android:text="@string/biography"
@@ -236,6 +241,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/spacing_medium"
                     android:layout_marginVertical="@dimen/spacing_medium"
+                    showWhenTextNotEmpty="@{viewModel.uiState.biography}"
                     android:paddingBottom="@dimen/spacing_extra_large"
                     android:text="@{viewModel.uiState.biography}"
                     app:layout_constraintBottom_toBottomOf="parent"
