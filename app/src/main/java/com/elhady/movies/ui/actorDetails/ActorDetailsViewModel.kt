@@ -3,9 +3,11 @@ package com.elhady.movies.ui.actorDetails
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.domain.enums.HomeItemType
 import com.elhady.movies.domain.usecases.GetActorDetailsUseCase
 import com.elhady.movies.domain.usecases.GetActorsMoviesUseCase
 import com.elhady.movies.ui.base.BaseViewModel
+import com.elhady.movies.ui.home.adapters.MovieInteractionListener
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,7 +22,7 @@ class ActorDetailsViewModel @Inject constructor(
     private val actorDetailsUiMapper: ActorDetailsUiMapper,
     private val getActorsMoviesUseCase: GetActorsMoviesUseCase,
     private val actorMoviesUiMapper: ActorMoviesUiMapper
-) : BaseViewModel() {
+) : BaseViewModel() ,MovieInteractionListener{
 
     private val args = ActorDetailsFragmentArgs.fromSavedStateHandle(state)
 
@@ -55,6 +57,14 @@ class ActorDetailsViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    override fun onClickMovie(movieID: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSeeAllMovies(mediaType: HomeItemType) {
+        TODO("Not yet implemented")
     }
 
 

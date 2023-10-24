@@ -30,5 +30,6 @@
     <string name="birthday">Birthday</string>
     <string name="place_of_birth">Place Of Birth</string>
     <string name="known_for">Known For</string>
+    <string name="movies">Movies</string>
 
 </resources>

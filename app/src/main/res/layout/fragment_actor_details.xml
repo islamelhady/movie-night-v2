@@ -177,6 +177,46 @@
                     app:layout_constraintTop_toBottomOf="@+id/known_for_title"
                     tools:text="Actor" />
 
+                <TextView
+                    android:id="@+id/related_movie_title"
+                    style="@style/SimiBold.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/radius_medium"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:text="@string/movies"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_place_of_birth_actor" />
+
+                <TextView
+                    android:id="@+id/button_see_all"
+                    style="@style/Regular.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_small"
+                    android:text="@string/see_all"
+                    android:gravity="center"
+                    android:textColor="@color/brand_color"
+                    app:drawableEndCompat="@drawable/ic_arrow_forward"
+                    app:layout_constraintBottom_toBottomOf="@+id/related_movie_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/related_movie_title" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_related_movie"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:clipToPadding="false"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="@dimen/spacing_medium"
+                    app:items="@{viewModel.uiState.actorMovies}"
+                    app:layout_constraintTop_toBottomOf="@+id/related_movie_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:listitem="@layout/item_movie_actor" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
