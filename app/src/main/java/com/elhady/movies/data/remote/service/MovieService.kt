@@ -65,7 +65,7 @@ interface MovieService {
     suspend fun getPersonsDetails(@Path("person_id") actorID: Int): Response<PersonDto>
 
     @GET("person/{person_id}/movie_credits")
-    suspend fun getPersonMovies(@Path("person_id") actorID: Int, @Query("page") page: Int = 1): Response<MovieCreditsDto>
+    suspend fun getPersonMovies(@Path("person_id") actorID: Int): Response<MovieCreditsDto>
 
     /**
      *  GENRES

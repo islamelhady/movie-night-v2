@@ -6,10 +6,12 @@ import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.ActorDao
 import com.elhady.movies.data.local.database.entity.actor.ActorEntity
 import com.elhady.movies.data.local.mappers.actors.ActorsMapper
+import com.elhady.movies.data.remote.response.MovieDto
 import com.elhady.movies.data.remote.response.PersonDto
 import com.elhady.movies.data.remote.response.actor.MovieCreditsDto
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.repository.mediaDataSource.actors.ActorDataSource
+import com.elhady.movies.data.repository.mediaDataSource.actors.ActorMoviesDataSource
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 import javax.inject.Inject
@@ -19,7 +21,8 @@ class ActorRepositoryImp @Inject constructor(
     private val actorsMapper: ActorsMapper,
     private val actorDao: ActorDao,
     private val appConfiguration: AppConfiguration,
-    private val actorDataSource: ActorDataSource
+    private val actorDataSource: ActorDataSource,
+    private val actorMoviesDataSource: ActorMoviesDataSource
 ) : BaseRepository(), ActorRepository {
 
     /**
@@ -55,7 +58,7 @@ class ActorRepositoryImp @Inject constructor(
     /**
      *  Paging All Persons
      */
-    override suspend fun getAllPopularPersons(): Pager<Int, PersonDto> {
+    override fun getAllPopularPersons(): Pager<Int, PersonDto> {
         return Pager(config = pagingConfig, pagingSourceFactory = { actorDataSource })
     }
 
@@ -72,6 +75,15 @@ class ActorRepositoryImp @Inject constructor(
      */
     override suspend fun getPersonMovies(actorID: Int): MovieCreditsDto? {
         return service.getPersonMovies(actorID = actorID).body()
+    }
+
+    /**
+     *  Paging All Actor Movies Credits
+     */
+    override fun getAllActorMovies(actorID: Int): Pager<Int, MovieDto> {
+        val actorDataSource = actorMoviesDataSource
+        actorDataSource.setActorMovieId(actorID)
+        return Pager(config = pagingConfig, pagingSourceFactory = { actorDataSource })
     }
 
 
