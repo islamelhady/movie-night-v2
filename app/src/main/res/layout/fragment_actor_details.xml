@@ -8,6 +8,8 @@
         <variable
             name="viewModel"
             type="com.elhady.movies.ui.actorDetails.ActorDetailsViewModel" />
+        
+        <import type="com.elhady.movies.domain.enums.HomeItemType" />
 
     </data>
 
@@ -18,12 +20,12 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/actor_image"
+            isVisible="@{viewModel.uiState.success}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
             android:shadowColor="@color/shade_secondary_color"
             app:layout_constraintEnd_toEndOf="parent"
-            isVisible="@{viewModel.uiState.success}"
             app:layout_constraintHeight_percent=".70"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -58,8 +60,8 @@
             android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
             android:background="@drawable/back_button_shape"
-            android:padding="@dimen/spacing_small"
             android:onClick="@{() -> viewModel.onClickBackButton()}"
+            android:padding="@dimen/spacing_small"
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -74,10 +76,10 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/actor_details"
+                isVisible="@{viewModel.uiState.success}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/background_color"
-                isVisible="@{viewModel.uiState.success}">
+                android:background="@color/background_color">
 
                 <TextView
                     android:id="@+id/gender_title"
@@ -182,9 +184,9 @@
                 <TextView
                     android:id="@+id/related_movie_title"
                     style="@style/SimiBold.Medium"
+                    showWhenListNotEmpty="@{viewModel.uiState.actorMovies}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    showWhenListNotEmpty="@{viewModel.uiState.actorMovies}"
                     android:layout_marginStart="@dimen/radius_medium"
                     android:layout_marginTop="@dimen/spacing_large"
                     android:text="@string/movies"
@@ -194,11 +196,12 @@
                 <TextView
                     android:id="@+id/button_see_all"
                     style="@style/Regular.Small"
+                    showWhenListNotEmpty="@{viewModel.uiState.actorMovies}"
+                    android:onClick="@{ () -> viewModel.onClickSeeAllMovies(HomeItemType.ACTOR_MOVIES)}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/spacing_small"
                     android:gravity="center"
-                    showWhenListNotEmpty="@{viewModel.uiState.actorMovies}"
                     android:text="@string/see_all"
                     android:textColor="@color/brand_color"
                     app:drawableEndCompat="@drawable/ic_arrow_forward"
@@ -208,11 +211,11 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_related_movie"
+                    showWhenListNotEmpty="@{viewModel.uiState.actorMovies}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:clipToPadding="false"
-                    showWhenListNotEmpty="@{viewModel.uiState.actorMovies}"
                     android:orientation="horizontal"
                     android:paddingHorizontal="@dimen/spacing_medium"
                     app:items="@{viewModel.uiState.actorMovies}"
@@ -225,9 +228,9 @@
                 <TextView
                     android:id="@+id/biography_title"
                     style="@style/SimiBold.Medium"
+                    showWhenTextNotEmpty="@{viewModel.uiState.biography}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    showWhenTextNotEmpty="@{viewModel.uiState.biography}"
                     android:layout_marginStart="@dimen/radius_medium"
                     android:layout_marginTop="@dimen/radius_large"
                     android:text="@string/biography"
@@ -238,11 +241,11 @@
                 <TextView
                     android:id="@+id/biography"
                     style="@style/Regular.Medium.Secondary"
+                    showWhenTextNotEmpty="@{viewModel.uiState.biography}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/spacing_medium"
                     android:layout_marginVertical="@dimen/spacing_medium"
-                    showWhenTextNotEmpty="@{viewModel.uiState.biography}"
                     android:paddingBottom="@dimen/spacing_extra_large"
                     android:text="@{viewModel.uiState.biography}"
                     app:layout_constraintBottom_toBottomOf="parent"

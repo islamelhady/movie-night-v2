@@ -10,5 +10,6 @@ enum class AllMediaType {
     POPULAR,
     TOP_RATED_TV,
     TOP_RATED_MOVIE,
-    ON_THE_AIR
+    ON_THE_AIR,
+    ACTOR_MOVIES
 }

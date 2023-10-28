@@ -7,5 +7,6 @@ enum class HomeItemType(val value: String) {
     TOP_RATED("Top rated"),
     ON_THE_AIR_SERIES("On the air TV"),
     MYSTERY("Mystery"),
-    ADVENTURE("Adventure")
+    ADVENTURE("Adventure"),
+    ACTOR_MOVIES("")
 }

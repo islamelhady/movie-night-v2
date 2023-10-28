@@ -367,7 +367,7 @@ class HomeViewModel @Inject constructor(
             HomeItemType.ON_THE_AIR_SERIES -> TODO()
             HomeItemType.MYSTERY -> AllMediaType.MYSTERY
             HomeItemType.ADVENTURE -> AllMediaType.ADVENTURE
-
+            HomeItemType.ACTOR_MOVIES -> AllMediaType.ACTOR_MOVIES
         }
         _homeUiEvent.update {
             Event(HomeUiEvent.ClickSeeAllMoviesEvent(type))

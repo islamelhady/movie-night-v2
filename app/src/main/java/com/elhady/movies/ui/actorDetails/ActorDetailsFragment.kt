@@ -42,7 +42,10 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
                 )
             }
 
-            ActorDetailsUiEvent.ClickSeeAllEvent -> TODO()
+            is ActorDetailsUiEvent.ClickSeeAllEvent -> {
+                findNavController().navigate(ActorDetailsFragmentDirections.actionActorDetailsFragmentToMoviesFragment(AllMediaType.ACTOR_MOVIES, viewModel.args.actorID))
+
+            }
             is ActorDetailsUiEvent.ClickBackButton -> {
                 findNavController().popBackStack()
             }
