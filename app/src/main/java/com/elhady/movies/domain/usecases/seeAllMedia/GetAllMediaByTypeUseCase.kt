@@ -3,6 +3,7 @@ package com.elhady.movies.domain.usecases.seeAllMedia
 import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.elhady.movies.data.repository.ActorRepository
 import com.elhady.movies.data.repository.MovieRepository
 import com.elhady.movies.data.repository.SeriesRepository
 import com.elhady.movies.domain.enums.AllMediaType
@@ -17,9 +18,10 @@ class GetAllMediaByTypeUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
     private val seriesRepository: SeriesRepository,
     private val movieDtoMapper: MovieDtoMapper,
-    private val tvShowDtoMapper: TVShowDtoMapper
+    private val tvShowDtoMapper: TVShowDtoMapper,
+    private val actorRepository: ActorRepository
 ) {
-    suspend operator fun invoke(type: AllMediaType): Flow<PagingData<Media>> {
+    suspend operator fun invoke(type: AllMediaType, actionId: Int =0): Flow<PagingData<Media>> {
         return when(type){
             AllMediaType.UPCOMING -> wrapper(movieRepository::getAllUpcomingMovies ,movieDtoMapper::map)
             AllMediaType.TRENDING -> wrapper(movieRepository::getAllTrendingMovies, movieDtoMapper::map)
@@ -31,7 +33,7 @@ class GetAllMediaByTypeUseCase @Inject constructor(
             AllMediaType.TOP_RATED_TV -> wrapper(seriesRepository::getAllTopRatedTV, tvShowDtoMapper::map)
             AllMediaType.TOP_RATED_MOVIE -> wrapper(movieRepository::getAllTopRatedMovies, movieDtoMapper::map)
             AllMediaType.ON_THE_AIR -> wrapper(seriesRepository::getAllOnTheAirSeries, tvShowDtoMapper::map)
-            AllMediaType.ACTOR_MOVIES -> TODO()
+            AllMediaType.ACTOR_MOVIES -> wrapper( { actorRepository.getAllActorMovies(actionId) }, movieDtoMapper::map)
         }
     }
 

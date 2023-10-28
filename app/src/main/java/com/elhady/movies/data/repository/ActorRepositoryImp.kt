@@ -80,7 +80,7 @@ class ActorRepositoryImp @Inject constructor(
     /**
      *  Paging All Actor Movies Credits
      */
-    override fun getAllActorMovies(actorID: Int): Pager<Int, MovieDto> {
+    override suspend fun getAllActorMovies(actorID: Int): Pager<Int, MovieDto> {
         val actorDataSource = actorMoviesDataSource
         actorDataSource.setActorMovieId(actorID)
         return Pager(config = pagingConfig, pagingSourceFactory = { actorDataSource })

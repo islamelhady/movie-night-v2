@@ -42,7 +42,7 @@ class MoviesViewModel @Inject constructor(
 
     private fun getAllMedia() {
         viewModelScope.launch {
-            val items = getAllMediaByTypeUseCase(args.type).map { pagingData ->
+            val items = getAllMediaByTypeUseCase(args.type, actionId = args.id).map { pagingData ->
                 pagingData.map { mediaUiMapper.map(it) }
             }
             _uiState.update {

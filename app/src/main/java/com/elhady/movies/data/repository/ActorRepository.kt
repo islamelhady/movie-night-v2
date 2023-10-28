@@ -17,5 +17,5 @@ interface ActorRepository {
 
     suspend fun getPersonMovies(actorID: Int): MovieCreditsDto?
 
-    fun getAllActorMovies(actorID: Int): Pager<Int, MovieDto>
+    suspend fun getAllActorMovies(actorID: Int): Pager<Int, MovieDto>
 }
