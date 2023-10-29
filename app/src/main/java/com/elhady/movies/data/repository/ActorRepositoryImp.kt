@@ -6,8 +6,8 @@ import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.ActorDao
 import com.elhady.movies.data.local.database.entity.actor.ActorEntity
 import com.elhady.movies.data.local.mappers.actors.ActorsMapper
-import com.elhady.movies.data.remote.response.MovieDto
-import com.elhady.movies.data.remote.response.PersonDto
+import com.elhady.movies.data.remote.response.movie.MovieDto
+import com.elhady.movies.data.remote.response.actor.PersonDto
 import com.elhady.movies.data.remote.response.actor.MovieCreditsDto
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.repository.mediaDataSource.actors.ActorDataSource

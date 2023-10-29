@@ -1,6 +1,6 @@
 package com.elhady.movies.domain.mappers.actor
 
-import com.elhady.movies.data.remote.response.PersonDto
+import com.elhady.movies.data.remote.response.actor.PersonDto
 import com.elhady.movies.domain.mappers.Mapper
 import com.elhady.movies.domain.models.Actor
 import com.elhady.movies.utilities.Constants

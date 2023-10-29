@@ -20,13 +20,8 @@ import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.local.mappers.movies.PopularMovieMapper
 import com.elhady.movies.data.local.mappers.movies.TopRatedMovieMapper
-import com.elhady.movies.data.remote.response.MovieDto
-import com.elhady.movies.data.repository.mediaDataSource.movies.AdventureMovieDataSource
+import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.repository.mediaDataSource.movies.MovieDataSourceContainer
-import com.elhady.movies.data.repository.mediaDataSource.movies.MysteryMovieDataSource
-import com.elhady.movies.data.repository.mediaDataSource.movies.NowPlayingMovieDataSource
-import com.elhady.movies.data.repository.mediaDataSource.movies.TrendingMovieDataSource
-import com.elhady.movies.data.repository.mediaDataSource.movies.UpcomingMovieDataSource
 import com.elhady.movies.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import java.util.Date

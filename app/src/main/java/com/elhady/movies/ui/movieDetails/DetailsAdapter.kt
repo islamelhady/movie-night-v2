@@ -34,7 +34,6 @@ class DetailsAdapter(
             is DetailsItem.Header -> {
                 holder.run {
                     binding.setVariable(BR.item, currentItem.data)
-
                 }
             }
         }

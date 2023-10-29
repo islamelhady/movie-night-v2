@@ -1,12 +1,13 @@
 package com.elhady.movies.data.remote.service
 
 import com.elhady.movies.data.remote.response.BaseResponse
-import com.elhady.movies.data.remote.response.MovieDto
-import com.elhady.movies.data.remote.response.PersonDto
+import com.elhady.movies.data.remote.response.movie.MovieDto
+import com.elhady.movies.data.remote.response.actor.PersonDto
 import com.elhady.movies.data.remote.response.actor.MovieCreditsDto
 import com.elhady.movies.data.remote.response.genre.GenreResponse
 import com.elhady.movies.data.remote.response.login.RequestTokenResponse
 import com.elhady.movies.data.remote.response.login.SessionResponse
+import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
 import com.elhady.movies.data.remote.response.tvShow.TVShowDto
 import com.elhady.movies.domain.TrendingTimeWindow
 import retrofit2.Response
@@ -73,6 +74,14 @@ interface MovieService {
      */
     @GET("genre/movie/list")
     suspend fun getGenreMovies(): Response<GenreResponse>
+
+    /**
+     * Movies
+     * * Details
+     */
+    @GET("movie/{movie_id}")
+    suspend fun getDetailsMovies(@Path("movie_id") movieId: Int): MovieDetailsDto
+
 
 
     /**

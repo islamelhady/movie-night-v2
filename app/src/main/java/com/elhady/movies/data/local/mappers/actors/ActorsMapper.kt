@@ -1,7 +1,7 @@
 package com.elhady.movies.data.local.mappers.actors
 
 import com.elhady.movies.data.local.database.entity.actor.ActorEntity
-import com.elhady.movies.data.remote.response.PersonDto
+import com.elhady.movies.data.remote.response.actor.PersonDto
 import com.elhady.movies.domain.mappers.Mapper
 import com.elhady.movies.utilities.Constants
 import javax.inject.Inject
