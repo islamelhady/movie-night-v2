@@ -1,5 +1,5 @@
 package com.elhady.movies.ui.movieDetails
 
-sealed interface DetailsItem{
-    data class Header(val data: MovieDetailsUiState): DetailsItem
+sealed class DetailsItem(val priority: Int){
+    data class Header(val data: MovieDetailsUiState): DetailsItem(0)
 }

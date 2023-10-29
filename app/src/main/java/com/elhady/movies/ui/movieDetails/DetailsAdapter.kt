@@ -9,10 +9,17 @@ import com.elhady.movies.ui.base.BaseAdapter
 import com.elhady.movies.ui.base.BaseInteractionListener
 
 class DetailsAdapter(
-    private val detailsItems: List<DetailsItem>,
+    private var detailsItems: List<DetailsItem>,
     val listener: BaseInteractionListener
 ) : BaseAdapter<DetailsItem>(detailsItems, listener) {
     override val layoutID: Int = 0
+
+    override fun setItems(newItems: List<DetailsItem>) {
+        detailsItems = newItems.sortedBy {
+            it.priority
+        }.toMutableList()
+        super.setItems(newItems)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return ItemViewHolder(
@@ -32,9 +39,8 @@ class DetailsAdapter(
     private fun bind(holder: ItemViewHolder, position: Int){
         when (val currentItem = detailsItems[position]){
             is DetailsItem.Header -> {
-                holder.run {
-                    binding.setVariable(BR.item, currentItem.data)
-                }
+                holder.binding.setVariable(BR.item, currentItem.data)
+
             }
         }
 

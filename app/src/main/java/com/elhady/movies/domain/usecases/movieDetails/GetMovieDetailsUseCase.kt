@@ -1,4 +1,4 @@
-package com.elhady.movies.domain.movieDetails
+package com.elhady.movies.domain.usecases.movieDetails
 
 import com.elhady.movies.data.repository.MovieRepository
 import com.elhady.movies.domain.mappers.movie.MovieDetailsDtoMapper
