@@ -1,32 +1,15 @@
 package com.elhady.movies.ui.movieDetails
 
-import androidx.lifecycle.ViewModelProvider
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.elhady.movies.R
+import com.elhady.movies.databinding.FragmentMovieDetailsBinding
+import com.elhady.movies.ui.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-class MovieDetailsFragment : Fragment() {
+@AndroidEntryPoint
+class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
+    override val layoutIdFragment: Int = R.layout.fragment_movie_details
+    override val viewModel: MovieDetailsViewModel by viewModels()
 
-    companion object {
-        fun newInstance() = MovieDetailsFragment()
-    }
-
-    private lateinit var viewModel: MovieDetailsViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_movie_details, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MovieDetailsViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
 
 }
