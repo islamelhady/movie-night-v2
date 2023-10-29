@@ -20,6 +20,7 @@ import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.local.mappers.movies.PopularMovieMapper
 import com.elhady.movies.data.local.mappers.movies.TopRatedMovieMapper
+import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.repository.mediaDataSource.movies.MovieDataSourceContainer
 import com.elhady.movies.utilities.Constants
@@ -298,6 +299,13 @@ class MovieRepositoryImp @Inject constructor(
      */
     override fun getAllAdventureMovies(): Pager<Int, MovieDto> {
         return Pager(config = pagingConfig, pagingSourceFactory = { movieDataSourceContainer.adventureMovieDataSource })
+    }
+
+    /**
+     * Movie Details
+     */
+    override suspend fun getDetailsMovies(movieId: Int): MovieDetailsDto? {
+        return movieService.getDetailsMovies(movieId = movieId).body()
     }
 
 }

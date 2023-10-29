@@ -80,7 +80,7 @@ interface MovieService {
      * * Details
      */
     @GET("movie/{movie_id}")
-    suspend fun getDetailsMovies(@Path("movie_id") movieId: Int): MovieDetailsDto
+    suspend fun getDetailsMovies(@Path("movie_id") movieId: Int): Response<MovieDetailsDto>
 
 
 
