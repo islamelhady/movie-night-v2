@@ -1,32 +1,57 @@
 package com.elhady.movies.ui.actorDetails
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.elhady.movies.R
+import com.elhady.movies.databinding.FragmentActorDetailsBinding
+import com.elhady.movies.domain.enums.AllMediaType
+import com.elhady.movies.ui.base.BaseFragment
+import com.elhady.movies.utilities.collectLast
+import dagger.hilt.android.AndroidEntryPoint
 
-class ActorDetailsFragment : Fragment() {
+@AndroidEntryPoint
+class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
+    override val layoutIdFragment: Int = R.layout.fragment_actor_details
+    override val viewModel: ActorDetailsViewModel by viewModels()
 
-    companion object {
-        fun newInstance() = ActorDetailsFragment()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.recyclerRelatedMovie.adapter = ActorMoviesAdapter(mutableListOf(), viewModel)
+        collectEvent()
+
     }
 
-    private lateinit var viewModel: ActorDetailsViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_actor_details, container, false)
+    private fun collectEvent() {
+        collectLast(viewModel.uiEvent) { event ->
+            event?.getContentIfNotHandled()?.let {
+                onEvent(it)
+            }
+        }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ActorDetailsViewModel::class.java)
-        // TODO: Use the ViewModel
+    private fun onEvent(event: ActorDetailsUiEvent) {
+        when (event) {
+            is ActorDetailsUiEvent.ClickMovieEvent -> {
+                findNavController().navigate(
+                    ActorDetailsFragmentDirections.actionActorDetailsFragmentToMovieDetailsFragment(
+                        event.movieID
+                    )
+                )
+            }
+
+            is ActorDetailsUiEvent.ClickSeeAllEvent -> {
+                findNavController().navigate(ActorDetailsFragmentDirections.actionActorDetailsFragmentToMoviesFragment(AllMediaType.ACTOR_MOVIES, viewModel.args.actorID))
+
+            }
+            is ActorDetailsUiEvent.ClickBackButton -> {
+                findNavController().popBackStack()
+            }
+        }
+
     }
+
 
 }

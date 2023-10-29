@@ -14,7 +14,7 @@ class GetAllActorsUseCase @Inject constructor(
     private val actorDtoMapper: ActorDtoMapper
 ) {
     suspend operator fun invoke(): Flow<PagingData<Actor>> {
-        return repository.getAllActors().flow.map { paging ->
+        return repository.getAllPopularPersons().flow.map { paging ->
             paging.map {
                 actorDtoMapper.map(it)
             }

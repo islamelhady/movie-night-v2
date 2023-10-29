@@ -16,7 +16,7 @@ import com.elhady.movies.ui.base.BaseAdapter
 import com.google.android.material.imageview.ShapeableImageView
 
 @BindingAdapter("app:movieImage")
-fun bindMovieImage(image: ShapeableImageView, imageURL: String?) {
+fun bindMovieImage(image: ImageView, imageURL: String?) {
     imageURL?.let {
         image.load(imageURL) {
             error(R.drawable.ic_launcher_background)
@@ -71,3 +71,14 @@ fun usePagerSnapHelperWithRecycler(recycler: RecyclerView, useSnapHelper: Boolea
     if (useSnapHelper)
         PagerSnapHelper().attachToRecyclerView(recycler)
 }
+
+@BindingAdapter(value = ["showWhenListNotEmpty"])
+fun<T> showWhenListNotEmpty(view: View, list: List<T>){
+    view.isVisible = list.isNotEmpty() == true
+}
+
+@BindingAdapter(value = ["showWhenTextNotEmpty"])
+fun showWhenTextNotEmpty(view: View, text: String){
+    view.isVisible = text.isNotEmpty()
+}
+

@@ -14,6 +14,7 @@ import com.elhady.movies.domain.usecases.home.actor.GetTrendingActorsUseCase
 import com.elhady.movies.domain.usecases.home.series.GetAiringTodaySeriesUseCase
 import com.elhady.movies.domain.usecases.home.series.GetOnTheAirSeriesUseCase
 import com.elhady.movies.domain.usecases.home.series.GetTVSeriesListsUseCase
+import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 import com.elhady.movies.ui.home.adapters.MovieInteractionListener
@@ -49,7 +50,7 @@ class HomeViewModel @Inject constructor(
     private val actorUiMapper: ActorUiMapper
 ) :
     BaseViewModel(), MovieInteractionListener, TVSeriesInteractionListener,
-    ActorInteractionListener {
+    ActorInteractionListener, MediaInteractionListener, HomeInteractionListener {
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
     val homeUiState = _homeUiState.asStateFlow()
@@ -362,26 +363,26 @@ class HomeViewModel @Inject constructor(
             HomeItemType.TRENDING -> AllMediaType.TRENDING
             HomeItemType.UPCOMING -> AllMediaType.UPCOMING
             HomeItemType.NOW_PLAYING -> AllMediaType.NOW_PLAYING
-            HomeItemType.TOP_RATED -> AllMediaType.TOP_RATED
+            HomeItemType.TOP_RATED -> AllMediaType.TOP_RATED_MOVIE
             HomeItemType.ON_THE_AIR_SERIES -> TODO()
-            HomeItemType.AIRING_TODAY_SERIES -> TODO()
             HomeItemType.MYSTERY -> AllMediaType.MYSTERY
             HomeItemType.ADVENTURE -> AllMediaType.ADVENTURE
+            HomeItemType.ACTOR_MOVIES -> AllMediaType.ACTOR_MOVIES
         }
         _homeUiEvent.update {
             Event(HomeUiEvent.ClickSeeAllMoviesEvent(type))
         }
     }
 
-    override fun onClickSeeAllActors() {
+    override fun onClickTVSeries(seriesID: Int) {
         _homeUiEvent.update {
-            Event(HomeUiEvent.ClickSeeAllActorsEvent)
+            Event(HomeUiEvent.ClickSeriesEvent(seriesID))
         }
     }
 
-    override fun onClickTVSeries(mediaID: Int) {
+    override fun onClickAllTVSeries(type: AllMediaType) {
         _homeUiEvent.update {
-            Event(HomeUiEvent.ClickAiringTodayEvent(mediaID))
+            Event(HomeUiEvent.ClickSeeAllSeriesEvent(type))
         }
     }
 
@@ -391,9 +392,15 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    override fun onClickAllTVSeries(type: AllMediaType) {
+    override fun onClickSeeAllActors() {
         _homeUiEvent.update {
-            Event(HomeUiEvent.ClickSeeAllSeriesEvent(type))
+            Event(HomeUiEvent.ClickSeeAllActorsEvent)
+        }
+    }
+
+    override fun onClickMedia(mediaId: Int) {
+        _homeUiEvent.update {
+            Event(HomeUiEvent.ClickSeriesEvent(mediaId))
         }
     }
 

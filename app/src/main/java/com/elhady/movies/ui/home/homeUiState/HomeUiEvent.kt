@@ -7,6 +7,6 @@ sealed interface HomeUiEvent {
     data class ClickSeeAllMoviesEvent(val mediaType: AllMediaType) : HomeUiEvent
     object ClickSeeAllActorsEvent : HomeUiEvent
     data class ClickActorEvent(val actorID: Int): HomeUiEvent
-    data class ClickAiringTodayEvent(val mediaID: Int): HomeUiEvent
     data class ClickSeeAllSeriesEvent(val mediaType: AllMediaType): HomeUiEvent
+    data class ClickSeriesEvent(val mediaID: Int): HomeUiEvent
 }

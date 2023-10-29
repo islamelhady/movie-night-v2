@@ -8,5 +8,8 @@ enum class AllMediaType {
     ADVENTURE,
     LATEST,
     POPULAR,
-    TOP_RATED,
+    TOP_RATED_TV,
+    TOP_RATED_MOVIE,
+    ON_THE_AIR,
+    ACTOR_MOVIES
 }

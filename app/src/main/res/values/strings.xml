@@ -21,10 +21,16 @@
     <string name="don_t_have_an_account">Don’t have an account?</string>
     <string name="sign_up">Sign up</string>
     <string name="airing_today_title">Airing today</string>
-    <string name="actors">Actors</string>
+    <string name="actors">Popular actors</string>
     <string name="oops">Oops!</string>
     <string name="description">There is no internet connection\nPlease check it out</string>
     <string name="retry">Retry</string>
     <string name="internet_connection">There is no internet connection.</string>
+    <string name="gender">Gender</string>
+    <string name="birthday">Birthday</string>
+    <string name="place_of_birth">Place Of Birth</string>
+    <string name="known_for">Known For</string>
+    <string name="movies">Movies</string>
+    <string name="biography">Biography</string>
 
 </resources>

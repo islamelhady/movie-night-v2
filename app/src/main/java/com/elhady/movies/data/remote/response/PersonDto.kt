@@ -21,5 +21,20 @@ data class PersonDto(
     @SerializedName("popularity")
     val popularity: Double?,
     @SerializedName("profile_path")
-    val profilePath: String?
+    val profilePath: String?,
+    @SerializedName("also_known_as")
+    val alsoKnownAs: List<String?>?,
+    @SerializedName("biography")
+    val biography: String?,
+    @SerializedName("birthday")
+    val birthday: String?,
+    @SerializedName("deathday")
+    val deathday: Any?,
+    @SerializedName("homepage")
+    val homepage: Any?,
+    @SerializedName("imdb_id")
+    val imdbId: String?,
+    @SerializedName("place_of_birth")
+    val placeOfBirth: String?,
+
 )

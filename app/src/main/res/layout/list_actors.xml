@@ -9,6 +9,11 @@
             name="adapterRecycler"
             type="com.elhady.movies.ui.home.adapters.ActorAdapter" />
 
+        <variable
+            name="listener"
+            type="com.elhady.movies.ui.home.HomeInteractionListener" />
+
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_too_small"
             android:gravity="center"
-            android:onClick="@{ () -> adapterRecycler.listener.onClickSeeAllActors()}"
+            android:onClick="@{ () -> listener.onClickSeeAllActors()}"
             android:paddingEnd="@dimen/spacing_too_small"
             android:text="@string/see_all"
             android:textColor="@color/brand_color"

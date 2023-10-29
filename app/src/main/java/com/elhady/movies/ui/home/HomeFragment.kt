@@ -77,7 +77,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
             is HomeUiEvent.ClickSeeAllMoviesEvent -> {
                 findNavController().navigate(
-                    HomeFragmentDirections.actionHomeFragmentToMoviesFragment(event.mediaType)
+                    HomeFragmentDirections.actionHomeFragmentToMoviesFragment(event.mediaType, -1)
                 )
             }
 
@@ -89,11 +89,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
             is HomeUiEvent.ClickActorEvent -> {
                 findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToActorDetailsFragment()
+                HomeFragmentDirections.actionHomeFragmentToActorDetailsFragment(event.actorID)
                 )
             }
 
-            is HomeUiEvent.ClickAiringTodayEvent -> {
+            is HomeUiEvent.ClickSeriesEvent -> {
                 findNavController().navigate(
                     HomeFragmentDirections.actionHomeFragmentToMovieDetailsFragment(event.mediaID)
                 )
@@ -101,7 +101,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
             is HomeUiEvent.ClickSeeAllSeriesEvent -> {
                 findNavController().navigate(
-                    HomeFragmentDirections.actionHomeFragmentToMoviesFragment(event.mediaType)
+                    HomeFragmentDirections.actionHomeFragmentToMoviesFragment(event.mediaType, -1)
                 )
             }
         }

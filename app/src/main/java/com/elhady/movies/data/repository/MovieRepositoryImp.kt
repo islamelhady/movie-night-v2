@@ -149,6 +149,13 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     /**
+     *  All Top Rated Movies
+     */
+    override fun getAllTopRatedMovies(): Pager<Int, MovieDto> {
+        return Pager(config = pagingConfig, pagingSourceFactory = { movieDataSourceContainer.topRatedMovieDataSource })
+    }
+
+    /**
      *  Now Playing Movies
      */
     override suspend fun getNowPlayingMovies(): Flow<List<NowPlayingMovieEntity>> {

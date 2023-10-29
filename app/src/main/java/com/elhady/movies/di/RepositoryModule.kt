@@ -26,6 +26,7 @@ import com.elhady.movies.data.repository.ActorRepository
 import com.elhady.movies.data.repository.ActorRepositoryImp
 import com.elhady.movies.data.repository.SeriesRepository
 import com.elhady.movies.data.repository.SeriesRepositoryImp
+import com.elhady.movies.data.repository.mediaDataSource.actors.ActorMoviesDataSource
 import com.elhady.movies.data.repository.mediaDataSource.movies.AdventureMovieDataSource
 import com.elhady.movies.data.repository.mediaDataSource.movies.MovieDataSourceContainer
 import com.elhady.movies.data.repository.mediaDataSource.movies.MysteryMovieDataSource
@@ -34,7 +35,9 @@ import com.elhady.movies.data.repository.mediaDataSource.series.TopRatedTVDataSo
 import com.elhady.movies.data.repository.mediaDataSource.movies.TrendingMovieDataSource
 import com.elhady.movies.data.repository.mediaDataSource.movies.UpcomingMovieDataSource
 import com.elhady.movies.data.repository.mediaDataSource.series.LatestTVDataSource
+import com.elhady.movies.data.repository.mediaDataSource.series.OnTheAirTVDataSource
 import com.elhady.movies.data.repository.mediaDataSource.series.PopularTVDataSource
+import com.elhady.movies.data.repository.mediaDataSource.series.SeriesDataSourceContainer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -53,14 +56,14 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideSeriesRepository(movieService: MovieService, onTheAirSeriesMapper: OnTheAirSeriesMapper, airingSeriesMapper: AiringTodaySeriesMapper, tvSeriesListsMapper: TVSeriesListsMapper, seriesDao: SeriesDao, appConfiguration: AppConfiguration, topRatedTVDataSource: TopRatedTVDataSource, popularTVDataSource: PopularTVDataSource, latestTVDataSource: LatestTVDataSource): SeriesRepository{
-        return SeriesRepositoryImp(movieService,onTheAirSeriesMapper, airingSeriesMapper,tvSeriesListsMapper , seriesDao, appConfiguration, topRatedTVDataSource, popularTVDataSource, latestTVDataSource)
+    fun provideSeriesRepository(movieService: MovieService, onTheAirSeriesMapper: OnTheAirSeriesMapper, airingSeriesMapper: AiringTodaySeriesMapper, tvSeriesListsMapper: TVSeriesListsMapper, seriesDao: SeriesDao, appConfiguration: AppConfiguration,seriesDataSourceContainer: SeriesDataSourceContainer): SeriesRepository{
+        return SeriesRepositoryImp(movieService,onTheAirSeriesMapper, airingSeriesMapper,tvSeriesListsMapper , seriesDao, appConfiguration, seriesDataSourceContainer)
     }
 
     @Provides
     @Singleton
-    fun provideActorsRepository(service: MovieService,actorsMapper: ActorsMapper,actorDao: ActorDao, appConfiguration: AppConfiguration, actorDataSource: ActorDataSource): ActorRepository{
-        return ActorRepositoryImp(service, actorsMapper, actorDao, appConfiguration, actorDataSource)
+    fun provideActorsRepository(service: MovieService,actorsMapper: ActorsMapper,actorDao: ActorDao, appConfiguration: AppConfiguration, actorDataSource: ActorDataSource, actorMoviesDataSource: ActorMoviesDataSource): ActorRepository{
+        return ActorRepositoryImp(service, actorsMapper, actorDao, appConfiguration, actorDataSource, actorMoviesDataSource)
     }
 
     @Provides

@@ -69,16 +69,33 @@
         <argument
             android:name="type"
             app:argType="com.elhady.movies.domain.enums.AllMediaType" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
 
     </fragment>
     <fragment
         android:id="@+id/actorsFragment"
         android:name="com.elhady.movies.ui.actors.ActorsFragment"
         android:label="fragment_actors"
-        tools:layout="@layout/fragment_actors" />
+        tools:layout="@layout/fragment_actors" >
+        <action
+            android:id="@+id/action_actorsFragment_to_actorDetailsFragment"
+            app:destination="@id/actorDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/actorDetailsFragment"
         android:name="com.elhady.movies.ui.actorDetails.ActorDetailsFragment"
         android:label="fragment_actor_details"
-        tools:layout="@layout/fragment_actor_details" />
+        tools:layout="@layout/fragment_actor_details" >
+        <action
+            android:id="@+id/action_actorDetailsFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+        <action
+            android:id="@+id/action_actorDetailsFragment_to_moviesFragment"
+            app:destination="@id/moviesFragment" />
+        <argument
+            android:name="actorID"
+            app:argType="integer" />
+    </fragment>
 </navigation>

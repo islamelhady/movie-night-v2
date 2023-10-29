@@ -1,16 +1,12 @@
 package com.elhady.movies.data.repository.mediaDataSource.series
 
-import androidx.paging.PagingSource
-import androidx.paging.PagingState
 import com.elhady.movies.data.remote.response.tvShow.TVShowDto
 import com.elhady.movies.data.remote.service.MovieService
+import com.elhady.movies.data.repository.mediaDataSource.BasePagingSource
 import javax.inject.Inject
 
 class TopRatedTVDataSource @Inject constructor(private val service: MovieService) :
-    PagingSource<Int, TVShowDto>() {
-    override fun getRefreshKey(state: PagingState<Int, TVShowDto>): Int? {
-        return state.anchorPosition
-    }
+    BasePagingSource<TVShowDto>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TVShowDto> {
         val pageNumber = params.key ?: 1

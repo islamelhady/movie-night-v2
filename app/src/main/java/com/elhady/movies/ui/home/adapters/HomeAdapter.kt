@@ -5,9 +5,14 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.elhady.movies.BR
 import com.elhady.movies.R
+import com.elhady.movies.domain.enums.HomeItemType
+import com.elhady.movies.ui.adapter.MediaAdapter
+import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseAdapter
 import com.elhady.movies.ui.base.BaseInteractionListener
+import com.elhady.movies.ui.home.HomeInteractionListener
 import com.elhady.movies.ui.home.HomeItem
+import com.elhady.movies.ui.models.MediaUiState
 
 class HomeAdapter(
     private var homeItems: List<HomeItem>,
@@ -48,41 +53,25 @@ class HomeAdapter(
             }
 
             is HomeItem.Upcoming -> {
-                holder.binding.setVariable(
-                    BR.adapterRecycler,
-                    MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener)
-                )
-                holder.binding.setVariable(BR.movieType, currentHomeItem.type)
+                bindMovie(holder, currentHomeItem.items, currentHomeItem.type)
             }
 
             is HomeItem.Trending -> {
-                holder.binding.setVariable(
-                    BR.adapterRecycler,
-                    MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener)
-                )
-                holder.binding.setVariable(BR.movieType, currentHomeItem.type)
+               bindMovie(holder, currentHomeItem.items, currentHomeItem.type)
             }
 
             is HomeItem.NowPlaying -> {
-                holder.binding.setVariable(
-                    BR.adapterRecycler,
-                    MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener)
-                )
-                holder.binding.setVariable(BR.movieType, currentHomeItem.type)
+               bindMovie(holder, currentHomeItem.items, currentHomeItem.type)
             }
 
             is HomeItem.TopRated -> {
-                holder.binding.setVariable(
-                    BR.adapterRecycler,
-                    MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener)
-                )
-                holder.binding.setVariable(BR.movieType, currentHomeItem.type)
+              bindMovie(holder, currentHomeItem.items, currentHomeItem.type)
             }
 
             is HomeItem.OnTheAirSeries -> {
                 holder.binding.setVariable(
                     BR.adapterRecycler,
-                    MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener)
+                    TVSeriesAdapter(currentHomeItem.items, listener as TVSeriesInteractionListener, R.layout.item_tv_show)
                 )
                 holder.binding.setVariable(BR.movieType, currentHomeItem.type)
             }
@@ -90,9 +79,9 @@ class HomeAdapter(
             is HomeItem.AiringTodaySeries -> {
                 holder.binding.setVariable(
                     BR.adapterRecycler,
-                    TVSeriesAdapter(
+                    MediaAdapter(
                         currentHomeItem.items.take(6),
-                        listener as TVSeriesInteractionListener, R.layout.item_airing_today
+                        listener as MediaInteractionListener, R.layout.item_airing_today
                     )
                 )
                 holder.binding.setVariable(BR.count, currentHomeItem.items.size)
@@ -110,28 +99,26 @@ class HomeAdapter(
             }
 
             is HomeItem.Mystery -> {
-                holder.binding.setVariable(
-                    BR.adapterRecycler,
-                    MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener)
-                )
-                holder.binding.setVariable(BR.movieType, currentHomeItem.type)
+                bindMovie(holder, currentHomeItem.items, currentHomeItem.type)
             }
 
             is HomeItem.Adventure -> {
-                holder.binding.setVariable(
-                    BR.adapterRecycler,
-                    MovieAdapter(currentHomeItem.items, listener as MovieInteractionListener)
-                )
-                holder.binding.setVariable(BR.movieType, currentHomeItem.type)
+                bindMovie(holder,currentHomeItem.items, currentHomeItem.type)
             }
 
             is HomeItem.Actor -> {
                 holder.binding.setVariable(BR.adapterRecycler, ActorAdapter(currentHomeItem.items, listener as ActorInteractionListener, R.layout.item_actor))
+                holder.binding.setVariable(BR.listener, listener as HomeInteractionListener)
             }
         }
     }
 
-
+    private fun bindMovie(holder: ItemViewHolder, items: List<MediaUiState>, type: HomeItemType){
+        holder.binding.run {
+            setVariable(BR.adapterRecycler, MovieAdapter(items = items, listener = listener as MovieInteractionListener))
+            setVariable(BR.movieType, type)
+        }
+    }
 
     override fun areItemContent(oldItem: HomeItem, newItem: HomeItem): Boolean {
         return oldItem == newItem
@@ -143,11 +130,11 @@ class HomeAdapter(
             is HomeItem.AiringTodaySeries -> R.layout.list_airing_today
             is HomeItem.TVSeriesLists -> R.layout.list_tv_series
             is HomeItem.Actor -> R.layout.list_actors
+            is HomeItem.OnTheAirSeries -> R.layout.list_shows
             is HomeItem.Upcoming,
             is HomeItem.Trending,
             is HomeItem.NowPlaying,
             is HomeItem.TopRated,
-            is HomeItem.OnTheAirSeries,
             is HomeItem.Mystery,
             is HomeItem.Adventure,
             -> R.layout.list_movie
