@@ -32,5 +32,6 @@
     <string name="known_for">Known For</string>
     <string name="movies">Movies</string>
     <string name="biography">Biography</string>
+    <string name="play_trailer">Play Trailer</string>
 
 </resources>
