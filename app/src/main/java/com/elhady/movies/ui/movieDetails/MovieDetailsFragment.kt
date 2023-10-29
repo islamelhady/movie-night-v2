@@ -29,7 +29,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
     private fun collectMovieDetailsItems() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.detailsUiState.collect {
-                detailAdapter.setItems(mutableListOf(it.movieDetailsResult))
+                detailAdapter.setItems(mutableListOf(it.movieDetailsResult,it.movieCastResult))
             }
         }
     }

@@ -33,5 +33,6 @@
     <string name="movies">Movies</string>
     <string name="biography">Biography</string>
     <string name="play_trailer">Play Trailer</string>
+    <string name="cast">Cast</string>
 
 </resources>

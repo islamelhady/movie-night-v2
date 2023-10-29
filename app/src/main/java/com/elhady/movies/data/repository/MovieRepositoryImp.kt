@@ -20,6 +20,7 @@ import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.local.mappers.movies.PopularMovieMapper
 import com.elhady.movies.data.local.mappers.movies.TopRatedMovieMapper
+import com.elhady.movies.data.remote.response.CreditsDto
 import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.repository.mediaDataSource.movies.MovieDataSourceContainer
@@ -303,9 +304,15 @@ class MovieRepositoryImp @Inject constructor(
 
     /**
      * Movie Details
+     * * Details movies
+     * * Cast
      */
     override suspend fun getDetailsMovies(movieId: Int): MovieDetailsDto? {
         return movieService.getDetailsMovies(movieId = movieId).body()
+    }
+
+    override suspend fun getMovieCast(movieId: Int): CreditsDto? {
+        return movieService.getMovieCast(movieId = movieId).body()
     }
 
 }

@@ -8,6 +8,7 @@ import com.elhady.movies.data.local.database.entity.movies.PopularMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.TopRatedMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.TrendingMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.UpcomingMovieEntity
+import com.elhady.movies.data.remote.response.CreditsDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
@@ -44,5 +45,7 @@ interface MovieRepository {
     suspend fun getGenreMovies(): List<GenreDto>?
 
     suspend fun getDetailsMovies(movieId: Int): MovieDetailsDto?
+
+    suspend fun getMovieCast(movieId: Int): CreditsDto?
 
 }

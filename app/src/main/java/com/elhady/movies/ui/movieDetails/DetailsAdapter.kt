@@ -5,8 +5,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.library.baseAdapters.BR
 import com.elhady.movies.R
+import com.elhady.movies.ui.actors.ActorsAdapter
 import com.elhady.movies.ui.base.BaseAdapter
 import com.elhady.movies.ui.base.BaseInteractionListener
+import com.elhady.movies.ui.home.adapters.ActorAdapter
+import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 
 class DetailsAdapter(
     private var detailsItems: List<DetailsItem>,
@@ -40,7 +43,10 @@ class DetailsAdapter(
         when (val currentItem = detailsItems[position]){
             is DetailsItem.Header -> {
                 holder.binding.setVariable(BR.item, currentItem.data)
+            }
 
+            is DetailsItem.Cast -> {
+                holder.binding.setVariable(BR.adapterRecycler, ActorAdapter(items = currentItem.data, listener = listener as ActorInteractionListener, R.layout.item_cast))
             }
         }
 
@@ -49,6 +55,7 @@ class DetailsAdapter(
     override fun getItemViewType(position: Int): Int {
         return when(detailsItems[position]){
             is DetailsItem.Header -> R.layout.item_movie_details
+            is DetailsItem.Cast -> R.layout.list_cast
         }
 
     }
