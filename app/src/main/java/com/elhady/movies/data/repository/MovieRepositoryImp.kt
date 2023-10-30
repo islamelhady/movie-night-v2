@@ -306,6 +306,7 @@ class MovieRepositoryImp @Inject constructor(
      * Movie Details
      * * Details movies
      * * Cast
+     * * Similar movies
      */
     override suspend fun getDetailsMovies(movieId: Int): MovieDetailsDto? {
         return movieService.getDetailsMovies(movieId = movieId).body()
@@ -313,6 +314,10 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getMovieCast(movieId: Int): CreditsDto? {
         return movieService.getMovieCast(movieId = movieId).body()
+    }
+
+    override suspend fun getSimilarMovies(movieId: Int): List<MovieDto>? {
+        return movieService.getSimilarMovie(movieId = movieId).body()?.items
     }
 
 }

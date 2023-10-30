@@ -10,6 +10,8 @@ import com.elhady.movies.ui.base.BaseAdapter
 import com.elhady.movies.ui.base.BaseInteractionListener
 import com.elhady.movies.ui.home.adapters.ActorAdapter
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
+import com.elhady.movies.ui.home.adapters.MovieAdapter
+import com.elhady.movies.ui.home.adapters.MovieInteractionListener
 
 class DetailsAdapter(
     private var detailsItems: List<DetailsItem>,
@@ -48,6 +50,10 @@ class DetailsAdapter(
             is DetailsItem.Cast -> {
                 holder.binding.setVariable(BR.adapterRecycler, ActorAdapter(items = currentItem.data, listener = listener as ActorInteractionListener, R.layout.item_cast))
             }
+
+            is DetailsItem.Similar -> {
+                holder.binding.setVariable(BR.adapterRecycler, MovieAdapter(items = currentItem.data, listener = listener as MovieInteractionListener))
+            }
         }
 
     }
@@ -56,6 +62,7 @@ class DetailsAdapter(
         return when(detailsItems[position]){
             is DetailsItem.Header -> R.layout.item_movie_details
             is DetailsItem.Cast -> R.layout.list_cast
+            is DetailsItem.Similar -> R.layout.list_similar_movies
         }
 
     }

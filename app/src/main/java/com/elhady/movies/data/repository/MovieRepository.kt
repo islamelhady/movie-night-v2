@@ -48,4 +48,6 @@ interface MovieRepository {
 
     suspend fun getMovieCast(movieId: Int): CreditsDto?
 
+    suspend fun getSimilarMovies(movieId: Int): List<MovieDto>?
+
 }

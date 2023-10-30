@@ -39,5 +39,6 @@
     <string name="hours_minutes_pattern">%1$s h %2$s m</string>
     <string name="overview">Overview</string>
     <string name="reviews">(%1$s reviews)</string>
+    <string name="similar_movies">Similar movies</string>
 
 </resources>

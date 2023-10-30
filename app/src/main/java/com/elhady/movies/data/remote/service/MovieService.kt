@@ -80,12 +80,16 @@ interface MovieService {
      * Movies
      * * Details
      * * Credits (Cast)
+     * * Similar
      */
     @GET("movie/{movie_id}")
     suspend fun getDetailsMovies(@Path("movie_id") movieId: Int): Response<MovieDetailsDto>
 
     @GET("movie/{movie_id}/credits")
     suspend fun getMovieCast(@Path("movie_id") movieId: Int): Response<CreditsDto>
+
+    @GET("movie/{movie_id}/similar")
+    suspend fun getSimilarMovie(@Path("movie_id") movieId: Int): Response<BaseResponse<MovieDto>>
 
 
 
