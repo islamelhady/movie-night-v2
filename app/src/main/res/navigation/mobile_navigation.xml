@@ -60,6 +60,12 @@
         <argument
             android:name="movieID"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_videoFragment"
+            app:destination="@id/videoFragment" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_actorDetailsFragment"
+            app:destination="@id/actorDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/moviesFragment"
@@ -98,4 +104,9 @@
             android:name="actorID"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/videoFragment"
+        android:name="com.elhady.movies.ui.video.VideoFragment"
+        android:label="VideoFragment"
+        tools:layout="@layout/fragment_video"/>
 </navigation>

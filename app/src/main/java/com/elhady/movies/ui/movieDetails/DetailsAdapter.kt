@@ -45,6 +45,7 @@ class DetailsAdapter(
         when (val currentItem = detailsItems[position]){
             is DetailsItem.Header -> {
                 holder.binding.setVariable(BR.item, currentItem.data)
+                holder.binding.setVariable(BR.listener, listener as DetailsInteractionListener)
             }
 
             is DetailsItem.Cast -> {

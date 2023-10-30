@@ -5,6 +5,7 @@ data class DetailsUiState(
     val movieCastResult: DetailsItem = DetailsItem.Cast(emptyList()),
     val similarMoviesResult: DetailsItem = DetailsItem.Similar(emptyList()),
     val isLoading: Boolean = false,
+    val isSuccess: Boolean = false,
     val errorUIStates: List<Error> = emptyList(),
 )
 

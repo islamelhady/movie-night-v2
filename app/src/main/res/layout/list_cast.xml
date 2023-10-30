@@ -9,6 +9,10 @@
             name="adapterRecycler"
             type="com.elhady.movies.ui.home.adapters.ActorAdapter" />
 
+        <variable
+            name="viewModel"
+            type="com.elhady.movies.ui.movieDetails.MovieDetailsViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,6 +23,7 @@
         <TextView
             android:id="@+id/cast"
             style="@style/SimiBold.Medium"
+            isVisible="@{viewModel.detailsUiState.success}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"

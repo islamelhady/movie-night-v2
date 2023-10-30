@@ -9,6 +9,7 @@ import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 import com.elhady.movies.ui.home.adapters.MovieInteractionListener
 import com.elhady.movies.ui.mappers.ActorUiMapper
 import com.elhady.movies.ui.mappers.MediaUiMapper
+import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,10 +27,13 @@ class MovieDetailsViewModel @Inject constructor(
 ) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener, MovieInteractionListener {
 
 
-    private val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
+    val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
 
     private val _detailsUiState = MutableStateFlow(DetailsUiState())
     val detailsUiState = _detailsUiState.asStateFlow()
+
+    private val _detailsUiEvent = MutableStateFlow<Event<MovieDetailsUiEvent?>>(Event(null))
+    val detailsUiEvent = _detailsUiEvent.asStateFlow()
 
 
     init {
@@ -47,7 +51,7 @@ class MovieDetailsViewModel @Inject constructor(
             viewModelScope.launch {
                 val movieDetailsResult = movieDetailsUiMapper.map(getMovieDetailsUseCase(movieId))
                 _detailsUiState.update {
-                    it.copy(movieDetailsResult = DetailsItem.Header(movieDetailsResult), isLoading = false)
+                    it.copy(movieDetailsResult = DetailsItem.Header(movieDetailsResult), isLoading = false, isSuccess = true)
                 }
             }
     }
@@ -58,7 +62,7 @@ class MovieDetailsViewModel @Inject constructor(
                 actorUiMapper.map(it)
             }
             _detailsUiState.update {
-                it.copy(movieCastResult = DetailsItem.Cast(result), isLoading = false)
+                it.copy(movieCastResult = DetailsItem.Cast(result), isLoading = false, isSuccess = true)
             }
         }
     }
@@ -69,14 +73,16 @@ class MovieDetailsViewModel @Inject constructor(
                 mediaUiMapper.map(it)
             }
             _detailsUiState.update {
-                it.copy(similarMoviesResult = DetailsItem.Similar(result), isLoading = false)
+                it.copy(similarMoviesResult = DetailsItem.Similar(result), isLoading = false, isSuccess = true)
             }
         }
     }
 
 
     override fun onClickBackButton() {
-        TODO("Not yet implemented")
+        _detailsUiEvent.update {
+            Event(MovieDetailsUiEvent.ClickBackButton)
+        }
     }
 
     override fun onClickActor(actorID: Int) {
@@ -84,11 +90,19 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onClickMovie(movieID: Int) {
-        TODO("Not yet implemented")
+        _detailsUiEvent.update {
+            Event(MovieDetailsUiEvent.ClickMovieEvent(movieID))
+        }
     }
 
     override fun onClickSeeAllMovies(mediaType: HomeItemType) {
         TODO("Not yet implemented")
+    }
+
+    override fun onClickPlayTrailer() {
+        _detailsUiEvent.update {
+            Event(MovieDetailsUiEvent.ClickPlayTrailerEvent)
+        }
     }
 
 
