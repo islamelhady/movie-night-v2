@@ -4,8 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.enums.HomeItemType
 import com.elhady.movies.domain.usecases.movieDetails.GetMovieDetailsUseCase
-import com.elhady.movies.ui.actorDetails.ActorMoviesUiMapper
-import com.elhady.movies.ui.actors.ActorsUiState
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 import com.elhady.movies.ui.home.adapters.MovieInteractionListener
@@ -39,18 +37,19 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun getData() {
+        _detailsUiState.update { it.copy(isLoading = true, errorUIStates = emptyList()) }
         getMovieDetails(args.movieID)
         getMovieCast(args.movieID)
         getSimilarMovies(args.movieID)
     }
 
     private fun getMovieDetails(movieId: Int) {
-        viewModelScope.launch {
-            val movieDetailsResult = movieDetailsUiMapper.map(getMovieDetailsUseCase(movieId))
-            _detailsUiState.update {
-                it.copy(movieDetailsResult = DetailsItem.Header(movieDetailsResult))
+            viewModelScope.launch {
+                val movieDetailsResult = movieDetailsUiMapper.map(getMovieDetailsUseCase(movieId))
+                _detailsUiState.update {
+                    it.copy(movieDetailsResult = DetailsItem.Header(movieDetailsResult), isLoading = false)
+                }
             }
-        }
     }
 
     private fun getMovieCast(movieId: Int) {
@@ -59,7 +58,7 @@ class MovieDetailsViewModel @Inject constructor(
                 actorUiMapper.map(it)
             }
             _detailsUiState.update {
-                it.copy(movieCastResult = DetailsItem.Cast(result))
+                it.copy(movieCastResult = DetailsItem.Cast(result), isLoading = false)
             }
         }
     }
@@ -70,7 +69,7 @@ class MovieDetailsViewModel @Inject constructor(
                 mediaUiMapper.map(it)
             }
             _detailsUiState.update {
-                it.copy(similarMoviesResult = DetailsItem.Similar(result))
+                it.copy(similarMoviesResult = DetailsItem.Similar(result), isLoading = false)
             }
         }
     }

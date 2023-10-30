@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.elhady.movies.ui.movieDetails.MovieDetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,12 +23,23 @@
             android:orientation="vertical"
             android:overScrollMode="never"
             android:scrollbars="none"
+            hideIfTrue="@{viewModel.detailsUiState.loading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/item_movie_details"/>
 
+        <include
+            android:id="@+id/loading"
+            layout="@layout/loading"
+            isVisible="@{viewModel.detailsUiState.loading}" />
+
+        <include
+            android:id="@+id/error"
+            layout="@layout/error"
+            isVisible="@{!viewModel.detailsUiState.loading}"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
