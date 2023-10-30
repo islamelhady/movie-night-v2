@@ -55,6 +55,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
+            android:layout_marginTop="@dimen/spacing_too_small"
             android:lines="1"
             android:text="@{item.characterName}"
             android:textAlignment="center"

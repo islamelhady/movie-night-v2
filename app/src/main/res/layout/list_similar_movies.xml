@@ -8,6 +8,10 @@
         <variable
             name="adapterRecycler"
             type="com.elhady.movies.ui.home.adapters.MovieAdapter" />
+
+        <variable
+            name="viewModel"
+            type="com.elhady.movies.ui.movieDetails.MovieDetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,6 +21,7 @@
         <TextView
             android:id="@+id/similar_movie_title"
             style="@style/SimiBold.Medium"
+            isVisible="@{viewModel.detailsUiState.success}"
             android:text="@string/similar_movies"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

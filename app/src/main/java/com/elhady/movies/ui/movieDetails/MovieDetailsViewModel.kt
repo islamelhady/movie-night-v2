@@ -41,7 +41,7 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun getData() {
-        _detailsUiState.update { it.copy(isLoading = true, errorUIStates = emptyList()) }
+        _detailsUiState.update { it.copy(isLoading = true, errorUIStates = emptyList(), isSuccess = false) }
         getMovieDetails(args.movieID)
         getMovieCast(args.movieID)
         getSimilarMovies(args.movieID)
