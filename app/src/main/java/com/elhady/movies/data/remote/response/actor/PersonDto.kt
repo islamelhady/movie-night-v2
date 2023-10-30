@@ -36,5 +36,7 @@ data class PersonDto(
     val imdbId: String?,
     @SerializedName("place_of_birth")
     val placeOfBirth: String?,
+    @SerializedName("character")
+    val character: String?,
 
 )

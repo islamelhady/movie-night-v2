@@ -11,7 +11,8 @@ class ActorsMapper @Inject constructor(): Mapper<PersonDto, ActorEntity> {
         return ActorEntity(
             id = input.id ?: 0,
             name = input.name ?: "",
-            imageUrl = (Constants.IMAGE_PATH + input.profilePath)
+            imageUrl = (Constants.IMAGE_PATH + input.profilePath),
+            characterName = input.character ?: ""
         )
     }
 }

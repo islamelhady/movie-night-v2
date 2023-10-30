@@ -10,7 +10,8 @@ class ActorUiMapper @Inject constructor(): Mapper<Actor, ActorUiState> {
         return ActorUiState(
             id = input.id,
             name = input.name,
-            imageUrl = input.imageUrl
+            imageUrl = input.imageUrl,
+            characterName = input.characterName
         )
     }
 }

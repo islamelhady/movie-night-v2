@@ -35,7 +35,7 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/cast_original_name"
+            android:id="@+id/cast_name"
             style="@style/Regular.Medium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -50,17 +50,17 @@
             tools:text="@tools:sample/full_names" />
 
         <TextView
-            android:id="@+id/cast_name"
+            android:id="@+id/cast_character_name"
             style="@style/Regular.Medium.Secondary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:lines="1"
-            android:text="@{item.name}"
+            android:text="@{item.characterName}"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="@+id/cast_image"
             app:layout_constraintStart_toStartOf="@+id/cast_image"
-            app:layout_constraintTop_toBottomOf="@+id/cast_original_name"
+            app:layout_constraintTop_toBottomOf="@+id/cast_name"
             tools:text="@tools:sample/full_names" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
