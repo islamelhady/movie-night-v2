@@ -1,6 +1,7 @@
 package com.elhady.movies.ui.movieDetails
 
-import com.elhady.movies.ui.actorDetails.ActorMoviesUiState
+import com.elhady.movies.ui.models.ActorUiState
+import com.elhady.movies.ui.models.MediaUiState
 
 data class DetailsUiState(
     val movieDetailsResult: DetailsItem = DetailsItem.Header(MovieDetailsUiState()),

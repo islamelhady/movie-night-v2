@@ -41,7 +41,7 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun getData() {
-        _detailsUiState.update { it.copy(isLoading = true, errorUIStates = emptyList(), isSuccess = false) }
+        _detailsUiState.update { it.copy(isLoading = true, errorUIStates = emptyList()) }
         getMovieDetails(args.movieID)
         getMovieCast(args.movieID)
         getSimilarMovies(args.movieID)
@@ -51,7 +51,7 @@ class MovieDetailsViewModel @Inject constructor(
             viewModelScope.launch {
                 val movieDetailsResult = movieDetailsUiMapper.map(getMovieDetailsUseCase(movieId))
                 _detailsUiState.update {
-                    it.copy(movieDetailsResult = DetailsItem.Header(movieDetailsResult), isLoading = false, isSuccess = true)
+                    it.copy(movieDetailsResult = DetailsItem.Header(movieDetailsResult), isLoading = false)
                 }
             }
     }
@@ -62,7 +62,7 @@ class MovieDetailsViewModel @Inject constructor(
                 actorUiMapper.map(it)
             }
             _detailsUiState.update {
-                it.copy(movieCastResult = DetailsItem.Cast(result), isLoading = false, isSuccess = true)
+                it.copy(movieCastResult = DetailsItem.Cast(result), isLoading = false)
             }
         }
     }
@@ -73,7 +73,7 @@ class MovieDetailsViewModel @Inject constructor(
                 mediaUiMapper.map(it)
             }
             _detailsUiState.update {
-                it.copy(similarMoviesResult = DetailsItem.Similar(result), isLoading = false, isSuccess = true)
+                it.copy(similarMoviesResult = DetailsItem.Similar(result), isLoading = false)
             }
         }
     }
@@ -86,7 +86,9 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onClickActor(actorID: Int) {
-        TODO("Not yet implemented")
+        _detailsUiEvent.update {
+            Event(MovieDetailsUiEvent.ClickCastEvent(castId = actorID))
+        }
     }
 
     override fun onClickMovie(movieID: Int) {

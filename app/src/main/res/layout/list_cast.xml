@@ -23,7 +23,6 @@
         <TextView
             android:id="@+id/cast"
             style="@style/SimiBold.Medium"
-            isVisible="@{viewModel.detailsUiState.success}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"

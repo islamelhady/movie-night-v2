@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.elhady.movies.R
 import com.elhady.movies.databinding.FragmentMovieDetailsBinding
@@ -22,13 +23,16 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        detailAdapter = DetailsAdapter(mutableListOf(), viewModel)
-        binding.recyclerView.adapter = detailAdapter
-
+        setupAdapter()
         collectMovieDetailsItems()
         collectEvents()
     }
 
+
+    private fun setupAdapter(){
+        detailAdapter = DetailsAdapter(mutableListOf(), viewModel)
+        binding.recyclerView.adapter = detailAdapter
+    }
     private fun collectMovieDetailsItems() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.detailsUiState.collect {
@@ -44,15 +48,28 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
     }
 
     private fun onEvent(event: MovieDetailsUiEvent){
+        var action: NavDirections? = null
+
         when(event){
-            MovieDetailsUiEvent.ClickPlayTrailerEvent -> {
-                findNavController().navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragmentToVideoFragment())
+            is MovieDetailsUiEvent.ClickPlayTrailerEvent -> {
+                action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToVideoFragment()
             }
 
-            MovieDetailsUiEvent.ClickBackButton -> findNavController().popBackStack()
+            is MovieDetailsUiEvent.ClickBackButton -> findNavController().popBackStack()
+
             is MovieDetailsUiEvent.ClickMovieEvent -> {
-                findNavController().navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragmentToActorDetailsFragment(viewModel.args.movieID))
+                viewModelStore.clear()
+                action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentSelf(event.movieId)
+            }
+
+            is MovieDetailsUiEvent.ClickCastEvent -> {
+               action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToActorDetailsFragment(event.castId)
             }
         }
+
+        action?.let {
+            findNavController().navigate(it)
+        }
+
     }
 }
