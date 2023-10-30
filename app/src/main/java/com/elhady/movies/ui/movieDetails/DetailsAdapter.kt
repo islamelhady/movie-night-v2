@@ -55,6 +55,10 @@ class DetailsAdapter(
             is DetailsItem.Similar -> {
                 holder.binding.setVariable(BR.adapterRecycler, MovieAdapter(items = currentItem.data, listener = listener as MovieInteractionListener))
             }
+
+            is DetailsItem.Reviews -> {
+                holder.binding.setVariable(BR.adapterRecycler, currentItem.data)
+            }
         }
 
     }

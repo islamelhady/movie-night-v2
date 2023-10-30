@@ -99,5 +99,5 @@ dependencies {
     implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0")
 
     // Expandable TextView
-    implementation ("com.ms-square:expandableTextView:0.1.4")
+    implementation ("io.github.glailton.expandabletextview:expandabletextview:1.0.2")
 }
