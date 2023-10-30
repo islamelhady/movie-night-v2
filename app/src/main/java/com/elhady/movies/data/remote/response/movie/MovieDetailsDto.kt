@@ -4,6 +4,7 @@ package com.elhady.movies.data.remote.response.movie
 import com.elhady.movies.data.remote.response.SpokenLanguageDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.google.gson.annotations.SerializedName
+import java.util.Date
 
 data class MovieDetailsDto(
     @SerializedName("adult")
@@ -33,7 +34,7 @@ data class MovieDetailsDto(
     @SerializedName("poster_path")
     val posterPath: String?,
     @SerializedName("release_date")
-    val releaseDate: String?,
+    val releaseDate: Date?,
     @SerializedName("revenue")
     val revenue: Int?,
     @SerializedName("runtime")

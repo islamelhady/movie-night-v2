@@ -1,15 +1,20 @@
 package com.elhady.movies.utilities
 
+import android.widget.TextView
+import androidx.databinding.BindingAdapter
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
+import com.elhady.movies.R
 import com.elhady.movies.ui.adapter.LoadAdapter
 import com.elhady.movies.ui.base.BasePagingAdapter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun <T> LifecycleOwner.collectLast(flow: Flow<T>, action: suspend (T) -> Unit) {
     lifecycleScope.launch {
@@ -40,3 +45,21 @@ fun <T : Any> GridLayoutManager.setSpanSize(
         }
     }
 }
+
+fun Date.convertToDayMonthYearFormat(): String {
+    val formatter = SimpleDateFormat("dd/mm/yyyy", Locale.getDefault())
+    return formatter.format(this)
+}
+
+@BindingAdapter(value = ["app:movieHours", "app:movieMinutes"])
+fun setDuration(view: TextView, hours: Int?, minutes: Int?) {
+    if (hours == 0) {
+        view.text = String.format(view.context.getString(R.string.minutes_pattern), minutes)
+    } else if (minutes == 0) {
+        view.text = String.format(view.context.getString(R.string.hours_pattern), hours)
+    } else {
+        view.text =
+            String.format(view.context.getString(R.string.hours_minutes_pattern), hours, minutes)
+    }
+}
+

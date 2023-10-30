@@ -34,5 +34,10 @@
     <string name="biography">Biography</string>
     <string name="play_trailer">Play Trailer</string>
     <string name="cast">Cast</string>
+    <string name="hours_pattern">%1$s hours</string>
+    <string name="minutes_pattern">%1$s minutes</string>
+    <string name="hours_minutes_pattern">%1$s h %2$s m</string>
+    <string name="overview">Overview</string>
+    <string name="reviews">(%1$s reviews)</string>
 
 </resources>
