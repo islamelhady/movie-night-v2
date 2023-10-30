@@ -40,5 +40,6 @@
     <string name="overview">Overview</string>
     <string name="reviews">(%1$s reviews)</string>
     <string name="similar_movies">Similar movies</string>
+    <string name="very_long_text">Description movie Description movie Description movie Description movie Description movie Description movie Description movie</string>
 
 </resources>

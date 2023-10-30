@@ -6,14 +6,17 @@ import com.elhady.movies.domain.mappers.movie.MovieDetailsDtoMapper
 import com.elhady.movies.domain.mappers.movie.MovieDtoMapper
 import com.elhady.movies.domain.models.Actor
 import com.elhady.movies.domain.models.Media
+import com.elhady.movies.domain.models.MediaDetailsReview
 import com.elhady.movies.domain.models.MovieDetails
+import com.elhady.movies.domain.usecases.GetReviewsUseCase
 import javax.inject.Inject
 
 class GetMovieDetailsUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
     private val movieDetailsDtoMapper: MovieDetailsDtoMapper,
     private val actorDtoMapper: ActorDtoMapper,
-    private val movieDtoMapper: MovieDtoMapper
+    private val movieDtoMapper: MovieDtoMapper,
+    private val getMovieReviewsUseCase: GetReviewsUseCase
 ) {
     suspend operator fun invoke(movieId: Int): MovieDetails {
         val response = movieRepository.getDetailsMovies(movieId)
@@ -41,5 +44,9 @@ class GetMovieDetailsUseCase @Inject constructor(
         } ?: throw Throwable("Not success")
     }
 
+    suspend fun getReview(movieId: Int): MediaDetailsReview{
+        val reviews = getMovieReviewsUseCase(movieId)
+        return MediaDetailsReview(reviews.take(4),reviews.size > 4)
+    }
 
 }
