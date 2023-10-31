@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.enums.HomeItemType
 import com.elhady.movies.domain.usecases.movieDetails.GetMovieDetailsUseCase
-import com.elhady.movies.ui.adapter.ReviewInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 import com.elhady.movies.ui.home.adapters.MovieInteractionListener
@@ -27,7 +26,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val actorUiMapper: ActorUiMapper,
     private val mediaUiMapper: MediaUiMapper,
     private val reviewUiMapper: ReviewUiMapper
-) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener, MovieInteractionListener, ReviewInteractionListener {
+) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener, MovieInteractionListener {
 
 
     val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
@@ -53,10 +52,11 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun getMovieDetails(movieId: Int) {
             viewModelScope.launch {
-                val movieDetailsResult = movieDetailsUiMapper.map(getMovieDetailsUseCase(movieId))
+                val result = movieDetailsUiMapper.map(getMovieDetailsUseCase(movieId))
                 _detailsUiState.update {
-                    it.copy(movieDetailsResult = DetailsItem.Header(movieDetailsResult), isLoading = false)
+                    it.copy(movieDetailsResult = result, isLoading = false)
                 }
+                onAddMovieDetailsItemOfNestedView(DetailsItem.Header(_detailsUiState.value.movieDetailsResult))
             }
     }
 
@@ -66,8 +66,9 @@ class MovieDetailsViewModel @Inject constructor(
                 actorUiMapper.map(it)
             }
             _detailsUiState.update {
-                it.copy(movieCastResult = DetailsItem.Cast(result), isLoading = false)
+                it.copy(movieCastResult = result, isLoading = false)
             }
+            onAddMovieDetailsItemOfNestedView(DetailsItem.Cast(result))
         }
     }
 
@@ -77,22 +78,38 @@ class MovieDetailsViewModel @Inject constructor(
                 mediaUiMapper.map(it)
             }
             _detailsUiState.update {
-                it.copy(similarMoviesResult = DetailsItem.Similar(result), isLoading = false)
+                it.copy(similarMoviesResult = result, isLoading = false)
             }
+            onAddMovieDetailsItemOfNestedView(DetailsItem.Similar(_detailsUiState.value.similarMoviesResult))
         }
     }
 
     private fun getMovieReviews(movieID: Int){
         viewModelScope.launch {
-            val result = getMovieDetailsUseCase.getReview(movieId = movieID).reviews.map {
-                reviewUiMapper.map(it)
-            }
+            val result = getMovieDetailsUseCase.getReview(movieId = movieID)
             _detailsUiState.update {
-                it.copy(movieReviewsResult = DetailsItem.Reviews(result))
+                it.copy(movieReviewsResult = result.reviews.map(reviewUiMapper::map))
+            }
+            if(result.reviews.isNotEmpty()){
+                setReviews(result.isMoreThanMax)
             }
         }
     }
 
+    private fun setReviews(seeAllReviews: Boolean) {
+        _detailsUiState.value.movieReviewsResult.forEach{
+            onAddMovieDetailsItemOfNestedView(DetailsItem.Reviews(it))
+        }
+        if (seeAllReviews){
+            onAddMovieDetailsItemOfNestedView(DetailsItem.SeeAllReviewsButton)
+        }
+    }
+
+    private fun onAddMovieDetailsItemOfNestedView(items: DetailsItem){
+        val listItems = _detailsUiState.value.detailsItemsResult.toMutableList()
+        listItems.add(items)
+        _detailsUiState.update { it.copy(detailsItemsResult = listItems.toList()) }
+    }
 
     override fun onClickBackButton() {
         _detailsUiEvent.update {
@@ -122,7 +139,7 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    override fun onClickMedia(mediaId: Int) {
+    override fun onclickViewReviews() {
         TODO("Not yet implemented")
     }
 

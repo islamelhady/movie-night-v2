@@ -5,11 +5,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.library.baseAdapters.BR
 import com.elhady.movies.R
-import com.elhady.movies.ui.actors.ActorsAdapter
-import com.elhady.movies.ui.adapter.MediaAdapter
-import com.elhady.movies.ui.adapter.MediaInteractionListener
-import com.elhady.movies.ui.adapter.ReviewAdapter
-import com.elhady.movies.ui.adapter.ReviewInteractionListener
 import com.elhady.movies.ui.base.BaseAdapter
 import com.elhady.movies.ui.base.BaseInteractionListener
 import com.elhady.movies.ui.home.adapters.ActorAdapter
@@ -62,8 +57,9 @@ class DetailsAdapter(
 
             is DetailsItem.Reviews -> {
                 holder.binding.setVariable(BR.item, currentItem.data)
-                holder.binding.setVariable(BR.adapterRecycler, ReviewAdapter(currentItem.data, listener as ReviewInteractionListener))
             }
+
+            DetailsItem.SeeAllReviewsButton -> holder.binding.setVariable(BR.listener, listener as DetailsInteractionListener)
         }
 
     }
@@ -73,7 +69,8 @@ class DetailsAdapter(
             is DetailsItem.Header -> R.layout.item_movie_details
             is DetailsItem.Cast -> R.layout.list_cast
             is DetailsItem.Similar -> R.layout.list_similar_movies
-            is DetailsItem.Reviews -> R.layout.list_movie_review
+            is DetailsItem.Reviews -> R.layout.item_movie_review
+            DetailsItem.SeeAllReviewsButton -> R.layout.item_see_all_reviews
         }
 
     }
