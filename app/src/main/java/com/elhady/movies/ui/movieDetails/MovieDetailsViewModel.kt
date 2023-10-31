@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.enums.HomeItemType
 import com.elhady.movies.domain.usecases.movieDetails.GetMovieDetailsUseCase
-import com.elhady.movies.ui.adapter.ReviewInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 import com.elhady.movies.ui.home.adapters.MovieInteractionListener
@@ -27,7 +26,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val actorUiMapper: ActorUiMapper,
     private val mediaUiMapper: MediaUiMapper,
     private val reviewUiMapper: ReviewUiMapper
-) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener, MovieInteractionListener, ReviewInteractionListener {
+) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener, MovieInteractionListener {
 
 
     val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
@@ -87,13 +86,13 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun getMovieReviews(movieID: Int){
         viewModelScope.launch {
-            val result = getMovieDetailsUseCase.getReview(movieId = movieID).reviews.map {
-                reviewUiMapper.map(it)
-            }
+            val result = getMovieDetailsUseCase.getReview(movieId = movieID)
             _detailsUiState.update {
-                it.copy(movieReviewsResult = result)
+                it.copy(movieReviewsResult = result.reviews.map(reviewUiMapper::map))
             }
-            onAddMovieDetailsItemOfNestedView(DetailsItem.Reviews(_detailsUiState.value.movieReviewsResult))
+            _detailsUiState.value.movieReviewsResult.forEach{
+                onAddMovieDetailsItemOfNestedView(DetailsItem.Reviews(it))
+            }
         }
     }
 
@@ -131,9 +130,6 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    override fun onClickMedia(mediaId: Int) {
-        TODO("Not yet implemented")
-    }
 
 
 }
