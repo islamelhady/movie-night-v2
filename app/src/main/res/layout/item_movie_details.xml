@@ -149,7 +149,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line"
-            tools:text="Adventure, Drama, Science Fiction" />
+            tools:text="Adventure • Drama • Science Fiction" />
 
         <TextView
             android:id="@+id/review"

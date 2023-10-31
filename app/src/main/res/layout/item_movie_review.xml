@@ -64,8 +64,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_image"
-            app:readLessText="Read less"
-            app:readMoreText="Read more"
+            app:readLessText=""
+            app:readMoreText="Show more"
             tools:text="@string/very_long_text" />
 
 

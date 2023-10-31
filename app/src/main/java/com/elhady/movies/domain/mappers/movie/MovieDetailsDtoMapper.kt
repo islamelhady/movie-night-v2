@@ -20,7 +20,7 @@ class MovieDetailsDtoMapper @Inject constructor() : Mapper<MovieDetailsDto, Movi
             review = input.voteCount ?: 0,
             genres = input.genres?.map {
                 it?.name
-            }?.joinToString(",") ?: ""
+            }?.joinToString(" • ") ?: ""
         )
     }
 }

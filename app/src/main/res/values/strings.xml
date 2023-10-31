@@ -42,5 +42,6 @@
     <string name="similar_movies">Similar movies</string>
     <string name="very_long_text">Long text long text long text long text long text  long text long text long text long text long text long text long text long text long text long text long text long text</string>
     <string name="user_name">"@" %1$s</string>
+    <string name="dot">•</string>
 
 </resources>

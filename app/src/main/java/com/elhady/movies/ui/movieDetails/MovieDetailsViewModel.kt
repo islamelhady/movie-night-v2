@@ -53,10 +53,11 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun getMovieDetails(movieId: Int) {
             viewModelScope.launch {
-                val movieDetailsResult = movieDetailsUiMapper.map(getMovieDetailsUseCase(movieId))
+                val result = movieDetailsUiMapper.map(getMovieDetailsUseCase(movieId))
                 _detailsUiState.update {
-                    it.copy(movieDetailsResult = DetailsItem.Header(movieDetailsResult), isLoading = false)
+                    it.copy(movieDetailsResult = result, isLoading = false)
                 }
+                onAddMovieDetailsItemOfNestedView(DetailsItem.Header(_detailsUiState.value.movieDetailsResult))
             }
     }
 
@@ -66,8 +67,9 @@ class MovieDetailsViewModel @Inject constructor(
                 actorUiMapper.map(it)
             }
             _detailsUiState.update {
-                it.copy(movieCastResult = DetailsItem.Cast(result), isLoading = false)
+                it.copy(movieCastResult = result, isLoading = false)
             }
+            onAddMovieDetailsItemOfNestedView(DetailsItem.Cast(result))
         }
     }
 
@@ -77,8 +79,9 @@ class MovieDetailsViewModel @Inject constructor(
                 mediaUiMapper.map(it)
             }
             _detailsUiState.update {
-                it.copy(similarMoviesResult = DetailsItem.Similar(result), isLoading = false)
+                it.copy(similarMoviesResult = result, isLoading = false)
             }
+            onAddMovieDetailsItemOfNestedView(DetailsItem.Similar(_detailsUiState.value.similarMoviesResult))
         }
     }
 
@@ -88,11 +91,17 @@ class MovieDetailsViewModel @Inject constructor(
                 reviewUiMapper.map(it)
             }
             _detailsUiState.update {
-                it.copy(movieReviewsResult = DetailsItem.Reviews(result))
+                it.copy(movieReviewsResult = result)
             }
+            onAddMovieDetailsItemOfNestedView(DetailsItem.Reviews(_detailsUiState.value.movieReviewsResult))
         }
     }
 
+    private fun onAddMovieDetailsItemOfNestedView(items: DetailsItem){
+        val listItems = _detailsUiState.value.detailsItemsResult.toMutableList()
+        listItems.add(items)
+        _detailsUiState.update { it.copy(detailsItemsResult = listItems.toList()) }
+    }
 
     override fun onClickBackButton() {
         _detailsUiEvent.update {
