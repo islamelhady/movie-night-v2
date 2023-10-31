@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.enums.HomeItemType
 import com.elhady.movies.domain.usecases.movieDetails.GetMovieDetailsUseCase
+import com.elhady.movies.ui.adapter.ReviewInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 import com.elhady.movies.ui.home.adapters.MovieInteractionListener
@@ -26,7 +27,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val actorUiMapper: ActorUiMapper,
     private val mediaUiMapper: MediaUiMapper,
     private val reviewUiMapper: ReviewUiMapper
-) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener, MovieInteractionListener {
+) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener, MovieInteractionListener, ReviewInteractionListener {
 
 
     val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
@@ -119,6 +120,10 @@ class MovieDetailsViewModel @Inject constructor(
         _detailsUiEvent.update {
             Event(MovieDetailsUiEvent.ClickPlayTrailerEvent)
         }
+    }
+
+    override fun onClickMedia(mediaId: Int) {
+        TODO("Not yet implemented")
     }
 
 
