@@ -9,6 +9,7 @@ import com.elhady.movies.data.remote.response.genre.GenreResponse
 import com.elhady.movies.data.remote.response.login.RequestTokenResponse
 import com.elhady.movies.data.remote.response.login.SessionResponse
 import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
+import com.elhady.movies.data.remote.response.review.ReviewDto
 import com.elhady.movies.data.remote.response.tvShow.TVShowDto
 import com.elhady.movies.domain.TrendingTimeWindow
 import retrofit2.Response
@@ -91,6 +92,13 @@ interface MovieService {
     @GET("movie/{movie_id}/similar")
     suspend fun getSimilarMovie(@Path("movie_id") movieId: Int): Response<BaseResponse<MovieDto>>
 
+
+    /**
+     *  Review
+     * * movie
+     */
+    @GET("movie/{movie_id}/reviews")
+    suspend fun getMovieReview(@Path("movie_id") movieId: Int): Response<BaseResponse<ReviewDto>>
 
 
     /**

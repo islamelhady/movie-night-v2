@@ -40,5 +40,7 @@
     <string name="overview">Overview</string>
     <string name="reviews">(%1$s reviews)</string>
     <string name="similar_movies">Similar movies</string>
+    <string name="very_long_text">Long text long text long text long text long text  long text long text long text long text long text long text long text long text long text long text long text long text</string>
+    <string name="user_name">"@" %1$s</string>
 
 </resources>

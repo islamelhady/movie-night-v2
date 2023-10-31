@@ -36,7 +36,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
     private fun collectMovieDetailsItems() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.detailsUiState.collect {
-                detailAdapter.setItems(mutableListOf(it.movieDetailsResult,it.movieCastResult, it.similarMoviesResult))
+                detailAdapter.setItems(mutableListOf(it.movieDetailsResult,it.movieCastResult, it.similarMoviesResult, it.movieReviewsResult))
             }
         }
     }

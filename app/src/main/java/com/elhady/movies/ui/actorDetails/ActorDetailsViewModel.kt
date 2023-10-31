@@ -1,7 +1,6 @@
 package com.elhady.movies.ui.actorDetails
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.enums.HomeItemType
 import com.elhady.movies.domain.usecases.GetActorDetailsUseCase

@@ -23,6 +23,7 @@ import com.elhady.movies.data.local.mappers.movies.TopRatedMovieMapper
 import com.elhady.movies.data.remote.response.CreditsDto
 import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
+import com.elhady.movies.data.remote.response.review.ReviewDto
 import com.elhady.movies.data.repository.mediaDataSource.movies.MovieDataSourceContainer
 import com.elhady.movies.utilities.Constants
 import kotlinx.coroutines.flow.Flow
@@ -307,6 +308,7 @@ class MovieRepositoryImp @Inject constructor(
      * * Details movies
      * * Cast
      * * Similar movies
+     * * Review
      */
     override suspend fun getDetailsMovies(movieId: Int): MovieDetailsDto? {
         return movieService.getDetailsMovies(movieId = movieId).body()
@@ -318,6 +320,10 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getSimilarMovies(movieId: Int): List<MovieDto>? {
         return movieService.getSimilarMovie(movieId = movieId).body()?.items
+    }
+
+    override suspend fun getMovieReview(movieId: Int): List<ReviewDto>? {
+        return movieService.getMovieReview(movieId).body()?.items
     }
 
 }

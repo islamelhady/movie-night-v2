@@ -12,6 +12,7 @@ import com.elhady.movies.data.remote.response.CreditsDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
+import com.elhady.movies.data.remote.response.review.ReviewDto
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
@@ -49,5 +50,7 @@ interface MovieRepository {
     suspend fun getMovieCast(movieId: Int): CreditsDto?
 
     suspend fun getSimilarMovies(movieId: Int): List<MovieDto>?
+
+    suspend fun getMovieReview(movieId: Int): List<ReviewDto>?
 
 }

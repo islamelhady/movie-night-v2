@@ -4,11 +4,13 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.enums.HomeItemType
 import com.elhady.movies.domain.usecases.movieDetails.GetMovieDetailsUseCase
+import com.elhady.movies.ui.adapter.ReviewInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 import com.elhady.movies.ui.home.adapters.MovieInteractionListener
 import com.elhady.movies.ui.mappers.ActorUiMapper
 import com.elhady.movies.ui.mappers.MediaUiMapper
+import com.elhady.movies.ui.mappers.ReviewUiMapper
 import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,8 +25,9 @@ class MovieDetailsViewModel @Inject constructor(
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
     private val movieDetailsUiMapper: MovieDetailsUiMapper,
     private val actorUiMapper: ActorUiMapper,
-    private val mediaUiMapper: MediaUiMapper
-) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener, MovieInteractionListener {
+    private val mediaUiMapper: MediaUiMapper,
+    private val reviewUiMapper: ReviewUiMapper
+) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener, MovieInteractionListener, ReviewInteractionListener {
 
 
     val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
@@ -45,6 +48,7 @@ class MovieDetailsViewModel @Inject constructor(
         getMovieDetails(args.movieID)
         getMovieCast(args.movieID)
         getSimilarMovies(args.movieID)
+        getMovieReviews(args.movieID)
     }
 
     private fun getMovieDetails(movieId: Int) {
@@ -78,6 +82,17 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
+    private fun getMovieReviews(movieID: Int){
+        viewModelScope.launch {
+            val result = getMovieDetailsUseCase.getReview(movieId = movieID).reviews.map {
+                reviewUiMapper.map(it)
+            }
+            _detailsUiState.update {
+                it.copy(movieReviewsResult = DetailsItem.Reviews(result))
+            }
+        }
+    }
+
 
     override fun onClickBackButton() {
         _detailsUiEvent.update {
@@ -105,6 +120,10 @@ class MovieDetailsViewModel @Inject constructor(
         _detailsUiEvent.update {
             Event(MovieDetailsUiEvent.ClickPlayTrailerEvent)
         }
+    }
+
+    override fun onClickMedia(mediaId: Int) {
+        TODO("Not yet implemented")
     }
 
 
