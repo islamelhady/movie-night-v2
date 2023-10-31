@@ -127,6 +127,7 @@ class MovieDetailsViewModel @Inject constructor(
         _detailsUiState.value.movieReviewsResult.forEach {
             onAddMovieDetailsItemOfNestedView(DetailsItem.Reviews(it))
         }
+        onAddMovieDetailsItemOfNestedView(DetailsItem.ReviewsText)
         if (seeAllReviews) {
             onAddMovieDetailsItemOfNestedView(DetailsItem.SeeAllReviewsButton)
         }

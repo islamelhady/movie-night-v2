@@ -10,20 +10,21 @@
             type="com.elhady.movies.ui.movieDetails.DetailsInteractionListener" />
     </data>
 
-    <com.google.android.material.button.MaterialButton
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/view_all_reviews"
         style="@style/SimiBold.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="@dimen/spacing_small"
         android:onClick="@{() -> listener.onclickViewReviews()}"
         android:paddingTop="16dp"
+        android:textAlignment="center"
+
+        android:drawableEnd="@drawable/ic_arrow_forward"
+        android:drawableTint="@color/shade_primary_color"
         android:paddingBottom="16dp"
         android:text="@string/view_all_reviews"
         android:textAllCaps="false"
-        android:textColor="@color/white_primary"
-        app:cornerRadius="@dimen/radius_medium"
         tools:text="@string/view_all_reviews" />
 
 </layout>

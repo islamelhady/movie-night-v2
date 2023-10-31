@@ -44,5 +44,6 @@
     <string name="user_name">"@" %1$s</string>
     <string name="dot">•</string>
     <string name="view_all_reviews">View all reviews</string>
+    <string name="reviews_text">Reviews</string>
 
 </resources>
