@@ -66,7 +66,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
                action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToActorDetailsFragment(event.castId)
             }
 
-            MovieDetailsUiEvent.ClickSeeReviewsEvent -> action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewsFragment()
+            MovieDetailsUiEvent.ClickSeeReviewsEvent -> action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewsFragment(viewModel.args.movieID)
         }
 
         action?.let {

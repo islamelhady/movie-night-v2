@@ -3,6 +3,7 @@ package com.elhady.movies.ui.reviews
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.GetReviewsUseCase
+import com.elhady.movies.ui.base.BaseInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.mappers.ReviewUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,10 +15,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReviewsViewModel @Inject constructor(
-    state: SavedStateHandle
+    state: SavedStateHandle,
     private val getReviewsUseCase: GetReviewsUseCase,
     private val reviewUiMapper: ReviewUiMapper
-) : BaseViewModel() {
+) : BaseViewModel(), BaseInteractionListener{
 
     val args = ReviewsFragmentArgs.fromSavedStateHandle(state)
     private val _reviewUiState = MutableStateFlow(ReviewsUiState())
