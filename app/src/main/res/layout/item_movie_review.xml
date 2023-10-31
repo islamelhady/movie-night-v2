@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_medium"
         android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/spacing_small"
         app:cardCornerRadius="@dimen/spacing_medium"
         app:cardElevation="@dimen/spacing_too_small">
 

@@ -58,6 +58,8 @@ class DetailsAdapter(
             is DetailsItem.Reviews -> {
                 holder.binding.setVariable(BR.item, currentItem.data)
             }
+
+            DetailsItem.SeeAllReviewsButton -> holder.binding.setVariable(BR.listener, listener as DetailsInteractionListener)
         }
 
     }
@@ -68,6 +70,7 @@ class DetailsAdapter(
             is DetailsItem.Cast -> R.layout.list_cast
             is DetailsItem.Similar -> R.layout.list_similar_movies
             is DetailsItem.Reviews -> R.layout.item_movie_review
+            DetailsItem.SeeAllReviewsButton -> R.layout.item_see_all_reviews
         }
 
     }

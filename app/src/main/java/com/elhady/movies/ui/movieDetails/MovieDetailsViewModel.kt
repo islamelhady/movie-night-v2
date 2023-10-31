@@ -90,9 +90,18 @@ class MovieDetailsViewModel @Inject constructor(
             _detailsUiState.update {
                 it.copy(movieReviewsResult = result.reviews.map(reviewUiMapper::map))
             }
-            _detailsUiState.value.movieReviewsResult.forEach{
-                onAddMovieDetailsItemOfNestedView(DetailsItem.Reviews(it))
+            if(result.reviews.isNotEmpty()){
+                setReviews(result.isMoreThanMax)
             }
+        }
+    }
+
+    private fun setReviews(seeAllReviews: Boolean) {
+        _detailsUiState.value.movieReviewsResult.forEach{
+            onAddMovieDetailsItemOfNestedView(DetailsItem.Reviews(it))
+        }
+        if (seeAllReviews){
+            onAddMovieDetailsItemOfNestedView(DetailsItem.SeeAllReviewsButton)
         }
     }
 
@@ -130,6 +139,9 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
+    override fun onclickViewReviews() {
+        TODO("Not yet implemented")
+    }
 
 
 }
