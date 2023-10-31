@@ -119,5 +119,9 @@
         android:id="@+id/reviewsFragment"
         android:name="com.elhady.movies.ui.reviews.ReviewsFragment"
         android:label="fragment_reviews"
-        tools:layout="@layout/fragment_reviews" />
+        tools:layout="@layout/fragment_reviews" >
+        <argument
+            android:name="mediaId"
+            app:argType="integer" />
+    </fragment>
 </navigation>
