@@ -11,4 +11,5 @@ object Constants {
 
     const val MAX_NUM_REVIEWS = 3
 
+    const val INTERNET_STATUS = 400
 }

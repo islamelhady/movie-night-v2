@@ -10,6 +10,7 @@ import com.elhady.movies.ui.home.adapters.MovieInteractionListener
 import com.elhady.movies.ui.mappers.ActorUiMapper
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.mappers.ReviewUiMapper
+import com.elhady.movies.utilities.Constants
 import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +27,8 @@ class MovieDetailsViewModel @Inject constructor(
     private val actorUiMapper: ActorUiMapper,
     private val mediaUiMapper: MediaUiMapper,
     private val reviewUiMapper: ReviewUiMapper
-) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener, MovieInteractionListener {
+) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener,
+    MovieInteractionListener {
 
 
     val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
@@ -51,61 +53,86 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun getMovieDetails(movieId: Int) {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            try {
                 val result = movieDetailsUiMapper.map(getMovieDetailsUseCase(movieId))
                 _detailsUiState.update {
                     it.copy(movieDetailsResult = result, isLoading = false)
                 }
                 onAddMovieDetailsItemOfNestedView(DetailsItem.Header(_detailsUiState.value.movieDetailsResult))
+            } catch (e: Exception) {
+                _detailsUiState.update {
+                    it.copy(
+                        errorUIStates = listOf(
+                            ErrorUiState(
+                                code = Constants.INTERNET_STATUS,
+                                message = e.message.toString()
+                            )
+                        ), isLoading = false
+                    )
+                }
             }
+        }
     }
 
     private fun getMovieCast(movieId: Int) {
         viewModelScope.launch {
-            val result = getMovieDetailsUseCase.getMovieCast(movieId = movieId).map {
-                actorUiMapper.map(it)
+            try {
+                val result = getMovieDetailsUseCase.getMovieCast(movieId = movieId).map {
+                    actorUiMapper.map(it)
+                }
+                _detailsUiState.update {
+                    it.copy(movieCastResult = result, isLoading = false)
+                }
+                onAddMovieDetailsItemOfNestedView(DetailsItem.Cast(result))
+            } catch (e: Exception) {
+
             }
-            _detailsUiState.update {
-                it.copy(movieCastResult = result, isLoading = false)
-            }
-            onAddMovieDetailsItemOfNestedView(DetailsItem.Cast(result))
         }
     }
 
     private fun getSimilarMovies(movieId: Int) {
         viewModelScope.launch {
-            val result = getMovieDetailsUseCase.getSimilarMovies(movieId = movieId).map {
-                mediaUiMapper.map(it)
+            try {
+                val result = getMovieDetailsUseCase.getSimilarMovies(movieId = movieId).map {
+                    mediaUiMapper.map(it)
+                }
+                _detailsUiState.update {
+                    it.copy(similarMoviesResult = result, isLoading = false)
+                }
+                onAddMovieDetailsItemOfNestedView(DetailsItem.Similar(_detailsUiState.value.similarMoviesResult))
+            } catch (e: Exception) {
+
             }
-            _detailsUiState.update {
-                it.copy(similarMoviesResult = result, isLoading = false)
-            }
-            onAddMovieDetailsItemOfNestedView(DetailsItem.Similar(_detailsUiState.value.similarMoviesResult))
         }
     }
 
-    private fun getMovieReviews(movieID: Int){
+    private fun getMovieReviews(movieID: Int) {
         viewModelScope.launch {
-            val result = getMovieDetailsUseCase.getReview(movieId = movieID)
-            _detailsUiState.update {
-                it.copy(movieReviewsResult = result.reviews.map(reviewUiMapper::map))
-            }
-            if(result.reviews.isNotEmpty()){
-                setReviews(result.isMoreThanMax)
+            try {
+                val result = getMovieDetailsUseCase.getReview(movieId = movieID)
+                _detailsUiState.update {
+                    it.copy(movieReviewsResult = result.reviews.map(reviewUiMapper::map))
+                }
+                if (result.reviews.isNotEmpty()) {
+                    setReviews(result.isMoreThanMax)
+                }
+            } catch (e: Exception) {
+
             }
         }
     }
 
     private fun setReviews(seeAllReviews: Boolean) {
-        _detailsUiState.value.movieReviewsResult.forEach{
+        _detailsUiState.value.movieReviewsResult.forEach {
             onAddMovieDetailsItemOfNestedView(DetailsItem.Reviews(it))
         }
-        if (seeAllReviews){
+        if (seeAllReviews) {
             onAddMovieDetailsItemOfNestedView(DetailsItem.SeeAllReviewsButton)
         }
     }
 
-    private fun onAddMovieDetailsItemOfNestedView(items: DetailsItem){
+    private fun onAddMovieDetailsItemOfNestedView(items: DetailsItem) {
         val listItems = _detailsUiState.value.detailsItemsResult.toMutableList()
         listItems.add(items)
         _detailsUiState.update { it.copy(detailsItemsResult = listItems.toList()) }

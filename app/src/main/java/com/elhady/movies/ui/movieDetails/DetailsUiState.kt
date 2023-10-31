@@ -13,7 +13,7 @@ data class DetailsUiState(
     val movieReviewsResult: List<ReviewUiState> = emptyList(),
     val isLoading: Boolean = false,
     val isSuccess: Boolean = false,
-    val errorUIStates: List<Error> = emptyList(),
+    val errorUIStates: List<ErrorUiState> = emptyList(),
 )
 
 data class ErrorUiState(
