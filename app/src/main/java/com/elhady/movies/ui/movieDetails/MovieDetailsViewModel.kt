@@ -167,7 +167,9 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onclickViewReviews() {
-        TODO("Not yet implemented")
+        _detailsUiEvent.update {
+            Event(MovieDetailsUiEvent.ClickSeeReviewsEvent)
+        }
     }
 
 

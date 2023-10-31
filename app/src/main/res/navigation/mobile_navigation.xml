@@ -69,6 +69,9 @@
         <action
             android:id="@+id/action_movieDetailsFragment_self"
             app:destination="@id/movieDetailsFragment" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_reviewsFragment"
+            app:destination="@id/reviewsFragment" />
     </fragment>
     <fragment
         android:id="@+id/moviesFragment"
@@ -112,4 +115,9 @@
         android:name="com.elhady.movies.ui.video.VideoFragment"
         android:label="VideoFragment"
         tools:layout="@layout/fragment_video"/>
+    <fragment
+        android:id="@+id/reviewsFragment"
+        android:name="com.elhady.movies.ui.reviews.ReviewsFragment"
+        android:label="fragment_reviews"
+        tools:layout="@layout/fragment_reviews" />
 </navigation>
