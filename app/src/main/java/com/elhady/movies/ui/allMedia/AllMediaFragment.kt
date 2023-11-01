@@ -1,4 +1,4 @@
-package com.elhady.movies.ui.movies
+package com.elhady.movies.ui.allMedia
 
 import android.os.Bundle
 import android.view.View
@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.elhady.movies.R
-import com.elhady.movies.databinding.FragmentMoviesBinding
+import com.elhady.movies.databinding.FragmentAlMediaBinding
 import com.elhady.movies.ui.adapter.LoadAdapter
 import com.elhady.movies.ui.base.BaseFragment
 import com.elhady.movies.ui.models.MediaUiState
@@ -16,10 +16,10 @@ import com.elhady.movies.utilities.setSpanSize
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MoviesFragment : BaseFragment<FragmentMoviesBinding>() {
+class AllMediaFragment : BaseFragment<FragmentAlMediaBinding>() {
 
-    override val layoutIdFragment: Int = R.layout.fragment_movies
-    override val viewModel: MoviesViewModel by viewModels()
+    override val layoutIdFragment: Int = R.layout.fragment_al_media
+    override val viewModel: AllMediaViewModel by viewModels()
     private val allMediaAdapter by lazy {
         AllMediaAdapter(viewModel)
     }
@@ -50,4 +50,11 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>() {
         allMediaAdapter.submitData(pagingData = itemsPagingData)
     }
 
+    fun onEvent(event: AllMediaUiEvent){
+        when(event){
+            is AllMediaUiEvent.ClickMediaEvent -> {
+
+            }
+        }
+    }
 }

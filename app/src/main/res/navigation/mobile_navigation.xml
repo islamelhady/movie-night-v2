@@ -14,8 +14,8 @@
             android:id="@+id/action_homeFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_moviesFragment"
-            app:destination="@id/moviesFragment" />
+            android:id="@+id/action_homeFragment_to_allMediaFragment"
+            app:destination="@id/allMediaFragment" />
         <action
             android:id="@+id/action_homeFragment_to_actorsFragment"
             app:destination="@id/actorsFragment" />
@@ -74,10 +74,10 @@
             app:destination="@id/reviewsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/moviesFragment"
-        android:name="com.elhady.movies.ui.movies.MoviesFragment"
-        android:label="fragment_movies"
-        tools:layout="@layout/fragment_movies" >
+        android:id="@+id/allMediaFragment"
+        android:name="com.elhady.movies.ui.allMedia.AllMediaFragment"
+        android:label="fragment_al_media"
+        tools:layout="@layout/fragment_al_media" >
         <argument
             android:name="type"
             app:argType="com.elhady.movies.domain.enums.AllMediaType" />
@@ -104,8 +104,8 @@
             android:id="@+id/action_actorDetailsFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
         <action
-            android:id="@+id/action_actorDetailsFragment_to_moviesFragment"
-            app:destination="@id/moviesFragment" />
+            android:id="@+id/action_actorDetailsFragment_to_allMediaFragment"
+            app:destination="@id/allMediaFragment" />
         <argument
             android:name="actorID"
             app:argType="integer" />

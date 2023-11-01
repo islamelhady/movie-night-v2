@@ -1,4 +1,4 @@
-package com.elhady.movies.ui.movies
+package com.elhady.movies.ui.allMedia
 
 import androidx.recyclerview.widget.DiffUtil
 import com.elhady.movies.R

@@ -1,16 +1,16 @@
-package com.elhady.movies.ui.movies
+package com.elhady.movies.ui.allMedia
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
-import com.elhady.movies.domain.enums.HomeItemType
+import com.elhady.movies.domain.usecases.seeAllMedia.CheckMediaTypeUseCase
 import com.elhady.movies.domain.usecases.seeAllMedia.GetAllMediaByTypeUseCase
 import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
-import com.elhady.movies.ui.home.adapters.MovieInteractionListener
 import com.elhady.movies.ui.mappers.MediaUiMapper
+import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,16 +20,20 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MoviesViewModel @Inject constructor(
+class AllMediaViewModel @Inject constructor(
     val state: SavedStateHandle,
     private val getAllMediaByTypeUseCase: GetAllMediaByTypeUseCase,
+    private val checkMediaTypeUseCase: CheckMediaTypeUseCase,
     private val mediaUiMapper: MediaUiMapper
 ) : BaseViewModel(), MediaInteractionListener {
 
-    private val args =  MoviesFragmentArgs.fromSavedStateHandle(state)
+    private val args =  AllMediaFragmentArgs.fromSavedStateHandle(state)
 
     private val _uiState = MutableStateFlow(AllMediaUiState())
     val uiState = _uiState.asStateFlow()
+
+    private val _uiEvent = MutableStateFlow<Event<AllMediaUiEvent>?>(null)
+    val uiEvent = _uiEvent.asStateFlow()
 
     init {
         getData()
@@ -42,7 +46,7 @@ class MoviesViewModel @Inject constructor(
 
     private fun getAllMedia() {
         viewModelScope.launch {
-            val items = getAllMediaByTypeUseCase(args.type, actionId = args.id).map { pagingData ->
+            val items = getAllMediaByTypeUseCase(type = args.type, actionId = args.id).map { pagingData ->
                 pagingData.map { mediaUiMapper.map(it) }
             }
             _uiState.update {
@@ -76,7 +80,9 @@ class MoviesViewModel @Inject constructor(
     }
 
     override fun onClickMedia(mediaId: Int) {
-        TODO("Not yet implemented")
+        _uiEvent.update {
+            Event(AllMediaUiEvent.ClickMediaEvent(mediaId))
+        }
     }
 
 
