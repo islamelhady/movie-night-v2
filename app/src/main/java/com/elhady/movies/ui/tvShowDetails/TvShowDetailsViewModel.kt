@@ -1,5 +1,6 @@
 package com.elhady.movies.ui.tvShowDetails
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.tvShowDetails.GetTVShowDetailsUseCase
 import com.elhady.movies.ui.base.BaseViewModel
@@ -13,16 +14,22 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TvShowDetailsViewModel @Inject constructor(
+    state: SavedStateHandle,
     private val getTVShowDetailsUseCase: GetTVShowDetailsUseCase,
     private val tvShowDetailsUiMapper: TvShowDetailsUiMapper
 ) : BaseViewModel() {
 
+    private val args = TvShowDetailsFragmentArgs.fromSavedStateHandle(state)
+
     private val _tvShowUiState = MutableStateFlow(TVShowDetailsUiState())
     val tvShowUiState = _tvShowUiState.asStateFlow()
 
+    init {
+        getData()
+    }
 
     override fun getData() {
-        TODO("Not yet implemented")
+        getTVShowDetails(args.tvShowId)
     }
 
 

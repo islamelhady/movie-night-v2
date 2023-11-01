@@ -45,5 +45,6 @@
     <string name="dot">•</string>
     <string name="view_all_reviews">View all reviews</string>
     <string name="reviews_text">Reviews</string>
+    <string name="season_number">(%1$s Seasons)</string>
 
 </resources>

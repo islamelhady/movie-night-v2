@@ -134,5 +134,9 @@
         android:id="@+id/tvShowDetailsFragment"
         android:name="com.elhady.movies.ui.tvShowDetails.TvShowDetailsFragment"
         android:label="fragment_tv_show_details"
-        tools:layout="@layout/fragment_tv_show_details" />
+        tools:layout="@layout/fragment_tv_show_details" >
+        <argument
+            android:name="tvShowId"
+            app:argType="integer" />
+    </fragment>
 </navigation>
