@@ -70,7 +70,7 @@ class AllMediaFragment : BaseFragment<FragmentAlMediaBinding>() {
                 )
             }
             is AllMediaUiEvent.ClickSeriesEvent -> {
-                findNavController().navigate(AllMediaFragmentDirections.actionAllMediaFragmentToTvShowDetailsFragment())
+                findNavController().navigate(AllMediaFragmentDirections.actionAllMediaFragmentToTvShowDetailsFragment(event.mediaId))
 
             }
         }

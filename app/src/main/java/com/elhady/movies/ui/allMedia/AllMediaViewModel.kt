@@ -86,7 +86,7 @@ class AllMediaViewModel @Inject constructor(
             }
         } else {
             _uiEvent.update {
-                Event(AllMediaUiEvent.ClickSeriesEvent)
+                Event(AllMediaUiEvent.ClickSeriesEvent(mediaId))
             }
         }
     }

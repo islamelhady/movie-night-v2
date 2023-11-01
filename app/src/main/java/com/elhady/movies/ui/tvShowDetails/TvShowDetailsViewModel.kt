@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.tvShowDetails.GetTVShowDetailsUseCase
 import com.elhady.movies.ui.base.BaseViewModel
+import com.elhady.movies.ui.movieDetails.DetailsInteractionListener
 import com.elhady.movies.ui.tvShowDetails.tvShowUiMapper.TvShowDetailsUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,7 @@ class TvShowDetailsViewModel @Inject constructor(
     state: SavedStateHandle,
     private val getTVShowDetailsUseCase: GetTVShowDetailsUseCase,
     private val tvShowDetailsUiMapper: TvShowDetailsUiMapper
-) : BaseViewModel() {
+) : BaseViewModel(), DetailsInteractionListener{
 
     private val args = TvShowDetailsFragmentArgs.fromSavedStateHandle(state)
 
@@ -42,5 +43,17 @@ class TvShowDetailsViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    override fun onClickBackButton() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickPlayTrailer() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onclickViewReviews() {
+        TODO("Not yet implemented")
     }
 }
