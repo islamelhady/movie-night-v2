@@ -10,6 +10,7 @@ import com.elhady.movies.data.local.database.entity.series.TVSeriesListsEntity
 import com.elhady.movies.data.local.mappers.series.AiringTodaySeriesMapper
 import com.elhady.movies.data.local.mappers.series.OnTheAirSeriesMapper
 import com.elhady.movies.data.local.mappers.series.TVSeriesListsMapper
+import com.elhady.movies.data.remote.response.tvShow.TVShowDetailsDto
 import com.elhady.movies.data.remote.response.tvShow.TVShowDto
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.repository.mediaDataSource.series.LatestTVDataSource
@@ -152,4 +153,10 @@ class SeriesRepositoryImp @Inject constructor(
         return Pager(config = pagingConfig, pagingSourceFactory = { seriesDataSourceContainer.latestTVDataSource })
     }
 
+    /**
+     *  Details TV Show
+     */
+    override suspend fun getTVShowDetails(tvShowId: Int): TVShowDetailsDto? {
+        return movieService.getTvShowDetails(tvShowId).body()
+    }
 }

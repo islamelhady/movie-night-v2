@@ -4,6 +4,7 @@ package com.elhady.movies.data.remote.response.tvShow
 import com.elhady.movies.data.remote.response.SpokenLanguageDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.google.gson.annotations.SerializedName
+import java.util.Date
 
 data class TVShowDetailsDto(
     @SerializedName("adult")
@@ -15,7 +16,7 @@ data class TVShowDetailsDto(
     @SerializedName("episode_run_time")
     val episodeRunTime: List<Int?>?,
     @SerializedName("first_air_date")
-    val firstAirDate: String?,
+    val firstAirDate: Date?,
     @SerializedName("genres")
     val genres: List<GenreDto?>?,
     @SerializedName("homepage")
