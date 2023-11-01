@@ -52,7 +52,7 @@ class AllMediaFragment : BaseFragment<FragmentAlMediaBinding>() {
         allMediaAdapter.submitData(pagingData = itemsPagingData)
     }
 
-    fun collectEvent() {
+    private fun collectEvent() {
         collectLast(viewModel.uiEvent) { event ->
             event?.getContentIfNotHandled()?.let {
                 onEvent(it)
@@ -62,12 +62,16 @@ class AllMediaFragment : BaseFragment<FragmentAlMediaBinding>() {
 
     private fun onEvent(event: AllMediaUiEvent) {
         when (event) {
-            is AllMediaUiEvent.ClickMediaEvent -> {
+            is AllMediaUiEvent.ClickMovieEvent -> {
                 findNavController().navigate(
                     AllMediaFragmentDirections.actionAllMediaFragmentToMovieDetailsFragment(
                         event.mediaId
                     )
                 )
+            }
+            is AllMediaUiEvent.ClickSeriesEvent -> {
+                findNavController().navigate(AllMediaFragmentDirections.actionAllMediaFragmentToTvShowDetailsFragment())
+
             }
         }
     }

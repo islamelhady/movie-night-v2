@@ -87,6 +87,9 @@
         <action
             android:id="@+id/action_allMediaFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
+        <action
+            android:id="@+id/action_allMediaFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
 
     </fragment>
     <fragment
@@ -127,4 +130,9 @@
             android:name="mediaId"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/tvShowDetailsFragment"
+        android:name="com.elhady.movies.ui.tvShowDetails.TvShowDetailsFragment"
+        android:label="fragment_tv_show_details"
+        tools:layout="@layout/fragment_tv_show_details" />
 </navigation>

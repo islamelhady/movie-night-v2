@@ -80,8 +80,14 @@ class AllMediaViewModel @Inject constructor(
     }
 
     override fun onClickMedia(mediaId: Int) {
-        _uiEvent.update {
-            Event(AllMediaUiEvent.ClickMediaEvent(mediaId))
+        if(checkMediaTypeUseCase(args.type)){
+            _uiEvent.update {
+                Event(AllMediaUiEvent.ClickMovieEvent(mediaId))
+            }
+        } else {
+            _uiEvent.update {
+                Event(AllMediaUiEvent.ClickSeriesEvent)
+            }
         }
     }
 

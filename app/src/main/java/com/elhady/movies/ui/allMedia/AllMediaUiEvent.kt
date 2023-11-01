@@ -1,5 +1,6 @@
 package com.elhady.movies.ui.allMedia
 
 sealed interface AllMediaUiEvent {
-    data class ClickMediaEvent(val mediaId: Int): AllMediaUiEvent
+    data class ClickMovieEvent(val mediaId: Int): AllMediaUiEvent
+    object ClickSeriesEvent: AllMediaUiEvent
 }
