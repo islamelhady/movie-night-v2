@@ -3,6 +3,7 @@ package com.elhady.movies.ui.allMedia
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.elhady.movies.R
@@ -27,6 +28,7 @@ class AllMediaFragment : BaseFragment<FragmentAlMediaBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setAdapter()
+        collectEvent()
     }
 
     private fun setAdapter() {
@@ -50,10 +52,22 @@ class AllMediaFragment : BaseFragment<FragmentAlMediaBinding>() {
         allMediaAdapter.submitData(pagingData = itemsPagingData)
     }
 
-    fun onEvent(event: AllMediaUiEvent){
-        when(event){
-            is AllMediaUiEvent.ClickMediaEvent -> {
+    fun collectEvent() {
+        collectLast(viewModel.uiEvent) { event ->
+            event?.getContentIfNotHandled()?.let {
+                onEvent(it)
+            }
+        }
+    }
 
+    private fun onEvent(event: AllMediaUiEvent) {
+        when (event) {
+            is AllMediaUiEvent.ClickMediaEvent -> {
+                findNavController().navigate(
+                    AllMediaFragmentDirections.actionAllMediaFragmentToMovieDetailsFragment(
+                        event.mediaId
+                    )
+                )
             }
         }
     }

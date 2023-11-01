@@ -84,6 +84,9 @@
         <argument
             android:name="id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_allMediaFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
 
     </fragment>
     <fragment
