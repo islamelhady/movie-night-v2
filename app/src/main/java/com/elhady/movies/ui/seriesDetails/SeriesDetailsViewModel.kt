@@ -26,7 +26,7 @@ class SeriesDetailsViewModel @Inject constructor(
     private val actorUiMapper: ActorUiMapper,
     private val mediaUiMapper: MediaUiMapper,
     private val seasonUiMapper: SeasonUiMapper
-) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener, MediaInteractionListener{
+) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener, MediaInteractionListener, SeasonInteractionListener{
 
     private val args = SeriesDetailsFragmentArgs.fromSavedStateHandle(state)
 
@@ -117,6 +117,10 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     override fun onClickMedia(mediaId: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSeason(seasonNumber: Int) {
         TODO("Not yet implemented")
     }
 }

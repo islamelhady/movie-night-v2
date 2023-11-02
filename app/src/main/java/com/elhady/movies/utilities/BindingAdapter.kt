@@ -79,3 +79,12 @@ fun showWhenTextNotEmpty(view: View, text: String?){
     view.isVisible = text?.isNotEmpty() == true
 }
 
+@BindingAdapter(value = ["overviewText"])
+fun overviewText(view: TextView, text: String){
+    if(text.isNotEmpty()){
+        view.text = text
+    }else{
+        view.text = view.context.getString(R.string.empty_overview_text)
+    }
+}
+
