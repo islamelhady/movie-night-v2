@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.elhady.movies.ui.tvShowDetails.TVShowDetailsResultUiState" />
+            type="com.elhady.movies.ui.seriesDetails.SeriesDetailsResultUiState" />
 
         <variable
             name="listener"
@@ -14,7 +14,7 @@
 
         <variable
             name="viewModel"
-            type="com.elhady.movies.ui.tvShowDetails.TvShowDetailsViewModel" />
+            type="com.elhady.movies.ui.seriesDetails.SeriesDetailsViewModel" />
 
     </data>
 
@@ -32,7 +32,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:movieImage="@{item.tvShowImage}"
+            app:movieImage="@{item.seriesImage}"
             tools:src="@tools:sample/backgrounds/scenic" />
 
         <View
@@ -97,7 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_small"
-            android:text="@{item.tvShowName}"
+            android:text="@{item.seriesName}"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -110,7 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_small"
-            android:text="@{item.tvShowReleaseDate}"
+            android:text="@{item.seriesReleaseDate}"
             app:layout_constraintBottom_toBottomOf="@+id/line"
             app:layout_constraintEnd_toStartOf="@+id/line"
             app:layout_constraintTop_toTopOf="@+id/line"
@@ -132,7 +132,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_small"
-            android:text="@{@string/season_number(String.valueOf(item.tvShowSeasonsNumber)) }"
+            android:text="@{@string/season_number(String.valueOf(item.seriesSeasonsNumber)) }"
             app:layout_constraintBottom_toBottomOf="@+id/line"
             app:layout_constraintStart_toEndOf="@+id/line"
             app:layout_constraintTop_toTopOf="@+id/line"
@@ -146,7 +146,7 @@
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_small"
             android:gravity="center"
-            android:text="@{item.tvShowGenres}"
+            android:text="@{item.seriesGenres}"
             android:textColor="@color/brand_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -159,7 +159,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:text="@{@string/reviews(item.tvShowReview)}"
+            android:text="@{@string/reviews(item.seriesReview)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/stars"
             app:layout_constraintTop_toBottomOf="@+id/genres"
@@ -168,7 +168,7 @@
         <TextView
             android:id="@+id/stars"
             style="@style/SimiBold.Small"
-            android:text="@{item.tvShowVoteAverage}"
+            android:text="@{item.seriesVoteAverage}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/spacing_too_small"
@@ -202,7 +202,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginEnd="@dimen/spacing_medium"
-            android:text="@{item.tvShowOverview}"
+            android:text="@{item.seriesOverview}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/over_view_title"
             app:layout_constraintTop_toBottomOf="@+id/over_view_title"

@@ -10,8 +10,8 @@ import com.elhady.movies.data.remote.response.login.RequestTokenResponse
 import com.elhady.movies.data.remote.response.login.SessionResponse
 import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
-import com.elhady.movies.data.remote.response.tvShow.TVShowDetailsDto
-import com.elhady.movies.data.remote.response.tvShow.TVShowDto
+import com.elhady.movies.data.remote.response.series.SeriesDetailsDto
+import com.elhady.movies.data.remote.response.series.SeriesDto
 import com.elhady.movies.domain.TrendingTimeWindow
 import retrofit2.Response
 import retrofit2.http.Field
@@ -98,10 +98,10 @@ interface MovieService {
      * * Details
      */
     @GET("tv/{series_id}")
-    suspend fun getTvShowDetails(@Path("series_id") tvShowId: Int): Response<TVShowDetailsDto>
+    suspend fun getSeriesDetails(@Path("series_id") seriesId: Int): Response<SeriesDetailsDto>
 
     @GET("tv/{series_id}/credits")
-    suspend fun getSeriesCast(@Path("series_id") tvShowId: Int): Response<CreditsDto>
+    suspend fun getSeriesCast(@Path("series_id") seriesId: Int): Response<CreditsDto>
 
 
     /**
@@ -120,16 +120,16 @@ interface MovieService {
      * * Top Rated
      */
     @GET("tv/airing_today")
-    suspend fun getAiringTodayTV(): Response<BaseResponse<TVShowDto>>
+    suspend fun getAiringTodayTV(): Response<BaseResponse<SeriesDto>>
 
     @GET("tv/on_the_air")
-    suspend fun getOnTheAirTV(@Query("page") page: Int = 1): Response<BaseResponse<TVShowDto>>
+    suspend fun getOnTheAirTV(@Query("page") page: Int = 1): Response<BaseResponse<SeriesDto>>
 
     @GET("tv/popular")
-    suspend fun getPopularTV(@Query("page") page: Int =1): Response<BaseResponse<TVShowDto>>
+    suspend fun getPopularTV(@Query("page") page: Int =1): Response<BaseResponse<SeriesDto>>
 
     @GET("tv/top_rated")
-    suspend fun getTopRatedTV(@Query("page") page: Int = 1): Response<BaseResponse<TVShowDto>>
+    suspend fun getTopRatedTV(@Query("page") page: Int = 1): Response<BaseResponse<SeriesDto>>
 
     /**
      *   DISCOVER

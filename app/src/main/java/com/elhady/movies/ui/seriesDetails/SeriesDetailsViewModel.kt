@@ -1,13 +1,13 @@
-package com.elhady.movies.ui.tvShowDetails
+package com.elhady.movies.ui.seriesDetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.elhady.movies.domain.usecases.tvShowDetails.GetTVShowDetailsUseCase
+import com.elhady.movies.domain.usecases.seriesDetails.GetSeriesDetailsUseCase
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 import com.elhady.movies.ui.mappers.ActorUiMapper
 import com.elhady.movies.ui.movieDetails.DetailsInteractionListener
-import com.elhady.movies.ui.tvShowDetails.tvShowUiMapper.TvShowDetailsUiMapper
+import com.elhady.movies.ui.seriesDetails.seriesUiMapper.SeriesDetailsUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,16 +16,16 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TvShowDetailsViewModel @Inject constructor(
+class SeriesDetailsViewModel @Inject constructor(
     state: SavedStateHandle,
-    private val getTVShowDetailsUseCase: GetTVShowDetailsUseCase,
-    private val tvShowDetailsUiMapper: TvShowDetailsUiMapper,
+    private val getSeriesDetailsUseCase: GetSeriesDetailsUseCase,
+    private val seriesDetailsUiMapper: SeriesDetailsUiMapper,
     private val actorUiMapper: ActorUiMapper
 ) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener{
 
-    private val args = TvShowDetailsFragmentArgs.fromSavedStateHandle(state)
+    private val args = SeriesDetailsFragmentArgs.fromSavedStateHandle(state)
 
-    private val _seriesUiState = MutableStateFlow(TVShowDetailsUiState())
+    private val _seriesUiState = MutableStateFlow(SeriesDetailsUiState())
     val seriesUiState = _seriesUiState.asStateFlow()
 
     init {
@@ -33,14 +33,14 @@ class TvShowDetailsViewModel @Inject constructor(
     }
 
     override fun getData() {
-        getTVShowDetails(args.tvShowId)
-        getSeriesCast(args.tvShowId)
+        getTVShowDetails(args.seriesId)
+        getSeriesCast(args.seriesId)
     }
 
 
     private fun getTVShowDetails(tvShowId: Int) {
         viewModelScope.launch {
-            val result = tvShowDetailsUiMapper.map(getTVShowDetailsUseCase.getTvShowDetails(tvShowId))
+            val result = seriesDetailsUiMapper.map(getSeriesDetailsUseCase.getSeriesDetails(tvShowId))
             _seriesUiState.update {
                 it.copy(
                     seriesDetailsResult = result
@@ -52,7 +52,7 @@ class TvShowDetailsViewModel @Inject constructor(
 
     private fun getSeriesCast(tvShowId: Int){
         viewModelScope.launch {
-            val result = getTVShowDetailsUseCase.getSeriesCast(tvShowId).map {
+            val result = getSeriesDetailsUseCase.getSeriesCast(tvShowId).map {
                 actorUiMapper.map(it)
             }
             _seriesUiState.update {

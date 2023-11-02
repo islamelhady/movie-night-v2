@@ -10,10 +10,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.tvShowDetails.TvShowDetailsFragment">
+        tools:context=".ui.seriesDetails.SeriesDetailsFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_tv_show_details"
+            android:id="@+id/recycler_series_details"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -21,7 +21,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/item_tv_show_details"/>
+            tools:listitem="@layout/item_series_details"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

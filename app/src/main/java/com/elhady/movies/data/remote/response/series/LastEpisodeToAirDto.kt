@@ -1,4 +1,4 @@
-package com.elhady.movies.data.remote.response.tvShow
+package com.elhady.movies.data.remote.response.series
 
 
 import com.google.gson.annotations.SerializedName

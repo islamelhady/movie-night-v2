@@ -132,11 +132,11 @@
     </fragment>
     <fragment
         android:id="@+id/tvShowDetailsFragment"
-        android:name="com.elhady.movies.ui.tvShowDetails.TvShowDetailsFragment"
-        android:label="fragment_tv_show_details"
-        tools:layout="@layout/fragment_tv_show_details" >
+        android:name="com.elhady.movies.ui.seriesDetails.SeriesDetailsFragment"
+        android:label="fragment_series_details"
+        tools:layout="@layout/fragment_series_details" >
         <argument
-            android:name="tvShowId"
+            android:name="seriesId"
             app:argType="integer" />
     </fragment>
 </navigation>

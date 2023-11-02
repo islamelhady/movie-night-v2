@@ -1,4 +1,4 @@
-package com.elhady.movies.data.remote.response.tvShow
+package com.elhady.movies.data.remote.response.series
 
 
 import com.elhady.movies.data.remote.response.SpokenLanguageDto
@@ -6,7 +6,7 @@ import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.google.gson.annotations.SerializedName
 import java.util.Date
 
-data class TVShowDetailsDto(
+data class SeriesDetailsDto(
     @SerializedName("adult")
     val adult: Boolean?,
     @SerializedName("backdrop_path")
