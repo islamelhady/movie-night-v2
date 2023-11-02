@@ -1,6 +1,7 @@
 package com.elhady.movies.domain.usecases.movieDetails
 
 import com.elhady.movies.data.repository.MovieRepository
+import com.elhady.movies.domain.enums.MediaType
 import com.elhady.movies.domain.mappers.actor.ActorDtoMapper
 import com.elhady.movies.domain.mappers.movie.MovieDetailsDtoMapper
 import com.elhady.movies.domain.mappers.movie.MovieDtoMapper
@@ -46,7 +47,7 @@ class GetMovieDetailsUseCase @Inject constructor(
     }
 
     suspend fun getReview(movieId: Int): MediaDetailsReview{
-        val reviews = getMovieReviewsUseCase(movieId)
+        val reviews = getMovieReviewsUseCase(mediaId = movieId, type = MediaType.MOVIES)
         return MediaDetailsReview(reviews = reviews.take(MAX_NUM_REVIEWS), isMoreThanMax = reviews.size > MAX_NUM_REVIEWS)
     }
 

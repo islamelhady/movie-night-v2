@@ -8,6 +8,7 @@ import com.elhady.movies.domain.mappers.series.SeriesDetailsMapper
 import com.elhady.movies.domain.mappers.series.SeriesDtoMapper
 import com.elhady.movies.domain.models.Actor
 import com.elhady.movies.domain.models.Media
+import com.elhady.movies.domain.models.Review
 import com.elhady.movies.domain.models.Season
 import com.elhady.movies.domain.models.SeriesDetails
 import javax.inject.Inject
@@ -45,5 +46,9 @@ class GetSeriesDetailsUseCase @Inject constructor(
         } ?: throw Throwable("not success")
     }
 
+//    suspend fun getSeriesReview(seriesId: Int): List<Review>{
+//
+//
+//    }
 
 }

@@ -2,6 +2,7 @@ package com.elhady.movies.ui.reviews
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.domain.enums.MediaType
 import com.elhady.movies.domain.usecases.GetReviewsUseCase
 import com.elhady.movies.ui.base.BaseInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
@@ -34,7 +35,7 @@ class ReviewsViewModel @Inject constructor(
         _reviewUiState.update { it.copy(isLoading = true, errorUiState = emptyList()) }
         viewModelScope.launch {
             try {
-                val result = getReviewsUseCase(args.mediaId).map {
+                val result = getReviewsUseCase(mediaId = args.mediaId, type = MediaType.MOVIES).map {
                     reviewUiMapper.map(it)
                 }
                 _reviewUiState.update {

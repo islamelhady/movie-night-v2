@@ -98,6 +98,7 @@ interface MovieService {
      * * Details
      * * Cast
      * * Similar
+     * * Seasons
      */
     @GET("tv/{series_id}")
     suspend fun getSeriesDetails(@Path("series_id") seriesId: Int): Response<SeriesDetailsDto>
@@ -119,9 +120,13 @@ interface MovieService {
     /**
      *  Review
      * * movie
+     * * series
      */
     @GET("movie/{movie_id}/reviews")
     suspend fun getMovieReview(@Path("movie_id") movieId: Int): Response<BaseResponse<ReviewDto>>
+
+    @GET("tv/{series_id}/reviews")
+    suspend fun getSeriesReview(@Path("series_id") seriesId: Int): Response<BaseResponse<ReviewDto>>
 
 
     /**
