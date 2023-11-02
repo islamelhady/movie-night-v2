@@ -87,18 +87,18 @@
             app:layout_constraintTop_toTopOf="@+id/text_season_name" />
 
         <TextView
-            android:id="@+id/text_season_number"
+            android:id="@+id/text_episodes_number"
             style="@style/Regular.Small"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_too_small"
-            android:text="@{@string/season_number(String.valueOf(item.seasonEpisodeCount))}"
+            android:text="@{@string/episode_number(String.valueOf(item.seasonEpisodeCount))}"
             android:textColor="@color/shade_ternary_color"
             app:layout_constraintBottom_toBottomOf="@+id/text_season_name"
             app:layout_constraintEnd_toEndOf="@+id/card_season"
             app:layout_constraintStart_toEndOf="@+id/line"
             app:layout_constraintTop_toTopOf="@+id/text_season_name"
-            tools:text="8 Seasons" />
+            tools:text="8 Episodes" />
 
         <TextView
             android:id="@+id/text_season_overview"

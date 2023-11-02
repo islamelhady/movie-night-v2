@@ -99,14 +99,28 @@ class SeriesDetailsViewModel @Inject constructor(
 
     private fun getSeriesReview(seriesId: Int){
         viewModelScope.launch {
-            val result = getSeriesDetailsUseCase.getSeriesReview(seriesId).reviews.map(reviewUiMapper::map)
+            val result = getSeriesDetailsUseCase.getSeriesReview(seriesId)
             _seriesUiState.update {
-                it.copy(seriesReviewResult = result)
+                it.copy(seriesReviewResult = result.reviews.map(reviewUiMapper::map))
             }
-            _seriesUiState.value.seriesReviewResult.forEach{
-                onAddMovieDetailsItemOfNestedView(SeriesItems.Review(it))
+            if (result.reviews.isNotEmpty()){
+                _seriesUiState.value.seriesReviewResult.forEach {
+                    onAddMovieDetailsItemOfNestedView(SeriesItems.Review(it))
+                }
+                onAddMovieDetailsItemOfNestedView(SeriesItems.ReviewText)
             }
         }
+
+    }
+
+    private fun setReview(seeAllReviews: Boolean){
+        _seriesUiState.value.seriesReviewResult.forEach {
+            onAddMovieDetailsItemOfNestedView(SeriesItems.Review(it))
+        }
+        if (seeAllReviews){
+            onAddMovieDetailsItemOfNestedView(SeriesItems.ReviewText)
+        }
+
     }
 
 

@@ -52,6 +52,8 @@ class SeriesDetailsAdapter(private var detailsItem: List<SeriesItems>, val liste
             is SeriesItems.Review -> {
                 holder.binding.setVariable(BR.item, currentItem.data)
             }
+
+            SeriesItems.ReviewText -> {}
         }
 
     }
@@ -63,6 +65,7 @@ class SeriesDetailsAdapter(private var detailsItem: List<SeriesItems>, val liste
             is SeriesItems.Similar -> R.layout.list_similar_series
             is SeriesItems.Season -> R.layout.list_season
             is SeriesItems.Review -> R.layout.item_review
+            SeriesItems.ReviewText -> R.layout.item_review_text
         }
     }
 
