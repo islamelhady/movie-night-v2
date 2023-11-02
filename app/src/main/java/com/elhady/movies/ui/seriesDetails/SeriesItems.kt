@@ -10,5 +10,5 @@ sealed class SeriesItems(val priority: Int){
     data class Cast(val data: List<ActorUiState>): SeriesItems(1)
     data class Similar(val data: List<MediaUiState>): SeriesItems(2)
     data class Season(val data: List<SeasonUiState>): SeriesItems(3)
-    data class Review(val data: List<ReviewUiState>): SeriesItems(4)
+    data class Review(val data: ReviewUiState): SeriesItems(4)
 }
