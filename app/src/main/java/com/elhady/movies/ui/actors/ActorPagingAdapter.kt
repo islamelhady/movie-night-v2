@@ -6,7 +6,7 @@ import com.elhady.movies.ui.base.BaseInteractionListener
 import com.elhady.movies.ui.base.BasePagingAdapter
 import com.elhady.movies.ui.models.ActorUiState
 
-class ActorsAdapter(listener: BaseInteractionListener) :
+class ActorPagingAdapter(listener: BaseInteractionListener) :
     BasePagingAdapter<ActorUiState>(ActorComparator, listener) {
 
     override val layoutID: Int = R.layout.item_all_actor

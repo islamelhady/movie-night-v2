@@ -10,7 +10,9 @@ import com.elhady.movies.data.remote.response.login.RequestTokenResponse
 import com.elhady.movies.data.remote.response.login.SessionResponse
 import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
-import com.elhady.movies.data.remote.response.tvShow.TVShowDto
+import com.elhady.movies.data.remote.response.series.SeasonDto
+import com.elhady.movies.data.remote.response.series.SeriesDetailsDto
+import com.elhady.movies.data.remote.response.series.SeriesDto
 import com.elhady.movies.domain.TrendingTimeWindow
 import retrofit2.Response
 import retrofit2.http.Field
@@ -92,13 +94,40 @@ interface MovieService {
     @GET("movie/{movie_id}/similar")
     suspend fun getSimilarMovie(@Path("movie_id") movieId: Int): Response<BaseResponse<MovieDto>>
 
+    /**
+     * TV SERIES
+     * * Details
+     * * Cast
+     * * Similar
+     * * Seasons
+     */
+    @GET("tv/{series_id}")
+    suspend fun getSeriesDetails(@Path("series_id") seriesId: Int): Response<SeriesDetailsDto>
+
+    @GET("tv/{series_id}/credits")
+    suspend fun getSeriesCast(@Path("series_id") seriesId: Int): Response<CreditsDto>
+
+    @GET("tv/{series_id}/similar")
+    suspend fun getSimilarSeries(@Path("series_id") seriesId: Int): Response<BaseResponse<SeriesDto>>
+
+    /**
+     *  TV SEASONS
+     * * Details
+     */
+
+    @GET("tv/{series_id}/season/{season_number}")
+    suspend fun getSeasonDetails(@Path("series_id") seriesId: Int, @Path("season_number") seasonNumber: Int): Response<SeasonDto>
 
     /**
      *  Review
      * * movie
+     * * series
      */
     @GET("movie/{movie_id}/reviews")
     suspend fun getMovieReview(@Path("movie_id") movieId: Int): Response<BaseResponse<ReviewDto>>
+
+    @GET("tv/{series_id}/reviews")
+    suspend fun getSeriesReview(@Path("series_id") seriesId: Int): Response<BaseResponse<ReviewDto>>
 
 
     /**
@@ -109,16 +138,16 @@ interface MovieService {
      * * Top Rated
      */
     @GET("tv/airing_today")
-    suspend fun getAiringTodayTV(): Response<BaseResponse<TVShowDto>>
+    suspend fun getAiringTodayTV(): Response<BaseResponse<SeriesDto>>
 
     @GET("tv/on_the_air")
-    suspend fun getOnTheAirTV(@Query("page") page: Int = 1): Response<BaseResponse<TVShowDto>>
+    suspend fun getOnTheAirTV(@Query("page") page: Int = 1): Response<BaseResponse<SeriesDto>>
 
     @GET("tv/popular")
-    suspend fun getPopularTV(@Query("page") page: Int =1): Response<BaseResponse<TVShowDto>>
+    suspend fun getPopularTV(@Query("page") page: Int =1): Response<BaseResponse<SeriesDto>>
 
     @GET("tv/top_rated")
-    suspend fun getTopRatedTV(@Query("page") page: Int = 1): Response<BaseResponse<TVShowDto>>
+    suspend fun getTopRatedTV(@Query("page") page: Int = 1): Response<BaseResponse<SeriesDto>>
 
     /**
      *   DISCOVER

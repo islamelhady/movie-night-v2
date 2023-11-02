@@ -7,5 +7,5 @@ import com.elhady.movies.ui.models.ReviewUiState
 
 class ReviewAdapter(items: List<ReviewUiState>, listener: BaseInteractionListener) :
     BaseAdapter<ReviewUiState>(items, listener) {
-    override val layoutID: Int = R.layout.item_movie_review
+    override val layoutID: Int = R.layout.item_review
 }
