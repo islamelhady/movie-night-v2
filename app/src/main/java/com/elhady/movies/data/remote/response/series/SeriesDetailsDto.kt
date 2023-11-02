@@ -58,7 +58,7 @@ data class SeriesDetailsDto(
     @SerializedName("production_countries")
     val productionCountries: List<ProductionCountryDto?>?,
     @SerializedName("seasons")
-    val seasons: List<SeasonDto?>?,
+    val seasons: List<SeasonDto>?,
     @SerializedName("spoken_languages")
     val spokenLanguages: List<SpokenLanguageDto?>?,
     @SerializedName("status")

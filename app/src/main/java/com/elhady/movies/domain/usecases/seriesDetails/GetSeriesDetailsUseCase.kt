@@ -3,10 +3,12 @@ package com.elhady.movies.domain.usecases.seriesDetails
 import com.elhady.movies.data.repository.SeriesRepository
 import com.elhady.movies.domain.mappers.actor.ActorDtoMapper
 import com.elhady.movies.domain.mappers.movie.MovieDtoMapper
+import com.elhady.movies.domain.mappers.series.SeasonMapper
 import com.elhady.movies.domain.mappers.series.SeriesDetailsMapper
 import com.elhady.movies.domain.mappers.series.SeriesDtoMapper
 import com.elhady.movies.domain.models.Actor
 import com.elhady.movies.domain.models.Media
+import com.elhady.movies.domain.models.Season
 import com.elhady.movies.domain.models.SeriesDetails
 import javax.inject.Inject
 
@@ -14,7 +16,8 @@ class GetSeriesDetailsUseCase @Inject constructor(
     private val repository: SeriesRepository,
     private val seriesDetailsMapper: SeriesDetailsMapper,
     private val actorDtoMapper: ActorDtoMapper,
-    private val seriesDtoMapper: SeriesDtoMapper
+    private val seriesDtoMapper: SeriesDtoMapper,
+    private val seasonMapper: SeasonMapper
 ) {
 
     suspend fun getSeriesDetails(seriesId: Int): SeriesDetails {
@@ -33,6 +36,12 @@ class GetSeriesDetailsUseCase @Inject constructor(
     suspend fun getSimilarSeries(seriesId: Int): List<Media> {
         return repository.getSimilarSeries(seriesId)?.map {
             seriesDtoMapper.map(it)
+        } ?: throw Throwable("not success")
+    }
+
+    suspend fun getSeasons(seriesId: Int): List<Season>{
+        return repository.getSeriesDetails(seriesId)?.seasons?.map {
+            seasonMapper.map(it)
         } ?: throw Throwable("not success")
     }
 

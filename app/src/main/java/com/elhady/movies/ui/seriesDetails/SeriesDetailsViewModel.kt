@@ -9,6 +9,7 @@ import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 import com.elhady.movies.ui.mappers.ActorUiMapper
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.movieDetails.DetailsInteractionListener
+import com.elhady.movies.ui.seriesDetails.seriesUiMapper.SeasonUiMapper
 import com.elhady.movies.ui.seriesDetails.seriesUiMapper.SeriesDetailsUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +24,8 @@ class SeriesDetailsViewModel @Inject constructor(
     private val getSeriesDetailsUseCase: GetSeriesDetailsUseCase,
     private val seriesDetailsUiMapper: SeriesDetailsUiMapper,
     private val actorUiMapper: ActorUiMapper,
-    private val mediaUiMapper: MediaUiMapper
+    private val mediaUiMapper: MediaUiMapper,
+    private val seasonUiMapper: SeasonUiMapper
 ) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener, MediaInteractionListener{
 
     private val args = SeriesDetailsFragmentArgs.fromSavedStateHandle(state)
@@ -39,6 +41,7 @@ class SeriesDetailsViewModel @Inject constructor(
         getTVShowDetails(args.seriesId)
         getSeriesCast(args.seriesId)
         getSimilarSeries(args.seriesId)
+        getSeasonSeries(args.seriesId)
     }
 
 
@@ -76,6 +79,19 @@ class SeriesDetailsViewModel @Inject constructor(
             }
             onAddMovieDetailsItemOfNestedView(SeriesItems.Similar(_seriesUiState.value.seriesSimilarResult))
         }
+    }
+
+    private fun getSeasonSeries(seriesId: Int){
+        viewModelScope.launch {
+            val result = getSeriesDetailsUseCase.getSeasons(seriesId).map {
+                seasonUiMapper.map(it)
+            }
+            _seriesUiState.update {
+                it.copy(seriesSeasonsResult = result )
+            }
+            onAddMovieDetailsItemOfNestedView(SeriesItems.Season(_seriesUiState.value.seriesSeasonsResult))
+        }
+
     }
 
     private fun onAddMovieDetailsItemOfNestedView(items: SeriesItems) {

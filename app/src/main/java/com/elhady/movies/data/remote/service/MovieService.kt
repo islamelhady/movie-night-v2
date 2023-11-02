@@ -96,6 +96,8 @@ interface MovieService {
     /**
      * TV SERIES
      * * Details
+     * * Cast
+     * * Similar
      */
     @GET("tv/{series_id}")
     suspend fun getSeriesDetails(@Path("series_id") seriesId: Int): Response<SeriesDetailsDto>
@@ -106,6 +108,13 @@ interface MovieService {
     @GET("tv/{series_id}/similar")
     suspend fun getSimilarSeries(@Path("series_id") seriesId: Int): Response<BaseResponse<SeriesDto>>
 
+    /**
+     *  TV SEASONS
+     * * Details
+     */
+
+//    @GET("tv/{series_id}/season/{season_number}")
+//    suspend fun getSeasonSeries
 
     /**
      *  Review

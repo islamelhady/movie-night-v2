@@ -1,5 +1,6 @@
 package com.elhady.movies.domain.models
 
+
 data class SeriesDetails(
     val seriesId: Int,
     val seriesImage: String,
@@ -10,4 +11,5 @@ data class SeriesDetails(
     val seriesVoteAverage: String,
     val seriesSeasonsNumber: Int,
     val seriesOverview: String,
+    val seriesSeasons: List<Season>
 )
