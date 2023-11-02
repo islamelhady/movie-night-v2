@@ -42,7 +42,14 @@ class TvShowDetailsViewModel @Inject constructor(
                     tvShowDetailsResult = result
                 )
             }
+            onAddMovieDetailsItemOfNestedView(TVShowItems.Header(_tvShowUiState.value.tvShowDetailsResult))
         }
+    }
+
+    private fun onAddMovieDetailsItemOfNestedView(items: TVShowItems) {
+        val itemsList = _tvShowUiState.value.tvShowDetails.toMutableList()
+        itemsList.add(items)
+        _tvShowUiState.update { it.copy(tvShowDetails = itemsList.toList()) }
     }
 
     override fun onClickBackButton() {

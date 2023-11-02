@@ -19,7 +19,7 @@ class GetMovieDetailsUseCase @Inject constructor(
     private val movieDtoMapper: MovieDtoMapper,
     private val getMovieReviewsUseCase: GetReviewsUseCase
 ) {
-    suspend operator fun invoke(movieId: Int): MovieDetails {
+    suspend fun getMovieDetails(movieId: Int): MovieDetails {
         val response = movieRepository.getDetailsMovies(movieId)
         return response?.let {
             movieDetailsDtoMapper.map(response)

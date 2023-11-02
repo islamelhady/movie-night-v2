@@ -78,7 +78,7 @@ fun<T> showWhenListNotEmpty(view: View, list: List<T>){
 }
 
 @BindingAdapter(value = ["showWhenTextNotEmpty"])
-fun showWhenTextNotEmpty(view: View, text: String){
-    view.isVisible = text.isNotEmpty()
+fun showWhenTextNotEmpty(view: View, text: String?){
+    view.isVisible = text?.isNotEmpty() == true
 }
 

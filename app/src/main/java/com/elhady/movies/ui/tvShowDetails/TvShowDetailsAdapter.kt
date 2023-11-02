@@ -16,6 +16,7 @@ class TvShowDetailsAdapter(private var detailsItem: List<TVShowItems>, val liste
         detailsItem = newItems.sortedBy {
             it.priority
         }
+        super.setItems(newItems)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {

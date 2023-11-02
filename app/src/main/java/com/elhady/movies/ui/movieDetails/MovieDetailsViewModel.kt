@@ -55,7 +55,7 @@ class MovieDetailsViewModel @Inject constructor(
     private fun getMovieDetails(movieId: Int) {
         viewModelScope.launch {
             try {
-                val result = movieDetailsUiMapper.map(getMovieDetailsUseCase(movieId))
+                val result = movieDetailsUiMapper.map(getMovieDetailsUseCase.getMovieDetails(movieId))
                 _detailsUiState.update {
                     it.copy(movieDetailsResult = result, isLoading = false)
                 }

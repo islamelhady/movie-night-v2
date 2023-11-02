@@ -15,11 +15,11 @@
         style="@style/SimiBold.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/spacing_medium"
         android:layout_marginBottom="@dimen/spacing_small"
         android:onClick="@{() -> listener.onclickViewReviews()}"
         android:paddingTop="16dp"
         android:textAlignment="center"
-
         android:drawableEnd="@drawable/ic_arrow_forward"
         android:drawableTint="@color/shade_primary_color"
         android:paddingBottom="16dp"

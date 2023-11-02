@@ -12,6 +12,10 @@
             name="listener"
             type="com.elhady.movies.ui.movieDetails.DetailsInteractionListener" />
 
+        <variable
+            name="viewModel"
+            type="com.elhady.movies.ui.tvShowDetails.TvShowDetailsViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -132,7 +136,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/line"
             app:layout_constraintStart_toEndOf="@+id/line"
             app:layout_constraintTop_toTopOf="@+id/line"
-            tools:text="@tools:sample/date/hhmm" />
+            tools:text="(4 seasons)" />
 
         <TextView
             android:id="@+id/genres"
@@ -183,6 +187,7 @@
         <TextView
             android:id="@+id/over_view_title"
             style="@style/SimiBold.Medium"
+            showWhenTextNotEmpty="@{viewModel.tvShowUiState.tvShowDetailsResult.tvShowOverview}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/overview"
