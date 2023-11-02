@@ -71,7 +71,7 @@ class DetailsAdapter(
             is DetailsItem.Header -> R.layout.item_movie_details
             is DetailsItem.Cast -> R.layout.list_cast
             is DetailsItem.Similar -> R.layout.list_similar_movies
-            is DetailsItem.Reviews -> R.layout.item_movie_review
+            is DetailsItem.Reviews -> R.layout.item_review
             DetailsItem.ReviewsText -> R.layout.item_review_text
             DetailsItem.SeeAllReviewsButton -> R.layout.item_see_all_reviews
         }
