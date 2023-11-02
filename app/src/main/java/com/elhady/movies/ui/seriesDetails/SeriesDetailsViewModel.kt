@@ -12,6 +12,7 @@ import com.elhady.movies.ui.mappers.ReviewUiMapper
 import com.elhady.movies.ui.movieDetails.DetailsInteractionListener
 import com.elhady.movies.ui.seriesDetails.seriesUiMapper.SeasonUiMapper
 import com.elhady.movies.ui.seriesDetails.seriesUiMapper.SeriesDetailsUiMapper
+import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,10 +32,13 @@ class SeriesDetailsViewModel @Inject constructor(
 ) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener, MediaInteractionListener,
     SeasonInteractionListener {
 
-    private val args = SeriesDetailsFragmentArgs.fromSavedStateHandle(state)
+    val args = SeriesDetailsFragmentArgs.fromSavedStateHandle(state)
 
     private val _seriesUiState = MutableStateFlow(SeriesDetailsUiState())
     val seriesUiState = _seriesUiState.asStateFlow()
+
+    private val _seriesUiEvent = MutableStateFlow<Event<SeriesDetailsUiEvent>?>(null)
+    val seriesUiEvent = _seriesUiEvent.asStateFlow()
 
     init {
         getData()
@@ -156,6 +160,8 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     override fun onClickSeason(seasonNumber: Int) {
-        TODO("Not yet implemented")
+        _seriesUiEvent.update {
+            Event(SeriesDetailsUiEvent.ClickSeasonEvent(seasonNumber = seasonNumber))
+        }
     }
 }

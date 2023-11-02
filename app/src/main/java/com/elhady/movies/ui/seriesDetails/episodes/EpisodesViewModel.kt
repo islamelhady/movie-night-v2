@@ -3,6 +3,7 @@ package com.elhady.movies.ui.seriesDetails.episodes
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.seriesDetails.GetSeasonsEpisodesUseCase
+import com.elhady.movies.ui.base.BaseInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +17,7 @@ class EpisodesViewModel @Inject constructor(
     state: SavedStateHandle,
     private val getSeasonsEpisodesUseCase: GetSeasonsEpisodesUseCase,
     private val episodeUiMapper: EpisodeUiMapper
-) : BaseViewModel() {
+) : BaseViewModel(), BaseInteractionListener {
 
     private val args = EpisodesFragmentArgs.fromSavedStateHandle(state)
 
@@ -40,6 +41,5 @@ class EpisodesViewModel @Inject constructor(
             }
         }
     }
-
 
 }

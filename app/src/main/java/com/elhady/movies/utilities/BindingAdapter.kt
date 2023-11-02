@@ -88,3 +88,18 @@ fun overviewText(view: TextView, text: String){
     }
 }
 
+@BindingAdapter("app:convertToHoursPattern")
+fun convertToHoursPattern(view: TextView, duration: Int) {
+    duration.let {
+        val hours = (duration / 60).toString()
+        val minutes = (duration % 60).toString()
+        if (hours == "0") {
+            view.text = view.context.getString(R.string.minutes_pattern, minutes)
+        } else if (minutes == "0") {
+            view.text = view.context.getString(R.string.hours_pattern, hours)
+        } else {
+            view.text = view.context.getString(R.string.hours_minutes_pattern, hours, minutes)
+        }
+    }
+}
+

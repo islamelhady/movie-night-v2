@@ -25,7 +25,7 @@
             app:layout_constraintDimensionRatio="1:0.6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:posterImage="@{item.episodeImageUrl}"
+            app:movieImage="@{item.episodeImageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Small"
             tools:src="@tools:sample/avatars" />
 
