@@ -1,4 +1,4 @@
-package com.elhady.movies.ui.movies
+package com.elhady.movies.ui.allMedia
 
 import androidx.paging.PagingData
 import com.elhady.movies.ui.models.MediaUiState

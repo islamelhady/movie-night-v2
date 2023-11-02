@@ -7,13 +7,10 @@ import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Visibility
 import coil.load
 import com.elhady.movies.R
 import com.elhady.movies.data.remote.State
-import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.ui.base.BaseAdapter
-import com.google.android.material.imageview.ShapeableImageView
 
 @BindingAdapter("app:movieImage")
 fun bindMovieImage(image: ImageView, imageURL: String?) {
@@ -78,7 +75,16 @@ fun<T> showWhenListNotEmpty(view: View, list: List<T>){
 }
 
 @BindingAdapter(value = ["showWhenTextNotEmpty"])
-fun showWhenTextNotEmpty(view: View, text: String){
-    view.isVisible = text.isNotEmpty()
+fun showWhenTextNotEmpty(view: View, text: String?){
+    view.isVisible = text?.isNotEmpty() == true
+}
+
+@BindingAdapter(value = ["overviewText"])
+fun overviewText(view: TextView, text: String){
+    if(text.isNotEmpty()){
+        view.text = text
+    }else{
+        view.text = view.context.getString(R.string.empty_overview_text)
+    }
 }
 

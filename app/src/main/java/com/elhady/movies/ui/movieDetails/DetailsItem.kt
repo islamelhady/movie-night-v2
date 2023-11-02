@@ -9,6 +9,7 @@ sealed class DetailsItem(val priority: Int){
     data class Header(val data: MovieDetailsUiState): DetailsItem(0)
     data class Cast(val data: List<ActorUiState>): DetailsItem(1)
     data class Similar(val data: List<MediaUiState>): DetailsItem(2)
-    data class Reviews(val data: ReviewUiState): DetailsItem(3)
-    object SeeAllReviewsButton: DetailsItem(4)
+    object ReviewsText: DetailsItem(3)
+    data class Reviews(val data: ReviewUiState): DetailsItem(4)
+    object SeeAllReviewsButton: DetailsItem(5)
 }

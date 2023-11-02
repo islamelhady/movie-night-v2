@@ -55,7 +55,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
                 action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToVideoFragment()
             }
 
-            is MovieDetailsUiEvent.ClickBackButton -> findNavController().popBackStack()
+            MovieDetailsUiEvent.ClickBackButton -> findNavController().popBackStack()
 
             is MovieDetailsUiEvent.ClickMovieEvent -> {
                 viewModelStore.clear()
@@ -65,6 +65,8 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
             is MovieDetailsUiEvent.ClickCastEvent -> {
                action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToActorDetailsFragment(event.castId)
             }
+
+            MovieDetailsUiEvent.ClickSeeReviewsEvent -> action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewsFragment(viewModel.args.movieID)
         }
 
         action?.let {

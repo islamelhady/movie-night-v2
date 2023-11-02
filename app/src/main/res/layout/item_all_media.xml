@@ -8,6 +8,10 @@
             name="item"
             type="com.elhady.movies.ui.models.MediaUiState" />
 
+        <variable
+            name="listener"
+            type="com.elhady.movies.ui.adapter.MediaInteractionListener" />
+
 
     </data>
 
@@ -20,6 +24,7 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_actor"
+            android:onClick="@{ () -> listener.onClickMedia(item.id)}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1:1.5"
