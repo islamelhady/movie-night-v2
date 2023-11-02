@@ -10,6 +10,7 @@ import com.elhady.movies.data.remote.response.login.RequestTokenResponse
 import com.elhady.movies.data.remote.response.login.SessionResponse
 import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
+import com.elhady.movies.data.remote.response.series.SeasonDto
 import com.elhady.movies.data.remote.response.series.SeriesDetailsDto
 import com.elhady.movies.data.remote.response.series.SeriesDto
 import com.elhady.movies.domain.TrendingTimeWindow
@@ -114,8 +115,8 @@ interface MovieService {
      * * Details
      */
 
-//    @GET("tv/{series_id}/season/{season_number}")
-//    suspend fun getSeasonSeries
+    @GET("tv/{series_id}/season/{season_number}")
+    suspend fun getSeasonDetails(@Path("series_id") seriesId: Int, @Path("season_number") seasonNumber: Int): Response<SeasonDto>
 
     /**
      *  Review

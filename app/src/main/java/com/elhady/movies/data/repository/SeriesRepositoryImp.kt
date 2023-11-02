@@ -11,6 +11,7 @@ import com.elhady.movies.data.local.mappers.series.AiringTodaySeriesMapper
 import com.elhady.movies.data.local.mappers.series.OnTheAirSeriesMapper
 import com.elhady.movies.data.local.mappers.series.TVSeriesListsMapper
 import com.elhady.movies.data.remote.response.CreditsDto
+import com.elhady.movies.data.remote.response.episode.EpisodeDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
 import com.elhady.movies.data.remote.response.series.SeriesDetailsDto
 import com.elhady.movies.data.remote.response.series.SeriesDto
@@ -156,6 +157,7 @@ class SeriesRepositoryImp @Inject constructor(
      * * Details
      * * Cast
      * * Similar Series
+     * * Details season (List Episode)
      */
     override suspend fun getSeriesDetails(seriesId: Int): SeriesDetailsDto? {
         return movieService.getSeriesDetails(seriesId).body()
@@ -172,4 +174,9 @@ class SeriesRepositoryImp @Inject constructor(
     override suspend fun getSeriesReview(seriesId: Int): List<ReviewDto>? {
         return movieService.getSeriesReview(seriesId).body()?.items
     }
+
+    override suspend fun getSeasonDetails(seriesId: Int, seasonNumber: Int): List<EpisodeDto>? {
+        return movieService.getSeasonDetails(seriesId = seriesId, seasonNumber =  seasonNumber).body()?.episodes
+    }
+
 }

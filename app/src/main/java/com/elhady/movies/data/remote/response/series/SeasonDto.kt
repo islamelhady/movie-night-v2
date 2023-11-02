@@ -1,6 +1,6 @@
 package com.elhady.movies.data.remote.response.series
 
-
+import com.elhady.movies.data.remote.response.episode.EpisodeDto
 import com.google.gson.annotations.SerializedName
 
 data class SeasonDto(
@@ -8,6 +8,10 @@ data class SeasonDto(
     val airDate: String?,
     @SerializedName("episode_count")
     val episodeCount: Int?,
+    @SerializedName("episodes")
+    val episodes: List<EpisodeDto>?,
+    @SerializedName("_id")
+    val idString: String?,
     @SerializedName("id")
     val id: Int?,
     @SerializedName("name")

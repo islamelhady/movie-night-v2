@@ -5,6 +5,7 @@ import com.elhady.movies.data.local.database.entity.series.AiringTodaySeriesEnti
 import com.elhady.movies.data.local.database.entity.series.OnTheAirSeriesEntity
 import com.elhady.movies.data.local.database.entity.series.TVSeriesListsEntity
 import com.elhady.movies.data.remote.response.CreditsDto
+import com.elhady.movies.data.remote.response.episode.EpisodeDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
 import com.elhady.movies.data.remote.response.series.SeriesDetailsDto
 import com.elhady.movies.data.remote.response.series.SeriesDto
@@ -33,4 +34,6 @@ interface SeriesRepository {
     suspend fun getSimilarSeries(seriesId: Int): List<SeriesDto>?
 
     suspend fun getSeriesReview(seriesId: Int): List<ReviewDto>?
+
+    suspend fun getSeasonDetails(seriesId: Int, seasonNumber: Int): List<EpisodeDto>?
 }
