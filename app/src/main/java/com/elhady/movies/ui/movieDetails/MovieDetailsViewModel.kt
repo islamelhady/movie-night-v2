@@ -2,12 +2,10 @@ package com.elhady.movies.ui.movieDetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.elhady.movies.domain.enums.HomeItemType
 import com.elhady.movies.domain.usecases.movieDetails.GetMovieDetailsUseCase
 import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
-import com.elhady.movies.ui.home.adapters.MovieInteractionListener
 import com.elhady.movies.ui.mappers.ActorUiMapper
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.mappers.ReviewUiMapper
@@ -110,7 +108,7 @@ class MovieDetailsViewModel @Inject constructor(
     private fun getMovieReviews(movieID: Int) {
         viewModelScope.launch {
             try {
-                val result = getMovieDetailsUseCase.getReview(movieId = movieID)
+                val result = getMovieDetailsUseCase.getMovieReview(movieId = movieID)
                 _detailsUiState.update {
                     it.copy(movieReviewsResult = result.reviews.map(reviewUiMapper::map))
                 }

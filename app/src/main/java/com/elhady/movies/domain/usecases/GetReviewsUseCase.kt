@@ -13,19 +13,17 @@ class GetReviewsUseCase @Inject constructor(
     private val reviewMapper: ReviewMapper
 ) {
     suspend operator fun invoke(mediaId: Int, type: MediaType): List<Review> {
-        val responseMovie = movieRepository.getMovieReview(movieId = mediaId)
-        val responseSeries = seriesRepository.getSeriesReview(seriesId = mediaId)
-
-        when(type){
-            MediaType.MOVIES -> {
-                return responseMovie?.let { list ->
-                    list.map {
-                        reviewMapper.map(it)
-                    }
-                } ?: throw Throwable("Not success")
-            }
-            MediaType.SERIES -> TODO()
+        val review = when (type) {
+            MediaType.MOVIES -> movieRepository.getMovieReview(movieId = mediaId)
+            MediaType.SERIES -> seriesRepository.getSeriesReview(seriesId = mediaId)
         }
 
+        return review?.let { list ->
+            list.map {
+                reviewMapper.map(it)
+            }
+        } ?: throw Throwable("not success")
     }
+
 }
+

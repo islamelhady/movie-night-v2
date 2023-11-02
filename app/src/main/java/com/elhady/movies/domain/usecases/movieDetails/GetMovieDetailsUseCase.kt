@@ -46,7 +46,7 @@ class GetMovieDetailsUseCase @Inject constructor(
         } ?: throw Throwable("Not success")
     }
 
-    suspend fun getReview(movieId: Int): MediaDetailsReview{
+    suspend fun getMovieReview(movieId: Int): MediaDetailsReview{
         val reviews = getMovieReviewsUseCase(mediaId = movieId, type = MediaType.MOVIES)
         return MediaDetailsReview(reviews = reviews.take(MAX_NUM_REVIEWS), isMoreThanMax = reviews.size > MAX_NUM_REVIEWS)
     }

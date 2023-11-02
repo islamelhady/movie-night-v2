@@ -8,6 +8,7 @@ import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 import com.elhady.movies.ui.mappers.ActorUiMapper
 import com.elhady.movies.ui.mappers.MediaUiMapper
+import com.elhady.movies.ui.mappers.ReviewUiMapper
 import com.elhady.movies.ui.movieDetails.DetailsInteractionListener
 import com.elhady.movies.ui.seriesDetails.seriesUiMapper.SeasonUiMapper
 import com.elhady.movies.ui.seriesDetails.seriesUiMapper.SeriesDetailsUiMapper
@@ -25,7 +26,8 @@ class SeriesDetailsViewModel @Inject constructor(
     private val seriesDetailsUiMapper: SeriesDetailsUiMapper,
     private val actorUiMapper: ActorUiMapper,
     private val mediaUiMapper: MediaUiMapper,
-    private val seasonUiMapper: SeasonUiMapper
+    private val seasonUiMapper: SeasonUiMapper,
+    private val reviewUiMapper: ReviewUiMapper
 ) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener, MediaInteractionListener, SeasonInteractionListener{
 
     private val args = SeriesDetailsFragmentArgs.fromSavedStateHandle(state)
@@ -42,6 +44,7 @@ class SeriesDetailsViewModel @Inject constructor(
         getSeriesCast(args.seriesId)
         getSimilarSeries(args.seriesId)
         getSeasonSeries(args.seriesId)
+        getSeriesReview(args.seriesId)
     }
 
 
@@ -92,6 +95,18 @@ class SeriesDetailsViewModel @Inject constructor(
             onAddMovieDetailsItemOfNestedView(SeriesItems.Season(_seriesUiState.value.seriesSeasonsResult))
         }
 
+    }
+
+    fun getSeriesReview(seriesId: Int){
+        viewModelScope.launch {
+            val result = getSeriesDetailsUseCase.getSeriesReview(seriesId).reviews.map {
+                reviewUiMapper.map(it)
+            }
+            _seriesUiState.update {
+                it.copy(seriesReviewResult = result)
+            }
+            onAddMovieDetailsItemOfNestedView(SeriesItems.Review(_seriesUiState.value.seriesReviewResult))
+        }
     }
 
     private fun onAddMovieDetailsItemOfNestedView(items: SeriesItems) {
