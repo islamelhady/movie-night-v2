@@ -100,6 +100,9 @@ interface MovieService {
     @GET("tv/{series_id}")
     suspend fun getTvShowDetails(@Path("series_id") tvShowId: Int): Response<TVShowDetailsDto>
 
+    @GET("tv/{series_id}/credits")
+    suspend fun getSeriesCast(@Path("series_id") tvShowId: Int): Response<CreditsDto>
+
 
     /**
      *  Review

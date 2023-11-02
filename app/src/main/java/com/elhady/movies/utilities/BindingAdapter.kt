@@ -7,13 +7,10 @@ import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Visibility
 import coil.load
 import com.elhady.movies.R
 import com.elhady.movies.data.remote.State
-import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.ui.base.BaseAdapter
-import com.google.android.material.imageview.ShapeableImageView
 
 @BindingAdapter("app:movieImage")
 fun bindMovieImage(image: ImageView, imageURL: String?) {

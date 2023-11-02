@@ -1,6 +1,5 @@
 package com.elhady.movies.ui.tvShowDetails
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -9,10 +8,10 @@ import com.elhady.movies.R
 import com.elhady.movies.ui.base.BaseAdapter
 import com.elhady.movies.ui.base.BaseInteractionListener
 
-class TvShowDetailsAdapter(private var detailsItem: List<TVShowItems>, val listener: BaseInteractionListener): BaseAdapter<TVShowItems>(detailsItem, listener) {
+class TvShowDetailsAdapter(private var detailsItem: List<SeriesItems>, val listener: BaseInteractionListener): BaseAdapter<SeriesItems>(detailsItem, listener) {
     override val layoutID: Int = 0
 
-    override fun setItems(newItems: List<TVShowItems>) {
+    override fun setItems(newItems: List<SeriesItems>) {
         detailsItem = newItems.sortedBy {
             it.priority
         }
@@ -29,7 +28,7 @@ class TvShowDetailsAdapter(private var detailsItem: List<TVShowItems>, val liste
 
     private fun bind(holder: ItemViewHolder, position: Int){
         when(val currentItem = detailsItem[position]){
-            is TVShowItems.Header -> {
+            is SeriesItems.Header -> {
                 holder.binding.setVariable(BR.item, currentItem.data)
             }
         }
@@ -38,7 +37,7 @@ class TvShowDetailsAdapter(private var detailsItem: List<TVShowItems>, val liste
 
     override fun getItemViewType(position: Int): Int {
         return when(detailsItem[position]){
-            is TVShowItems.Header -> R.layout.item_tv_show_details
+            is SeriesItems.Header -> R.layout.item_tv_show_details
         }
     }
 
