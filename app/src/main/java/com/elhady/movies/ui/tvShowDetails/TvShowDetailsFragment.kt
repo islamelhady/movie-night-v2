@@ -23,8 +23,8 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
         binding.recyclerTvShowDetails.adapter = tvShowDetailsAdapter
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.tvShowUiState.collect {
-                tvShowDetailsAdapter.setItems(viewModel.tvShowUiState.value.tvShowDetails)
+            viewModel.seriesUiState.collect {
+                tvShowDetailsAdapter.setItems(viewModel.seriesUiState.value.seriesItems)
             }
         }
     }

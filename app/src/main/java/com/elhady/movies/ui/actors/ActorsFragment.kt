@@ -21,7 +21,7 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
     override val layoutIdFragment: Int = R.layout.fragment_actors
     override val viewModel: ActorsViewModel by viewModels()
     private val actorsAdapter by lazy {
-        ActorsAdapter(viewModel)
+        ActorPagingAdapter(viewModel)
     }
 
 

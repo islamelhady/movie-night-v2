@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.tvShowDetails.GetTVShowDetailsUseCase
 import com.elhady.movies.ui.base.BaseViewModel
+import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 import com.elhady.movies.ui.mappers.ActorUiMapper
 import com.elhady.movies.ui.movieDetails.DetailsInteractionListener
 import com.elhady.movies.ui.tvShowDetails.tvShowUiMapper.TvShowDetailsUiMapper
@@ -20,7 +21,7 @@ class TvShowDetailsViewModel @Inject constructor(
     private val getTVShowDetailsUseCase: GetTVShowDetailsUseCase,
     private val tvShowDetailsUiMapper: TvShowDetailsUiMapper,
     private val actorUiMapper: ActorUiMapper
-) : BaseViewModel(), DetailsInteractionListener{
+) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener{
 
     private val args = TvShowDetailsFragmentArgs.fromSavedStateHandle(state)
 
@@ -33,6 +34,7 @@ class TvShowDetailsViewModel @Inject constructor(
 
     override fun getData() {
         getTVShowDetails(args.tvShowId)
+        getSeriesCast(args.tvShowId)
     }
 
 
@@ -75,6 +77,10 @@ class TvShowDetailsViewModel @Inject constructor(
     }
 
     override fun onclickViewReviews() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickActor(actorID: Int) {
         TODO("Not yet implemented")
     }
 }
