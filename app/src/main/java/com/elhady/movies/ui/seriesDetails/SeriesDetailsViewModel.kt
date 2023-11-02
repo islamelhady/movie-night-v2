@@ -3,9 +3,11 @@ package com.elhady.movies.ui.seriesDetails
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.seriesDetails.GetSeriesDetailsUseCase
+import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 import com.elhady.movies.ui.mappers.ActorUiMapper
+import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.movieDetails.DetailsInteractionListener
 import com.elhady.movies.ui.seriesDetails.seriesUiMapper.SeriesDetailsUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,8 +22,9 @@ class SeriesDetailsViewModel @Inject constructor(
     state: SavedStateHandle,
     private val getSeriesDetailsUseCase: GetSeriesDetailsUseCase,
     private val seriesDetailsUiMapper: SeriesDetailsUiMapper,
-    private val actorUiMapper: ActorUiMapper
-) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener{
+    private val actorUiMapper: ActorUiMapper,
+    private val mediaUiMapper: MediaUiMapper
+) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener, MediaInteractionListener{
 
     private val args = SeriesDetailsFragmentArgs.fromSavedStateHandle(state)
 
@@ -35,6 +38,7 @@ class SeriesDetailsViewModel @Inject constructor(
     override fun getData() {
         getTVShowDetails(args.seriesId)
         getSeriesCast(args.seriesId)
+        getSimilarSeries(args.seriesId)
     }
 
 
@@ -62,6 +66,18 @@ class SeriesDetailsViewModel @Inject constructor(
         }
     }
 
+    private fun getSimilarSeries(seriesId: Int){
+        viewModelScope.launch {
+            val result = getSeriesDetailsUseCase.getSimilarSeries(seriesId).map {
+                mediaUiMapper.map(it)
+            }
+            _seriesUiState.update {
+                it.copy(seriesSimilarResult = result)
+            }
+            onAddMovieDetailsItemOfNestedView(SeriesItems.Similar(_seriesUiState.value.seriesSimilarResult))
+        }
+    }
+
     private fun onAddMovieDetailsItemOfNestedView(items: SeriesItems) {
         val itemsList = _seriesUiState.value.seriesItems.toMutableList()
         itemsList.add(items)
@@ -81,6 +97,10 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     override fun onClickActor(actorID: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickMedia(mediaId: Int) {
         TODO("Not yet implemented")
     }
 }

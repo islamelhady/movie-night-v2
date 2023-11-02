@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.library.baseAdapters.BR
 import com.elhady.movies.R
+import com.elhady.movies.ui.adapter.MediaAdapter
+import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseAdapter
 import com.elhady.movies.ui.base.BaseInteractionListener
 import com.elhady.movies.ui.home.adapters.ActorAdapter
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
-import com.elhady.movies.ui.home.adapters.MovieAdapter
-import com.elhady.movies.ui.home.adapters.MovieInteractionListener
 
 class DetailsAdapter(
     private var detailsItems: List<DetailsItem>,
@@ -52,7 +52,7 @@ class DetailsAdapter(
             }
 
             is DetailsItem.Similar -> {
-                holder.binding.setVariable(BR.adapterRecycler, MovieAdapter(items = currentItem.data, listener = listener as MovieInteractionListener))
+                holder.binding.setVariable(BR.adapterRecycler, MediaAdapter(items = currentItem.data, listener = listener as MediaInteractionListener, layout = R.layout.item_similar))
             }
 
             is DetailsItem.Reviews -> {

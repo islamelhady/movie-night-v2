@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.enums.HomeItemType
 import com.elhady.movies.domain.usecases.movieDetails.GetMovieDetailsUseCase
+import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 import com.elhady.movies.ui.home.adapters.MovieInteractionListener
@@ -27,8 +28,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val actorUiMapper: ActorUiMapper,
     private val mediaUiMapper: MediaUiMapper,
     private val reviewUiMapper: ReviewUiMapper
-) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener,
-    MovieInteractionListener {
+) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener, MediaInteractionListener{
 
 
     val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
@@ -151,16 +151,6 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    override fun onClickMovie(movieID: Int) {
-        _detailsUiEvent.update {
-            Event(MovieDetailsUiEvent.ClickMovieEvent(movieID))
-        }
-    }
-
-    override fun onClickSeeAllMovies(mediaType: HomeItemType) {
-        TODO("Not yet implemented")
-    }
-
     override fun onClickPlayTrailer() {
         _detailsUiEvent.update {
             Event(MovieDetailsUiEvent.ClickPlayTrailerEvent)
@@ -170,6 +160,12 @@ class MovieDetailsViewModel @Inject constructor(
     override fun onclickViewReviews() {
         _detailsUiEvent.update {
             Event(MovieDetailsUiEvent.ClickSeeReviewsEvent)
+        }
+    }
+
+    override fun onClickMedia(movieId: Int) {
+        _detailsUiEvent.update {
+            Event(MovieDetailsUiEvent.ClickMovieEvent(movieId))
         }
     }
 

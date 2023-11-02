@@ -9,9 +9,6 @@
             name="adapterRecycler"
             type="com.elhady.movies.ui.adapter.MediaAdapter" />
 
-        <variable
-            name="viewModel"
-            type="com.elhady.movies.ui.movieDetails.MovieDetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +19,7 @@
         <TextView
             android:id="@+id/similar_movie_title"
             style="@style/SimiBold.Medium"
-            android:text="@string/similar_movies"
+            android:text="@string/similar_series"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
@@ -43,7 +40,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/similar_movie_title"
-            tools:listitem="@layout/item_movie" />
+            tools:listitem="@layout/item_tv_show" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

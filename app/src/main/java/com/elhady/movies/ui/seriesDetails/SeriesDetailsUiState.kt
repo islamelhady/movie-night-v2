@@ -1,9 +1,11 @@
 package com.elhady.movies.ui.seriesDetails
 
 import com.elhady.movies.ui.models.ActorUiState
+import com.elhady.movies.ui.models.MediaUiState
 
 data class SeriesDetailsUiState(
     val seriesItems: List<SeriesItems> = listOf(),
     val seriesDetailsResult: SeriesDetailsResultUiState = SeriesDetailsResultUiState(),
-    val seriesCastResult: List<ActorUiState> = mutableListOf()
+    val seriesCastResult: List<ActorUiState> = mutableListOf(),
+    val seriesSimilarResult: List<MediaUiState> = mutableListOf()
 )

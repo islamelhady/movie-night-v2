@@ -28,4 +28,6 @@ interface SeriesRepository {
     suspend fun getSeriesDetails(seriesId: Int): SeriesDetailsDto?
 
     suspend fun getSeriesCast(seriesId: Int): CreditsDto?
+
+    suspend fun getSimilarSeries(seriesId: Int): List<SeriesDto>?
 }

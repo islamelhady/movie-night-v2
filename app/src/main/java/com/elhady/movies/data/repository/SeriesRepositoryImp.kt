@@ -151,9 +151,10 @@ class SeriesRepositoryImp @Inject constructor(
     }
 
     /**
-     *  Details TV Show
+     *  Details Series
      * * Details
      * * Cast
+     * * Similar Series
      */
     override suspend fun getSeriesDetails(seriesId: Int): SeriesDetailsDto? {
         return movieService.getSeriesDetails(seriesId).body()
@@ -161,5 +162,9 @@ class SeriesRepositoryImp @Inject constructor(
 
     override suspend fun getSeriesCast(seriesId: Int): CreditsDto? {
         return movieService.getSeriesCast(seriesId).body()
+    }
+
+    override suspend fun getSimilarSeries(seriesId: Int): List<SeriesDto>? {
+        return movieService.getSimilarSeries(seriesId).body()?.items
     }
 }

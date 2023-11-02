@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.library.baseAdapters.BR
 import com.elhady.movies.R
+import com.elhady.movies.ui.adapter.MediaAdapter
+import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseAdapter
 import com.elhady.movies.ui.base.BaseInteractionListener
 import com.elhady.movies.ui.home.adapters.ActorAdapter
@@ -37,6 +39,10 @@ class SeriesDetailsAdapter(private var detailsItem: List<SeriesItems>, val liste
             is SeriesItems.Cast -> {
                 holder.binding.setVariable(BR.adapterRecycler, ActorAdapter(items = currentItem.data, listener = listener as ActorInteractionListener, layout = R.layout.item_cast))
             }
+
+            is SeriesItems.Similar -> {
+                holder.binding.setVariable(BR.adapterRecycler, MediaAdapter(items = currentItem.data, listener = listener as MediaInteractionListener, layout = R.layout.item_similar ))
+            }
         }
 
     }
@@ -45,6 +51,7 @@ class SeriesDetailsAdapter(private var detailsItem: List<SeriesItems>, val liste
         return when(detailsItem[position]){
             is SeriesItems.Header -> R.layout.item_series_details
             is SeriesItems.Cast -> R.layout.list_cast
+            is SeriesItems.Similar -> R.layout.list_similar_series
         }
     }
 
