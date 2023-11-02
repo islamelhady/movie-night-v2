@@ -28,7 +28,8 @@ class SeriesDetailsViewModel @Inject constructor(
     private val mediaUiMapper: MediaUiMapper,
     private val seasonUiMapper: SeasonUiMapper,
     private val reviewUiMapper: ReviewUiMapper
-) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener, MediaInteractionListener, SeasonInteractionListener{
+) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener, MediaInteractionListener,
+    SeasonInteractionListener {
 
     private val args = SeriesDetailsFragmentArgs.fromSavedStateHandle(state)
 
@@ -50,7 +51,8 @@ class SeriesDetailsViewModel @Inject constructor(
 
     private fun getTVShowDetails(tvShowId: Int) {
         viewModelScope.launch {
-            val result = seriesDetailsUiMapper.map(getSeriesDetailsUseCase.getSeriesDetails(tvShowId))
+            val result =
+                seriesDetailsUiMapper.map(getSeriesDetailsUseCase.getSeriesDetails(tvShowId))
             _seriesUiState.update {
                 it.copy(
                     seriesDetailsResult = result
@@ -60,7 +62,7 @@ class SeriesDetailsViewModel @Inject constructor(
         }
     }
 
-    private fun getSeriesCast(tvShowId: Int){
+    private fun getSeriesCast(tvShowId: Int) {
         viewModelScope.launch {
             val result = getSeriesDetailsUseCase.getSeriesCast(tvShowId).map {
                 actorUiMapper.map(it)
@@ -72,7 +74,7 @@ class SeriesDetailsViewModel @Inject constructor(
         }
     }
 
-    private fun getSimilarSeries(seriesId: Int){
+    private fun getSimilarSeries(seriesId: Int) {
         viewModelScope.launch {
             val result = getSeriesDetailsUseCase.getSimilarSeries(seriesId).map {
                 mediaUiMapper.map(it)
@@ -84,45 +86,47 @@ class SeriesDetailsViewModel @Inject constructor(
         }
     }
 
-    private fun getSeasonSeries(seriesId: Int){
+    private fun getSeasonSeries(seriesId: Int) {
         viewModelScope.launch {
             val result = getSeriesDetailsUseCase.getSeasons(seriesId).map {
                 seasonUiMapper.map(it)
             }
             _seriesUiState.update {
-                it.copy(seriesSeasonsResult = result )
+                it.copy(seriesSeasonsResult = result)
             }
             onAddMovieDetailsItemOfNestedView(SeriesItems.Season(_seriesUiState.value.seriesSeasonsResult))
         }
 
     }
 
-    private fun getSeriesReview(seriesId: Int){
+    private fun getSeriesReview(seriesId: Int) {
         viewModelScope.launch {
             val result = getSeriesDetailsUseCase.getSeriesReview(seriesId)
             _seriesUiState.update {
                 it.copy(seriesReviewResult = result.reviews.map(reviewUiMapper::map))
             }
-            if (result.reviews.isNotEmpty()){
+            if (result.reviews.isNotEmpty()) {
                 _seriesUiState.value.seriesReviewResult.forEach {
                     onAddMovieDetailsItemOfNestedView(SeriesItems.Review(it))
                 }
                 onAddMovieDetailsItemOfNestedView(SeriesItems.ReviewText)
             }
+            if (result.isMoreThanMax) {
+                onAddMovieDetailsItemOfNestedView(SeriesItems.SeeAllReviews)
+            }
         }
 
     }
 
-    private fun setReview(seeAllReviews: Boolean){
+    private fun setReview(seeAllReviews: Boolean) {
         _seriesUiState.value.seriesReviewResult.forEach {
             onAddMovieDetailsItemOfNestedView(SeriesItems.Review(it))
         }
-        if (seeAllReviews){
+        if (seeAllReviews) {
             onAddMovieDetailsItemOfNestedView(SeriesItems.ReviewText)
         }
 
     }
-
 
 
     private fun onAddMovieDetailsItemOfNestedView(items: SeriesItems) {

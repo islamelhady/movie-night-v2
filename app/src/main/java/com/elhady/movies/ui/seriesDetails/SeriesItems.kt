@@ -12,4 +12,5 @@ sealed class SeriesItems(val priority: Int){
     data class Season(val data: List<SeasonUiState>): SeriesItems(3)
     object ReviewText: SeriesItems(4)
     data class Review(val data: ReviewUiState): SeriesItems(5)
+    object SeeAllReviews: SeriesItems(6)
 }

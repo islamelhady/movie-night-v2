@@ -11,6 +11,7 @@ import com.elhady.movies.ui.base.BaseAdapter
 import com.elhady.movies.ui.base.BaseInteractionListener
 import com.elhady.movies.ui.home.adapters.ActorAdapter
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
+import com.elhady.movies.ui.movieDetails.DetailsInteractionListener
 import com.elhady.movies.ui.reviews.ReviewAdapter
 
 class SeriesDetailsAdapter(private var detailsItem: List<SeriesItems>, val listener: BaseInteractionListener): BaseAdapter<SeriesItems>(detailsItem, listener) {
@@ -54,6 +55,7 @@ class SeriesDetailsAdapter(private var detailsItem: List<SeriesItems>, val liste
             }
 
             SeriesItems.ReviewText -> {}
+            SeriesItems.SeeAllReviews -> holder.binding.setVariable(BR.listener, listener as DetailsInteractionListener)
         }
 
     }
@@ -66,6 +68,7 @@ class SeriesDetailsAdapter(private var detailsItem: List<SeriesItems>, val liste
             is SeriesItems.Season -> R.layout.list_season
             is SeriesItems.Review -> R.layout.item_review
             SeriesItems.ReviewText -> R.layout.item_review_text
+            SeriesItems.SeeAllReviews -> R.layout.item_see_all_reviews
         }
     }
 
