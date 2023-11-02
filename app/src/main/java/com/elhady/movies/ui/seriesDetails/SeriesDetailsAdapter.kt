@@ -43,6 +43,8 @@ class SeriesDetailsAdapter(private var detailsItem: List<SeriesItems>, val liste
             is SeriesItems.Similar -> {
                 holder.binding.setVariable(BR.adapterRecycler, MediaAdapter(items = currentItem.data, listener = listener as MediaInteractionListener, layout = R.layout.item_similar ))
             }
+
+            is SeriesItems.Season -> TODO()
         }
 
     }
@@ -52,6 +54,7 @@ class SeriesDetailsAdapter(private var detailsItem: List<SeriesItems>, val liste
             is SeriesItems.Header -> R.layout.item_series_details
             is SeriesItems.Cast -> R.layout.list_cast
             is SeriesItems.Similar -> R.layout.list_similar_series
+            is SeriesItems.Season -> TODO()
         }
     }
 
