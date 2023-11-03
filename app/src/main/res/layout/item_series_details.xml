@@ -182,7 +182,7 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/review"
-            tools:text="Text rate" />
+            tools:text="8.1" />
 
         <TextView
             android:id="@+id/over_view_title"

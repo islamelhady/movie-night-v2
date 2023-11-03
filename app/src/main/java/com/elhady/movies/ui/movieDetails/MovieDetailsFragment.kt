@@ -8,6 +8,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.elhady.movies.R
 import com.elhady.movies.databinding.FragmentMovieDetailsBinding
+import com.elhady.movies.domain.enums.MediaType
 import com.elhady.movies.ui.base.BaseFragment
 import com.elhady.movies.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,7 +67,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
                action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToActorDetailsFragment(event.castId)
             }
 
-            MovieDetailsUiEvent.ClickSeeReviewsEvent -> action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewsFragment(viewModel.args.movieID)
+            MovieDetailsUiEvent.ClickSeeReviewsEvent -> action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewsFragment(mediaId = viewModel.args.movieID, mediaType = MediaType.MOVIES)
         }
 
         action?.let {

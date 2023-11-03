@@ -126,6 +126,7 @@ class SeriesDetailsViewModel @Inject constructor(
         _seriesUiState.value.seriesReviewResult.forEach {
             onAddMovieDetailsItemOfNestedView(SeriesItems.Review(it))
         }
+        onAddMovieDetailsItemOfNestedView(SeriesItems.ReviewText)
         if (seeAllReviews) {
             onAddMovieDetailsItemOfNestedView(SeriesItems.ReviewText)
         }
@@ -140,23 +141,33 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     override fun onClickBackButton() {
-        TODO("Not yet implemented")
+        _seriesUiEvent.update {
+            Event(SeriesDetailsUiEvent.ClickBackButtonEvent)
+        }
     }
 
     override fun onClickPlayTrailer() {
-        TODO("Not yet implemented")
+        _seriesUiEvent.update {
+            Event(SeriesDetailsUiEvent.ClickPlayTrailerEvent)
+        }
     }
 
     override fun onclickViewReviews() {
-        TODO("Not yet implemented")
+        _seriesUiEvent.update {
+            Event(SeriesDetailsUiEvent.ClickViewReviews)
+        }
     }
 
     override fun onClickActor(actorID: Int) {
-        TODO("Not yet implemented")
+        _seriesUiEvent.update {
+            Event(SeriesDetailsUiEvent.ClickCastEvent(castId = actorID))
+        }
     }
 
     override fun onClickMedia(mediaId: Int) {
-        TODO("Not yet implemented")
+        _seriesUiEvent.update {
+            Event(SeriesDetailsUiEvent.ClickSimilarSeriesEvent(seriesId = mediaId))
+        }
     }
 
     override fun onClickSeason(seasonNumber: Int) {

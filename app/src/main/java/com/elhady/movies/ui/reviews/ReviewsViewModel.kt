@@ -35,7 +35,7 @@ class ReviewsViewModel @Inject constructor(
         _reviewUiState.update { it.copy(isLoading = true, errorUiState = emptyList()) }
         viewModelScope.launch {
             try {
-                val result = getReviewsUseCase(mediaId = args.mediaId, type = MediaType.MOVIES).map {
+                val result = getReviewsUseCase(mediaId = args.mediaId, type = args.mediaType).map {
                     reviewUiMapper.map(it)
                 }
                 _reviewUiState.update {
