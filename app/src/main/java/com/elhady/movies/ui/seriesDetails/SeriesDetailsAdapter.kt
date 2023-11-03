@@ -36,6 +36,7 @@ class SeriesDetailsAdapter(private var detailsItem: List<SeriesItems>, val liste
         when(val currentItem = detailsItem[position]){
             is SeriesItems.Header -> {
                 holder.binding.setVariable(BR.item, currentItem.data)
+                holder.binding.setVariable(BR.listener, listener as DetailsInteractionListener)
             }
 
             is SeriesItems.Cast -> {
@@ -55,6 +56,7 @@ class SeriesDetailsAdapter(private var detailsItem: List<SeriesItems>, val liste
             }
 
             SeriesItems.ReviewText -> {}
+
             SeriesItems.SeeAllReviews -> holder.binding.setVariable(BR.listener, listener as DetailsInteractionListener)
         }
 

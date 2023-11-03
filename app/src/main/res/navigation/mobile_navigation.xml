@@ -129,6 +129,9 @@
         <argument
             android:name="mediaId"
             app:argType="integer" />
+        <argument
+            android:name="mediaType"
+            app:argType="com.elhady.movies.domain.enums.MediaType" />
     </fragment>
     <fragment
         android:id="@+id/tvShowDetailsFragment"
@@ -141,16 +144,32 @@
         <action
             android:id="@+id/action_tvShowDetailsFragment_to_episodesFragment"
             app:destination="@id/episodesFragment" />
+        <action
+            android:id="@+id/action_tvShowDetailsFragment_to_videoFragment"
+            app:destination="@id/videoFragment" />
+        <action
+            android:id="@+id/action_tvShowDetailsFragment_to_reviewsFragment"
+            app:destination="@id/reviewsFragment" />
+        <action
+            android:id="@+id/action_tvShowDetailsFragment_to_actorDetailsFragment"
+            app:destination="@id/actorDetailsFragment" />
+        <action
+            android:id="@+id/action_tvShowDetailsFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/episodesFragment"
         android:name="com.elhady.movies.ui.seriesDetails.episodes.EpisodesFragment"
-        android:label="EpisodesFragment" >
+        android:label="EpisodesFragment"
+        tools:layout="@layout/fragment_episodes">
         <argument
             android:name="seriesId"
             app:argType="integer" />
         <argument
             android:name="seasonNumber"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_tvShowDetailsFragment_to_episodesFragment"
+            app:destination="@id/episodesFragment" />
     </fragment>
 </navigation>
