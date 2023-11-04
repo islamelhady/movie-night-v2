@@ -25,10 +25,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.elhady.movies.ui.search.SearchFragment"
-        android:label="@string/title_search"
-        tools:layout="@layout/fragment_search" />
+        android:id="@+id/exploreFragment"
+        android:name="com.elhady.movies.ui.search.ExploreFragment"
+        android:label="@string/title_explore"
+        tools:layout="@layout/fragment_explore" />
 
     <fragment
         android:id="@+id/favoriteFragment"

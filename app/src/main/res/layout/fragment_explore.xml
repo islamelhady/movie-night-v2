@@ -6,14 +6,14 @@
     <data>
         <variable
             name="viewModel"
-            type="com.elhady.movies.ui.search.SearchViewModel" />
+            type="com.elhady.movies.ui.search.ExploreViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.search.SearchFragment">
+        tools:context=".ui.search.ExploreFragment">
 
         <TextView
             android:id="@+id/text_search"
