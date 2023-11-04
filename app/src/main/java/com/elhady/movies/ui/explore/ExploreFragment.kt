@@ -1,4 +1,4 @@
-package com.elhady.movies.ui.search
+package com.elhady.movies.ui.explore
 
 import androidx.fragment.app.viewModels
 import com.elhady.movies.R

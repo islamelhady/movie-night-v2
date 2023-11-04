@@ -1,4 +1,4 @@
-package com.elhady.movies.ui.search
+package com.elhady.movies.ui.explore
 
 import androidx.lifecycle.ViewModel
 import com.elhady.movies.data.repository.MovieRepository

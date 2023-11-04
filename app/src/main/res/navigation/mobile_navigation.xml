@@ -26,7 +26,7 @@
 
     <fragment
         android:id="@+id/exploreFragment"
-        android:name="com.elhady.movies.ui.search.ExploreFragment"
+        android:name="com.elhady.movies.ui.explore.ExploreFragment"
         android:label="@string/title_explore"
         tools:layout="@layout/fragment_explore" />
 

@@ -2,6 +2,7 @@ package com.elhady.movies.data.remote.service
 
 import com.elhady.movies.data.remote.response.BaseResponse
 import com.elhady.movies.data.remote.response.CreditsDto
+import com.elhady.movies.data.remote.response.TrendingDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.actor.PersonDto
 import com.elhady.movies.data.remote.response.actor.MovieCreditsDto
@@ -47,9 +48,13 @@ interface MovieService {
 
     /**
      *  Trending
+     * * All
      * * Movies
      * * People
      */
+    @GET("trending/all/{time_window}")
+    suspend fun getTrending(@Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value): Response<BaseResponse<TrendingDto>>
+
     @GET("trending/movie/{time_window}")
     suspend fun getTrendingMovie(@Path("time_window") timeWindow: String = TrendingTimeWindow.WEEK.value, @Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
 
