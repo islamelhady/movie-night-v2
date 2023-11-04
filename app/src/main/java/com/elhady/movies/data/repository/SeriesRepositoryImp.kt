@@ -11,6 +11,7 @@ import com.elhady.movies.data.local.mappers.series.AiringTodaySeriesMapper
 import com.elhady.movies.data.local.mappers.series.OnTheAirSeriesMapper
 import com.elhady.movies.data.local.mappers.series.TVSeriesListsMapper
 import com.elhady.movies.data.remote.response.CreditsDto
+import com.elhady.movies.data.remote.response.TrendingDto
 import com.elhady.movies.data.remote.response.episode.EpisodeDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
 import com.elhady.movies.data.remote.response.series.SeriesDetailsDto
@@ -179,4 +180,10 @@ class SeriesRepositoryImp @Inject constructor(
         return movieService.getSeasonDetails(seriesId = seriesId, seasonNumber =  seasonNumber).body()?.episodes
     }
 
+    /**
+     * Trending
+     */
+    override suspend fun getTrendingTvSries(): List<TrendingDto>? {
+        return movieService.getTrending().body()?.items
+    }
 }
