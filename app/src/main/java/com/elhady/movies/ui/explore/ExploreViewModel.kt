@@ -44,4 +44,10 @@ class ExploreViewModel @Inject constructor(
             Event(ExploreUiEvent.ClickTrendEvent(item))
         }
     }
+
+    fun scrollToTopScreen() {
+        _exploreUiEvent.update {
+            Event(ExploreUiEvent.ScrollToTopRecycler)
+        }
+    }
 }

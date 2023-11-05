@@ -37,6 +37,8 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding>() {
             is ExploreUiEvent.ClickTrendEvent -> {
                 navigateToMediaDetails(event.trendingMediaUiState)
             }
+
+            ExploreUiEvent.ScrollToTopRecycler -> binding.recyclerExplore.scrollToPosition(0)
         }
     }
 
