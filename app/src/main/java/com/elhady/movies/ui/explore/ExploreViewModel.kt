@@ -50,6 +50,19 @@ class ExploreViewModel @Inject constructor(
         }
     }
 
+    fun onClickMovies(){
+        _exploreUiEvent.update {
+            Event(ExploreUiEvent.ClickMoviesEvent)
+        }
+    }
+
+    fun onClickSeries(){
+        _exploreUiEvent.update {
+            Event(ExploreUiEvent.ClickSeriesEvent)
+        }
+    }
+
+
     fun onClickActors(){
         _exploreUiEvent.update {
             Event(ExploreUiEvent.ClickActorsEvent)

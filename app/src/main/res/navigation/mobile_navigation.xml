@@ -41,6 +41,9 @@
         <action
             android:id="@+id/action_exploreFragment_to_actorsFragment"
             app:destination="@id/actorsFragment" />
+        <action
+            android:id="@+id/action_exploreFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
     </fragment>
 
     <fragment
@@ -185,4 +188,8 @@
             android:id="@+id/action_tvShowDetailsFragment_to_episodesFragment"
             app:destination="@id/episodesFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.elhady.movies.ui.category.CategoryFragment"
+        android:label="CategoryFragment" />
 </navigation>
