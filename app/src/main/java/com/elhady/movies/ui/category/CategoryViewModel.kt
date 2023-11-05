@@ -27,6 +27,10 @@ class CategoryViewModel @Inject constructor(
     private val _categoryUiState = MutableStateFlow(CategoryUiState())
     val categoryUiState = _categoryUiState.asStateFlow()
 
+    init {
+        getData()
+    }
+
     override fun getData() {
         val result = getMoviesByGenreIDUseCase(genreId = Constants.ADVENTURE_ID).map { pagingData ->
             pagingData.map {
