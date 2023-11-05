@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import com.elhady.movies.R
 import com.elhady.movies.databinding.FragmentExploreBinding
 import com.elhady.movies.ui.base.BaseFragment
+import com.elhady.movies.utilities.Constants
 import com.elhady.movies.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,8 +35,18 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding>() {
     private fun onEvent(event: ExploreUiEvent){
         when(event){
             is ExploreUiEvent.ClickTrendEvent -> {
-                findNavController().navigate(ExploreFragmentDirections.actionExploreFragmentToTvShowDetailsFragment(event.trendingMediaUiState.id))
+                navigateToMediaDetails(event.trendingMediaUiState)
             }
+        }
+    }
+
+    private fun navigateToMediaDetails(media: TrendingMediaUiState){
+        when(media.type){
+            Constants.TV_SERIES_SHOW -> {
+                findNavController().navigate(ExploreFragmentDirections.actionExploreFragmentToTvShowDetailsFragment(media.id))
+            }
+            Constants.MOVIE -> TODO()
+            Constants.PERSON -> TODO()
         }
     }
 }

@@ -14,4 +14,6 @@ object Constants {
     const val INTERNET_STATUS = 400
 
     const val TV_SERIES_SHOW = "tv"
+    const val MOVIE = "movie"
+    const val PERSON ="person"
 }
