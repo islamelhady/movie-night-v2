@@ -50,4 +50,10 @@ class ExploreViewModel @Inject constructor(
             Event(ExploreUiEvent.ScrollToTopRecycler)
         }
     }
+
+    fun onClickActors(){
+        _exploreUiEvent.update {
+            Event(ExploreUiEvent.ClickActorsEvent)
+        }
+    }
 }

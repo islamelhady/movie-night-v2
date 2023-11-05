@@ -39,6 +39,7 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding>() {
             }
 
             ExploreUiEvent.ScrollToTopRecycler -> binding.recyclerExplore.scrollToPosition(0)
+            ExploreUiEvent.ClickActorsEvent -> findNavController().navigate(ExploreFragmentDirections.actionExploreFragmentToActorsFragment())
         }
     }
 
