@@ -27,14 +27,13 @@ class ExploreViewModel @Inject constructor(
     }
 
     override fun getData() {
-        _exploreUiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             val result = trendingTvSeriesUseCase().map {
                 trendingUiStateMapper.map(it)
             }
 
             _exploreUiState.update {
-                it.copy(trendMediaResult = result, isLoading = false)
+                it.copy(trendMediaResult = result)
             }
         }
     }

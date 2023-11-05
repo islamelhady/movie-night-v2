@@ -11,12 +11,14 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layoutDescription="@xml/fragment_explore_scene">
 
         <EditText
-            android:id="@+id/input_text"
+            android:id="@+id/input_text_search"
             style="@style/Regular.Medium"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -35,7 +37,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:paddingStart="@dimen/spacing_small" />
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_movie"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -47,7 +49,7 @@
             app:layout_constraintEnd_toStartOf="@+id/card_series"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/input_text">
+            app:layout_constraintTop_toBottomOf="@id/input_text_search">
 
             <ImageView
                 android:id="@+id/icon_movie"
@@ -68,9 +70,9 @@
                 android:text="@string/movies"
                 android:textColor="@color/brand_color" />
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_series"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -81,7 +83,7 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/card_person"
             app:layout_constraintStart_toEndOf="@+id/card_movie"
-            app:layout_constraintTop_toBottomOf="@id/input_text">
+            app:layout_constraintTop_toBottomOf="@id/input_text_search">
 
             <ImageView
                 android:id="@+id/icon_series"
@@ -102,9 +104,9 @@
                 android:text="@string/tv_series"
                 android:textColor="@color/brand_color" />
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_person"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -116,7 +118,7 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/card_series"
-            app:layout_constraintTop_toBottomOf="@id/input_text">
+            app:layout_constraintTop_toBottomOf="@id/input_text_search">
 
             <ImageView
                 android:id="@+id/icon_person"
@@ -137,7 +139,7 @@
                 android:text="@string/actor"
                 android:textColor="@color/brand_color" />
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:id="@+id/text_trending"
@@ -181,5 +183,5 @@
             android:src="@drawable/ic_arrow_up"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>
