@@ -1,7 +1,6 @@
 package com.elhady.movies.ui.explore
 
 import androidx.lifecycle.viewModelScope
-import com.elhady.movies.domain.mappers.TrendingMediaMapper
 import com.elhady.movies.domain.usecases.GetTrendingTvSeriesUseCase
 import com.elhady.movies.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,8 +14,7 @@ import javax.inject.Inject
 class ExploreViewModel @Inject constructor(
     private val trendingTvSeriesUseCase: GetTrendingTvSeriesUseCase,
     private val trendingUiStateMapper: TrendingUiStateMapper
-) :
-    BaseViewModel() {
+) : BaseViewModel(), TrendingInteractionListener {
 
     private val _exploreUiState = MutableStateFlow(ExploreUiState())
     val exploreUiState = _exploreUiState.asStateFlow()
@@ -36,5 +34,9 @@ class ExploreViewModel @Inject constructor(
                 it.copy(trendMediaResult = result, isLoading = false)
             }
         }
+    }
+
+    override fun onClickTrending() {
+        TODO("Not yet implemented")
     }
 }

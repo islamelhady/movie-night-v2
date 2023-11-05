@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="item"
+            type="com.elhady.movies.ui.explore.TrendingMediaUiState" />
+
+        <variable
+            name="listener"
+            type="com.elhady.movies.ui.explore.TrendingInteractionListener" />
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{()-> listener.onClickTrending()}">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/shapeable_ImageView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginHorizontal="@dimen/spacing_small"
+            android:foregroundGravity="center"
+            android:scaleType="centerCrop"
+            app:movieImage="@{item.image}"
+            android:background="@color/brand_color"
+            app:layout_constraintDimensionRatio="3:4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearance="@style/CardCorners.Medium" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="3:4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/text_view_rates_number"
+            style="@style/SimiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:drawableStart="@drawable/ic_star_filled"
+            android:drawablePadding="@dimen/spacing_too_small"
+            android:gravity="center"
+            android:drawableTint="@color/red"
+            android:text="@{String.valueOf(item.rate)}"
+            android:textColor="@color/red"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="9.5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
