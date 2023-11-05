@@ -1,6 +1,8 @@
 package com.elhady.movies.data.repository
 
+import androidx.paging.Config
 import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.elhady.movies.data.Constant
 import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.MovieDao
@@ -75,10 +77,17 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     /**
-     *  Genre Movies
+     *  Genre
+     * * With genre id
      */
     override suspend fun getGenreMovies(): List<GenreDto>? {
         return movieService.getGenreMovies().body()?.genres
+    }
+
+    override fun getMoviesByGenre(genreId: Int): Pager<Int, MovieDto> {
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = { movieDataSourceContainer.moviesByGenreDataSource })
     }
 
     /**
@@ -115,7 +124,9 @@ class MovieRepositoryImp @Inject constructor(
      *  All Popular Movies
      */
     override fun getAllUpcomingMovies(): Pager<Int, MovieDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { movieDataSourceContainer.upcomingMovieDataSource })
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = { movieDataSourceContainer.upcomingMovieDataSource })
     }
 
     /**
@@ -150,7 +161,9 @@ class MovieRepositoryImp @Inject constructor(
      *  All Top Rated Movies
      */
     override fun getAllTopRatedMovies(): Pager<Int, MovieDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { movieDataSourceContainer.topRatedMovieDataSource })
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = { movieDataSourceContainer.topRatedMovieDataSource })
     }
 
     /**
@@ -186,7 +199,9 @@ class MovieRepositoryImp @Inject constructor(
      */
 
     override fun getAllNowPlayingMovies(): Pager<Int, MovieDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { movieDataSourceContainer.nowPlayingMovieDataSource })
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = { movieDataSourceContainer.nowPlayingMovieDataSource })
     }
 
     /**
@@ -225,7 +240,9 @@ class MovieRepositoryImp @Inject constructor(
      *  All Trending Movies
      */
     override fun getAllTrendingMovies(): Pager<Int, MovieDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { movieDataSourceContainer.trendingMovieDataSource })
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = { movieDataSourceContainer.trendingMovieDataSource })
     }
 
     /**
@@ -263,7 +280,9 @@ class MovieRepositoryImp @Inject constructor(
      */
 
     override fun getAllMysteryMovies(): Pager<Int, MovieDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { movieDataSourceContainer.mysteryMovieDataSource })
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = { movieDataSourceContainer.mysteryMovieDataSource })
     }
 
     /**
@@ -300,7 +319,9 @@ class MovieRepositoryImp @Inject constructor(
      *  All Adventure Movies
      */
     override fun getAllAdventureMovies(): Pager<Int, MovieDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { movieDataSourceContainer.adventureMovieDataSource })
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = { movieDataSourceContainer.adventureMovieDataSource })
     }
 
     /**

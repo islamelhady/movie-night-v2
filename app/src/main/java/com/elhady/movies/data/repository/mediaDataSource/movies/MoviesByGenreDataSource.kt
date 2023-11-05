@@ -9,15 +9,15 @@ import kotlin.properties.Delegates
 class MoviesByGenreDataSource @Inject constructor(private val service: MovieService) :
     BasePagingSource<MovieDto>() {
 
-    private var mediaGenreID by Delegates.notNull<Int>()
+    private var movieGenreID by Delegates.notNull<Int>()
     fun setGenre(genreId: Int) {
-        mediaGenreID = genreId
+        movieGenreID = genreId
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieDto> {
 
         val pageNumber = params.key ?: 1
-        val response = service.getMoviesListByGenre(genreID = mediaGenreID, page = pageNumber)
+        val response = service.getMoviesListByGenre(genreID = movieGenreID, page = pageNumber)
         return try {
             LoadResult.Page(
                 data = response.body()?.items ?: emptyList(),
