@@ -28,7 +28,11 @@
         android:id="@+id/exploreFragment"
         android:name="com.elhady.movies.ui.explore.ExploreFragment"
         android:label="@string/title_explore"
-        tools:layout="@layout/fragment_explore" />
+        tools:layout="@layout/fragment_explore" >
+        <action
+            android:id="@+id/action_exploreFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/favoriteFragment"

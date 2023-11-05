@@ -10,5 +10,5 @@ class TrendingAdapter(items: List<TrendingMediaUiState>, listener: TrendingInter
 }
 
 interface TrendingInteractionListener : BaseInteractionListener {
-    fun onClickTrending()
+    fun onClickTrending(item: TrendingMediaUiState)
 }

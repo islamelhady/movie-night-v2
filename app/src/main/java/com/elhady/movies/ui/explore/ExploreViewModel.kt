@@ -3,6 +3,7 @@ package com.elhady.movies.ui.explore
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.GetTrendingTvSeriesUseCase
 import com.elhady.movies.ui.base.BaseViewModel
+import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,6 +20,8 @@ class ExploreViewModel @Inject constructor(
     private val _exploreUiState = MutableStateFlow(ExploreUiState())
     val exploreUiState = _exploreUiState.asStateFlow()
 
+    private val _exploreUiEvent = MutableStateFlow<Event<ExploreUiEvent>?>(null)
+    val exploreUiEvent = _exploreUiEvent.asStateFlow()
     init {
         getData()
     }
@@ -36,7 +39,9 @@ class ExploreViewModel @Inject constructor(
         }
     }
 
-    override fun onClickTrending() {
-        TODO("Not yet implemented")
+    override fun onClickTrending(item: TrendingMediaUiState) {
+        _exploreUiEvent.update {
+            Event(ExploreUiEvent.ClickTrendEvent(item))
+        }
     }
 }

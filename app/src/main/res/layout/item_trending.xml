@@ -18,7 +18,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{()-> listener.onClickTrending()}">
+        android:onClick="@{()-> listener.onClickTrending(item)}">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/shapeable_ImageView"
