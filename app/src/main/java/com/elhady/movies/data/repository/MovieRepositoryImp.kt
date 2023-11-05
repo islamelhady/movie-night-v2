@@ -87,7 +87,11 @@ class MovieRepositoryImp @Inject constructor(
     override fun getMoviesByGenre(genreId: Int): Pager<Int, MovieDto> {
         return Pager(
             config = pagingConfig,
-            pagingSourceFactory = { movieDataSourceContainer.moviesByGenreDataSource })
+            pagingSourceFactory = {
+                val movieDataSource = movieDataSourceContainer.moviesByGenreDataSource
+                movieDataSource.setGenre(genreId)
+                movieDataSource
+            })
     }
 
     /**
