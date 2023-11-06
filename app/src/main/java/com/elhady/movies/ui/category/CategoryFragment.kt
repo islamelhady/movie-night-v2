@@ -10,6 +10,7 @@ import com.elhady.movies.databinding.FragmentCategoryBinding
 import com.elhady.movies.ui.adapter.LoadAdapter
 import com.elhady.movies.ui.base.BaseFragment
 import com.elhady.movies.ui.models.MediaUiState
+import com.elhady.movies.utilities.Constants
 import com.elhady.movies.utilities.collect
 import com.elhady.movies.utilities.collectLast
 import com.elhady.movies.utilities.setSpanSize
@@ -24,7 +25,8 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setAdapter()
-        binding.viewModel = viewModel
+//        binding.viewModel = viewModel
+        collectEvent()
     }
 
     private fun setAdapter() {
@@ -49,6 +51,21 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     }
 
 
+    private fun collectEvent() {
+        collectLast(viewModel.categoryUiEvent){ event ->
+            event?.getContentIfNotHandled()?.let {
+                onEvent(it)
+            }
+        }
+    }
+
+    private fun onEvent(event: CategoryUiEvent) {
+        when(event){
+            is CategoryUiEvent.ClickCategoryEvent -> viewModel.getListMovies(event.categoryId)
+            CategoryUiEvent.ClickRetry -> categoryAdapter.retry()
+        }
+
+    }
 
 
 }

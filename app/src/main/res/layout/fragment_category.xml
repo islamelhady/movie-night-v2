@@ -49,6 +49,7 @@
                         app:listener="@{viewModel}"
                         app:selectedChip="@{viewModel.categoryUiState.categorySelectedID}"
                         app:selectionRequired="true"
+                        app:selectedItemPosition=""
                         app:singleLine="true"
                         app:singleSelection="true" />
 

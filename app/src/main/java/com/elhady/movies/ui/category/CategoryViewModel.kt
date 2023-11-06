@@ -12,6 +12,7 @@ import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.movieDetails.ErrorUiState
 import com.elhady.movies.utilities.Constants
+import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,7 +27,7 @@ class CategoryViewModel @Inject constructor(
     private val getMoviesByGenreIDUseCase: GetMoviesByGenreIDUseCase,
     private val getGenreMovieUseCase: GetGenreMovieUseCase,
     private val mediaUiMapper: MediaUiMapper
-) : BaseViewModel(), MediaInteractionListener, CategoryInteractionListener{
+) : BaseViewModel(), MediaInteractionListener, CategoryInteractionListener {
 
 //    val args = CategoryFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
@@ -34,40 +35,44 @@ class CategoryViewModel @Inject constructor(
     private val _categoryUiState = MutableStateFlow(CategoryUiState())
     val categoryUiState = _categoryUiState.asStateFlow()
 
+    private val _categoryUiEvent :  MutableStateFlow<Event<CategoryUiEvent>> = MutableStateFlow(Event(CategoryUiEvent.ClickCategoryEvent(Constants.MYSTERY_ID)))
+    val categoryUiEvent = _categoryUiEvent.asStateFlow()
+
     init {
         getData()
     }
 
     override fun getData() {
-        getListMovies()
+        getListMovies(categoryUiState.value.categorySelectedID)
         getGenreMovie()
+        _categoryUiEvent.update { Event(CategoryUiEvent.ClickRetry) }
     }
 
-    private fun getListMovies(){
+    fun getListMovies(categorySelected: Int) {
         _categoryUiState.update { it.copy(isLoading = true) }
-        val result = getMoviesByGenreIDUseCase(genreId = Constants.ADVENTURE_ID).map { pagingData ->
+        val result = getMoviesByGenreIDUseCase(genreId = categorySelected).map { pagingData ->
             pagingData.map {
                 mediaUiMapper.map(it)
             }
         }
         _categoryUiState.update {
-            it.copy(moviesResult = result, isLoading = false)
+            it.copy(moviesResult = result, isLoading = false, categorySelectedID = categorySelected)
         }
     }
 
-    private fun getGenreMovie(){
+    private fun getGenreMovie() {
         viewModelScope.launch {
-           val result =  getGenreMovieUseCase().map {
-               CategoryGenreUiState(id = it.id, name = it.name)
-           }
+            val result = getGenreMovieUseCase().map {
+                CategoryGenreUiState(id = it.id, name = it.name)
+            }
             _categoryUiState.update {
                 it.copy(categoryResult = result, isLoading = false)
             }
         }
     }
 
-    fun setErrorUiState(combinedLoadStates: CombinedLoadStates){
-        when(combinedLoadStates.refresh){
+    fun setErrorUiState(combinedLoadStates: CombinedLoadStates) {
+        when (combinedLoadStates.refresh) {
             is LoadState.Error -> {
                 _categoryUiState.update {
                     it.copy(
@@ -77,19 +82,33 @@ class CategoryViewModel @Inject constructor(
                     )
                 }
             }
-            LoadState.Loading -> _categoryUiState.update { it.copy(isLoading = true, error = emptyList()) }
+
+            LoadState.Loading -> _categoryUiState.update {
+                it.copy(
+                    isLoading = true,
+                    error = emptyList()
+                )
+            }
+
             is LoadState.NotLoading -> {
                 _categoryUiState.update { it.copy(isLoading = false, error = emptyList()) }
             }
         }
 
     }
+
     override fun onClickMedia(mediaId: Int) {
         TODO("Not yet implemented")
     }
 
     override fun onClickCategory(categoryId: Int) {
-        TODO("Not yet implemented")
+
+        viewModelScope.launch {
+            _categoryUiState.update {
+                it.copy(categorySelectedID = categoryId)
+            }
+            _categoryUiEvent.emit(Event(CategoryUiEvent.ClickCategoryEvent(categoryId)))
+        }
     }
 
 }
