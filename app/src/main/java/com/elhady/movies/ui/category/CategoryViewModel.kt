@@ -1,11 +1,15 @@
 package com.elhady.movies.ui.category
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import androidx.paging.map
 import com.elhady.movies.domain.usecases.GetMoviesByGenreIDUseCase
+import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.models.MediaUiState
+import com.elhady.movies.ui.movieDetails.ErrorUiState
 import com.elhady.movies.utilities.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,9 +23,9 @@ class CategoryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getMoviesByGenreIDUseCase: GetMoviesByGenreIDUseCase,
     private val mediaUiMapper: MediaUiMapper
-) : BaseViewModel() {
+) : BaseViewModel(), MediaInteractionListener {
 
-    val args = CategoryFragmentArgs.fromSavedStateHandle(savedStateHandle)
+//    val args = CategoryFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
 
     private val _categoryUiState = MutableStateFlow(CategoryUiState())
@@ -32,14 +36,37 @@ class CategoryViewModel @Inject constructor(
     }
 
     override fun getData() {
+        _categoryUiState.update { it.copy(isLoading = true) }
         val result = getMoviesByGenreIDUseCase(genreId = Constants.ADVENTURE_ID).map { pagingData ->
             pagingData.map {
                 mediaUiMapper.map(it)
             }
         }
         _categoryUiState.update {
-            it.copy(moviesResult = result)
+            it.copy(moviesResult = result, isLoading = false)
         }
+    }
+
+    fun setErrorUiState(combinedLoadStates: CombinedLoadStates){
+        when(combinedLoadStates.refresh){
+            is LoadState.Error -> {
+                _categoryUiState.update {
+                    it.copy(
+                        isLoading = false, error = listOf(
+                            ErrorUiState(message = "not found", code = 404)
+                        )
+                    )
+                }
+            }
+            LoadState.Loading -> _categoryUiState.update { it.copy(isLoading = true, error = emptyList()) }
+            is LoadState.NotLoading -> {
+                _categoryUiState.update { it.copy(isLoading = false, error = emptyList()) }
+            }
+        }
+
+    }
+    override fun onClickMedia(mediaId: Int) {
+        TODO("Not yet implemented")
     }
 
 }

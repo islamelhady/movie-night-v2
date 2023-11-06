@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.elhady.movies.ui.category.CategoryViewModel" />
 
     </data>
 
@@ -11,10 +15,24 @@
         android:layout_height="match_parent"
         tools:context=".ui.category.CategoryFragment">
 
-        <TextView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_category"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Hello" />
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            android:orientation="vertical"
+            hideIfTrue="@{viewModel.categoryUiState.loading}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:spanCount="2"
+            tools:listitem="@layout/item_category"/>
+
+        <include
+            android:id="@+id/loading"
+            layout="@layout/loading"
+            isVisible="@{viewModel.categoryUiState.loading}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
