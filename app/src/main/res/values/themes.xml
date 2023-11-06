@@ -77,5 +77,13 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="Colors.Widget.MaterialComponents.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/selector_chip_background</item>
+        <item name="chipStrokeColor">@color/selector_chip_stroke</item>
+        <item name="android:textColor">@color/selector_chip_text</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipCornerRadius">@dimen/spacing_small</item>
+    </style>
+
 
 </resources>

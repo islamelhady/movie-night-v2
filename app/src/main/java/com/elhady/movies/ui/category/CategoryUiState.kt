@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
 data class CategoryUiState(
-    val categoryGenreResult: List<CategoryGenreUiState> = emptyList(),
+    val categoryResult: List<CategoryGenreUiState> = emptyList(),
     val moviesResult: Flow<PagingData<MediaUiState>> = emptyFlow(),
     val categorySelectedID: Int = Constants.All,
     val isLoading: Boolean = false,

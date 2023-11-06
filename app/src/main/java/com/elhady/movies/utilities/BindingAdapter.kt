@@ -11,6 +11,9 @@ import coil.load
 import com.elhady.movies.R
 import com.elhady.movies.data.remote.State
 import com.elhady.movies.ui.base.BaseAdapter
+import com.elhady.movies.ui.category.CategoryGenreUiState
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 
 @BindingAdapter("app:movieImage")
 fun bindMovieImage(image: ImageView, imageURL: String?) {
@@ -100,6 +103,21 @@ fun convertToHoursPattern(view: TextView, duration: Int) {
         } else {
             view.text = view.context.getString(R.string.hours_minutes_pattern, hours, minutes)
         }
+    }
+}
+
+
+
+@BindingAdapter("app:chipsList", "app:listener", "app:selectedChip")
+fun <T> setGenresChips(view: ChipGroup, chipList: List<CategoryGenreUiState>?, listener: T, selectedChip: Int?) {
+    chipList?.let {
+        it.forEach { genreItem ->
+            view.addView(view.createChip(genreItem, listener))
+        }
+    }
+    val index = chipList?.indexOf(chipList.find { it.id == selectedChip }) ?: Constants.All
+    view.getChildAt(index)?.id?.let {
+        view.check(it)
     }
 }
 

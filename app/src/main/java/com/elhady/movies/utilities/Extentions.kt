@@ -1,15 +1,22 @@
 package com.elhady.movies.utilities
 
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.elhady.movies.R
+import com.elhady.movies.databinding.ItemChipCategoryBinding
 import com.elhady.movies.ui.adapter.LoadAdapter
 import com.elhady.movies.ui.base.BasePagingAdapter
+import com.elhady.movies.ui.category.CategoryGenreUiState
+import com.elhady.movies.ui.category.CategoryInteractionListener
+import com.google.android.material.chip.ChipGroup
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -63,3 +70,11 @@ fun setDuration(view: TextView, hours: Int?, minutes: Int?) {
     }
 }
 
+fun <T> ChipGroup.createChip(item: CategoryGenreUiState, listener: T): View {
+    val chipBinding: ItemChipCategoryBinding = DataBindingUtil.inflate(
+        LayoutInflater.from(context), R.layout.item_chip_category, this, false
+    )
+    chipBinding.item = item
+    chipBinding.listener = listener as CategoryInteractionListener
+    return chipBinding.root
+}

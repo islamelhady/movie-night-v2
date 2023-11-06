@@ -24,6 +24,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setAdapter()
+        binding.viewModel = viewModel
     }
 
     private fun setAdapter() {

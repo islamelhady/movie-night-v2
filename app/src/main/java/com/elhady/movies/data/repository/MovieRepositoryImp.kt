@@ -77,8 +77,7 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     /**
-     *  Genre
-     * * With genre id
+     *  Genre Movies List
      */
     override suspend fun getGenreMovies(): List<GenreDto>? {
         return movieService.getGenreMovies().body()?.genres

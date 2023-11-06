@@ -8,31 +8,75 @@
             name="viewModel"
             type="com.elhady.movies.ui.category.CategoryViewModel" />
 
+
+
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.category.CategoryFragment">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@color/background_color">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bottom_line"
+                app:contentInsetStart="0dp"
+                app:layout_scrollFlags="scroll|enterAlways">
+
+                <HorizontalScrollView
+                    android:id="@+id/horizontalScrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_extra_large"
+                    android:paddingHorizontal="@dimen/spacing_medium"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    tools:background="@color/brand_color">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroup_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:chipsList="@{viewModel.categoryUiState.categoryResult}"
+                        app:listener="@{viewModel}"
+                        app:selectedChip="@{viewModel.categoryUiState.categorySelectedID}"
+                        app:selectionRequired="true"
+                        app:singleLine="true"
+                        app:singleSelection="true" />
+
+                </HorizontalScrollView>
+
+            </com.google.android.material.appbar.MaterialToolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_category"
+            hideIfTrue="@{viewModel.categoryUiState.loading}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            android:clipToPadding="false"
             android:orientation="vertical"
-            hideIfTrue="@{viewModel.categoryUiState.loading}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:overScrollMode="never"
+            android:paddingTop="@dimen/spacing_medium"
+            android:scrollbars="none"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             app:spanCount="2"
-            tools:listitem="@layout/item_category"/>
+            tools:listitem="@layout/item_category" />
 
         <include
             android:id="@+id/loading"
-            layout="@layout/loading"
-            isVisible="@{viewModel.categoryUiState.loading}"/>
+            isVisible="@{viewModel.categoryUiState.loading}"
+            layout="@layout/loading" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
