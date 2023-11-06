@@ -115,7 +115,7 @@
             app:layout_constraintTop_toBottomOf="@id/input_text_search"
             android:layout_marginStart="@dimen/spacing_medium"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/spacing_large" />
+            android:layout_marginTop="@dimen/spacing_medium" />
 
     </ConstraintSet>
 

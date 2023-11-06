@@ -3,6 +3,7 @@ package com.elhady.movies.ui.category
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.elhady.movies.R
@@ -15,6 +16,7 @@ import com.elhady.movies.utilities.collect
 import com.elhady.movies.utilities.collectLast
 import com.elhady.movies.utilities.setSpanSize
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
@@ -27,6 +29,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
         setAdapter()
 //        binding.viewModel = viewModel
         collectEvent()
+        collectData()
     }
 
     private fun setAdapter() {
@@ -41,14 +44,20 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
         )
 
         collect(flow = categoryAdapter.loadStateFlow, action = { viewModel.setErrorUiState(it)})
-
-        collectLast(flow = viewModel.categoryUiState.value.moviesResult, action = ::setMovies)
     }
 
-    private suspend fun setMovies(itemsPagingData: PagingData<MediaUiState>){
-        categoryAdapter.submitData(pagingData = itemsPagingData)
+   private fun collectData(){
+       viewLifecycleOwner.lifecycleScope.launch {
+           viewModel.categoryUiState.collect{
+               collectLast(
+                   flow = viewModel.categoryUiState.value.moviesResult,
+                   action = {
+                       categoryAdapter.submitData(it)
+                   })
+           }
+       }
 
-    }
+   }
 
 
     private fun collectEvent() {
