@@ -1,7 +1,13 @@
 package com.elhady.movies.ui.search
 
-import androidx.lifecycle.ViewModel
+import com.elhady.movies.ui.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SearchViewModel : ViewModel() {
+@HiltViewModel
+class SearchViewModel @Inject constructor(): BaseViewModel() {
     // TODO: Implement the ViewModel
+    override fun getData() {
+        TODO("Not yet implemented")
+    }
 }

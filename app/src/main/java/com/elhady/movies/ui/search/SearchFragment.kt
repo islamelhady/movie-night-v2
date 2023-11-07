@@ -1,32 +1,16 @@
 package com.elhady.movies.ui.search
 
-import androidx.lifecycle.ViewModelProvider
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.elhady.movies.R
+import com.elhady.movies.databinding.FragmentSearchBinding
+import com.elhady.movies.ui.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-class SearchFragment : Fragment() {
+@AndroidEntryPoint
+class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
-    companion object {
-        fun newInstance() = SearchFragment()
-    }
+    override val layoutIdFragment: Int =R.layout.fragment_search
+    override val viewModel: SearchViewModel by viewModels()
 
-    private lateinit var viewModel: SearchViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_search, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
 
 }
