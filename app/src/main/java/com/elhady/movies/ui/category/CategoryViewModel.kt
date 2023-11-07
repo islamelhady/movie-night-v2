@@ -11,6 +11,7 @@ import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.movieDetails.ErrorUiState
+import com.elhady.movies.utilities.Constants
 import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +26,8 @@ class CategoryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getCategoryByGenreIDUseCase: GetCategoryByGenreUseCase,
     private val getGenreListUseCase: GetGenreListUseCase,
-    private val mediaUiMapper: MediaUiMapper
+    private val mediaUiMapper: MediaUiMapper,
+    private val genreUiMapper: GenreUiMapper
 ) : BaseViewModel(), MediaInteractionListener, CategoryInteractionListener {
 
     val args = CategoryFragmentArgs.fromSavedStateHandle(savedStateHandle)
@@ -34,7 +36,7 @@ class CategoryViewModel @Inject constructor(
     private val _categoryUiState = MutableStateFlow(CategoryUiState())
     val categoryUiState = _categoryUiState.asStateFlow()
 
-    private val _categoryUiEvent =  MutableStateFlow<Event<CategoryUiEvent>?>(null)
+    private val _categoryUiEvent : MutableStateFlow<Event<CategoryUiEvent>> = MutableStateFlow(Event(CategoryUiEvent.ClickCategoryEvent(categoryId = Constants.FIRST_CATEGORY_ID)))
     val categoryUiEvent = _categoryUiEvent.asStateFlow()
 
     init {
@@ -64,7 +66,7 @@ class CategoryViewModel @Inject constructor(
     private fun getCategoryGenreList() {
         viewModelScope.launch {
             val result = getGenreListUseCase(args.mediaType).map {
-                CategoryGenreUiState(id = it.id, name = it.name)
+                genreUiMapper.map(it)
             }
             _categoryUiState.update {
                 it.copy(categoryResult = result, isLoading = false)

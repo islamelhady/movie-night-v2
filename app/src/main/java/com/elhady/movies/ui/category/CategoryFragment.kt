@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.elhady.movies.R
 import com.elhady.movies.databinding.FragmentCategoryBinding
+import com.elhady.movies.domain.enums.MediaType
 import com.elhady.movies.ui.adapter.LoadAdapter
 import com.elhady.movies.ui.base.BaseFragment
 import com.elhady.movies.utilities.collect
@@ -23,8 +24,8 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setTitle(true, getTitle())
         setAdapter()
-//        binding.viewModel = viewModel
         collectEvent()
         collectData()
     }
@@ -59,7 +60,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
     private fun collectEvent() {
         collectLast(viewModel.categoryUiEvent){ event ->
-            event?.getContentIfNotHandled()?.let {
+            event.getContentIfNotHandled()?.let {
                 onEvent(it)
             }
         }
@@ -70,8 +71,13 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
             is CategoryUiEvent.ClickCategoryEvent -> viewModel.getMediaList(event.categoryId)
             CategoryUiEvent.ClickRetry -> categoryAdapter.retry()
         }
-
     }
 
+    fun getTitle(): String{
+        return when(viewModel.args.mediaType){
+            MediaType.MOVIES -> resources.getString(R.string.movies)
+            MediaType.SERIES -> resources.getString(R.string.tv_series)
+        }
+    }
 
 }

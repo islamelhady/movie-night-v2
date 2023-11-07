@@ -5,6 +5,8 @@ import com.elhady.movies.data.repository.SeriesRepository
 import com.elhady.movies.domain.enums.MediaType
 import com.elhady.movies.domain.mappers.GenreMapper
 import com.elhady.movies.domain.models.Genre
+import com.elhady.movies.utilities.Constants
+import com.elhady.movies.utilities.Constants.FIRST_CATEGORY_NAME
 import javax.inject.Inject
 
 class GetGenreListUseCase @Inject constructor(
@@ -13,7 +15,7 @@ class GetGenreListUseCase @Inject constructor(
     private val genreMapper: GenreMapper
 ) {
     suspend operator fun invoke(type: MediaType): List<Genre> {
-        return when (type) {
+        val genre = when (type) {
             MediaType.MOVIES -> {
                 movieRepository.getGenreMovies()?.map {
                     genreMapper.map(it)
@@ -27,6 +29,15 @@ class GetGenreListUseCase @Inject constructor(
                 } ?: throw Throwable("not success")
             }
         }
+
+        return setGenre(genre)
+    }
+
+    private fun setGenre(genre: List<Genre>): List<Genre> {
+        val genresList = mutableListOf<Genre>()
+        genresList.add(0, Genre(Constants.FIRST_CATEGORY_ID, FIRST_CATEGORY_NAME))
+        genresList.addAll(genre)
+        return genresList.toList()
 
     }
 
