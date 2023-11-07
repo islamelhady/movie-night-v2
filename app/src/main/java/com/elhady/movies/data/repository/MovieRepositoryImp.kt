@@ -27,6 +27,7 @@ import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
 import com.elhady.movies.data.repository.mediaDataSource.movies.MovieDataSourceContainer
+import com.elhady.movies.data.repository.searchDataSource.MovieSearchDataSource
 import com.elhady.movies.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
@@ -43,7 +44,8 @@ class MovieRepositoryImp @Inject constructor(
     private val topRatedMovieMapper: TopRatedMovieMapper,
     private val mysteryMoviesMapper: MysteryMoviesMapper,
     private val adventureMoviesMapper: AdventureMoviesMapper,
-    private val movieDataSourceContainer: MovieDataSourceContainer
+    private val movieDataSourceContainer: MovieDataSourceContainer,
+    private val movieSearchDataSource: MovieSearchDataSource
 ) : MovieRepository, BaseRepository() {
 
     /**
@@ -358,5 +360,15 @@ class MovieRepositoryImp @Inject constructor(
      */
     override fun getAllMovies(): Pager<Int, MovieDto> {
         return Pager(config = pagingConfig, pagingSourceFactory = { movieDataSourceContainer.moviesDataSource })
+    }
+
+    /**
+     * Serach
+     * * movies
+     */
+    override fun getSearchMovies(query: String): Pager<Int, MovieDto> {
+        val querySearch = movieSearchDataSource
+        querySearch.setQuerySearch(query = query)
+        return Pager(config = pagingConfig, pagingSourceFactory = { querySearch })
     }
 }

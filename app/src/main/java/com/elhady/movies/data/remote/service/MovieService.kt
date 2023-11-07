@@ -177,6 +177,14 @@ interface MovieService {
 
 
     /**
+     * Search
+     * * Movies
+     */
+    @GET("search/movie")
+    suspend fun getSearchMovies(@Query("query") query: String , @Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
+
+
+    /**
      *  AUTHENTICATION
      * * Create Request Token
      * * Create Session (with login)

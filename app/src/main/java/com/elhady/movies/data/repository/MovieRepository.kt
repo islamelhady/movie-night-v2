@@ -1,5 +1,6 @@
 package com.elhady.movies.data.repository
 
+import android.graphics.pdf.PdfDocument.Page
 import androidx.paging.Pager
 import com.elhady.movies.data.local.database.entity.movies.AdventureMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.MysteryMovieEntity
@@ -44,6 +45,7 @@ interface MovieRepository {
     fun getAllTrendingMovies(): Pager<Int, MovieDto>
 
     fun getMoviesByGenre(genreId: Int): Pager<Int, MovieDto>
+
     fun getAllMovies(): Pager<Int, MovieDto>
 
     suspend fun getGenreMovies(): List<GenreDto>?
@@ -55,5 +57,7 @@ interface MovieRepository {
     suspend fun getSimilarMovies(movieId: Int): List<MovieDto>?
 
     suspend fun getMovieReview(movieId: Int): List<ReviewDto>?
+
+    fun getSearchMovies(query: String): Pager<Int, MovieDto>
 
 }
