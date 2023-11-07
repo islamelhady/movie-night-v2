@@ -366,9 +366,9 @@ class MovieRepositoryImp @Inject constructor(
      * Serach
      * * movies
      */
-    override fun getSearchMovies(query: String): Pager<Int, MovieDto> {
-        val querySearch = movieSearchDataSource
-        querySearch.setQuerySearch(query = query)
-        return Pager(config = pagingConfig, pagingSourceFactory = { querySearch })
+    override fun searchForMoviesPager(query: String): Pager<Int, MovieDto> {
+        val dataSource = movieSearchDataSource
+        dataSource.setQuerySearch(query = query)
+        return Pager(config = pagingConfig, pagingSourceFactory = { dataSource })
     }
 }

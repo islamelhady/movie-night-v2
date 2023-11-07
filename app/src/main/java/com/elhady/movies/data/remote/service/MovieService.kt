@@ -181,7 +181,7 @@ interface MovieService {
      * * Movies
      */
     @GET("search/movie")
-    suspend fun getSearchMovies(@Query("query") query: String , @Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
+    suspend fun searchForMovies(@Query("query") query: String, @Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
 
 
     /**

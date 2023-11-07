@@ -15,7 +15,7 @@ class MovieSearchDataSource @Inject constructor(private val service: MovieServic
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieDto> {
         val pageNumber = params.key ?: 1
-        val response = service.getSearchMovies(query = querySearch, page = pageNumber)
+        val response = service.searchForMovies(query = querySearch, page = pageNumber)
         val responsePage = response.body()
 
         return try {
