@@ -68,4 +68,10 @@ class ExploreViewModel @Inject constructor(
             Event(ExploreUiEvent.ClickActorsEvent)
         }
     }
+
+    fun onClickSearch(){
+        _exploreUiEvent.update {
+            Event(ExploreUiEvent.ClickSearchEvent)
+        }
+    }
 }

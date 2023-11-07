@@ -43,6 +43,7 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding>() {
             ExploreUiEvent.ClickActorsEvent -> findNavController().navigate(ExploreFragmentDirections.actionExploreFragmentToActorsFragment())
             ExploreUiEvent.ClickMoviesEvent -> findNavController().navigate(ExploreFragmentDirections.actionExploreFragmentToCategoryFragment(MediaType.MOVIES))
             ExploreUiEvent.ClickSeriesEvent -> findNavController().navigate(ExploreFragmentDirections.actionExploreFragmentToCategoryFragment(MediaType.SERIES))
+            ExploreUiEvent.ClickSearchEvent -> findNavController().navigate(ExploreFragmentDirections.actionExploreFragmentToSearchFragment())
         }
     }
 

@@ -27,6 +27,7 @@
             android:background="@drawable/edit_text_background"
             android:drawableStart="@drawable/ic_search"
             android:drawablePadding="@dimen/spacing_small"
+            android:onClick="@{() -> viewModel.onClickSearch()}"
             android:focusableInTouchMode="false"
             android:hint="@string/search_hint"
             android:paddingStart="@dimen/spacing_small"

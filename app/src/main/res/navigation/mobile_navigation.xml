@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_exploreFragment_to_categoryFragment"
             app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/action_exploreFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
 
     <fragment
@@ -203,4 +206,9 @@
             android:id="@+id/action_categoryFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.elhady.movies.ui.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
 </navigation>

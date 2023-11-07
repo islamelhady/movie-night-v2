@@ -6,5 +6,6 @@ sealed interface ExploreUiEvent {
     object ClickMoviesEvent: ExploreUiEvent
     object ClickSeriesEvent: ExploreUiEvent
     object ClickActorsEvent: ExploreUiEvent
+    object ClickSearchEvent: ExploreUiEvent
 
 }
