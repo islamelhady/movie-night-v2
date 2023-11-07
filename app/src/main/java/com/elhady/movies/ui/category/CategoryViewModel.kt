@@ -101,7 +101,9 @@ class CategoryViewModel @Inject constructor(
     }
 
     override fun onClickMedia(mediaId: Int) {
-        TODO("Not yet implemented")
+        _categoryUiEvent.update {
+            Event(CategoryUiEvent.ClickMediaEvent(mediaId))
+        }
     }
 
     override fun onClickCategory(categoryId: Int) {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.elhady.movies.R
 import com.elhady.movies.databinding.FragmentCategoryBinding
@@ -70,10 +71,19 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
         when(event){
             is CategoryUiEvent.ClickCategoryEvent -> viewModel.getMediaList(event.categoryId)
             CategoryUiEvent.ClickRetry -> categoryAdapter.retry()
+            is CategoryUiEvent.ClickMediaEvent -> navigateToDetails(event.mediaId)
         }
     }
 
-    fun getTitle(): String{
+    private fun navigateToDetails(mediaId: Int) {
+        when(viewModel.args.mediaType){
+            MediaType.MOVIES -> findNavController().navigate(CategoryFragmentDirections.actionCategoryFragmentToMovieDetailsFragment(mediaId))
+            MediaType.SERIES -> findNavController().navigate(CategoryFragmentDirections.actionCategoryFragmentToTvShowDetailsFragment(mediaId))
+        }
+
+    }
+
+    private fun getTitle(): String{
         return when(viewModel.args.mediaType){
             MediaType.MOVIES -> resources.getString(R.string.movies)
             MediaType.SERIES -> resources.getString(R.string.tv_series)

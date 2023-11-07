@@ -191,9 +191,16 @@
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.elhady.movies.ui.category.CategoryFragment"
-        android:label="CategoryFragment">
+        android:label="CategoryFragment"
+        tools:layout="@layout/fragment_category">
         <argument
             android:name="mediaType"
             app:argType="com.elhady.movies.domain.enums.MediaType" />
+        <action
+            android:id="@+id/action_categoryFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
     </fragment>
 </navigation>
