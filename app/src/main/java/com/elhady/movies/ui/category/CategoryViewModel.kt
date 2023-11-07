@@ -6,12 +6,11 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
 import com.elhady.movies.domain.usecases.GetGenreMovieUseCase
-import com.elhady.movies.domain.usecases.GetMoviesByGenreIDUseCase
+import com.elhady.movies.domain.usecases.GetCategoryByGenreIDUseCase
 import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.movieDetails.ErrorUiState
-import com.elhady.movies.utilities.Constants
 import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getMoviesByGenreIDUseCase: GetMoviesByGenreIDUseCase,
+    private val getMoviesByGenreIDUseCase: GetCategoryByGenreIDUseCase,
     private val getGenreMovieUseCase: GetGenreMovieUseCase,
     private val mediaUiMapper: MediaUiMapper
 ) : BaseViewModel(), MediaInteractionListener, CategoryInteractionListener {

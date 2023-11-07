@@ -13,6 +13,7 @@ import com.elhady.movies.data.local.mappers.series.TVSeriesListsMapper
 import com.elhady.movies.data.remote.response.CreditsDto
 import com.elhady.movies.data.remote.response.TrendingDto
 import com.elhady.movies.data.remote.response.episode.EpisodeDto
+import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
 import com.elhady.movies.data.remote.response.series.SeriesDetailsDto
 import com.elhady.movies.data.remote.response.series.SeriesDto
@@ -96,7 +97,9 @@ class SeriesRepositoryImp @Inject constructor(
      *  All On The Air Series
      */
     override fun getAllOnTheAirSeries(): Pager<Int, SeriesDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { seriesDataSourceContainer.onTheAirTVDataSource })
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = { seriesDataSourceContainer.onTheAirTVDataSource })
     }
 
     /**
@@ -136,21 +139,27 @@ class SeriesRepositoryImp @Inject constructor(
      *  All Top Rated TV
      */
     override fun getAllTopRatedTV(): Pager<Int, SeriesDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { seriesDataSourceContainer.topRatedTVDataSource })
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = { seriesDataSourceContainer.topRatedTVDataSource })
     }
 
     /**
      *  All Popular TV
      */
     override fun getAllPopularTV(): Pager<Int, SeriesDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { seriesDataSourceContainer.popularTVDataSource })
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = { seriesDataSourceContainer.popularTVDataSource })
     }
 
     /**
      *  All Latest TV
      */
     override fun getAllLatestTV(): Pager<Int, SeriesDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { seriesDataSourceContainer.latestTVDataSource })
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = { seriesDataSourceContainer.latestTVDataSource })
     }
 
     /**
@@ -177,7 +186,8 @@ class SeriesRepositoryImp @Inject constructor(
     }
 
     override suspend fun getSeasonDetails(seriesId: Int, seasonNumber: Int): List<EpisodeDto>? {
-        return movieService.getSeasonDetails(seriesId = seriesId, seasonNumber =  seasonNumber).body()?.episodes
+        return movieService.getSeasonDetails(seriesId = seriesId, seasonNumber = seasonNumber)
+            .body()?.episodes
     }
 
     /**
@@ -185,5 +195,15 @@ class SeriesRepositoryImp @Inject constructor(
      */
     override suspend fun getTrendingTvSries(): List<TrendingDto>? {
         return movieService.getTrending().body()?.items
+    }
+
+    /**
+     * Series By Genre
+     */
+    override fun getSeriesByGenre(genreId: Int): Pager<Int, SeriesDto> {
+        return Pager(config = pagingConfig, pagingSourceFactory = {
+            val seriesDataSource = seriesDataSourceContainer.seriesDataSource
+            seriesDataSource.setGenre(genreId)
+            seriesDataSource })
     }
 }

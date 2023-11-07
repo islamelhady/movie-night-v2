@@ -39,4 +39,6 @@ interface SeriesRepository {
     suspend fun getSeasonDetails(seriesId: Int, seasonNumber: Int): List<EpisodeDto>?
 
     suspend fun getTrendingTvSries(): List<TrendingDto>?
+
+    fun getSeriesByGenre(genreId: Int): Pager<Int, SeriesDto>
 }
