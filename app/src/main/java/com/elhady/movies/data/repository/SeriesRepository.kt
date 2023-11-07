@@ -7,6 +7,7 @@ import com.elhady.movies.data.local.database.entity.series.TVSeriesListsEntity
 import com.elhady.movies.data.remote.response.CreditsDto
 import com.elhady.movies.data.remote.response.TrendingDto
 import com.elhady.movies.data.remote.response.episode.EpisodeDto
+import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
 import com.elhady.movies.data.remote.response.series.SeriesDetailsDto
@@ -44,4 +45,6 @@ interface SeriesRepository {
     fun getSeriesByGenre(genreId: Int): Pager<Int, SeriesDto>
 
     fun getAllSeries(): Pager<Int, SeriesDto>
+
+    suspend fun getGenreSeries(): List<GenreDto>?
 }

@@ -80,9 +80,13 @@ interface MovieService {
     /**
      *  GENRES
      * * Movies
+     * * Series
      */
     @GET("genre/movie/list")
     suspend fun getGenreMovies(): Response<GenreResponse>
+
+    @GET("genre/tv/list")
+    suspend fun getGenreSeries(): Response<GenreResponse>
 
     /**
      * Movies

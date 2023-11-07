@@ -4,14 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.elhady.movies.R
 import com.elhady.movies.databinding.FragmentCategoryBinding
 import com.elhady.movies.ui.adapter.LoadAdapter
 import com.elhady.movies.ui.base.BaseFragment
-import com.elhady.movies.ui.models.MediaUiState
-import com.elhady.movies.utilities.Constants
 import com.elhady.movies.utilities.collect
 import com.elhady.movies.utilities.collectLast
 import com.elhady.movies.utilities.setSpanSize
@@ -70,7 +67,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
     private fun onEvent(event: CategoryUiEvent) {
         when(event){
-            is CategoryUiEvent.ClickCategoryEvent -> viewModel.getListMovies(event.categoryId)
+            is CategoryUiEvent.ClickCategoryEvent -> viewModel.getMediaList(event.categoryId)
             CategoryUiEvent.ClickRetry -> categoryAdapter.retry()
         }
 

@@ -5,8 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
-import com.elhady.movies.domain.enums.MediaType
-import com.elhady.movies.domain.usecases.GetGenreMovieUseCase
+import com.elhady.movies.domain.usecases.GetGenreListUseCase
 import com.elhady.movies.domain.usecases.GetCategoryByGenreUseCase
 import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
@@ -24,8 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getMoviesByGenreIDUseCase: GetCategoryByGenreUseCase,
-    private val getGenreMovieUseCase: GetGenreMovieUseCase,
+    private val getCategoryByGenreIDUseCase: GetCategoryByGenreUseCase,
+    private val getGenreListUseCase: GetGenreListUseCase,
     private val mediaUiMapper: MediaUiMapper
 ) : BaseViewModel(), MediaInteractionListener, CategoryInteractionListener {
 
@@ -44,14 +43,14 @@ class CategoryViewModel @Inject constructor(
 
     override fun getData() {
         _categoryUiState.update { it.copy(isLoading = true) }
-        getListMovies(categoryUiState.value.categorySelectedID)
-        getGenreMovie()
+        getMediaList(categoryUiState.value.categorySelectedID)
+        getCategoryGenreList()
         _categoryUiEvent.update { Event(CategoryUiEvent.ClickRetry) }
     }
 
-    fun getListMovies(categorySelected: Int) {
+    fun getMediaList(categorySelected: Int) {
         viewModelScope.launch {
-            val result = getMoviesByGenreIDUseCase(type = args.mediaType, genreId = categorySelected).map { pagingData ->
+            val result = getCategoryByGenreIDUseCase(type = args.mediaType, genreId = categorySelected).map { pagingData ->
                 pagingData.map {
                     mediaUiMapper.map(it)
                 }
@@ -62,9 +61,9 @@ class CategoryViewModel @Inject constructor(
         }
     }
 
-    private fun getGenreMovie() {
+    private fun getCategoryGenreList() {
         viewModelScope.launch {
-            val result = getGenreMovieUseCase().map {
+            val result = getGenreListUseCase(args.mediaType).map {
                 CategoryGenreUiState(id = it.id, name = it.name)
             }
             _categoryUiState.update {

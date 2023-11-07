@@ -13,6 +13,7 @@ import com.elhady.movies.data.local.mappers.series.TVSeriesListsMapper
 import com.elhady.movies.data.remote.response.CreditsDto
 import com.elhady.movies.data.remote.response.TrendingDto
 import com.elhady.movies.data.remote.response.episode.EpisodeDto
+import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
 import com.elhady.movies.data.remote.response.series.SeriesDetailsDto
@@ -198,6 +199,12 @@ class SeriesRepositoryImp @Inject constructor(
     }
 
     /**
+     * Genre Series
+     */
+    override suspend fun getGenreSeries(): List<GenreDto>? {
+        return movieService.getGenreSeries().body()?.genres
+    }
+    /**
      * Series By Genre
      */
     override fun getSeriesByGenre(genreId: Int): Pager<Int, SeriesDto> {
@@ -213,4 +220,6 @@ class SeriesRepositoryImp @Inject constructor(
     override fun getAllSeries(): Pager<Int, SeriesDto> {
         return Pager(config = pagingConfig, pagingSourceFactory = { seriesDataSourceContainer.seriesDataSource })
     }
+
+
 }
