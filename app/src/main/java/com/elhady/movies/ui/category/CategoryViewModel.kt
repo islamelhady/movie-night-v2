@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
+import com.elhady.movies.domain.enums.MediaType
 import com.elhady.movies.domain.usecases.GetGenreMovieUseCase
 import com.elhady.movies.domain.usecases.GetCategoryByGenreUseCase
 import com.elhady.movies.ui.adapter.MediaInteractionListener
@@ -28,7 +29,7 @@ class CategoryViewModel @Inject constructor(
     private val mediaUiMapper: MediaUiMapper
 ) : BaseViewModel(), MediaInteractionListener, CategoryInteractionListener {
 
-//    val args = CategoryFragmentArgs.fromSavedStateHandle(savedStateHandle)
+    val args = CategoryFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
 
     private val _categoryUiState = MutableStateFlow(CategoryUiState())
@@ -49,13 +50,15 @@ class CategoryViewModel @Inject constructor(
     }
 
     fun getListMovies(categorySelected: Int) {
-        val result = getMoviesByGenreIDUseCase(genreId = categorySelected).map { pagingData ->
-            pagingData.map {
-                mediaUiMapper.map(it)
+        viewModelScope.launch {
+            val result = getMoviesByGenreIDUseCase(type = args.mediaType, genreId = categorySelected).map { pagingData ->
+                pagingData.map {
+                    mediaUiMapper.map(it)
+                }
             }
-        }
-        _categoryUiState.update {
-            it.copy(moviesResult = result, isLoading = false)
+            _categoryUiState.update {
+                it.copy(moviesResult = result, isLoading = false)
+            }
         }
     }
 
