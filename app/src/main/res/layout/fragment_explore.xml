@@ -4,29 +4,188 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.elhady.movies.ui.search.ExploreViewModel" />
+            type="com.elhady.movies.ui.explore.ExploreViewModel" />
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.search.ExploreFragment">
+        app:layoutDescription="@xml/fragment_explore_scene">
+
+        <EditText
+            android:id="@+id/input_text_search"
+            style="@style/Regular.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:background="@drawable/edit_text_background"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="@dimen/spacing_small"
+            android:onClick="@{() -> viewModel.onClickSearch()}"
+            android:focusableInTouchMode="false"
+            android:hint="@string/search_hint"
+            android:paddingStart="@dimen/spacing_small"
+            android:textColorHint="@color/shade_ternary_color"
+            android:transitionName="search_box"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:paddingStart="@dimen/spacing_small" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_movie"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/spacing_medium"
+            android:onClick="@{ () -> viewModel.onClickMovies()}"
+            android:backgroundTint="@color/card_background_color"
+            app:cardCornerRadius="@dimen/spacing_small"
+            app:cardElevation="0dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/card_series"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/input_text_search">
+
+            <ImageView
+                android:id="@+id/icon_movie"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:src="@drawable/ic_movie"
+                app:tint="@color/brand_color" />
+
+            <TextView
+                android:id="@+id/text_movie"
+                style="@style/SimiBold.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="@string/movies"
+                android:textColor="@color/brand_color" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_series"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/spacing_medium"
+            android:onClick="@{ () -> viewModel.onClickSeries()}"
+            android:backgroundTint="@color/card_background_color"
+            app:cardCornerRadius="@dimen/spacing_small"
+            app:cardElevation="0dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/card_person"
+            app:layout_constraintStart_toEndOf="@+id/card_movie"
+            app:layout_constraintTop_toBottomOf="@id/input_text_search">
+
+            <ImageView
+                android:id="@+id/icon_series"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:src="@drawable/ic_tv"
+                app:tint="@color/brand_color" />
+
+            <TextView
+                android:id="@+id/text_series"
+                style="@style/SimiBold.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="@string/tv_series"
+                android:textColor="@color/brand_color" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_person"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:onClick="@{ () -> viewModel.onClickActors()}"
+            android:layout_margin="@dimen/spacing_medium"
+            android:backgroundTint="@color/card_background_color"
+            app:cardCornerRadius="@dimen/spacing_small"
+            app:cardElevation="0dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/card_series"
+            app:layout_constraintTop_toBottomOf="@id/input_text_search">
+
+            <ImageView
+                android:id="@+id/icon_person"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:src="@drawable/ic_person"
+                app:tint="@color/brand_color" />
+
+            <TextView
+                android:id="@+id/text_person"
+                style="@style/SimiBold.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="@string/actor"
+                android:textColor="@color/brand_color" />
+
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
-            android:id="@+id/text_search"
-            android:layout_width="match_parent"
+            android:id="@+id/text_trending"
+            style="@style/SimiBold.Medium"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:textAlignment="center"
-            android:textSize="20sp"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:drawableEnd="@drawable/ic_trending"
+            android:drawableTint="@color/shade_secondary_color"
+            android:drawablePadding="@dimen/spacing_too_small"
+            android:gravity="center"
+            android:text="@string/text_trend"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card_movie" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_explore"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:clipToPadding="false"
+            android:elevation="@dimen/spacing_too_small"
+            android:orientation="vertical"
+            app:items="@{viewModel.exploreUiState.trendMediaResult}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toBottomOf="@+id/text_trending"
+            app:spanCount="2"
+            tools:listitem="@layout/item_trending" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_scroll_to_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:onClick="@{() -> viewModel.scrollToTopScreen()}"
+            android:src="@drawable/ic_arrow_up"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

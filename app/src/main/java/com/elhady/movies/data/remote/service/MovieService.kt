@@ -2,6 +2,7 @@ package com.elhady.movies.data.remote.service
 
 import com.elhady.movies.data.remote.response.BaseResponse
 import com.elhady.movies.data.remote.response.CreditsDto
+import com.elhady.movies.data.remote.response.TrendingDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.actor.PersonDto
 import com.elhady.movies.data.remote.response.actor.MovieCreditsDto
@@ -47,9 +48,13 @@ interface MovieService {
 
     /**
      *  Trending
+     * * All
      * * Movies
      * * People
      */
+    @GET("trending/all/{time_window}")
+    suspend fun getTrending(@Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value): Response<BaseResponse<TrendingDto>>
+
     @GET("trending/movie/{time_window}")
     suspend fun getTrendingMovie(@Path("time_window") timeWindow: String = TrendingTimeWindow.WEEK.value, @Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
 
@@ -75,9 +80,13 @@ interface MovieService {
     /**
      *  GENRES
      * * Movies
+     * * Series
      */
     @GET("genre/movie/list")
     suspend fun getGenreMovies(): Response<GenreResponse>
+
+    @GET("genre/tv/list")
+    suspend fun getGenreSeries(): Response<GenreResponse>
 
     /**
      * Movies
@@ -151,14 +160,20 @@ interface MovieService {
 
     /**
      *   DISCOVER
-     * * Adventure Movies
-     * * Mystery Movies
+     * * All Movies
+     * * Movies by Genre
+     * * All Series
+     * * Series TV by Genre
      */
     @GET("discover/movie")
-    suspend fun getMoviesListByGenre(
-        @Query("with_genres") genreID: Int,
-        @Query("page") page: Int = 1
-    ): Response<BaseResponse<MovieDto>>
+    suspend fun getAllMovies(@Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
+    @GET("discover/movie")
+    suspend fun getMoviesListByGenre(@Query("with_genres") genreID: Int, @Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
+
+    @GET("discover/tv")
+    suspend fun getAllSeries(@Query("page") page: Int = 1): Response<BaseResponse<SeriesDto>>
+    @GET("discover/tv")
+    suspend fun getSeriesByGenre(@Query("with_genres") genreID: Int ,@Query("page") page: Int = 1): Response<BaseResponse<SeriesDto>>
 
 
     /**

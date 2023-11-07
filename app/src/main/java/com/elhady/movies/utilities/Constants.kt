@@ -8,8 +8,14 @@ object Constants {
     const val ITEMS_PER_PAGE = 50
     const val MYSTERY_ID = 9648
     const val ADVENTURE_ID = 12
+    const val FIRST_CATEGORY_ID = 0
+    const val FIRST_CATEGORY_NAME = "All"
 
     const val MAX_NUM_REVIEWS = 3
 
     const val INTERNET_STATUS = 400
+
+    const val TV_SERIES_SHOW = "tv"
+    const val MOVIE = "movie"
+    const val PERSON ="person"
 }
