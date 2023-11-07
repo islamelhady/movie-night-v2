@@ -9,5 +9,6 @@ class MovieDataSourceContainer @Inject constructor(
     val trendingMovieDataSource: TrendingMovieDataSource,
     val upcomingMovieDataSource: UpcomingMovieDataSource,
     val topRatedMovieDataSource: TopRatedMovieDataSource,
-    val moviesByGenreDataSource: MoviesByGenreDataSource
+    val moviesByGenreDataSource: MoviesByGenreDataSource,
+    val moviesDataSource: MoviesDataSource
 )

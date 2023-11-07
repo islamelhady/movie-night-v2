@@ -83,6 +83,9 @@ class MovieRepositoryImp @Inject constructor(
         return movieService.getGenreMovies().body()?.genres
     }
 
+    /**
+     *  Movies By Genre
+     */
     override fun getMoviesByGenre(genreId: Int): Pager<Int, MovieDto> {
         return Pager(
             config = pagingConfig,
@@ -350,4 +353,10 @@ class MovieRepositoryImp @Inject constructor(
         return movieService.getMovieReview(movieId).body()?.items
     }
 
+    /**
+     *  All Movies
+     */
+    override fun getAllMovies(): Pager<Int, MovieDto> {
+        return Pager(config = pagingConfig, pagingSourceFactory = { movieDataSourceContainer.moviesDataSource })
+    }
 }

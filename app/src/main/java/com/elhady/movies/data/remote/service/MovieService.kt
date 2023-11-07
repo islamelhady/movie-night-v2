@@ -80,9 +80,13 @@ interface MovieService {
     /**
      *  GENRES
      * * Movies
+     * * Series
      */
     @GET("genre/movie/list")
     suspend fun getGenreMovies(): Response<GenreResponse>
+
+    @GET("genre/tv/list")
+    suspend fun getGenreSeries(): Response<GenreResponse>
 
     /**
      * Movies
@@ -156,13 +160,20 @@ interface MovieService {
 
     /**
      *   DISCOVER
-     * * Movies
+     * * All Movies
+     * * Movies by Genre
+     * * All Series
+     * * Series TV by Genre
      */
     @GET("discover/movie")
-    suspend fun getMoviesListByGenre(
-        @Query("with_genres") genreID: Int,
-        @Query("page") page: Int = 1
-    ): Response<BaseResponse<MovieDto>>
+    suspend fun getAllMovies(@Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
+    @GET("discover/movie")
+    suspend fun getMoviesListByGenre(@Query("with_genres") genreID: Int, @Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
+
+    @GET("discover/tv")
+    suspend fun getAllSeries(@Query("page") page: Int = 1): Response<BaseResponse<SeriesDto>>
+    @GET("discover/tv")
+    suspend fun getSeriesByGenre(@Query("with_genres") genreID: Int ,@Query("page") page: Int = 1): Response<BaseResponse<SeriesDto>>
 
 
     /**

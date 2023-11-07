@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
-import com.elhady.movies.domain.usecases.GetGenreMovieUseCase
-import com.elhady.movies.domain.usecases.GetMoviesByGenreIDUseCase
+import com.elhady.movies.domain.usecases.GetGenreListUseCase
+import com.elhady.movies.domain.usecases.GetCategoryByGenreUseCase
 import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.mappers.MediaUiMapper
@@ -24,18 +24,19 @@ import javax.inject.Inject
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getMoviesByGenreIDUseCase: GetMoviesByGenreIDUseCase,
-    private val getGenreMovieUseCase: GetGenreMovieUseCase,
-    private val mediaUiMapper: MediaUiMapper
+    private val getCategoryByGenreIDUseCase: GetCategoryByGenreUseCase,
+    private val getGenreListUseCase: GetGenreListUseCase,
+    private val mediaUiMapper: MediaUiMapper,
+    private val genreUiMapper: GenreUiMapper
 ) : BaseViewModel(), MediaInteractionListener, CategoryInteractionListener {
 
-//    val args = CategoryFragmentArgs.fromSavedStateHandle(savedStateHandle)
+    val args = CategoryFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
 
     private val _categoryUiState = MutableStateFlow(CategoryUiState())
     val categoryUiState = _categoryUiState.asStateFlow()
 
-    private val _categoryUiEvent =  MutableStateFlow<Event<CategoryUiEvent>?>(null)
+    private val _categoryUiEvent : MutableStateFlow<Event<CategoryUiEvent>> = MutableStateFlow(Event(CategoryUiEvent.ClickCategoryEvent(categoryId = Constants.FIRST_CATEGORY_ID)))
     val categoryUiEvent = _categoryUiEvent.asStateFlow()
 
     init {
@@ -44,26 +45,28 @@ class CategoryViewModel @Inject constructor(
 
     override fun getData() {
         _categoryUiState.update { it.copy(isLoading = true) }
-        getListMovies(categoryUiState.value.categorySelectedID)
-        getGenreMovie()
+        getMediaList(categoryUiState.value.categorySelectedID)
+        getCategoryGenreList()
         _categoryUiEvent.update { Event(CategoryUiEvent.ClickRetry) }
     }
 
-    fun getListMovies(categorySelected: Int) {
-        val result = getMoviesByGenreIDUseCase(genreId = categorySelected).map { pagingData ->
-            pagingData.map {
-                mediaUiMapper.map(it)
+    fun getMediaList(categorySelected: Int) {
+        viewModelScope.launch {
+            val result = getCategoryByGenreIDUseCase(type = args.mediaType, genreId = categorySelected).map { pagingData ->
+                pagingData.map {
+                    mediaUiMapper.map(it)
+                }
             }
-        }
-        _categoryUiState.update {
-            it.copy(moviesResult = result, isLoading = false)
+            _categoryUiState.update {
+                it.copy(moviesResult = result, isLoading = false)
+            }
         }
     }
 
-    private fun getGenreMovie() {
+    private fun getCategoryGenreList() {
         viewModelScope.launch {
-            val result = getGenreMovieUseCase().map {
-                CategoryGenreUiState(id = it.id, name = it.name)
+            val result = getGenreListUseCase(args.mediaType).map {
+                genreUiMapper.map(it)
             }
             _categoryUiState.update {
                 it.copy(categoryResult = result, isLoading = false)
@@ -98,7 +101,9 @@ class CategoryViewModel @Inject constructor(
     }
 
     override fun onClickMedia(mediaId: Int) {
-        TODO("Not yet implemented")
+        _categoryUiEvent.update {
+            Event(CategoryUiEvent.ClickMediaEvent(mediaId))
+        }
     }
 
     override fun onClickCategory(categoryId: Int) {

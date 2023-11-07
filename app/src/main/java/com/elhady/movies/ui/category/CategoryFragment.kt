@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.PagingData
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.elhady.movies.R
 import com.elhady.movies.databinding.FragmentCategoryBinding
+import com.elhady.movies.domain.enums.MediaType
 import com.elhady.movies.ui.adapter.LoadAdapter
 import com.elhady.movies.ui.base.BaseFragment
-import com.elhady.movies.ui.models.MediaUiState
-import com.elhady.movies.utilities.Constants
 import com.elhady.movies.utilities.collect
 import com.elhady.movies.utilities.collectLast
 import com.elhady.movies.utilities.setSpanSize
@@ -26,8 +25,8 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setTitle(true, getTitle())
         setAdapter()
-//        binding.viewModel = viewModel
         collectEvent()
         collectData()
     }
@@ -62,7 +61,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
     private fun collectEvent() {
         collectLast(viewModel.categoryUiEvent){ event ->
-            event?.getContentIfNotHandled()?.let {
+            event.getContentIfNotHandled()?.let {
                 onEvent(it)
             }
         }
@@ -70,11 +69,25 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
     private fun onEvent(event: CategoryUiEvent) {
         when(event){
-            is CategoryUiEvent.ClickCategoryEvent -> viewModel.getListMovies(event.categoryId)
+            is CategoryUiEvent.ClickCategoryEvent -> viewModel.getMediaList(event.categoryId)
             CategoryUiEvent.ClickRetry -> categoryAdapter.retry()
+            is CategoryUiEvent.ClickMediaEvent -> navigateToDetails(event.mediaId)
+        }
+    }
+
+    private fun navigateToDetails(mediaId: Int) {
+        when(viewModel.args.mediaType){
+            MediaType.MOVIES -> findNavController().navigate(CategoryFragmentDirections.actionCategoryFragmentToMovieDetailsFragment(mediaId))
+            MediaType.SERIES -> findNavController().navigate(CategoryFragmentDirections.actionCategoryFragmentToTvShowDetailsFragment(mediaId))
         }
 
     }
 
+    private fun getTitle(): String{
+        return when(viewModel.args.mediaType){
+            MediaType.MOVIES -> resources.getString(R.string.movies)
+            MediaType.SERIES -> resources.getString(R.string.tv_series)
+        }
+    }
 
 }

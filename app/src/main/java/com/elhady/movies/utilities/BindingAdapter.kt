@@ -12,7 +12,6 @@ import com.elhady.movies.R
 import com.elhady.movies.data.remote.State
 import com.elhady.movies.ui.base.BaseAdapter
 import com.elhady.movies.ui.category.CategoryGenreUiState
-import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
 @BindingAdapter("app:movieImage")
@@ -115,7 +114,7 @@ fun <T> setGenresChips(view: ChipGroup, chipList: List<CategoryGenreUiState>?, l
             view.addView(view.createChip(genreItem, listener))
         }
     }
-    val index = chipList?.indexOf(chipList.find { it.id == selectedChip }) ?: Constants.All
+    val index = chipList?.indexOf(chipList.find { it.id == selectedChip }) ?: Constants.FIRST_CATEGORY_ID
     view.getChildAt(index)?.id?.let {
         view.check(it)
     }
