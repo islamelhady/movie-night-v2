@@ -1,6 +1,6 @@
 package com.elhady.movies.domain.mappers.actor
 
-import com.elhady.movies.data.remote.response.PersonDto
+import com.elhady.movies.data.remote.response.actor.PersonDto
 import com.elhady.movies.domain.mappers.Mapper
 import com.elhady.movies.domain.models.Actor
 import com.elhady.movies.utilities.Constants
@@ -11,7 +11,8 @@ class ActorDtoMapper @Inject constructor(): Mapper<PersonDto, Actor> {
         return Actor(
             id = input.id ?: 0,
             name = input.name ?: "unknown",
-            imageUrl = (Constants.IMAGE_PATH + input.profilePath)
+            imageUrl = (Constants.IMAGE_PATH + input.profilePath),
+            characterName = input.character ?: ""
         )
     }
 }

@@ -10,7 +10,8 @@ class ActorsMapper @Inject constructor(): Mapper<ActorEntity, Actor> {
         return Actor(
             id = input.id,
             name = input.name,
-            imageUrl = input.imageUrl
+            imageUrl = input.imageUrl,
+            characterName = input.characterName
         )
     }
 }

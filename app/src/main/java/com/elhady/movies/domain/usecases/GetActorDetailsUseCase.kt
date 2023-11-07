@@ -11,10 +11,8 @@ class GetActorDetailsUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(actorID: Int): ActorDetails {
         val response = repository.getPersonsDetails(actorID = actorID)
-        return if (response != null) {
+        return response?.let {
             actorDetailsMapper.map(response)
-        } else {
-            throw Throwable("Not success.")
-        }
+        } ?: throw Throwable("Not success.")
     }
 }

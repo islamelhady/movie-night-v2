@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="listener"
+            type="com.elhady.movies.ui.movieDetails.DetailsInteractionListener" />
+    </data>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/view_all_reviews"
+        style="@style/ViewAllReviews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/spacing_medium"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:onClick="@{() -> listener.onclickViewReviews()}"
+        android:paddingTop="16dp"
+        android:textAlignment="center"
+        android:drawableEnd="@drawable/ic_arrow_forward"
+        android:drawableTint="@color/shade_primary_color"
+        android:paddingBottom="@dimen/spacing_small"
+        android:text="@string/view_all_reviews"
+        android:textAllCaps="false"
+        tools:text="@string/view_all_reviews" />
+
+</layout>

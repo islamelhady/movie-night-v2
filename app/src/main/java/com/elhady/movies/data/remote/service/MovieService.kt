@@ -1,13 +1,19 @@
 package com.elhady.movies.data.remote.service
 
 import com.elhady.movies.data.remote.response.BaseResponse
-import com.elhady.movies.data.remote.response.MovieDto
-import com.elhady.movies.data.remote.response.PersonDto
+import com.elhady.movies.data.remote.response.CreditsDto
+import com.elhady.movies.data.remote.response.TrendingDto
+import com.elhady.movies.data.remote.response.movie.MovieDto
+import com.elhady.movies.data.remote.response.actor.PersonDto
 import com.elhady.movies.data.remote.response.actor.MovieCreditsDto
 import com.elhady.movies.data.remote.response.genre.GenreResponse
 import com.elhady.movies.data.remote.response.login.RequestTokenResponse
 import com.elhady.movies.data.remote.response.login.SessionResponse
-import com.elhady.movies.data.remote.response.tvShow.TVShowDto
+import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
+import com.elhady.movies.data.remote.response.review.ReviewDto
+import com.elhady.movies.data.remote.response.series.SeasonDto
+import com.elhady.movies.data.remote.response.series.SeriesDetailsDto
+import com.elhady.movies.data.remote.response.series.SeriesDto
 import com.elhady.movies.domain.TrendingTimeWindow
 import retrofit2.Response
 import retrofit2.http.Field
@@ -42,9 +48,13 @@ interface MovieService {
 
     /**
      *  Trending
+     * * All
      * * Movies
      * * People
      */
+    @GET("trending/all/{time_window}")
+    suspend fun getTrending(@Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value): Response<BaseResponse<TrendingDto>>
+
     @GET("trending/movie/{time_window}")
     suspend fun getTrendingMovie(@Path("time_window") timeWindow: String = TrendingTimeWindow.WEEK.value, @Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
 
@@ -70,9 +80,63 @@ interface MovieService {
     /**
      *  GENRES
      * * Movies
+     * * Series
      */
     @GET("genre/movie/list")
     suspend fun getGenreMovies(): Response<GenreResponse>
+
+    @GET("genre/tv/list")
+    suspend fun getGenreSeries(): Response<GenreResponse>
+
+    /**
+     * Movies
+     * * Details
+     * * Credits (Cast)
+     * * Similar
+     */
+    @GET("movie/{movie_id}")
+    suspend fun getDetailsMovies(@Path("movie_id") movieId: Int): Response<MovieDetailsDto>
+
+    @GET("movie/{movie_id}/credits")
+    suspend fun getMovieCast(@Path("movie_id") movieId: Int): Response<CreditsDto>
+
+    @GET("movie/{movie_id}/similar")
+    suspend fun getSimilarMovie(@Path("movie_id") movieId: Int): Response<BaseResponse<MovieDto>>
+
+    /**
+     * TV SERIES
+     * * Details
+     * * Cast
+     * * Similar
+     * * Seasons
+     */
+    @GET("tv/{series_id}")
+    suspend fun getSeriesDetails(@Path("series_id") seriesId: Int): Response<SeriesDetailsDto>
+
+    @GET("tv/{series_id}/credits")
+    suspend fun getSeriesCast(@Path("series_id") seriesId: Int): Response<CreditsDto>
+
+    @GET("tv/{series_id}/similar")
+    suspend fun getSimilarSeries(@Path("series_id") seriesId: Int): Response<BaseResponse<SeriesDto>>
+
+    /**
+     *  TV SEASONS
+     * * Details
+     */
+
+    @GET("tv/{series_id}/season/{season_number}")
+    suspend fun getSeasonDetails(@Path("series_id") seriesId: Int, @Path("season_number") seasonNumber: Int): Response<SeasonDto>
+
+    /**
+     *  Review
+     * * movie
+     * * series
+     */
+    @GET("movie/{movie_id}/reviews")
+    suspend fun getMovieReview(@Path("movie_id") movieId: Int): Response<BaseResponse<ReviewDto>>
+
+    @GET("tv/{series_id}/reviews")
+    suspend fun getSeriesReview(@Path("series_id") seriesId: Int): Response<BaseResponse<ReviewDto>>
 
 
     /**
@@ -83,27 +147,33 @@ interface MovieService {
      * * Top Rated
      */
     @GET("tv/airing_today")
-    suspend fun getAiringTodayTV(): Response<BaseResponse<TVShowDto>>
+    suspend fun getAiringTodayTV(): Response<BaseResponse<SeriesDto>>
 
     @GET("tv/on_the_air")
-    suspend fun getOnTheAirTV(@Query("page") page: Int = 1): Response<BaseResponse<TVShowDto>>
+    suspend fun getOnTheAirTV(@Query("page") page: Int = 1): Response<BaseResponse<SeriesDto>>
 
     @GET("tv/popular")
-    suspend fun getPopularTV(@Query("page") page: Int =1): Response<BaseResponse<TVShowDto>>
+    suspend fun getPopularTV(@Query("page") page: Int =1): Response<BaseResponse<SeriesDto>>
 
     @GET("tv/top_rated")
-    suspend fun getTopRatedTV(@Query("page") page: Int = 1): Response<BaseResponse<TVShowDto>>
+    suspend fun getTopRatedTV(@Query("page") page: Int = 1): Response<BaseResponse<SeriesDto>>
 
     /**
      *   DISCOVER
-     * * Adventure Movies
-     * * Mystery Movies
+     * * All Movies
+     * * Movies by Genre
+     * * All Series
+     * * Series TV by Genre
      */
     @GET("discover/movie")
-    suspend fun getMoviesListByGenre(
-        @Query("with_genres") genreID: Int,
-        @Query("page") page: Int = 1
-    ): Response<BaseResponse<MovieDto>>
+    suspend fun getAllMovies(@Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
+    @GET("discover/movie")
+    suspend fun getMoviesListByGenre(@Query("with_genres") genreID: Int, @Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
+
+    @GET("discover/tv")
+    suspend fun getAllSeries(@Query("page") page: Int = 1): Response<BaseResponse<SeriesDto>>
+    @GET("discover/tv")
+    suspend fun getSeriesByGenre(@Query("with_genres") genreID: Int ,@Query("page") page: Int = 1): Response<BaseResponse<SeriesDto>>
 
 
     /**

@@ -1,6 +1,6 @@
 package com.elhady.movies.data.repository.mediaDataSource.actors
 
-import com.elhady.movies.data.remote.response.MovieDto
+import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.repository.mediaDataSource.BasePagingSource
 import javax.inject.Inject

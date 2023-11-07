@@ -94,4 +94,10 @@ dependencies {
 
     // Paging
     implementation("androidx.paging:paging-runtime:3.2.1")
+
+    //youtube player
+    implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0")
+
+    // Expandable TextView
+    implementation ("io.github.glailton.expandabletextview:expandabletextview:1.0.2")
 }

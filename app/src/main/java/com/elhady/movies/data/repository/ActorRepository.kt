@@ -2,8 +2,8 @@ package com.elhady.movies.data.repository
 
 import androidx.paging.Pager
 import com.elhady.movies.data.local.database.entity.actor.ActorEntity
-import com.elhady.movies.data.remote.response.MovieDto
-import com.elhady.movies.data.remote.response.PersonDto
+import com.elhady.movies.data.remote.response.movie.MovieDto
+import com.elhady.movies.data.remote.response.actor.PersonDto
 import com.elhady.movies.data.remote.response.actor.MovieCreditsDto
 import kotlinx.coroutines.flow.Flow
 

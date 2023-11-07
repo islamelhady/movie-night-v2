@@ -2,7 +2,7 @@
     <string name="app_name">Movies</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
-    <string name="title_search">Search</string>
+    <string name="title_explore">Explore</string>
     <string name="title_favorite">Favorite</string>
     <string name="title_profile">Profile</string>
     <string name="see_all">See all</string>
@@ -22,6 +22,7 @@
     <string name="sign_up">Sign up</string>
     <string name="airing_today_title">Airing today</string>
     <string name="actors">Popular actors</string>
+    <string name="actor">Actors</string>
     <string name="oops">Oops!</string>
     <string name="description">There is no internet connection\nPlease check it out</string>
     <string name="retry">Retry</string>
@@ -32,5 +33,26 @@
     <string name="known_for">Known For</string>
     <string name="movies">Movies</string>
     <string name="biography">Biography</string>
+    <string name="play_trailer">Play Trailer</string>
+    <string name="cast">Cast</string>
+    <string name="hours_pattern">%1$s hours</string>
+    <string name="minutes_pattern">%1$s minutes</string>
+    <string name="hours_minutes_pattern">%1$s h %2$s m</string>
+    <string name="overview">Overview</string>
+    <string name="reviews">(%1$s reviews)</string>
+    <string name="similar_movies">Similar movies</string>
+    <string name="similar_series">Similar series</string>
+    <string name="very_long_text">Long text long text long text long text long text  long text long text long text long text long text long text long text long text long text long text long text long text</string>
+    <string name="user_name">"@" %1$s</string>
+    <string name="dot">•</string>
+    <string name="view_all_reviews">View all reviews</string>
+    <string name="reviews_text">Reviews</string>
+    <string name="season_number">(%1$s Seasons)</string>
+    <string name="episode_number">(%1$s Episodes)</string>
+    <string name="seasons">Seasons</string>
+    <string name="empty_overview_text">This season has no description.</string>
+    <string name="episode_title">%1$d. %2$s</string>
+    <string name="search_hint">Search for a movie, tv show, person...</string>
+    <string name="text_trend">Trending Today</string>
 
 </resources>

@@ -130,7 +130,7 @@ class HomeAdapter(
             is HomeItem.AiringTodaySeries -> R.layout.list_airing_today
             is HomeItem.TVSeriesLists -> R.layout.list_tv_series
             is HomeItem.Actor -> R.layout.list_actors
-            is HomeItem.OnTheAirSeries -> R.layout.list_shows
+            is HomeItem.OnTheAirSeries -> R.layout.list_series
             is HomeItem.Upcoming,
             is HomeItem.Trending,
             is HomeItem.NowPlaying,

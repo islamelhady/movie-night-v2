@@ -28,6 +28,12 @@
         <item name="android:textSize">@dimen/text_small</item>
     </style>
 
+    <style name="ViewAllReviews" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="fontFamily">@font/ubuntu_mono_bold</item>
+        <item name="android:textColor">@color/shade_primary_color</item>
+    </style>
+
 
     <style name="Regular">
         <item name="fontFamily">@font/ubuntu_regular</item>
@@ -69,6 +75,14 @@
 
     <style name="Circle">
         <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="Colors.Widget.MaterialComponents.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/selector_chip_background</item>
+        <item name="chipStrokeColor">@color/selector_chip_stroke</item>
+        <item name="android:textColor">@color/selector_chip_text</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipCornerRadius">@dimen/spacing_small</item>
     </style>
 
 

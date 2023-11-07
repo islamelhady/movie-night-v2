@@ -8,11 +8,11 @@ import com.elhady.movies.data.local.database.entity.movies.PopularMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.TopRatedMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.TrendingMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.UpcomingMovieEntity
-import com.elhady.movies.data.remote.State
-import com.elhady.movies.data.remote.response.BaseResponse
-import com.elhady.movies.data.remote.response.MovieDto
-import com.elhady.movies.data.remote.response.PersonDto
+import com.elhady.movies.data.remote.response.CreditsDto
+import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
+import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
+import com.elhady.movies.data.remote.response.review.ReviewDto
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
@@ -43,6 +43,17 @@ interface MovieRepository {
 
     fun getAllTrendingMovies(): Pager<Int, MovieDto>
 
+    fun getMoviesByGenre(genreId: Int): Pager<Int, MovieDto>
+    fun getAllMovies(): Pager<Int, MovieDto>
+
     suspend fun getGenreMovies(): List<GenreDto>?
+
+    suspend fun getDetailsMovies(movieId: Int): MovieDetailsDto?
+
+    suspend fun getMovieCast(movieId: Int): CreditsDto?
+
+    suspend fun getSimilarMovies(movieId: Int): List<MovieDto>?
+
+    suspend fun getMovieReview(movieId: Int): List<ReviewDto>?
 
 }

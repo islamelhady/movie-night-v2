@@ -1,7 +1,7 @@
 package com.elhady.movies.data.local.mappers.movies
 
 import com.elhady.movies.data.local.database.entity.movies.PopularMovieEntity
-import com.elhady.movies.data.remote.response.MovieDto
+import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.utilities.Constants
 import javax.inject.Inject
