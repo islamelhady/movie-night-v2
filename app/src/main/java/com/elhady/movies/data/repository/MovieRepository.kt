@@ -44,6 +44,7 @@ interface MovieRepository {
     fun getAllTrendingMovies(): Pager<Int, MovieDto>
 
     fun getMoviesByGenre(genreId: Int): Pager<Int, MovieDto>
+    fun getAllMovies(): Pager<Int, MovieDto>
 
     suspend fun getGenreMovies(): List<GenreDto>?
 
