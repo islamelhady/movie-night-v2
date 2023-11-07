@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="item"
+            type="com.elhady.movies.ui.models.MediaUiState" />
+
+        <variable
+            name="listener"
+            type="com.elhady.movies.ui.adapter.MediaInteractionListener" />
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{()-> listener.onClickMedia(item.id)}">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/shapeable_ImageView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginHorizontal="@dimen/spacing_small"
+            android:foregroundGravity="center"
+            android:scaleType="centerCrop"
+            app:movieImage="@{item.imageUrl}"
+            android:background="@color/brand_color"
+            app:layout_constraintDimensionRatio="3:4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearance="@style/CardCorners.Medium" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

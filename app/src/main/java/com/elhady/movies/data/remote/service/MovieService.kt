@@ -156,8 +156,7 @@ interface MovieService {
 
     /**
      *   DISCOVER
-     * * Adventure Movies
-     * * Mystery Movies
+     * * Movies
      */
     @GET("discover/movie")
     suspend fun getMoviesListByGenre(
