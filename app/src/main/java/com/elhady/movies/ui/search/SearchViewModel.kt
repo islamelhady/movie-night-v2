@@ -1,10 +1,10 @@
 package com.elhady.movies.ui.search
 
 import androidx.paging.map
-import com.elhady.movies.domain.mappers.movie.MovieDtoMapper
 import com.elhady.movies.domain.usecases.search.GetSearchForMovieUseCase
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.mappers.MediaUiMapper
+import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,6 +20,9 @@ class SearchViewModel @Inject constructor(
 
     private val _searchUiState = MutableStateFlow(SearchUiState())
     val searchUiState = _searchUiState.asStateFlow()
+
+    private val _searchUiEvent = MutableStateFlow<Event<SearchUiEvent>?>(null)
+    val searchUiEvent = _searchUiEvent.asStateFlow()
 
 
 
@@ -39,5 +42,11 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+    fun onClickInputSearch(searchInput: String){
+        _searchUiState.update { it.copy(inputSearch = searchInput)}
+        _searchUiEvent.update {
+            Event(SearchUiEvent.ClickInputSearch(query = searchInput))
+        }
+    }
 
 }
