@@ -202,8 +202,15 @@ class SeriesRepositoryImp @Inject constructor(
      */
     override fun getSeriesByGenre(genreId: Int): Pager<Int, SeriesDto> {
         return Pager(config = pagingConfig, pagingSourceFactory = {
-            val seriesDataSource = seriesDataSourceContainer.seriesDataSource
+            val seriesDataSource = seriesDataSourceContainer.seriesByGenreDataSource
             seriesDataSource.setGenre(genreId)
             seriesDataSource })
+    }
+
+    /**
+     * All Series
+     */
+    override fun getAllSeries(): Pager<Int, SeriesDto> {
+        return Pager(config = pagingConfig, pagingSourceFactory = { seriesDataSourceContainer.seriesDataSource })
     }
 }
