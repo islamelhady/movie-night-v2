@@ -17,7 +17,7 @@ class SeriesByGenreDataSource @Inject constructor(private val service: MovieServ
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SeriesDto> {
         val pageNumber = params.key ?: 1
-        val response = service.getSeriesByGenre(page = pageNumber, genreID = seriesGenreId)
+        val response = service.getSeriesByGenre(genreID = seriesGenreId, page = pageNumber)
 
         return try {
             LoadResult.Page(

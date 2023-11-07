@@ -9,6 +9,7 @@ import com.elhady.movies.domain.enums.MediaType
 import com.elhady.movies.domain.mappers.movie.MovieDtoMapper
 import com.elhady.movies.domain.mappers.series.SeriesDtoMapper
 import com.elhady.movies.domain.models.Media
+import com.elhady.movies.utilities.Constants.All
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -22,17 +23,20 @@ class GetCategoryByGenreUseCase @Inject constructor(
     suspend operator fun invoke(type: MediaType, genreId: Int): Flow<PagingData<Media>> {
         return when (type) {
             MediaType.MOVIES -> {
-                wrapPaging({ movieRepository.getMoviesByGenre(genreId) }, movieDtoMapper::map)
+                if (genreId == All) wrapPaging(movieRepository::getAllMovies, movieDtoMapper::map)
+                else wrapPaging({ movieRepository.getMoviesByGenre(genreId) }, movieDtoMapper::map)
             }
 
             MediaType.SERIES -> {
-                wrapPaging({ seriesRepository.getSeriesByGenre(genreId) }, seriesDtoMapper::map)
+                if (genreId == All) wrapPaging(seriesRepository::getAllSeries, seriesDtoMapper::map)
+                else wrapPaging({ seriesRepository.getSeriesByGenre(genreId) }, seriesDtoMapper::map)
             }
         }
     }
 
 
-    suspend fun <T : Any> wrapPaging(
+
+    private suspend fun <T : Any> wrapPaging(
         response: suspend () -> Pager<Int, T>,
         mapper: (T) -> Media
     ): Flow<PagingData<Media>> {

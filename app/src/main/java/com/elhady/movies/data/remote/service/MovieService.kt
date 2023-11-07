@@ -169,7 +169,7 @@ interface MovieService {
     @GET("discover/tv")
     suspend fun getAllSeries(@Query("page") page: Int = 1): Response<BaseResponse<SeriesDto>>
     @GET("discover/tv")
-    suspend fun getSeriesByGenre(@Query("with_genres") genreID: Int ,@Path("page") page: Int = 1): Response<BaseResponse<SeriesDto>>
+    suspend fun getSeriesByGenre(@Query("with_genres") genreID: Int ,@Query("page") page: Int = 1): Response<BaseResponse<SeriesDto>>
 
 
     /**
