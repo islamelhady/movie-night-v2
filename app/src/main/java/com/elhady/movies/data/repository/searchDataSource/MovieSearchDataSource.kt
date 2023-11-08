@@ -9,7 +9,7 @@ import kotlin.properties.Delegates
 class MovieSearchDataSource @Inject constructor(private val service: MovieService) : BasePagingSource<MovieDto>() {
 
     private var querySearch by Delegates.notNull<String>()
-    fun setQuerySearch(query: String) {
+    fun setSearch(query: String) {
         querySearch = query
     }
 

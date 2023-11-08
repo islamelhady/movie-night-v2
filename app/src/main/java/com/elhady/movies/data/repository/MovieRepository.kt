@@ -57,6 +57,6 @@ interface MovieRepository {
 
     suspend fun getMovieReview(movieId: Int): List<ReviewDto>?
 
-    fun searchForMoviesPager(query: String): Pager<Int, MovieDto>
+    suspend fun searchForMoviesPager(query: String): Pager<Int, MovieDto>
 
 }

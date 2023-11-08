@@ -13,7 +13,7 @@ class GetSearchForMovieUseCase @Inject constructor(
     private val repository: MovieRepository,
     private val movieDtoMapper: MovieDtoMapper
 ) {
-    operator fun invoke(movieQuery: String): Flow<PagingData<Media>> {
+    suspend operator fun invoke(movieQuery: String): Flow<PagingData<Media>> {
         return repository.searchForMoviesPager(query = movieQuery).flow.map { pagingData ->
             pagingData.map {
                 movieDtoMapper.map(it)
