@@ -30,11 +30,11 @@ class SearchViewModel @Inject constructor(
 
 
     init {
-        getData()
+//        getData()
     }
 
     override fun getData() {
-        onSearchForMovies()
+        _searchUiEvent.update { Event(SearchUiEvent.ClickRetryEvent) }
 
     }
 
@@ -50,8 +50,8 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun onClickInputSearch(searchInput: String){
-        _searchUiState.update { it.copy(inputSearch = searchInput)}
+    fun onClickInputSearch(searchInput: CharSequence){
+        _searchUiState.update { it.copy(inputSearch = searchInput.toString())}
         onSearchForMovies()
 
     }

@@ -12,6 +12,10 @@ import com.elhady.movies.ui.base.BaseFragment
 import com.elhady.movies.utilities.collectLast
 import com.elhady.movies.utilities.setSpanSize
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -21,11 +25,14 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     override val viewModel: SearchViewModel by viewModels()
     private val mediaSearchAdapter by lazy { MediaSearchAdapter(viewModel) }
 
+    private val oldValue = MutableStateFlow(SearchUiState())
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setAdapter()
-        collectData()
+        getSearchResultsBySearchTerm()
+        collectEvent()
     }
 
     private fun setAdapter() {
@@ -43,6 +50,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         collectLast(mediaSearchAdapter.loadStateFlow){
             viewModel.setError(it)
         }
+
+        collectData()
+
     }
 
     private fun collectData(){
@@ -53,7 +63,31 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         }
     }
 
+    private fun collectEvent(){
+        collectLast(viewModel.searchUiEvent){ event->
+            event?.getContentIfNotHandled()?.let {
+                onEvent(it)
+            }
+        }
+    }
 
+    private fun onEvent(event: SearchUiEvent) {
+        when(event){
+            SearchUiEvent.ClickRetryEvent -> mediaSearchAdapter::retry
+        }
+    }
+
+    @OptIn(FlowPreview::class)
+    private fun getSearchResultsBySearchTerm() {
+        lifecycleScope.launch {
+            viewModel.searchUiState.debounce(500).collectLatest { searchTerm ->
+                if (searchTerm.inputSearch.isNotBlank() && oldValue.value.inputSearch != viewModel.searchUiState.value.inputSearch) {
+                    setAdapter()
+                    oldValue.emit(viewModel.searchUiState.value)
+                }
+            }
+        }
+    }
 
 
 }

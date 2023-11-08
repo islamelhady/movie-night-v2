@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
 data class SearchUiState(
-    val inputSearch: String = "fifty",
+    val inputSearch: String = "",
     val moviesSearchResult: Flow<PagingData<MediaUiState>> = emptyFlow(),
     val isLoading: Boolean = false,
     val error: String = ""
