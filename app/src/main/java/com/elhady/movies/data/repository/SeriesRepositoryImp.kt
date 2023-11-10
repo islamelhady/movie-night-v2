@@ -20,6 +20,7 @@ import com.elhady.movies.data.remote.response.series.SeriesDetailsDto
 import com.elhady.movies.data.remote.response.series.SeriesDto
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.repository.mediaDataSource.series.SeriesDataSourceContainer
+import com.elhady.movies.data.repository.searchDataSource.SeriesSearchDataSource
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 import javax.inject.Inject
@@ -31,7 +32,8 @@ class SeriesRepositoryImp @Inject constructor(
     private val tvSeriesListsMapper: TVSeriesListsMapper,
     private val seriesDao: SeriesDao,
     private val appConfiguration: AppConfiguration,
-    private val seriesDataSourceContainer: SeriesDataSourceContainer
+    private val seriesDataSourceContainer: SeriesDataSourceContainer,
+    private val seriesSearchDataSource: SeriesSearchDataSource
 ) : BaseRepository(), SeriesRepository {
 
     /**
@@ -225,7 +227,9 @@ class SeriesRepositoryImp @Inject constructor(
      *  Search series
      */
     override suspend fun searchForSeriesPager(query: String): Pager<Int, SeriesDto> {
-        TODO("Not yet implemented")
+        val dataSource = seriesSearchDataSource
+        dataSource.setSearch(query)
+        return Pager(config = pagingConfig, pagingSourceFactory = { dataSource })
     }
 
 }
