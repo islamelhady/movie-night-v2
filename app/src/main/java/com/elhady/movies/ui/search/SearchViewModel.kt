@@ -34,7 +34,7 @@ class SearchViewModel @Inject constructor(
     }
 
     override fun getData() {
-        _searchUiEvent.update { Event(SearchUiEvent.ClickRetryEvent) }
+//        _searchUiEvent.update { Event(SearchUiEvent.ClickRetryEvent) }
 
     }
 
