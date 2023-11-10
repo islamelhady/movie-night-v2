@@ -75,6 +75,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private fun onEvent(event: SearchUiEvent) {
         when(event){
             SearchUiEvent.ClickBackEvent -> findNavController().popBackStack()
+            SearchUiEvent.ClickRetryEvent -> mediaSearchAdapter::retry
         }
     }
 

@@ -38,19 +38,17 @@ class SearchViewModel @Inject constructor(
     }
 
     override fun getData() {
-//        _searchUiEvent.update { Event(SearchUiEvent.ClickRetryEvent) }
+        _searchUiEvent.update { Event(SearchUiEvent.ClickRetryEvent) }
 
     }
 
     fun onSearchForMovies() {
         viewModelScope.launch {
             _searchUiState.update {
-                it.copy(moviesSearchResult = searchForMovieUseCase(it.inputSearch).map { pagingData ->
-                    pagingData.map {
-                        mediaUiMapper.map(it)
-                    }
-                },
-                    mediaType = MediaType.MOVIES)
+                val result = searchForMovieUseCase(movieQuery = it.inputSearch).map { pagingData ->
+                    pagingData.map { mediaUiMapper.map(it) }
+                }
+                it.copy(moviesSearchResult = result, mediaType = MediaType.MOVIES, isLoading = false)
             }
         }
     }
@@ -70,7 +68,7 @@ class SearchViewModel @Inject constructor(
 
     fun onClickInputSearch(searchInput: CharSequence) {
         _searchUiState.update { it.copy(inputSearch = searchInput.toString()) }
-        when(searchUiState.value.mediaType){
+        when(_searchUiState.value.mediaType){
             MediaType.MOVIES -> onSearchForMovies()
             MediaType.SERIES -> onSearchForSeries()
         }
