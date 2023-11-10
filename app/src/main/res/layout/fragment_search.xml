@@ -14,15 +14,44 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/image_back_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintBottom_toBottomOf="@id/input_text_search"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/input_text_search" />
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_text_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/Regular.Medium"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:paddingStart="@dimen/spacing_small"
+            android:drawableStart="@drawable/ic_search"
+            android:drawableTint="@color/brand_color"
+            android:drawablePadding="@dimen/spacing_small"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:inputType="text"
+            android:maxLines="1"
+            android:hint="@string/search_hint"
+            android:textColorHint="@color/shade_ternary_color"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:background="@drawable/edit_text_background"
             android:text="@{viewModel.searchUiState.inputSearch}"
             android:afterTextChanged="@{(text) -> viewModel.onClickInputSearch(text)}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/image_back_arrow"
+            app:layout_constraintTop_toTopOf="parent" >
+
+            <requestFocus />
+        </com.google.android.material.textfield.TextInputEditText>
 
 
         <androidx.recyclerview.widget.RecyclerView
