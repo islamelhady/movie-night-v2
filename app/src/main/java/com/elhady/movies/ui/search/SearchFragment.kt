@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.elhady.movies.R
 import com.elhady.movies.databinding.FragmentSearchBinding
@@ -73,7 +74,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private fun onEvent(event: SearchUiEvent) {
         when(event){
-            SearchUiEvent.ClickRetryEvent -> mediaSearchAdapter::retry
+            SearchUiEvent.ClickBackEvent -> findNavController().popBackStack()
         }
     }
 

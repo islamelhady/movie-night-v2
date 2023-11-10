@@ -81,6 +81,12 @@ class SearchViewModel @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    fun onClickBack(){
+        _searchUiEvent.update {
+            Event(SearchUiEvent.ClickBackEvent)
+        }
+    }
+
     fun setError(combinedLoadStates: CombinedLoadStates) {
         when (combinedLoadStates.refresh) {
             is LoadState.Error -> _searchUiState.update { it.copy(isLoading = false, error = "") }
