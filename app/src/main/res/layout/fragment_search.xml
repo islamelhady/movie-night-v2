@@ -54,6 +54,44 @@
             <requestFocus />
         </com.google.android.material.textfield.TextInputEditText>
 
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group"
+            style="@style/Widget.Material3.ChipGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:checkedChip="@id/chip_movies"
+            app:selectionRequired="true"
+            app:singleSelection="true"
+            app:chipSpacingHorizontal="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_medium"
+            app:layout_constraintStart_toStartOf="@id/image_back_arrow"
+            app:layout_constraintTop_toBottomOf="@id/input_text_search">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_movies"
+                style="@style/Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/movies"
+                android:onClick="@{ () -> viewModel.onSearchForMovies()}"
+                android:paddingVertical="@dimen/spacing_too_small"
+                app:checkedIconEnabled="false"
+                app:chipCornerRadius="@dimen/spacing_small"
+                android:textColor="@color/chip_text" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_series"
+                style="@style/Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_series"
+                android:onClick="@{ () -> viewModel.onSearchForSeries()}"
+                android:paddingVertical="@dimen/spacing_too_small"
+                app:checkedIconEnabled="false"
+                app:chipCornerRadius="@dimen/spacing_small"
+                android:textColor="@color/chip_text" />
+
+        </com.google.android.material.chip.ChipGroup>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_search"
@@ -61,7 +99,7 @@
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/input_text_search"
+            app:layout_constraintTop_toBottomOf="@id/chip_group"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

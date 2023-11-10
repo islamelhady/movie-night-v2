@@ -42,7 +42,7 @@ class SearchViewModel @Inject constructor(
 
     }
 
-    private fun onSearchForMovies() {
+    fun onSearchForMovies() {
         viewModelScope.launch {
             _searchUiState.update {
                 it.copy(moviesSearchResult = searchForMovieUseCase(it.inputSearch).map { pagingData ->
@@ -55,7 +55,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun onSearchForSeries() {
+    fun onSearchForSeries() {
         viewModelScope.launch {
             _searchUiState.update {
                 val result = searchForSeriesUseCase(seriesQuery = it.inputSearch).map { pagingData ->
