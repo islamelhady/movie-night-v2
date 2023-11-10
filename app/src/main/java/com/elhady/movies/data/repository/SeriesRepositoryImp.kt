@@ -221,5 +221,11 @@ class SeriesRepositoryImp @Inject constructor(
         return Pager(config = pagingConfig, pagingSourceFactory = { seriesDataSourceContainer.seriesDataSource })
     }
 
+    /**
+     *  Search series
+     */
+    override suspend fun searchForSeriesPager(query: String): Pager<Int, SeriesDto> {
+        TODO("Not yet implemented")
+    }
 
 }
