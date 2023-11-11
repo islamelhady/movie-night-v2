@@ -91,6 +91,18 @@
                 app:chipCornerRadius="@dimen/spacing_small"
                 android:textColor="@color/chip_text" />
 
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_actors"
+                style="@style/Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/actor"
+                android:onClick="@{ () -> viewModel.onSearchForActors()}"
+                android:paddingVertical="@dimen/spacing_too_small"
+                app:checkedIconEnabled="false"
+                app:chipCornerRadius="@dimen/spacing_small"
+                android:textColor="@color/chip_text" />
+
         </com.google.android.material.chip.ChipGroup>
 
         <androidx.recyclerview.widget.RecyclerView
