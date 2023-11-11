@@ -13,8 +13,8 @@ class MovieDtoMapper @Inject constructor():Mapper<MovieDto, Media> {
             mediaName = input.title ?: "",
             mediaImage = (Constants.IMAGE_PATH + input.posterPath),
             mediaType = "",
-            mediaRate = 0f,
-            mediaDate = ""
+            mediaRate = input.voteAverage?.toFloat() ?: 0f,
+            mediaDate = input.releaseDate?.substringBefore('-') ?: ""
         )
     }
 }

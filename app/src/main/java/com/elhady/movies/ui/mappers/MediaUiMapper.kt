@@ -9,7 +9,10 @@ class MediaUiMapper @Inject constructor() : Mapper<Media, MediaUiState> {
     override fun map(input: Media): MediaUiState {
         return MediaUiState(
             id = input.mediaID,
-            imageUrl = input.mediaImage
+            imageUrl = input.mediaImage,
+            name = input.mediaName,
+            rate = input.mediaRate,
+            date = input.mediaDate
         )
     }
 }
