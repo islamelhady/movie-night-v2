@@ -38,6 +38,7 @@ import com.elhady.movies.data.repository.mediaDataSource.series.LatestTVDataSour
 import com.elhady.movies.data.repository.mediaDataSource.series.OnTheAirTVDataSource
 import com.elhady.movies.data.repository.mediaDataSource.series.PopularTVDataSource
 import com.elhady.movies.data.repository.mediaDataSource.series.SeriesDataSourceContainer
+import com.elhady.movies.data.repository.searchDataSource.ActorsSearchDataSource
 import com.elhady.movies.data.repository.searchDataSource.MovieSearchDataSource
 import com.elhady.movies.data.repository.searchDataSource.SeriesSearchDataSource
 import dagger.Module
@@ -64,8 +65,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideActorsRepository(service: MovieService,actorsMapper: ActorsMapper,actorDao: ActorDao, appConfiguration: AppConfiguration, actorDataSource: ActorDataSource, actorMoviesDataSource: ActorMoviesDataSource): ActorRepository{
-        return ActorRepositoryImp(service, actorsMapper, actorDao, appConfiguration, actorDataSource, actorMoviesDataSource)
+    fun provideActorsRepository(service: MovieService,actorsMapper: ActorsMapper,actorDao: ActorDao, appConfiguration: AppConfiguration, actorDataSource: ActorDataSource, actorMoviesDataSource: ActorMoviesDataSource, actorsSearchDataSource: ActorsSearchDataSource): ActorRepository{
+        return ActorRepositoryImp(service, actorsMapper, actorDao, appConfiguration, actorDataSource, actorMoviesDataSource, actorsSearchDataSource)
     }
 
     @Provides
