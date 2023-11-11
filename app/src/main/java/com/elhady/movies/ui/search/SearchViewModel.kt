@@ -24,7 +24,7 @@ class SearchViewModel @Inject constructor(
     private val searchForSeriesUseCase: GetSearchForSeriesUseCase,
     private val searchForActorsUseCase: GetSearchForActorsUseCase,
     private val mediaUiMapper: MediaUiMapper
-) : BaseViewModel(), MediaSearchInteractionListener {
+) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener {
 
     private val _searchUiState = MutableStateFlow(SearchUiState())
     val searchUiState = _searchUiState.asStateFlow()
@@ -38,7 +38,7 @@ class SearchViewModel @Inject constructor(
     }
 
     override fun getData() {
-        _searchUiEvent.update { Event(SearchUiEvent.ClickRetryEvent) }
+//        _searchUiEvent.update { Event(SearchUiEvent.ClickRetryEvent) }
 
     }
 
@@ -83,6 +83,7 @@ class SearchViewModel @Inject constructor(
                 }
                 it.copy(
                     moviesSearchResult = result,
+                    mediaType = MediaTypes.ACTORS,
                     isLoading = false)
             }
         }
@@ -99,6 +100,10 @@ class SearchViewModel @Inject constructor(
     }
 
     override fun onClickMediaResult() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickActor() {
         TODO("Not yet implemented")
     }
 
