@@ -4,13 +4,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
-import com.elhady.movies.domain.enums.MediaType
+import com.elhady.movies.domain.usecases.search.GetSearchForActorsUseCase
 import com.elhady.movies.domain.usecases.search.GetSearchForMovieUseCase
 import com.elhady.movies.domain.usecases.search.GetSearchForSeriesUseCase
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.utilities.Event
-import com.elhady.movies.utilities.setRecyclerItems
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,6 +22,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val searchForMovieUseCase: GetSearchForMovieUseCase,
     private val searchForSeriesUseCase: GetSearchForSeriesUseCase,
+    private val searchForActorsUseCase: GetSearchForActorsUseCase,
     private val mediaUiMapper: MediaUiMapper
 ) : BaseViewModel(), MediaSearchInteractionListener {
 
@@ -48,7 +48,11 @@ class SearchViewModel @Inject constructor(
                 val result = searchForMovieUseCase(movieQuery = it.inputSearch).map { pagingData ->
                     pagingData.map { mediaUiMapper.map(it) }
                 }
-                it.copy(moviesSearchResult = result, mediaType = MediaType.MOVIES, isLoading = false)
+                it.copy(
+                    moviesSearchResult = result,
+                    mediaType = MediaTypes.MOVIES,
+                    isLoading = false
+                )
             }
         }
     }
@@ -56,21 +60,40 @@ class SearchViewModel @Inject constructor(
     fun onSearchForSeries() {
         viewModelScope.launch {
             _searchUiState.update {
-                val result = searchForSeriesUseCase(seriesQuery = it.inputSearch).map { pagingData ->
+                val result =
+                    searchForSeriesUseCase(seriesQuery = it.inputSearch).map { pagingData ->
                         pagingData.map { mediaUiMapper.map(it) }
                     }
-                it.copy(moviesSearchResult = result, mediaType = MediaType.SERIES, isLoading = false)
+                it.copy(
+                    moviesSearchResult = result,
+                    mediaType = MediaTypes.SERIES,
+                    isLoading = false
+                )
             }
 
 
         }
     }
 
+    fun onSearchForActors() {
+        viewModelScope.launch {
+            _searchUiState.update {
+                val result = searchForActorsUseCase(it.inputSearch).map { pagingData ->
+                    pagingData.map { mediaUiMapper.map(it) }
+                }
+                it.copy(
+                    moviesSearchResult = result,
+                    isLoading = false)
+            }
+        }
+    }
+
     fun onClickInputSearch(searchInput: CharSequence) {
         _searchUiState.update { it.copy(inputSearch = searchInput.toString()) }
-        when(_searchUiState.value.mediaType){
-            MediaType.MOVIES -> onSearchForMovies()
-            MediaType.SERIES -> onSearchForSeries()
+        when (_searchUiState.value.mediaType) {
+            MediaTypes.MOVIES -> onSearchForMovies()
+            MediaTypes.SERIES -> onSearchForSeries()
+            MediaTypes.ACTORS -> onSearchForActors()
         }
 
     }
@@ -79,7 +102,7 @@ class SearchViewModel @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    fun onClickBack(){
+    fun onClickBack() {
         _searchUiEvent.update {
             Event(SearchUiEvent.ClickBackEvent)
         }
