@@ -12,6 +12,7 @@ import com.elhady.movies.data.remote.response.actor.MovieCreditsDto
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.repository.mediaDataSource.actors.ActorDataSource
 import com.elhady.movies.data.repository.mediaDataSource.actors.ActorMoviesDataSource
+import com.elhady.movies.data.repository.searchDataSource.ActorsSearchDataSource
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 import javax.inject.Inject
@@ -22,7 +23,8 @@ class ActorRepositoryImp @Inject constructor(
     private val actorDao: ActorDao,
     private val appConfiguration: AppConfiguration,
     private val actorDataSource: ActorDataSource,
-    private val actorMoviesDataSource: ActorMoviesDataSource
+    private val actorMoviesDataSource: ActorMoviesDataSource,
+    private val actorsSearchDataSource: ActorsSearchDataSource
 ) : BaseRepository(), ActorRepository {
 
     /**
@@ -90,7 +92,9 @@ class ActorRepositoryImp @Inject constructor(
      * Search for Actors
      */
     override suspend fun searchForActors(query: String): Pager<Int, PersonDto> {
-        TODO("Not yet implemented")
+        val dataSource = actorsSearchDataSource
+        dataSource.setQuery(query)
+        return Pager(config = pagingConfig, pagingSourceFactory = { dataSource })
     }
 
 
