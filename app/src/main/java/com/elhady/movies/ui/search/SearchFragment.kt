@@ -40,7 +40,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getSearchResultsBySearchTerm()
-        getSearchResult()
         collectEvent()
     }
 
@@ -117,7 +116,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private fun onEvent(event: SearchUiEvent) {
         when(event){
             SearchUiEvent.ClickBackEvent -> findNavController().popBackStack()
-            SearchUiEvent.ClickRetryEvent -> mediaSearchAdapter::retry
+            SearchUiEvent.ClickRetryEvent -> TODO()
         }
     }
 
