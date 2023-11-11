@@ -49,12 +49,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         binding.recyclerSearch.adapter =
             mediaSearchAdapter.withLoadStateFooter(footer = footerAdapter)
 
-        val gridLayoutManager = binding.recyclerSearch.layoutManager as GridLayoutManager
-        gridLayoutManager.setSpanSize(
-            footerAdapter = footerAdapter,
-            adapter = mediaSearchAdapter,
-            spanCount = gridLayoutManager.spanCount
-        )
+        binding.recyclerSearch.layoutManager = LinearLayoutManager(this@SearchFragment.context, VERTICAL, false)
 
         collectLast(mediaSearchAdapter.loadStateFlow){
             viewModel.setError(it)
@@ -74,12 +69,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         val footerAdapter = LoadAdapter(actorSearchAdapter::retry)
         binding.recyclerSearch.adapter = actorSearchAdapter.withLoadStateFooter(footer = footerAdapter)
 
-        val gridLayoutManager = binding.recyclerSearch.layoutManager as GridLayoutManager
-
-        gridLayoutManager.setSpanSize(
-            footerAdapter = footerAdapter,
-            adapter = actorSearchAdapter,
-            spanCount = gridLayoutManager.spanCount)
+        binding.recyclerSearch.layoutManager = GridLayoutManager(this@SearchFragment.context, 3)
+        setSpanSize(footerAdapter)
 
         collect(actorSearchAdapter.loadStateFlow){
             viewModel.setError(it)
@@ -91,6 +82,21 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private fun getActorSearch(){
         collectLast(viewModel.searchUiState.value.moviesSearchResult){
             actorSearchAdapter.submitData(it)
+        }
+    }
+
+    private fun setSpanSize(footerAdapter: LoadAdapter) {
+        val mManager = binding.recyclerSearch.layoutManager as GridLayoutManager
+        mManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if ((position == actorSearchAdapter.itemCount)
+                    && footerAdapter.itemCount > 0
+                ) {
+                    mManager.spanCount
+                } else {
+                    1
+                }
+            }
         }
     }
 
