@@ -86,5 +86,12 @@ class ActorRepositoryImp @Inject constructor(
         return Pager(config = pagingConfig, pagingSourceFactory = { actorDataSource })
     }
 
+    /**
+     * Search for Actors
+     */
+    override suspend fun searchForActors(query: String): Pager<Int, PersonDto> {
+        TODO("Not yet implemented")
+    }
+
 
 }
