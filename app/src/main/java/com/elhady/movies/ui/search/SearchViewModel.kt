@@ -12,11 +12,11 @@ import com.elhady.movies.domain.usecases.search.PostSearchHistoryUseCase
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.models.MediaUiState
+import com.elhady.movies.ui.movieDetails.ErrorUiState
 import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -144,8 +144,8 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    override fun onClickHistorySearch() {
-        TODO("Not yet implemented")
+    override fun onClickHistorySearch(search: String) {
+        onClickInputSearch(search)
     }
 
     fun setError(combinedLoadStates: CombinedLoadStates) {
