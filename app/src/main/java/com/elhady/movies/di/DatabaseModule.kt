@@ -7,6 +7,7 @@ import com.elhady.movies.data.local.Converters
 import com.elhady.movies.data.local.database.MovieDatabase
 import com.elhady.movies.data.local.database.daos.ActorDao
 import com.elhady.movies.data.local.database.daos.MovieDao
+import com.elhady.movies.data.local.database.daos.SearchDao
 import com.elhady.movies.data.local.database.daos.SeriesDao
 import com.google.gson.Gson
 import dagger.Module
@@ -50,6 +51,12 @@ object DatabaseModule {
     @Provides
     fun provideActorDao(movieDatabase: MovieDatabase): ActorDao{
         return movieDatabase.actorsDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideSearchDao(movieDatabase: MovieDatabase): SearchDao{
+        return movieDatabase.searchDao()
     }
 
     @Provides
