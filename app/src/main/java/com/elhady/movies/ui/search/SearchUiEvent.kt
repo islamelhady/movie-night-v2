@@ -4,7 +4,6 @@ import com.elhady.movies.ui.models.MediaUiState
 
 sealed interface SearchUiEvent{
     object ClickBackEvent: SearchUiEvent
-    object ClickRetryEvent: SearchUiEvent
     data class ClickActorEvent(val actorId: Int): SearchUiEvent
     data class ClickMediaEvent(val mediaUiState: MediaUiState): SearchUiEvent
 }

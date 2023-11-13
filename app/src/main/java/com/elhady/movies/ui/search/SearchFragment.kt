@@ -1,6 +1,7 @@
 package com.elhady.movies.ui.search
 
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -37,7 +38,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private val oldValue = MutableStateFlow(SearchUiState())
 
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition =
+            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -123,7 +128,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private fun onEvent(event: SearchUiEvent) {
         when(event){
             SearchUiEvent.ClickBackEvent -> findNavController().popBackStack()
-            SearchUiEvent.ClickRetryEvent -> TODO()
             is SearchUiEvent.ClickActorEvent -> findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToActorDetailsFragment(event.actorId))
             is SearchUiEvent.ClickMediaEvent -> {
                 when(event.mediaUiState.mediaTypes){

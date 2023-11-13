@@ -39,6 +39,7 @@
             android:drawablePadding="@dimen/spacing_small"
             android:focusable="true"
             android:focusableInTouchMode="true"
+            android:transitionName="search_box"
             android:inputType="text"
             android:maxLines="1"
             android:hint="@string/search_hint"
