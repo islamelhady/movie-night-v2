@@ -15,6 +15,7 @@ import com.elhady.movies.databinding.FragmentSearchBinding
 import com.elhady.movies.ui.adapter.LoadAdapter
 import com.elhady.movies.ui.base.BaseFragment
 import com.elhady.movies.ui.seriesDetails.SeriesDetailsFragmentDirections
+import com.elhady.movies.utilities.Constants
 import com.elhady.movies.utilities.collect
 import com.elhady.movies.utilities.collectLast
 import com.elhady.movies.utilities.setSpanSize
@@ -124,7 +125,21 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             SearchUiEvent.ClickBackEvent -> findNavController().popBackStack()
             SearchUiEvent.ClickRetryEvent -> TODO()
             is SearchUiEvent.ClickActorEvent -> findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToActorDetailsFragment(event.actorId))
+            is SearchUiEvent.ClickMediaEvent -> {
+                when(event.mediaUiState.mediaTypes){
+                   Constants.MOVIE -> navigateToMovies(event.mediaUiState.id)
+                   Constants.TV_SERIES_SHOW -> navigateToSeries(event.mediaUiState.id)
+                }
+            }
         }
+    }
+
+    private fun navigateToMovies(movieId: Int){
+        findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToMovieDetailsFragment(movieId))
+    }
+
+    private fun navigateToSeries(seriesId: Int){
+        findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToTvShowDetailsFragment(seriesId))
     }
 
     @OptIn(FlowPreview::class)

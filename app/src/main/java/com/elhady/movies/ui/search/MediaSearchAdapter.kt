@@ -24,5 +24,5 @@ class MediaSearchAdapter(listener: MediaSearchInteractionListener): BasePagingAd
 }
 
 interface MediaSearchInteractionListener: BaseInteractionListener{
-    fun onClickMediaResult()
+    fun onClickMediaResult(media: MediaUiState)
 }

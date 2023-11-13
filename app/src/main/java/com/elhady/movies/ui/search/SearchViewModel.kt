@@ -11,6 +11,7 @@ import com.elhady.movies.domain.usecases.search.GetSearchForSeriesUseCase
 import com.elhady.movies.domain.usecases.search.PostSearchHistoryUseCase
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.mappers.MediaUiMapper
+import com.elhady.movies.ui.models.MediaUiState
 import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -117,8 +118,11 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    override fun onClickMediaResult() {
-        TODO("Not yet implemented")
+    override fun onClickMediaResult(media: MediaUiState) {
+        saveSearch(media.id, media.name)
+        _searchUiEvent.update {
+            Event(SearchUiEvent.ClickMediaEvent(media))
+        }
     }
 
     override fun onClickActor(actorId: Int, name: String) {
