@@ -6,6 +6,7 @@ import androidx.paging.PagingConfig
 import com.elhady.movies.data.Constant
 import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.MovieDao
+import com.elhady.movies.data.local.database.entity.SearchHistoryEntity
 import com.elhady.movies.data.local.database.entity.movies.AdventureMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.MysteryMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.NowPlayingMovieEntity
@@ -365,10 +366,15 @@ class MovieRepositoryImp @Inject constructor(
     /**
      * Serach
      * * movies
+     * * history
      */
     override suspend fun searchForMoviesPager(query: String): Pager<Int, MovieDto> {
         val dataSource = movieSearchDataSource
         dataSource.setSearch(query = query)
         return Pager(config = pagingConfig, pagingSourceFactory = { dataSource })
+    }
+
+    override suspend fun insertSearchItem(item: SearchHistoryEntity) {
+        return movieDao.insertSearch(item)
     }
 }

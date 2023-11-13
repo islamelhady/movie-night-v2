@@ -9,7 +9,6 @@ import com.elhady.movies.data.local.database.entity.movies.UpcomingMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.TrendingMovieEntity
 import com.elhady.movies.data.local.Converters
 import com.elhady.movies.data.local.database.daos.ActorDao
-import com.elhady.movies.data.local.database.daos.SearchDao
 import com.elhady.movies.data.local.database.daos.SeriesDao
 import com.elhady.movies.data.local.database.entity.SearchHistoryEntity
 import com.elhady.movies.data.local.database.entity.actor.ActorEntity
@@ -31,5 +30,4 @@ abstract class MovieDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
     abstract fun seriesDao(): SeriesDao
     abstract fun actorsDao(): ActorDao
-    abstract fun searchDao(): SearchDao
 }
