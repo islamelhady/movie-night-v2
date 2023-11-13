@@ -98,7 +98,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onClickInputSearch(searchInput: CharSequence) {
-        _searchUiState.update { it.copy(inputSearch = searchInput.toString()) }
+        _searchUiState.update { it.copy(inputSearch = searchInput.toString(), isLoading = true) }
         when (_searchUiState.value.mediaType) {
             MediaTypes.MOVIES -> onSearchForMovies()
             MediaTypes.SERIES -> onSearchForSeries()
@@ -108,6 +108,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun getAllSearchHistory() {
+        _searchUiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             getAllSearchHistoryUseCase().collect { list ->
                 val result = list.map { item ->

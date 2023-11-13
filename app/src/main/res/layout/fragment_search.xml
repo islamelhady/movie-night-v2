@@ -152,5 +152,11 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:listitem="@layout/item_media_search"/>
 
+        <include
+            android:id="@+id/loading"
+            layout="@layout/loading"
+            isVisible="@{viewModel.searchUiState.loading}"
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
