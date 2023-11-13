@@ -54,6 +54,35 @@
             <requestFocus />
         </com.google.android.material.textfield.TextInputEditText>
 
+        <TextView
+            android:id="@+id/text_search_label"
+            style="@style/SimiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:drawablePadding="@dimen/spacing_small"
+            android:gravity="center"
+            android:text="@string/history_label"
+            android:textColor="@color/shade_primary_color"
+            app:drawableStartCompat="@drawable/ic_history"
+            app:layout_constraintStart_toStartOf="@id/image_back_arrow"
+            app:layout_constraintTop_toBottomOf="@id/input_text_search" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_search_history"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            android:clipToPadding="false"
+            android:paddingHorizontal="@dimen/spacing_medium"
+            android:paddingVertical="@dimen/spacing_medium"
+            app:layout_constraintStart_toStartOf="@id/image_back_arrow"
+            app:layout_constraintEnd_toEndOf="@id/input_text_search"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_search_label"
+            tools:listitem="@layout/item_search_history" />
+
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_group"
             style="@style/Widget.Material3.ChipGroup"
