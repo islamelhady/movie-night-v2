@@ -118,7 +118,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun saveSearch(id: Int, name: String){
+    private fun saveSearch(id: Int, name: String){
         viewModelScope.launch {
             postSearchHistoryUseCase(id, name)
         }
