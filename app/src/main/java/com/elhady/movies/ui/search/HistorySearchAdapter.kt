@@ -9,5 +9,5 @@ class HistorySearchAdapter(items: List<SearchHistoryUiState>, listener: HistoryI
 }
 
 interface HistoryInteractionListener: BaseInteractionListener{
-    fun onClickHistory()
+    fun onClickHistorySearch()
 }

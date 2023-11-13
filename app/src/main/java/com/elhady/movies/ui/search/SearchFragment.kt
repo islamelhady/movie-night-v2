@@ -42,6 +42,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         super.onViewCreated(view, savedInstanceState)
         getSearchResultsBySearchTerm()
         collectEvent()
+        setHistoryAdapter()
+    }
+
+    private fun setHistoryAdapter() {
+        binding.recyclerSearchHistory.adapter = HistorySearchAdapter(mutableListOf(), viewModel)
     }
 
     private fun bindMedia() {

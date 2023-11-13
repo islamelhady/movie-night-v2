@@ -76,6 +76,7 @@
             android:orientation="vertical"
             android:clipToPadding="false"
             android:paddingHorizontal="@dimen/spacing_medium"
+            app:items="@{viewModel.searchUiState.searchHistoryResult}"
             android:paddingVertical="@dimen/spacing_medium"
             app:layout_constraintStart_toStartOf="@id/image_back_arrow"
             app:layout_constraintEnd_toEndOf="@id/input_text_search"

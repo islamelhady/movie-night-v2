@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
+import com.elhady.movies.domain.usecases.search.GetAllSearchHistoryUseCase
 import com.elhady.movies.domain.usecases.search.GetSearchForActorsUseCase
 import com.elhady.movies.domain.usecases.search.GetSearchForMovieUseCase
 import com.elhady.movies.domain.usecases.search.GetSearchForSeriesUseCase
@@ -14,6 +15,7 @@ import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -25,8 +27,10 @@ class SearchViewModel @Inject constructor(
     private val searchForSeriesUseCase: GetSearchForSeriesUseCase,
     private val searchForActorsUseCase: GetSearchForActorsUseCase,
     private val postSearchHistoryUseCase: PostSearchHistoryUseCase,
+    private val getAllSearchHistoryUseCase: GetAllSearchHistoryUseCase,
+    private val searchHistoryUiMapper: SearchHistoryUiMapper,
     private val mediaUiMapper: MediaUiMapper
-) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener{
+) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener, HistoryInteractionListener {
 
     private val _searchUiState = MutableStateFlow(SearchUiState())
     val searchUiState = _searchUiState.asStateFlow()
@@ -36,7 +40,7 @@ class SearchViewModel @Inject constructor(
 
 
     init {
-//        getData()
+        getAllSearchHistory()
     }
 
     override fun getData() {
@@ -86,7 +90,8 @@ class SearchViewModel @Inject constructor(
                 it.copy(
                     moviesSearchResult = result,
                     mediaType = MediaTypes.ACTORS,
-                    isLoading = false)
+                    isLoading = false
+                )
             }
         }
     }
@@ -99,6 +104,17 @@ class SearchViewModel @Inject constructor(
             MediaTypes.ACTORS -> onSearchForActors()
         }
 
+    }
+
+    private fun getAllSearchHistory() {
+        viewModelScope.launch {
+            getAllSearchHistoryUseCase().collect { list ->
+                val result = list.map { item ->
+                    searchHistoryUiMapper.map(item)
+                }
+                _searchUiState.update { it.copy(searchHistoryResult = result, isLoading = false) }
+            }
+        }
     }
 
     override fun onClickMediaResult() {
@@ -118,16 +134,32 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun saveSearch(id: Int, name: String){
+    private fun saveSearch(id: Int, name: String) {
         viewModelScope.launch {
             postSearchHistoryUseCase(id, name)
         }
     }
 
+    override fun onClickHistorySearch() {
+        TODO("Not yet implemented")
+    }
+
     fun setError(combinedLoadStates: CombinedLoadStates) {
         when (combinedLoadStates.refresh) {
-            is LoadState.Error -> _searchUiState.update { it.copy(isLoading = false, error = emptyList()) }
-            LoadState.Loading -> _searchUiState.update { it.copy(isLoading = true, error = emptyList()) }
+            is LoadState.Error -> _searchUiState.update {
+                it.copy(
+                    isLoading = false,
+                    error = emptyList()
+                )
+            }
+
+            LoadState.Loading -> _searchUiState.update {
+                it.copy(
+                    isLoading = true,
+                    error = emptyList()
+                )
+            }
+
             is LoadState.NotLoading -> _searchUiState.update {
                 it.copy(
                     isLoading = false,
