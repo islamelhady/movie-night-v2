@@ -120,3 +120,12 @@ fun <T> setGenresChips(view: ChipGroup, chipList: List<CategoryGenreUiState>?, l
     }
 }
 
+@BindingAdapter(value = ["app:searchInput", "app:searchLoading", "app:searchError"])
+fun <T> hideWhenSearchSuccess(view: View, searchInput:String, error: List<T>, loading: Boolean){
+    view.visibility = if (searchInput.isNotBlank() && error.isNullOrEmpty() && !loading){
+        View.VISIBLE
+    }else{
+        View.INVISIBLE
+    }
+}
+
