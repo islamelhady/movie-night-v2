@@ -121,8 +121,8 @@ class SearchViewModel @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun onClickActor(actorId: Int) {
-        saveSearch(actorId, "islam")
+    override fun onClickActor(actorId: Int, name: String) {
+        saveSearch(actorId, name)
         _searchUiEvent.update {
             Event(SearchUiEvent.ClickActorEvent(actorId))
         }
