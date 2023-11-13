@@ -62,4 +62,8 @@ interface MovieRepository {
 
     suspend fun insertSearchItem(item: SearchHistoryEntity)
 
+    suspend fun deleteSearchItem(item: SearchHistoryEntity)
+
+    fun getAllSearchItems(): Flow<List<SearchHistoryEntity>>
+
 }

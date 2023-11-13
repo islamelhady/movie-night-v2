@@ -26,7 +26,7 @@ class SearchViewModel @Inject constructor(
     private val searchForActorsUseCase: GetSearchForActorsUseCase,
     private val postSearchHistoryUseCase: PostSearchHistoryUseCase,
     private val mediaUiMapper: MediaUiMapper
-) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener {
+) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener{
 
     private val _searchUiState = MutableStateFlow(SearchUiState())
     val searchUiState = _searchUiState.asStateFlow()
@@ -126,12 +126,12 @@ class SearchViewModel @Inject constructor(
 
     fun setError(combinedLoadStates: CombinedLoadStates) {
         when (combinedLoadStates.refresh) {
-            is LoadState.Error -> _searchUiState.update { it.copy(isLoading = false, error = "") }
-            LoadState.Loading -> _searchUiState.update { it.copy(isLoading = true, error = "") }
+            is LoadState.Error -> _searchUiState.update { it.copy(isLoading = false, error = emptyList()) }
+            LoadState.Loading -> _searchUiState.update { it.copy(isLoading = true, error = emptyList()) }
             is LoadState.NotLoading -> _searchUiState.update {
                 it.copy(
                     isLoading = false,
-                    error = ""
+                    error = emptyList()
                 )
             }
         }

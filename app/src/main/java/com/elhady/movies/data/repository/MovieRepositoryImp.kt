@@ -377,4 +377,12 @@ class MovieRepositoryImp @Inject constructor(
     override suspend fun insertSearchItem(item: SearchHistoryEntity) {
         return movieDao.insertSearch(item)
     }
+
+    override suspend fun deleteSearchItem(item: SearchHistoryEntity) {
+        return movieDao.deleteSearch(item)
+    }
+
+    override fun getAllSearchItems(): Flow<List<SearchHistoryEntity>> {
+        return movieDao.getAllSearch()
+    }
 }
