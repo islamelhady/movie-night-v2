@@ -21,5 +21,5 @@ class ActorSearchAdapter(listener: ActorSearchInteractionListener): BasePagingAd
 }
 
 interface ActorSearchInteractionListener: BaseInteractionListener{
-    fun onClickActor()
+    fun onClickActor(actorId: Int)
 }

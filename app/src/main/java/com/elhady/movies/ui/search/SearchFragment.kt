@@ -14,6 +14,7 @@ import com.elhady.movies.R
 import com.elhady.movies.databinding.FragmentSearchBinding
 import com.elhady.movies.ui.adapter.LoadAdapter
 import com.elhady.movies.ui.base.BaseFragment
+import com.elhady.movies.ui.seriesDetails.SeriesDetailsFragmentDirections
 import com.elhady.movies.utilities.collect
 import com.elhady.movies.utilities.collectLast
 import com.elhady.movies.utilities.setSpanSize
@@ -117,6 +118,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         when(event){
             SearchUiEvent.ClickBackEvent -> findNavController().popBackStack()
             SearchUiEvent.ClickRetryEvent -> TODO()
+            is SearchUiEvent.ClickActorEvent -> findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToActorDetailsFragment(event.actorId))
         }
     }
 

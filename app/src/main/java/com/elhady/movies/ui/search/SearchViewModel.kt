@@ -7,6 +7,7 @@ import androidx.paging.map
 import com.elhady.movies.domain.usecases.search.GetSearchForActorsUseCase
 import com.elhady.movies.domain.usecases.search.GetSearchForMovieUseCase
 import com.elhady.movies.domain.usecases.search.GetSearchForSeriesUseCase
+import com.elhady.movies.domain.usecases.search.PostSearchHistoryUseCase
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.utilities.Event
@@ -23,6 +24,7 @@ class SearchViewModel @Inject constructor(
     private val searchForMovieUseCase: GetSearchForMovieUseCase,
     private val searchForSeriesUseCase: GetSearchForSeriesUseCase,
     private val searchForActorsUseCase: GetSearchForActorsUseCase,
+    private val postSearchHistoryUseCase: PostSearchHistoryUseCase,
     private val mediaUiMapper: MediaUiMapper
 ) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener {
 
@@ -103,13 +105,21 @@ class SearchViewModel @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun onClickActor() {
-        TODO("Not yet implemented")
+    override fun onClickActor(actorId: Int) {
+        _searchUiEvent.update {
+            Event(SearchUiEvent.ClickActorEvent(actorId))
+        }
     }
 
     fun onClickBack() {
         _searchUiEvent.update {
             Event(SearchUiEvent.ClickBackEvent)
+        }
+    }
+
+    fun saveSearch(id: Int, name: String){
+        viewModelScope.launch {
+            postSearchHistoryUseCase(id, name)
         }
     }
 
