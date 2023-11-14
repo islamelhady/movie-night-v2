@@ -14,6 +14,7 @@ import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
+import com.elhady.movies.data.remote.response.video.VideoDto
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
@@ -65,5 +66,7 @@ interface MovieRepository {
     suspend fun deleteSearchItem(item: SearchHistoryEntity)
 
     fun getAllSearchItems(): Flow<List<SearchHistoryEntity>>
+
+    suspend fun getMovieTrailer(movieId: Int): VideoDto?
 
 }

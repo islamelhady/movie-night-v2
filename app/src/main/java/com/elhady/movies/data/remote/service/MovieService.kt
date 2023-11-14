@@ -14,6 +14,7 @@ import com.elhady.movies.data.remote.response.review.ReviewDto
 import com.elhady.movies.data.remote.response.series.SeasonDto
 import com.elhady.movies.data.remote.response.series.SeriesDetailsDto
 import com.elhady.movies.data.remote.response.series.SeriesDto
+import com.elhady.movies.data.remote.response.video.VideoDto
 import com.elhady.movies.domain.TrendingTimeWindow
 import retrofit2.Response
 import retrofit2.http.Field
@@ -190,6 +191,13 @@ interface MovieService {
 
     @GET("search/person")
     suspend fun searchForActors(@Query("query") query: String, @Query("page") page: Int = 1): Response<BaseResponse<PersonDto>>
+
+    /**
+     * Video
+     * *Movie
+     */
+    @GET("movie/{movie_id}/videos")
+    suspend fun getMovieTrailer(@Path("movie_id") movieId: Int): Response<VideoDto>
 
 
     /**

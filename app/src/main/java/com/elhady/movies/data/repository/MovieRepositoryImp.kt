@@ -27,6 +27,7 @@ import com.elhady.movies.data.remote.response.CreditsDto
 import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
+import com.elhady.movies.data.remote.response.video.VideoDto
 import com.elhady.movies.data.repository.mediaDataSource.movies.MovieDataSourceContainer
 import com.elhady.movies.data.repository.searchDataSource.MovieSearchDataSource
 import com.elhady.movies.utilities.Constants
@@ -384,5 +385,12 @@ class MovieRepositoryImp @Inject constructor(
 
     override fun getAllSearchItems(): Flow<List<SearchHistoryEntity>> {
         return movieDao.getAllSearch()
+    }
+
+    /**
+     * Vedio
+     */
+    override suspend fun getMovieTrailer(movieId: Int): VideoDto? {
+        return movieService.getMovieTrailer(movieId).body()
     }
 }
