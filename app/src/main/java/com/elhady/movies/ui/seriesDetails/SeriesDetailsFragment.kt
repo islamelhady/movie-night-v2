@@ -49,7 +49,7 @@ class SeriesDetailsFragment : BaseFragment<FragmentSeriesDetailsBinding>() {
             is SeriesDetailsUiEvent.ClickSeasonEvent -> findNavController().navigate(SeriesDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(seriesId = viewModel.args.seriesId, event.seasonNumber))
             SeriesDetailsUiEvent.ClickBackButtonEvent -> findNavController().popBackStack()
             is SeriesDetailsUiEvent.ClickCastEvent -> findNavController().navigate(SeriesDetailsFragmentDirections.actionTvShowDetailsFragmentToActorDetailsFragment(event.castId))
-            SeriesDetailsUiEvent.ClickPlayTrailerEvent -> findNavController().navigate(SeriesDetailsFragmentDirections.actionTvShowDetailsFragmentToVideoFragment(viewModel.args.seriesId))
+            SeriesDetailsUiEvent.ClickPlayTrailerEvent -> findNavController().navigate(SeriesDetailsFragmentDirections.actionTvShowDetailsFragmentToVideoFragment(viewModel.args.seriesId, MediaType.SERIES))
             is SeriesDetailsUiEvent.ClickSimilarSeriesEvent -> findNavController().navigate(SeriesDetailsFragmentDirections.actionTvShowDetailsFragmentToMovieDetailsFragment(event.seriesId))
             SeriesDetailsUiEvent.ClickViewReviews -> findNavController().navigate(SeriesDetailsFragmentDirections.actionTvShowDetailsFragmentToReviewsFragment(mediaId = viewModel.args.seriesId, mediaType = MediaType.SERIES))
         }

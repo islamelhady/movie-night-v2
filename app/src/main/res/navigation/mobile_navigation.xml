@@ -143,6 +143,9 @@
         <argument
             android:name="mediaId"
             app:argType="integer" />
+        <argument
+            android:name="mediaType"
+            app:argType="com.elhady.movies.domain.enums.MediaType" />
     </fragment>
     <fragment
         android:id="@+id/reviewsFragment"

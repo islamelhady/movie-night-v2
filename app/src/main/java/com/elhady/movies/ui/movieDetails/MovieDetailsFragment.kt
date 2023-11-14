@@ -53,7 +53,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
 
         when(event){
             is MovieDetailsUiEvent.ClickPlayTrailerEvent -> {
-                action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToVideoFragment(viewModel.args.movieID)
+                action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToVideoFragment(viewModel.args.movieID, MediaType.MOVIES)
             }
 
             MovieDetailsUiEvent.ClickBackButton -> findNavController().popBackStack()

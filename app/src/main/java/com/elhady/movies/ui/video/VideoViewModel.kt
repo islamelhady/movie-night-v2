@@ -29,7 +29,7 @@ class VideoViewModel @Inject constructor(
     override fun getData() {
         _trailerUiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            val result = getTrailerUseCase(args.mediaId)
+            val result = getTrailerUseCase(args.mediaType, args.mediaId)
             _trailerUiState.update { it.copy(videoKey = result.videoKey, isLoading = false) }
         }
     }
