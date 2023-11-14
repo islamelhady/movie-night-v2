@@ -9,6 +9,10 @@
             name="item"
             type="com.elhady.movies.ui.models.MediaUiState" />
 
+        <variable
+            name="listener"
+            type="com.elhady.movies.ui.search.ActorSearchInteractionListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,6 +28,7 @@
             android:layout_height="0dp"
             android:background="@color/gray"
             android:scaleType="centerCrop"
+            android:onClick="@{ () -> listener.onClickActor(item.id, item.name)}"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

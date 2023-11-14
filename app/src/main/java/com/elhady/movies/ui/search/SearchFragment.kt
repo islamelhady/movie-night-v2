@@ -1,6 +1,7 @@
 package com.elhady.movies.ui.search
 
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +15,8 @@ import com.elhady.movies.R
 import com.elhady.movies.databinding.FragmentSearchBinding
 import com.elhady.movies.ui.adapter.LoadAdapter
 import com.elhady.movies.ui.base.BaseFragment
+import com.elhady.movies.ui.seriesDetails.SeriesDetailsFragmentDirections
+import com.elhady.movies.utilities.Constants
 import com.elhady.movies.utilities.collect
 import com.elhady.movies.utilities.collectLast
 import com.elhady.movies.utilities.setSpanSize
@@ -35,12 +38,21 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private val oldValue = MutableStateFlow(SearchUiState())
 
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition =
+            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getSearchResultsBySearchTerm()
         collectEvent()
+        setHistoryAdapter()
+    }
+
+    private fun setHistoryAdapter() {
+        binding.recyclerSearchHistory.adapter = HistorySearchAdapter(mutableListOf(), viewModel)
     }
 
     private fun bindMedia() {
@@ -116,8 +128,22 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private fun onEvent(event: SearchUiEvent) {
         when(event){
             SearchUiEvent.ClickBackEvent -> findNavController().popBackStack()
-            SearchUiEvent.ClickRetryEvent -> TODO()
+            is SearchUiEvent.ClickActorEvent -> findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToActorDetailsFragment(event.actorId))
+            is SearchUiEvent.ClickMediaEvent -> {
+                when(event.mediaUiState.mediaTypes){
+                   Constants.MOVIE -> navigateToMovies(event.mediaUiState.id)
+                   Constants.TV_SERIES_SHOW -> navigateToSeries(event.mediaUiState.id)
+                }
+            }
         }
+    }
+
+    private fun navigateToMovies(movieId: Int){
+        findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToMovieDetailsFragment(movieId))
+    }
+
+    private fun navigateToSeries(seriesId: Int){
+        findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToTvShowDetailsFragment(seriesId))
     }
 
     @OptIn(FlowPreview::class)

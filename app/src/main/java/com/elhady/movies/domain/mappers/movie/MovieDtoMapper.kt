@@ -1,6 +1,7 @@
 package com.elhady.movies.domain.mappers.movie
 
 import com.elhady.movies.data.remote.response.movie.MovieDto
+import com.elhady.movies.domain.enums.MediaType
 import com.elhady.movies.domain.mappers.Mapper
 import com.elhady.movies.domain.models.Media
 import com.elhady.movies.utilities.Constants
@@ -12,7 +13,7 @@ class MovieDtoMapper @Inject constructor():Mapper<MovieDto, Media> {
             mediaID = input.id ?: 0,
             mediaName = input.title ?: "",
             mediaImage = (Constants.IMAGE_PATH + input.posterPath),
-            mediaType = "",
+            mediaType = MediaType.MOVIES.value,
             mediaRate = input.voteAverage?.toFloat() ?: 0f,
             mediaDate = input.releaseDate?.substringBefore('-') ?: ""
         )

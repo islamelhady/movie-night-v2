@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="item"
+            type="com.elhady.movies.ui.search.SearchHistoryUiState" />
+
+        <variable
+            name="listener"
+            type="com.elhady.movies.ui.search.HistoryInteractionListener" />
+
+    </data>
+
+    <TextView
+        android:id="@+id/text_search_history"
+        style="@style/Regular.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@{item.name}"
+        android:onClick="@{ () -> listener.onClickHistorySearch(item.name)}"
+        android:layout_marginTop="@dimen/spacing_too_small"
+        android:gravity="center_vertical"
+        app:drawableEndCompat="@drawable/ic_arrow_up_left"
+        android:drawablePadding="@dimen/spacing_too_small"
+        tools:text="@tools:sample/full_names">
+
+    </TextView>
+</layout>
