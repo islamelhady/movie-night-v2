@@ -12,7 +12,9 @@ import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
 import com.elhady.movies.data.remote.response.series.SeriesDetailsDto
 import com.elhady.movies.data.remote.response.series.SeriesDto
+import com.elhady.movies.data.remote.response.video.VideoDto
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 
 interface SeriesRepository {
 
@@ -47,4 +49,8 @@ interface SeriesRepository {
     fun getAllSeries(): Pager<Int, SeriesDto>
 
     suspend fun getGenreSeries(): List<GenreDto>?
+
+    suspend fun searchForSeriesPager(query: String): Pager<Int, SeriesDto>
+
+    suspend fun getSeriesTrailer(seriesId: Int): VideoDto?
 }

@@ -139,7 +139,14 @@
         android:id="@+id/videoFragment"
         android:name="com.elhady.movies.ui.video.VideoFragment"
         android:label="VideoFragment"
-        tools:layout="@layout/fragment_video" />
+        tools:layout="@layout/fragment_video" >
+        <argument
+            android:name="mediaId"
+            app:argType="integer" />
+        <argument
+            android:name="mediaType"
+            app:argType="com.elhady.movies.domain.enums.MediaType" />
+    </fragment>
     <fragment
         android:id="@+id/reviewsFragment"
         android:name="com.elhady.movies.ui.reviews.ReviewsFragment"
@@ -210,5 +217,15 @@
         android:id="@+id/searchFragment"
         android:name="com.elhady.movies.ui.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_actorDetailsFragment"
+            app:destination="@id/actorDetailsFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
+    </fragment>
 </navigation>

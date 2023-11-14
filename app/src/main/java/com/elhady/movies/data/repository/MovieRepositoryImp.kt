@@ -6,6 +6,7 @@ import androidx.paging.PagingConfig
 import com.elhady.movies.data.Constant
 import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.MovieDao
+import com.elhady.movies.data.local.database.entity.SearchHistoryEntity
 import com.elhady.movies.data.local.database.entity.movies.AdventureMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.MysteryMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.NowPlayingMovieEntity
@@ -26,7 +27,9 @@ import com.elhady.movies.data.remote.response.CreditsDto
 import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
+import com.elhady.movies.data.remote.response.video.VideoDto
 import com.elhady.movies.data.repository.mediaDataSource.movies.MovieDataSourceContainer
+import com.elhady.movies.data.repository.searchDataSource.MovieSearchDataSource
 import com.elhady.movies.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
@@ -43,7 +46,8 @@ class MovieRepositoryImp @Inject constructor(
     private val topRatedMovieMapper: TopRatedMovieMapper,
     private val mysteryMoviesMapper: MysteryMoviesMapper,
     private val adventureMoviesMapper: AdventureMoviesMapper,
-    private val movieDataSourceContainer: MovieDataSourceContainer
+    private val movieDataSourceContainer: MovieDataSourceContainer,
+    private val movieSearchDataSource: MovieSearchDataSource
 ) : MovieRepository, BaseRepository() {
 
     /**
@@ -358,5 +362,35 @@ class MovieRepositoryImp @Inject constructor(
      */
     override fun getAllMovies(): Pager<Int, MovieDto> {
         return Pager(config = pagingConfig, pagingSourceFactory = { movieDataSourceContainer.moviesDataSource })
+    }
+
+    /**
+     * Serach
+     * * movies
+     * * history
+     */
+    override suspend fun searchForMoviesPager(query: String): Pager<Int, MovieDto> {
+        val dataSource = movieSearchDataSource
+        dataSource.setSearch(query = query)
+        return Pager(config = pagingConfig, pagingSourceFactory = { dataSource })
+    }
+
+    override suspend fun insertSearchItem(item: SearchHistoryEntity) {
+        return movieDao.insertSearch(item)
+    }
+
+    override suspend fun deleteSearchItem(item: SearchHistoryEntity) {
+        return movieDao.deleteSearch(item)
+    }
+
+    override fun getAllSearchItems(): Flow<List<SearchHistoryEntity>> {
+        return movieDao.getAllSearch()
+    }
+
+    /**
+     * Video
+     */
+    override suspend fun getMovieTrailer(movieId: Int): VideoDto? {
+        return movieService.getMovieTrailer(movieId).body()
     }
 }
