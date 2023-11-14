@@ -388,7 +388,7 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     /**
-     * Vedio
+     * Video
      */
     override suspend fun getMovieTrailer(movieId: Int): VideoDto? {
         return movieService.getMovieTrailer(movieId).body()

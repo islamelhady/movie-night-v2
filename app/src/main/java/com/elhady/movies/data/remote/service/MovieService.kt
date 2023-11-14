@@ -194,10 +194,14 @@ interface MovieService {
 
     /**
      * Video
-     * *Movie
+     * * Movie
+     * * Series
      */
     @GET("movie/{movie_id}/videos")
     suspend fun getMovieTrailer(@Path("movie_id") movieId: Int): Response<VideoDto>
+
+    @GET("tv/{tv_id}/videos")
+    suspend fun getSeriesTrailer(@Path("tv_id") tvShowId: Int): Response<VideoDto>
 
 
     /**

@@ -18,6 +18,7 @@ import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
 import com.elhady.movies.data.remote.response.series.SeriesDetailsDto
 import com.elhady.movies.data.remote.response.series.SeriesDto
+import com.elhady.movies.data.remote.response.video.VideoDto
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.repository.mediaDataSource.series.SeriesDataSourceContainer
 import com.elhady.movies.data.repository.searchDataSource.SeriesSearchDataSource
@@ -206,6 +207,7 @@ class SeriesRepositoryImp @Inject constructor(
     override suspend fun getGenreSeries(): List<GenreDto>? {
         return movieService.getGenreSeries().body()?.genres
     }
+
     /**
      * Series By Genre
      */
@@ -213,14 +215,17 @@ class SeriesRepositoryImp @Inject constructor(
         return Pager(config = pagingConfig, pagingSourceFactory = {
             val seriesDataSource = seriesDataSourceContainer.seriesByGenreDataSource
             seriesDataSource.setGenre(genreId)
-            seriesDataSource })
+            seriesDataSource
+        })
     }
 
     /**
      * All Series
      */
     override fun getAllSeries(): Pager<Int, SeriesDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { seriesDataSourceContainer.seriesDataSource })
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = { seriesDataSourceContainer.seriesDataSource })
     }
 
     /**
@@ -232,4 +237,10 @@ class SeriesRepositoryImp @Inject constructor(
         return Pager(config = pagingConfig, pagingSourceFactory = { dataSource })
     }
 
+    /**
+     * Video
+     */
+    override suspend fun getSeriesTrailer(seriesId: Int): VideoDto? {
+        return movieService.getSeriesTrailer(seriesId).body()
+    }
 }
