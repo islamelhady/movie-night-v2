@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.elhady.movies.R
+import com.elhady.movies.data.remote.response.video.ResultDto
 import com.elhady.movies.databinding.ItemChipCategoryBinding
 import com.elhady.movies.ui.adapter.LoadAdapter
 import com.elhady.movies.ui.base.BasePagingAdapter
@@ -78,3 +79,7 @@ fun <T> ChipGroup.createChip(item: CategoryGenreUiState, listener: T): View {
     chipBinding.listener = listener as CategoryInteractionListener
     return chipBinding.root
 }
+
+fun List<ResultDto?>.getKey(): String? = this.map {
+    if (it?.type == "Trailer") return it.key
+}.toString()
