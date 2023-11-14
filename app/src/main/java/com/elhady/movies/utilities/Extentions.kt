@@ -18,6 +18,9 @@ import com.elhady.movies.ui.base.BasePagingAdapter
 import com.elhady.movies.ui.category.CategoryGenreUiState
 import com.elhady.movies.ui.category.CategoryInteractionListener
 import com.google.android.material.chip.ChipGroup
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -83,3 +86,12 @@ fun <T> ChipGroup.createChip(item: CategoryGenreUiState, listener: T): View {
 fun List<ResultDto?>.getKey(): String? = this.map {
     if (it?.type == "Trailer") return it.key
 }.toString()
+
+@BindingAdapter("app:setVideoId")
+fun setVideoId(view: YouTubePlayerView, videoId: String?) {
+    view.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+        override fun onReady(youTubePlayer: YouTubePlayer) {
+            videoId?.let { youTubePlayer.cueVideo(it, 0f) }
+        }
+    })
+}
