@@ -139,7 +139,11 @@
         android:id="@+id/videoFragment"
         android:name="com.elhady.movies.ui.video.VideoFragment"
         android:label="VideoFragment"
-        tools:layout="@layout/fragment_video" />
+        tools:layout="@layout/fragment_video" >
+        <argument
+            android:name="mediaId"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/reviewsFragment"
         android:name="com.elhady.movies.ui.reviews.ReviewsFragment"
