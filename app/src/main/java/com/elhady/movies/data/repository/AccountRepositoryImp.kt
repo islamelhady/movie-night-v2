@@ -40,7 +40,7 @@ class AccountRepositoryImp @Inject constructor(
     }
 
     override fun getSessionId(): String? {
-
+        return appConfiguration.getSessionId()
     }
 
     private suspend fun getRequestToken(): String {
@@ -49,7 +49,14 @@ class AccountRepositoryImp @Inject constructor(
     }
 
     private suspend fun createSession(requestToken: String) {
-        movieService.createSession(requestToken).body()
+        val sessionResponse = movieService.createSession(requestToken).body()
+        if (sessionResponse?.success == true){
+            saveSession(sessionResponse.sessionId.toString())
+        }
+    }
+
+    private suspend fun saveSession(sessionId: String){
+        appConfiguration.saveSessionId(sessionId)
     }
 
 }
