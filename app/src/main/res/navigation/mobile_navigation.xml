@@ -192,6 +192,9 @@
         <action
             android:id="@+id/action_tvShowDetailsFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
+        <action
+            android:id="@+id/action_tvShowDetailsFragment_self"
+            app:destination="@id/tvShowDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/episodesFragment"
@@ -256,5 +259,12 @@
         android:id="@+id/watchHistoryFragment"
         android:name="com.elhady.movies.ui.profile.watchHistory.WatchHistoryFragment"
         android:label="fragment_watch_history"
-        tools:layout="@layout/fragment_watch_history" />
+        tools:layout="@layout/fragment_watch_history" >
+        <action
+            android:id="@+id/action_watchHistoryFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
+        <action
+            android:id="@+id/action_watchHistoryFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+    </fragment>
 </navigation>
