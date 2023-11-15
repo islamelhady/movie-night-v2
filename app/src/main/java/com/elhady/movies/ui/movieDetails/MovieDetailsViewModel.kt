@@ -3,6 +3,7 @@ package com.elhady.movies.ui.movieDetails
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.models.MovieDetails
+import com.elhady.movies.domain.usecases.GetSessionIdUseCase
 import com.elhady.movies.domain.usecases.movieDetails.GetMovieDetailsUseCase
 import com.elhady.movies.domain.usecases.movieDetails.GetMovieRateUseCase
 import com.elhady.movies.domain.usecases.movieDetails.InsertWatchMoviesUseCase
@@ -28,7 +29,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val movieDetailsUiMapper: MovieDetailsUiMapper,
     private val insertMoviesUseCase: InsertWatchMoviesUseCase,
     private val getMovieRateUseCase: GetMovieRateUseCase,
-    private val getsession
+    private val getSessionIdUseCase: GetSessionIdUseCase,
     private val actorUiMapper: ActorUiMapper,
     private val mediaUiMapper: MediaUiMapper,
     private val reviewUiMapper: ReviewUiMapper
@@ -54,6 +55,7 @@ class MovieDetailsViewModel @Inject constructor(
         getMovieCast(args.movieID)
         getSimilarMovies(args.movieID)
         getMovieReviews(args.movieID)
+        getLoginStatus()
     }
 
     private suspend fun addToWatchHistory(movie: MovieDetails){
@@ -142,7 +144,12 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun getLoginStatus(){
-        if (getlo)
+        if (!getSessionIdUseCase().isNullOrEmpty()){
+            _detailsUiState.update {
+                it.copy(isLogin = true)
+            }
+            getRatedMovie(args.movieID)
+        }
     }
     private fun getRatedMovie(movieId: Int){
         viewModelScope.launch {
@@ -150,6 +157,7 @@ class MovieDetailsViewModel @Inject constructor(
             _detailsUiState.update {
                 it.copy(ratingValue = result)
             }
+            onAddMovieDetailsItemOfNestedView(DetailsItem.Rating(this@MovieDetailsViewModel))
         }
     }
 
