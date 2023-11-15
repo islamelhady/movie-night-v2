@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.elhady.movies.data.local.database.entity.SearchHistoryEntity
+import com.elhady.movies.data.local.database.entity.WatchHistoryEntity
 import com.elhady.movies.data.local.database.entity.movies.AdventureMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.MysteryMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.NowPlayingMovieEntity
@@ -116,5 +117,17 @@ interface MovieDao {
 
     @Query("select * from SEARCH_HISTORY_TABLE")
     fun getAllSearch(): Flow<List<SearchHistoryEntity>>
+
+    /**
+     *  Watch History
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertWatch(item: WatchHistoryEntity)
+
+    @Delete
+    suspend fun deleteWatch(item: WatchHistoryEntity)
+
+    @Query("select * from SEARCH_HISTORY_TABLE")
+    fun getAllWatch(): Flow<List<WatchHistoryEntity>>
 
 }
