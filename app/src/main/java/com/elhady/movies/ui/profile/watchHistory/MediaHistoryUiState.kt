@@ -1,5 +1,7 @@
 package com.elhady.movies.ui.profile.watchHistory
 
+import com.elhady.movies.domain.enums.MediaType
+
 data class MediaHistoryUiState(
     val id: Int,
     var image: String,
@@ -7,5 +9,5 @@ data class MediaHistoryUiState(
     var mediaDuration: Int,
     var voteAverage: String,
     var releaseDate: String,
-    var mediaType: String
+    var mediaType: String = MediaType.MOVIES.value
 )
