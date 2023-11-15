@@ -2,6 +2,7 @@ package com.elhady.movies.data.repository
 
 import com.elhady.movies.data.DataClassParser
 import com.elhady.movies.data.local.AppConfiguration
+import com.elhady.movies.data.remote.response.account.AccountDto
 import com.elhady.movies.data.remote.response.login.ErrorResponse
 import com.elhady.movies.data.remote.service.MovieService
 import javax.inject.Inject
@@ -41,6 +42,10 @@ class AccountRepositoryImp @Inject constructor(
 
     override fun getSessionId(): String? {
         return appConfiguration.getSessionId()
+    }
+
+    override suspend fun getAccountDetails(): AccountDto? {
+        return movieService.getAccountDetails().body()
     }
 
     private suspend fun getRequestToken(): String {

@@ -209,8 +209,8 @@ interface MovieService {
      * * Details
      */
 
-    @GET("account/{account_id}")
-    suspend fun getAccountDetails(@Path("account_id") accountId: Int): Response<AccountDto>
+    @GET("account")
+    suspend fun getAccountDetails(@Query("session_id") sessionId: String? = ""): Response<AccountDto>
 
 
     /**
