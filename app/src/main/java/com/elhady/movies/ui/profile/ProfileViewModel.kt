@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.CheckIfLoggedInUseCase
 import com.elhady.movies.domain.usecases.GetAccountDetailsUseCase
 import com.elhady.movies.ui.base.BaseViewModel
+import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,6 +21,9 @@ class ProfileViewModel @Inject constructor(
 
     private val _profileUiState = MutableStateFlow(ProfileUiState())
     val profileUiState = _profileUiState.asStateFlow()
+
+    private val _profileUIEvent=MutableStateFlow<Event<ProfileUiEvent>?>(null)
+    val profileUIEvent= _profileUIEvent.asStateFlow()
 
     init {
         getData()
@@ -48,4 +52,18 @@ class ProfileViewModel @Inject constructor(
             }
         }
     }
+
+    fun onClickRatedMovies() {
+        _profileUIEvent.update { Event(ProfileUiEvent.RatedMoviesEvent) }
+    }
+
+    fun onClickLogout() {
+        _profileUIEvent.update { Event(ProfileUiEvent.DialogLogoutEvent) }
+    }
+
+    fun onClickWatchHistory() {
+        _profileUIEvent.update { Event(ProfileUiEvent.WatchHistoryEvent) }
+    }
+
+
 }

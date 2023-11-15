@@ -25,7 +25,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:posterImage="@{viewModel.profileUiState.avatarPath}"
+            app:movieImage="@{viewModel.profileUiState.avatarPath}"
             app:shapeAppearanceOverlay="@style/Circle"
             tools:background="@tools:sample/avatars" />
 
@@ -61,6 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_extra_large"
+            android:onClick="@{ () -> viewModel.onClickWatchHistory()}"
             android:drawableStart="@drawable/ic_play"
             android:gravity="center_vertical"
             android:drawablePadding="@dimen/spacing_medium"
@@ -88,6 +89,7 @@
             android:layout_marginHorizontal="@dimen/spacing_medium"
             app:drawableStartCompat="@drawable/ic_star_outline"
             app:drawableTint="@color/red"
+            android:onClick="@{ () -> viewModel.onClickRatedMovies()}"
             android:drawablePadding="@dimen/spacing_medium"
             android:paddingVertical="@dimen/spacing_medium"
             android:text="@string/rated_movies"
@@ -116,6 +118,7 @@
             android:drawableStart="@drawable/ic_logout"
             android:drawablePadding="@dimen/spacing_medium"
             android:paddingVertical="@dimen/spacing_medium"
+            android:onClick="@{ () -> viewModel.onClickLogout()}"
             android:text="@string/sign_out"
             android:textColor="@color/shade_ternary_color"
             app:layout_constraintEnd_toEndOf="parent"

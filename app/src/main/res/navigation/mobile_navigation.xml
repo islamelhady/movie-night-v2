@@ -58,7 +58,17 @@
         android:id="@+id/profileFragment"
         android:name="com.elhady.movies.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_logoutDialog"
+            app:destination="@id/logoutDialog" />
+        <action
+            android:id="@+id/action_profileFragment_to_ratingFragment"
+            app:destination="@id/ratingFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_watchHistoryFragment"
+            app:destination="@id/watchHistoryFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.elhady.movies.ui.login.LoginFragment"
@@ -228,4 +238,19 @@
             android:id="@+id/action_searchFragment_to_tvShowDetailsFragment"
             app:destination="@id/tvShowDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/logoutDialog"
+        android:name="com.elhady.movies.ui.profile.logout.LogoutDialog"
+        android:label="fragment_logout_dialog"
+        tools:layout="@layout/fragment_logout_dialog" />
+    <fragment
+        android:id="@+id/ratingFragment"
+        android:name="com.elhady.movies.ui.profile.ratings.RatingFragment"
+        android:label="fragment_rating"
+        tools:layout="@layout/fragment_rating" />
+    <fragment
+        android:id="@+id/watchHistoryFragment"
+        android:name="com.elhady.movies.ui.profile.watchHistory.WatchHistoryFragment"
+        android:label="fragment_watch_history"
+        tools:layout="@layout/fragment_watch_history" />
 </navigation>
