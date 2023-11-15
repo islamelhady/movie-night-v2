@@ -15,7 +15,7 @@ abstract class BaseDialog<VDB : ViewDataBinding> : DialogFragment() {
     abstract val viewModel: ViewModel
 
     private lateinit var _binding: VDB
-    protected var binding: VDB
+    protected val binding: VDB
         get() = _binding
 
     override fun onCreateView(

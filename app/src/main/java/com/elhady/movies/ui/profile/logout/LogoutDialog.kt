@@ -11,7 +11,9 @@ import com.elhady.movies.databinding.FragmentLogoutDialogBinding
 import com.elhady.movies.ui.base.BaseDialog
 import com.elhady.movies.utilities.collectLast
 import com.elhady.movies.utilities.setWidthPercent
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LogoutDialog : BaseDialog<FragmentLogoutDialogBinding>() {
 
     override val layoutIdFragment: Int = R.layout.fragment_logout_dialog
