@@ -48,6 +48,10 @@ class AccountRepositoryImp @Inject constructor(
         return movieService.getAccountDetails().body()
     }
 
+    override suspend fun logout() {
+        appConfiguration.saveSessionId("")
+    }
+
     private suspend fun getRequestToken(): String {
         val tokenResponse = movieService.getRequestToken()
         return tokenResponse.body()?.requestToken.toString()
