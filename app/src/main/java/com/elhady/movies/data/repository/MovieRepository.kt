@@ -72,4 +72,8 @@ interface MovieRepository {
 
     suspend fun insertMovieWatch(movie: WatchHistoryEntity)
 
+    suspend fun deleteMovieWatch(movie: WatchHistoryEntity)
+
+    fun getAllMoviesWatch(): Flow<List<WatchHistoryEntity>>
+
 }
