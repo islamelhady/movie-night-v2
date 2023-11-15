@@ -11,6 +11,7 @@ import com.elhady.movies.data.local.database.entity.movies.TopRatedMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.TrendingMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.UpcomingMovieEntity
 import com.elhady.movies.data.remote.response.CreditsDto
+import com.elhady.movies.data.remote.response.RatedMovieDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
@@ -75,5 +76,7 @@ interface MovieRepository {
     suspend fun deleteMovieWatch(movie: WatchHistoryEntity)
 
     fun getAllMoviesWatch(): Flow<List<WatchHistoryEntity>>
+
+    suspend fun getRatedMovie(): List<RatedMovieDto>?
 
 }

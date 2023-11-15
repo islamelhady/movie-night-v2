@@ -25,6 +25,7 @@ import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.local.mappers.movies.PopularMovieMapper
 import com.elhady.movies.data.local.mappers.movies.TopRatedMovieMapper
 import com.elhady.movies.data.remote.response.CreditsDto
+import com.elhady.movies.data.remote.response.RatedMovieDto
 import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
@@ -410,5 +411,9 @@ class MovieRepositoryImp @Inject constructor(
 
     override fun getAllMoviesWatch(): Flow<List<WatchHistoryEntity>> {
         return movieDao.getAllWatch()
+    }
+
+    override suspend fun getRatedMovie(): List<RatedMovieDto>? {
+        return movieService.getRatedMovie().body()?.items
     }
 }
