@@ -250,16 +250,9 @@ class SeriesRepositoryImp @Inject constructor(
     /**
      * Watch
      */
-    override suspend fun insertSeriesWatch(movie: WatchHistoryEntity) {
-        movieDao.insertWatch(movie)
+    override suspend fun insertSeriesWatch(series: WatchHistoryEntity) {
+        movieDao.insertWatch(series)
     }
 
-    override suspend fun deleteSeriesWatch(movie: WatchHistoryEntity) {
-        movieDao.deleteWatch(movie)
-        TODO()
-    }
 
-    override fun getAllSeriesWatch(): Flow<List<WatchHistoryEntity>> {
-        return movieDao.getAllWatch()
-    }
 }

@@ -57,7 +57,5 @@ interface SeriesRepository {
 
     suspend fun insertSeriesWatch(movie: WatchHistoryEntity)
 
-    suspend fun deleteSeriesWatch(movie: WatchHistoryEntity)
 
-    fun getAllSeriesWatch(): Flow<List<WatchHistoryEntity>>
 }
