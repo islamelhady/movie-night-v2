@@ -1,32 +1,14 @@
 package com.elhady.movies.ui.profile.watchHistory
 
-import androidx.lifecycle.ViewModelProvider
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.elhady.movies.R
+import com.elhady.movies.databinding.FragmentWatchHistoryBinding
+import com.elhady.movies.ui.base.BaseFragment
 
-class WatchHistoryFragment : Fragment() {
+class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding>() {
 
-    companion object {
-        fun newInstance() = WatchHistoryFragment()
-    }
+    override val layoutIdFragment: Int = R.layout.fragment_watch_history
+    override val viewModel: WatchHistoryViewModel by viewModels()
 
-    private lateinit var viewModel: WatchHistoryViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_watch_history, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(WatchHistoryViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
 
 }
