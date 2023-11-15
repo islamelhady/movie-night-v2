@@ -71,7 +71,7 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideAccountRepository(movieService: MovieService, dataClassParser: DataClassParser): AccountRepository{
-        return AccountRepositoryImp(movieService, dataClassParser)
+    fun provideAccountRepository(movieService: MovieService, dataClassParser: DataClassParser, appConfiguration: AppConfiguration): AccountRepository{
+        return AccountRepositoryImp(movieService, dataClassParser, appConfiguration)
     }
 }
