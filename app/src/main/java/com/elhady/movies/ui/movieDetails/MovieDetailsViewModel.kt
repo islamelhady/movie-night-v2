@@ -2,7 +2,9 @@ package com.elhady.movies.ui.movieDetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.domain.models.MovieDetails
 import com.elhady.movies.domain.usecases.movieDetails.GetMovieDetailsUseCase
+import com.elhady.movies.domain.usecases.movieDetails.InsertMoviesUseCase
 import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
@@ -24,6 +26,7 @@ class MovieDetailsViewModel @Inject constructor(
     state: SavedStateHandle,
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
     private val movieDetailsUiMapper: MovieDetailsUiMapper,
+    private val insertMoviesUseCase: InsertMoviesUseCase,
     private val actorUiMapper: ActorUiMapper,
     private val mediaUiMapper: MediaUiMapper,
     private val reviewUiMapper: ReviewUiMapper
@@ -51,14 +54,18 @@ class MovieDetailsViewModel @Inject constructor(
         getMovieReviews(args.movieID)
     }
 
+    suspend fun addToWatchHistory(movie: MovieDetails){
+        insertMoviesUseCase(movie)
+    }
     private fun getMovieDetails(movieId: Int) {
         viewModelScope.launch {
             try {
-                val result = movieDetailsUiMapper.map(getMovieDetailsUseCase.getMovieDetails(movieId))
+                val result = getMovieDetailsUseCase.getMovieDetails(movieId)
                 _detailsUiState.update {
-                    it.copy(movieDetailsResult = result, isLoading = false)
+                    it.copy(movieDetailsResult =  movieDetailsUiMapper.map(result), isLoading = false)
                 }
                 onAddMovieDetailsItemOfNestedView(DetailsItem.Header(_detailsUiState.value.movieDetailsResult))
+                addToWatchHistory(result)
             } catch (e: Exception) {
                 _detailsUiState.update {
                     it.copy(

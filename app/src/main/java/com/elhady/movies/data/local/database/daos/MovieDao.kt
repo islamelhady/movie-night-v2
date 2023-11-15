@@ -127,7 +127,7 @@ interface MovieDao {
     @Delete
     suspend fun deleteWatch(item: WatchHistoryEntity)
 
-    @Query("select * from SEARCH_HISTORY_TABLE")
+    @Query("select * from WATCH_HISTORY_TABLE")
     fun getAllWatch(): Flow<List<WatchHistoryEntity>>
 
 }
