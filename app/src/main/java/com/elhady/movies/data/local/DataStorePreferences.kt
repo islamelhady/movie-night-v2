@@ -35,7 +35,7 @@ class DataStorePreferences(context: Context) {
         }
     }
 
-    suspend fun readString(key: String): String? {
+    fun readString(key: String): String? {
         return runBlocking { prefDataStore.data.map { it[stringPreferencesKey(key)] }.first() }
     }
 

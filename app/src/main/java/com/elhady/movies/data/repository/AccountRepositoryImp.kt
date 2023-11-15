@@ -1,13 +1,15 @@
 package com.elhady.movies.data.repository
 
 import com.elhady.movies.data.DataClassParser
+import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.remote.response.login.ErrorResponse
 import com.elhady.movies.data.remote.service.MovieService
 import javax.inject.Inject
 
 class AccountRepositoryImp @Inject constructor(
     private val movieService: MovieService,
-    val dataClassParser: DataClassParser
+    private val dataClassParser: DataClassParser,
+    private val appConfiguration: AppConfiguration,
 ) :
     AccountRepository {
     override suspend fun loginWithUsernameAndPassword(userName: String, password: String): Boolean {
@@ -35,6 +37,10 @@ class AccountRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             throw Throwable(e)
         }
+    }
+
+    override fun getSessionId(): String? {
+
     }
 
     private suspend fun getRequestToken(): String {

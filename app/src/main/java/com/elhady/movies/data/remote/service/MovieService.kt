@@ -3,6 +3,7 @@ package com.elhady.movies.data.remote.service
 import com.elhady.movies.data.remote.response.BaseResponse
 import com.elhady.movies.data.remote.response.CreditsDto
 import com.elhady.movies.data.remote.response.TrendingDto
+import com.elhady.movies.data.remote.response.account.AccountDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.actor.PersonDto
 import com.elhady.movies.data.remote.response.actor.MovieCreditsDto
@@ -202,6 +203,14 @@ interface MovieService {
 
     @GET("tv/{tv_id}/videos")
     suspend fun getSeriesTrailer(@Path("tv_id") tvShowId: Int): Response<VideoDto>
+
+    /**
+     * Account
+     * * Details
+     */
+
+    @GET("account/{account_id}")
+    suspend fun getAccountDetails(@Path("account_id") accountId: Int): Response<AccountDto>
 
 
     /**
