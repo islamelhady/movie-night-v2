@@ -242,7 +242,11 @@
         android:id="@+id/logoutDialog"
         android:name="com.elhady.movies.ui.profile.logout.LogoutDialog"
         android:label="fragment_logout_dialog"
-        tools:layout="@layout/fragment_logout_dialog" />
+        tools:layout="@layout/fragment_logout_dialog" >
+        <action
+            android:id="@+id/action_logoutDialog_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/ratingFragment"
         android:name="com.elhady.movies.ui.profile.ratings.RatingFragment"
