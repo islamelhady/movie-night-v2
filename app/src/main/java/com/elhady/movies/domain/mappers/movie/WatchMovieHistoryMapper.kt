@@ -7,7 +7,7 @@ import com.elhady.movies.domain.models.MovieDetails
 import com.elhady.movies.utilities.Constants
 import javax.inject.Inject
 
-class WatchHistoryMapper @Inject constructor() : Mapper<MovieDetails, WatchHistoryEntity> {
+class WatchMovieHistoryMapper @Inject constructor() : Mapper<MovieDetails, WatchHistoryEntity> {
     override fun map(input: MovieDetails): WatchHistoryEntity {
         return WatchHistoryEntity(
             id = input.id,

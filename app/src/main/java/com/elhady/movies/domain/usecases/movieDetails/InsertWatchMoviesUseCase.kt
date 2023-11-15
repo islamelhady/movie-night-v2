@@ -1,13 +1,13 @@
 package com.elhady.movies.domain.usecases.movieDetails
 
 import com.elhady.movies.data.repository.MovieRepository
-import com.elhady.movies.domain.mappers.movie.WatchHistoryMapper
+import com.elhady.movies.domain.mappers.movie.WatchMovieHistoryMapper
 import com.elhady.movies.domain.models.MovieDetails
 import javax.inject.Inject
 
-class InsertMoviesUseCase @Inject constructor(
+class InsertWatchMoviesUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
-    private val watchHistoryMapper: WatchHistoryMapper
+    private val watchHistoryMapper: WatchMovieHistoryMapper
 ) {
     suspend operator fun invoke(movie: MovieDetails) {
         val movieWatch = watchHistoryMapper.map(movie)
