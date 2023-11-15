@@ -1,6 +1,7 @@
 package com.elhady.movies.data.repository
 
 import androidx.paging.Pager
+import com.elhady.movies.data.local.database.entity.WatchHistoryEntity
 import com.elhady.movies.data.local.database.entity.series.AiringTodaySeriesEntity
 import com.elhady.movies.data.local.database.entity.series.OnTheAirSeriesEntity
 import com.elhady.movies.data.local.database.entity.series.TVSeriesListsEntity
@@ -53,4 +54,8 @@ interface SeriesRepository {
     suspend fun searchForSeriesPager(query: String): Pager<Int, SeriesDto>
 
     suspend fun getSeriesTrailer(seriesId: Int): VideoDto?
+
+    suspend fun insertSeriesWatch(movie: WatchHistoryEntity)
+
+
 }

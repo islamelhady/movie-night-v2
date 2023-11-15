@@ -2,7 +2,9 @@ package com.elhady.movies.ui.seriesDetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.domain.models.SeriesDetails
 import com.elhady.movies.domain.usecases.seriesDetails.GetSeriesDetailsUseCase
+import com.elhady.movies.domain.usecases.seriesDetails.InsertWatchSeriesUseCase
 import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
@@ -25,6 +27,7 @@ class SeriesDetailsViewModel @Inject constructor(
     state: SavedStateHandle,
     private val getSeriesDetailsUseCase: GetSeriesDetailsUseCase,
     private val seriesDetailsUiMapper: SeriesDetailsUiMapper,
+    private val insertWatchSeriesUseCase: InsertWatchSeriesUseCase,
     private val actorUiMapper: ActorUiMapper,
     private val mediaUiMapper: MediaUiMapper,
     private val seasonUiMapper: SeasonUiMapper,
@@ -52,17 +55,20 @@ class SeriesDetailsViewModel @Inject constructor(
         getSeriesReview(args.seriesId)
     }
 
+    suspend fun addWatchHistory(series: SeriesDetails){
+        insertWatchSeriesUseCase(series)
+    }
 
     private fun getTVShowDetails(tvShowId: Int) {
         viewModelScope.launch {
-            val result =
-                seriesDetailsUiMapper.map(getSeriesDetailsUseCase.getSeriesDetails(tvShowId))
+            val result = getSeriesDetailsUseCase.getSeriesDetails(tvShowId)
             _seriesUiState.update {
                 it.copy(
-                    seriesDetailsResult = result
+                    seriesDetailsResult =  seriesDetailsUiMapper.map(result)
                 )
             }
             onAddMovieDetailsItemOfNestedView(SeriesItems.Header(_seriesUiState.value.seriesDetailsResult))
+            addWatchHistory(result)
         }
     }
 

@@ -12,6 +12,14 @@ class AppConfigurationImp @Inject constructor(private val dataStorePreferences: 
         dataStorePreferences.writeLong(key, value)
     }
 
+    override suspend fun saveSessionId(value: String) {
+        dataStorePreferences.writeString(SESSION_ID_KEY, value)
+    }
+
+    override fun getSessionId(): String? {
+        return dataStorePreferences.readString(SESSION_ID_KEY)
+    }
+
     companion object DataStorePreferencesKeys {
         const val SESSION_ID_KEY = "session_id"
     }

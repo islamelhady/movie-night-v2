@@ -7,6 +7,7 @@ import com.elhady.movies.data.Constant
 import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.MovieDao
 import com.elhady.movies.data.local.database.entity.SearchHistoryEntity
+import com.elhady.movies.data.local.database.entity.WatchHistoryEntity
 import com.elhady.movies.data.local.database.entity.movies.AdventureMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.MysteryMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.NowPlayingMovieEntity
@@ -381,6 +382,7 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun deleteSearchItem(item: SearchHistoryEntity) {
         return movieDao.deleteSearch(item)
+        TODO()
     }
 
     override fun getAllSearchItems(): Flow<List<SearchHistoryEntity>> {
@@ -392,5 +394,21 @@ class MovieRepositoryImp @Inject constructor(
      */
     override suspend fun getMovieTrailer(movieId: Int): VideoDto? {
         return movieService.getMovieTrailer(movieId).body()
+    }
+
+    /**
+     * Watch
+     */
+    override suspend fun insertMovieWatch(movie: WatchHistoryEntity) {
+        movieDao.insertWatch(movie)
+    }
+
+    override suspend fun deleteMovieWatch(movie: WatchHistoryEntity) {
+        movieDao.deleteWatch(movie)
+        TODO()
+    }
+
+    override fun getAllMoviesWatch(): Flow<List<WatchHistoryEntity>> {
+        return movieDao.getAllWatch()
     }
 }

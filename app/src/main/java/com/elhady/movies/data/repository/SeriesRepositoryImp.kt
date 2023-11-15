@@ -3,7 +3,9 @@ package com.elhady.movies.data.repository
 import androidx.paging.Pager
 import com.elhady.movies.data.Constant
 import com.elhady.movies.data.local.AppConfiguration
+import com.elhady.movies.data.local.database.daos.MovieDao
 import com.elhady.movies.data.local.database.daos.SeriesDao
+import com.elhady.movies.data.local.database.entity.WatchHistoryEntity
 import com.elhady.movies.data.local.database.entity.series.AiringTodaySeriesEntity
 import com.elhady.movies.data.local.database.entity.series.OnTheAirSeriesEntity
 import com.elhady.movies.data.local.database.entity.series.TVSeriesListsEntity
@@ -32,6 +34,7 @@ class SeriesRepositoryImp @Inject constructor(
     private val airingSeriesMapper: AiringTodaySeriesMapper,
     private val tvSeriesListsMapper: TVSeriesListsMapper,
     private val seriesDao: SeriesDao,
+    private val movieDao: MovieDao,
     private val appConfiguration: AppConfiguration,
     private val seriesDataSourceContainer: SeriesDataSourceContainer,
     private val seriesSearchDataSource: SeriesSearchDataSource
@@ -243,4 +246,13 @@ class SeriesRepositoryImp @Inject constructor(
     override suspend fun getSeriesTrailer(seriesId: Int): VideoDto? {
         return movieService.getSeriesTrailer(seriesId).body()
     }
+
+    /**
+     * Watch
+     */
+    override suspend fun insertSeriesWatch(series: WatchHistoryEntity) {
+        movieDao.insertWatch(series)
+    }
+
+
 }

@@ -59,8 +59,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideSeriesRepository(movieService: MovieService, onTheAirSeriesMapper: OnTheAirSeriesMapper, airingSeriesMapper: AiringTodaySeriesMapper, tvSeriesListsMapper: TVSeriesListsMapper, seriesDao: SeriesDao, appConfiguration: AppConfiguration,seriesDataSourceContainer: SeriesDataSourceContainer, seriesSearchDataSource: SeriesSearchDataSource): SeriesRepository{
-        return SeriesRepositoryImp(movieService,onTheAirSeriesMapper, airingSeriesMapper,tvSeriesListsMapper , seriesDao, appConfiguration, seriesDataSourceContainer, seriesSearchDataSource)
+    fun provideSeriesRepository(movieService: MovieService, onTheAirSeriesMapper: OnTheAirSeriesMapper, airingSeriesMapper: AiringTodaySeriesMapper, tvSeriesListsMapper: TVSeriesListsMapper, seriesDao: SeriesDao, appConfiguration: AppConfiguration,seriesDataSourceContainer: SeriesDataSourceContainer, seriesSearchDataSource: SeriesSearchDataSource, movieDao: MovieDao): SeriesRepository{
+        return SeriesRepositoryImp(movieService,onTheAirSeriesMapper, airingSeriesMapper,tvSeriesListsMapper , seriesDao, movieDao, appConfiguration, seriesDataSourceContainer, seriesSearchDataSource)
     }
 
     @Provides
@@ -71,7 +71,7 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideAccountRepository(movieService: MovieService, dataClassParser: DataClassParser): AccountRepository{
-        return AccountRepositoryImp(movieService, dataClassParser)
+    fun provideAccountRepository(movieService: MovieService, dataClassParser: DataClassParser, appConfiguration: AppConfiguration): AccountRepository{
+        return AccountRepositoryImp(movieService, dataClassParser, appConfiguration)
     }
 }

@@ -2,6 +2,7 @@ package com.elhady.movies.data.repository
 
 import androidx.paging.Pager
 import com.elhady.movies.data.local.database.entity.SearchHistoryEntity
+import com.elhady.movies.data.local.database.entity.WatchHistoryEntity
 import com.elhady.movies.data.local.database.entity.movies.AdventureMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.MysteryMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.NowPlayingMovieEntity
@@ -68,5 +69,11 @@ interface MovieRepository {
     fun getAllSearchItems(): Flow<List<SearchHistoryEntity>>
 
     suspend fun getMovieTrailer(movieId: Int): VideoDto?
+
+    suspend fun insertMovieWatch(movie: WatchHistoryEntity)
+
+    suspend fun deleteMovieWatch(movie: WatchHistoryEntity)
+
+    fun getAllMoviesWatch(): Flow<List<WatchHistoryEntity>>
 
 }

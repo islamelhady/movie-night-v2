@@ -1,10 +1,14 @@
 package com.elhady.movies.utilities
 
+import android.content.res.Resources
+import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -94,4 +98,13 @@ fun setVideoId(view: YouTubePlayerView, videoId: String?) {
             videoId?.let { youTubePlayer.cueVideo(it, 0f) }
         }
     })
+}
+
+fun DialogFragment.setWidthPercent(percentage: Int) {
+    val percent = percentage.toFloat() / 100
+    val dm = Resources.getSystem().displayMetrics
+    val rect = dm.run { Rect(0, 0, widthPixels, heightPixels) }
+    val percentWidth = rect.width() * percent
+    dialog?.window?.setLayout(percentWidth.toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
+    dialog?.setCanceledOnTouchOutside(false)
 }
