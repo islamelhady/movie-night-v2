@@ -15,7 +15,7 @@ import javax.inject.Inject
 class WatchHistoryViewModel @Inject constructor(
     private val getWatchHistoryUseCase: GetWatchHistoryUseCase,
     private val watchHistoryUiMapper: WatchHistoryUiMapper
-) : BaseViewModel() {
+) : BaseViewModel(), WatchHistoryInteractionListener {
 
     private val _uiState = MutableStateFlow(WatchHistoryUiState())
     val uiState = _uiState.asStateFlow()
@@ -34,6 +34,10 @@ class WatchHistoryViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    override fun onClickMedia(item: MediaHistoryUiState) {
+        TODO("Not yet implemented")
     }
 
 

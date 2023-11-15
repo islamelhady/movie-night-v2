@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.elhady.movies.ui.profile.watchHistory.WatchHistoryViewModel" />
 
     </data>
 
@@ -17,10 +20,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:items="@{ viewModel.uiState.allMedia}"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/spacing_medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/item_watch_history"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
