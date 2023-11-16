@@ -2,6 +2,7 @@ package com.elhady.movies.ui.movieDetails
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
@@ -68,6 +69,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
             }
 
             MovieDetailsUiEvent.ClickSeeReviewsEvent -> action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewsFragment(mediaId = viewModel.args.movieID, mediaType = MediaType.MOVIES)
+            MovieDetailsUiEvent.MessageAppear -> Toast.makeText(context, R.string.submit_toast, Toast.LENGTH_LONG).show()
         }
 
         action?.let {
