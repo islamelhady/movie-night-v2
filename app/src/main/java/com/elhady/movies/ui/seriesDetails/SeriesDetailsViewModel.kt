@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.models.SeriesDetails
 import com.elhady.movies.domain.usecases.seriesDetails.GetSeriesDetailsUseCase
 import com.elhady.movies.domain.usecases.seriesDetails.InsertWatchSeriesUseCase
+import com.elhady.movies.domain.usecases.seriesDetails.SetRatingUseCase
 import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
@@ -28,6 +29,7 @@ class SeriesDetailsViewModel @Inject constructor(
     private val getSeriesDetailsUseCase: GetSeriesDetailsUseCase,
     private val seriesDetailsUiMapper: SeriesDetailsUiMapper,
     private val insertWatchSeriesUseCase: InsertWatchSeriesUseCase,
+    private val setRatingUseCase: SetRatingUseCase,
     private val actorUiMapper: ActorUiMapper,
     private val mediaUiMapper: MediaUiMapper,
     private val seasonUiMapper: SeasonUiMapper,
@@ -55,7 +57,7 @@ class SeriesDetailsViewModel @Inject constructor(
         getSeriesReview(args.seriesId)
     }
 
-    suspend fun addWatchHistory(series: SeriesDetails){
+    private suspend fun addWatchHistory(series: SeriesDetails){
         insertWatchSeriesUseCase(series)
     }
 
@@ -128,16 +130,6 @@ class SeriesDetailsViewModel @Inject constructor(
 
     }
 
-    private fun setReview(seeAllReviews: Boolean) {
-        _seriesUiState.value.seriesReviewResult.forEach {
-            onAddMovieDetailsItemOfNestedView(SeriesItems.Review(it))
-        }
-        onAddMovieDetailsItemOfNestedView(SeriesItems.ReviewText)
-        if (seeAllReviews) {
-            onAddMovieDetailsItemOfNestedView(SeriesItems.ReviewText)
-        }
-
-    }
 
 
     private fun onAddMovieDetailsItemOfNestedView(items: SeriesItems) {
