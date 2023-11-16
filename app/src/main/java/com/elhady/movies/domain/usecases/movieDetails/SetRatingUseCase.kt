@@ -5,8 +5,14 @@ import com.elhady.movies.domain.mappers.movie.RatingStatusMoviesMapper
 import com.elhady.movies.domain.models.RatingStatus
 import javax.inject.Inject
 
-class SetRatingUseCase @Inject constructor(private val movieRepository: MovieRepository, private val ratingStatusMoviesMapper: RatingStatusMoviesMapper) {
-    suspend operator fun invoke(): RatingStatus{
-        movieRepository.setRateMovie(movieId = , value = )
+class SetRatingUseCase @Inject constructor(
+    private val movieRepository: MovieRepository,
+    private val ratingStatusMoviesMapper: RatingStatusMoviesMapper
+) {
+    suspend operator fun invoke(movieId: Int, value: Float): RatingStatus {
+        val response = movieRepository.setRateMovie(movieId = movieId, value = value)
+        return response?.let {
+            ratingStatusMoviesMapper.map(it)
+        } ?: throw Throwable("not success")
     }
 }
