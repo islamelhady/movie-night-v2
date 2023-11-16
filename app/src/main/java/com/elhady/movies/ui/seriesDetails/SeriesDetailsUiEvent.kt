@@ -7,5 +7,6 @@ sealed interface SeriesDetailsUiEvent {
     data class ClickCastEvent(val castId: Int): SeriesDetailsUiEvent
     data class ClickSimilarSeriesEvent(val seriesId: Int): SeriesDetailsUiEvent
     object ClickViewReviews: SeriesDetailsUiEvent
+    object MessageAppear: SeriesDetailsUiEvent
 
 }

@@ -130,6 +130,13 @@ class SeriesDetailsViewModel @Inject constructor(
 
     }
 
+    fun onChangeRating(value: Float){
+        viewModelScope.launch {
+            setRatingUseCase(args.seriesId, value = value)
+            _seriesUiState.update { it.copy(ratingValue = value) }
+            _seriesUiEvent.update { Event(SeriesDetailsUiEvent.ClickViewReviews) }
+        }
+    }
 
 
     private fun onAddMovieDetailsItemOfNestedView(items: SeriesItems) {
