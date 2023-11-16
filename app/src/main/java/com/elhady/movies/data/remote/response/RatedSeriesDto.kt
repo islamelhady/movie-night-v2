@@ -28,7 +28,7 @@ data class RatedSeriesDto(
     @SerializedName("poster_path")
     val posterPath: String?,
     @SerializedName("rating")
-    val rating: Double?,
+    val rating: Float?,
     @SerializedName("vote_average")
     val voteAverage: Double?,
     @SerializedName("vote_count")
