@@ -3,6 +3,7 @@ package com.elhady.movies.data.remote.service
 import com.elhady.movies.data.remote.response.BaseResponse
 import com.elhady.movies.data.remote.response.CreditsDto
 import com.elhady.movies.data.remote.response.RatedMovieDto
+import com.elhady.movies.data.remote.response.RatedSeriesDto
 import com.elhady.movies.data.remote.response.RatingDto
 import com.elhady.movies.data.remote.response.TrendingDto
 import com.elhady.movies.data.remote.response.account.AccountDto
@@ -233,6 +234,9 @@ interface MovieService {
 
     @DELETE("tv/{tv_id}/rating")
     suspend fun deleteRatingSeries(@Path("tv_id") seriesId: Int): Response<RatingDto>
+
+    @GET("account/{account_id}/rated/tv")
+    suspend fun getRatedTvShow(@Path("account_id") listId: Int = 0): Response<BaseResponse<RatedSeriesDto>>
 
 
     /**
