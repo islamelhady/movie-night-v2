@@ -48,7 +48,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/image_movie"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="The Mandalorian" />
+                tools:text="@tools:sample/full_names" />
 
 
             <com.google.android.material.textview.MaterialTextView
