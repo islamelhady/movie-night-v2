@@ -2,7 +2,12 @@ package com.elhady.movies.ui.seriesDetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.domain.models.SeriesDetails
+import com.elhady.movies.domain.usecases.GetSessionIdUseCase
 import com.elhady.movies.domain.usecases.seriesDetails.GetSeriesDetailsUseCase
+import com.elhady.movies.domain.usecases.seriesDetails.GetSeriesRateUseCase
+import com.elhady.movies.domain.usecases.seriesDetails.InsertWatchSeriesUseCase
+import com.elhady.movies.domain.usecases.seriesDetails.SetRatingUseCase
 import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
@@ -25,6 +30,10 @@ class SeriesDetailsViewModel @Inject constructor(
     state: SavedStateHandle,
     private val getSeriesDetailsUseCase: GetSeriesDetailsUseCase,
     private val seriesDetailsUiMapper: SeriesDetailsUiMapper,
+    private val insertWatchSeriesUseCase: InsertWatchSeriesUseCase,
+    private val getSeriesRateUseCase: GetSeriesRateUseCase,
+    private val getSessionIdUseCase: GetSessionIdUseCase,
+    private val setRatingUseCase: SetRatingUseCase,
     private val actorUiMapper: ActorUiMapper,
     private val mediaUiMapper: MediaUiMapper,
     private val seasonUiMapper: SeasonUiMapper,
@@ -50,19 +59,23 @@ class SeriesDetailsViewModel @Inject constructor(
         getSimilarSeries(args.seriesId)
         getSeasonSeries(args.seriesId)
         getSeriesReview(args.seriesId)
+        getLoginStatus()
     }
 
+    private suspend fun addWatchHistory(series: SeriesDetails) {
+        insertWatchSeriesUseCase(series)
+    }
 
     private fun getTVShowDetails(tvShowId: Int) {
         viewModelScope.launch {
-            val result =
-                seriesDetailsUiMapper.map(getSeriesDetailsUseCase.getSeriesDetails(tvShowId))
+            val result = getSeriesDetailsUseCase.getSeriesDetails(tvShowId)
             _seriesUiState.update {
                 it.copy(
-                    seriesDetailsResult = result
+                    seriesDetailsResult = seriesDetailsUiMapper.map(result)
                 )
             }
             onAddMovieDetailsItemOfNestedView(SeriesItems.Header(_seriesUiState.value.seriesDetailsResult))
+            addWatchHistory(result)
         }
     }
 
@@ -122,15 +135,27 @@ class SeriesDetailsViewModel @Inject constructor(
 
     }
 
-    private fun setReview(seeAllReviews: Boolean) {
-        _seriesUiState.value.seriesReviewResult.forEach {
-            onAddMovieDetailsItemOfNestedView(SeriesItems.Review(it))
+    fun onChangeRating(value: Float) {
+        viewModelScope.launch {
+            setRatingUseCase(args.seriesId, value = value)
+            _seriesUiState.update { it.copy(ratingValue = value) }
+            _seriesUiEvent.update { Event(SeriesDetailsUiEvent.ClickViewReviews) }
         }
-        onAddMovieDetailsItemOfNestedView(SeriesItems.ReviewText)
-        if (seeAllReviews) {
-            onAddMovieDetailsItemOfNestedView(SeriesItems.ReviewText)
-        }
+    }
 
+    private fun getLoginStatus() {
+        if (!getSessionIdUseCase().isNullOrEmpty()) {
+            _seriesUiState.update { it.copy(isLogin = true) }
+            getRatedSeries(args.seriesId)
+        }
+    }
+
+    private fun getRatedSeries(seriesId: Int) {
+        viewModelScope.launch {
+            val result = getSeriesRateUseCase(seriesId = seriesId)
+            _seriesUiState.update { it.copy(ratingValue = result) }
+            onAddMovieDetailsItemOfNestedView(SeriesItems.Rating(this@SeriesDetailsViewModel))
+        }
     }
 
 

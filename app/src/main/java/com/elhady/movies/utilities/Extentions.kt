@@ -1,22 +1,30 @@
 package com.elhady.movies.utilities
 
+import android.content.res.Resources
+import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.elhady.movies.R
+import com.elhady.movies.data.remote.response.video.ResultDto
 import com.elhady.movies.databinding.ItemChipCategoryBinding
 import com.elhady.movies.ui.adapter.LoadAdapter
 import com.elhady.movies.ui.base.BasePagingAdapter
 import com.elhady.movies.ui.category.CategoryGenreUiState
 import com.elhady.movies.ui.category.CategoryInteractionListener
 import com.google.android.material.chip.ChipGroup
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -77,4 +85,26 @@ fun <T> ChipGroup.createChip(item: CategoryGenreUiState, listener: T): View {
     chipBinding.item = item
     chipBinding.listener = listener as CategoryInteractionListener
     return chipBinding.root
+}
+
+fun List<ResultDto?>.getKey(): String? = this.map {
+    if (it?.type == "Trailer") return it.key
+}.toString()
+
+@BindingAdapter("app:setVideoId")
+fun setVideoId(view: YouTubePlayerView, videoId: String?) {
+    view.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+        override fun onReady(youTubePlayer: YouTubePlayer) {
+            videoId?.let { youTubePlayer.cueVideo(it, 0f) }
+        }
+    })
+}
+
+fun DialogFragment.setWidthPercent(percentage: Int) {
+    val percent = percentage.toFloat() / 100
+    val dm = Resources.getSystem().displayMetrics
+    val rect = dm.run { Rect(0, 0, widthPixels, heightPixels) }
+    val percentWidth = rect.width() * percent
+    dialog?.window?.setLayout(percentWidth.toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
+    dialog?.setCanceledOnTouchOutside(false)
 }

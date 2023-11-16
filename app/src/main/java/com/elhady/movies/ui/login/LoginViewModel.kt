@@ -1,5 +1,6 @@
 package com.elhady.movies.ui.login
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.login.LoginWithUsernameAndPasswordUseCase
@@ -16,11 +17,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val loginWithUsernameAndPasswordUseCase: LoginWithUsernameAndPasswordUseCase,
     private val validateFieldUseCase: ValidateFieldUseCase,
     private val validateUsernameFieldUseCase: ValidateUsernameFieldUseCase,
     private val validatePasswordUseCase: ValidatePasswordUseCase
 ) : ViewModel() {
+
+    val args = LoginFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
     private val _loginUiState = MutableStateFlow(LoginUiState())
     val loginUiState = _loginUiState.asStateFlow()
@@ -68,7 +72,6 @@ class LoginViewModel @Inject constructor(
                 )
                 if (loginState) {
                    onLoginSuccess()
-                    resetForm()
                 }
             }catch (e: Exception){
                 onLoginError(e.message.toString())
@@ -76,9 +79,15 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    fun onClickSignUp(){
+        _loginUiEvent.update {
+            Event(LoginUiEvent.SignUpEvent)
+        }
+    }
     private fun onLoginSuccess(){
         _loginUiState.update { it.copy(isLoading = false) }
-        _loginUiEvent.update { Event(LoginUiEvent.LoginEvent)}
+        _loginUiEvent.update { Event(LoginUiEvent.LoginEvent(args.form))}
+        resetForm()
     }
     private fun onLoginError(message: String) {
         _loginUiState.update {

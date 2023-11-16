@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Movies" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.Movies" parent="Theme.Material3.DayNight">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorPrimary">@color/brand_color</item>
@@ -83,6 +83,13 @@
         <item name="android:textColor">@color/selector_chip_text</item>
         <item name="chipStrokeWidth">1dp</item>
         <item name="chipCornerRadius">@dimen/spacing_small</item>
+    </style>
+
+    <style name="Chip.Filter" parent="Widget.Material3.Chip.Filter">
+        <item name="chipStrokeColor">@color/chip_stroke</item>
+        <item name="chipBackgroundColor">@color/chip_background</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="android:textAlignment">center</item>
     </style>
 
 

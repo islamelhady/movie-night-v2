@@ -3,6 +3,8 @@ package com.elhady.movies.ui.explore
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.elhady.movies.R
 import com.elhady.movies.databinding.FragmentExploreBinding
@@ -43,7 +45,10 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding>() {
             ExploreUiEvent.ClickActorsEvent -> findNavController().navigate(ExploreFragmentDirections.actionExploreFragmentToActorsFragment())
             ExploreUiEvent.ClickMoviesEvent -> findNavController().navigate(ExploreFragmentDirections.actionExploreFragmentToCategoryFragment(MediaType.MOVIES))
             ExploreUiEvent.ClickSeriesEvent -> findNavController().navigate(ExploreFragmentDirections.actionExploreFragmentToCategoryFragment(MediaType.SERIES))
-            ExploreUiEvent.ClickSearchEvent -> findNavController().navigate(ExploreFragmentDirections.actionExploreFragmentToSearchFragment())
+            ExploreUiEvent.ClickSearchEvent -> {
+                val extras = FragmentNavigatorExtras(binding.inputTextSearch to "search_box")
+                findNavController().navigate(ExploreFragmentDirections.actionExploreFragmentToSearchFragment(), extras)
+            }
         }
     }
 

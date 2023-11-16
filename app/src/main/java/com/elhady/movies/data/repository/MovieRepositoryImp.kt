@@ -6,6 +6,8 @@ import androidx.paging.PagingConfig
 import com.elhady.movies.data.Constant
 import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.MovieDao
+import com.elhady.movies.data.local.database.entity.SearchHistoryEntity
+import com.elhady.movies.data.local.database.entity.WatchHistoryEntity
 import com.elhady.movies.data.local.database.entity.movies.AdventureMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.MysteryMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.NowPlayingMovieEntity
@@ -23,10 +25,14 @@ import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.local.mappers.movies.PopularMovieMapper
 import com.elhady.movies.data.local.mappers.movies.TopRatedMovieMapper
 import com.elhady.movies.data.remote.response.CreditsDto
+import com.elhady.movies.data.remote.response.RatedMovieDto
+import com.elhady.movies.data.remote.response.RatingDto
 import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
+import com.elhady.movies.data.remote.response.video.VideoDto
 import com.elhady.movies.data.repository.mediaDataSource.movies.MovieDataSourceContainer
+import com.elhady.movies.data.repository.searchDataSource.MovieSearchDataSource
 import com.elhady.movies.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
@@ -43,7 +49,8 @@ class MovieRepositoryImp @Inject constructor(
     private val topRatedMovieMapper: TopRatedMovieMapper,
     private val mysteryMoviesMapper: MysteryMoviesMapper,
     private val adventureMoviesMapper: AdventureMoviesMapper,
-    private val movieDataSourceContainer: MovieDataSourceContainer
+    private val movieDataSourceContainer: MovieDataSourceContainer,
+    private val movieSearchDataSource: MovieSearchDataSource
 ) : MovieRepository, BaseRepository() {
 
     /**
@@ -358,5 +365,67 @@ class MovieRepositoryImp @Inject constructor(
      */
     override fun getAllMovies(): Pager<Int, MovieDto> {
         return Pager(config = pagingConfig, pagingSourceFactory = { movieDataSourceContainer.moviesDataSource })
+    }
+
+    /**
+     * Serach
+     * * movies
+     * * history
+     */
+    override suspend fun searchForMoviesPager(query: String): Pager<Int, MovieDto> {
+        val dataSource = movieSearchDataSource
+        dataSource.setSearch(query = query)
+        return Pager(config = pagingConfig, pagingSourceFactory = { dataSource })
+    }
+
+    override suspend fun insertSearchItem(item: SearchHistoryEntity) {
+        return movieDao.insertSearch(item)
+    }
+
+    override suspend fun deleteSearchItem(item: SearchHistoryEntity) {
+        return movieDao.deleteSearch(item)
+        TODO()
+    }
+
+    override fun getAllSearchItems(): Flow<List<SearchHistoryEntity>> {
+        return movieDao.getAllSearch()
+    }
+
+    /**
+     * Video
+     */
+    override suspend fun getMovieTrailer(movieId: Int): VideoDto? {
+        return movieService.getMovieTrailer(movieId).body()
+    }
+
+    /**
+     * Watch
+     */
+    override suspend fun insertMovieWatch(movie: WatchHistoryEntity) {
+        movieDao.insertWatch(movie)
+    }
+
+    override suspend fun deleteMovieWatch(movie: WatchHistoryEntity) {
+        movieDao.deleteWatch(movie)
+        TODO()
+    }
+
+    override fun getAllMoviesWatch(): Flow<List<WatchHistoryEntity>> {
+        return movieDao.getAllWatch()
+    }
+
+    /**
+     * Rating
+     */
+    override suspend fun getRatedMovie(): List<RatedMovieDto>? {
+        return movieService.getRatedMovie().body()?.items
+    }
+
+    override suspend fun setRateMovie(movieId: Int, value: Float): RatingDto? {
+        return movieService.setRateMovie(movieId, value).body()
+    }
+
+    override suspend fun deleteRateMovie(movieId: Int): RatingDto? {
+        return movieService.deleteRatingMovie(movieId).body()
     }
 }

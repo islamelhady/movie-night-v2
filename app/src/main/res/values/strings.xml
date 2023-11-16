@@ -52,7 +52,19 @@
     <string name="seasons">Seasons</string>
     <string name="empty_overview_text">This season has no description.</string>
     <string name="episode_title">%1$d. %2$s</string>
-    <string name="search_hint">Search for a movie, tv show, person...</string>
+    <string name="search_hint">Search for a movie, tv show, person…</string>
     <string name="text_trend">Trending Today</string>
+    <string name="history_label">History</string>
+    <string name="at">\@</string>
+    <string name="watch_history">Watch History</string>
+    <string name="rated_movies">My Ratings</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="are_you_sure">Are You Sure?</string>
+    <string name="you_re_about_to_sign_out_of_your_account">You\'re about to sign out of your account.</string>
+    <string name="logout">Sign Out</string>
+    <string name="cancel">Cancel</string>
+    <string name="rate_the_movie">Rate The Movie</string>
+    <string name="rate_the_series">Rate The Series Show</string>
+    <string name="submit_toast">Submitted, Thank you for your feedback</string>
 
 </resources>

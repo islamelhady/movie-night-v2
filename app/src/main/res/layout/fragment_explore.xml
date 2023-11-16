@@ -30,7 +30,6 @@
             android:onClick="@{() -> viewModel.onClickSearch()}"
             android:focusableInTouchMode="false"
             android:hint="@string/search_hint"
-            android:paddingStart="@dimen/spacing_small"
             android:textColorHint="@color/shade_ternary_color"
             android:transitionName="search_box"
             app:layout_constraintEnd_toEndOf="parent"

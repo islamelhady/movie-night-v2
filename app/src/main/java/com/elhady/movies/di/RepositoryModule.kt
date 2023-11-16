@@ -38,6 +38,9 @@ import com.elhady.movies.data.repository.mediaDataSource.series.LatestTVDataSour
 import com.elhady.movies.data.repository.mediaDataSource.series.OnTheAirTVDataSource
 import com.elhady.movies.data.repository.mediaDataSource.series.PopularTVDataSource
 import com.elhady.movies.data.repository.mediaDataSource.series.SeriesDataSourceContainer
+import com.elhady.movies.data.repository.searchDataSource.ActorsSearchDataSource
+import com.elhady.movies.data.repository.searchDataSource.MovieSearchDataSource
+import com.elhady.movies.data.repository.searchDataSource.SeriesSearchDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -50,25 +53,25 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideRepository(movieService: MovieService, popularMovieMapper: PopularMovieMapper, movieDao: MovieDao, appConfiguration: AppConfiguration, upcomingMovieMapper: UpcomingMovieMapper, trendingMovieMapper: TrendingMovieMapper, nowPlayingMovieMapper: NowPlayingMovieMapper, topRatedMovieMapper: TopRatedMovieMapper, mysteryMoviesMapper: MysteryMoviesMapper, adventureMoviesMapper: AdventureMoviesMapper, movieDataSourceContainer: MovieDataSourceContainer): MovieRepository{
-        return MovieRepositoryImp(movieService,popularMovieMapper, movieDao, appConfiguration,trendingMovieMapper , upcomingMovieMapper, nowPlayingMovieMapper, topRatedMovieMapper, mysteryMoviesMapper, adventureMoviesMapper, movieDataSourceContainer)
+    fun provideRepository(movieService: MovieService, popularMovieMapper: PopularMovieMapper, movieDao: MovieDao, appConfiguration: AppConfiguration, upcomingMovieMapper: UpcomingMovieMapper, trendingMovieMapper: TrendingMovieMapper, nowPlayingMovieMapper: NowPlayingMovieMapper, topRatedMovieMapper: TopRatedMovieMapper, mysteryMoviesMapper: MysteryMoviesMapper, adventureMoviesMapper: AdventureMoviesMapper, movieDataSourceContainer: MovieDataSourceContainer, movieSearchDataSource: MovieSearchDataSource): MovieRepository{
+        return MovieRepositoryImp(movieService,popularMovieMapper, movieDao, appConfiguration,trendingMovieMapper , upcomingMovieMapper, nowPlayingMovieMapper, topRatedMovieMapper, mysteryMoviesMapper, adventureMoviesMapper, movieDataSourceContainer, movieSearchDataSource)
     }
 
     @Provides
     @Singleton
-    fun provideSeriesRepository(movieService: MovieService, onTheAirSeriesMapper: OnTheAirSeriesMapper, airingSeriesMapper: AiringTodaySeriesMapper, tvSeriesListsMapper: TVSeriesListsMapper, seriesDao: SeriesDao, appConfiguration: AppConfiguration,seriesDataSourceContainer: SeriesDataSourceContainer): SeriesRepository{
-        return SeriesRepositoryImp(movieService,onTheAirSeriesMapper, airingSeriesMapper,tvSeriesListsMapper , seriesDao, appConfiguration, seriesDataSourceContainer)
+    fun provideSeriesRepository(movieService: MovieService, onTheAirSeriesMapper: OnTheAirSeriesMapper, airingSeriesMapper: AiringTodaySeriesMapper, tvSeriesListsMapper: TVSeriesListsMapper, seriesDao: SeriesDao, appConfiguration: AppConfiguration,seriesDataSourceContainer: SeriesDataSourceContainer, seriesSearchDataSource: SeriesSearchDataSource, movieDao: MovieDao): SeriesRepository{
+        return SeriesRepositoryImp(movieService,onTheAirSeriesMapper, airingSeriesMapper,tvSeriesListsMapper , seriesDao, movieDao, appConfiguration, seriesDataSourceContainer, seriesSearchDataSource)
     }
 
     @Provides
     @Singleton
-    fun provideActorsRepository(service: MovieService,actorsMapper: ActorsMapper,actorDao: ActorDao, appConfiguration: AppConfiguration, actorDataSource: ActorDataSource, actorMoviesDataSource: ActorMoviesDataSource): ActorRepository{
-        return ActorRepositoryImp(service, actorsMapper, actorDao, appConfiguration, actorDataSource, actorMoviesDataSource)
+    fun provideActorsRepository(service: MovieService,actorsMapper: ActorsMapper,actorDao: ActorDao, appConfiguration: AppConfiguration, actorDataSource: ActorDataSource, actorMoviesDataSource: ActorMoviesDataSource, actorsSearchDataSource: ActorsSearchDataSource): ActorRepository{
+        return ActorRepositoryImp(service, actorsMapper, actorDao, appConfiguration, actorDataSource, actorMoviesDataSource, actorsSearchDataSource)
     }
 
     @Provides
     @Singleton
-    fun provideAccountRepository(movieService: MovieService, dataClassParser: DataClassParser): AccountRepository{
-        return AccountRepositoryImp(movieService, dataClassParser)
+    fun provideAccountRepository(movieService: MovieService, dataClassParser: DataClassParser, appConfiguration: AppConfiguration): AccountRepository{
+        return AccountRepositoryImp(movieService, dataClassParser, appConfiguration)
     }
 }

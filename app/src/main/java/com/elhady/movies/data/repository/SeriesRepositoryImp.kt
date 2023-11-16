@@ -3,7 +3,9 @@ package com.elhady.movies.data.repository
 import androidx.paging.Pager
 import com.elhady.movies.data.Constant
 import com.elhady.movies.data.local.AppConfiguration
+import com.elhady.movies.data.local.database.daos.MovieDao
 import com.elhady.movies.data.local.database.daos.SeriesDao
+import com.elhady.movies.data.local.database.entity.WatchHistoryEntity
 import com.elhady.movies.data.local.database.entity.series.AiringTodaySeriesEntity
 import com.elhady.movies.data.local.database.entity.series.OnTheAirSeriesEntity
 import com.elhady.movies.data.local.database.entity.series.TVSeriesListsEntity
@@ -11,6 +13,8 @@ import com.elhady.movies.data.local.mappers.series.AiringTodaySeriesMapper
 import com.elhady.movies.data.local.mappers.series.OnTheAirSeriesMapper
 import com.elhady.movies.data.local.mappers.series.TVSeriesListsMapper
 import com.elhady.movies.data.remote.response.CreditsDto
+import com.elhady.movies.data.remote.response.RatedSeriesDto
+import com.elhady.movies.data.remote.response.RatingDto
 import com.elhady.movies.data.remote.response.TrendingDto
 import com.elhady.movies.data.remote.response.episode.EpisodeDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
@@ -18,8 +22,10 @@ import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
 import com.elhady.movies.data.remote.response.series.SeriesDetailsDto
 import com.elhady.movies.data.remote.response.series.SeriesDto
+import com.elhady.movies.data.remote.response.video.VideoDto
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.repository.mediaDataSource.series.SeriesDataSourceContainer
+import com.elhady.movies.data.repository.searchDataSource.SeriesSearchDataSource
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 import javax.inject.Inject
@@ -30,8 +36,10 @@ class SeriesRepositoryImp @Inject constructor(
     private val airingSeriesMapper: AiringTodaySeriesMapper,
     private val tvSeriesListsMapper: TVSeriesListsMapper,
     private val seriesDao: SeriesDao,
+    private val movieDao: MovieDao,
     private val appConfiguration: AppConfiguration,
-    private val seriesDataSourceContainer: SeriesDataSourceContainer
+    private val seriesDataSourceContainer: SeriesDataSourceContainer,
+    private val seriesSearchDataSource: SeriesSearchDataSource
 ) : BaseRepository(), SeriesRepository {
 
     /**
@@ -204,6 +212,7 @@ class SeriesRepositoryImp @Inject constructor(
     override suspend fun getGenreSeries(): List<GenreDto>? {
         return movieService.getGenreSeries().body()?.genres
     }
+
     /**
      * Series By Genre
      */
@@ -211,14 +220,55 @@ class SeriesRepositoryImp @Inject constructor(
         return Pager(config = pagingConfig, pagingSourceFactory = {
             val seriesDataSource = seriesDataSourceContainer.seriesByGenreDataSource
             seriesDataSource.setGenre(genreId)
-            seriesDataSource })
+            seriesDataSource
+        })
     }
 
     /**
      * All Series
      */
     override fun getAllSeries(): Pager<Int, SeriesDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = { seriesDataSourceContainer.seriesDataSource })
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = { seriesDataSourceContainer.seriesDataSource })
+    }
+
+    /**
+     *  Search series
+     */
+    override suspend fun searchForSeriesPager(query: String): Pager<Int, SeriesDto> {
+        val dataSource = seriesSearchDataSource
+        dataSource.setSearch(query)
+        return Pager(config = pagingConfig, pagingSourceFactory = { dataSource })
+    }
+
+    /**
+     * Video
+     */
+    override suspend fun getSeriesTrailer(seriesId: Int): VideoDto? {
+        return movieService.getSeriesTrailer(seriesId).body()
+    }
+
+    /**
+     * Watch
+     */
+    override suspend fun insertSeriesWatch(series: WatchHistoryEntity) {
+        movieDao.insertWatch(series)
+    }
+
+    /**
+     * Rating
+     */
+    override suspend fun setRatingSeries(seriesId: Int, value: Float): RatingDto? {
+        return movieService.setRatingSeries(seriesId = seriesId, rating = value).body()
+    }
+
+    override suspend fun deleteRateSeries(seriesId: Int): RatingDto? {
+        return movieService.deleteRatingSeries(seriesId).body()
+    }
+
+    override suspend fun getRatedSeries(): List<RatedSeriesDto>? {
+        return movieService.getRatedTvShow().body()?.items
     }
 
 

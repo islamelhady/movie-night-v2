@@ -120,3 +120,40 @@ fun <T> setGenresChips(view: ChipGroup, chipList: List<CategoryGenreUiState>?, l
     }
 }
 
+@BindingAdapter(value = ["app:showWhenBlank"])
+fun <T> showWhenSearchBlank(view: View, searchInput:String){
+    view.visibility = if (searchInput.isBlank()){
+        View.VISIBLE
+    }else{
+        View.INVISIBLE
+    }
+}
+
+@BindingAdapter(value = ["app:hideWhenBlank"])
+fun hideWhenSearchBlank(view: View, text: String) {
+    view.visibility = if (text.isBlank()){
+        View.INVISIBLE
+    }else{
+        View.VISIBLE
+    }
+}
+
+//Search
+@BindingAdapter(value = ["app:showWhenSearch"])
+fun showWhenSearch(view: View, text: String) {
+    view.isVisible = text.isNotBlank()
+}
+
+@BindingAdapter("app:hideWhenListIsEmpty")
+fun <T> hideWhenListIsEmpty(view: View, list: List<T>?) {
+    if (list?.isEmpty() == true) {
+        view.visibility = View.INVISIBLE
+    }
+}
+
+@BindingAdapter(value = ["app:hideWhenSearch"])
+fun hideWhenSearch(view: View, text: String) {
+    view.isVisible =  text.isBlank()
+}
+
+
