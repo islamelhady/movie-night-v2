@@ -211,6 +211,7 @@ interface MovieService {
      * Account
      * * Details
      * * Rated Movie
+     * * Rated Series
      */
 
     @GET("account")
@@ -225,6 +226,13 @@ interface MovieService {
 
     @DELETE("movie/{movie_id}/rating")
     suspend fun deleteRatingMovie(@Path("movie_id") movieId: Int): Response<RatingDto>
+
+    @FormUrlEncoded
+    @POST("tv/{tv_id}/rating")
+    suspend fun setRatingSeries( @Path("tv_id") seriesId: Int, @Field("value") rating: Float): Response<RatingDto>
+
+    @DELETE("tv/{tv_id}/rating")
+    suspend fun deleteRatingSeries(@Path("tv_id") seriesId: Int): Response<RatingDto>
 
 
     /**

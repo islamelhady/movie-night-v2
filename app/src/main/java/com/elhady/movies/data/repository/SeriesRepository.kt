@@ -6,6 +6,7 @@ import com.elhady.movies.data.local.database.entity.series.AiringTodaySeriesEnti
 import com.elhady.movies.data.local.database.entity.series.OnTheAirSeriesEntity
 import com.elhady.movies.data.local.database.entity.series.TVSeriesListsEntity
 import com.elhady.movies.data.remote.response.CreditsDto
+import com.elhady.movies.data.remote.response.RatingDto
 import com.elhady.movies.data.remote.response.TrendingDto
 import com.elhady.movies.data.remote.response.episode.EpisodeDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
@@ -57,5 +58,7 @@ interface SeriesRepository {
 
     suspend fun insertSeriesWatch(movie: WatchHistoryEntity)
 
+    suspend fun setRatingSeries(seriesId: Int, value: Float): RatingDto?
+    suspend fun deleteRateSeries(seriesId: Int): RatingDto?
 
 }
