@@ -3,7 +3,9 @@ package com.elhady.movies.ui.seriesDetails
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.models.SeriesDetails
+import com.elhady.movies.domain.usecases.GetSessionIdUseCase
 import com.elhady.movies.domain.usecases.seriesDetails.GetSeriesDetailsUseCase
+import com.elhady.movies.domain.usecases.seriesDetails.GetSeriesRateUseCase
 import com.elhady.movies.domain.usecases.seriesDetails.InsertWatchSeriesUseCase
 import com.elhady.movies.domain.usecases.seriesDetails.SetRatingUseCase
 import com.elhady.movies.ui.adapter.MediaInteractionListener
@@ -29,6 +31,8 @@ class SeriesDetailsViewModel @Inject constructor(
     private val getSeriesDetailsUseCase: GetSeriesDetailsUseCase,
     private val seriesDetailsUiMapper: SeriesDetailsUiMapper,
     private val insertWatchSeriesUseCase: InsertWatchSeriesUseCase,
+    private val getSeriesRateUseCase: GetSeriesRateUseCase,
+    private val getSessionIdUseCase: GetSessionIdUseCase,
     private val setRatingUseCase: SetRatingUseCase,
     private val actorUiMapper: ActorUiMapper,
     private val mediaUiMapper: MediaUiMapper,
@@ -55,9 +59,10 @@ class SeriesDetailsViewModel @Inject constructor(
         getSimilarSeries(args.seriesId)
         getSeasonSeries(args.seriesId)
         getSeriesReview(args.seriesId)
+        getLoginStatus()
     }
 
-    private suspend fun addWatchHistory(series: SeriesDetails){
+    private suspend fun addWatchHistory(series: SeriesDetails) {
         insertWatchSeriesUseCase(series)
     }
 
@@ -66,7 +71,7 @@ class SeriesDetailsViewModel @Inject constructor(
             val result = getSeriesDetailsUseCase.getSeriesDetails(tvShowId)
             _seriesUiState.update {
                 it.copy(
-                    seriesDetailsResult =  seriesDetailsUiMapper.map(result)
+                    seriesDetailsResult = seriesDetailsUiMapper.map(result)
                 )
             }
             onAddMovieDetailsItemOfNestedView(SeriesItems.Header(_seriesUiState.value.seriesDetailsResult))
@@ -130,7 +135,7 @@ class SeriesDetailsViewModel @Inject constructor(
 
     }
 
-    fun onChangeRating(value: Float){
+    fun onChangeRating(value: Float) {
         viewModelScope.launch {
             setRatingUseCase(args.seriesId, value = value)
             _seriesUiState.update { it.copy(ratingValue = value) }
@@ -138,46 +143,63 @@ class SeriesDetailsViewModel @Inject constructor(
         }
     }
 
-
-    private fun onAddMovieDetailsItemOfNestedView(items: SeriesItems) {
-        val itemsList = _seriesUiState.value.seriesItems.toMutableList()
-        itemsList.add(items)
-        _seriesUiState.update { it.copy(seriesItems = itemsList.toList()) }
+    private fun getLoginStatus() {
+        if (!getSessionIdUseCase().isNullOrEmpty()) {
+            _seriesUiState.update { it.copy(isLogin = true) }
+        }
+        getRatedSeries(args.seriesId)
     }
 
-    override fun onClickBackButton() {
-        _seriesUiEvent.update {
-            Event(SeriesDetailsUiEvent.ClickBackButtonEvent)
+    private fun getRatedSeries(seriesId: Int){
+        viewModelScope.launch {
+            val result = getSeriesRateUseCase(seriesId = seriesId)
+            _seriesUiState.update { it.copy(ratingValue = result) }
+            onAddMovieDetailsItemOfNestedView(SeriesItems.Rating(this@SeriesDetailsViewModel))
         }
     }
 
-    override fun onClickPlayTrailer() {
-        _seriesUiEvent.update {
-            Event(SeriesDetailsUiEvent.ClickPlayTrailerEvent)
-        }
-    }
 
-    override fun onclickViewReviews() {
-        _seriesUiEvent.update {
-            Event(SeriesDetailsUiEvent.ClickViewReviews)
-        }
-    }
 
-    override fun onClickActor(actorID: Int) {
-        _seriesUiEvent.update {
-            Event(SeriesDetailsUiEvent.ClickCastEvent(castId = actorID))
-        }
-    }
 
-    override fun onClickMedia(mediaId: Int) {
-        _seriesUiEvent.update {
-            Event(SeriesDetailsUiEvent.ClickSimilarSeriesEvent(seriesId = mediaId))
-        }
-    }
+private fun onAddMovieDetailsItemOfNestedView(items: SeriesItems) {
+    val itemsList = _seriesUiState.value.seriesItems.toMutableList()
+    itemsList.add(items)
+    _seriesUiState.update { it.copy(seriesItems = itemsList.toList()) }
+}
 
-    override fun onClickSeason(seasonNumber: Int) {
-        _seriesUiEvent.update {
-            Event(SeriesDetailsUiEvent.ClickSeasonEvent(seasonNumber = seasonNumber))
-        }
+override fun onClickBackButton() {
+    _seriesUiEvent.update {
+        Event(SeriesDetailsUiEvent.ClickBackButtonEvent)
     }
+}
+
+override fun onClickPlayTrailer() {
+    _seriesUiEvent.update {
+        Event(SeriesDetailsUiEvent.ClickPlayTrailerEvent)
+    }
+}
+
+override fun onclickViewReviews() {
+    _seriesUiEvent.update {
+        Event(SeriesDetailsUiEvent.ClickViewReviews)
+    }
+}
+
+override fun onClickActor(actorID: Int) {
+    _seriesUiEvent.update {
+        Event(SeriesDetailsUiEvent.ClickCastEvent(castId = actorID))
+    }
+}
+
+override fun onClickMedia(mediaId: Int) {
+    _seriesUiEvent.update {
+        Event(SeriesDetailsUiEvent.ClickSimilarSeriesEvent(seriesId = mediaId))
+    }
+}
+
+override fun onClickSeason(seasonNumber: Int) {
+    _seriesUiEvent.update {
+        Event(SeriesDetailsUiEvent.ClickSeasonEvent(seasonNumber = seasonNumber))
+    }
+}
 }
