@@ -254,7 +254,14 @@
         android:id="@+id/ratingFragment"
         android:name="com.elhady.movies.ui.profile.ratings.RatingFragment"
         android:label="fragment_rating"
-        tools:layout="@layout/fragment_rating" />
+        tools:layout="@layout/fragment_rating" >
+        <action
+            android:id="@+id/action_ratingFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+        <action
+            android:id="@+id/action_ratingFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/watchHistoryFragment"
         android:name="com.elhady.movies.ui.profile.watchHistory.WatchHistoryFragment"
