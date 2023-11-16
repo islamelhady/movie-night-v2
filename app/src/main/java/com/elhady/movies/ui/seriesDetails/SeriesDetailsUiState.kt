@@ -12,5 +12,6 @@ data class SeriesDetailsUiState(
     val seriesSimilarResult: List<MediaUiState> = mutableListOf(),
     val seriesSeasonsResult: List<SeasonUiState> = mutableListOf(),
     val seriesReviewResult: List<ReviewUiState> = mutableListOf(),
-    val ratingValue: Float = 0f
+    val ratingValue: Float = 0f,
+    val isLogin: Boolean = false
 )

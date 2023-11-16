@@ -64,6 +64,7 @@
     <string name="logout">Sign Out</string>
     <string name="cancel">Cancel</string>
     <string name="rate_the_movie">Rate The Movie</string>
+    <string name="rate_the_series">Rate The Series Show</string>
     <string name="submit_toast">Submitted, Thank you for your feedback</string>
 
 </resources>
