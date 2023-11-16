@@ -1,32 +1,27 @@
 package com.elhady.movies.ui.profile.ratings
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.elhady.movies.R
+import com.elhady.movies.databinding.FragmentRatingBinding
+import com.elhady.movies.ui.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-class RatingFragment : Fragment() {
+@AndroidEntryPoint
+class RatingFragment : BaseFragment<FragmentRatingBinding>() {
 
-    companion object {
-        fun newInstance() = RatingFragment()
+    override val layoutIdFragment: Int = R.layout.fragment_rating
+    override val viewModel: RatingViewModel by viewModels()
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupAdapter()
     }
 
-    private lateinit var viewModel: RatingViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_rating, container, false)
+    private fun setupAdapter() {
+        binding.recyclerMyRating.adapter = MyRatingAdapter(mutableListOf(), viewModel)
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(RatingViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
 }
