@@ -3,6 +3,7 @@ package com.elhady.movies.data.remote.service
 import com.elhady.movies.data.remote.response.BaseResponse
 import com.elhady.movies.data.remote.response.CreditsDto
 import com.elhady.movies.data.remote.response.RatedMovieDto
+import com.elhady.movies.data.remote.response.RatingDto
 import com.elhady.movies.data.remote.response.TrendingDto
 import com.elhady.movies.data.remote.response.account.AccountDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
@@ -216,6 +217,10 @@ interface MovieService {
 
     @GET("account/{account_id}/rated/movies")
     suspend fun getRatedMovie(@Path("account_id") accountId: Int = 0): Response<BaseResponse<RatedMovieDto>>
+
+    @FormUrlEncoded
+    @POST("movie/{movie_id}/rating")
+    suspend fun setRateMovie(@Path("movie_id") movieId: Int, @Field("value") rating: Float): Response<RatingDto>
 
 
     /**
