@@ -11,16 +11,25 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RatingViewModel @Inject constructor(private val getListOfRatedUseCase: GetListOfRatedUseCase) : BaseViewModel() {
+class RatingViewModel @Inject constructor(
+    private val getListOfRatedUseCase: GetListOfRatedUseCase,
+    private val ratedUiStateMapper: RatedUiStateMapper
+) : BaseViewModel() {
 
     private val _rateUiState = MutableStateFlow(MyRateUiState())
     val rateUiState = _rateUiState.asStateFlow()
 
+    init {
+        getData()
+    }
     override fun getData() {
+        _rateUiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            val result = getListOfRatedUseCase()
+            val result = getListOfRatedUseCase().map {
+                ratedUiStateMapper.map(it)
+            }
             _rateUiState.update {
-                it.copy(ratedList = result)
+                it.copy(ratedList = result, isLoading = false)
             }
 
         }
