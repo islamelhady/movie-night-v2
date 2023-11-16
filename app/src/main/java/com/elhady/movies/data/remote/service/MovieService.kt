@@ -20,6 +20,7 @@ import com.elhady.movies.data.remote.response.series.SeriesDto
 import com.elhady.movies.data.remote.response.video.VideoDto
 import com.elhady.movies.domain.TrendingTimeWindow
 import retrofit2.Response
+import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
@@ -221,6 +222,9 @@ interface MovieService {
     @FormUrlEncoded
     @POST("movie/{movie_id}/rating")
     suspend fun setRateMovie(@Path("movie_id") movieId: Int, @Field("value") rating: Float): Response<RatingDto>
+
+    @DELETE("movie/{movie_id}/rating")
+    suspend fun deleteRatingMovie(@Path("movie_id") movieId: Int): Response<RatingDto>
 
 
     /**

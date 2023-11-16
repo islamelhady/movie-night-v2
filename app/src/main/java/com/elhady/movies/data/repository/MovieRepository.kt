@@ -81,5 +81,6 @@ interface MovieRepository {
     suspend fun getRatedMovie(): List<RatedMovieDto>?
 
     suspend fun setRateMovie(movieId: Int, value: Float): RatingDto?
+    suspend fun deleteRateMovie(movieId: Int): RatingDto?
 
 }

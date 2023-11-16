@@ -424,4 +424,8 @@ class MovieRepositoryImp @Inject constructor(
     override suspend fun setRateMovie(movieId: Int, value: Float): RatingDto? {
         return movieService.setRateMovie(movieId, value).body()
     }
+
+    override suspend fun deleteRateMovie(movieId: Int): RatingDto? {
+        return movieService.deleteRatingMovie(movieId).body()
+    }
 }

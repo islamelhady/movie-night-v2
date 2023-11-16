@@ -10,7 +10,11 @@ class SetRatingUseCase @Inject constructor(
     private val ratingStatusMoviesMapper: RatingStatusMoviesMapper
 ) {
     suspend operator fun invoke(movieId: Int, value: Float): RatingStatus {
-        val response = movieRepository.setRateMovie(movieId = movieId, value = value)
+        val response = if (value == 0f) {
+            movieRepository.deleteRateMovie(movieId = movieId)
+        } else {
+            movieRepository.setRateMovie(movieId = movieId, value = value)
+        }
         return response?.let {
             ratingStatusMoviesMapper.map(it)
         } ?: throw Throwable("not success")
