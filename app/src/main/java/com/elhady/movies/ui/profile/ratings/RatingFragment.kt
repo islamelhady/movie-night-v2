@@ -3,9 +3,11 @@ package com.elhady.movies.ui.profile.ratings
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.elhady.movies.R
 import com.elhady.movies.databinding.FragmentRatingBinding
 import com.elhady.movies.ui.base.BaseFragment
+import com.elhady.movies.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,9 +21,31 @@ class RatingFragment : BaseFragment<FragmentRatingBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         setupAdapter()
+        collectEvent()
     }
 
     private fun setupAdapter() {
         binding.recyclerMyRating.adapter = MyRatingAdapter(mutableListOf(), viewModel)
+    }
+
+    fun collectEvent() {
+        collectLast(viewModel.rateUiEvent) { event ->
+            event?.getContentIfNotHandled()?.let {
+                onEvent(it)
+            }
+        }
+    }
+
+    private fun onEvent(event: MyRatingUiEvent) {
+        val action = when (event) {
+            is MyRatingUiEvent.MovieEvent -> RatingFragmentDirections.actionRatingFragmentToMovieDetailsFragment(
+                event.movieId
+            )
+
+            is MyRatingUiEvent.SeriesEvent -> RatingFragmentDirections.actionRatingFragmentToTvShowDetailsFragment(
+                event.tvShowId
+            )
+        }
+        findNavController().navigate(action)
     }
 }
