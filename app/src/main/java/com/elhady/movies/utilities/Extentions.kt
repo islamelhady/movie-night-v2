@@ -108,3 +108,7 @@ fun DialogFragment.setWidthPercent(percentage: Int) {
     dialog?.window?.setLayout(percentWidth.toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
     dialog?.setCanceledOnTouchOutside(false)
 }
+
+fun <T> List<T>.margeTwoList(secondList: List<T>): List<T>{
+    return this.plus(secondList)
+}
