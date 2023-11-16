@@ -1,5 +1,7 @@
 package com.elhady.movies.ui.profile.ratings
 
+import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.viewModels
 import com.elhady.movies.R
 import com.elhady.movies.databinding.FragmentRatingBinding
@@ -13,4 +15,13 @@ class RatingFragment : BaseFragment<FragmentRatingBinding>() {
     override val viewModel: RatingViewModel by viewModels()
 
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupAdapter()
+    }
+
+    private fun setupAdapter() {
+        binding.recyclerMyRating.adapter = MyRatingAdapter(mutableListOf(), viewModel)
+    }
 }

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.elhady.movies.ui.profile.ratings.RatingViewModel" />
 
     </data>
 
@@ -12,9 +16,16 @@
         tools:context=".ui.profile.ratings.RatingFragment">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_my_rating"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Hello" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:items="@{ viewModel.rateUiState.ratedList}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/item_my_rated"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
