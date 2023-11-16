@@ -31,7 +31,7 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:mediaPoster="@{item.posterPath}"
+                app:movieImage="@{item.posterPath}"
                 app:shapeAppearanceOverlay="@style/CardCorners.Small"
                 tools:src="@tools:sample/avatars" />
 
