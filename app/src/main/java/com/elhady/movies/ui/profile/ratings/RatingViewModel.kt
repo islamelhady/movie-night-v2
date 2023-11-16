@@ -1,7 +1,13 @@
 package com.elhady.movies.ui.profile.ratings
 
-import androidx.lifecycle.ViewModel
+import com.elhady.movies.ui.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class RatingViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+@HiltViewModel
+class RatingViewModel @Inject constructor() : BaseViewModel() {
+
+    override fun getData() {
+        TODO("Not yet implemented")
+    }
 }
