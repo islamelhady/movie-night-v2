@@ -7,6 +7,7 @@ import com.elhady.movies.domain.usecases.GetSessionIdUseCase
 import com.elhady.movies.domain.usecases.movieDetails.GetMovieDetailsUseCase
 import com.elhady.movies.domain.usecases.movieDetails.GetMovieRateUseCase
 import com.elhady.movies.domain.usecases.movieDetails.InsertWatchMoviesUseCase
+import com.elhady.movies.domain.usecases.movieDetails.SetRatingUseCase
 import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
@@ -29,6 +30,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val movieDetailsUiMapper: MovieDetailsUiMapper,
     private val insertMoviesUseCase: InsertWatchMoviesUseCase,
     private val getMovieRateUseCase: GetMovieRateUseCase,
+    private val setRatingUseCase: SetRatingUseCase,
     private val getSessionIdUseCase: GetSessionIdUseCase,
     private val actorUiMapper: ActorUiMapper,
     private val mediaUiMapper: MediaUiMapper,
@@ -158,6 +160,14 @@ class MovieDetailsViewModel @Inject constructor(
                 it.copy(ratingValue = result)
             }
             onAddMovieDetailsItemOfNestedView(DetailsItem.Rating(this@MovieDetailsViewModel))
+        }
+    }
+
+    fun onChangeRating(value: Float){
+        viewModelScope.launch {
+            setRatingUseCase(movieId = args.movieID, value = value)
+            _detailsUiState.update { it.copy(ratingValue = value) }
+            _detailsUiEvent.update { Event(MovieDetailsUiEvent.MessageAppear) }
         }
     }
 
