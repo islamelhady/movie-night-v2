@@ -65,5 +65,11 @@ class ProfileViewModel @Inject constructor(
         _profileUIEvent.update { Event(ProfileUiEvent.WatchHistoryEvent) }
     }
 
+    fun onClickLogin(){
+        _profileUIEvent.update {
+            Event(ProfileUiEvent.LoginEvent)
+        }
+    }
+
 
 }
