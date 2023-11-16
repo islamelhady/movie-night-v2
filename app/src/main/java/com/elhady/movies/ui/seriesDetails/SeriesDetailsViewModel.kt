@@ -146,11 +146,11 @@ class SeriesDetailsViewModel @Inject constructor(
     private fun getLoginStatus() {
         if (!getSessionIdUseCase().isNullOrEmpty()) {
             _seriesUiState.update { it.copy(isLogin = true) }
+            getRatedSeries(args.seriesId)
         }
-        getRatedSeries(args.seriesId)
     }
 
-    private fun getRatedSeries(seriesId: Int){
+    private fun getRatedSeries(seriesId: Int) {
         viewModelScope.launch {
             val result = getSeriesRateUseCase(seriesId = seriesId)
             _seriesUiState.update { it.copy(ratingValue = result) }
@@ -159,47 +159,45 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
 
-
-
-private fun onAddMovieDetailsItemOfNestedView(items: SeriesItems) {
-    val itemsList = _seriesUiState.value.seriesItems.toMutableList()
-    itemsList.add(items)
-    _seriesUiState.update { it.copy(seriesItems = itemsList.toList()) }
-}
-
-override fun onClickBackButton() {
-    _seriesUiEvent.update {
-        Event(SeriesDetailsUiEvent.ClickBackButtonEvent)
+    private fun onAddMovieDetailsItemOfNestedView(items: SeriesItems) {
+        val itemsList = _seriesUiState.value.seriesItems.toMutableList()
+        itemsList.add(items)
+        _seriesUiState.update { it.copy(seriesItems = itemsList.toList()) }
     }
-}
 
-override fun onClickPlayTrailer() {
-    _seriesUiEvent.update {
-        Event(SeriesDetailsUiEvent.ClickPlayTrailerEvent)
+    override fun onClickBackButton() {
+        _seriesUiEvent.update {
+            Event(SeriesDetailsUiEvent.ClickBackButtonEvent)
+        }
     }
-}
 
-override fun onclickViewReviews() {
-    _seriesUiEvent.update {
-        Event(SeriesDetailsUiEvent.ClickViewReviews)
+    override fun onClickPlayTrailer() {
+        _seriesUiEvent.update {
+            Event(SeriesDetailsUiEvent.ClickPlayTrailerEvent)
+        }
     }
-}
 
-override fun onClickActor(actorID: Int) {
-    _seriesUiEvent.update {
-        Event(SeriesDetailsUiEvent.ClickCastEvent(castId = actorID))
+    override fun onclickViewReviews() {
+        _seriesUiEvent.update {
+            Event(SeriesDetailsUiEvent.ClickViewReviews)
+        }
     }
-}
 
-override fun onClickMedia(mediaId: Int) {
-    _seriesUiEvent.update {
-        Event(SeriesDetailsUiEvent.ClickSimilarSeriesEvent(seriesId = mediaId))
+    override fun onClickActor(actorID: Int) {
+        _seriesUiEvent.update {
+            Event(SeriesDetailsUiEvent.ClickCastEvent(castId = actorID))
+        }
     }
-}
 
-override fun onClickSeason(seasonNumber: Int) {
-    _seriesUiEvent.update {
-        Event(SeriesDetailsUiEvent.ClickSeasonEvent(seasonNumber = seasonNumber))
+    override fun onClickMedia(mediaId: Int) {
+        _seriesUiEvent.update {
+            Event(SeriesDetailsUiEvent.ClickSimilarSeriesEvent(seriesId = mediaId))
+        }
     }
-}
+
+    override fun onClickSeason(seasonNumber: Int) {
+        _seriesUiEvent.update {
+            Event(SeriesDetailsUiEvent.ClickSeasonEvent(seasonNumber = seasonNumber))
+        }
+    }
 }
