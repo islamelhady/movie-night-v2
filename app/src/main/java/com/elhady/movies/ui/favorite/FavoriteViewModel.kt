@@ -18,7 +18,7 @@ class FavoriteViewModel @Inject constructor(
     private val createListUseCase: CreateListUseCase,
     private val getCreatedListUseCase: GetCreatedListUseCase,
     private val createdListUiMapper: CreatedListUiMapper
-) : BaseViewModel() {
+) : BaseViewModel(), CreatedListInteractionListener {
 
     private val _uiState = MutableStateFlow(CreateListDialogUiState())
     val uiState = _uiState.asStateFlow()
@@ -30,7 +30,7 @@ class FavoriteViewModel @Inject constructor(
     val uiEvent = _uiEvent.asStateFlow()
 
     override fun getData() {
-
+        getCreatedList()
     }
 
     private fun getCreatedList(){
@@ -70,5 +70,9 @@ class FavoriteViewModel @Inject constructor(
 
     fun onInputListNameChange(listName: CharSequence) {
         _uiState.update { it.copy(listName = listName.toString()) }
+    }
+
+    override fun onListClick(item: CreatedListUiState) {
+        TODO("Not yet implemented")
     }
 }

@@ -2,6 +2,7 @@ package com.elhady.movies.ui.favorite
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.elhady.movies.R
@@ -14,12 +15,16 @@ import dagger.hilt.android.AndroidEntryPoint
 class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
 
     override val layoutIdFragment: Int = R.layout.fragment_favorite
-    override val viewModel: FavoriteViewModel by viewModels()
+    override val viewModel: FavoriteViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setupAdapter()
         collectEvent()
+    }
+
+    private fun setupAdapter(){
+        binding.recyclerFavourite.adapter = CreatedListAdapter(mutableListOf(), viewModel)
     }
 
     private fun collectEvent() {

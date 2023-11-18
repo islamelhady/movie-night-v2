@@ -71,5 +71,7 @@
     <string name="explore_some_movies_on_home_or_search_and_then_create_your_list">Explore some movies on home or search and then create your favourite list</string>
     <string name="list_name">List name</string>
     <string name="create">Create</string>
+    <string name="items">%1$s Items</string>
+
 
 </resources>
