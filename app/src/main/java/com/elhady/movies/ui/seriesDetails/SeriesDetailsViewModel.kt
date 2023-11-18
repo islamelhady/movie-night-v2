@@ -139,7 +139,7 @@ class SeriesDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             setRatingUseCase(args.seriesId, value = value)
             _seriesUiState.update { it.copy(ratingValue = value) }
-            _seriesUiEvent.update { Event(SeriesDetailsUiEvent.ClickViewReviews) }
+            _seriesUiEvent.update { Event(SeriesDetailsUiEvent.MessageAppear) }
         }
     }
 
