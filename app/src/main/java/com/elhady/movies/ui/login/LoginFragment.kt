@@ -26,7 +26,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private fun onEvent(event: LoginUiEvent) {
         when (event) {
             is LoginUiEvent.LoginEvent -> {
-                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToProfileFragment())
             }
             LoginUiEvent.SignUpEvent -> {
                 val browser = Intent(Intent.ACTION_VIEW, Uri.parse(Constants.TMDB_SIGNUP_URL))
