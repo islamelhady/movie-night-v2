@@ -244,7 +244,7 @@
             android:id="@+id/action_searchFragment_to_tvShowDetailsFragment"
             app:destination="@id/tvShowDetailsFragment" />
     </fragment>
-    <fragment
+    <dialog
         android:id="@+id/logoutDialog"
         android:name="com.elhady.movies.ui.profile.logout.LogoutDialog"
         android:label="fragment_logout_dialog"
@@ -252,7 +252,7 @@
         <action
             android:id="@+id/action_logoutDialog_to_homeFragment"
             app:destination="@id/homeFragment" />
-    </fragment>
+    </dialog>
     <fragment
         android:id="@+id/ratingFragment"
         android:name="com.elhady.movies.ui.profile.ratings.RatingFragment"
