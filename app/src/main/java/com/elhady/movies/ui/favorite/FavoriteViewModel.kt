@@ -1,6 +1,7 @@
 package com.elhady.movies.ui.favorite
 
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.domain.mappers.favList.CreatedListMapper
 import com.elhady.movies.domain.usecases.favList.CreateListUseCase
 import com.elhady.movies.domain.usecases.favList.GetCreatedListUseCase
 import com.elhady.movies.ui.base.BaseViewModel
@@ -13,9 +14,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FavoriteViewModel @Inject  constructor(
+class FavoriteViewModel @Inject constructor(
     private val createListUseCase: CreateListUseCase,
-    private val getCreatedListUseCase: GetCreatedListUseCase
+    private val getCreatedListUseCase: GetCreatedListUseCase,
+    private val createdListUiMapper: CreatedListUiMapper
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(CreateListDialogUiState())
@@ -28,21 +30,35 @@ class FavoriteViewModel @Inject  constructor(
     val uiEvent = _uiEvent.asStateFlow()
 
     override fun getData() {
+
+    }
+
+    private fun getCreatedList(){
         _createdListUiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            val result = getCreatedListUseCase()
-            _createdListUiState.update {
-                it.copy(createdList = result)
+            val result = getCreatedListUseCase().map {
+                createdListUiMapper.map(it)
             }
-
+            _createdListUiState.update {
+                it.copy(createdList = result, isLoading = false)
+            }
         }
     }
 
-    fun createList(){
+    fun createList() {
         viewModelScope.launch {
-            createListUseCase(_uiState.value.listName)
+            val result = createListUseCase(_uiState.value.listName).map {
+                createdListUiMapper.map(it)
+            }
+            _createdListUiState.update { it.copy(createdList = result, isLoading = false) }
         }
         onClickCreateList()
+    }
+
+    private fun onClickCreateList() {
+        _uiEvent.update {
+            Event(FavouriteUiEvent.ClickCreateEvent)
+        }
     }
 
     fun onClickAddList() {
@@ -51,13 +67,8 @@ class FavoriteViewModel @Inject  constructor(
         }
     }
 
-    private fun onClickCreateList(){
-        _uiEvent.update {
-            Event(FavouriteUiEvent.ClickCreateEvent)
-        }
-    }
 
-    fun onInputListNameChange(listName: CharSequence){
+    fun onInputListNameChange(listName: CharSequence) {
         _uiState.update { it.copy(listName = listName.toString()) }
     }
 }
