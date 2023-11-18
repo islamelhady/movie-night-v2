@@ -19,6 +19,9 @@ class FavoriteViewModel @Inject  constructor(
     private val _uiState = MutableStateFlow(CreateListDialogUiState())
     val uiState = _uiState.asStateFlow()
 
+    private val _createdListUiState = MutableStateFlow(FavCreatedListUiState())
+    val createdListUIState = _createdListUiState.asStateFlow()
+
     private val _uiEvent = MutableStateFlow<Event<FavouriteUiEvent>?>(null)
     val uiEvent = _uiEvent.asStateFlow()
 
