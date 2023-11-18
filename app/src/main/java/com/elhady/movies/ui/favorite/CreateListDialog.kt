@@ -1,32 +1,13 @@
 package com.elhady.movies.ui.favorite
 
-import androidx.lifecycle.ViewModelProvider
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.elhady.movies.R
+import com.elhady.movies.databinding.DialogCreateListBinding
+import com.elhady.movies.ui.base.BaseDialog
 
-class CreateListDialog : Fragment() {
+class CreateListDialog : BaseDialog<DialogCreateListBinding>() {
 
-    companion object {
-        fun newInstance() = CreateListDialog()
-    }
-
-    private lateinit var viewModel: CreatelistDialogViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.dialog_create_list, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(CreatelistDialogViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
+    override val layoutIdFragment: Int = R.layout.dialog_create_list
+    override val viewModel: FavoriteViewModel by activityViewModels()
 
 }
