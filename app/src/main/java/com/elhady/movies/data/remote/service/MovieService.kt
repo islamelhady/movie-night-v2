@@ -254,7 +254,7 @@ interface MovieService {
 
     @GET("account/{account_id}/lists")
     suspend fun getCreatedList(
-        @Path("account_id") accountId: Int,
+        @Path("account_id") accountId: Int = 0,
         @Query("session_id") sessionId: String
     ): Response<BaseResponse<CreatedListDto>>
 
