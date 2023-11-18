@@ -1,8 +1,6 @@
 package com.elhady.movies.data.repository
 
-import androidx.paging.Config
 import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import com.elhady.movies.data.Constant
 import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.MovieDao
@@ -24,7 +22,7 @@ import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.local.mappers.movies.PopularMovieMapper
 import com.elhady.movies.data.local.mappers.movies.TopRatedMovieMapper
-import com.elhady.movies.data.remote.response.CreateListDto
+import com.elhady.movies.data.remote.response.AddListResponse
 import com.elhady.movies.data.remote.response.CreditsDto
 import com.elhady.movies.data.remote.response.RatedMovieDto
 import com.elhady.movies.data.remote.response.RatingDto
@@ -433,7 +431,7 @@ class MovieRepositoryImp @Inject constructor(
     /**
      * List
      */
-    override suspend fun createList(sessionId: String, name: String): CreateListDto? {
+    override suspend fun createList(sessionId: String, name: String): AddListResponse? {
         return movieService.createList(sessionId, name).body()
     }
 }

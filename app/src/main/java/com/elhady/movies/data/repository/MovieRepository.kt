@@ -10,7 +10,7 @@ import com.elhady.movies.data.local.database.entity.movies.PopularMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.TopRatedMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.TrendingMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.UpcomingMovieEntity
-import com.elhady.movies.data.remote.response.CreateListDto
+import com.elhady.movies.data.remote.response.AddListResponse
 import com.elhady.movies.data.remote.response.CreditsDto
 import com.elhady.movies.data.remote.response.RatedMovieDto
 import com.elhady.movies.data.remote.response.RatingDto
@@ -85,6 +85,6 @@ interface MovieRepository {
 
     suspend fun deleteRateMovie(movieId: Int): RatingDto?
 
-    suspend fun createList(sessionId: String, name: String): CreateListDto?
+    suspend fun createList(sessionId: String, name: String): AddListResponse?
 
 }

@@ -1,7 +1,7 @@
 package com.elhady.movies.data.remote.service
 
 import com.elhady.movies.data.remote.response.BaseResponse
-import com.elhady.movies.data.remote.response.CreateListDto
+import com.elhady.movies.data.remote.response.AddListResponse
 import com.elhady.movies.data.remote.response.CreditsDto
 import com.elhady.movies.data.remote.response.RatedMovieDto
 import com.elhady.movies.data.remote.response.RatedSeriesDto
@@ -249,7 +249,7 @@ interface MovieService {
         @Query("session_id") sessionId: String,
         @Field("name") name: String,
         @Field("description") description: String = ""
-    ): Response<CreateListDto>
+    ): Response<AddListResponse>
 
 
 

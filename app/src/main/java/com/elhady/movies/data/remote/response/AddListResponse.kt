@@ -3,7 +3,7 @@ package com.elhady.movies.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class CreateListDto(
+data class AddListResponse(
     @SerializedName("list_id")
     val listId: Int?,
     @SerializedName("status_code")
