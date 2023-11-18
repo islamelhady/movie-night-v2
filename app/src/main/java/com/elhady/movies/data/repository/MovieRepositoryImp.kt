@@ -24,6 +24,7 @@ import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.local.mappers.movies.PopularMovieMapper
 import com.elhady.movies.data.local.mappers.movies.TopRatedMovieMapper
+import com.elhady.movies.data.remote.response.CreateListDto
 import com.elhady.movies.data.remote.response.CreditsDto
 import com.elhady.movies.data.remote.response.RatedMovieDto
 import com.elhady.movies.data.remote.response.RatingDto
@@ -427,5 +428,12 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun deleteRateMovie(movieId: Int): RatingDto? {
         return movieService.deleteRatingMovie(movieId).body()
+    }
+
+    /**
+     * List
+     */
+    override suspend fun createList(sessionId: String, name: String): CreateListDto? {
+        return movieService.createList(sessionId, name).body()
     }
 }
