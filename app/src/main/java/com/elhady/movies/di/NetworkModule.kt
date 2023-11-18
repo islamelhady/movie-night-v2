@@ -44,11 +44,11 @@ object NetworkModule {
         return GsonConverterFactory.create()
     }
 
-    @Provides
-    @Singleton
-    fun provideAuthInterceptor(): AuthInterceptor {
-        return AuthInterceptor()
-    }
+//    @Provides
+//    @Singleton
+//    fun provideAuthInterceptor(): AuthInterceptor {
+//        return AuthInterceptor()
+//    }
 
     @Provides
     @Singleton
