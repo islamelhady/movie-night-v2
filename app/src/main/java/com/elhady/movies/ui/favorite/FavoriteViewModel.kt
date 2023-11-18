@@ -69,6 +69,8 @@ class FavoriteViewModel @Inject constructor(
     }
 
     override fun onListClick(item: CreatedListUiState) {
-        TODO("Not yet implemented")
+        _uiEvent.update {
+            Event(FavouriteUiEvent.ClickSelectedItemEvent(item))
+        }
     }
 }

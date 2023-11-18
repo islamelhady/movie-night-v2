@@ -9,6 +9,9 @@
             name="item"
             type="com.elhady.movies.ui.favorite.CreatedListUiState" />
 
+        <variable
+            name="listener"
+            type="com.elhady.movies.ui.favorite.CreatedListInteractionListener" />
 
     </data>
 
@@ -24,17 +27,18 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:onClick="@{ () -> listener.onListClick(item)}">
 
             <TextView
                 style="@style/Regular.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginStart="@dimen/spacing_medium"
                 android:text="@{item.name}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="Action movies" />
 
 
@@ -42,11 +46,11 @@
                 style="@style/Regular.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:text="@{@string/items(item.mediaCounts)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginEnd="@dimen/spacing_medium"
-                android:text="@{@string/items(item.mediaCounts)}"
                 tools:text="19 items" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
