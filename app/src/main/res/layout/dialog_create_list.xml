@@ -3,7 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.elhady.movies.ui.favorite.FavoriteViewModel" />
+        
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,7 +53,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/ubuntu_regular"
+                style="@style/Regular.Medium"
+                android:afterTextChanged="@{ (text) -> viewModel.onInputListNameChange(text)}"
                 android:inputType="textPersonName"
                 android:maxLength="15"
                 android:maxLines="1"
@@ -69,6 +73,7 @@
             android:paddingVertical="@dimen/spacing_medium"
             android:text="@string/create"
             android:textAllCaps="false"
+            android:onClick="@{ () -> viewModel.createList()}"
             android:textColor="@color/white_primary"
             app:backgroundTint="@color/color_states_material_button"
             app:cornerRadius="@dimen/spacing_small"

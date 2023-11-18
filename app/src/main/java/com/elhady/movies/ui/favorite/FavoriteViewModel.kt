@@ -19,12 +19,16 @@ class FavoriteViewModel @Inject  constructor(
     val uiState = _uiState.asStateFlow()
 
     override fun getData() {
+
+    }
+
+    fun createList(){
         viewModelScope.launch {
             createListUseCase(_uiState.value.listName)
         }
     }
 
-    fun onClickCreateList(listName: CharSequence){
+    fun onInputListNameChange(listName: CharSequence){
         _uiState.update { it.copy(listName = listName.toString()) }
     }
 }
