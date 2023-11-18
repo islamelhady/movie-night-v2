@@ -53,7 +53,11 @@
         android:id="@+id/favoriteFragment"
         android:name="com.elhady.movies.ui.favorite.FavoriteFragment"
         android:label="@string/title_favorite"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_createListDialog"
+            app:destination="@id/createListDialog" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.elhady.movies.ui.profile.ProfileFragment"
@@ -277,4 +281,9 @@
             android:id="@+id/action_watchHistoryFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/createListDialog"
+        android:name="com.elhady.movies.ui.favorite.CreateListDialog"
+        android:label="CreateListDialog"
+        tools:layout="@layout/dialog_create_list"/>
 </navigation>

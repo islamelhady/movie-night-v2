@@ -30,6 +30,7 @@ class FavoriteViewModel @Inject  constructor(
         viewModelScope.launch {
             createListUseCase(_uiState.value.listName)
         }
+        onClickCreateList()
     }
 
     fun onClickAddList() {
@@ -38,7 +39,7 @@ class FavoriteViewModel @Inject  constructor(
         }
     }
 
-    fun onClickCreateList(){
+    private fun onClickCreateList(){
         _uiEvent.update {
             Event(FavouriteUiEvent.ClickCreateEvent)
         }
