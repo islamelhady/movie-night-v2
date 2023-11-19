@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.elhady.movies.ui.movieDetails.saveMovie.SaveMovieViewModel" />
 
     </data>
 
@@ -16,6 +19,8 @@
             android:id="@+id/recycler_save_movie"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:items="@{ viewModel.saveUiState.myListItemUI}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

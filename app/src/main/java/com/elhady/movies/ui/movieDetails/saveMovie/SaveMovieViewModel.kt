@@ -17,7 +17,7 @@ class SaveMovieViewModel @Inject constructor(
     private val saveMovieToFavListUseCase: SaveMovieToFavListUseCase,
     private val getCreatedListUseCase: GetCreatedListUseCase,
     private val favListItemUiStateMapper: FavListItemUiStateMapper
-) : BaseViewModel() {
+) : BaseViewModel(), SaveListInteractionListener {
 
     private val _saveUiState = MutableStateFlow(FavListUiState())
     val saveUiState = _saveUiState.asStateFlow()
@@ -46,5 +46,9 @@ class SaveMovieViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    override fun onClickSaveList(listId: Int) {
+        TODO("Not yet implemented")
     }
 }
