@@ -2,7 +2,7 @@ package com.elhady.movies.ui.favorite.details
 
 import com.elhady.movies.domain.enums.MediaType
 
-data class SavedMediaUIState(
+data class FavMediaUiState(
     val mediaID: Int = 0,
     val title: String = "",
     val mediaType: String = MediaType.MOVIES.value,

@@ -1,7 +1,13 @@
 package com.elhady.movies.ui.favorite.details
 
-import androidx.lifecycle.ViewModel
+import com.elhady.movies.ui.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class FavListDetailsViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+@HiltViewModel
+class FavListDetailsViewModel @Inject constructor(): BaseViewModel() {
+
+    override fun getData() {
+        TODO("Not yet implemented")
+    }
 }
