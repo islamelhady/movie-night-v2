@@ -32,7 +32,7 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:posterImage="@{item.image}"
+                app:movieImage="@{item.image}"
                 app:shapeAppearanceOverlay="@style/CardCorners.Small"
                 tools:src="@tools:sample/avatars" />
 
@@ -49,7 +49,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/image_movie"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="The Mandalorian" />
+                tools:text="@tools:sample/full_names" />
 
 
             <com.google.android.material.textview.MaterialTextView

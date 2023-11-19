@@ -38,7 +38,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
     private fun onEvent(event: FavouriteUiEvent) {
         when(event){
             FavouriteUiEvent.CLickAddEvent -> findNavController().navigate(FavoriteFragmentDirections.actionFavoriteFragmentToCreateListDialog())
-            is FavouriteUiEvent.ClickSelectedItemEvent -> findNavController().navigate(FavoriteFragmentDirections.actionFavoriteFragmentToFavListDetailsFragment())
+            is FavouriteUiEvent.ClickSelectedItemEvent -> findNavController().navigate(FavoriteFragmentDirections.actionFavoriteFragmentToFavListDetailsFragment(event.item.id))
             else -> {}
         }
 

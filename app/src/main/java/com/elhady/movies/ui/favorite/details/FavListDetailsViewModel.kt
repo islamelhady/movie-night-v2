@@ -17,7 +17,7 @@ class FavListDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getFavListDetailsUseCase: GetFavListDetailsUseCase,
     private val mediaUiStateMapper: MediaUiStateMapper
-) : BaseViewModel() {
+) : BaseViewModel(),  ListDetailsInteractionListener{
 
     val args = FavListDetailsFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
@@ -53,5 +53,9 @@ class FavListDetailsViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    override fun onItemClick(item: FavMediaUiState) {
+        TODO("Not yet implemented")
     }
 }
