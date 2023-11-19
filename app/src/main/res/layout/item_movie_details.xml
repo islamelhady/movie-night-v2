@@ -63,6 +63,7 @@
             android:layout_marginEnd="@dimen/spacing_medium"
             android:background="@drawable/back_button_shape"
             android:padding="@dimen/spacing_small"
+            android:onClick="@{ () -> listener.onClickFavourite()}"
             android:src="@drawable/ic_favorite"
             app:layout_constraintBottom_toBottomOf="@id/back_button"
             app:layout_constraintEnd_toEndOf="parent"

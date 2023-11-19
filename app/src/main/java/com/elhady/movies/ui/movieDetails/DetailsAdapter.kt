@@ -62,6 +62,10 @@ class DetailsAdapter(
             DetailsItem.ReviewsText -> {}
 
             DetailsItem.SeeAllReviewsButton -> holder.binding.setVariable(BR.listener, listener as DetailsInteractionListener)
+
+            is DetailsItem.Rating -> {
+                holder.binding.setVariable(BR.viewModel, currentItem.viewModel)
+            }
         }
 
     }
@@ -74,6 +78,7 @@ class DetailsAdapter(
             is DetailsItem.Reviews -> R.layout.item_review
             DetailsItem.ReviewsText -> R.layout.item_review_text
             DetailsItem.SeeAllReviewsButton -> R.layout.item_see_all_reviews
+            is DetailsItem.Rating -> R.layout.item_rating
         }
 
     }

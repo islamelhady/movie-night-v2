@@ -53,7 +53,14 @@
         android:id="@+id/favoriteFragment"
         android:name="com.elhady.movies.ui.favorite.FavoriteFragment"
         android:label="@string/title_favorite"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_createListDialog"
+            app:destination="@id/createListDialog" />
+        <action
+            android:id="@+id/action_favoriteFragment_to_favListDetailsFragment"
+            app:destination="@id/favListDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.elhady.movies.ui.profile.ProfileFragment"
@@ -68,18 +75,21 @@
         <action
             android:id="@+id/action_profileFragment_to_watchHistoryFragment"
             app:destination="@id/watchHistoryFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.elhady.movies.ui.login.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
-        <action
-            android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
         <argument
             android:name="form"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_loginFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"
@@ -101,6 +111,9 @@
         <action
             android:id="@+id/action_movieDetailsFragment_to_reviewsFragment"
             app:destination="@id/reviewsFragment" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_saveMovieDialog"
+            app:destination="@id/saveMovieDialog" />
     </fragment>
     <fragment
         android:id="@+id/allMediaFragment"
@@ -241,20 +254,27 @@
             android:id="@+id/action_searchFragment_to_tvShowDetailsFragment"
             app:destination="@id/tvShowDetailsFragment" />
     </fragment>
-    <fragment
+    <dialog
         android:id="@+id/logoutDialog"
         android:name="com.elhady.movies.ui.profile.logout.LogoutDialog"
         android:label="fragment_logout_dialog"
-        tools:layout="@layout/fragment_logout_dialog" >
+        tools:layout="@layout/logout_dialog" >
         <action
             android:id="@+id/action_logoutDialog_to_homeFragment"
             app:destination="@id/homeFragment" />
-    </fragment>
+    </dialog>
     <fragment
         android:id="@+id/ratingFragment"
         android:name="com.elhady.movies.ui.profile.ratings.RatingFragment"
         android:label="fragment_rating"
-        tools:layout="@layout/fragment_rating" />
+        tools:layout="@layout/fragment_rating" >
+        <action
+            android:id="@+id/action_ratingFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+        <action
+            android:id="@+id/action_ratingFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/watchHistoryFragment"
         android:name="com.elhady.movies.ui.profile.watchHistory.WatchHistoryFragment"
@@ -267,4 +287,33 @@
             android:id="@+id/action_watchHistoryFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/createListDialog"
+        android:name="com.elhady.movies.ui.favorite.CreateListDialog"
+        android:label="CreateListDialog"
+        tools:layout="@layout/dialog_create_list"/>
+    <fragment
+        android:id="@+id/favListDetailsFragment"
+        android:name="com.elhady.movies.ui.favorite.details.FavListDetailsFragment"
+        android:label="fragment_fav_list_details"
+        tools:layout="@layout/fragment_fav_list_details" >
+        <argument
+            android:name="mediaId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_favListDetailsFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
+        <action
+            android:id="@+id/action_favListDetailsFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/saveMovieDialog"
+        android:name="com.elhady.movies.ui.movieDetails.saveMovie.SaveMovieBottomSheet"
+        android:label="SaveMovieDialog"
+        tools:layout="@layout/bottom_sheet_save_movie">
+        <argument
+            android:name="movieId"
+            app:argType="integer" />
+    </dialog>
 </navigation>

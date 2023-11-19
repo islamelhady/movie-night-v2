@@ -6,4 +6,7 @@ sealed interface MovieDetailsUiEvent {
     object ClickBackButton: MovieDetailsUiEvent
     data class ClickCastEvent(val castId: Int): MovieDetailsUiEvent
     object ClickSeeReviewsEvent: MovieDetailsUiEvent
+    object MessageAppear : MovieDetailsUiEvent
+    object ClickFavourite: MovieDetailsUiEvent
+
 }

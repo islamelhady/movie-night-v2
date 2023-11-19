@@ -13,6 +13,8 @@ import com.elhady.movies.data.local.mappers.series.AiringTodaySeriesMapper
 import com.elhady.movies.data.local.mappers.series.OnTheAirSeriesMapper
 import com.elhady.movies.data.local.mappers.series.TVSeriesListsMapper
 import com.elhady.movies.data.remote.response.CreditsDto
+import com.elhady.movies.data.remote.response.RatedSeriesDto
+import com.elhady.movies.data.remote.response.RatingDto
 import com.elhady.movies.data.remote.response.TrendingDto
 import com.elhady.movies.data.remote.response.episode.EpisodeDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
@@ -252,6 +254,21 @@ class SeriesRepositoryImp @Inject constructor(
      */
     override suspend fun insertSeriesWatch(series: WatchHistoryEntity) {
         movieDao.insertWatch(series)
+    }
+
+    /**
+     * Rating
+     */
+    override suspend fun setRatingSeries(seriesId: Int, value: Float): RatingDto? {
+        return movieService.setRatingSeries(seriesId = seriesId, rating = value).body()
+    }
+
+    override suspend fun deleteRateSeries(seriesId: Int): RatingDto? {
+        return movieService.deleteRatingSeries(seriesId).body()
+    }
+
+    override suspend fun getRatedSeries(): List<RatedSeriesDto>? {
+        return movieService.getRatedTvShow().body()?.items
     }
 
 

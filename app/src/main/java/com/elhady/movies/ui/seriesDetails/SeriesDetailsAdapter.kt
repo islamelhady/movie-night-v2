@@ -58,6 +58,10 @@ class SeriesDetailsAdapter(private var detailsItem: List<SeriesItems>, val liste
             SeriesItems.ReviewText -> {}
 
             SeriesItems.SeeAllReviews -> holder.binding.setVariable(BR.listener, listener as DetailsInteractionListener)
+
+            is SeriesItems.Rating -> {
+                holder.binding.setVariable(BR.viewModel, currentItem.viewModel)
+            }
         }
 
     }
@@ -71,6 +75,7 @@ class SeriesDetailsAdapter(private var detailsItem: List<SeriesItems>, val liste
             is SeriesItems.Review -> R.layout.item_review
             SeriesItems.ReviewText -> R.layout.item_review_text
             SeriesItems.SeeAllReviews -> R.layout.item_see_all_reviews
+            is SeriesItems.Rating -> R.layout.item_series_rating
         }
     }
 

@@ -1,7 +1,14 @@
 package com.elhady.movies.data.remote.service
 
 import com.elhady.movies.data.remote.response.BaseResponse
+import com.elhady.movies.data.remote.response.AddListResponse
+import com.elhady.movies.data.remote.response.AddMovieDto
+import com.elhady.movies.data.remote.response.CreatedListDto
 import com.elhady.movies.data.remote.response.CreditsDto
+import com.elhady.movies.data.remote.response.FavListDto
+import com.elhady.movies.data.remote.response.RatedMovieDto
+import com.elhady.movies.data.remote.response.RatedSeriesDto
+import com.elhady.movies.data.remote.response.RatingDto
 import com.elhady.movies.data.remote.response.TrendingDto
 import com.elhady.movies.data.remote.response.account.AccountDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
@@ -18,6 +25,7 @@ import com.elhady.movies.data.remote.response.series.SeriesDto
 import com.elhady.movies.data.remote.response.video.VideoDto
 import com.elhady.movies.domain.TrendingTimeWindow
 import retrofit2.Response
+import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
@@ -207,10 +215,60 @@ interface MovieService {
     /**
      * Account
      * * Details
+     * * Rated Movie
+     * * Rated Series
      */
 
     @GET("account")
     suspend fun getAccountDetails(@Query("session_id") sessionId: String? = ""): Response<AccountDto>
+
+    @GET("account/{account_id}/rated/movies")
+    suspend fun getRatedMovie(@Path("account_id") accountId: Int = 0): Response<BaseResponse<RatedMovieDto>>
+
+    @FormUrlEncoded
+    @POST("movie/{movie_id}/rating")
+    suspend fun setRateMovie(@Path("movie_id") movieId: Int, @Field("value") rating: Float): Response<RatingDto>
+
+    @DELETE("movie/{movie_id}/rating")
+    suspend fun deleteRatingMovie(@Path("movie_id") movieId: Int): Response<RatingDto>
+
+    @FormUrlEncoded
+    @POST("tv/{tv_id}/rating")
+    suspend fun setRatingSeries( @Path("tv_id") seriesId: Int, @Field("value") rating: Float): Response<RatingDto>
+
+    @DELETE("tv/{tv_id}/rating")
+    suspend fun deleteRatingSeries(@Path("tv_id") seriesId: Int): Response<RatingDto>
+
+    @GET("account/{account_id}/rated/tv")
+    suspend fun getRatedTvShow(@Path("account_id") listId: Int = 0): Response<BaseResponse<RatedSeriesDto>>
+
+    /**
+     * List
+     * * Create
+     * * Details
+     * * Add Movie
+     */
+    @FormUrlEncoded
+    @POST("list")
+    suspend fun createList(
+        @Query("session_id") sessionId: String,
+        @Field("name") name: String,
+        @Field("description") description: String = ""
+    ): Response<AddListResponse>
+
+
+    @GET("account/{account_id}/lists")
+    suspend fun getCreatedList(
+        @Path("account_id") accountId: Int = 0,
+        @Query("session_id") sessionId: String
+    ): Response<BaseResponse<CreatedListDto>>
+
+    @GET("list/{list_id}")
+    suspend fun getList(@Path("list_id") listId: Int): Response<FavListDto>
+
+    @FormUrlEncoded
+    @POST("list/{list_id}/add_item")
+    suspend fun addMovieToFavList(@Path("list_id") listId: Int, @Query("session_id") seriesId: String, @Field("media_id") movieId: Int): Response<AddMovieDto>
 
 
     /**

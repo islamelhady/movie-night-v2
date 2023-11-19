@@ -1,8 +1,6 @@
 package com.elhady.movies.data.repository
 
-import androidx.paging.Config
 import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import com.elhady.movies.data.Constant
 import com.elhady.movies.data.local.AppConfiguration
 import com.elhady.movies.data.local.database.daos.MovieDao
@@ -24,7 +22,14 @@ import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.local.mappers.movies.PopularMovieMapper
 import com.elhady.movies.data.local.mappers.movies.TopRatedMovieMapper
+import com.elhady.movies.data.remote.response.AddListResponse
+import com.elhady.movies.data.remote.response.AddMovieDto
+import com.elhady.movies.data.remote.response.CreatedListDto
 import com.elhady.movies.data.remote.response.CreditsDto
+import com.elhady.movies.data.remote.response.FavListDto
+import com.elhady.movies.data.remote.response.RatedMovieDto
+import com.elhady.movies.data.remote.response.RatingDto
+import com.elhady.movies.data.remote.response.SavedListDto
 import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
@@ -410,5 +415,47 @@ class MovieRepositoryImp @Inject constructor(
 
     override fun getAllMoviesWatch(): Flow<List<WatchHistoryEntity>> {
         return movieDao.getAllWatch()
+    }
+
+    /**
+     * Rating
+     */
+    override suspend fun getRatedMovie(): List<RatedMovieDto>? {
+        return movieService.getRatedMovie().body()?.items
+    }
+
+    override suspend fun setRateMovie(movieId: Int, value: Float): RatingDto? {
+        return movieService.setRateMovie(movieId, value).body()
+    }
+
+    override suspend fun deleteRateMovie(movieId: Int): RatingDto? {
+        return movieService.deleteRatingMovie(movieId).body()
+    }
+
+    /**
+     * List
+     */
+    override suspend fun createList(sessionId: String, name: String): AddListResponse? {
+        return movieService.createList(sessionId, name).body()
+    }
+
+    override suspend fun getCreatedList(sessionId: String): List<CreatedListDto>? {
+        return movieService.getCreatedList(sessionId = sessionId).body()?.items
+    }
+
+    override suspend fun addMovieToList(
+        sessionId: String,
+        listId: Int,
+        movieId: Int
+    ): AddMovieDto? {
+        return movieService.addMovieToFavList(seriesId = sessionId, listId = listId, movieId = movieId).body()
+    }
+
+    override suspend fun getListDetails(listId: Int): FavListDto? {
+        return movieService.getList(listId).body()
+    }
+
+    override suspend fun getSavedListDetails(listId: Int): List<SavedListDto>? {
+        return movieService.getList(listId).body()?.items
     }
 }

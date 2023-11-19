@@ -16,6 +16,8 @@
     <color name="shade_quaternary_color">#2903050A</color>
 
     <color name="red">#E64A19</color>
+    <color name="colorDisabled">#6650E826</color>
+
     <color name="white_primary">#FFFFFF</color>
     <color name="white_secondary">#99FFFFFF</color>
 

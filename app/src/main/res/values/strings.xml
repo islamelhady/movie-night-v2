@@ -63,5 +63,17 @@
     <string name="you_re_about_to_sign_out_of_your_account">You\'re about to sign out of your account.</string>
     <string name="logout">Sign Out</string>
     <string name="cancel">Cancel</string>
+    <string name="rate_the_movie">Rate The Movie</string>
+    <string name="rate_the_series">Rate The Series Show</string>
+    <string name="submit_toast">Submitted, Thank you for your feedback</string>
+    <string name="you_must_be_logged_in_to_see_the_profile">You must be logged in to see the profile.\n</string>
+    <string name="create_a_new_list">Create a new list</string>
+    <string name="explore_some_movies_on_home_or_search_and_then_create_your_list">Explore some movies on home or search and then create your favourite list</string>
+    <string name="list_name">List name</string>
+    <string name="create">Create</string>
+    <string name="items">%1$s Items</string>
+    <string name="save_to">Save to..</string>
+    <string name="this_list_has_no_lists">No list found</string>
+
 
 </resources>

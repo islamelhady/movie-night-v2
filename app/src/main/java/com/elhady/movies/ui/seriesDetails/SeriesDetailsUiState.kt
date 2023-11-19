@@ -11,5 +11,7 @@ data class SeriesDetailsUiState(
     val seriesCastResult: List<ActorUiState> = mutableListOf(),
     val seriesSimilarResult: List<MediaUiState> = mutableListOf(),
     val seriesSeasonsResult: List<SeasonUiState> = mutableListOf(),
-    val seriesReviewResult: List<ReviewUiState> = mutableListOf()
+    val seriesReviewResult: List<ReviewUiState> = mutableListOf(),
+    val ratingValue: Float = 0f,
+    val isLogin: Boolean = false
 )

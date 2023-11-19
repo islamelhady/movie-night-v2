@@ -2,6 +2,7 @@ package com.elhady.movies.ui.seriesDetails
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -52,6 +53,7 @@ class SeriesDetailsFragment : BaseFragment<FragmentSeriesDetailsBinding>() {
             SeriesDetailsUiEvent.ClickPlayTrailerEvent -> findNavController().navigate(SeriesDetailsFragmentDirections.actionTvShowDetailsFragmentToVideoFragment(viewModel.args.seriesId, MediaType.SERIES))
             is SeriesDetailsUiEvent.ClickSimilarSeriesEvent -> findNavController().navigate(SeriesDetailsFragmentDirections.actionTvShowDetailsFragmentSelf(event.seriesId))
             SeriesDetailsUiEvent.ClickViewReviews -> findNavController().navigate(SeriesDetailsFragmentDirections.actionTvShowDetailsFragmentToReviewsFragment(mediaId = viewModel.args.seriesId, mediaType = MediaType.SERIES))
+            SeriesDetailsUiEvent.MessageAppear -> Toast.makeText(context, R.string.submit_toast, Toast.LENGTH_LONG).show()
         }
     }
 
