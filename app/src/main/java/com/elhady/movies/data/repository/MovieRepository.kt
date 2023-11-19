@@ -17,6 +17,7 @@ import com.elhady.movies.data.remote.response.CreditsDto
 import com.elhady.movies.data.remote.response.FavListDto
 import com.elhady.movies.data.remote.response.RatedMovieDto
 import com.elhady.movies.data.remote.response.RatingDto
+import com.elhady.movies.data.remote.response.SavedListDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
@@ -93,6 +94,9 @@ interface MovieRepository {
     suspend fun getCreatedList(sessionId: String): List<CreatedListDto>?
 
     suspend fun getListDetails(listId: Int): FavListDto?
+
     suspend fun addMovieToList(sessionId: String, listId: Int, movieId: Int): AddMovieDto?
+
+    suspend fun getSavedListDetails(listId: Int): List<SavedListDto>?
 
 }

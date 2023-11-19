@@ -17,7 +17,7 @@ data class FavListDto(
     @SerializedName("item_count")
     val itemCount: Int?,
     @SerializedName("items")
-    val items: List<SavedListDto?>?,
+    val items: List<SavedListDto>?,
     @SerializedName("name")
     val name: String?,
     @SerializedName("poster_path")
