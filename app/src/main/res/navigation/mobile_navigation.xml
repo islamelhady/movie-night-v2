@@ -111,6 +111,9 @@
         <action
             android:id="@+id/action_movieDetailsFragment_to_reviewsFragment"
             app:destination="@id/reviewsFragment" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_saveMovieDialog"
+            app:destination="@id/saveMovieDialog" />
     </fragment>
     <fragment
         android:id="@+id/allMediaFragment"
@@ -294,4 +297,9 @@
         android:name="com.elhady.movies.ui.favorite.details.FavListDetailsFragment"
         android:label="fragment_fav_list_details"
         tools:layout="@layout/fragment_fav_list_details" />
+    <dialog
+        android:id="@+id/saveMovieDialog"
+        android:name="com.elhady.movies.ui.movieDetails.saveMovie.SaveMovieBottomSheet"
+        android:label="SaveMovieDialog"
+        tools:layout="@layout/bottom_sheet_save_movie"/>
 </navigation>

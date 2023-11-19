@@ -31,10 +31,11 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
     }
 
 
-    private fun setupAdapter(){
+    private fun setupAdapter() {
         detailAdapter = DetailsAdapter(mutableListOf(), viewModel)
         binding.recyclerView.adapter = detailAdapter
     }
+
     private fun collectMovieDetailsItems() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.detailsUiState.collect {
@@ -49,27 +50,45 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
         }
     }
 
-    private fun onEvent(event: MovieDetailsUiEvent){
+    private fun onEvent(event: MovieDetailsUiEvent) {
         var action: NavDirections? = null
 
-        when(event){
+        when (event) {
             is MovieDetailsUiEvent.ClickPlayTrailerEvent -> {
-                action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToVideoFragment(viewModel.args.movieID, MediaType.MOVIES)
+                action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToVideoFragment(
+                    viewModel.args.movieID,
+                    MediaType.MOVIES
+                )
             }
 
             MovieDetailsUiEvent.ClickBackButton -> findNavController().popBackStack()
 
             is MovieDetailsUiEvent.ClickMovieEvent -> {
                 viewModelStore.clear()
-                action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentSelf(event.movieId)
+                action =
+                    MovieDetailsFragmentDirections.actionMovieDetailsFragmentSelf(event.movieId)
             }
 
             is MovieDetailsUiEvent.ClickCastEvent -> {
-               action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToActorDetailsFragment(event.castId)
+                action =
+                    MovieDetailsFragmentDirections.actionMovieDetailsFragmentToActorDetailsFragment(
+                        event.castId
+                    )
             }
 
-            MovieDetailsUiEvent.ClickSeeReviewsEvent -> action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewsFragment(mediaId = viewModel.args.movieID, mediaType = MediaType.MOVIES)
-            MovieDetailsUiEvent.MessageAppear -> Toast.makeText(context, R.string.submit_toast, Toast.LENGTH_LONG).show()
+            MovieDetailsUiEvent.ClickSeeReviewsEvent -> action =
+                MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewsFragment(
+                    mediaId = viewModel.args.movieID,
+                    mediaType = MediaType.MOVIES
+                )
+
+            MovieDetailsUiEvent.MessageAppear -> Toast.makeText(
+                context,
+                R.string.submit_toast,
+                Toast.LENGTH_LONG
+            ).show()
+
+            MovieDetailsUiEvent.ClickFavourite -> action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToSaveMovieDialog()
         }
 
         action?.let {
