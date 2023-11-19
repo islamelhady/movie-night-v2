@@ -72,6 +72,8 @@
     <string name="list_name">List name</string>
     <string name="create">Create</string>
     <string name="items">%1$s Items</string>
+    <string name="save_to">Save to..</string>
+    <string name="this_list_has_no_lists">No list found</string>
 
 
 </resources>

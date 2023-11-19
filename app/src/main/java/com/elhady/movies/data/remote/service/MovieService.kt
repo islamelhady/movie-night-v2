@@ -268,7 +268,7 @@ interface MovieService {
 
     @FormUrlEncoded
     @POST("list/{list_id}/add_item")
-    suspend fun addMovieToFavList(@Path("list_id") listId: Int, @Query("session_id") seriesId: Int, @Field("media_id") movieId: Int): Response<AddMovieDto>
+    suspend fun addMovieToFavList(@Path("list_id") listId: Int, @Query("session_id") seriesId: String, @Field("media_id") movieId: Int): Response<AddMovieDto>
 
 
     /**

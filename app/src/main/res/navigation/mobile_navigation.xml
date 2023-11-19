@@ -301,5 +301,9 @@
         android:id="@+id/saveMovieDialog"
         android:name="com.elhady.movies.ui.movieDetails.saveMovie.SaveMovieBottomSheet"
         android:label="SaveMovieDialog"
-        tools:layout="@layout/bottom_sheet_save_movie"/>
+        tools:layout="@layout/bottom_sheet_save_movie">
+        <argument
+            android:name="movieId"
+            app:argType="integer" />
+    </dialog>
 </navigation>
