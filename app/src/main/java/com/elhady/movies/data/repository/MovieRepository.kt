@@ -11,8 +11,10 @@ import com.elhady.movies.data.local.database.entity.movies.TopRatedMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.TrendingMovieEntity
 import com.elhady.movies.data.local.database.entity.movies.UpcomingMovieEntity
 import com.elhady.movies.data.remote.response.AddListResponse
+import com.elhady.movies.data.remote.response.AddMovieDto
 import com.elhady.movies.data.remote.response.CreatedListDto
 import com.elhady.movies.data.remote.response.CreditsDto
+import com.elhady.movies.data.remote.response.FavListDto
 import com.elhady.movies.data.remote.response.RatedMovieDto
 import com.elhady.movies.data.remote.response.RatingDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
@@ -89,5 +91,8 @@ interface MovieRepository {
     suspend fun createList(sessionId: String, name: String): AddListResponse?
 
     suspend fun getCreatedList(sessionId: String): List<CreatedListDto>?
+
+    suspend fun getListDetails(listId: Int): FavListDto?
+    suspend fun addMovieToList(sessionId: String, listId: Int, movieId: Int): AddMovieDto?
 
 }
