@@ -18,7 +18,7 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?actionBarSize"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,6 +32,8 @@
             android:id="@+id/recycler_save_movie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:layout_marginTop="@dimen/spacing_large"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:items="@{ viewModel.saveUiState.myListItemUI}"
             app:layout_constraintBottom_toBottomOf="parent"
