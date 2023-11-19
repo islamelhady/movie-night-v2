@@ -300,6 +300,12 @@
         <argument
             android:name="mediaId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_favListDetailsFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
+        <action
+            android:id="@+id/action_favListDetailsFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
     </fragment>
     <dialog
         android:id="@+id/saveMovieDialog"

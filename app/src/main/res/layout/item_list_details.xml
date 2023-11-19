@@ -9,12 +9,16 @@
             name="item"
             type="com.elhady.movies.ui.favorite.details.FavMediaUiState" />
 
+        <variable
+            name="listener"
+            type="com.elhady.movies.ui.favorite.details.ListDetailsInteractionListener" />
     </data>
 
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="@{ () -> listener.onItemClick(item)}"
         android:layout_marginHorizontal="@dimen/spacing_medium"
         android:layout_marginTop="@dimen/spacing_medium"
         app:cardCornerRadius="@dimen/radius_small"

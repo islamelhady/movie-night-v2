@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.favList.GetFavListDetailsUseCase
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.movieDetails.ErrorUiState
+import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,6 +24,10 @@ class FavListDetailsViewModel @Inject constructor(
 
     private val _favDetailsUiState = MutableStateFlow(ListDetailsUIState())
     val favDetailsUIState = _favDetailsUiState.asStateFlow()
+
+    private val _favDetailsUiEvent = MutableStateFlow<Event<ListDetailsUiEvent>?>(null)
+    val favDetailsUiEvent = _favDetailsUiEvent.asStateFlow()
+
 
     init {
         getData()
@@ -56,6 +61,8 @@ class FavListDetailsViewModel @Inject constructor(
     }
 
     override fun onItemClick(item: FavMediaUiState) {
-        TODO("Not yet implemented")
+        _favDetailsUiEvent.update {
+            Event(ListDetailsUiEvent.OnItemSelected(item))
+        }
     }
 }
