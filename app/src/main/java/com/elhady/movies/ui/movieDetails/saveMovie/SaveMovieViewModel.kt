@@ -21,6 +21,12 @@ class SaveMovieViewModel @Inject constructor(
 
     private val _saveUiState = MutableStateFlow(FavListUiState())
     val saveUiState = _saveUiState.asStateFlow()
+
+    init {
+        getData()
+    }
+
+
     override fun getData() {
         viewModelScope.launch {
             _saveUiState.update { it.copy(isLoading = true, error = emptyList()) }
