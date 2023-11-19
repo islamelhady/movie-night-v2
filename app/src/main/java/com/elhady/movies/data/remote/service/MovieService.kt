@@ -4,6 +4,7 @@ import com.elhady.movies.data.remote.response.BaseResponse
 import com.elhady.movies.data.remote.response.AddListResponse
 import com.elhady.movies.data.remote.response.CreatedListDto
 import com.elhady.movies.data.remote.response.CreditsDto
+import com.elhady.movies.data.remote.response.FavListDto
 import com.elhady.movies.data.remote.response.RatedMovieDto
 import com.elhady.movies.data.remote.response.RatedSeriesDto
 import com.elhady.movies.data.remote.response.RatingDto
@@ -242,7 +243,8 @@ interface MovieService {
 
     /**
      * List
-     * Create List
+     * * Create
+     * * Details
      */
     @FormUrlEncoded
     @POST("list")
@@ -251,6 +253,10 @@ interface MovieService {
         @Field("name") name: String,
         @Field("description") description: String = ""
     ): Response<AddListResponse>
+
+    @GET("list/{list_id}")
+    suspend fun getList(@Path("list_id") listId: Int): Response<FavListDto>
+
 
     @GET("account/{account_id}/lists")
     suspend fun getCreatedList(
