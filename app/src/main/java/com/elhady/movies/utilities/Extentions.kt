@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.elhady.movies.R
+import com.elhady.movies.data.remote.response.FavListDto
 import com.elhady.movies.data.remote.response.video.ResultDto
 import com.elhady.movies.databinding.ItemChipCategoryBinding
 import com.elhady.movies.ui.adapter.LoadAdapter
@@ -111,4 +112,13 @@ fun DialogFragment.setWidthPercent(percentage: Int) {
 
 fun <T> List<T>.margeTwoList(secondList: List<T>): List<T>{
     return this.plus(secondList)
+}
+
+fun FavListDto.checkIfExist(movieId: Int): Boolean {
+    this.items?.map {
+        if (it?.id == movieId) {
+            return true
+        }
+    }
+    return false
 }
