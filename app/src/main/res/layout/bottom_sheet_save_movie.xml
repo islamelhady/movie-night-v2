@@ -12,19 +12,50 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".ui.movieDetails.saveMovie.SaveMovieBottomSheet">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showWhenListNotEmpty="@{viewModel.saveUiState.myListItemUI}"
+            app:title="@string/save_to"
+            app:titleCentered="true"
+            app:titleTextColor="@color/shade_primary_color" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_save_movie"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:items="@{ viewModel.saveUiState.myListItemUI}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            tools:listitem="@layout/item_fav_list"/>
+
+        <TextView
+            android:id="@+id/text_message_empty_list"
+            style="@style/SimiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/spacing_large"
+            android:gravity="center"
+            android:text="@string/this_list_has_no_lists"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:doneLoad="@{viewModel.saveUiState.loading}"
+            app:noError="@{viewModel.saveUiState.error}"
+            app:emptyData="@{viewModel.saveUiState.myListItemUI}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

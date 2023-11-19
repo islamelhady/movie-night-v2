@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
@@ -121,4 +122,9 @@ fun FavListDto.checkIfExist(movieId: Int): Boolean {
         }
     }
     return false
+}
+
+@BindingAdapter(value = ["app:noError", "app:doneLoad", "app:emptyData"])
+fun <T, M> showWhenNoData(view: View, error: List<T>?, loading: Boolean, data: List<M>?) {
+    view.isVisible = error.isNullOrEmpty() && !loading && data.isNullOrEmpty()
 }
