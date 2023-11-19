@@ -183,6 +183,10 @@ class SeriesDetailsViewModel @Inject constructor(
         }
     }
 
+    override fun onClickFavourite() {
+        TODO("Not yet implemented")
+    }
+
     override fun onClickActor(actorID: Int) {
         _seriesUiEvent.update {
             Event(SeriesDetailsUiEvent.ClickCastEvent(castId = actorID))

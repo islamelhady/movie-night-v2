@@ -1,32 +1,61 @@
 package com.elhady.movies.ui.favorite.details
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.elhady.movies.R
+import com.elhady.movies.databinding.FragmentFavListDetailsBinding
+import com.elhady.movies.domain.enums.MediaType
+import com.elhady.movies.ui.base.BaseFragment
+import com.elhady.movies.ui.favorite.FavoriteFragmentDirections
+import com.elhady.movies.utilities.collectLast
+import dagger.hilt.android.AndroidEntryPoint
 
-class FavListDetailsFragment : Fragment() {
+@AndroidEntryPoint
+class FavListDetailsFragment : BaseFragment<FragmentFavListDetailsBinding>() {
 
-    companion object {
-        fun newInstance() = FavListDetailsFragment()
+    override val layoutIdFragment: Int = R.layout.fragment_fav_list_details
+    override val viewModel: FavListDetailsViewModel by viewModels()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupAdapter()
+        collectEvent()
     }
 
-    private lateinit var viewModel: FavListDetailsViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_fav_list_details, container, false)
+    private fun setupAdapter() {
+        binding.recyclerListDetails.adapter = ListDetailsAdapter(mutableListOf(), viewModel)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(FavListDetailsViewModel::class.java)
-        // TODO: Use the ViewModel
+    private fun collectEvent() {
+        collectLast(viewModel.favDetailsUiEvent) { event ->
+            event?.getContentIfNotHandled()?.let {
+                onEvent(it)
+            }
+        }
     }
 
+    private fun onEvent(event: ListDetailsUiEvent) {
+        if (event is ListDetailsUiEvent.OnItemSelected) {
+            if (event.savedMediaUiState.mediaType == MediaType.MOVIES.value) {
+                navigateToMovieDetails(event.savedMediaUiState.mediaID)
+            } else {
+                navigateToTvShowDetails(event.savedMediaUiState.mediaID)
+            }
+        }
+    }
+
+    private fun navigateToMovieDetails(id: Int) {
+        findNavController().navigate(
+            FavListDetailsFragmentDirections.actionFavListDetailsFragmentToMovieDetailsFragment(id)
+        )
+    }
+
+    private fun navigateToTvShowDetails(id: Int) {
+        findNavController().navigate(
+            FavListDetailsFragmentDirections.actionFavListDetailsFragmentToTvShowDetailsFragment(id)
+        )
+    }
 }

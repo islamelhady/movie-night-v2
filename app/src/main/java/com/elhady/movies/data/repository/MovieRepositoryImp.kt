@@ -23,10 +23,13 @@ import com.elhady.movies.data.remote.service.MovieService
 import com.elhady.movies.data.local.mappers.movies.PopularMovieMapper
 import com.elhady.movies.data.local.mappers.movies.TopRatedMovieMapper
 import com.elhady.movies.data.remote.response.AddListResponse
+import com.elhady.movies.data.remote.response.AddMovieDto
 import com.elhady.movies.data.remote.response.CreatedListDto
 import com.elhady.movies.data.remote.response.CreditsDto
+import com.elhady.movies.data.remote.response.FavListDto
 import com.elhady.movies.data.remote.response.RatedMovieDto
 import com.elhady.movies.data.remote.response.RatingDto
+import com.elhady.movies.data.remote.response.SavedListDto
 import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
@@ -438,5 +441,21 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getCreatedList(sessionId: String): List<CreatedListDto>? {
         return movieService.getCreatedList(sessionId = sessionId).body()?.items
+    }
+
+    override suspend fun addMovieToList(
+        sessionId: String,
+        listId: Int,
+        movieId: Int
+    ): AddMovieDto? {
+        return movieService.addMovieToFavList(seriesId = sessionId, listId = listId, movieId = movieId).body()
+    }
+
+    override suspend fun getListDetails(listId: Int): FavListDto? {
+        return movieService.getList(listId).body()
+    }
+
+    override suspend fun getSavedListDetails(listId: Int): List<SavedListDto>? {
+        return movieService.getList(listId).body()?.items
     }
 }

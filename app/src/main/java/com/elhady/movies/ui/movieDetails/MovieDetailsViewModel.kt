@@ -183,6 +183,12 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
+    override fun onClickFavourite() {
+        _detailsUiEvent.update {
+            Event(MovieDetailsUiEvent.ClickFavourite)
+        }
+    }
+
     override fun onClickActor(actorID: Int) {
         _detailsUiEvent.update {
             Event(MovieDetailsUiEvent.ClickCastEvent(castId = actorID))
