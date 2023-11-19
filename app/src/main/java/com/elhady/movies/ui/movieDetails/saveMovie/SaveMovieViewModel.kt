@@ -1,10 +1,12 @@
 package com.elhady.movies.ui.movieDetails.saveMovie
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.favList.GetCreatedListUseCase
 import com.elhady.movies.domain.usecases.favList.SaveMovieToFavListUseCase
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.movieDetails.ErrorUiState
+import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,13 +16,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SaveMovieViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val saveMovieToFavListUseCase: SaveMovieToFavListUseCase,
     private val getCreatedListUseCase: GetCreatedListUseCase,
-    private val favListItemUiStateMapper: FavListItemUiStateMapper
+    private val favListItemUiStateMapper: FavListItemUiStateMapper,
 ) : BaseViewModel(), SaveListInteractionListener {
+
+    val args = SaveMovieBottomSheetArgs.fromSavedStateHandle(savedStateHandle)
 
     private val _saveUiState = MutableStateFlow(FavListUiState())
     val saveUiState = _saveUiState.asStateFlow()
+
+    private val _saveUiEvent = MutableStateFlow<Event<SaveMovieUiEvent>?>(null)
+    val saveUiEvent = _saveUiEvent.asStateFlow()
 
     init {
         getData()
@@ -49,6 +57,13 @@ class SaveMovieViewModel @Inject constructor(
     }
 
     override fun onClickSaveList(listId: Int) {
-        TODO("Not yet implemented")
+        viewModelScope.launch {
+            val message = try {
+                saveMovieToFavListUseCase(listId, args.movieId)
+            } catch (t: Throwable) {
+                t.message.toString()
+            }
+            _saveUiEvent.update { Event(SaveMovieUiEvent.DisplayMessage(message ?: "")) }
+        }
     }
 }

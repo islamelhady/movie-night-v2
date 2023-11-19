@@ -88,7 +88,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
                 Toast.LENGTH_LONG
             ).show()
 
-            MovieDetailsUiEvent.ClickFavourite -> action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToSaveMovieDialog()
+            MovieDetailsUiEvent.ClickFavourite -> action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToSaveMovieDialog(viewModel.args.movieID)
         }
 
         action?.let {
