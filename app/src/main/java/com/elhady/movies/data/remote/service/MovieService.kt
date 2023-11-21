@@ -23,7 +23,7 @@ import com.elhady.movies.data.remote.response.series.SeasonDto
 import com.elhady.movies.data.remote.response.series.SeriesDetailsDto
 import com.elhady.movies.data.remote.response.series.SeriesDto
 import com.elhady.movies.data.remote.response.video.VideoDto
-import com.elhady.movies.domain.TrendingTimeWindow
+import com.elhady.movies.domain.enums.TrendingTimeWindow
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.Field

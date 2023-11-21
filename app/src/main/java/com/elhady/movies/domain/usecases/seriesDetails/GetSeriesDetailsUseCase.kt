@@ -36,26 +36,26 @@ class GetSeriesDetailsUseCase @Inject constructor(
     }
 
     suspend fun getSeriesCast(seriesId: Int): List<Actor> {
-        return repository.getSeriesCast(seriesId)?.cast?.map {
-            actorDtoMapper.map(it)
-        } ?: throw Throwable("not found")
+        return repository.getSeriesCast(seriesId)?.cast?.map(actorDtoMapper::map)
+            ?: throw Throwable("not found")
     }
 
     suspend fun getSimilarSeries(seriesId: Int): List<Media> {
-        return repository.getSimilarSeries(seriesId)?.map {
-            seriesDtoMapper.map(it)
-        } ?: throw Throwable("not success")
+        return repository.getSimilarSeries(seriesId)?.map(seriesDtoMapper::map)
+            ?: throw Throwable("not success")
     }
 
-    suspend fun getSeasons(seriesId: Int): List<Season>{
-        return repository.getSeriesDetails(seriesId)?.seasons?.map {
-            seasonMapper.map(it)
-        } ?: throw Throwable("not success")
+    suspend fun getSeasons(seriesId: Int): List<Season> {
+        return repository.getSeriesDetails(seriesId)?.seasons?.map(seasonMapper::map)
+            ?: throw Throwable("not success")
     }
 
-    suspend fun getSeriesReview(seriesId: Int): MediaDetailsReview{
+    suspend fun getSeriesReview(seriesId: Int): MediaDetailsReview {
         val reviews = getReviewsUseCase(mediaId = seriesId, type = MediaType.SERIES)
-        return MediaDetailsReview(reviews = reviews.take(MAX_NUM_REVIEWS), isMoreThanMax =  reviews.size > MAX_NUM_REVIEWS)
+        return MediaDetailsReview(
+            reviews = reviews.take(MAX_NUM_REVIEWS),
+            isMoreThanMax = reviews.size > MAX_NUM_REVIEWS
+        )
     }
 
 }
