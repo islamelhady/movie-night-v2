@@ -1,13 +1,12 @@
 package com.elhady.movies.ui.actorDetails
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.enums.HomeItemType
 import com.elhady.movies.domain.models.ActorDetails
-import com.elhady.movies.domain.models.ActorMovies
 import com.elhady.movies.domain.usecases.GetActorDetailsUseCase
 import com.elhady.movies.domain.usecases.GetActorsMoviesUseCase
 import com.elhady.movies.ui.actorDetails.mapper.ActorDetailsUiMapper
+import com.elhady.movies.ui.actorDetails.mapper.ActorMoviesUiMapper
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.MovieInteractionListener
 import com.elhady.movies.utilities.Event
@@ -15,7 +14,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
