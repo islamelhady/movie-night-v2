@@ -20,7 +20,6 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/actor_image"
-            isVisible="@{viewModel.uiState.success}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
@@ -29,7 +28,7 @@
             app:layout_constraintHeight_percent=".70"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:movieImage="@{viewModel.uiState.image}"
+            app:movieImage="@{viewModel.uiState.actorInfo.image}"
             tools:src="@drawable/login_movie" />
 
         <View
@@ -47,7 +46,7 @@
             style="@style/SimiBold.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.uiState.name}"
+            android:text="@{viewModel.uiState.actorInfo.name}"
             app:layout_constraintBottom_toBottomOf="@id/actor_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +75,6 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/actor_details"
-                isVisible="@{viewModel.uiState.success}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/background_color">
@@ -98,7 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
-                    android:text="@{viewModel.uiState.gender}"
+                    android:text="@{viewModel.uiState.actorInfo.gender}"
                     app:layout_constraintEnd_toEndOf="@+id/gender_title"
                     app:layout_constraintStart_toStartOf="@+id/gender_title"
                     app:layout_constraintTop_toBottomOf="@+id/gender_title"
@@ -121,7 +119,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
-                    android:text="@{viewModel.uiState.birthday}"
+                    android:text="@{viewModel.uiState.actorInfo.birthday}"
                     app:layout_constraintEnd_toEndOf="@+id/birthday_title"
                     app:layout_constraintStart_toStartOf="@+id/birthday_title"
                     app:layout_constraintTop_toBottomOf="@+id/birthday_title"
@@ -147,7 +145,7 @@
                     android:layout_marginTop="@dimen/spacing_small"
                     android:ellipsize="end"
                     android:lines="2"
-                    android:text="@{viewModel.uiState.placeOfBirth}"
+                    android:text="@{viewModel.uiState.actorInfo.placeOfBirth}"
                     android:textAlignment="center"
                     app:layout_constraintEnd_toEndOf="@+id/place_of_birth_title"
                     app:layout_constraintStart_toStartOf="@+id/place_of_birth_title"
@@ -174,7 +172,7 @@
                     android:layout_marginTop="@dimen/spacing_small"
                     android:ellipsize="end"
                     android:lines="2"
-                    android:text="@{viewModel.uiState.knownForDepartment}"
+                    android:text="@{viewModel.uiState.actorInfo.knownForDepartment}"
                     android:textAlignment="center"
                     app:layout_constraintEnd_toEndOf="@+id/known_for_title"
                     app:layout_constraintStart_toStartOf="@+id/known_for_title"
@@ -228,7 +226,7 @@
                 <TextView
                     android:id="@+id/biography_title"
                     style="@style/SimiBold.Medium"
-                    showWhenTextNotEmpty="@{viewModel.uiState.biography}"
+                    showWhenTextNotEmpty="@{viewModel.uiState.actorInfo.biography}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/radius_medium"
@@ -241,13 +239,13 @@
                 <TextView
                     android:id="@+id/biography"
                     style="@style/Regular.Medium.Secondary"
-                    showWhenTextNotEmpty="@{viewModel.uiState.biography}"
+                    showWhenTextNotEmpty="@{viewModel.uiState.actorInfo.biography}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/spacing_medium"
                     android:layout_marginVertical="@dimen/spacing_medium"
                     android:paddingBottom="@dimen/spacing_extra_large"
-                    android:text="@{viewModel.uiState.biography}"
+                    android:text="@{viewModel.uiState.actorInfo.biography}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
