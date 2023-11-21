@@ -3,8 +3,10 @@ package com.elhady.movies.ui.actorDetails
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.enums.HomeItemType
+import com.elhady.movies.domain.models.ActorDetails
 import com.elhady.movies.domain.usecases.GetActorDetailsUseCase
 import com.elhady.movies.domain.usecases.GetActorsMoviesUseCase
+import com.elhady.movies.ui.actorDetails.mapper.ActorDetailsUiMapper
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.MovieInteractionListener
 import com.elhady.movies.utilities.Event
@@ -38,9 +40,36 @@ class ActorDetailsViewModel @Inject constructor(
 
     override fun getData() {
         _uIState.update { it.copy(isLoading = true, error = emptyList()) }
+        getActorInfo()
         getActorDetails()
     }
 
+    private fun getActorInfo() {
+        tryToExecute(
+            call = { getActorDetailsUseCase(args.actorID) },
+            onSuccess = ::onSuccessActorInfo,
+            onError = ::onErrorGetActorData
+        )
+    }
+
+    private fun onSuccessActorInfo(actorDetails: ActorDetails){
+        updateLoading(false)
+        val result = actorDetailsUiMapper.map(actorDetails)
+        _uIState.update {
+            it.copy(actorInfo = result)
+        }
+    }
+
+    private fun onErrorGetActorData(error: Throwable){
+        val errors = _uIState.value.onError.toMutableList()
+        errors.add(error.message.toString())
+        _uIState.update { it.copy(onError = errors, isLoading = false) }
+
+    }
+
+    private fun updateLoading(value: Boolean){
+        _uIState.update { it.copy(isLoading = value) }
+    }
     private fun getActorDetails() {
         viewModelScope.launch {
             try {
