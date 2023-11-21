@@ -12,8 +12,6 @@ class GetTopRatedMoviesUseCase @Inject constructor(
     private val topRatedMovieMapper: TopRatedMovieMapper
 ) {
     suspend operator fun invoke(): Flow<List<Media>> {
-        return movieRepository.getTopRatedMovies().map { items ->
-            items.map(topRatedMovieMapper::map)
-        }
+        return movieRepository.getTopRatedMovies().map(topRatedMovieMapper::map)
     }
 }
