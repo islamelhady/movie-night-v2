@@ -18,10 +18,8 @@ class GetReviewsUseCase @Inject constructor(
             MediaType.SERIES -> seriesRepository.getSeriesReview(seriesId = mediaId)
         }
 
-        return review?.let { list ->
-            list.map {
+        return review?.let {
                 reviewMapper.map(it)
-            }
         } ?: throw Throwable("not success")
     }
 

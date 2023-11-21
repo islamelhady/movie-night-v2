@@ -11,10 +11,7 @@ class GetSeasonsEpisodesUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(seriesId: Int, seasonNumber: Int): List<Episode> {
         val response = repository.getSeasonDetails(seriesId = seriesId, seasonNumber = seasonNumber)
-        return response?.let { list ->
-            list.map {
-                episodesMapper.map(it)
-            }
-        } ?: throw Throwable("not success")
+        return response?.let (episodesMapper::map)
+         ?: throw Throwable("not success")
     }
 }

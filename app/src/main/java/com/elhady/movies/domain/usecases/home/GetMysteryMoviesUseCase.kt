@@ -12,10 +12,6 @@ class GetMysteryMoviesUseCase @Inject constructor(
     private val mysteryMoviesMapper: MysteryMoviesMapper
 ) {
     suspend operator fun invoke(): Flow<List<Media>> {
-        return repository.getMysteryMovies().map { list ->
-            list.map {
-                mysteryMoviesMapper.map(it)
-            }
-        }
+        return repository.getMysteryMovies().map(mysteryMoviesMapper::map)
     }
 }

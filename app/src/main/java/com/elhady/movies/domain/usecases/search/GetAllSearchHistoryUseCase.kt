@@ -12,10 +12,6 @@ class GetAllSearchHistoryUseCase @Inject constructor(
     private val searchHistoryMapper: SearchHistoryMapper
 ) {
     operator fun invoke(): Flow<List<SearchHistory>> {
-        return repository.getAllSearchItems().map { list ->
-            list.map {
-                searchHistoryMapper.map(it)
-            }
-        }
+        return repository.getAllSearchItems().map(searchHistoryMapper::map)
     }
 }

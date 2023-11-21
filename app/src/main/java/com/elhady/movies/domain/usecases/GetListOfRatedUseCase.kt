@@ -19,16 +19,14 @@ class GetListOfRatedUseCase @Inject constructor(
         return getRatedMovies().margeTwoList(getRatedSeries()).reversed()
     }
 
-    private suspend fun getRatedMovies(): List<Rated>{
-        return movieRepository.getRatedMovie()?.map {
-            ratedMoviesMapper.map(it)
-        } ?: throw Throwable("not success")
+    private suspend fun getRatedMovies(): List<Rated> {
+        val response = movieRepository.getRatedMovie()
+        return response?.let(ratedMoviesMapper::map) ?: throw Throwable("not success")
     }
 
     private suspend fun getRatedSeries(): List<Rated>{
-        return seriesRepository.getRatedSeries()?.map {
-            ratedSeriesMapper.map(it)
-        } ?: throw Throwable("not success")
+        val response = seriesRepository.getRatedSeries()
+            return response?.let(ratedSeriesMapper::map) ?: throw Throwable("not success")
     }
 
 }

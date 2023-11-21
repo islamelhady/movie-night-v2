@@ -11,10 +11,6 @@ class GetTrendingTvSeriesUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(): List<Media> {
         val response = repository.getTrendingTvSries()
-        return response?.let { list ->
-            list.map {
-                trendingMediaMapper.map(it)
-            }
-        } ?: throw Throwable("Not success")
+        return response?.let(trendingMediaMapper::map) ?: throw Throwable("Not success")
     }
 }

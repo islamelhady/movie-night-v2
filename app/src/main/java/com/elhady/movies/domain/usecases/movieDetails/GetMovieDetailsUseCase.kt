@@ -30,20 +30,13 @@ class GetMovieDetailsUseCase @Inject constructor(
     suspend fun getMovieCast(movieId: Int): List<Actor> {
 
         val response = movieRepository.getMovieCast(movieId)?.cast
-        return response?.let { list ->
-            list.map {
-                actorDtoMapper.map(it)
-            }
-        } ?: throw Throwable("Not success")
+        return response?.let (actorDtoMapper::map)
+         ?: throw Throwable("Not success")
     }
 
     suspend fun getSimilarMovies(movieId: Int): List<Media> {
         val response = movieRepository.getSimilarMovies(movieId)
-        return response?.let { list ->
-            list.map {
-                movieDtoMapper.map(it)
-            }
-        } ?: throw Throwable("Not success")
+        return response?.let ( movieDtoMapper::map) ?: throw Throwable("Not success")
     }
 
     suspend fun getMovieReview(movieId: Int): MediaDetailsReview{
