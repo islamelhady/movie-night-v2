@@ -1,10 +1,12 @@
 package com.elhady.movies.ui.actorDetails
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.enums.HomeItemType
+import com.elhady.movies.domain.models.ActorDetails
 import com.elhady.movies.domain.usecases.GetActorDetailsUseCase
 import com.elhady.movies.domain.usecases.GetActorsMoviesUseCase
+import com.elhady.movies.ui.actorDetails.mapper.ActorDetailsUiMapper
+import com.elhady.movies.ui.actorDetails.mapper.ActorMoviesUiMapper
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.MovieInteractionListener
 import com.elhady.movies.utilities.Event
@@ -12,7 +14,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,41 +38,59 @@ class ActorDetailsViewModel @Inject constructor(
     }
 
     override fun getData() {
-        _uIState.update { it.copy(isLoading = true, error = emptyList()) }
-        getActorDetails()
+        _uIState.update { it.copy(isLoading = true, onError = emptyList()) }
+        getActorInfo()
+        getMoviesByActor()
     }
 
-    private fun getActorDetails() {
-        viewModelScope.launch {
-            try {
-                val actorDetails = actorDetailsUiMapper.map(getActorDetailsUseCase(args.actorID))
-                val actorMovies = getActorsMoviesUseCase(args.actorID).map {
-                    actorMoviesUiMapper.map(it)
-                }
+    private fun getActorInfo() {
+        tryToExecute(
+            call = { getActorDetailsUseCase(args.actorID) },
+            onSuccess = ::onSuccessActorInfo,
+            onError = ::onErrorGetActorData
+        )
+    }
 
-                _uIState.update {
-                    it.copy(
-                        id = actorDetails.id,
-                        name = actorDetails.name,
-                        image = actorDetails.image,
-                        placeOfBirth = actorDetails.placeOfBirth,
-                        birthday = actorDetails.birthday,
-                        biography = actorDetails.biography,
-                        knownForDepartment = actorDetails.knownForDepartment,
-                        gender = actorDetails.gender,
-                        actorMovies = actorMovies,
-                        isLoading = false,
-                        isSuccess = true
-                    )
-                }
-            } catch (error: Throwable) {
-                onError(error.message.toString())
-            }
+    private fun onSuccessActorInfo(actorDetails: ActorDetails){
+        updateLoading(false)
+        val result = actorDetailsUiMapper.map(actorDetails)
+        _uIState.update {
+            it.copy(actorInfo = result)
         }
     }
 
-    private fun onError(message: String) {
-        _uIState.update { it.copy(error = listOf(Error(message = message)), isLoading = false) }
+    private fun onErrorGetActorData(error: Throwable){
+        val errors = _uIState.value.onError.toMutableList()
+        errors.add(error.message.toString())
+        _uIState.update { it.copy(onError = errors, isLoading = false) }
+
+    }
+
+    private fun updateLoading(value: Boolean){
+        _uIState.update { it.copy(isLoading = value) }
+    }
+
+    private fun getMoviesByActor(){
+        tryToExecute(
+            call = { getActorsMoviesUseCase(args.actorID) },
+            onSuccess = ::onSuccessMoviesByActor,
+            mapper = actorMoviesUiMapper,
+            onError = ::onError
+        )
+    }
+
+    private fun onSuccessMoviesByActor(actorMovies: List<ActorMoviesUiState>){
+        updateLoading(false)
+        _uIState.update {
+            it.copy(actorMovies = actorMovies)
+        }
+    }
+
+
+    private fun onError(error: Throwable) {
+        val errors = _uIState.value.onError.toMutableList()
+        errors.add(error.message.toString())
+        _uIState.update { it.copy(onError = errors, isLoading = false) }
     }
 
     override fun onClickMovie(movieID: Int) {
