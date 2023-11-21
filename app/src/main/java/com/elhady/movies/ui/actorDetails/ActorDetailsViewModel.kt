@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.enums.HomeItemType
 import com.elhady.movies.domain.models.ActorDetails
+import com.elhady.movies.domain.models.ActorMovies
 import com.elhady.movies.domain.usecases.GetActorDetailsUseCase
 import com.elhady.movies.domain.usecases.GetActorsMoviesUseCase
 import com.elhady.movies.ui.actorDetails.mapper.ActorDetailsUiMapper
@@ -70,6 +71,24 @@ class ActorDetailsViewModel @Inject constructor(
     private fun updateLoading(value: Boolean){
         _uIState.update { it.copy(isLoading = value) }
     }
+
+    private fun getMoviesByActor(){
+        tryToExecute(
+            call = { getActorsMoviesUseCase(args.actorID) },
+            onSuccess = ::onSuccessMoviesByActor,
+            onError = ::onError
+        )
+    }
+
+    private fun onSuccessMoviesByActor(actorMovies: List<ActorMovies>){
+        updateLoading(false)
+        val result = actorMoviesUiMapper.map(actorMovies)
+        _uIState.update {
+            it.copy(actorMovies = result)
+        }
+    }
+
+
     private fun getActorDetails() {
         viewModelScope.launch {
             try {
@@ -99,8 +118,10 @@ class ActorDetailsViewModel @Inject constructor(
         }
     }
 
-    private fun onError(message: String) {
-        _uIState.update { it.copy(error = listOf(Error(message = message)), isLoading = false) }
+    private fun onError(error: Throwable) {
+        val errors = _uIState.value.onError.toMutableList()
+        errors.add(error.message.toString())
+        _uIState.update { it.copy(onError = errors, isLoading = false) }
     }
 
     override fun onClickMovie(movieID: Int) {
