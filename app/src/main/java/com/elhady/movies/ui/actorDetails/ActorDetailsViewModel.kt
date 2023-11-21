@@ -40,9 +40,9 @@ class ActorDetailsViewModel @Inject constructor(
     }
 
     override fun getData() {
-        _uIState.update { it.copy(isLoading = true, error = emptyList()) }
+        _uIState.update { it.copy(isLoading = true, onError = emptyList()) }
         getActorInfo()
-        getActorDetails()
+        getMoviesByActor()
     }
 
     private fun getActorInfo() {
@@ -76,47 +76,18 @@ class ActorDetailsViewModel @Inject constructor(
         tryToExecute(
             call = { getActorsMoviesUseCase(args.actorID) },
             onSuccess = ::onSuccessMoviesByActor,
+            mapper = actorMoviesUiMapper,
             onError = ::onError
         )
     }
 
-    private fun onSuccessMoviesByActor(actorMovies: List<ActorMovies>){
+    private fun onSuccessMoviesByActor(actorMovies: List<ActorMoviesUiState>){
         updateLoading(false)
-        val result = actorMoviesUiMapper.map(actorMovies)
         _uIState.update {
-            it.copy(actorMovies = result)
+            it.copy(actorMovies = actorMovies)
         }
     }
 
-
-    private fun getActorDetails() {
-        viewModelScope.launch {
-            try {
-                val actorDetails = actorDetailsUiMapper.map(getActorDetailsUseCase(args.actorID))
-                val actorMovies = getActorsMoviesUseCase(args.actorID).map {
-                    actorMoviesUiMapper.map(it)
-                }
-
-                _uIState.update {
-                    it.copy(
-                        id = actorDetails.id,
-                        name = actorDetails.name,
-                        image = actorDetails.image,
-                        placeOfBirth = actorDetails.placeOfBirth,
-                        birthday = actorDetails.birthday,
-                        biography = actorDetails.biography,
-                        knownForDepartment = actorDetails.knownForDepartment,
-                        gender = actorDetails.gender,
-                        actorMovies = actorMovies,
-                        isLoading = false,
-                        isSuccess = true
-                    )
-                }
-            } catch (error: Throwable) {
-                onError(error.message.toString())
-            }
-        }
-    }
 
     private fun onError(error: Throwable) {
         val errors = _uIState.value.onError.toMutableList()
