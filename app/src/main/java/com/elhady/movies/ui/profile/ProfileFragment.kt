@@ -23,10 +23,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     }
 
     private fun collectEvents() {
-        collectLast(viewModel.profileUIEvent) { event ->
-            event?.getContentIfNotHandled()?.let {
-                onEvent(it)
-            }
+        collectLast(viewModel.event) {
+            onEvent(it)
         }
     }
 

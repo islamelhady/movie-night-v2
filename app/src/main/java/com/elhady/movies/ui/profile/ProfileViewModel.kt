@@ -17,10 +17,7 @@ class ProfileViewModel @Inject constructor(
     private val checkIfLoggedInUseCase: CheckIfLoggedInUseCase,
     private val getAccountDetailsUseCase: GetAccountDetailsUseCase,
     private val accountUiStateMapper: AccountUiStateMapper
-) : BaseViewModel<ProfileUiState>(ProfileUiState()) {
-
-    private val _profileUIEvent=MutableStateFlow<Event<ProfileUiEvent>?>(null)
-    val profileUIEvent= _profileUIEvent.asStateFlow()
+) : BaseViewModel<ProfileUiState, ProfileUiEvent>(ProfileUiState()) {
 
     init {
         getData()
@@ -51,21 +48,19 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun onClickRatedMovies() {
-        _profileUIEvent.update { Event(ProfileUiEvent.RatedMoviesEvent) }
+        Event(ProfileUiEvent.RatedMoviesEvent)
     }
 
     fun onClickLogout() {
-        _profileUIEvent.update { Event(ProfileUiEvent.DialogLogoutEvent) }
+        Event(ProfileUiEvent.DialogLogoutEvent)
     }
 
     fun onClickWatchHistory() {
-        _profileUIEvent.update { Event(ProfileUiEvent.WatchHistoryEvent) }
+        Event(ProfileUiEvent.WatchHistoryEvent)
     }
 
-    fun onClickLogin(){
-        _profileUIEvent.update {
-            Event(ProfileUiEvent.LoginEvent)
-        }
+    fun onClickLogin() {
+        Event(ProfileUiEvent.LoginEvent)
     }
 
 

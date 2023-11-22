@@ -29,10 +29,8 @@ class RatingFragment : BaseFragment<FragmentRatingBinding>() {
     }
 
     fun collectEvent() {
-        collectLast(viewModel.rateUiEvent) { event ->
-            event?.getContentIfNotHandled()?.let {
-                onEvent(it)
-            }
+        collectLast(viewModel.event) {
+            onEvent(it)
         }
     }
 

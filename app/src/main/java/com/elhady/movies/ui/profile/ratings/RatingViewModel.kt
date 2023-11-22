@@ -16,10 +16,8 @@ import javax.inject.Inject
 class RatingViewModel @Inject constructor(
     private val getListOfRatedUseCase: GetListOfRatedUseCase,
     private val ratedUiStateMapper: RatedUiStateMapper
-) : BaseViewModel<MyRateUiState>(MyRateUiState()), MyRatingInteractionListener {
+) : BaseViewModel<MyRateUiState, MyRatingUiEvent>(MyRateUiState()), MyRatingInteractionListener {
 
-    private val _rateUiEvent = MutableStateFlow<Event<MyRatingUiEvent>?>(null)
-    val rateUiEvent = _rateUiEvent.asStateFlow()
 
     init {
         getData()
@@ -40,9 +38,9 @@ class RatingViewModel @Inject constructor(
 
     override fun onClickRating(rated: RatedUiState) {
         if (rated.mediaType.equals(MediaType.MOVIES.value, true)) {
-            _rateUiEvent.update { Event(MyRatingUiEvent.MovieEvent(rated.id)) }
+            Event(MyRatingUiEvent.MovieEvent(rated.id))
         } else {
-            _rateUiEvent.update { Event(MyRatingUiEvent.SeriesEvent(rated.id)) }
+            Event(MyRatingUiEvent.SeriesEvent(rated.id))
         }
     }
 
