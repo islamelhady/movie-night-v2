@@ -2,6 +2,13 @@ package com.elhady.movies.ui.actorDetails
 
 
 data class ActorDetailsUiState(
+    val actorInfo: ActorInfoUiState = ActorInfoUiState(),
+    val actorMovies: List<ActorMoviesUiState> = emptyList(),
+    val isLoading: Boolean = false,
+    val onError: List<String> = emptyList()
+)
+
+data class ActorInfoUiState(
     val id: Int = 0,
     val name: String = "",
     val image: String = "",
@@ -10,10 +17,12 @@ data class ActorDetailsUiState(
     val placeOfBirth: String = "",
     val biography: String = "",
     val knownForDepartment: String = "",
-    val actorMovies: List<ActorMoviesUiState> = emptyList(),
-    val isLoading: Boolean = false,
-    val isSuccess: Boolean = false,
-    val error: List<Error> = emptyList()
+)
+
+data class ActorMoviesUiState(
+    val id: Int = 0,
+    val image: String = "",
+    val name: String = ""
 )
 
 data class Error(

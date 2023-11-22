@@ -15,11 +15,7 @@ class GetCreatedListUseCase @Inject constructor(
         val sessionId = accountRepository.getSessionId()
         return if (!sessionId.isNullOrEmpty()) {
             val response = movieRepository.getCreatedList(sessionId)
-            response?.let { list ->
-                list.map {
-                    createdListMapper.map(it)
-                }
-            } ?: throw Throwable("not found")
+            response?.let (createdListMapper::map) ?: throw Throwable("not found")
         } else {
             throw Throwable("no login")
         }

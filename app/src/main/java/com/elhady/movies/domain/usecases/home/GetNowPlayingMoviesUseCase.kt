@@ -12,8 +12,6 @@ class GetNowPlayingMoviesUseCase @Inject constructor(
     private val nowPlayingMovieMapper: NowPlayingMovieMapper
 ) {
     suspend operator fun invoke(): Flow<List<Media>> {
-        return movieRepository.getNowPlayingMovies().map { items ->
-            items.map(nowPlayingMovieMapper::map)
-        }
+        return movieRepository.getNowPlayingMovies().map(nowPlayingMovieMapper::map)
     }
 }

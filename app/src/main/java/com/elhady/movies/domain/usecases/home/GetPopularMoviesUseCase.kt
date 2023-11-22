@@ -12,8 +12,6 @@ class GetPopularMoviesUseCase @Inject constructor(
     private val movieMapper: PopularMovieMapper
 ) {
     suspend operator fun invoke(): Flow<List<PopularMovie>> {
-        return movieRepository.getPopularMovies().map {
-            it.map(movieMapper::map)
-        }
+        return movieRepository.getPopularMovies().map(movieMapper::map)
     }
 }

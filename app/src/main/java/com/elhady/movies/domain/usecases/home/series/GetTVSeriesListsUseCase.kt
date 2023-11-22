@@ -12,10 +12,6 @@ class GetTVSeriesListsUseCase @Inject constructor(
     private val tvSeriesListsMapper: TVSeriesListsMapper
 ) {
     suspend operator fun invoke(): Flow<List<Media>> {
-        return repository.getTVSeriesLists().map { lists ->
-            lists.map {
-                tvSeriesListsMapper.map(it)
-            }
-        }
+        return repository.getTVSeriesLists().map(tvSeriesListsMapper::map)
     }
 }
