@@ -166,7 +166,7 @@
             android:clipToPadding="false"
             android:elevation="@dimen/spacing_too_small"
             android:orientation="vertical"
-            app:items="@{viewModel.exploreUiState.trendMediaResult}"
+            app:items="@{viewModel.state.trendMediaResult}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

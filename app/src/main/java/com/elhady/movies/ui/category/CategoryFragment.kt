@@ -47,9 +47,9 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
    private fun collectData(){
        viewLifecycleOwner.lifecycleScope.launch {
-           viewModel.categoryUiState.collect{
+           viewModel.state.collect{
                collectLast(
-                   flow = viewModel.categoryUiState.value.moviesResult,
+                   flow = viewModel.state.value.moviesResult,
                    action = {
                        categoryAdapter.submitData(it)
                    })

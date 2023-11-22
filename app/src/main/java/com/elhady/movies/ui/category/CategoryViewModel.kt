@@ -32,10 +32,6 @@ class CategoryViewModel @Inject constructor(
 
     val args = CategoryFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
-
-    private val _categoryUiState = MutableStateFlow(CategoryUiState())
-    val categoryUiState = _categoryUiState.asStateFlow()
-
     private val _categoryUiEvent : MutableStateFlow<Event<CategoryUiEvent>> = MutableStateFlow(Event(CategoryUiEvent.ClickCategoryEvent(categoryId = Constants.FIRST_CATEGORY_ID)))
     val categoryUiEvent = _categoryUiEvent.asStateFlow()
 
@@ -44,8 +40,8 @@ class CategoryViewModel @Inject constructor(
     }
 
     override fun getData() {
-        _categoryUiState.update { it.copy(isLoading = true) }
-        getMediaList(categoryUiState.value.categorySelectedID)
+        _state.update { it.copy(isLoading = true) }
+        getMediaList(_state.value.categorySelectedID)
         getCategoryGenreList()
         _categoryUiEvent.update { Event(CategoryUiEvent.ClickRetry) }
     }
@@ -57,7 +53,7 @@ class CategoryViewModel @Inject constructor(
                     mediaUiMapper.map(it)
                 }
             }
-            _categoryUiState.update {
+            _state.update {
                 it.copy(moviesResult = result, isLoading = false)
             }
         }
@@ -68,7 +64,7 @@ class CategoryViewModel @Inject constructor(
             val result = getGenreListUseCase(args.mediaType).map {
                 genreUiMapper.map(it)
             }
-            _categoryUiState.update {
+            _state.update {
                 it.copy(categoryResult = result, isLoading = false)
             }
         }
@@ -77,7 +73,7 @@ class CategoryViewModel @Inject constructor(
     fun setErrorUiState(combinedLoadStates: CombinedLoadStates) {
         when (combinedLoadStates.refresh) {
             is LoadState.Error -> {
-                _categoryUiState.update {
+                _state.update {
                     it.copy(
                         isLoading = false, error = listOf(
                             ErrorUiState(message = "not found", code = 404)
@@ -86,7 +82,7 @@ class CategoryViewModel @Inject constructor(
                 }
             }
 
-            LoadState.Loading -> _categoryUiState.update {
+            LoadState.Loading -> _state.update {
                 it.copy(
                     isLoading = true,
                     error = emptyList()
@@ -94,7 +90,7 @@ class CategoryViewModel @Inject constructor(
             }
 
             is LoadState.NotLoading -> {
-                _categoryUiState.update { it.copy(isLoading = false, error = emptyList()) }
+                _state.update { it.copy(isLoading = false, error = emptyList()) }
             }
         }
 
@@ -107,7 +103,7 @@ class CategoryViewModel @Inject constructor(
     }
 
     override fun onClickCategory(categoryId: Int) {
-        _categoryUiState.update { it.copy(categorySelectedID = categoryId) }
+        _state.update { it.copy(categorySelectedID = categoryId) }
         _categoryUiEvent.update { Event(CategoryUiEvent.ClickCategoryEvent(categoryId)) }
     }
 

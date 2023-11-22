@@ -16,10 +16,7 @@ import javax.inject.Inject
 class ExploreViewModel @Inject constructor(
     private val trendingTvSeriesUseCase: GetTrendingTvSeriesUseCase,
     private val trendingUiStateMapper: TrendingUiStateMapper
-) : BaseViewModel<CategoryUiState>(CategoryUiState()), TrendingInteractionListener {
-
-    private val _exploreUiState = MutableStateFlow(ExploreUiState())
-    val exploreUiState = _exploreUiState.asStateFlow()
+) : BaseViewModel<ExploreUiState>(ExploreUiState()), TrendingInteractionListener {
 
     private val _exploreUiEvent = MutableStateFlow<Event<ExploreUiEvent>?>(null)
     val exploreUiEvent = _exploreUiEvent.asStateFlow()
@@ -33,7 +30,7 @@ class ExploreViewModel @Inject constructor(
                 trendingUiStateMapper.map(it)
             }
 
-            _exploreUiState.update {
+            _state.update {
                 it.copy(trendMediaResult = result)
             }
         }
