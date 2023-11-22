@@ -52,10 +52,9 @@ class ActorDetailsViewModel @Inject constructor(
     }
 
     private fun onSuccessActorInfo(actorDetails: ActorDetails){
-        updateLoading(false)
         val result = actorDetailsUiMapper.map(actorDetails)
         _uIState.update {
-            it.copy(actorInfo = result)
+            it.copy(actorInfo = result, isLoading = false)
         }
     }
 
@@ -66,9 +65,6 @@ class ActorDetailsViewModel @Inject constructor(
 
     }
 
-    private fun updateLoading(value: Boolean){
-        _uIState.update { it.copy(isLoading = value) }
-    }
 
     private fun getMoviesByActor(){
         tryToExecute(
@@ -80,9 +76,8 @@ class ActorDetailsViewModel @Inject constructor(
     }
 
     private fun onSuccessMoviesByActor(actorMovies: List<ActorMoviesUiState>){
-        updateLoading(false)
         _uIState.update {
-            it.copy(actorMovies = actorMovies)
+            it.copy(actorMovies = actorMovies, isLoading = false)
         }
     }
 
