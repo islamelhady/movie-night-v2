@@ -118,10 +118,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         }
     }
     private fun collectEvent(){
-        collectLast(viewModel.searchUiEvent){ event->
-            event?.getContentIfNotHandled()?.let {
-                onEvent(it)
-            }
+        collectLast(viewModel.event){
+            onEvent(it)
         }
     }
 
