@@ -23,9 +23,6 @@ class ActorsViewModel @Inject constructor(
     private val actorUiMapper: ActorUiMapper
 ) : BaseViewModel<ActorsUiState>(ActorsUiState()), ActorInteractionListener {
 
-    private val _actorsUiState = MutableStateFlow(ActorsUiState())
-    val actorsUiState = _actorsUiState.asStateFlow()
-
     private val _actorsUiEvent = MutableStateFlow<Event<ActorsUiEvent>?>(null)
     val actorsUiEvent = _actorsUiEvent.asStateFlow()
 
@@ -34,7 +31,7 @@ class ActorsViewModel @Inject constructor(
     }
 
     override fun getData() {
-        _actorsUiState.update { it.copy(isLoading = true) }
+        _state.update { it.copy(isLoading = true) }
         getAllActors()
     }
 
@@ -46,7 +43,7 @@ class ActorsViewModel @Inject constructor(
                     actorUiMapper.map(it)
                 }
             }
-            _actorsUiState.update {
+            _state.update {
                 it.copy(
                     actors = items,
                     isLoading = false,
@@ -59,19 +56,19 @@ class ActorsViewModel @Inject constructor(
     fun setErrorUiState(combinedLoadStates: CombinedLoadStates) {
         when (combinedLoadStates.refresh) {
             is LoadState.NotLoading -> {
-                _actorsUiState.update {
+                _state.update {
                     it.copy(isLoading = false, error = emptyList())
                 }
             }
 
             is LoadState.Loading -> {
-                _actorsUiState.update {
+                _state.update {
                     it.copy(isLoading = true, error = emptyList())
                 }
             }
 
             is LoadState.Error -> {
-                _actorsUiState.update {
+                _state.update {
                     it.copy(isLoading = false, error = listOf(Error("")))
                 }
             }
