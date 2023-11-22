@@ -17,7 +17,7 @@ class EpisodesViewModel @Inject constructor(
     state: SavedStateHandle,
     private val getSeasonsEpisodesUseCase: GetSeasonsEpisodesUseCase,
     private val episodeUiMapper: EpisodeUiMapper
-) : BaseViewModel(), BaseInteractionListener {
+) : BaseViewModel<EpisodesUiState>(EpisodesUiState()), BaseInteractionListener {
 
     private val args = EpisodesFragmentArgs.fromSavedStateHandle(state)
 

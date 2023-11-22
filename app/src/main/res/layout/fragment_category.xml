@@ -45,9 +45,9 @@
                         android:id="@+id/chipGroup_category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:chipsList="@{viewModel.categoryUiState.categoryResult}"
+                        app:chipsList="@{viewModel.state.categoryResult}"
                         app:listener="@{viewModel}"
-                        app:selectedChip="@{viewModel.categoryUiState.categorySelectedID}"
+                        app:selectedChip="@{viewModel.state.categorySelectedID}"
                         app:selectionRequired="true"
                         app:singleLine="true"
                         app:singleSelection="true" />
@@ -60,7 +60,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_category"
-            hideIfTrue="@{viewModel.categoryUiState.loading}"
+            hideIfTrue="@{viewModel.state.loading}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
@@ -75,7 +75,7 @@
 
         <include
             android:id="@+id/loading"
-            isVisible="@{viewModel.categoryUiState.loading}"
+            isVisible="@{viewModel.state.loading}"
             layout="@layout/loading" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

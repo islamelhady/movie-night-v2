@@ -17,10 +17,7 @@ class FavoriteViewModel @Inject constructor(
     private val createListUseCase: CreateListUseCase,
     private val getCreatedListUseCase: GetCreatedListUseCase,
     private val createdListUiMapper: CreatedListUiMapper
-) : BaseViewModel(), CreatedListInteractionListener {
-
-    private val _uiState = MutableStateFlow(FavCreatedListUiState())
-    val uiState = _uiState.asStateFlow()
+) : BaseViewModel<FavCreatedListUiState>(FavCreatedListUiState()), CreatedListInteractionListener {
 
     private val _uiEvent = MutableStateFlow<Event<FavouriteUiEvent>?>(null)
     val uiEvent = _uiEvent.asStateFlow()
@@ -34,12 +31,12 @@ class FavoriteViewModel @Inject constructor(
     }
 
     private fun getCreatedList(){
-        _uiState.update { it.copy(isLoading = true) }
+        _state.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             val result = getCreatedListUseCase().map {
                 createdListUiMapper.map(it)
             }
-            _uiState.update {
+            _state.update {
                 it.copy(createdList = result, isLoading = false)
             }
         }
@@ -47,10 +44,10 @@ class FavoriteViewModel @Inject constructor(
 
     fun onClickCreateList() {
         viewModelScope.launch {
-            val result = createListUseCase(_uiState.value.dialogUiState.listName).map {
+            val result = createListUseCase(_state.value.dialogUiState.listName).map {
                 createdListUiMapper.map(it)
             }
-            _uiState.update { it.copy(createdList = result, isLoading = false) }
+            _state.update { it.copy(createdList = result, isLoading = false) }
         }
         _uiEvent.update {
             Event(FavouriteUiEvent.ClickCreateEvent)
@@ -65,7 +62,7 @@ class FavoriteViewModel @Inject constructor(
 
 
     fun onInputListNameChange(listName: CharSequence) {
-        _uiState.update { it.copy(dialogUiState = CreateListDialogUiState(listName = listName.toString())) }
+        _state.update { it.copy(dialogUiState = CreateListDialogUiState(listName = listName.toString())) }
     }
 
     override fun onListClick(item: CreatedListUiState) {

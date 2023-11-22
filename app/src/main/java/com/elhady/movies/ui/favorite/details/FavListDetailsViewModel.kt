@@ -18,12 +18,9 @@ class FavListDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getFavListDetailsUseCase: GetFavListDetailsUseCase,
     private val mediaUiStateMapper: MediaUiStateMapper
-) : BaseViewModel(),  ListDetailsInteractionListener{
+) : BaseViewModel<ListDetailsUIState>(ListDetailsUIState()),  ListDetailsInteractionListener{
 
     val args = FavListDetailsFragmentArgs.fromSavedStateHandle(savedStateHandle)
-
-    private val _favDetailsUiState = MutableStateFlow(ListDetailsUIState())
-    val favDetailsUIState = _favDetailsUiState.asStateFlow()
 
     private val _favDetailsUiEvent = MutableStateFlow<Event<ListDetailsUiEvent>?>(null)
     val favDetailsUiEvent = _favDetailsUiEvent.asStateFlow()
@@ -33,14 +30,14 @@ class FavListDetailsViewModel @Inject constructor(
         getData()
     }
     override fun getData() {
-        _favDetailsUiState.update {
+        _state.update {
             it.copy(isLoading = true, isEmpty = false, error = emptyList())
         }
         viewModelScope.launch {
             try {
                 val result =
                     getFavListDetailsUseCase(args.mediaId).map { mediaUiStateMapper.map(it) }
-                _favDetailsUiState.update {
+                _state.update {
                     it.copy(
                         isLoading = false,
                         isEmpty = result.isEmpty(),
@@ -49,7 +46,7 @@ class FavListDetailsViewModel @Inject constructor(
                 }
 
             } catch (t: Throwable) {
-                _favDetailsUiState.update {
+                _state.update {
                     it.copy(
                         isLoading = false, error = listOf(
                             ErrorUiState(t.message.toString(), 400)

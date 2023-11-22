@@ -23,7 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showWhenListNotEmpty="@{viewModel.saveUiState.myListItemUI}"
+            app:showWhenListNotEmpty="@{viewModel.state.myListItemUI}"
             app:title="@string/save_to"
             app:titleCentered="true"
             app:titleTextColor="@color/shade_primary_color" />
@@ -35,7 +35,7 @@
             android:clipToPadding="false"
             android:layout_marginTop="@dimen/spacing_large"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:items="@{ viewModel.saveUiState.myListItemUI}"
+            app:items="@{ viewModel.state.myListItemUI}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,9 +55,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:doneLoad="@{viewModel.saveUiState.loading}"
-            app:noError="@{viewModel.saveUiState.error}"
-            app:emptyData="@{viewModel.saveUiState.myListItemUI}" />
+            app:doneLoad="@{viewModel.state.loading}"
+            app:noError="@{viewModel.state.error}"
+            app:emptyData="@{viewModel.state.myListItemUI}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

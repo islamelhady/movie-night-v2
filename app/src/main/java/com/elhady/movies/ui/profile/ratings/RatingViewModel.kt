@@ -16,10 +16,7 @@ import javax.inject.Inject
 class RatingViewModel @Inject constructor(
     private val getListOfRatedUseCase: GetListOfRatedUseCase,
     private val ratedUiStateMapper: RatedUiStateMapper
-) : BaseViewModel(), MyRatingInteractionListener {
-
-    private val _rateUiState = MutableStateFlow(MyRateUiState())
-    val rateUiState = _rateUiState.asStateFlow()
+) : BaseViewModel<MyRateUiState>(MyRateUiState()), MyRatingInteractionListener {
 
     private val _rateUiEvent = MutableStateFlow<Event<MyRatingUiEvent>?>(null)
     val rateUiEvent = _rateUiEvent.asStateFlow()
@@ -29,12 +26,12 @@ class RatingViewModel @Inject constructor(
     }
 
     override fun getData() {
-        _rateUiState.update { it.copy(isLoading = true) }
+        _state.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             val result = getListOfRatedUseCase().map {
                 ratedUiStateMapper.map(it)
             }
-            _rateUiState.update {
+            _state.update {
                 it.copy(ratedList = result, isLoading = false)
             }
 

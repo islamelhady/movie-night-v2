@@ -3,6 +3,7 @@ package com.elhady.movies.ui.explore
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.GetTrendingTvSeriesUseCase
 import com.elhady.movies.ui.base.BaseViewModel
+import com.elhady.movies.ui.category.CategoryUiState
 import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,10 +16,7 @@ import javax.inject.Inject
 class ExploreViewModel @Inject constructor(
     private val trendingTvSeriesUseCase: GetTrendingTvSeriesUseCase,
     private val trendingUiStateMapper: TrendingUiStateMapper
-) : BaseViewModel(), TrendingInteractionListener {
-
-    private val _exploreUiState = MutableStateFlow(ExploreUiState())
-    val exploreUiState = _exploreUiState.asStateFlow()
+) : BaseViewModel<ExploreUiState>(ExploreUiState()), TrendingInteractionListener {
 
     private val _exploreUiEvent = MutableStateFlow<Event<ExploreUiEvent>?>(null)
     val exploreUiEvent = _exploreUiEvent.asStateFlow()
@@ -32,7 +30,7 @@ class ExploreViewModel @Inject constructor(
                 trendingUiStateMapper.map(it)
             }
 
-            _exploreUiState.update {
+            _state.update {
                 it.copy(trendMediaResult = result)
             }
         }

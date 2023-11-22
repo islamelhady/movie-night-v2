@@ -23,7 +23,7 @@
             android:orientation="vertical"
             android:overScrollMode="never"
             android:scrollbars="none"
-            hideIfTrue="@{viewModel.detailsUiState.loading}"
+            hideIfTrue="@{viewModel.state.loading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,12 +33,12 @@
         <include
             android:id="@+id/loading"
             layout="@layout/loading"
-            isVisible="@{viewModel.detailsUiState.loading}" />
+            isVisible="@{viewModel.state.loading}" />
 
         <include
             android:id="@+id/error"
             layout="@layout/error"
-            isVisible="@{!viewModel.detailsUiState.loading}"
+            isVisible="@{!viewModel.state.loading}"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,7 +15,7 @@ import javax.inject.Inject
 class VideoViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getTrailerUseCase: GetTrailerUseCase
-) : BaseViewModel() {
+) : BaseViewModel<TrailerUiState>(TrailerUiState()) {
 
     val args = VideoFragmentArgs.fromSavedStateHandle(savedStateHandle)
 

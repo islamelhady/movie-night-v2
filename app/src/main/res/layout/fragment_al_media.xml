@@ -25,7 +25,7 @@
             android:overScrollMode="never"
             android:paddingVertical="@dimen/spacing_small"
             android:scrollbars="none"
-            hideIfTrue="@{viewModel.uiState.loading}"
+            hideIfTrue="@{viewModel.state.loading}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -35,11 +35,11 @@
             tools:listitem="@layout/item_all_media" />
 
         <include
-            isVisible="@{viewModel.uiState.loading}"
+            isVisible="@{viewModel.state.loading}"
             layout="@layout/loading" />
 
         <include
-            isVisible="@{!viewModel.uiState.error.isEmpty}"
+            isVisible="@{!viewModel.state.error.isEmpty}"
             layout="@layout/error" />
 
 

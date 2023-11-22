@@ -45,7 +45,7 @@ class AllMediaFragment : BaseFragment<FragmentAlMediaBinding>() {
         collect(flow = allMediaAdapter.loadStateFlow,
             action = { viewModel.setErrorUiState(it) })
 
-        collectLast(flow = viewModel.uiState.value.allMedia, ::setAllMedia)
+        collectLast(flow = viewModel.state.value.allMedia, ::setAllMedia)
     }
 
     private suspend fun setAllMedia(itemsPagingData: PagingData<MediaUiState>) {

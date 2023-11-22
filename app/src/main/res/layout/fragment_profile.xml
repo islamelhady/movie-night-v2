@@ -25,7 +25,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:movieImage="@{viewModel.profileUiState.avatarPath}"
+            app:movieImage="@{viewModel.state.avatarPath}"
             app:shapeAppearanceOverlay="@style/Circle"
             tools:background="@tools:sample/avatars" />
 
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
-            android:text="@{viewModel.profileUiState.name}"
+            android:text="@{viewModel.state.name}"
             android:textColor="@color/shade_primary_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:text="@{@string/at + viewModel.profileUiState.username}"
+            android:text="@{@string/at + viewModel.state.username}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_name_actor"
@@ -194,7 +194,7 @@
             image_actor,
             text_name_actor,
             text_username"
-            app:showProfileWhenSuccess="@{viewModel.profileUiState.username}"
+            app:showProfileWhenSuccess="@{viewModel.state.username}"
             tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.Group
@@ -207,7 +207,7 @@
             text_message_wrong_title,
             text_message_wrong,
             button_nav_login"
-            app:showWhenNoLoggedIn="@{viewModel.profileUiState.isLoggedIn}"
+            app:showWhenNoLoggedIn="@{viewModel.state.isLoggedIn}"
             tools:visibility="gone"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,16 +21,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AllMediaViewModel @Inject constructor(
-    val state: SavedStateHandle,
+    val savedStateHandle: SavedStateHandle,
     private val getAllMediaByTypeUseCase: GetAllMediaByTypeUseCase,
     private val checkMediaTypeUseCase: CheckMediaTypeUseCase,
     private val mediaUiMapper: MediaUiMapper
-) : BaseViewModel(), MediaInteractionListener {
+) : BaseViewModel<AllMediaUiState>(AllMediaUiState()), MediaInteractionListener {
 
-    private val args =  AllMediaFragmentArgs.fromSavedStateHandle(state)
-
-    private val _uiState = MutableStateFlow(AllMediaUiState())
-    val uiState = _uiState.asStateFlow()
+    private val args =  AllMediaFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
     private val _uiEvent = MutableStateFlow<Event<AllMediaUiEvent>?>(null)
     val uiEvent = _uiEvent.asStateFlow()
@@ -39,7 +36,7 @@ class AllMediaViewModel @Inject constructor(
         getData()
     }
     override fun getData() {
-        _uiState.update { it.copy(isLoading = true) }
+        _state.update { it.copy(isLoading = true) }
         getAllMedia()
     }
 
@@ -49,7 +46,7 @@ class AllMediaViewModel @Inject constructor(
             val items = getAllMediaByTypeUseCase(type = args.type, actionId = args.id).map { pagingData ->
                 pagingData.map { mediaUiMapper.map(it) }
             }
-            _uiState.update {
+            _state.update {
                 it.copy(allMedia = items, isLoading = false)
             }
         }
@@ -59,19 +56,19 @@ class AllMediaViewModel @Inject constructor(
     fun setErrorUiState(combinedLoadStates: CombinedLoadStates) {
         when (combinedLoadStates.refresh) {
             is LoadState.NotLoading -> {
-                _uiState.update {
+                _state.update {
                     it.copy(isLoading = false, error = emptyList())
                 }
             }
 
             is LoadState.Loading -> {
-                _uiState.update {
+                _state.update {
                     it.copy(isLoading = true, error = emptyList())
                 }
             }
 
             is LoadState.Error -> {
-                _uiState.update {
+                _state.update {
                     it.copy(isLoading = false, error = listOf(Error(404, "Not found.")))
                 }
             }

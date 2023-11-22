@@ -23,12 +23,9 @@ class ActorDetailsViewModel @Inject constructor(
     private val actorDetailsUiMapper: ActorDetailsUiMapper,
     private val getActorsMoviesUseCase: GetActorsMoviesUseCase,
     private val actorMoviesUiMapper: ActorMoviesUiMapper
-) : BaseViewModel(), MovieInteractionListener {
+) : BaseViewModel<ActorDetailsUiState>(ActorDetailsUiState()), MovieInteractionListener {
 
     val args = ActorDetailsFragmentArgs.fromSavedStateHandle(state)
-
-    private val _uIState = MutableStateFlow(ActorDetailsUiState())
-    val uiState = _uIState.asStateFlow()
 
     private val _uiEvent = MutableStateFlow<Event<ActorDetailsUiEvent>?>(null)
     val uiEvent = _uiEvent.asStateFlow()
@@ -38,7 +35,7 @@ class ActorDetailsViewModel @Inject constructor(
     }
 
     override fun getData() {
-        _uIState.update { it.copy(isLoading = true, onError = emptyList()) }
+        _state.update { it.copy(isLoading = true, onError = emptyList()) }
         getActorInfo()
         getMoviesByActor()
     }
@@ -52,23 +49,19 @@ class ActorDetailsViewModel @Inject constructor(
     }
 
     private fun onSuccessActorInfo(actorDetails: ActorDetails){
-        updateLoading(false)
         val result = actorDetailsUiMapper.map(actorDetails)
-        _uIState.update {
-            it.copy(actorInfo = result)
+        _state.update {
+            it.copy(actorInfo = result, isLoading = false)
         }
     }
 
     private fun onErrorGetActorData(error: Throwable){
-        val errors = _uIState.value.onError.toMutableList()
+        val errors = _state.value.onError.toMutableList()
         errors.add(error.message.toString())
-        _uIState.update { it.copy(onError = errors, isLoading = false) }
+        _state.update { it.copy(onError = errors, isLoading = false) }
 
     }
 
-    private fun updateLoading(value: Boolean){
-        _uIState.update { it.copy(isLoading = value) }
-    }
 
     private fun getMoviesByActor(){
         tryToExecute(
@@ -80,17 +73,16 @@ class ActorDetailsViewModel @Inject constructor(
     }
 
     private fun onSuccessMoviesByActor(actorMovies: List<ActorMoviesUiState>){
-        updateLoading(false)
-        _uIState.update {
-            it.copy(actorMovies = actorMovies)
+        _state.update {
+            it.copy(actorMovies = actorMovies, isLoading = false)
         }
     }
 
 
     private fun onError(error: Throwable) {
-        val errors = _uIState.value.onError.toMutableList()
+        val errors = _state.value.onError.toMutableList()
         errors.add(error.message.toString())
-        _uIState.update { it.copy(onError = errors, isLoading = false) }
+        _state.update { it.copy(onError = errors, isLoading = false) }
     }
 
     override fun onClickMovie(movieID: Int) {

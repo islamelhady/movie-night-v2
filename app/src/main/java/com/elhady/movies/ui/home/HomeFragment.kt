@@ -37,7 +37,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun collectHomeData() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.homeUiState.collect { items ->
+            viewModel.state.collect { items ->
                 homeAdapter.setItems(
                     mutableListOf(
                         items.popularMovie,

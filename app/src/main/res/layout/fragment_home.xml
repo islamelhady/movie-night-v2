@@ -20,7 +20,7 @@
             android:background="@color/background_color"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            hideIfTrue="@{viewModel.homeUiState.loading}"
+            hideIfTrue="@{viewModel.state.loading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +30,7 @@
         <include
             android:id="@+id/loading"
             layout="@layout/loading"
-            isVisible="@{viewModel.homeUiState.loading}" />
+            isVisible="@{viewModel.state.loading}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

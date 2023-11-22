@@ -31,10 +31,7 @@ class SearchViewModel @Inject constructor(
     private val getAllSearchHistoryUseCase: GetAllSearchHistoryUseCase,
     private val searchHistoryUiMapper: SearchHistoryUiMapper,
     private val mediaUiMapper: MediaUiMapper
-) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener, HistoryInteractionListener {
-
-    private val _searchUiState = MutableStateFlow(SearchUiState())
-    val searchUiState = _searchUiState.asStateFlow()
+) : BaseViewModel<SearchUiState>(SearchUiState()), MediaSearchInteractionListener, ActorSearchInteractionListener, HistoryInteractionListener {
 
     private val _searchUiEvent = MutableStateFlow<Event<SearchUiEvent>?>(null)
     val searchUiEvent = _searchUiEvent.asStateFlow()
@@ -51,7 +48,7 @@ class SearchViewModel @Inject constructor(
 
     fun onSearchForMovies() {
         viewModelScope.launch {
-            _searchUiState.update {
+            _state.update {
                 val result = searchForMovieUseCase(movieQuery = it.inputSearch).map { pagingData ->
                     pagingData.map { mediaUiMapper.map(it) }
                 }
@@ -66,7 +63,7 @@ class SearchViewModel @Inject constructor(
 
     fun onSearchForSeries() {
         viewModelScope.launch {
-            _searchUiState.update {
+            _state.update {
                 val result =
                     searchForSeriesUseCase(seriesQuery = it.inputSearch).map { pagingData ->
                         pagingData.map { mediaUiMapper.map(it) }
@@ -84,7 +81,7 @@ class SearchViewModel @Inject constructor(
 
     fun onSearchForActors() {
         viewModelScope.launch {
-            _searchUiState.update {
+            _state.update {
                 val result = searchForActorsUseCase(it.inputSearch).map { pagingData ->
                     pagingData.map { mediaUiMapper.map(it) }
                 }
@@ -98,8 +95,8 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onClickInputSearch(searchInput: CharSequence) {
-        _searchUiState.update { it.copy(inputSearch = searchInput.toString(), isLoading = true) }
-        when (_searchUiState.value.mediaType) {
+        _state.update { it.copy(inputSearch = searchInput.toString(), isLoading = true) }
+        when (_state.value.mediaType) {
             MediaTypes.MOVIES -> onSearchForMovies()
             MediaTypes.SERIES -> onSearchForSeries()
             MediaTypes.ACTORS -> onSearchForActors()
@@ -108,13 +105,13 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun getAllSearchHistory() {
-        _searchUiState.update { it.copy(isLoading = true) }
+        _state.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             getAllSearchHistoryUseCase().collect { list ->
                 val result = list.map { item ->
                     searchHistoryUiMapper.map(item)
                 }
-                _searchUiState.update { it.copy(searchHistoryResult = result, isLoading = false) }
+                _state.update { it.copy(searchHistoryResult = result, isLoading = false) }
             }
         }
     }
@@ -151,21 +148,21 @@ class SearchViewModel @Inject constructor(
 
     fun setError(combinedLoadStates: CombinedLoadStates) {
         when (combinedLoadStates.refresh) {
-            is LoadState.Error -> _searchUiState.update {
+            is LoadState.Error -> _state.update {
                 it.copy(
                     isLoading = false,
                     error = emptyList()
                 )
             }
 
-            LoadState.Loading -> _searchUiState.update {
+            LoadState.Loading -> _state.update {
                 it.copy(
                     isLoading = true,
                     error = emptyList()
                 )
             }
 
-            is LoadState.NotLoading -> _searchUiState.update {
+            is LoadState.NotLoading -> _state.update {
                 it.copy(
                     isLoading = false,
                     error = emptyList()

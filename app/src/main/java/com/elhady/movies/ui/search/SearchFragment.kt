@@ -70,7 +70,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private fun getMediaSearch(){
         viewLifecycleOwner.lifecycleScope.launch {
-            collectLast(viewModel.searchUiState.value.moviesSearchResult){
+            collectLast(viewModel.state.value.moviesSearchResult){
                 mediaSearchAdapter.submitData(it)
             }
         }
@@ -91,7 +91,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private fun getActorSearch(){
-        collectLast(viewModel.searchUiState.value.moviesSearchResult){
+        collectLast(viewModel.state.value.moviesSearchResult){
             actorSearchAdapter.submitData(it)
         }
     }
@@ -112,7 +112,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private fun getSearchResult(){
-        when(viewModel.searchUiState.value.mediaType){
+        when(viewModel.state.value.mediaType){
             MediaTypes.ACTORS -> bindActors()
             else -> bindMedia()
         }
@@ -149,11 +149,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     @OptIn(FlowPreview::class)
     private fun getSearchResultsBySearchTerm() {
         lifecycleScope.launch {
-            viewModel.searchUiState.debounce(500).collectLatest { searchTerm ->
-                if (searchTerm.inputSearch.isNotBlank() && oldValue.value.inputSearch != viewModel.searchUiState.value.inputSearch
-                    || oldValue.value.mediaType != viewModel.searchUiState.value.mediaType) {
+            viewModel.state.debounce(500).collectLatest { searchTerm ->
+                if (searchTerm.inputSearch.isNotBlank() && oldValue.value.inputSearch != viewModel.state.value.inputSearch
+                    || oldValue.value.mediaType != viewModel.state.value.mediaType) {
                     getSearchResult()
-                    oldValue.emit(viewModel.searchUiState.value)
+                    oldValue.emit(viewModel.state.value)
                 }
             }
         }

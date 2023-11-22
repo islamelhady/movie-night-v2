@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:hideIfTrue="@{viewModel.actorsUiState.loading}"
+            app:hideIfTrue="@{viewModel.state.loading}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -31,12 +31,12 @@
 
         <include
             layout="@layout/loading"
-            isVisible="@{viewModel.actorsUiState.loading}"/>
+            isVisible="@{viewModel.state.loading}"/>
 
-        <include
-            layout="@layout/error"
-            app:viewModel="@{viewModel}"
-            isVisible="@{!viewModel.actorsUiState.error.isEmpty()}" />
+<!--        <include-->
+<!--            layout="@layout/error"-->
+<!--            app:viewModel="@{viewModel}"-->
+<!--            isVisible="@{!viewModel.state.error.isEmpty()}" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -41,7 +41,7 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
 
         collect(flow = actorsAdapter.loadStateFlow, action = { viewModel.setErrorUiState(it) })
 
-        collectLast(flow = viewModel.actorsUiState.value.actors, ::setAllActors)
+        collectLast(flow = viewModel.state.value.actors, ::setAllActors)
     }
 
     private suspend fun setAllActors(itemsPagingData: PagingData<ActorUiState>) {
