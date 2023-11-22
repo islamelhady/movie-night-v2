@@ -24,25 +24,23 @@ class ReviewsViewModel @Inject constructor(
 ) : BaseViewModel<ReviewsUiState>(ReviewsUiState()), BaseInteractionListener {
 
     val args = ReviewsFragmentArgs.fromSavedStateHandle(state)
-    private val _reviewUiState = MutableStateFlow(ReviewsUiState())
-    val reviewUiState = _reviewUiState.asStateFlow()
 
     init {
         getData()
     }
 
     override fun getData() {
-        _reviewUiState.update { it.copy(isLoading = true, errorUiState = emptyList()) }
+        _state.update { it.copy(isLoading = true, errorUiState = emptyList()) }
         viewModelScope.launch {
             try {
                 val result = getReviewsUseCase(mediaId = args.mediaId, type = args.mediaType).map {
                     reviewUiMapper.map(it)
                 }
-                _reviewUiState.update {
+                _state.update {
                     it.copy(review = result, isLoading = false)
                 }
             } catch (e: Exception) {
-                _reviewUiState.update {
+                _state.update {
                     it.copy(
                         errorUiState = listOf(
                             ErrorUiState(
