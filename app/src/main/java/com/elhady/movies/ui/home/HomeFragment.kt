@@ -58,10 +58,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun collectEvent() {
-        collectLast(viewModel.homeUiEvent){ event ->
-            event.getContentIfNotHandled()?.let {
-                onEventClick(it)
-            }
+        collectLast(viewModel.event) {
+            onEventClick(it)
         }
     }
 
@@ -81,7 +79,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 )
             }
 
-           is HomeUiEvent.ClickSeeAllActorsEvent -> {
+            is HomeUiEvent.ClickSeeAllActorsEvent -> {
                 findNavController().navigate(
                     HomeFragmentDirections.actionHomeFragmentToActorsFragment()
                 )
@@ -89,7 +87,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
             is HomeUiEvent.ClickActorEvent -> {
                 findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToActorDetailsFragment(event.actorID)
+                    HomeFragmentDirections.actionHomeFragmentToActorDetailsFragment(event.actorID)
                 )
             }
 

@@ -49,17 +49,15 @@ class HomeViewModel @Inject constructor(
     private val getTrendingActorsUseCase: GetTrendingActorsUseCase,
     private val actorUiMapper: ActorUiMapper
 ) :
-    BaseViewModel<HomeUiState>(HomeUiState()), MovieInteractionListener, TVSeriesInteractionListener,
+    BaseViewModel<HomeUiState, HomeUiEvent>(HomeUiState()), MovieInteractionListener,
+    TVSeriesInteractionListener,
     ActorInteractionListener, MediaInteractionListener, HomeInteractionListener {
-
-    private val _homeUiEvent = MutableStateFlow<Event<HomeUiEvent?>>(Event(null))
-    val homeUiEvent = _homeUiEvent.asStateFlow()
 
     init {
         getData()
     }
 
-    override fun getData(){
+    override fun getData() {
         _state.update {
             it.copy(isLoading = true, error = emptyList())
         }
@@ -248,7 +246,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 getOnTheAirSeriesUseCase().collect { list ->
-                    if (list.isNotEmpty()){
+                    if (list.isNotEmpty()) {
                         val items = list.map(mediaUiMapper::map)
                         _state.update {
                             it.copy(
@@ -271,7 +269,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 getAiringTodaySeriesUseCase().collect { list ->
-                    if (list.isNotEmpty()){
+                    if (list.isNotEmpty()) {
                         val items = list.map {
                             mediaUiMapper.map(it)
                         }
@@ -299,7 +297,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 getTVSeriesListsUseCase().collect { list ->
-                    if (list.isNotEmpty()){
+                    if (list.isNotEmpty()) {
                         val items = list.map(mediaUiMapper::map)
                         _state.update {
                             it.copy(
@@ -350,13 +348,11 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun onClickMovie(movieID: Int) {
-        _homeUiEvent.update {
-            Event(HomeUiEvent.ClickMovieEvent(movieID))
-        }
+        Event(HomeUiEvent.ClickMovieEvent(movieID))
     }
 
     override fun onClickSeeAllMovies(mediaType: HomeItemType) {
-        val type = when(mediaType){
+        val type = when (mediaType) {
             HomeItemType.TRENDING -> AllMediaType.TRENDING
             HomeItemType.UPCOMING -> AllMediaType.UPCOMING
             HomeItemType.NOW_PLAYING -> AllMediaType.NOW_PLAYING
@@ -367,39 +363,27 @@ class HomeViewModel @Inject constructor(
             HomeItemType.ADVENTURE -> AllMediaType.ADVENTURE
             HomeItemType.ACTOR_MOVIES -> AllMediaType.ACTOR_MOVIES
         }
-        _homeUiEvent.update {
-            Event(HomeUiEvent.ClickSeeAllMoviesEvent(type))
-        }
+        Event(HomeUiEvent.ClickSeeAllMoviesEvent(type))
     }
 
     override fun onClickTVSeries(seriesID: Int) {
-        _homeUiEvent.update {
-            Event(HomeUiEvent.ClickSeriesEvent(seriesID))
-        }
+        Event(HomeUiEvent.ClickSeriesEvent(seriesID))
     }
 
     override fun onClickAllTVSeries(type: AllMediaType) {
-        _homeUiEvent.update {
-            Event(HomeUiEvent.ClickSeeAllSeriesEvent(type))
-        }
+        Event(HomeUiEvent.ClickSeeAllSeriesEvent(type))
     }
 
     override fun onClickActor(actorID: Int) {
-        _homeUiEvent.update {
-            Event(HomeUiEvent.ClickActorEvent(actorID))
-        }
+        Event(HomeUiEvent.ClickActorEvent(actorID))
     }
 
     override fun onClickSeeAllActors() {
-        _homeUiEvent.update {
-            Event(HomeUiEvent.ClickSeeAllActorsEvent)
-        }
+        Event(HomeUiEvent.ClickSeeAllActorsEvent)
     }
 
     override fun onClickMedia(mediaId: Int) {
-        _homeUiEvent.update {
-            Event(HomeUiEvent.ClickSeriesEvent(mediaId))
-        }
+        Event(HomeUiEvent.ClickSeriesEvent(mediaId))
     }
 
 }
