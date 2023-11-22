@@ -38,13 +38,11 @@ class SeriesDetailsViewModel @Inject constructor(
     private val mediaUiMapper: MediaUiMapper,
     private val seasonUiMapper: SeasonUiMapper,
     private val reviewUiMapper: ReviewUiMapper
-) : BaseViewModel<SeriesDetailsUiState>(SeriesDetailsUiState()), DetailsInteractionListener, ActorInteractionListener, MediaInteractionListener,
+) : BaseViewModel<SeriesDetailsUiState, SeriesDetailsUiEvent>(SeriesDetailsUiState()),
+    DetailsInteractionListener, ActorInteractionListener, MediaInteractionListener,
     SeasonInteractionListener {
 
     val args = SeriesDetailsFragmentArgs.fromSavedStateHandle(state)
-    
-    private val _seriesUiEvent = MutableStateFlow<Event<SeriesDetailsUiEvent>?>(null)
-    val seriesUiEvent = _seriesUiEvent.asStateFlow()
 
     init {
         getData()
@@ -136,7 +134,7 @@ class SeriesDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             setRatingUseCase(args.seriesId, value = value)
             _state.update { it.copy(ratingValue = value) }
-            _seriesUiEvent.update { Event(SeriesDetailsUiEvent.MessageAppear) }
+            Event(SeriesDetailsUiEvent.MessageAppear)
         }
     }
 
@@ -163,21 +161,15 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     override fun onClickBackButton() {
-        _seriesUiEvent.update {
-            Event(SeriesDetailsUiEvent.ClickBackButtonEvent)
-        }
+        Event(SeriesDetailsUiEvent.ClickBackButtonEvent)
     }
 
     override fun onClickPlayTrailer() {
-        _seriesUiEvent.update {
-            Event(SeriesDetailsUiEvent.ClickPlayTrailerEvent)
-        }
+        Event(SeriesDetailsUiEvent.ClickPlayTrailerEvent)
     }
 
     override fun onclickViewReviews() {
-        _seriesUiEvent.update {
-            Event(SeriesDetailsUiEvent.ClickViewReviews)
-        }
+        Event(SeriesDetailsUiEvent.ClickViewReviews)
     }
 
     override fun onClickFavourite() {
@@ -185,20 +177,14 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     override fun onClickActor(actorID: Int) {
-        _seriesUiEvent.update {
-            Event(SeriesDetailsUiEvent.ClickCastEvent(castId = actorID))
-        }
+        Event(SeriesDetailsUiEvent.ClickCastEvent(castId = actorID))
     }
 
     override fun onClickMedia(mediaId: Int) {
-        _seriesUiEvent.update {
-            Event(SeriesDetailsUiEvent.ClickSimilarSeriesEvent(seriesId = mediaId))
-        }
+        Event(SeriesDetailsUiEvent.ClickSimilarSeriesEvent(seriesId = mediaId))
     }
 
     override fun onClickSeason(seasonNumber: Int) {
-        _seriesUiEvent.update {
-            Event(SeriesDetailsUiEvent.ClickSeasonEvent(seasonNumber = seasonNumber))
-        }
+        Event(SeriesDetailsUiEvent.ClickSeasonEvent(seasonNumber = seasonNumber))
     }
 }

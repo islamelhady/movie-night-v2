@@ -38,22 +38,50 @@ class SeriesDetailsFragment : BaseFragment<FragmentSeriesDetailsBinding>() {
     }
 
     private fun collectEvent() {
-        collectLast(viewModel.seriesUiEvent){ event ->
-            event?.getContentIfNotHandled()?.let {
-                onEvent(it)
-            }
+        collectLast(viewModel.event) {
+            onEvent(it)
         }
     }
 
-    private fun onEvent(event: SeriesDetailsUiEvent){
-        when(event){
-            is SeriesDetailsUiEvent.ClickSeasonEvent -> findNavController().navigate(SeriesDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(seriesId = viewModel.args.seriesId, event.seasonNumber))
+    private fun onEvent(event: SeriesDetailsUiEvent) {
+        when (event) {
+            is SeriesDetailsUiEvent.ClickSeasonEvent -> findNavController().navigate(
+                SeriesDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(
+                    seriesId = viewModel.args.seriesId,
+                    event.seasonNumber
+                )
+            )
+
             SeriesDetailsUiEvent.ClickBackButtonEvent -> findNavController().popBackStack()
-            is SeriesDetailsUiEvent.ClickCastEvent -> findNavController().navigate(SeriesDetailsFragmentDirections.actionTvShowDetailsFragmentToActorDetailsFragment(event.castId))
-            SeriesDetailsUiEvent.ClickPlayTrailerEvent -> findNavController().navigate(SeriesDetailsFragmentDirections.actionTvShowDetailsFragmentToVideoFragment(viewModel.args.seriesId, MediaType.SERIES))
-            is SeriesDetailsUiEvent.ClickSimilarSeriesEvent -> findNavController().navigate(SeriesDetailsFragmentDirections.actionTvShowDetailsFragmentSelf(event.seriesId))
-            SeriesDetailsUiEvent.ClickViewReviews -> findNavController().navigate(SeriesDetailsFragmentDirections.actionTvShowDetailsFragmentToReviewsFragment(mediaId = viewModel.args.seriesId, mediaType = MediaType.SERIES))
-            SeriesDetailsUiEvent.MessageAppear -> Toast.makeText(context, R.string.submit_toast, Toast.LENGTH_LONG).show()
+            is SeriesDetailsUiEvent.ClickCastEvent -> findNavController().navigate(
+                SeriesDetailsFragmentDirections.actionTvShowDetailsFragmentToActorDetailsFragment(
+                    event.castId
+                )
+            )
+
+            SeriesDetailsUiEvent.ClickPlayTrailerEvent -> findNavController().navigate(
+                SeriesDetailsFragmentDirections.actionTvShowDetailsFragmentToVideoFragment(
+                    viewModel.args.seriesId,
+                    MediaType.SERIES
+                )
+            )
+
+            is SeriesDetailsUiEvent.ClickSimilarSeriesEvent -> findNavController().navigate(
+                SeriesDetailsFragmentDirections.actionTvShowDetailsFragmentSelf(event.seriesId)
+            )
+
+            SeriesDetailsUiEvent.ClickViewReviews -> findNavController().navigate(
+                SeriesDetailsFragmentDirections.actionTvShowDetailsFragmentToReviewsFragment(
+                    mediaId = viewModel.args.seriesId,
+                    mediaType = MediaType.SERIES
+                )
+            )
+
+            SeriesDetailsUiEvent.MessageAppear -> Toast.makeText(
+                context,
+                R.string.submit_toast,
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
