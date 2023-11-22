@@ -11,7 +11,6 @@ import com.elhady.movies.ui.base.BaseFragment
 import com.elhady.movies.ui.home.adapters.HomeAdapter
 import com.elhady.movies.ui.home.homeUiState.HomeUiEvent
 import com.elhady.movies.ui.home.homeUiState.HomeUiState
-import com.elhady.movies.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -27,8 +26,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>
 
         setupAdapter()
         collectHomeData()
-//        collectEvent()
-
     }
 
     private fun setupAdapter() {
@@ -58,13 +55,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>
         }
     }
 
-    private fun collectEvent() {
-        collectLast(viewModel.event) {
-            onEventClick(it)
-        }
-    }
-
-    private fun onEventClick(event: HomeUiEvent) {
+    override fun onEvent(event: HomeUiEvent) {
         when (event) {
             is HomeUiEvent.ClickMovieEvent -> {
                 findNavController().navigate(
