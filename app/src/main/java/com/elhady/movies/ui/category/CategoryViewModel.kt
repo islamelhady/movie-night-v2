@@ -11,11 +11,8 @@ import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.movieDetails.ErrorUiState
-import com.elhady.movies.utilities.Constants
 import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -28,12 +25,11 @@ class CategoryViewModel @Inject constructor(
     private val getGenreListUseCase: GetGenreListUseCase,
     private val mediaUiMapper: MediaUiMapper,
     private val genreUiMapper: GenreUiMapper
-) : BaseViewModel<CategoryUiState, CategoryUiEvent>(CategoryUiState()), MediaInteractionListener, CategoryInteractionListener {
+) : BaseViewModel<CategoryUiState, CategoryUiEvent>(CategoryUiState()), MediaInteractionListener,
+    CategoryInteractionListener {
 
     val args = CategoryFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
-    private val _categoryUiEvent : MutableStateFlow<Event<CategoryUiEvent>> = MutableStateFlow(Event(CategoryUiEvent.ClickCategoryEvent(categoryId = Constants.FIRST_CATEGORY_ID)))
-    val categoryUiEvent = _categoryUiEvent.asStateFlow()
 
     init {
         getData()
@@ -43,12 +39,15 @@ class CategoryViewModel @Inject constructor(
         _state.update { it.copy(isLoading = true) }
         getMediaList(_state.value.categorySelectedID)
         getCategoryGenreList()
-        _categoryUiEvent.update { Event(CategoryUiEvent.ClickRetry) }
+        Event(CategoryUiEvent.ClickRetry)
     }
 
     fun getMediaList(categorySelected: Int) {
         viewModelScope.launch {
-            val result = getCategoryByGenreIDUseCase(type = args.mediaType, genreId = categorySelected).map { pagingData ->
+            val result = getCategoryByGenreIDUseCase(
+                type = args.mediaType,
+                genreId = categorySelected
+            ).map { pagingData ->
                 pagingData.map {
                     mediaUiMapper.map(it)
                 }
@@ -97,14 +96,12 @@ class CategoryViewModel @Inject constructor(
     }
 
     override fun onClickMedia(mediaId: Int) {
-        _categoryUiEvent.update {
-            Event(CategoryUiEvent.ClickMediaEvent(mediaId))
-        }
+        Event(CategoryUiEvent.ClickMediaEvent(mediaId))
     }
 
     override fun onClickCategory(categoryId: Int) {
         _state.update { it.copy(categorySelectedID = categoryId) }
-        _categoryUiEvent.update { Event(CategoryUiEvent.ClickCategoryEvent(categoryId)) }
+        Event(CategoryUiEvent.ClickCategoryEvent(categoryId))
     }
 
 }

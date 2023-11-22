@@ -2,7 +2,6 @@ package com.elhady.movies.ui.category
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -19,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
+class CategoryFragment : BaseFragment<FragmentCategoryBinding, CategoryUiState, CategoryUiEvent>() {
     override val layoutIdFragment: Int = R.layout.fragment_category
     override val viewModel: CategoryViewModel by viewModels()
     private val categoryAdapter by lazy { CategoryAdapter(viewModel) }
@@ -28,7 +27,6 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setTitle(true, getTitle())
         setAdapter()
-        collectEvent()
         collectData()
     }
 
@@ -59,16 +57,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
    }
 
-
-    private fun collectEvent() {
-        collectLast(viewModel.categoryUiEvent){ event ->
-            event.getContentIfNotHandled()?.let {
-                onEvent(it)
-            }
-        }
-    }
-
-    private fun onEvent(event: CategoryUiEvent) {
+    override fun onEvent(event: CategoryUiEvent) {
         when(event){
             is CategoryUiEvent.ClickCategoryEvent -> viewModel.getMediaList(event.categoryId)
             CategoryUiEvent.ClickRetry -> categoryAdapter.retry()
