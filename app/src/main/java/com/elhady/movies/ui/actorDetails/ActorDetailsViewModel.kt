@@ -9,10 +9,7 @@ import com.elhady.movies.ui.actorDetails.mapper.ActorDetailsUiMapper
 import com.elhady.movies.ui.actorDetails.mapper.ActorMoviesUiMapper
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.MovieInteractionListener
-import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
@@ -23,12 +20,10 @@ class ActorDetailsViewModel @Inject constructor(
     private val actorDetailsUiMapper: ActorDetailsUiMapper,
     private val getActorsMoviesUseCase: GetActorsMoviesUseCase,
     private val actorMoviesUiMapper: ActorMoviesUiMapper
-) : BaseViewModel<ActorDetailsUiState>(ActorDetailsUiState()), MovieInteractionListener {
+) : BaseViewModel<ActorDetailsUiState, ActorDetailsUiEvent>(ActorDetailsUiState()),
+    MovieInteractionListener {
 
     val args = ActorDetailsFragmentArgs.fromSavedStateHandle(state)
-
-    private val _uiEvent = MutableStateFlow<Event<ActorDetailsUiEvent>?>(null)
-    val uiEvent = _uiEvent.asStateFlow()
 
     init {
         getData()
@@ -48,14 +43,14 @@ class ActorDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessActorInfo(actorDetails: ActorDetails){
+    private fun onSuccessActorInfo(actorDetails: ActorDetails) {
         val result = actorDetailsUiMapper.map(actorDetails)
         _state.update {
             it.copy(actorInfo = result, isLoading = false)
         }
     }
 
-    private fun onErrorGetActorData(error: Throwable){
+    private fun onErrorGetActorData(error: Throwable) {
         val errors = _state.value.onError.toMutableList()
         errors.add(error.message.toString())
         _state.update { it.copy(onError = errors, isLoading = false) }
@@ -63,7 +58,7 @@ class ActorDetailsViewModel @Inject constructor(
     }
 
 
-    private fun getMoviesByActor(){
+    private fun getMoviesByActor() {
         tryToExecute(
             call = { getActorsMoviesUseCase(args.actorID) },
             onSuccess = ::onSuccessMoviesByActor,
@@ -72,7 +67,7 @@ class ActorDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessMoviesByActor(actorMovies: List<ActorMoviesUiState>){
+    private fun onSuccessMoviesByActor(actorMovies: List<ActorMoviesUiState>) {
         _state.update {
             it.copy(actorMovies = actorMovies, isLoading = false)
         }
@@ -86,21 +81,15 @@ class ActorDetailsViewModel @Inject constructor(
     }
 
     override fun onClickMovie(movieID: Int) {
-        _uiEvent.update {
-            Event(ActorDetailsUiEvent.ClickMovieEvent(movieID = movieID))
-        }
+        sendEvent(ActorDetailsUiEvent.ClickMovieEvent(movieID = movieID))
     }
 
     override fun onClickSeeAllMovies(mediaType: HomeItemType) {
-        _uiEvent.update {
-            Event(ActorDetailsUiEvent.ClickSeeAllEvent)
-        }
+        sendEvent(ActorDetailsUiEvent.ClickSeeAllEvent)
     }
 
-    fun onClickBackButton(){
-        _uiEvent.update {
-            Event(ActorDetailsUiEvent.ClickBackButton)
-        }
+    fun onClickBackButton() {
+        sendEvent(ActorDetailsUiEvent.ClickBackButton)
     }
 
 
