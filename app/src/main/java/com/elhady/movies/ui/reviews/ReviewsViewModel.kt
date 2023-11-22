@@ -1,5 +1,6 @@
 package com.elhady.movies.ui.reviews
 
+import android.util.EventLog.Event
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.enums.MediaType
@@ -21,7 +22,7 @@ class ReviewsViewModel @Inject constructor(
     state: SavedStateHandle,
     private val getReviewsUseCase: GetReviewsUseCase,
     private val reviewUiMapper: ReviewUiMapper
-) : BaseViewModel<ReviewsUiState>(ReviewsUiState()), BaseInteractionListener {
+) : BaseViewModel<ReviewsUiState, ReviewInteraction>(ReviewsUiState()), BaseInteractionListener {
 
     val args = ReviewsFragmentArgs.fromSavedStateHandle(state)
 
