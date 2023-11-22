@@ -12,8 +12,6 @@ import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -25,16 +23,14 @@ class AllMediaViewModel @Inject constructor(
     private val getAllMediaByTypeUseCase: GetAllMediaByTypeUseCase,
     private val checkMediaTypeUseCase: CheckMediaTypeUseCase,
     private val mediaUiMapper: MediaUiMapper
-) : BaseViewModel<AllMediaUiState>(AllMediaUiState()), MediaInteractionListener {
+) : BaseViewModel<AllMediaUiState, AllMediaUiEvent>(AllMediaUiState()), MediaInteractionListener {
 
-    private val args =  AllMediaFragmentArgs.fromSavedStateHandle(savedStateHandle)
-
-    private val _uiEvent = MutableStateFlow<Event<AllMediaUiEvent>?>(null)
-    val uiEvent = _uiEvent.asStateFlow()
+    private val args = AllMediaFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
     init {
         getData()
     }
+
     override fun getData() {
         _state.update { it.copy(isLoading = true) }
         getAllMedia()
@@ -43,9 +39,10 @@ class AllMediaViewModel @Inject constructor(
 
     private fun getAllMedia() {
         viewModelScope.launch {
-            val items = getAllMediaByTypeUseCase(type = args.type, actionId = args.id).map { pagingData ->
-                pagingData.map { mediaUiMapper.map(it) }
-            }
+            val items =
+                getAllMediaByTypeUseCase(type = args.type, actionId = args.id).map { pagingData ->
+                    pagingData.map { mediaUiMapper.map(it) }
+                }
             _state.update {
                 it.copy(allMedia = items, isLoading = false)
             }
@@ -77,14 +74,10 @@ class AllMediaViewModel @Inject constructor(
     }
 
     override fun onClickMedia(mediaId: Int) {
-        if(checkMediaTypeUseCase(args.type)){
-            _uiEvent.update {
-                Event(AllMediaUiEvent.ClickSeriesEvent(mediaId))
-            }
+        if (checkMediaTypeUseCase(args.type)) {
+            Event(AllMediaUiEvent.ClickSeriesEvent(mediaId))
         } else {
-            _uiEvent.update {
-                Event(AllMediaUiEvent.ClickMovieEvent(mediaId))
-            }
+            Event(AllMediaUiEvent.ClickMovieEvent(mediaId))
         }
     }
 

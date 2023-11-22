@@ -53,10 +53,8 @@ class AllMediaFragment : BaseFragment<FragmentAlMediaBinding>() {
     }
 
     private fun collectEvent() {
-        collectLast(viewModel.uiEvent) { event ->
-            event?.getContentIfNotHandled()?.let {
-                onEvent(it)
-            }
+        collectLast(viewModel.event) {
+            onEvent(it)
         }
     }
 
@@ -69,8 +67,13 @@ class AllMediaFragment : BaseFragment<FragmentAlMediaBinding>() {
                     )
                 )
             }
+
             is AllMediaUiEvent.ClickSeriesEvent -> {
-                findNavController().navigate(AllMediaFragmentDirections.actionAllMediaFragmentToTvShowDetailsFragment(event.mediaId))
+                findNavController().navigate(
+                    AllMediaFragmentDirections.actionAllMediaFragmentToTvShowDetailsFragment(
+                        event.mediaId
+                    )
+                )
 
             }
         }
