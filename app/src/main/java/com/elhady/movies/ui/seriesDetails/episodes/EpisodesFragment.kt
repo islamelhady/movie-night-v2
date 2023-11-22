@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class EpisodesFragment : BaseFragment<FragmentEpisodesBinding>() {
+class EpisodesFragment : BaseFragment<FragmentEpisodesBinding, EpisodesUiState, EpisodesInteraction>() {
     override val layoutIdFragment: Int = R.layout.fragment_episodes
     override val viewModel: EpisodesViewModel by viewModels()
 
@@ -21,6 +21,10 @@ class EpisodesFragment : BaseFragment<FragmentEpisodesBinding>() {
 
         binding.recyclerEpisode.adapter = EpisodeAdapter(mutableListOf(), viewModel)
 
+    }
+
+    override fun onEvent(event: EpisodesInteraction) {
+        TODO("Not yet implemented")
     }
 
 }

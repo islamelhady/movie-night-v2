@@ -17,7 +17,7 @@ import com.elhady.movies.utilities.setSpanSize
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AllMediaFragment : BaseFragment<FragmentAlMediaBinding>() {
+class AllMediaFragment : BaseFragment<FragmentAlMediaBinding, AllMediaUiState, AllMediaUiEvent>() {
 
     override val layoutIdFragment: Int = R.layout.fragment_al_media
     override val viewModel: AllMediaViewModel by viewModels()
@@ -28,7 +28,6 @@ class AllMediaFragment : BaseFragment<FragmentAlMediaBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setAdapter()
-        collectEvent()
     }
 
     private fun setAdapter() {
@@ -52,13 +51,7 @@ class AllMediaFragment : BaseFragment<FragmentAlMediaBinding>() {
         allMediaAdapter.submitData(pagingData = itemsPagingData)
     }
 
-    private fun collectEvent() {
-        collectLast(viewModel.event) {
-            onEvent(it)
-        }
-    }
-
-    private fun onEvent(event: AllMediaUiEvent) {
+    override fun onEvent(event: AllMediaUiEvent) {
         when (event) {
             is AllMediaUiEvent.ClickMovieEvent -> {
                 findNavController().navigate(

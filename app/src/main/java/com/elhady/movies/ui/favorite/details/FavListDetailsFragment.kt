@@ -13,7 +13,7 @@ import com.elhady.movies.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FavListDetailsFragment : BaseFragment<FragmentFavListDetailsBinding>() {
+class FavListDetailsFragment : BaseFragment<FragmentFavListDetailsBinding, ListDetailsUIState, ListDetailsUiEvent>() {
 
     override val layoutIdFragment: Int = R.layout.fragment_fav_list_details
     override val viewModel: FavListDetailsViewModel by viewModels()
@@ -22,20 +22,13 @@ class FavListDetailsFragment : BaseFragment<FragmentFavListDetailsBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         setupAdapter()
-        collectEvent()
     }
 
     private fun setupAdapter() {
         binding.recyclerListDetails.adapter = ListDetailsAdapter(mutableListOf(), viewModel)
     }
 
-    private fun collectEvent() {
-        collectLast(viewModel.event) {
-            onEvent(it)
-        }
-    }
-
-    private fun onEvent(event: ListDetailsUiEvent) {
+    override fun onEvent(event: ListDetailsUiEvent) {
         if (event is ListDetailsUiEvent.OnItemSelected) {
             if (event.savedMediaUiState.mediaType == MediaType.MOVIES.value) {
                 navigateToMovieDetails(event.savedMediaUiState.mediaID)

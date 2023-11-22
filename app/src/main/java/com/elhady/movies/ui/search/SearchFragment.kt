@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SearchFragment : BaseFragment<FragmentSearchBinding>() {
+class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, SearchUiEvent>() {
 
     override val layoutIdFragment: Int = R.layout.fragment_search
     override val viewModel: SearchViewModel by viewModels()
@@ -47,7 +47,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getSearchResultsBySearchTerm()
-        collectEvent()
         setHistoryAdapter()
     }
 
@@ -117,13 +116,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             else -> bindMedia()
         }
     }
-    private fun collectEvent(){
-        collectLast(viewModel.event){
-            onEvent(it)
-        }
-    }
 
-    private fun onEvent(event: SearchUiEvent) {
+    override fun onEvent(event: SearchUiEvent) {
         when(event){
             SearchUiEvent.ClickBackEvent -> findNavController().popBackStack()
             is SearchUiEvent.ClickActorEvent -> findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToActorDetailsFragment(event.actorId))

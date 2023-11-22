@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
+class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding, DetailsUiState, MovieDetailsUiEvent>() {
     override val layoutIdFragment: Int = R.layout.fragment_movie_details
     override val viewModel: MovieDetailsViewModel by viewModels()
     private lateinit var detailAdapter: DetailsAdapter
@@ -27,7 +27,6 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
 
         setupAdapter()
         collectMovieDetailsItems()
-        collectEvents()
     }
 
 
@@ -44,13 +43,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
         }
     }
 
-    private fun collectEvents() {
-        collectLast(viewModel.event) {
-            onEvent(it)
-        }
-    }
-
-    private fun onEvent(event: MovieDetailsUiEvent) {
+    override fun onEvent(event: MovieDetailsUiEvent) {
         var action: NavDirections? = null
 
         when (event) {

@@ -9,13 +9,17 @@ import com.elhady.movies.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ReviewsFragment : BaseFragment<FragmentReviewsBinding>() {
+class ReviewsFragment : BaseFragment<FragmentReviewsBinding, ReviewsUiState, ReviewInteraction>() {
     override val layoutIdFragment: Int = R.layout.fragment_reviews
     override val viewModel: ReviewsViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerReview.adapter = ReviewAdapter(mutableListOf(), viewModel)
+    }
+
+    override fun onEvent(event: ReviewInteraction) {
+        TODO("Not yet implemented")
     }
 
 

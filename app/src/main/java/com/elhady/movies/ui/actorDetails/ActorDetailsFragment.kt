@@ -12,7 +12,7 @@ import com.elhady.movies.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
+class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding, ActorDetailsUiState, ActorDetailsUiEvent>() {
     override val layoutIdFragment: Int = R.layout.fragment_actor_details
     override val viewModel: ActorDetailsViewModel by viewModels()
 
@@ -20,17 +20,9 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerRelatedMovie.adapter = ActorMoviesAdapter(mutableListOf(), viewModel)
-        collectEvent()
-
     }
 
-    private fun collectEvent() {
-        collectLast(viewModel.event) {
-                onEvent(it)
-        }
-    }
-
-    private fun onEvent(event: ActorDetailsUiEvent) {
+    override fun onEvent(event: ActorDetailsUiEvent) {
         when (event) {
             is ActorDetailsUiEvent.ClickMovieEvent -> {
                 findNavController().navigate(

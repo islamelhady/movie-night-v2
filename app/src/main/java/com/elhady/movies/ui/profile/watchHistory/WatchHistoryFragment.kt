@@ -11,7 +11,7 @@ import com.elhady.movies.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding>() {
+class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding, WatchHistoryUiState, WatchHistoryUiEvent>() {
 
     override val layoutIdFragment: Int = R.layout.fragment_watch_history
     override val viewModel: WatchHistoryViewModel by viewModels()
@@ -20,20 +20,13 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         setAdapter()
-        collectEvent()
     }
 
     private fun setAdapter() {
         binding.recyclerWatchHistory.adapter = WatchHistoryAdapter(mutableListOf(), viewModel)
     }
 
-    private fun collectEvent() {
-        collectLast(viewModel.event) {
-            onEvent(it)
-        }
-    }
-
-    private fun onEvent(event: WatchHistoryUiEvent) {
+    override fun onEvent(event: WatchHistoryUiEvent) {
         val action = when (event) {
             is WatchHistoryUiEvent.MovieEvent -> WatchHistoryFragmentDirections.actionWatchHistoryFragmentToMovieDetailsFragment(
                 event.movieId

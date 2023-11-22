@@ -14,7 +14,7 @@ import com.elhady.movies.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ExploreFragment : BaseFragment<FragmentExploreBinding>() {
+class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, ExploreUiEvent>() {
 
     override val layoutIdFragment: Int = R.layout.fragment_explore
     override val viewModel: ExploreViewModel by viewModels()
@@ -23,16 +23,9 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerExplore.adapter = TrendingAdapter(mutableListOf(), viewModel)
-        collectEvent()
     }
 
-    private fun collectEvent() {
-        collectLast(viewModel.event) {
-            onEvent(it)
-        }
-    }
-
-    private fun onEvent(event: ExploreUiEvent) {
+    override fun onEvent(event: ExploreUiEvent) {
         when (event) {
             is ExploreUiEvent.ClickTrendEvent -> {
                 navigateToMediaDetails(event.trendingMediaUiState)

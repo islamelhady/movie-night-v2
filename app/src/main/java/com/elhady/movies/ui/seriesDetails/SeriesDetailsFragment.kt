@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SeriesDetailsFragment : BaseFragment<FragmentSeriesDetailsBinding>() {
+class SeriesDetailsFragment : BaseFragment<FragmentSeriesDetailsBinding, SeriesDetailsUiState, SeriesDetailsUiEvent>() {
     override val layoutIdFragment: Int = R.layout.fragment_series_details
     override val viewModel: SeriesDetailsViewModel by viewModels()
 
@@ -28,8 +28,6 @@ class SeriesDetailsFragment : BaseFragment<FragmentSeriesDetailsBinding>() {
         val seriesAdapter = SeriesDetailsAdapter(mutableListOf(), viewModel)
         binding.recyclerSeriesDetails.adapter = seriesAdapter
 
-        collectEvent()
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collect {
                 seriesAdapter.setItems(viewModel.state.value.seriesItems)
@@ -37,13 +35,7 @@ class SeriesDetailsFragment : BaseFragment<FragmentSeriesDetailsBinding>() {
         }
     }
 
-    private fun collectEvent() {
-        collectLast(viewModel.event) {
-            onEvent(it)
-        }
-    }
-
-    private fun onEvent(event: SeriesDetailsUiEvent) {
+    override fun onEvent(event: SeriesDetailsUiEvent) {
         when (event) {
             is SeriesDetailsUiEvent.ClickSeasonEvent -> findNavController().navigate(
                 SeriesDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(
