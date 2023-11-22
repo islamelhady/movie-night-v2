@@ -23,7 +23,7 @@ class ActorDetailsViewModel @Inject constructor(
     private val actorDetailsUiMapper: ActorDetailsUiMapper,
     private val getActorsMoviesUseCase: GetActorsMoviesUseCase,
     private val actorMoviesUiMapper: ActorMoviesUiMapper
-) : BaseViewModel(), MovieInteractionListener {
+) : BaseViewModel<ActorDetailsUiState>(ActorDetailsUiState()), MovieInteractionListener {
 
     val args = ActorDetailsFragmentArgs.fromSavedStateHandle(state)
 

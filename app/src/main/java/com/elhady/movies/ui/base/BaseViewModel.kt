@@ -5,10 +5,16 @@ import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.mappers.Mapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel : ViewModel() {
+abstract class BaseViewModel<STATE>(initialState: STATE) : ViewModel() {
 
+    protected val _state : MutableStateFlow<STATE> by lazy {
+        MutableStateFlow(initialState)
+    }
+    val state = _state.asStateFlow()
     abstract fun getData()
 
     protected fun <T> tryToExecute(
