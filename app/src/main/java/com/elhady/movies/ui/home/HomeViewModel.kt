@@ -52,9 +52,6 @@ class HomeViewModel @Inject constructor(
     BaseViewModel<HomeUiState>(HomeUiState()), MovieInteractionListener, TVSeriesInteractionListener,
     ActorInteractionListener, MediaInteractionListener, HomeInteractionListener {
 
-    private val _homeUiState = MutableStateFlow(HomeUiState())
-    val homeUiState = _homeUiState.asStateFlow()
-
     private val _homeUiEvent = MutableStateFlow<Event<HomeUiEvent?>>(Event(null))
     val homeUiEvent = _homeUiEvent.asStateFlow()
 
@@ -63,7 +60,7 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun getData(){
-        _homeUiState.update {
+        _state.update {
             it.copy(isLoading = true, error = emptyList())
         }
         getPopular()
@@ -88,7 +85,7 @@ class HomeViewModel @Inject constructor(
                 getPopularMoviesUseCase().collect { list ->
                     if (list.isNotEmpty()) {
                         val items = list.map(popularUiMapper::map)
-                        _homeUiState.update {
+                        _state.update {
                             it.copy(
                                 popularMovie = HomeItem.Slider(items),
                                 isLoading = false
@@ -111,7 +108,7 @@ class HomeViewModel @Inject constructor(
                 getUpcomingMoviesUseCase().collect { list ->
                     if (list.isNotEmpty()) {
                         val items = list.map(mediaUiMapper::map)
-                        _homeUiState.update {
+                        _state.update {
                             it.copy(
                                 upcomingMovie = HomeItem.Upcoming(items),
                                 isLoading = false
@@ -134,7 +131,7 @@ class HomeViewModel @Inject constructor(
                 getTrendingMovieUseCase().collect { list ->
                     if (list.isNotEmpty()) {
                         val items = list.map(mediaUiMapper::map)
-                        _homeUiState.update {
+                        _state.update {
                             it.copy(
                                 trendingMovie = HomeItem.Trending(items),
                                 isLoading = false
@@ -157,7 +154,7 @@ class HomeViewModel @Inject constructor(
                 getNowPlayingMoviesUseCase().collect { list ->
                     if (list.isNotEmpty()) {
                         val items = list.map(mediaUiMapper::map)
-                        _homeUiState.update {
+                        _state.update {
                             it.copy(
                                 nowPlayingMovie = HomeItem.NowPlaying(items),
                                 isLoading = false
@@ -180,7 +177,7 @@ class HomeViewModel @Inject constructor(
                 getTopRatedMoviesUseCase().collect { list ->
                     if (list.isNotEmpty()) {
                         val topRatedItems = list.map(mediaUiMapper::map)
-                        _homeUiState.update {
+                        _state.update {
                             it.copy(
                                 topRatedMovie = HomeItem.TopRated(topRatedItems),
                                 isLoading = false
@@ -205,7 +202,7 @@ class HomeViewModel @Inject constructor(
                         val items = list.map {
                             mediaUiMapper.map(it)
                         }
-                        _homeUiState.update {
+                        _state.update {
                             it.copy(
                                 mysteryMovies = HomeItem.Mystery(items),
                                 isLoading = false
@@ -230,7 +227,7 @@ class HomeViewModel @Inject constructor(
                         val items = list.map {
                             mediaUiMapper.map(it)
                         }
-                        _homeUiState.update {
+                        _state.update {
                             it.copy(
                                 adventureMovies = HomeItem.Adventure(items),
                                 isLoading = false
@@ -253,7 +250,7 @@ class HomeViewModel @Inject constructor(
                 getOnTheAirSeriesUseCase().collect { list ->
                     if (list.isNotEmpty()){
                         val items = list.map(mediaUiMapper::map)
-                        _homeUiState.update {
+                        _state.update {
                             it.copy(
                                 onTheAirSeries = HomeItem.OnTheAirSeries(items),
                                 isLoading = false
@@ -278,7 +275,7 @@ class HomeViewModel @Inject constructor(
                         val items = list.map {
                             mediaUiMapper.map(it)
                         }
-                        _homeUiState.update {
+                        _state.update {
                             it.copy(
                                 airingTodaySeries = HomeItem.AiringTodaySeries(items),
                                 isLoading = false
@@ -304,7 +301,7 @@ class HomeViewModel @Inject constructor(
                 getTVSeriesListsUseCase().collect { list ->
                     if (list.isNotEmpty()){
                         val items = list.map(mediaUiMapper::map)
-                        _homeUiState.update {
+                        _state.update {
                             it.copy(
                                 tvSeriesLists = HomeItem.TVSeriesLists(items),
                                 isLoading = false
@@ -329,7 +326,7 @@ class HomeViewModel @Inject constructor(
                         val actorItems = list.map {
                             actorUiMapper.map(it)
                         }
-                        _homeUiState.update {
+                        _state.update {
                             it.copy(
                                 actors = HomeItem.Actor(actorItems),
                                 isLoading = false
@@ -345,9 +342,9 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onError(error: String) {
-        val errors = _homeUiState.value.error.toMutableList()
+        val errors = _state.value.error.toMutableList()
         errors.add(error)
-        _homeUiState.update {
+        _state.update {
             it.copy(error = errors, isLoading = false)
         }
     }
