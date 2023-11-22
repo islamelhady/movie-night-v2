@@ -10,12 +10,13 @@ import com.elhady.movies.databinding.FragmentHomeBinding
 import com.elhady.movies.ui.base.BaseFragment
 import com.elhady.movies.ui.home.adapters.HomeAdapter
 import com.elhady.movies.ui.home.homeUiState.HomeUiEvent
+import com.elhady.movies.ui.home.homeUiState.HomeUiState
 import com.elhady.movies.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>() {
 
     override val layoutIdFragment: Int = R.layout.fragment_home
     override val viewModel: HomeViewModel by viewModels()
@@ -26,7 +27,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         setupAdapter()
         collectHomeData()
-        collectEvent()
+//        collectEvent()
 
     }
 

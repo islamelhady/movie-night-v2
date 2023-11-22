@@ -8,14 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import com.elhady.movies.BR
+import com.elhady.movies.utilities.collectLast
 
-abstract class BaseFragment<VDB: ViewDataBinding>: Fragment(){
+abstract class BaseFragment<VDB: ViewDataBinding, STATE, EVENT>: Fragment(){
 
     abstract val layoutIdFragment: Int
 //    lateinit var viewModel: VM
-    abstract val viewModel: ViewModel
+    abstract val viewModel: BaseViewModel<STATE, EVENT>
 
     private lateinit var _binding: VDB
     protected val binding: VDB
@@ -33,6 +33,15 @@ abstract class BaseFragment<VDB: ViewDataBinding>: Fragment(){
             return root
         }
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        collectLast(viewModel.event){
+            onEvent(it)
+        }
+    }
+
+    abstract fun onEvent(event: EVENT)
 
     protected fun setTitle(visibility: Boolean, title: String? = null) {
         if (visibility) {
