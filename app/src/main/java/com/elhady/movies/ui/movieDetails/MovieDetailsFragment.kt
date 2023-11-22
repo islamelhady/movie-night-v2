@@ -45,8 +45,8 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
     }
 
     private fun collectEvents() {
-        collectLast(viewModel.detailsUiEvent) {
-            it.getContentIfNotHandled()?.let { onEvent(it) }
+        collectLast(viewModel.event) {
+            onEvent(it)
         }
     }
 
@@ -88,7 +88,8 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
                 Toast.LENGTH_LONG
             ).show()
 
-            MovieDetailsUiEvent.ClickFavourite -> action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToSaveMovieDialog(viewModel.args.movieID)
+            MovieDetailsUiEvent.ClickFavourite -> action =
+                MovieDetailsFragmentDirections.actionMovieDetailsFragmentToSaveMovieDialog(viewModel.args.movieID)
         }
 
         action?.let {

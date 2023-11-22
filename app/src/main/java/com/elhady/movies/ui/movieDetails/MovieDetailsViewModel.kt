@@ -35,13 +35,11 @@ class MovieDetailsViewModel @Inject constructor(
     private val actorUiMapper: ActorUiMapper,
     private val mediaUiMapper: MediaUiMapper,
     private val reviewUiMapper: ReviewUiMapper
-) : BaseViewModel<DetailsUiState>(DetailsUiState()), DetailsInteractionListener, ActorInteractionListener, MediaInteractionListener{
+) : BaseViewModel<DetailsUiState, MovieDetailsUiEvent>(DetailsUiState()),
+    DetailsInteractionListener, ActorInteractionListener, MediaInteractionListener {
 
 
     val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
-
-    private val _detailsUiEvent = MutableStateFlow<Event<MovieDetailsUiEvent?>>(Event(null))
-    val detailsUiEvent = _detailsUiEvent.asStateFlow()
 
 
     init {
@@ -57,15 +55,19 @@ class MovieDetailsViewModel @Inject constructor(
         getLoginStatus()
     }
 
-    private suspend fun addToWatchHistory(movie: MovieDetails){
+    private suspend fun addToWatchHistory(movie: MovieDetails) {
         insertMoviesUseCase(movie)
     }
+
     private fun getMovieDetails(movieId: Int) {
         viewModelScope.launch {
             try {
                 val result = getMovieDetailsUseCase.getMovieDetails(movieId)
                 _state.update {
-                    it.copy(movieDetailsResult =  movieDetailsUiMapper.map(result), isLoading = false)
+                    it.copy(
+                        movieDetailsResult = movieDetailsUiMapper.map(result),
+                        isLoading = false
+                    )
                 }
                 onAddMovieDetailsItemOfNestedView(DetailsItem.Header(_state.value.movieDetailsResult))
                 addToWatchHistory(result)
@@ -142,15 +144,16 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    private fun getLoginStatus(){
-        if (!getSessionIdUseCase().isNullOrEmpty()){
+    private fun getLoginStatus() {
+        if (!getSessionIdUseCase().isNullOrEmpty()) {
             _state.update {
                 it.copy(isLogin = true)
             }
             getRatedMovie(args.movieID)
         }
     }
-    private fun getRatedMovie(movieId: Int){
+
+    private fun getRatedMovie(movieId: Int) {
         viewModelScope.launch {
             val result = getMovieRateUseCase(movieId)
             _state.update {
@@ -160,11 +163,11 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    fun onChangeRating(value: Float){
+    fun onChangeRating(value: Float) {
         viewModelScope.launch {
             setRatingUseCase(movieId = args.movieID, value = value)
             _state.update { it.copy(ratingValue = value) }
-            _detailsUiEvent.update { Event(MovieDetailsUiEvent.MessageAppear) }
+            Event(MovieDetailsUiEvent.MessageAppear)
         }
     }
 
@@ -175,39 +178,27 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onClickBackButton() {
-        _detailsUiEvent.update {
-            Event(MovieDetailsUiEvent.ClickBackButton)
-        }
+        Event(MovieDetailsUiEvent.ClickBackButton)
     }
 
     override fun onClickFavourite() {
-        _detailsUiEvent.update {
-            Event(MovieDetailsUiEvent.ClickFavourite)
-        }
+        Event(MovieDetailsUiEvent.ClickFavourite)
     }
 
     override fun onClickActor(actorID: Int) {
-        _detailsUiEvent.update {
-            Event(MovieDetailsUiEvent.ClickCastEvent(castId = actorID))
-        }
+        Event(MovieDetailsUiEvent.ClickCastEvent(castId = actorID))
     }
 
     override fun onClickPlayTrailer() {
-        _detailsUiEvent.update {
-            Event(MovieDetailsUiEvent.ClickPlayTrailerEvent)
-        }
+        Event(MovieDetailsUiEvent.ClickPlayTrailerEvent)
     }
 
     override fun onclickViewReviews() {
-        _detailsUiEvent.update {
-            Event(MovieDetailsUiEvent.ClickSeeReviewsEvent)
-        }
+        Event(MovieDetailsUiEvent.ClickSeeReviewsEvent)
     }
 
     override fun onClickMedia(movieId: Int) {
-        _detailsUiEvent.update {
-            Event(MovieDetailsUiEvent.ClickMovieEvent(movieId))
-        }
+        Event(MovieDetailsUiEvent.ClickMovieEvent(movieId))
     }
 
 

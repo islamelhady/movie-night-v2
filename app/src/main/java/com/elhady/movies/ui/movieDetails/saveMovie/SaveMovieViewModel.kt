@@ -20,12 +20,9 @@ class SaveMovieViewModel @Inject constructor(
     private val saveMovieToFavListUseCase: SaveMovieToFavListUseCase,
     private val getCreatedListUseCase: GetCreatedListUseCase,
     private val favListItemUiStateMapper: FavListItemUiStateMapper,
-) : BaseViewModel<FavListUiState>(FavListUiState()), SaveListInteractionListener {
+) : BaseViewModel<FavListUiState, SaveMovieUiEvent>(FavListUiState()), SaveListInteractionListener {
 
     val args = SaveMovieBottomSheetArgs.fromSavedStateHandle(savedStateHandle)
-
-    private val _saveUiEvent = MutableStateFlow<Event<SaveMovieUiEvent>?>(null)
-    val saveUiEvent = _saveUiEvent.asStateFlow()
 
     init {
         getData()
@@ -60,7 +57,7 @@ class SaveMovieViewModel @Inject constructor(
             } catch (t: Throwable) {
                 t.message.toString()
             }
-            _saveUiEvent.update { Event(SaveMovieUiEvent.DisplayMessage(message ?: "")) }
+            Event(SaveMovieUiEvent.DisplayMessage(message ?: ""))
         }
     }
 }
