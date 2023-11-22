@@ -10,8 +10,6 @@ import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 import com.elhady.movies.ui.mappers.ActorUiMapper
 import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -21,10 +19,7 @@ import javax.inject.Inject
 class ActorsViewModel @Inject constructor(
     private val getAllActorsUseCase: GetAllActorsUseCase,
     private val actorUiMapper: ActorUiMapper
-) : BaseViewModel<ActorsUiState>(ActorsUiState()), ActorInteractionListener {
-
-    private val _actorsUiEvent = MutableStateFlow<Event<ActorsUiEvent>?>(null)
-    val actorsUiEvent = _actorsUiEvent.asStateFlow()
+) : BaseViewModel<ActorsUiState, ActorsUiEvent>(ActorsUiState()), ActorInteractionListener {
 
     init {
         getData()
@@ -76,9 +71,7 @@ class ActorsViewModel @Inject constructor(
     }
 
     override fun onClickActor(actorID: Int) {
-        _actorsUiEvent.update {
-            Event(ActorsUiEvent.ClickActorEvent(actorID))
-        }
+        Event(ActorsUiEvent.ClickActorEvent(actorID))
     }
 
 

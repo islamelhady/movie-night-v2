@@ -49,10 +49,8 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
     }
 
     private fun collectEvent(){
-        collectLast(flow = viewModel.actorsUiEvent){ event ->
-            event?.getContentIfNotHandled()?.let {
-                onEvent(it)
-            }
+        collectLast(flow = viewModel.event){
+            onEvent(it)
         }
     }
 
