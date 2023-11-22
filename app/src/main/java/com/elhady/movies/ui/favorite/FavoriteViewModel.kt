@@ -6,8 +6,6 @@ import com.elhady.movies.domain.usecases.favList.GetCreatedListUseCase
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,10 +15,7 @@ class FavoriteViewModel @Inject constructor(
     private val createListUseCase: CreateListUseCase,
     private val getCreatedListUseCase: GetCreatedListUseCase,
     private val createdListUiMapper: CreatedListUiMapper
-) : BaseViewModel<FavCreatedListUiState>(FavCreatedListUiState()), CreatedListInteractionListener {
-
-    private val _uiEvent = MutableStateFlow<Event<FavouriteUiEvent>?>(null)
-    val uiEvent = _uiEvent.asStateFlow()
+) : BaseViewModel<FavCreatedListUiState, FavouriteUiEvent>(FavCreatedListUiState()), CreatedListInteractionListener {
 
     init {
         getData()
@@ -49,15 +44,11 @@ class FavoriteViewModel @Inject constructor(
             }
             _state.update { it.copy(createdList = result, isLoading = false) }
         }
-        _uiEvent.update {
-            Event(FavouriteUiEvent.ClickCreateEvent)
-        }
+        Event(FavouriteUiEvent.ClickCreateEvent)
     }
 
     fun onClickAddList() {
-        _uiEvent.update {
-            Event(FavouriteUiEvent.CLickAddEvent)
-        }
+        Event(FavouriteUiEvent.CLickAddEvent)
     }
 
 
@@ -66,8 +57,6 @@ class FavoriteViewModel @Inject constructor(
     }
 
     override fun onListClick(item: CreatedListUiState) {
-        _uiEvent.update {
-            Event(FavouriteUiEvent.ClickSelectedItemEvent(item))
-        }
+        Event(FavouriteUiEvent.ClickSelectedItemEvent(item))
     }
 }

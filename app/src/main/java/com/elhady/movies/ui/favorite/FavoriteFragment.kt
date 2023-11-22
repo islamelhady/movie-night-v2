@@ -28,10 +28,8 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
     }
 
     private fun collectEvent() {
-        collectLast(viewModel.uiEvent){ event ->
-            event?.getContentIfNotHandled()?.let {
-                onEvent(it)
-            }
+        collectLast(viewModel.event){
+            onEvent(it)
         }
     }
 

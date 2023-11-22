@@ -7,8 +7,6 @@ import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.movieDetails.ErrorUiState
 import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,17 +16,15 @@ class FavListDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getFavListDetailsUseCase: GetFavListDetailsUseCase,
     private val mediaUiStateMapper: MediaUiStateMapper
-) : BaseViewModel<ListDetailsUIState>(ListDetailsUIState()),  ListDetailsInteractionListener{
+) : BaseViewModel<ListDetailsUIState, ListDetailsUiEvent>(ListDetailsUIState()),
+    ListDetailsInteractionListener {
 
     val args = FavListDetailsFragmentArgs.fromSavedStateHandle(savedStateHandle)
-
-    private val _favDetailsUiEvent = MutableStateFlow<Event<ListDetailsUiEvent>?>(null)
-    val favDetailsUiEvent = _favDetailsUiEvent.asStateFlow()
-
 
     init {
         getData()
     }
+
     override fun getData() {
         _state.update {
             it.copy(isLoading = true, isEmpty = false, error = emptyList())
@@ -58,8 +54,6 @@ class FavListDetailsViewModel @Inject constructor(
     }
 
     override fun onItemClick(item: FavMediaUiState) {
-        _favDetailsUiEvent.update {
-            Event(ListDetailsUiEvent.OnItemSelected(item))
-        }
+        Event(ListDetailsUiEvent.OnItemSelected(item))
     }
 }

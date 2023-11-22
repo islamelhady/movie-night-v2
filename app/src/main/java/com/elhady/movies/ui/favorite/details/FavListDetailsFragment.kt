@@ -30,10 +30,8 @@ class FavListDetailsFragment : BaseFragment<FragmentFavListDetailsBinding>() {
     }
 
     private fun collectEvent() {
-        collectLast(viewModel.favDetailsUiEvent) { event ->
-            event?.getContentIfNotHandled()?.let {
-                onEvent(it)
-            }
+        collectLast(viewModel.event) {
+            onEvent(it)
         }
     }
 
