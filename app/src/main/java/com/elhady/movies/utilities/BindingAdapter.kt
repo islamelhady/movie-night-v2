@@ -52,8 +52,8 @@ fun hideIfTrue(view: View, visible: Boolean){
 }
 
 @BindingAdapter(value = ["isVisible"])
-fun isVisible(view: View, visible: Boolean){
-    view.isVisible = visible
+fun View.isVisible(visible: Boolean){
+    this.isVisible = visible
 }
 
 @BindingAdapter(value = ["genre"])
