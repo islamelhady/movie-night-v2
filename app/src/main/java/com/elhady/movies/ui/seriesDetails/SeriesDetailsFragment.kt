@@ -31,8 +31,8 @@ class SeriesDetailsFragment : BaseFragment<FragmentSeriesDetailsBinding>() {
         collectEvent()
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.seriesUiState.collect {
-                seriesAdapter.setItems(viewModel.seriesUiState.value.seriesItems)
+            viewModel.state.collect {
+                seriesAdapter.setItems(viewModel.state.value.seriesItems)
             }
         }
     }

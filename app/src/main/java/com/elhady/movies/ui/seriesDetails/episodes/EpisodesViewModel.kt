@@ -21,9 +21,6 @@ class EpisodesViewModel @Inject constructor(
 
     private val args = EpisodesFragmentArgs.fromSavedStateHandle(state)
 
-    private val _episodeUiState = MutableStateFlow(EpisodesUiState())
-    val episodeUiState = _episodeUiState.asStateFlow()
-
 
     init {
         getData()
@@ -34,7 +31,7 @@ class EpisodesViewModel @Inject constructor(
                 episodeUiMapper.map(it)
             }
 
-            _episodeUiState.update {
+            _state.update {
                 it.copy(
                 seasonsEpisodesResult = result
                 )
