@@ -38,8 +38,8 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
 
     private fun collectMovieDetailsItems() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.detailsUiState.collect {
-                detailAdapter.setItems(viewModel.detailsUiState.value.detailsItemsResult)
+            viewModel.state.collect {
+                detailAdapter.setItems(viewModel.state.value.detailsItemsResult)
             }
         }
     }
