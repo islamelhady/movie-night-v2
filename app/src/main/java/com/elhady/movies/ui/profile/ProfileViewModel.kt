@@ -19,9 +19,6 @@ class ProfileViewModel @Inject constructor(
     private val accountUiStateMapper: AccountUiStateMapper
 ) : BaseViewModel<ProfileUiState>(ProfileUiState()) {
 
-    private val _profileUiState = MutableStateFlow(ProfileUiState())
-    val profileUiState = _profileUiState.asStateFlow()
-
     private val _profileUIEvent=MutableStateFlow<Event<ProfileUiEvent>?>(null)
     val profileUIEvent= _profileUIEvent.asStateFlow()
 
@@ -31,13 +28,13 @@ class ProfileViewModel @Inject constructor(
 
     override fun getData() {
         if (checkIfLoggedInUseCase()) {
-            _profileUiState.update {
+            _state.update {
                 it.copy(isLoading = true, isLoggedIn = true, error = false)
             }
 
             viewModelScope.launch {
                 val accountResult = accountUiStateMapper.map(getAccountDetailsUseCase())
-                _profileUiState.update {
+                _state.update {
                     it.copy(
                         avatarPath = accountResult.avatarPath,
                         name = accountResult.name,
@@ -47,7 +44,7 @@ class ProfileViewModel @Inject constructor(
                 }
             }
         } else {
-            _profileUiState.update {
+            _state.update {
                 it.copy(isLoggedIn = false)
             }
         }
