@@ -21,13 +21,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AllMediaViewModel @Inject constructor(
-    val state: SavedStateHandle,
+    val savedStateHandle: SavedStateHandle,
     private val getAllMediaByTypeUseCase: GetAllMediaByTypeUseCase,
     private val checkMediaTypeUseCase: CheckMediaTypeUseCase,
     private val mediaUiMapper: MediaUiMapper
-) : BaseViewModel(), MediaInteractionListener {
+) : BaseViewModel<AllMediaUiState>(AllMediaUiState()), MediaInteractionListener {
 
-    private val args =  AllMediaFragmentArgs.fromSavedStateHandle(state)
+    private val args =  AllMediaFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
     private val _uiState = MutableStateFlow(AllMediaUiState())
     val uiState = _uiState.asStateFlow()

@@ -28,7 +28,7 @@ class CategoryViewModel @Inject constructor(
     private val getGenreListUseCase: GetGenreListUseCase,
     private val mediaUiMapper: MediaUiMapper,
     private val genreUiMapper: GenreUiMapper
-) : BaseViewModel(), MediaInteractionListener, CategoryInteractionListener {
+) : BaseViewModel<CategoryUiState>(CategoryUiState()), MediaInteractionListener, CategoryInteractionListener {
 
     val args = CategoryFragmentArgs.fromSavedStateHandle(savedStateHandle)
 

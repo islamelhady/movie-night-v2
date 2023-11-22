@@ -17,7 +17,7 @@ class FavoriteViewModel @Inject constructor(
     private val createListUseCase: CreateListUseCase,
     private val getCreatedListUseCase: GetCreatedListUseCase,
     private val createdListUiMapper: CreatedListUiMapper
-) : BaseViewModel(), CreatedListInteractionListener {
+) : BaseViewModel<FavCreatedListUiState>(FavCreatedListUiState()), CreatedListInteractionListener {
 
     private val _uiState = MutableStateFlow(FavCreatedListUiState())
     val uiState = _uiState.asStateFlow()

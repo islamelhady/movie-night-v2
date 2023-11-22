@@ -38,7 +38,7 @@ class SeriesDetailsViewModel @Inject constructor(
     private val mediaUiMapper: MediaUiMapper,
     private val seasonUiMapper: SeasonUiMapper,
     private val reviewUiMapper: ReviewUiMapper
-) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener, MediaInteractionListener,
+) : BaseViewModel<SeriesDetailsUiState>(SeriesDetailsUiState()), DetailsInteractionListener, ActorInteractionListener, MediaInteractionListener,
     SeasonInteractionListener {
 
     val args = SeriesDetailsFragmentArgs.fromSavedStateHandle(state)

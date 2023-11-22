@@ -17,7 +17,7 @@ class ProfileViewModel @Inject constructor(
     private val checkIfLoggedInUseCase: CheckIfLoggedInUseCase,
     private val getAccountDetailsUseCase: GetAccountDetailsUseCase,
     private val accountUiStateMapper: AccountUiStateMapper
-) : BaseViewModel() {
+) : BaseViewModel<ProfileUiState>(ProfileUiState()) {
 
     private val _profileUiState = MutableStateFlow(ProfileUiState())
     val profileUiState = _profileUiState.asStateFlow()

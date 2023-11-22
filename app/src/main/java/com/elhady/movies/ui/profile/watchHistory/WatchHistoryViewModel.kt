@@ -17,7 +17,7 @@ import javax.inject.Inject
 class WatchHistoryViewModel @Inject constructor(
     private val getWatchHistoryUseCase: GetWatchHistoryUseCase,
     private val watchHistoryUiMapper: WatchHistoryUiMapper
-) : BaseViewModel(), WatchHistoryInteractionListener {
+) : BaseViewModel<WatchHistoryUiState>(WatchHistoryUiState()), WatchHistoryInteractionListener {
 
     private val _uiState = MutableStateFlow(WatchHistoryUiState())
     val uiState = _uiState.asStateFlow()

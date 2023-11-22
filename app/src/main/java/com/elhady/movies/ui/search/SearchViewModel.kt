@@ -31,7 +31,7 @@ class SearchViewModel @Inject constructor(
     private val getAllSearchHistoryUseCase: GetAllSearchHistoryUseCase,
     private val searchHistoryUiMapper: SearchHistoryUiMapper,
     private val mediaUiMapper: MediaUiMapper
-) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener, HistoryInteractionListener {
+) : BaseViewModel<SearchUiState>(SearchUiState()), MediaSearchInteractionListener, ActorSearchInteractionListener, HistoryInteractionListener {
 
     private val _searchUiState = MutableStateFlow(SearchUiState())
     val searchUiState = _searchUiState.asStateFlow()

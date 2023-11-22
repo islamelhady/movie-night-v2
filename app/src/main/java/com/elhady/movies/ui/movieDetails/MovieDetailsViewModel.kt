@@ -35,7 +35,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val actorUiMapper: ActorUiMapper,
     private val mediaUiMapper: MediaUiMapper,
     private val reviewUiMapper: ReviewUiMapper
-) : BaseViewModel(), DetailsInteractionListener, ActorInteractionListener, MediaInteractionListener{
+) : BaseViewModel<DetailsUiState>(DetailsUiState()), DetailsInteractionListener, ActorInteractionListener, MediaInteractionListener{
 
 
     val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)

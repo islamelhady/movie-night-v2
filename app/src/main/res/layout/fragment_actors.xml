@@ -33,10 +33,10 @@
             layout="@layout/loading"
             isVisible="@{viewModel.actorsUiState.loading}"/>
 
-        <include
-            layout="@layout/error"
-            app:viewModel="@{viewModel}"
-            isVisible="@{!viewModel.actorsUiState.error.isEmpty()}" />
+<!--        <include-->
+<!--            layout="@layout/error"-->
+<!--            app:viewModel="@{viewModel}"-->
+<!--            isVisible="@{!viewModel.actorsUiState.error.isEmpty()}" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

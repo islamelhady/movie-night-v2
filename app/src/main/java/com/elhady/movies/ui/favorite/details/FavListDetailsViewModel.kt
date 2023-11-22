@@ -18,7 +18,7 @@ class FavListDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getFavListDetailsUseCase: GetFavListDetailsUseCase,
     private val mediaUiStateMapper: MediaUiStateMapper
-) : BaseViewModel(),  ListDetailsInteractionListener{
+) : BaseViewModel<ListDetailsUIState>(ListDetailsUIState()),  ListDetailsInteractionListener{
 
     val args = FavListDetailsFragmentArgs.fromSavedStateHandle(savedStateHandle)
 

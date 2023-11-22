@@ -21,7 +21,7 @@ import javax.inject.Inject
 class ActorsViewModel @Inject constructor(
     private val getAllActorsUseCase: GetAllActorsUseCase,
     private val actorUiMapper: ActorUiMapper
-) : BaseViewModel(), ActorInteractionListener {
+) : BaseViewModel<ActorsUiState>(ActorsUiState()), ActorInteractionListener {
 
     private val _actorsUiState = MutableStateFlow(ActorsUiState())
     val actorsUiState = _actorsUiState.asStateFlow()

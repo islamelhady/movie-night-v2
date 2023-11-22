@@ -16,7 +16,7 @@ import javax.inject.Inject
 class RatingViewModel @Inject constructor(
     private val getListOfRatedUseCase: GetListOfRatedUseCase,
     private val ratedUiStateMapper: RatedUiStateMapper
-) : BaseViewModel(), MyRatingInteractionListener {
+) : BaseViewModel<MyRateUiState>(MyRateUiState()), MyRatingInteractionListener {
 
     private val _rateUiState = MutableStateFlow(MyRateUiState())
     val rateUiState = _rateUiState.asStateFlow()

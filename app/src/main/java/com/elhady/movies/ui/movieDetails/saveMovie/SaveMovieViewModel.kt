@@ -20,7 +20,7 @@ class SaveMovieViewModel @Inject constructor(
     private val saveMovieToFavListUseCase: SaveMovieToFavListUseCase,
     private val getCreatedListUseCase: GetCreatedListUseCase,
     private val favListItemUiStateMapper: FavListItemUiStateMapper,
-) : BaseViewModel(), SaveListInteractionListener {
+) : BaseViewModel<FavListUiState>(FavListUiState()), SaveListInteractionListener {
 
     val args = SaveMovieBottomSheetArgs.fromSavedStateHandle(savedStateHandle)
 

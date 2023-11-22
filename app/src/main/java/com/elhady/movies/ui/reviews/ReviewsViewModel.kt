@@ -21,7 +21,7 @@ class ReviewsViewModel @Inject constructor(
     state: SavedStateHandle,
     private val getReviewsUseCase: GetReviewsUseCase,
     private val reviewUiMapper: ReviewUiMapper
-) : BaseViewModel(), BaseInteractionListener {
+) : BaseViewModel<ReviewsUiState>(ReviewsUiState()), BaseInteractionListener {
 
     val args = ReviewsFragmentArgs.fromSavedStateHandle(state)
     private val _reviewUiState = MutableStateFlow(ReviewsUiState())
