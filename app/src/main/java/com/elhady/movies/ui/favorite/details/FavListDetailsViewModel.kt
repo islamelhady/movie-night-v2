@@ -54,6 +54,6 @@ class FavListDetailsViewModel @Inject constructor(
     }
 
     override fun onItemClick(item: FavMediaUiState) {
-        Event(ListDetailsUiEvent.OnItemSelected(item))
+        sendEvent(ListDetailsUiEvent.OnItemSelected(item))
     }
 }

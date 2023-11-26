@@ -44,11 +44,11 @@ class FavoriteViewModel @Inject constructor(
             }
             _state.update { it.copy(createdList = result, isLoading = false) }
         }
-        Event(FavouriteUiEvent.ClickCreateEvent)
+        sendEvent(FavouriteUiEvent.ClickCreateEvent)
     }
 
     fun onClickAddList() {
-        Event(FavouriteUiEvent.CLickAddEvent)
+        sendEvent(FavouriteUiEvent.CLickAddEvent)
     }
 
 
@@ -57,6 +57,6 @@ class FavoriteViewModel @Inject constructor(
     }
 
     override fun onListClick(item: CreatedListUiState) {
-        Event(FavouriteUiEvent.ClickSelectedItemEvent(item))
+        sendEvent(FavouriteUiEvent.ClickSelectedItemEvent(item))
     }
 }
