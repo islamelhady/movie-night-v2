@@ -39,7 +39,7 @@ class CategoryViewModel @Inject constructor(
         _state.update { it.copy(isLoading = true) }
         getMediaList(_state.value.categorySelectedID)
         getCategoryGenreList()
-        Event(CategoryUiEvent.ClickRetry)
+        sendEvent(CategoryUiEvent.ClickRetry)
     }
 
     fun getMediaList(categorySelected: Int) {
@@ -96,12 +96,12 @@ class CategoryViewModel @Inject constructor(
     }
 
     override fun onClickMedia(mediaId: Int) {
-        Event(CategoryUiEvent.ClickMediaEvent(mediaId))
+        sendEvent(CategoryUiEvent.ClickMediaEvent(mediaId))
     }
 
     override fun onClickCategory(categoryId: Int) {
         _state.update { it.copy(categorySelectedID = categoryId) }
-        Event(CategoryUiEvent.ClickCategoryEvent(categoryId))
+        sendEvent(CategoryUiEvent.ClickCategoryEvent(categoryId))
     }
 
 }
