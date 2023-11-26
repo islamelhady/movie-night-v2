@@ -32,27 +32,27 @@ class ExploreViewModel @Inject constructor(
     }
 
     override fun onClickTrending(item: TrendingMediaUiState) {
-        Event(ExploreUiEvent.ClickTrendEvent(item))
+        sendEvent(ExploreUiEvent.ClickTrendEvent(item))
     }
 
     fun scrollToTopScreen() {
-        Event(ExploreUiEvent.ScrollToTopRecycler)
+        sendEvent(ExploreUiEvent.ScrollToTopRecycler)
     }
 
     fun onClickMovies() {
-        Event(ExploreUiEvent.ClickMoviesEvent)
+        sendEvent(ExploreUiEvent.ClickMoviesEvent)
     }
 
     fun onClickSeries() {
-        Event(ExploreUiEvent.ClickSeriesEvent)
+        sendEvent(ExploreUiEvent.ClickSeriesEvent)
     }
 
 
     fun onClickActors() {
-        Event(ExploreUiEvent.ClickActorsEvent)
+        sendEvent(ExploreUiEvent.ClickActorsEvent)
     }
 
     fun onClickSearch() {
-        Event(ExploreUiEvent.ClickSearchEvent)
+        sendEvent(ExploreUiEvent.ClickSearchEvent)
     }
 }
