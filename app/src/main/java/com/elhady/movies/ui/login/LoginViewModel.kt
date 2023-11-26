@@ -76,12 +76,12 @@ class LoginViewModel @Inject constructor(
     }
 
     fun onClickSignUp() {
-        Event(LoginUiEvent.SignUpEvent)
+        sendEvent(LoginUiEvent.SignUpEvent)
     }
 
     private fun onLoginSuccess() {
         _state.update { it.copy(isLoading = false) }
-        Event(LoginUiEvent.LoginEvent(args.form))
+        sendEvent(LoginUiEvent.LoginEvent(args.form))
         resetForm()
     }
 
