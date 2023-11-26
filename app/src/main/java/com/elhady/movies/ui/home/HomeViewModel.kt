@@ -26,8 +26,6 @@ import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.mappers.PopularUiMapper
 import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -348,7 +346,7 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun onClickMovie(movieID: Int) {
-        Event(HomeUiEvent.ClickMovieEvent(movieID))
+        sendEvent(HomeUiEvent.ClickMovieEvent(movieID))
     }
 
     override fun onClickSeeAllMovies(mediaType: HomeItemType) {
@@ -363,27 +361,27 @@ class HomeViewModel @Inject constructor(
             HomeItemType.ADVENTURE -> AllMediaType.ADVENTURE
             HomeItemType.ACTOR_MOVIES -> AllMediaType.ACTOR_MOVIES
         }
-        Event(HomeUiEvent.ClickSeeAllMoviesEvent(type))
+        sendEvent(HomeUiEvent.ClickSeeAllMoviesEvent(type))
     }
 
     override fun onClickTVSeries(seriesID: Int) {
-        Event(HomeUiEvent.ClickSeriesEvent(seriesID))
+        sendEvent(HomeUiEvent.ClickSeriesEvent(seriesID))
     }
 
     override fun onClickAllTVSeries(type: AllMediaType) {
-        Event(HomeUiEvent.ClickSeeAllSeriesEvent(type))
+        sendEvent(HomeUiEvent.ClickSeeAllSeriesEvent(type))
     }
 
     override fun onClickActor(actorID: Int) {
-        Event(HomeUiEvent.ClickActorEvent(actorID))
+        sendEvent(HomeUiEvent.ClickActorEvent(actorID))
     }
 
     override fun onClickSeeAllActors() {
-        Event(HomeUiEvent.ClickSeeAllActorsEvent)
+        sendEvent(HomeUiEvent.ClickSeeAllActorsEvent)
     }
 
     override fun onClickMedia(mediaId: Int) {
-        Event(HomeUiEvent.ClickSeriesEvent(mediaId))
+        sendEvent(HomeUiEvent.ClickSeriesEvent(mediaId))
     }
 
 }
