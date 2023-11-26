@@ -18,7 +18,7 @@ abstract class BaseViewModel<STATE, EVENT>(initialState: STATE) : ViewModel() {
     }
     val state = _state.asStateFlow()
 
-    protected val _event = MutableSharedFlow<EVENT>()
+    private val _event = MutableSharedFlow<EVENT>()
     val event = _event.asSharedFlow()
     abstract fun getData()
 

@@ -14,7 +14,8 @@ import com.elhady.movies.utilities.collectLast
 abstract class BaseFragment<VDB: ViewDataBinding, STATE, EVENT>: Fragment(){
 
     abstract val layoutIdFragment: Int
-//    lateinit var viewModel: VM
+
+    //    lateinit var viewModel: VM
     abstract val viewModel: BaseViewModel<STATE, EVENT>
 
     private lateinit var _binding: VDB
@@ -36,9 +37,7 @@ abstract class BaseFragment<VDB: ViewDataBinding, STATE, EVENT>: Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        collectLast(viewModel.event){
-            onEvent(it)
-        }
+        collectLast(flow = viewModel.event, action = {onEvent(it)})
     }
 
     abstract fun onEvent(event: EVENT)
