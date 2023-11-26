@@ -47,12 +47,6 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding, ActorsUiState, Actors
         actorsAdapter.submitData(pagingData = itemsPagingData)
     }
 
-    private fun collectEvent(){
-        collectLast(flow = viewModel.event){
-            onEvent(it)
-        }
-    }
-
     override fun onEvent(event: ActorsUiEvent){
         when(event){
             is ActorsUiEvent.ClickActorEvent -> {

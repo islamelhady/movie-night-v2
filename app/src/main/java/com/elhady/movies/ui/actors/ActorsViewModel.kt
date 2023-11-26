@@ -71,7 +71,7 @@ class ActorsViewModel @Inject constructor(
     }
 
     override fun onClickActor(actorID: Int) {
-        Event(ActorsUiEvent.ClickActorEvent(actorID))
+        sendEvent(ActorsUiEvent.ClickActorEvent(actorID))
     }
 
 
