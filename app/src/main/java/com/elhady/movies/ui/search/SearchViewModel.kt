@@ -112,16 +112,16 @@ class SearchViewModel @Inject constructor(
 
     override fun onClickMediaResult(media: MediaUiState) {
         saveSearch(media.id, media.name)
-        Event(SearchUiEvent.ClickMediaEvent(media))
+        sendEvent(SearchUiEvent.ClickMediaEvent(media))
     }
 
     override fun onClickActor(actorId: Int, name: String) {
         saveSearch(actorId, name)
-        Event(SearchUiEvent.ClickActorEvent(actorId))
+        sendEvent(SearchUiEvent.ClickActorEvent(actorId))
     }
 
     fun onClickBack() {
-        Event(SearchUiEvent.ClickBackEvent)
+        sendEvent(SearchUiEvent.ClickBackEvent)
     }
 
     private fun saveSearch(id: Int, name: String) {
