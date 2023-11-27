@@ -48,19 +48,19 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun onClickRatedMovies() {
-        Event(ProfileUiEvent.RatedMoviesEvent)
+        sendEvent(ProfileUiEvent.RatedMoviesEvent)
     }
 
     fun onClickLogout() {
-        Event(ProfileUiEvent.DialogLogoutEvent)
+        sendEvent(ProfileUiEvent.DialogLogoutEvent)
     }
 
     fun onClickWatchHistory() {
-        Event(ProfileUiEvent.WatchHistoryEvent)
+        sendEvent(ProfileUiEvent.WatchHistoryEvent)
     }
 
     fun onClickLogin() {
-        Event(ProfileUiEvent.LoginEvent)
+        sendEvent(ProfileUiEvent.LoginEvent)
     }
 
 

@@ -38,9 +38,9 @@ class RatingViewModel @Inject constructor(
 
     override fun onClickRating(rated: RatedUiState) {
         if (rated.mediaType.equals(MediaType.MOVIES.value, true)) {
-            Event(MyRatingUiEvent.MovieEvent(rated.id))
+            sendEvent(MyRatingUiEvent.MovieEvent(rated.id))
         } else {
-            Event(MyRatingUiEvent.SeriesEvent(rated.id))
+            sendEvent(MyRatingUiEvent.SeriesEvent(rated.id))
         }
     }
 
