@@ -134,7 +134,7 @@ class SeriesDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             setRatingUseCase(args.seriesId, value = value)
             _state.update { it.copy(ratingValue = value) }
-            Event(SeriesDetailsUiEvent.MessageAppear)
+            sendEvent(SeriesDetailsUiEvent.MessageAppear)
         }
     }
 
@@ -161,15 +161,15 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     override fun onClickBackButton() {
-        Event(SeriesDetailsUiEvent.ClickBackButtonEvent)
+        sendEvent(SeriesDetailsUiEvent.ClickBackButtonEvent)
     }
 
     override fun onClickPlayTrailer() {
-        Event(SeriesDetailsUiEvent.ClickPlayTrailerEvent)
+        sendEvent(SeriesDetailsUiEvent.ClickPlayTrailerEvent)
     }
 
     override fun onclickViewReviews() {
-        Event(SeriesDetailsUiEvent.ClickViewReviews)
+        sendEvent(SeriesDetailsUiEvent.ClickViewReviews)
     }
 
     override fun onClickFavourite() {
@@ -177,14 +177,14 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     override fun onClickActor(actorID: Int) {
-        Event(SeriesDetailsUiEvent.ClickCastEvent(castId = actorID))
+        sendEvent(SeriesDetailsUiEvent.ClickCastEvent(castId = actorID))
     }
 
     override fun onClickMedia(mediaId: Int) {
-        Event(SeriesDetailsUiEvent.ClickSimilarSeriesEvent(seriesId = mediaId))
+        sendEvent(SeriesDetailsUiEvent.ClickSimilarSeriesEvent(seriesId = mediaId))
     }
 
     override fun onClickSeason(seasonNumber: Int) {
-        Event(SeriesDetailsUiEvent.ClickSeasonEvent(seasonNumber = seasonNumber))
+        sendEvent(SeriesDetailsUiEvent.ClickSeasonEvent(seasonNumber = seasonNumber))
     }
 }

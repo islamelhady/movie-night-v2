@@ -6,13 +6,10 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.elhady.movies.R
 import com.elhady.movies.databinding.FragmentSeriesDetailsBinding
 import com.elhady.movies.domain.enums.MediaType
 import com.elhady.movies.ui.base.BaseFragment
-import com.elhady.movies.utilities.EventObserve
-import com.elhady.movies.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
