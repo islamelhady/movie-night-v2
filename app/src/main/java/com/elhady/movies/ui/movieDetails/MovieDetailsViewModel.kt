@@ -167,7 +167,7 @@ class MovieDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             setRatingUseCase(movieId = args.movieID, value = value)
             _state.update { it.copy(ratingValue = value) }
-            Event(MovieDetailsUiEvent.MessageAppear)
+            sendEvent(MovieDetailsUiEvent.MessageAppear)
         }
     }
 
@@ -178,27 +178,27 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onClickBackButton() {
-        Event(MovieDetailsUiEvent.ClickBackButton)
+        sendEvent(MovieDetailsUiEvent.ClickBackButton)
     }
 
     override fun onClickFavourite() {
-        Event(MovieDetailsUiEvent.ClickFavourite)
+        sendEvent(MovieDetailsUiEvent.ClickFavourite)
     }
 
     override fun onClickActor(actorID: Int) {
-        Event(MovieDetailsUiEvent.ClickCastEvent(castId = actorID))
+        sendEvent(MovieDetailsUiEvent.ClickCastEvent(castId = actorID))
     }
 
     override fun onClickPlayTrailer() {
-        Event(MovieDetailsUiEvent.ClickPlayTrailerEvent)
+        sendEvent(MovieDetailsUiEvent.ClickPlayTrailerEvent)
     }
 
     override fun onclickViewReviews() {
-        Event(MovieDetailsUiEvent.ClickSeeReviewsEvent)
+        sendEvent(MovieDetailsUiEvent.ClickSeeReviewsEvent)
     }
 
     override fun onClickMedia(movieId: Int) {
-        Event(MovieDetailsUiEvent.ClickMovieEvent(movieId))
+        sendEvent(MovieDetailsUiEvent.ClickMovieEvent(movieId))
     }
 
 

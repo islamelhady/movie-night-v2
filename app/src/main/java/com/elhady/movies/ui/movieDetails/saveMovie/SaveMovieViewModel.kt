@@ -57,7 +57,7 @@ class SaveMovieViewModel @Inject constructor(
             } catch (t: Throwable) {
                 t.message.toString()
             }
-            Event(SaveMovieUiEvent.DisplayMessage(message ?: ""))
+            sendEvent(SaveMovieUiEvent.DisplayMessage(message ?: ""))
         }
     }
 }
