@@ -6,10 +6,7 @@ import com.elhady.movies.domain.usecases.favList.GetCreatedListUseCase
 import com.elhady.movies.domain.usecases.favList.SaveMovieToFavListUseCase
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.movieDetails.ErrorUiState
-import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject

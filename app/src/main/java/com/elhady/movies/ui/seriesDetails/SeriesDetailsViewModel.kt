@@ -17,10 +17,7 @@ import com.elhady.movies.ui.mappers.ReviewUiMapper
 import com.elhady.movies.ui.movieDetails.DetailsInteractionListener
 import com.elhady.movies.ui.seriesDetails.seriesUiMapper.SeasonUiMapper
 import com.elhady.movies.ui.seriesDetails.seriesUiMapper.SeriesDetailsUiMapper
-import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject

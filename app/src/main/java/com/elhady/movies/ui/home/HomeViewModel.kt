@@ -24,7 +24,6 @@ import com.elhady.movies.ui.home.homeUiState.HomeUiState
 import com.elhady.movies.ui.mappers.ActorUiMapper
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.mappers.PopularUiMapper
-import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch

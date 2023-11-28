@@ -7,7 +7,6 @@ import com.elhady.movies.domain.usecases.login.ValidateFieldUseCase
 import com.elhady.movies.domain.usecases.login.ValidatePasswordUseCase
 import com.elhady.movies.domain.usecases.login.ValidateUsernameFieldUseCase
 import com.elhady.movies.ui.base.BaseViewModel
-import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
