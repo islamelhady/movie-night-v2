@@ -66,8 +66,8 @@ interface MovieDao {
     @Query("DELETE FROM NOW_PLAYING_MOVIE_TABLE")
     suspend fun deleteNowPlayingMovies()
 
-    @Query("SELECT * FROM NOW_PLAYING_MOVIE_TABLE")
-    fun getNowPlayingMovies(): Flow<List<NowPlayingMovieEntity>>
+    @Query("SELECT * FROM NOW_PLAYING_MOVIE_TABLE ORDER BY RANDOM()")
+    suspend fun getNowPlayingMovies(): List<NowPlayingMovieEntity>
 
     /**
      *  Top Rated Movies
