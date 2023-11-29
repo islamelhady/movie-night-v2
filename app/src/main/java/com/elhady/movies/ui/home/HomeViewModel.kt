@@ -147,22 +147,16 @@ class HomeViewModel @Inject constructor(
      *  Top Popular Movies
      */
     private fun getTopRatedMovies() {
-        viewModelScope.launch {
-            try {
-                val list = getTopRatedMoviesUseCase()
-                    if (list.isNotEmpty()) {
-                        val topRatedItems = list.map(mediaUiMapper::map)
-                        _state.update {
-                            it.copy(
-                                topRatedMovie = HomeItem.TopRated(topRatedItems),
-                                isLoading = false
-                            )
-                        }
-                    }
-            } catch (throwable: Throwable) {
-                onError(throwable.message.toString())
-            }
-        }
+        tryToExecute(
+            call = { getTopRatedMoviesUseCase() },
+            onSuccess = ::onSuccessTopRated,
+            mapper = mediaUiMapper,
+            onError = ::onError
+        )
+    }
+
+    private fun onSuccessTopRated(items: List<MediaUiState>) {
+        _state.update { it.copy(topRatedMovie = HomeItem.TopRated(items), isLoading = false, error = emptyList()) }
     }
 
     /**
