@@ -54,7 +54,7 @@ class HomeViewModel @Inject constructor(
     ActorInteractionListener, MediaInteractionListener, HomeInteractionListener {
 
     init {
-        getData()sdd
+        getData()
     }
 
     override fun getData() {
@@ -77,23 +77,23 @@ class HomeViewModel @Inject constructor(
     /**
      *  Popular Movies
      */
-    private fun getPopular() {
-        viewModelScope.launch {
-            try {
-                val list = getPopularMoviesUseCase()
-                    if (list.isNotEmpty()) {
-                        val items = list.map(popularUiMapper::map)
-                        _state.update {
-                            it.copy(
-                                popularMovie = HomeItem.Slider(items),
-                                isLoading = false
-                            )
-                        }
-                    }
-            } catch (throwable: Throwable) {
-                onError(throwable.message.toString())
-            }
-        }
+    private fun getPopular(){
+        tryToExecute(
+            call =  {getPopularMoviesUseCase()} ,
+            onSuccess = ::onSuccessPopularMovies,
+            mapper = popularUiMapper,
+            onError = ::onError
+        )
+    }
+
+    private fun onSuccessPopularMovies(items :List<PopularUiState> ){
+        _state.update { it.copy(popularMovie = HomeItem.Slider(items), isLoading = false) }
+    }
+
+    private fun onError(error: Throwable){
+        val errors = _state.value.error.toMutableList()
+        errors.add(error.message.toString())
+        _state.update { it.copy(error = errors) }
     }
 
     /**
