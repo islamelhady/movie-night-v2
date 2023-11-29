@@ -29,8 +29,8 @@ interface MovieDao {
     @Query("DELETE FROM POPULAR_MOVIE_TABLE")
     suspend fun deletePopularMovie()
 
-    @Query("SELECT * FROM POPULAR_MOVIE_TABLE")
-    fun getPopularMovies(): Flow<List<PopularMovieEntity>>
+    @Query("SELECT * FROM POPULAR_MOVIE_TABLE ORDER BY RANDOM()")
+    suspend fun getPopularMovies(): List<PopularMovieEntity>
 
     /**
      * Trending Movies

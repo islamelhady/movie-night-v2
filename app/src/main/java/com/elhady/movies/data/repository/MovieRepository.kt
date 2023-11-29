@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
 
-    suspend fun getPopularMovies(): Flow<List<PopularMovieEntity>>
+    suspend fun getPopularMovies(): List<PopularMovieEntity>
 
     suspend fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
 

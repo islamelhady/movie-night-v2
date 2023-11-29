@@ -1,5 +1,6 @@
 package com.elhady.movies.ui.home
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.enums.AllMediaType
 import com.elhady.movies.domain.enums.HomeItemType
@@ -24,7 +25,9 @@ import com.elhady.movies.ui.home.homeUiState.HomeUiState
 import com.elhady.movies.ui.mappers.ActorUiMapper
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.mappers.PopularUiMapper
+import com.elhady.movies.ui.models.PopularUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -51,7 +54,7 @@ class HomeViewModel @Inject constructor(
     ActorInteractionListener, MediaInteractionListener, HomeInteractionListener {
 
     init {
-        getData()
+        getData()sdd
     }
 
     override fun getData() {
@@ -77,7 +80,7 @@ class HomeViewModel @Inject constructor(
     private fun getPopular() {
         viewModelScope.launch {
             try {
-                getPopularMoviesUseCase().collect { list ->
+                val list = getPopularMoviesUseCase()
                     if (list.isNotEmpty()) {
                         val items = list.map(popularUiMapper::map)
                         _state.update {
@@ -87,7 +90,6 @@ class HomeViewModel @Inject constructor(
                             )
                         }
                     }
-                }
             } catch (throwable: Throwable) {
                 onError(throwable.message.toString())
             }
