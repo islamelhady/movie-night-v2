@@ -110,7 +110,7 @@ class MovieRepositoryImp @Inject constructor(
      *  Upcoming Movies
      */
 
-    override suspend fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>> {
+    override suspend fun getUpcomingMovies(): List<UpcomingMovieEntity> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.UPCOMING_MOVIE_REQUEST_DATE_KEY),
             ::refreshUpcomingMovies

@@ -54,8 +54,8 @@ interface MovieDao {
     @Query("DELETE FROM UPCOMING_MOVIE_TABLE")
     suspend fun deleteUpcomingMovies()
 
-    @Query("SELECT * FROM UPCOMING_MOVIE_TABLE")
-    fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
+    @Query("SELECT * FROM UPCOMING_MOVIE_TABLE ORDER BY RANDOM()")
+    suspend fun getUpcomingMovies(): List<UpcomingMovieEntity>
 
     /**
      * Now Playing Movies

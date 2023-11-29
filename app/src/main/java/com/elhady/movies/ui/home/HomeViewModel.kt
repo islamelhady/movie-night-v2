@@ -87,13 +87,13 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessPopularMovies(items :List<PopularUiState> ){
-        _state.update { it.copy(popularMovie = HomeItem.Slider(items), isLoading = false) }
+        _state.update { it.copy(popularMovie = HomeItem.Slider(items), isLoading = false, error = emptyList()) }
     }
 
     private fun onError(error: Throwable){
         val errors = _state.value.error.toMutableList()
         errors.add(error.message.toString())
-        _state.update { it.copy(error = errors) }
+        _state.update { it.copy(error = errors, isLoading = false) }
     }
 
     /**
@@ -102,7 +102,7 @@ class HomeViewModel @Inject constructor(
     private fun getUpcomingMovies() {
         viewModelScope.launch {
             try {
-                getUpcomingMoviesUseCase().collect { list ->
+                val list = getUpcomingMoviesUseCase()
                     if (list.isNotEmpty()) {
                         val items = list.map(mediaUiMapper::map)
                         _state.update {
@@ -112,7 +112,6 @@ class HomeViewModel @Inject constructor(
                             )
                         }
                     }
-                }
             } catch (throwable: Throwable) {
                 onError(throwable.message.toString())
             }
