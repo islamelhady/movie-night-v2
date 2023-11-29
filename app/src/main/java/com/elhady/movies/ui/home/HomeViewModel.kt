@@ -181,7 +181,7 @@ class HomeViewModel @Inject constructor(
     private fun getAdventureMovies() {
         viewModelScope.launch {
             try {
-                getAdventureMoviesUseCase().collect { list ->
+                val list = getAdventureMoviesUseCase()
                     if (list.isNotEmpty()) {
                         val items = list.map {
                             mediaUiMapper.map(it)
@@ -193,7 +193,6 @@ class HomeViewModel @Inject constructor(
                             )
                         }
                     }
-                }
             } catch (throwable: Throwable) {
                 onError(throwable.message.toString())
             }

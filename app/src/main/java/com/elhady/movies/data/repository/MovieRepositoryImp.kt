@@ -304,7 +304,7 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  Adventure Movies
      */
-    override suspend fun getAdventureMovies(): Flow<List<AdventureMovieEntity>> {
+    override suspend fun getAdventureMovies(): List<AdventureMovieEntity> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.ADVENTURE_MOVIE_REQUEST_DATE_KEY),
             ::refreshAdventureMovies
