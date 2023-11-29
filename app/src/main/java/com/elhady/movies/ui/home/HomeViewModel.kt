@@ -115,23 +115,16 @@ class HomeViewModel @Inject constructor(
      *  Trending Movies
      */
     private fun getTrendingMovie() {
-        viewModelScope.launch {
-            try {
-                getTrendingMovieUseCase().collect { list ->
-                    if (list.isNotEmpty()) {
-                        val items = list.map(mediaUiMapper::map)
-                        _state.update {
-                            it.copy(
-                                trendingMovie = HomeItem.Trending(items),
-                                isLoading = false
-                            )
-                        }
-                    }
-                }
-            } catch (throwable: Throwable) {
-                onError(throwable.message.toString())
-            }
-        }
+        tryToExecute(
+            call = { getTrendingMovieUseCase() },
+            onError = ::onError,
+            onSuccess = ::onSuccessTrending,
+            mapper = mediaUiMapper
+        )
+    }
+
+    private fun onSuccessTrending(items: List<MediaUiState>) {
+        _state.update { it.copy(trendingMovie = HomeItem.Trending(items)) }
     }
 
     /**
