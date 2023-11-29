@@ -124,29 +124,23 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessTrending(items: List<MediaUiState>) {
-        _state.update { it.copy(trendingMovie = HomeItem.Trending(items)) }
+        _state.update { it.copy(trendingMovie = HomeItem.Trending(items), isLoading = false, error = emptyList()) }
     }
 
     /**
      *  Now Playing Movies
      */
     private fun getNowPlayingMovies() {
-        viewModelScope.launch {
-            try {
-                val list = getNowPlayingMoviesUseCase()
-                    if (list.isNotEmpty()) {
-                        val items = list.map(mediaUiMapper::map)
-                        _state.update {
-                            it.copy(
-                                nowPlayingMovie = HomeItem.NowPlaying(items),
-                                isLoading = false
-                            )
-                        }
-                }
-            } catch (throwable: Throwable) {
-                onError(throwable.message.toString())
-            }
-        }
+        tryToExecute(
+            call = { getNowPlayingMoviesUseCase() },
+            onSuccess = ::onSuccessNowPlaying,
+            onError = ::onError,
+            mapper = mediaUiMapper
+        )
+    }
+
+    private fun onSuccessNowPlaying(items: List<MediaUiState>) {
+        _state.update { it.copy(nowPlayingMovie = HomeItem.NowPlaying(items), isLoading = false, error = emptyList()) }
     }
 
     /**
