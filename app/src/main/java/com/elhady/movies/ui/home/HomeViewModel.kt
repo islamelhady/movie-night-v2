@@ -1,6 +1,5 @@
 package com.elhady.movies.ui.home
 
-import android.annotation.SuppressLint
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.enums.AllMediaType
 import com.elhady.movies.domain.enums.HomeItemType
@@ -25,9 +24,9 @@ import com.elhady.movies.ui.home.homeUiState.HomeUiState
 import com.elhady.movies.ui.mappers.ActorUiMapper
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.mappers.PopularUiMapper
+import com.elhady.movies.ui.models.MediaUiState
 import com.elhady.movies.ui.models.PopularUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -100,22 +99,16 @@ class HomeViewModel @Inject constructor(
      *  Upcoming Movies
      */
     private fun getUpcomingMovies() {
-        viewModelScope.launch {
-            try {
-                val list = getUpcomingMoviesUseCase()
-                    if (list.isNotEmpty()) {
-                        val items = list.map(mediaUiMapper::map)
-                        _state.update {
-                            it.copy(
-                                upcomingMovie = HomeItem.Upcoming(items),
-                                isLoading = false
-                            )
-                        }
-                    }
-            } catch (throwable: Throwable) {
-                onError(throwable.message.toString())
-            }
-        }
+        tryToExecute(
+            call = { getUpcomingMoviesUseCase() },
+            onSuccess = ::onSuccessUpcoming,
+            onError = ::onError,
+            mapper = mediaUiMapper
+        )
+    }
+
+    private fun onSuccessUpcoming(items: List<MediaUiState>) {
+        _state.update { it.copy(upcomingMovie = HomeItem.Upcoming(items), isLoading = false, error = emptyList()) }
     }
 
     /**
