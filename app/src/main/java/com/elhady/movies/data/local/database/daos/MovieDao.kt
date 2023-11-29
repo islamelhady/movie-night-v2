@@ -90,8 +90,8 @@ interface MovieDao {
     @Query("DELETE FROM MYSTERY_MOVIE_TABLE")
     suspend fun deleteMysteryMovies()
 
-    @Query("SELECT * FROM MYSTERY_MOVIE_TABLE")
-    fun getMysteryMovies(): Flow<List<MysteryMovieEntity>>
+    @Query("SELECT * FROM MYSTERY_MOVIE_TABLE ORDER BY RANDOM()")
+    suspend fun getMysteryMovies(): List<MysteryMovieEntity>
 
     /**
      *  Adventure Movies
