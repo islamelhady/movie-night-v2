@@ -148,7 +148,7 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  Top Rated Movies
      */
-    override suspend fun getTopRatedMovies(): Flow<List<TopRatedMovieEntity>> {
+    override suspend fun getTopRatedMovies(): List<TopRatedMovieEntity> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.TOP_RATED_MOVIE_REQUEST_DATE_KEY),
             ::refreshTopRatedMovies

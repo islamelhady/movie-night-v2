@@ -149,7 +149,7 @@ class HomeViewModel @Inject constructor(
     private fun getTopRatedMovies() {
         viewModelScope.launch {
             try {
-                getTopRatedMoviesUseCase().collect { list ->
+                val list = getTopRatedMoviesUseCase()
                     if (list.isNotEmpty()) {
                         val topRatedItems = list.map(mediaUiMapper::map)
                         _state.update {
@@ -159,7 +159,6 @@ class HomeViewModel @Inject constructor(
                             )
                         }
                     }
-                }
             } catch (throwable: Throwable) {
                 onError(throwable.message.toString())
             }

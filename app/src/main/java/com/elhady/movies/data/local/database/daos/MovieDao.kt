@@ -78,8 +78,8 @@ interface MovieDao {
     @Query("DELETE FROM TOP_RATED_MOVIE_TABLE")
     suspend fun deleteTopRatedMovies()
 
-    @Query("SELECT * FROM TOP_RATED_MOVIE_TABLE")
-    fun getTopRatedMovies(): Flow<List<TopRatedMovieEntity>>
+    @Query("SELECT * FROM TOP_RATED_MOVIE_TABLE ORDER BY RANDOM()")
+    suspend fun getTopRatedMovies(): List<TopRatedMovieEntity>
 
     /**
      *  Mystery Movies

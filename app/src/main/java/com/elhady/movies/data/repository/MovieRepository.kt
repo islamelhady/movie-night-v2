@@ -33,7 +33,7 @@ interface MovieRepository {
 
     fun getAllUpcomingMovies(): Pager<Int, MovieDto>
 
-    suspend fun getTopRatedMovies(): Flow<List<TopRatedMovieEntity>>
+    suspend fun getTopRatedMovies(): List<TopRatedMovieEntity>
 
     fun getAllTopRatedMovies(): Pager<Int, MovieDto>
 
