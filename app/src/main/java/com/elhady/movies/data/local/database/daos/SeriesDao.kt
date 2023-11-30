@@ -21,8 +21,8 @@ interface SeriesDao {
     @Query("DELETE FROM ON_THE_AIR_SERIES_TABLE")
     suspend fun deleteOnTheAirSeries()
 
-    @Query("SELECT * FROM ON_THE_AIR_SERIES_TABLE")
-    fun getOnTheAirSeries(): Flow<List<OnTheAirSeriesEntity>>
+    @Query("SELECT * FROM ON_THE_AIR_SERIES_TABLE ORDER BY RANDOM()")
+    suspend fun getOnTheAirSeries(): List<OnTheAirSeriesEntity>
 
     /**
      *  Airing Today Series

@@ -23,7 +23,7 @@ interface SeriesRepository {
 
     suspend fun getAiringTodaySeries(): Flow<List<AiringTodaySeriesEntity>>
 
-    suspend fun getOnTheAirSeries(): Flow<List<OnTheAirSeriesEntity>>
+    suspend fun getOnTheAirSeries(): List<OnTheAirSeriesEntity>
 
     fun getAllOnTheAirSeries(): Pager<Int, SeriesDto>
 
