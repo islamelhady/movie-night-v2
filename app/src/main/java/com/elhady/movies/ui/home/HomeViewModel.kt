@@ -195,22 +195,16 @@ class HomeViewModel @Inject constructor(
      *  On The Air Series
      */
     private fun getOnTheAirSeries() {
-        viewModelScope.launch {
-            try {
-               val list = getOnTheAirSeriesUseCase()
-                    if (list.isNotEmpty()) {
-                        val items = list.map(mediaUiMapper::map)
-                        _state.update {
-                            it.copy(
-                                onTheAirSeries = HomeItem.OnTheAirSeries(items),
-                                isLoading = false
-                            )
-                        }
-                }
-            } catch (throwable: Throwable) {
-                onError(throwable.message.toString())
-            }
-        }
+        tryToExecute(
+            call = { getOnTheAirSeriesUseCase() },
+            onSuccess = ::onSuccessTheAirSeries,
+            mapper = mediaUiMapper,
+            onError = ::onError
+        )
+    }
+
+    private fun onSuccessTheAirSeries(items: List<MediaUiState>) {
+        _state.update { it.copy(onTheAirSeries = HomeItem.OnTheAirSeries(items), isLoading = false, error = emptyList()) }
     }
 
     /**
