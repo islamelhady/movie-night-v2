@@ -117,7 +117,7 @@ class SeriesRepositoryImp @Inject constructor(
      * * Top Rated
      * * Airing Today
      */
-    override suspend fun getTVSeriesLists(): Flow<List<TVSeriesListsEntity>> {
+    override suspend fun getTVSeriesLists(): List<TVSeriesListsEntity> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.TV_SERIES_LISTS_REQUEST_DATE_KEY),
             ::refreshTVSeriesLists

@@ -48,6 +48,6 @@ interface SeriesDao {
     @Query("DELETE FROM TV_SERIES_TABLE")
     suspend fun deleteTVSeriesLists()
 
-    @Query("SELECT * FROM TV_SERIES_TABLE")
-    fun getTVSeriesLists(): Flow<List<TVSeriesListsEntity>>
+    @Query("SELECT * FROM TV_SERIES_TABLE ORDER BY RANDOM()")
+    suspend fun getTVSeriesLists(): List<TVSeriesListsEntity>
 }

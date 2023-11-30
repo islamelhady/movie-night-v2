@@ -230,23 +230,16 @@ class HomeViewModel @Inject constructor(
      * * Latest
      */
     private fun getTVSeriesLists() {
-        viewModelScope.launch {
-            try {
-                getTVSeriesListsUseCase().collect { list ->
-                    if (list.isNotEmpty()) {
-                        val items = list.map(mediaUiMapper::map)
-                        _state.update {
-                            it.copy(
-                                tvSeriesLists = HomeItem.TVSeriesLists(items),
-                                isLoading = false
-                            )
-                        }
-                    }
-                }
-            } catch (throwable: Throwable) {
-                onError(throwable.message.toString())
-            }
-        }
+        tryToExecute(
+            call = { getTVSeriesListsUseCase() },
+            onSuccess = ::onSuccessTVSeriesLists,
+            mapper = mediaUiMapper,
+            onError = ::onError
+        )
+    }
+
+    private fun onSuccessTVSeriesLists(items: List<MediaUiState>) {
+        _state.update { it.copy(tvSeriesLists = HomeItem.TVSeriesLists(items), isLoading = false, error = emptyList()) }
     }
 
     /**
