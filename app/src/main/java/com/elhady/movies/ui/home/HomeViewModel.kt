@@ -179,24 +179,16 @@ class HomeViewModel @Inject constructor(
      *  Adventure Movies
      */
     private fun getAdventureMovies() {
-        viewModelScope.launch {
-            try {
-                val list = getAdventureMoviesUseCase()
-                    if (list.isNotEmpty()) {
-                        val items = list.map {
-                            mediaUiMapper.map(it)
-                        }
-                        _state.update {
-                            it.copy(
-                                adventureMovies = HomeItem.Adventure(items),
-                                isLoading = false
-                            )
-                        }
-                    }
-            } catch (throwable: Throwable) {
-                onError(throwable.message.toString())
-            }
-        }
+        tryToExecute(
+            call = { getAdventureMoviesUseCase() },
+            onSuccess = ::onSuccessAdventure,
+            mapper = mediaUiMapper,
+            onError = ::onError
+        )
+    }
+
+    private fun onSuccessAdventure(items: List<MediaUiState>) {
+        _state.update { it.copy(adventureMovies = HomeItem.Adventure(items), isLoading = false, error = emptyList()) }
     }
 
     /**
