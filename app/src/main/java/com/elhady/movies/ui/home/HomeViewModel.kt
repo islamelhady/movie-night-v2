@@ -211,24 +211,16 @@ class HomeViewModel @Inject constructor(
      *  Airing Today Series
      */
     private fun getAiringTodaySeries() {
-        viewModelScope.launch {
-            try {
-                val list = getAiringTodaySeriesUseCase()
-                    if (list.isNotEmpty()) {
-                        val items = list.map {
-                            mediaUiMapper.map(it)
-                        }
-                        _state.update {
-                            it.copy(
-                                airingTodaySeries = HomeItem.AiringTodaySeries(items),
-                                isLoading = false
-                            )
-                        }
-                }
-            } catch (throwable: Throwable) {
-                onError(throwable.message.toString())
-            }
-        }
+        tryToExecute(
+            call = { getAiringTodaySeriesUseCase() },
+            onSuccess = ::onSuccessAiringTodaySeries,
+            mapper = mediaUiMapper,
+            onError = ::onError
+        )
+    }
+
+    private fun onSuccessAiringTodaySeries(items: List<MediaUiState>) {
+        _state.update { it.copy(airingTodaySeries = HomeItem.AiringTodaySeries(items), isLoading = false, error = emptyList()) }
     }
 
     /**
