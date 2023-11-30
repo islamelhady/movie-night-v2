@@ -33,8 +33,8 @@ interface SeriesDao {
     @Query("DELETE FROM AIRING_TODAY_SERIES_TABLE")
     suspend fun deleteAiringTodaySeries()
 
-    @Query("SELECT * FROM AIRING_TODAY_SERIES_TABLE")
-    fun getAiringTodaySeries(): Flow<List<AiringTodaySeriesEntity>>
+    @Query("SELECT * FROM AIRING_TODAY_SERIES_TABLE ORDER BY RANDOM()")
+    suspend fun getAiringTodaySeries(): List<AiringTodaySeriesEntity>
 
     /**
      *  TV Series Lists:

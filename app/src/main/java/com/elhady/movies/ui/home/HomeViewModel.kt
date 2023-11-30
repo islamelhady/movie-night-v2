@@ -213,7 +213,7 @@ class HomeViewModel @Inject constructor(
     private fun getAiringTodaySeries() {
         viewModelScope.launch {
             try {
-                getAiringTodaySeriesUseCase().collect { list ->
+                val list = getAiringTodaySeriesUseCase()
                     if (list.isNotEmpty()) {
                         val items = list.map {
                             mediaUiMapper.map(it)
@@ -224,7 +224,6 @@ class HomeViewModel @Inject constructor(
                                 isLoading = false
                             )
                         }
-                    }
                 }
             } catch (throwable: Throwable) {
                 onError(throwable.message.toString())

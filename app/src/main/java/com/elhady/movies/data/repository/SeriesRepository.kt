@@ -21,7 +21,7 @@ import retrofit2.Response
 
 interface SeriesRepository {
 
-    suspend fun getAiringTodaySeries(): Flow<List<AiringTodaySeriesEntity>>
+    suspend fun getAiringTodaySeries(): List<AiringTodaySeriesEntity>
 
     suspend fun getOnTheAirSeries(): List<OnTheAirSeriesEntity>
 
