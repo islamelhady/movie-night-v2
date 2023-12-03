@@ -11,7 +11,7 @@ class GetTrendingActorsUseCase @Inject constructor(
     private val repository: ActorRepository,
     private val actorMapper: ActorsMapper
 ) {
-    suspend operator fun invoke(): Flow<List<Actor>> {
+    suspend operator fun invoke(): List<Actor> {
         return repository.getPopularPersons().map {
             actorMapper.map(it)
         }

@@ -24,6 +24,7 @@ import com.elhady.movies.ui.home.homeUiState.HomeUiState
 import com.elhady.movies.ui.mappers.ActorUiMapper
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.mappers.PopularUiMapper
+import com.elhady.movies.ui.models.ActorUiState
 import com.elhady.movies.ui.models.MediaUiState
 import com.elhady.movies.ui.models.PopularUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -70,7 +71,7 @@ class HomeViewModel @Inject constructor(
         getTVSeriesLists()
         getMysteryMovies()
         getAdventureMovies()
-        getTrendingActors()
+        getPopularPersons()
     }
 
     /**
@@ -245,27 +246,17 @@ class HomeViewModel @Inject constructor(
     /**
      *  Trending Actors
      */
-    private fun getTrendingActors() {
-        viewModelScope.launch {
-            try {
-                getTrendingActorsUseCase().collect { list ->
-                    if (list.isNotEmpty()) {
-                        val actorItems = list.map {
-                            actorUiMapper.map(it)
-                        }
-                        _state.update {
-                            it.copy(
-                                actors = HomeItem.Actor(actorItems),
-                                isLoading = false
-                            )
-                        }
-                    }
-                }
-            } catch (throwable: Throwable) {
-                onError(throwable.message.toString())
-            }
-        }
+    private fun getPopularPersons() {
+        tryToExecute(
+            call = { getTrendingActorsUseCase() },
+            onSuccess = ::onSuccessPopularPersons,
+            mapper = actorUiMapper,
+            onError = ::onError
+        )
+    }
 
+    private fun onSuccessPopularPersons(items: List<ActorUiState>) {
+        _state.update { it.copy(actors = HomeItem.Actor(items), isLoading = false, error = emptyList()) }
     }
 
     private fun onError(error: String) {
