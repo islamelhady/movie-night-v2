@@ -30,7 +30,7 @@ class ActorDetailsViewModel @Inject constructor(
     }
 
     override fun getData() {
-        _state.update { it.copy(isLoading = true, onError = emptyList()) }
+        _state.update { it.copy(isLoading = true, onErrors = emptyList()) }
         getActorInfo()
         getMoviesByActor()
     }
@@ -51,9 +51,9 @@ class ActorDetailsViewModel @Inject constructor(
     }
 
     private fun onErrorGetActorData(error: Throwable) {
-        val errors = _state.value.onError.toMutableList()
+        val errors = _state.value.onErrors.toMutableList()
         errors.add(error.message.toString())
-        _state.update { it.copy(onError = errors, isLoading = false) }
+        _state.update { it.copy(onErrors = errors, isLoading = false) }
 
     }
 
@@ -75,9 +75,9 @@ class ActorDetailsViewModel @Inject constructor(
 
 
     private fun onError(error: Throwable) {
-        val errors = _state.value.onError.toMutableList()
+        val errors = _state.value.onErrors.toMutableList()
         errors.add(error.message.toString())
-        _state.update { it.copy(onError = errors, isLoading = false) }
+        _state.update { it.copy(onErrors = errors, isLoading = false) }
     }
 
     override fun onClickMovie(movieID: Int) {

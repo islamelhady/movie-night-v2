@@ -54,6 +54,22 @@ abstract class BaseViewModel<STATE, EVENT>(initialState: STATE) : ViewModel() {
         }
     }
 
+    protected fun <INPUT, OUTPUT> tryToExecute(
+        call: suspend () -> INPUT,
+        mapper: Mapper<INPUT, OUTPUT>,
+        onSuccess: (OUTPUT) -> Unit,
+        onError: (Throwable) -> Unit,
+        dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ) {
+        viewModelScope.launch(dispatcher) {
+            try {
+                mapper.map(call()).also(onSuccess)
+            } catch (th: Throwable) {
+                onError(th)
+            }
+        }
+    }
+
     protected fun sendEvent(event: EVENT){
         viewModelScope.launch {
             _event.emit(event)
