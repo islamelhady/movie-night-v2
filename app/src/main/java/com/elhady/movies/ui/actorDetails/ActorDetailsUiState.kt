@@ -24,7 +24,3 @@ data class ActorMoviesUiState(
     val image: String = "",
     val name: String = ""
 )
-
-data class Error(
-    val message: String = ""
-)
