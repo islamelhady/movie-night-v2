@@ -1,6 +1,5 @@
 package com.elhady.movies.ui.home
 
-import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.enums.AllMediaType
 import com.elhady.movies.domain.enums.HomeItemType
 import com.elhady.movies.domain.usecases.home.GetAdventureMoviesUseCase
@@ -29,7 +28,6 @@ import com.elhady.movies.ui.models.MediaUiState
 import com.elhady.movies.ui.models.PopularUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -58,9 +56,7 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun getData() {
-        _state.update {
-            it.copy(isLoading = true, error = emptyList())
-        }
+        _state.update { it.copy(isLoading = true, onErrors = emptyList()) }
         getPopular()
         getUpcomingMovies()
         getTrendingMovie()
@@ -87,13 +83,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessPopularMovies(items :List<PopularUiState> ){
-        _state.update { it.copy(popularMovie = HomeItem.Slider(items), isLoading = false, error = emptyList()) }
-    }
-
-    private fun onError(error: Throwable){
-        val errors = _state.value.error.toMutableList()
-        errors.add(error.message.toString())
-        _state.update { it.copy(error = errors, isLoading = false) }
+        _state.update { it.copy(popularMovie = HomeItem.Slider(items), isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -109,7 +99,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessUpcoming(items: List<MediaUiState>) {
-        _state.update { it.copy(upcomingMovie = HomeItem.Upcoming(items), isLoading = false, error = emptyList()) }
+        _state.update { it.copy(upcomingMovie = HomeItem.Upcoming(items), isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -125,7 +115,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessTrending(items: List<MediaUiState>) {
-        _state.update { it.copy(trendingMovie = HomeItem.Trending(items), isLoading = false, error = emptyList()) }
+        _state.update { it.copy(trendingMovie = HomeItem.Trending(items), isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -141,7 +131,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessNowPlaying(items: List<MediaUiState>) {
-        _state.update { it.copy(nowPlayingMovie = HomeItem.NowPlaying(items), isLoading = false, error = emptyList()) }
+        _state.update { it.copy(nowPlayingMovie = HomeItem.NowPlaying(items), isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -157,7 +147,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessTopRated(items: List<MediaUiState>) {
-        _state.update { it.copy(topRatedMovie = HomeItem.TopRated(items), isLoading = false, error = emptyList()) }
+        _state.update { it.copy(topRatedMovie = HomeItem.TopRated(items), isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -173,7 +163,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessMystery(items: List<MediaUiState>) {
-        _state.update { it.copy(mysteryMovies = HomeItem.Mystery(items), isLoading = false, error = emptyList()) }
+        _state.update { it.copy(mysteryMovies = HomeItem.Mystery(items), isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -189,7 +179,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessAdventure(items: List<MediaUiState>) {
-        _state.update { it.copy(adventureMovies = HomeItem.Adventure(items), isLoading = false, error = emptyList()) }
+        _state.update { it.copy(adventureMovies = HomeItem.Adventure(items), isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -205,7 +195,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessTheAirSeries(items: List<MediaUiState>) {
-        _state.update { it.copy(onTheAirSeries = HomeItem.OnTheAirSeries(items), isLoading = false, error = emptyList()) }
+        _state.update { it.copy(onTheAirSeries = HomeItem.OnTheAirSeries(items), isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -221,7 +211,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessAiringTodaySeries(items: List<MediaUiState>) {
-        _state.update { it.copy(airingTodaySeries = HomeItem.AiringTodaySeries(items), isLoading = false, error = emptyList()) }
+        _state.update { it.copy(airingTodaySeries = HomeItem.AiringTodaySeries(items), isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -240,7 +230,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessTVSeriesLists(items: List<MediaUiState>) {
-        _state.update { it.copy(tvSeriesLists = HomeItem.TVSeriesLists(items), isLoading = false, error = emptyList()) }
+        _state.update { it.copy(tvSeriesLists = HomeItem.TVSeriesLists(items), isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -256,15 +246,13 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessPopularPersons(items: List<ActorUiState>) {
-        _state.update { it.copy(actors = HomeItem.Actor(items), isLoading = false, error = emptyList()) }
+        _state.update { it.copy(actors = HomeItem.Actor(items), isLoading = false, onErrors = emptyList()) }
     }
 
-    private fun onError(error: String) {
-        val errors = _state.value.error.toMutableList()
-        errors.add(error)
-        _state.update {
-            it.copy(error = errors, isLoading = false)
-        }
+    private fun onError(error: Throwable){
+        val errors = _state.value.onErrors.toMutableList()
+        errors.add(error.message.toString())
+        _state.update { it.copy(onErrors = errors, isLoading = false) }
     }
 
     override fun onClickMovie(movieID: Int) {
