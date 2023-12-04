@@ -38,16 +38,14 @@ class ActorDetailsViewModel @Inject constructor(
     private fun getActorInfo() {
         tryToExecute(
             call = { getActorDetailsUseCase(args.actorID) },
+            mapper = actorDetailsUiMapper,
             onSuccess = ::onSuccessActorInfo,
             onError = ::onErrorGetActorData
         )
     }
 
-    private fun onSuccessActorInfo(actorDetails: ActorDetails) {
-        val result = actorDetailsUiMapper.map(actorDetails)
-        _state.update {
-            it.copy(actorInfo = result, isLoading = false)
-        }
+    private fun onSuccessActorInfo(actorInfoUiState: ActorInfoUiState) {
+        _state.update { it.copy(actorInfo = actorInfoUiState, isLoading = false) }
     }
 
     private fun onErrorGetActorData(error: Throwable) {
