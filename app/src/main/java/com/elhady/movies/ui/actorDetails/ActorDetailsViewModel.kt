@@ -40,19 +40,12 @@ class ActorDetailsViewModel @Inject constructor(
             call = { getActorDetailsUseCase(args.actorID) },
             mapper = actorDetailsUiMapper,
             onSuccess = ::onSuccessActorInfo,
-            onError = ::onErrorGetActorData
+            onError = ::onError
         )
     }
 
     private fun onSuccessActorInfo(actorInfoUiState: ActorInfoUiState) {
         _state.update { it.copy(actorInfo = actorInfoUiState, isLoading = false) }
-    }
-
-    private fun onErrorGetActorData(error: Throwable) {
-        val errors = _state.value.onErrors.toMutableList()
-        errors.add(error.message.toString())
-        _state.update { it.copy(onErrors = errors, isLoading = false) }
-
     }
 
 
