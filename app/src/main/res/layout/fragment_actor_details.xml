@@ -32,6 +32,20 @@
             app:lottie_rawRes="@raw/loading"
             app:isVisible="@{viewModel.state.loading}" />
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lost_connection"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_colorFilter="@color/red"
+            app:lottie_rawRes="@raw/lost_internet_connection"
+            app:showWhenListNotEmpty="@{viewModel.state.onErrors}" />
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/actor_image"
             android:layout_width="match_parent"

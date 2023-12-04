@@ -44,6 +44,20 @@
             app:lottie_rawRes="@raw/loading"
             app:visibilityMode="ignore" />
 
+        <Constraint
+            android:id="@+id/lost_connection"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:elevation="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/lost_internet_connection"
+            app:visibilityMode="ignore" />
+
 
     </ConstraintSet>
 
@@ -87,6 +101,20 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/loading"
+            app:visibilityMode="ignore" />
+
+        <Constraint
+            android:id="@+id/lost_connection"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:elevation="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/lost_internet_connection"
             app:visibilityMode="ignore" />
 
 
