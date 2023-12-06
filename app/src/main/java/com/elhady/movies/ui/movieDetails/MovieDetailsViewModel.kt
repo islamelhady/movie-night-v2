@@ -13,8 +13,8 @@ import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 import com.elhady.movies.ui.mappers.ActorUiMapper
 import com.elhady.movies.ui.mappers.MediaUiMapper
+import com.elhady.movies.ui.mappers.MovieDetailsUiMapper
 import com.elhady.movies.ui.mappers.ReviewUiMapper
-import com.elhady.movies.utilities.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
