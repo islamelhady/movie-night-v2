@@ -6,7 +6,7 @@ import com.elhady.movies.ui.models.ReviewUiState
 
 
 data class DetailsUiState(
-    val detailsItemsResult: List<DetailsItem> = mutableListOf(),
+    val detailsItemsResult: List<DetailsItem> = emptyList(),
     val movieDetailsResult: MovieDetailsUiState = MovieDetailsUiState(),
     val movieCastResult: List<ActorUiState> = emptyList(),
     val similarMoviesResult: List<MediaUiState> = emptyList(),
@@ -15,10 +15,19 @@ data class DetailsUiState(
     val isLoading: Boolean = false,
     val isSuccess: Boolean = false,
     val isLogin: Boolean = false,
-    val errorUIStates: List<ErrorUiState> = emptyList(),
+    val onErrors: List<String> = emptyList(),
 )
 
-data class ErrorUiState(
-    val message: String = "",
-    val code: Int = 0,
+data class MovieDetailsUiState(
+    val id: Int = 0,
+    val name: String = "",
+    val image: String = "",
+    val overview: String = "",
+    val specialNumber: Int = 0,
+    val minutes: Int = 0,
+    val hours: Int = 0,
+    val voteAverage: String = "",
+    val genres: String = "",
+    val review: Int = 0,
+    val releaseDate: String = ""
 )

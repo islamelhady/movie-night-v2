@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.favList.GetFavListDetailsUseCase
 import com.elhady.movies.ui.base.BaseViewModel
-import com.elhady.movies.ui.movieDetails.ErrorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -26,7 +25,7 @@ class FavListDetailsViewModel @Inject constructor(
 
     override fun getData() {
         _state.update {
-            it.copy(isLoading = true, isEmpty = false, error = emptyList())
+            it.copy(isLoading = true, isEmpty = false, onErrors = emptyList())
         }
         viewModelScope.launch {
             try {
@@ -42,11 +41,7 @@ class FavListDetailsViewModel @Inject constructor(
 
             } catch (t: Throwable) {
                 _state.update {
-                    it.copy(
-                        isLoading = false, error = listOf(
-                            ErrorUiState(t.message.toString(), 400)
-                        )
-                    )
+                    it.copy(isLoading = false)
                 }
             }
         }

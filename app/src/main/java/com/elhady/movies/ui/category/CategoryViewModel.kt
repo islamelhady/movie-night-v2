@@ -10,7 +10,6 @@ import com.elhady.movies.domain.usecases.GetCategoryByGenreUseCase
 import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.mappers.MediaUiMapper
-import com.elhady.movies.ui.movieDetails.ErrorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
@@ -72,23 +71,19 @@ class CategoryViewModel @Inject constructor(
         when (combinedLoadStates.refresh) {
             is LoadState.Error -> {
                 _state.update {
-                    it.copy(
-                        isLoading = false, error = listOf(
-                            ErrorUiState(message = "not found", code = 404)
-                        )
-                    )
+                    it.copy(isLoading = false)
                 }
             }
 
             LoadState.Loading -> _state.update {
                 it.copy(
                     isLoading = true,
-                    error = emptyList()
+                    onErrors = emptyList()
                 )
             }
 
             is LoadState.NotLoading -> {
-                _state.update { it.copy(isLoading = false, error = emptyList()) }
+                _state.update { it.copy(isLoading = false, onErrors = emptyList()) }
             }
         }
 

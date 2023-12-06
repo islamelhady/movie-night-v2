@@ -138,21 +138,21 @@ class SearchViewModel @Inject constructor(
             is LoadState.Error -> _state.update {
                 it.copy(
                     isLoading = false,
-                    error = emptyList()
+                    onErrors = emptyList()
                 )
             }
 
             LoadState.Loading -> _state.update {
                 it.copy(
                     isLoading = true,
-                    error = emptyList()
+                    onErrors = emptyList()
                 )
             }
 
             is LoadState.NotLoading -> _state.update {
                 it.copy(
                     isLoading = false,
-                    error = emptyList()
+                    onErrors = emptyList()
                 )
             }
         }

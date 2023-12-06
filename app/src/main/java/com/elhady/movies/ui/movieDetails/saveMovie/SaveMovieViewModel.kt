@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.favList.GetCreatedListUseCase
 import com.elhady.movies.domain.usecases.favList.SaveMovieToFavListUseCase
 import com.elhady.movies.ui.base.BaseViewModel
-import com.elhady.movies.ui.movieDetails.ErrorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -38,10 +37,7 @@ class SaveMovieViewModel @Inject constructor(
                 }
             } catch (error: Throwable) {
                 _state.update {
-                    it.copy(
-                        isLoading = false,
-                        error = listOf(ErrorUiState(error.message.toString(), 404))
-                    )
+                    it.copy(isLoading = false)
                 }
             }
         }

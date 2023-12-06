@@ -6,7 +6,6 @@ import com.elhady.movies.domain.usecases.GetReviewsUseCase
 import com.elhady.movies.ui.base.BaseInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.mappers.ReviewUiMapper
-import com.elhady.movies.ui.movieDetails.ErrorUiState
 import com.elhady.movies.utilities.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
@@ -27,7 +26,7 @@ class ReviewsViewModel @Inject constructor(
     }
 
     override fun getData() {
-        _state.update { it.copy(isLoading = true, errorUiState = emptyList()) }
+        _state.update { it.copy(isLoading = true, onErrors = emptyList()) }
         viewModelScope.launch {
             try {
                 val result = getReviewsUseCase(mediaId = args.mediaId, type = args.mediaType).map {
@@ -37,15 +36,7 @@ class ReviewsViewModel @Inject constructor(
                     it.copy(review = result, isLoading = false)
                 }
             } catch (e: Exception) {
-                _state.update {
-                    it.copy(
-                        errorUiState = listOf(
-                            ErrorUiState(
-                                message = e.message.toString(), code = Constants.INTERNET_STATUS
-                            )
-                        )
-                    )
-                }
+
             }
         }
     }

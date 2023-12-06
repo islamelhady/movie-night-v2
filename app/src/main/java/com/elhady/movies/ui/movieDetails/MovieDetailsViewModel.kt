@@ -44,7 +44,7 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun getData() {
-        _state.update { it.copy(isLoading = true, errorUIStates = emptyList()) }
+        _state.update { it.copy(isLoading = true, onErrors = emptyList()) }
         getMovieDetails(args.movieID)
         getMovieCast(args.movieID)
         getSimilarMovies(args.movieID)
@@ -70,14 +70,7 @@ class MovieDetailsViewModel @Inject constructor(
                 addToWatchHistory(result)
             } catch (e: Exception) {
                 _state.update {
-                    it.copy(
-                        errorUIStates = listOf(
-                            ErrorUiState(
-                                code = Constants.INTERNET_STATUS,
-                                message = e.message.toString()
-                            )
-                        ), isLoading = false
-                    )
+                    it.copy(isLoading = false)
                 }
             }
         }
