@@ -7,6 +7,7 @@
     <dimen name="spacing_medium">16dp</dimen>
     <dimen name="spacing_large">24dp</dimen>
     <dimen name="spacing_extra_large">32dp</dimen>
+    <dimen name="spacing_progress_large">72dp</dimen>
 
     <!-- text-->
     <dimen name="text_small">12sp</dimen>
