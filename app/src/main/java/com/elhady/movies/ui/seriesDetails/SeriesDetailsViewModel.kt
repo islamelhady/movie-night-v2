@@ -59,16 +59,24 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     private fun getTVShowDetails(tvShowId: Int) {
+        tryToExecute(
+            call = { getSeriesDetailsUseCase.getSeriesDetails(tvShowId) },
+            onSuccess = ::onSuccessTvShowDetails,
+            onError = ::onError
+        )
         viewModelScope.launch {
-            val result = getSeriesDetailsUseCase.getSeriesDetails(tvShowId)
-            _state.update {
-                it.copy(
-                    seriesDetailsResult = seriesDetailsUiMapper.map(result)
-                )
-            }
-//            onAddMovieDetailsItemOfNestedView(SeriesItems.Header(_state.value.seriesDetailsResult))
-            addWatchHistory(result)
+            addWatchHistory(getSeriesDetailsUseCase.getSeriesDetails(tvShowId))
         }
+    }
+
+    private fun onSuccessTvShowDetails(details: SeriesDetails) {
+        _state.update { it.copy(seriesDetailsResult = seriesDetailsUiMapper.map(details), isLoading = false, onError = emptyList()) }
+    }
+
+    private fun onError(th: Throwable) {
+        val errors = _state.value.onError.toMutableList()
+        errors.add(th.message.toString())
+        _state.update { it.copy(onError = errors, isLoading = false) }
     }
 
     private fun getSeriesCast(tvShowId: Int) {

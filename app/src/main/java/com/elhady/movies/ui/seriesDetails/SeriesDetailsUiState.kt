@@ -11,6 +11,7 @@ data class SeriesDetailsUiState(
     val seriesSeasonsResult: List<SeasonUiState> = emptyList(),
     val seriesReviewResult: List<ReviewUiState> = emptyList(),
     val ratingValue: Float = 0f,
+    val isLoading: Boolean = false,
     val isLogin: Boolean = false,
     val onError: List<String> = emptyList()
 )
