@@ -9,12 +9,15 @@ import androidx.navigation.fragment.findNavController
 import com.elhady.movies.R
 import com.elhady.movies.databinding.FragmentSeriesDetailsBinding
 import com.elhady.movies.domain.enums.MediaType
+import com.elhady.movies.domain.models.Review
+import com.elhady.movies.domain.models.SeriesDetails
 import com.elhady.movies.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SeriesDetailsFragment : BaseFragment<FragmentSeriesDetailsBinding, SeriesDetailsUiState, SeriesDetailsUiEvent>() {
+class SeriesDetailsFragment :
+    BaseFragment<FragmentSeriesDetailsBinding, SeriesDetailsUiState, SeriesDetailsUiEvent>() {
     override val layoutIdFragment: Int = R.layout.fragment_series_details
     override val viewModel: SeriesDetailsViewModel by viewModels()
 
@@ -26,8 +29,18 @@ class SeriesDetailsFragment : BaseFragment<FragmentSeriesDetailsBinding, SeriesD
         binding.recyclerSeriesDetails.adapter = seriesAdapter
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collect {
-                seriesAdapter.setItems(viewModel.state.value.seriesItems)
+            viewModel.state.collect { state ->
+                seriesAdapter.setItems(
+                    mutableListOf(
+                        SeriesItems.Header(state.seriesDetailsResult),
+                        SeriesItems.Cast(state.seriesCastResult),
+                        SeriesItems.Similar(state.seriesSimilarResult),
+                        SeriesItems.Season(state.seriesSeasonsResult),
+                        SeriesItems.ReviewText,
+                        SeriesItems.SeeAllReviews,
+                        SeriesItems.Rating(viewModel)
+                    )
+                )
             }
         }
     }

@@ -5,7 +5,6 @@ import com.elhady.movies.ui.models.MediaUiState
 import com.elhady.movies.ui.models.ReviewUiState
 
 data class SeriesDetailsUiState(
-    val seriesItems: List<SeriesItems> = emptyList(),
     val seriesDetailsResult: SeriesDetailsResultUiState = SeriesDetailsResultUiState(),
     val seriesCastResult: List<ActorUiState> = emptyList(),
     val seriesSimilarResult: List<MediaUiState> = emptyList(),

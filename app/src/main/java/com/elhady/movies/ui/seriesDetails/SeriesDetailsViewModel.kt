@@ -50,7 +50,7 @@ class SeriesDetailsViewModel @Inject constructor(
         getSeriesCast(args.seriesId)
         getSimilarSeries(args.seriesId)
         getSeasonSeries(args.seriesId)
-        getSeriesReview(args.seriesId)
+//        getSeriesReview(args.seriesId)
         getLoginStatus()
     }
 
@@ -66,7 +66,7 @@ class SeriesDetailsViewModel @Inject constructor(
                     seriesDetailsResult = seriesDetailsUiMapper.map(result)
                 )
             }
-            onAddMovieDetailsItemOfNestedView(SeriesItems.Header(_state.value.seriesDetailsResult))
+//            onAddMovieDetailsItemOfNestedView(SeriesItems.Header(_state.value.seriesDetailsResult))
             addWatchHistory(result)
         }
     }
@@ -79,7 +79,7 @@ class SeriesDetailsViewModel @Inject constructor(
             _state.update {
                 it.copy(seriesCastResult = result)
             }
-            onAddMovieDetailsItemOfNestedView(SeriesItems.Cast(_state.value.seriesCastResult))
+//            onAddMovieDetailsItemOfNestedView(SeriesItems.Cast(_state.value.seriesCastResult))
         }
     }
 
@@ -91,7 +91,7 @@ class SeriesDetailsViewModel @Inject constructor(
             _state.update {
                 it.copy(seriesSimilarResult = result)
             }
-            onAddMovieDetailsItemOfNestedView(SeriesItems.Similar(_state.value.seriesSimilarResult))
+//            onAddMovieDetailsItemOfNestedView(SeriesItems.Similar(_state.value.seriesSimilarResult))
         }
     }
 
@@ -103,29 +103,29 @@ class SeriesDetailsViewModel @Inject constructor(
             _state.update {
                 it.copy(seriesSeasonsResult = result)
             }
-            onAddMovieDetailsItemOfNestedView(SeriesItems.Season(_state.value.seriesSeasonsResult))
+//            onAddMovieDetailsItemOfNestedView(SeriesItems.Season(_state.value.seriesSeasonsResult))
         }
 
     }
 
-    private fun getSeriesReview(seriesId: Int) {
-        viewModelScope.launch {
-            val result = getSeriesDetailsUseCase.getSeriesReview(seriesId)
-            _state.update {
-                it.copy(seriesReviewResult = result.reviews.map(reviewUiMapper::map))
-            }
-            if (result.reviews.isNotEmpty()) {
-                _state.value.seriesReviewResult.forEach {
-                    onAddMovieDetailsItemOfNestedView(SeriesItems.Review(it))
-                }
-                onAddMovieDetailsItemOfNestedView(SeriesItems.ReviewText)
-            }
-            if (result.isMoreThanMax) {
-                onAddMovieDetailsItemOfNestedView(SeriesItems.SeeAllReviews)
-            }
-        }
-
-    }
+//    private fun getSeriesReview(seriesId: Int) {
+//        viewModelScope.launch {
+//            val result = getSeriesDetailsUseCase.getSeriesReview(seriesId)
+//            _state.update {
+//                it.copy(seriesReviewResult = result.reviews.map(reviewUiMapper::map))
+//            }
+//            if (result.reviews.isNotEmpty()) {
+//                _state.value.seriesReviewResult.forEach {
+//                    onAddMovieDetailsItemOfNestedView(SeriesItems.Review(it))
+//                }
+//                onAddMovieDetailsItemOfNestedView(SeriesItems.ReviewText)
+//            }
+//            if (result.isMoreThanMax) {
+//                onAddMovieDetailsItemOfNestedView(SeriesItems.SeeAllReviews)
+//            }
+//        }
+//
+//    }
 
     fun onChangeRating(value: Float) {
         viewModelScope.launch {
@@ -146,16 +146,16 @@ class SeriesDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             val result = getSeriesRateUseCase(seriesId = seriesId)
             _state.update { it.copy(ratingValue = result) }
-            onAddMovieDetailsItemOfNestedView(SeriesItems.Rating(this@SeriesDetailsViewModel))
+//            onAddMovieDetailsItemOfNestedView(SeriesItems.Rating(this@SeriesDetailsViewModel))
         }
     }
 
 
-    private fun onAddMovieDetailsItemOfNestedView(items: SeriesItems) {
-        val itemsList = _state.value.seriesItems.toMutableList()
-        itemsList.add(items)
-        _state.update { it.copy(seriesItems = itemsList.toList()) }
-    }
+//    private fun onAddMovieDetailsItemOfNestedView(items: SeriesItems) {
+//        val itemsList = _state.value.seriesItems.toMutableList()
+//        itemsList.add(items)
+//        _state.update { it.copy(seriesItems = itemsList.toList()) }
+//    }
 
     override fun onClickBackButton() {
         sendEvent(SeriesDetailsUiEvent.ClickBackButtonEvent)
