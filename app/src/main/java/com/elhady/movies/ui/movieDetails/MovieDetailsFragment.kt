@@ -84,9 +84,9 @@ class MovieDetailsFragment :
                     mediaType = MediaType.MOVIES
                 )
 
-            MovieDetailsUiEvent.MessageAppear -> Toast.makeText(
+            is MovieDetailsUiEvent.MessageAppear -> Toast.makeText(
                 context,
-                R.string.submit_toast,
+                event.status.statusMessage,
                 Toast.LENGTH_LONG
             ).show()
 

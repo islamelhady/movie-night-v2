@@ -2,7 +2,10 @@ package com.elhady.movies.ui.movieDetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.domain.models.MediaDetailsReview
 import com.elhady.movies.domain.models.MovieDetails
+import com.elhady.movies.domain.models.Rated
+import com.elhady.movies.domain.models.RatingStatus
 import com.elhady.movies.domain.usecases.GetSessionIdUseCase
 import com.elhady.movies.domain.usecases.movieDetails.GetMovieDetailsUseCase
 import com.elhady.movies.domain.usecases.movieDetails.GetMovieRateUseCase
@@ -15,6 +18,8 @@ import com.elhady.movies.ui.mappers.ActorUiMapper
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.mappers.MovieDetailsUiMapper
 import com.elhady.movies.ui.mappers.ReviewUiMapper
+import com.elhady.movies.ui.models.ActorUiState
+import com.elhady.movies.ui.models.MediaUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -57,64 +62,80 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun getMovieDetails(movieId: Int) {
+        tryToExecute(
+            call = { getMovieDetailsUseCase.getMovieDetails(movieId) },
+            onSuccess = ::onSuccessMovieDetails,
+            onError = ::onError
+        )
         viewModelScope.launch {
-            try {
-                val result = getMovieDetailsUseCase.getMovieDetails(movieId)
-                _state.update {
-                    it.copy(
-                        movieDetailsResult = movieDetailsUiMapper.map(result),
-                        isLoading = false
-                    )
-                }
-                addToWatchHistory(result)
-            } catch (e: Exception) {
-                _state.update {
-                    it.copy(isLoading = false)
-                }
-            }
+            addToWatchHistory(getMovieDetailsUseCase.getMovieDetails(movieId))
+        }
+    }
+
+    private fun onSuccessMovieDetails(details: MovieDetails) {
+        _state.update {
+            it.copy(
+                movieDetailsResult = movieDetailsUiMapper.map(details),
+                isLoading = false,
+                onErrors = emptyList()
+            )
         }
     }
 
     private fun getMovieCast(movieId: Int) {
-        viewModelScope.launch {
-            try {
-                val result = getMovieDetailsUseCase.getMovieCast(movieId = movieId).map {
-                    actorUiMapper.map(it)
-                }
-                _state.update {
-                    it.copy(movieCastResult = result, isLoading = false)
-                }
-            } catch (e: Exception) {
+        tryToExecute(
+            call = { getMovieDetailsUseCase.getMovieCast(movieId) },
+            mapper = actorUiMapper,
+            onSuccess = ::onSuccessMovieCast,
+            onError = ::onError
+        )
+    }
 
-            }
+    private fun onSuccessMovieCast(actor: List<ActorUiState>) {
+        _state.update {
+            it.copy(
+                movieCastResult = actor,
+                isLoading = false,
+                onErrors = emptyList()
+            )
         }
     }
 
     private fun getSimilarMovies(movieId: Int) {
-        viewModelScope.launch {
-            try {
-                val result = getMovieDetailsUseCase.getSimilarMovies(movieId = movieId).map {
-                    mediaUiMapper.map(it)
-                }
-                _state.update {
-                    it.copy(similarMoviesResult = result, isLoading = false)
-                }
-            } catch (e: Exception) {
+        tryToExecute(
+            call = { getMovieDetailsUseCase.getSimilarMovies(movieId) },
+            mapper = mediaUiMapper,
+            onSuccess = ::onSuccessSimilarMovies,
+            onError = ::onError
+        )
+    }
 
-            }
+    private fun onSuccessSimilarMovies(similar: List<MediaUiState>) {
+        _state.update {
+            it.copy(
+                similarMoviesResult = similar,
+                isLoading = false,
+                onErrors = emptyList()
+            )
         }
     }
 
     private fun getMovieReviews(movieID: Int) {
-        viewModelScope.launch {
-            try {
-                val result = getMovieDetailsUseCase.getMovieReview(movieId = movieID)
-                _state.update {
-                    it.copy(movieReviewsResult = result.reviews.map(reviewUiMapper::map))
-                }
-            } catch (e: Exception) {
+        tryToExecute(
+            call = { getMovieDetailsUseCase.getMovieReview(movieID) },
+            onSuccess = ::onSuccessMoviesReviews,
+            onError = ::onError
+        )
+    }
 
-            }
+    private fun onSuccessMoviesReviews(review: MediaDetailsReview) {
+        val result = review.reviews.map(reviewUiMapper::map)
+        _state.update {
+            it.copy(
+                movieReviewsResult = result,
+                isLoading = false,
+                onErrors = emptyList()
+            )
         }
     }
 
@@ -128,20 +149,34 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun getRatedMovie(movieId: Int) {
-        viewModelScope.launch {
-            val result = getMovieRateUseCase(movieId)
-            _state.update {
-                it.copy(ratingValue = result)
-            }
-        }
+        tryToExecute(
+            call = { getMovieRateUseCase(movieId) },
+            onSuccess = ::onSuccessRatedMovie,
+            onError = ::onError
+        )
+    }
+
+    private fun onSuccessRatedMovie(value: Float) {
+        _state.update { it.copy(ratingValue = value, isLoading = false, onErrors = emptyList()) }
+
     }
 
     fun onChangeRating(value: Float) {
-        viewModelScope.launch {
-            setRatingUseCase(movieId = args.movieID, value = value)
-            _state.update { it.copy(ratingValue = value) }
-            sendEvent(MovieDetailsUiEvent.MessageAppear)
-        }
+        tryToExecute(
+            call = { setRatingUseCase(movieId = args.movieID, value = value) },
+            onSuccess = ::onSuccessChangeRating,
+            onError = ::onError
+        )
+    }
+
+    private fun onSuccessChangeRating(rated: RatingStatus) {
+        sendEvent(MovieDetailsUiEvent.MessageAppear(rated))
+    }
+
+    private fun onError(error: Throwable) {
+        val errors = _state.value.onErrors.toMutableList()
+        errors.add(error.message.toString())
+        _state.update { it.copy(onErrors = errors, isLoading = false) }
     }
 
     override fun onClickBackButton() {
