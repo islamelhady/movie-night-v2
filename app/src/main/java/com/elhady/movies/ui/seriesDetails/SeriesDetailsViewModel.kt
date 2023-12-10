@@ -14,6 +14,7 @@ import com.elhady.movies.ui.home.adapters.ActorInteractionListener
 import com.elhady.movies.ui.mappers.ActorUiMapper
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.mappers.ReviewUiMapper
+import com.elhady.movies.ui.models.ActorUiState
 import com.elhady.movies.ui.movieDetails.DetailsInteractionListener
 import com.elhady.movies.ui.seriesDetails.seriesUiMapper.SeasonUiMapper
 import com.elhady.movies.ui.seriesDetails.seriesUiMapper.SeriesDetailsUiMapper
@@ -73,22 +74,17 @@ class SeriesDetailsViewModel @Inject constructor(
         _state.update { it.copy(seriesDetailsResult = seriesDetailsUiMapper.map(details), isLoading = false, onError = emptyList()) }
     }
 
-    private fun onError(th: Throwable) {
-        val errors = _state.value.onError.toMutableList()
-        errors.add(th.message.toString())
-        _state.update { it.copy(onError = errors, isLoading = false) }
+    private fun getSeriesCast(tvShowId: Int) {
+        tryToExecute(
+            call = { getSeriesDetailsUseCase.getSeriesCast(tvShowId) },
+            mapper = actorUiMapper,
+            onSuccess = ::onSuccessSeriesCast,
+            onError = ::onError
+        )
     }
 
-    private fun getSeriesCast(tvShowId: Int) {
-        viewModelScope.launch {
-            val result = getSeriesDetailsUseCase.getSeriesCast(tvShowId).map {
-                actorUiMapper.map(it)
-            }
-            _state.update {
-                it.copy(seriesCastResult = result)
-            }
-//            onAddMovieDetailsItemOfNestedView(SeriesItems.Cast(_state.value.seriesCastResult))
-        }
+    private fun onSuccessSeriesCast(cast: List<ActorUiState>) {
+        _state.update { it.copy(seriesCastResult = cast, isLoading = false, onError = emptyList()) }
     }
 
     private fun getSimilarSeries(seriesId: Int) {
@@ -164,6 +160,12 @@ class SeriesDetailsViewModel @Inject constructor(
 //        itemsList.add(items)
 //        _state.update { it.copy(seriesItems = itemsList.toList()) }
 //    }
+
+    private fun onError(th: Throwable) {
+        val errors = _state.value.onError.toMutableList()
+        errors.add(th.message.toString())
+        _state.update { it.copy(onError = errors, isLoading = false) }
+    }
 
     override fun onClickBackButton() {
         sendEvent(SeriesDetailsUiEvent.ClickBackButtonEvent)
