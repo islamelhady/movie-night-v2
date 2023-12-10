@@ -15,7 +15,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding, DetailsUiState, MovieDetailsUiEvent>() {
+class MovieDetailsFragment :
+    BaseFragment<FragmentMovieDetailsBinding, DetailsUiState, MovieDetailsUiEvent>() {
     override val layoutIdFragment: Int = R.layout.fragment_movie_details
     override val viewModel: MovieDetailsViewModel by viewModels()
     private lateinit var detailAdapter: DetailsAdapter
@@ -37,7 +38,16 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding, DetailsUi
     private fun collectMovieDetailsItems() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collect {
-                detailAdapter.setItems(viewModel.state.value.detailsItemsResult)
+                detailAdapter.setItems(
+                    mutableListOf(
+                        DetailsItem.Header(it.movieDetailsResult),
+                        DetailsItem.Cast(it.movieCastResult),
+                        DetailsItem.Similar(it.similarMoviesResult),
+                        DetailsItem.Rating(viewModel),
+                        DetailsItem.SeeAllReviewsButton,
+                        DetailsItem.ReviewsText
+                    ) + it.movieReviewsResult.map {DetailsItem.Reviews(it)}
+                )
             }
         }
     }

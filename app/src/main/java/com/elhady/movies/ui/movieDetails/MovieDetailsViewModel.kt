@@ -66,7 +66,6 @@ class MovieDetailsViewModel @Inject constructor(
                         isLoading = false
                     )
                 }
-                onAddMovieDetailsItemOfNestedView(DetailsItem.Header(_state.value.movieDetailsResult))
                 addToWatchHistory(result)
             } catch (e: Exception) {
                 _state.update {
@@ -85,7 +84,6 @@ class MovieDetailsViewModel @Inject constructor(
                 _state.update {
                     it.copy(movieCastResult = result, isLoading = false)
                 }
-                onAddMovieDetailsItemOfNestedView(DetailsItem.Cast(result))
             } catch (e: Exception) {
 
             }
@@ -101,7 +99,6 @@ class MovieDetailsViewModel @Inject constructor(
                 _state.update {
                     it.copy(similarMoviesResult = result, isLoading = false)
                 }
-                onAddMovieDetailsItemOfNestedView(DetailsItem.Similar(_state.value.similarMoviesResult))
             } catch (e: Exception) {
 
             }
@@ -115,22 +112,9 @@ class MovieDetailsViewModel @Inject constructor(
                 _state.update {
                     it.copy(movieReviewsResult = result.reviews.map(reviewUiMapper::map))
                 }
-                if (result.reviews.isNotEmpty()) {
-                    setReviews(result.isMoreThanMax)
-                }
             } catch (e: Exception) {
 
             }
-        }
-    }
-
-    private fun setReviews(seeAllReviews: Boolean) {
-        _state.value.movieReviewsResult.forEach {
-            onAddMovieDetailsItemOfNestedView(DetailsItem.Reviews(it))
-        }
-        onAddMovieDetailsItemOfNestedView(DetailsItem.ReviewsText)
-        if (seeAllReviews) {
-            onAddMovieDetailsItemOfNestedView(DetailsItem.SeeAllReviewsButton)
         }
     }
 
@@ -149,7 +133,6 @@ class MovieDetailsViewModel @Inject constructor(
             _state.update {
                 it.copy(ratingValue = result)
             }
-            onAddMovieDetailsItemOfNestedView(DetailsItem.Rating(this@MovieDetailsViewModel))
         }
     }
 
@@ -159,12 +142,6 @@ class MovieDetailsViewModel @Inject constructor(
             _state.update { it.copy(ratingValue = value) }
             sendEvent(MovieDetailsUiEvent.MessageAppear)
         }
-    }
-
-    private fun onAddMovieDetailsItemOfNestedView(items: DetailsItem) {
-        val listItems = _state.value.detailsItemsResult.toMutableList()
-        listItems.add(items)
-        _state.update { it.copy(detailsItemsResult = listItems.toList()) }
     }
 
     override fun onClickBackButton() {
