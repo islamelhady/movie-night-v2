@@ -39,16 +39,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>
                 homeAdapter.setItems(
                     mutableListOf(
                         HomeItem.PopularMovieSlider(items.popularMovieSlider),
-                        items.upcomingMovie,
-                        items.trendingMovie,
-                        items.nowPlayingMovie,
-                        items.topRatedMovie,
-                        items.onTheAirSeries,
-                        items.airingTodaySeries,
-                        items.tvSeriesLists,
-                        items.mysteryMovies,
-                        items.adventureMovies,
-                        items.popularPeople
+                        HomeItem.Upcoming(items.upcomingMovie),
+                        HomeItem.Trending(items.trendingMovie),
+                        HomeItem.NowPlaying(items.nowPlayingMovie),
+                        HomeItem.TopRated(items.topRatedMovie),
+                        HomeItem.OnTheAirSeries(items.onTheAirSeries),
+                        HomeItem.AiringTodaySeries(items.airingTodaySeries),
+                        HomeItem.TVSeriesLists(items.tvSeriesLists),
+                        HomeItem.Mystery(items.mysteryMovies),
+                        HomeItem.Adventure(items.adventureMovies),
+                        HomeItem.Actor(items.popularPeople)
                     )
                 )
             }
