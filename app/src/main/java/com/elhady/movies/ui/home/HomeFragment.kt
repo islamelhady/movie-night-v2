@@ -38,7 +38,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>
             viewModel.state.collect { items ->
                 homeAdapter.setItems(
                     mutableListOf(
-                        items.popularMovie,
+                        HomeItem.PopularMovieSlider(items.popularMovieSlider),
                         items.upcomingMovie,
                         items.trendingMovie,
                         items.nowPlayingMovie,
@@ -48,7 +48,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>
                         items.tvSeriesLists,
                         items.mysteryMovies,
                         items.adventureMovies,
-                        items.actors
+                        items.popularPeople
                     )
                 )
             }

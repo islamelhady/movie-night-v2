@@ -83,7 +83,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessPopularMovies(items :List<PopularUiState> ){
-        _state.update { it.copy(popularMovie = HomeItem.Slider(items), isLoading = false, onErrors = emptyList()) }
+        _state.update { it.copy(popularMovieSlider = HomeItem.PopularMovieSlider(items), isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -246,7 +246,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessPopularPersons(items: List<ActorUiState>) {
-        _state.update { it.copy(actors = HomeItem.Actor(items), isLoading = false, onErrors = emptyList()) }
+        _state.update { it.copy(popularPeople = HomeItem.Actor(items), isLoading = false, onErrors = emptyList()) }
     }
 
     private fun onError(error: Throwable){

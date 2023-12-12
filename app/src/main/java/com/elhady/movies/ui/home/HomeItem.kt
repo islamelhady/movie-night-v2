@@ -6,7 +6,7 @@ import com.elhady.movies.ui.models.PopularUiState
 import com.elhady.movies.ui.models.MediaUiState
 
 sealed class HomeItem (val priority: Int){
-    data class Slider(val items: List<PopularUiState>): HomeItem(0)
+    data class PopularMovieSlider(val items: List<PopularUiState>): HomeItem(0)
     data class Upcoming(val items: List<MediaUiState>, val type: SeeAllType = SeeAllType.UPCOMING_MOVIE): HomeItem(1)
     data class Trending(val items: List<MediaUiState>, val type: SeeAllType = SeeAllType.TRENDING_MOVIE): HomeItem(2)
     data class TVSeriesLists(val items: List<MediaUiState>): HomeItem(3)

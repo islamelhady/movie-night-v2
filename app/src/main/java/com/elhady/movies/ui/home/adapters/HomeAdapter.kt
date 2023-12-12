@@ -45,7 +45,7 @@ class HomeAdapter(
 
     private fun bind(holder: ItemViewHolder, position: Int) {
         when (val currentHomeItem = homeItems[position]) {
-            is HomeItem.Slider -> {
+            is HomeItem.PopularMovieSlider -> {
                 holder.binding.setVariable(
                     BR.adapterRecycler,
                     PopularMovieAdapter(currentHomeItem.items, listener as MovieInteractionListener)
@@ -126,7 +126,7 @@ class HomeAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (homeItems[position]) {
-            is HomeItem.Slider -> R.layout.list_popular_movie
+            is HomeItem.PopularMovieSlider -> R.layout.list_popular_movie
             is HomeItem.AiringTodaySeries -> R.layout.list_airing_today
             is HomeItem.TVSeriesLists -> R.layout.list_tv_series
             is HomeItem.Actor -> R.layout.list_actors
