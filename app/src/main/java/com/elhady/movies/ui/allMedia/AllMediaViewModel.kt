@@ -8,6 +8,7 @@ import androidx.paging.map
 import com.elhady.movies.domain.enums.SeeAllType
 import com.elhady.movies.domain.usecases.seeAllMedia.CheckMediaTypeUseCase
 import com.elhady.movies.domain.usecases.seeAllMedia.GetAllMediaByTypeUseCase
+import com.elhady.movies.domain.usecases.seeAllMedia.GetSeeAllUpcomingMovieUseCase
 import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.mappers.MediaUiMapper
@@ -21,6 +22,7 @@ import javax.inject.Inject
 class AllMediaViewModel @Inject constructor(
     val savedStateHandle: SavedStateHandle,
     private val getAllMediaByTypeUseCase: GetAllMediaByTypeUseCase,
+    private val getSeeAllUpcomingMovieUseCase: GetSeeAllUpcomingMovieUseCase,
     private val checkMediaTypeUseCase: CheckMediaTypeUseCase,
     private val mediaUiMapper: MediaUiMapper
 ) : BaseViewModel<AllMediaUiState, AllMediaUiEvent>(AllMediaUiState()), MediaInteractionListener {
@@ -38,7 +40,7 @@ class AllMediaViewModel @Inject constructor(
             SeeAllType.POPULAR_TV -> TODO()
             SeeAllType.LATEST_TV -> TODO()
             SeeAllType.ON_THE_AIR_TV -> TODO()
-            SeeAllType.UPCOMING_MOVIE -> getUpcomingMovie()
+            SeeAllType.UPCOMING_MOVIE -> getUpcomingMovieSeeAll()
             SeeAllType.TRENDING_MOVIE -> TODO()
             SeeAllType.NOW_PLAYING_MOVIE -> TODO()
             SeeAllType.TOP_RATED_MOVIE -> TODO()
@@ -50,8 +52,13 @@ class AllMediaViewModel @Inject constructor(
         getAllMedia()
     }
 
-    private fun getUpcomingMovie() {
-        TODO("Not yet implemented")
+    private fun getUpcomingMovieSeeAll() {
+        viewModelScope.launch {
+            val items = getSeeAllUpcomingMovieUseCase().map { pagingData ->
+                pagingData.map(mediaUiMapper::map)
+            }
+            _state.update { it.copy(seeAllUpcomingMovies = items, isLoading = false, mediaType = SeeAllType.UPCOMING_MOVIE) }
+        }
     }
 
 

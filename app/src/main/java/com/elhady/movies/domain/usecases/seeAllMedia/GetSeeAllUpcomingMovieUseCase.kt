@@ -7,8 +7,9 @@ import com.elhady.movies.domain.mappers.movie.MovieDtoMapper
 import com.elhady.movies.domain.models.Media
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class GetSeeAllUpcomingMovie(
+class GetSeeAllUpcomingMovieUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
     private val movieDtoMapper: MovieDtoMapper
 ) {

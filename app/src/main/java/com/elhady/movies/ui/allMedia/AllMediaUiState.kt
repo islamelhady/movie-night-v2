@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.emptyFlow
 
 data class AllMediaUiState(
     val allMedia: Flow<PagingData<MediaUiState>> = emptyFlow(),
+    val seeAllUpcomingMovies: Flow<PagingData<MediaUiState>> = emptyFlow(),
     val mediaType: SeeAllType = SeeAllType.POPULAR_TV,
     val isLoading: Boolean = false,
     val error: List<Error> = emptyList()
