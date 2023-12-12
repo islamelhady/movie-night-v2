@@ -1,7 +1,7 @@
 package com.elhady.movies.ui.home
 
 import com.elhady.movies.domain.enums.AllMediaType
-import com.elhady.movies.domain.enums.HomeItemType
+import com.elhady.movies.domain.enums.SeeAllType
 import com.elhady.movies.domain.usecases.home.GetAdventureMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetMysteryMoviesUseCase
 import com.elhady.movies.domain.usecases.home.GetNowPlayingMoviesUseCase
@@ -259,17 +259,17 @@ class HomeViewModel @Inject constructor(
         sendEvent(HomeUiEvent.ClickMovieEvent(movieID))
     }
 
-    override fun onClickSeeAllMovies(mediaType: HomeItemType) {
+    override fun onClickSeeAllMovies(mediaType: SeeAllType) {
         val type = when (mediaType) {
-            HomeItemType.TRENDING -> AllMediaType.TRENDING
-            HomeItemType.UPCOMING -> AllMediaType.UPCOMING
-            HomeItemType.NOW_PLAYING -> AllMediaType.NOW_PLAYING
-            HomeItemType.TOP_RATED -> AllMediaType.TOP_RATED_MOVIE
-            HomeItemType.TOP_RATED_SERIES -> AllMediaType.TOP_RATED_TV
-            HomeItemType.ON_THE_AIR_SERIES -> TODO()
-            HomeItemType.MYSTERY -> AllMediaType.MYSTERY
-            HomeItemType.ADVENTURE -> AllMediaType.ADVENTURE
-            HomeItemType.ACTOR_MOVIES -> AllMediaType.ACTOR_MOVIES
+            SeeAllType.TRENDING_MOVIE -> AllMediaType.TRENDING
+            SeeAllType.UPCOMING_MOVIE -> AllMediaType.UPCOMING
+            SeeAllType.NOW_PLAYING_MOVIE -> AllMediaType.NOW_PLAYING
+            SeeAllType.TOP_RATED_MOVIE -> AllMediaType.TOP_RATED_MOVIE
+            SeeAllType.TOP_RATED_TV -> AllMediaType.TOP_RATED_TV
+            SeeAllType.ON_THE_AIR_TV -> TODO()
+            SeeAllType.MYSTERY_MOVIE -> AllMediaType.MYSTERY
+            SeeAllType.ADVENTURE_MOVIE -> AllMediaType.ADVENTURE
+            SeeAllType.ACTOR_MOVIES -> AllMediaType.ACTOR_MOVIES
         }
         sendEvent(HomeUiEvent.ClickSeeAllMoviesEvent(type))
     }

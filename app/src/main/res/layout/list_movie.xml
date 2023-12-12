@@ -14,7 +14,7 @@
 
         <variable
             name="movieType"
-            type="com.elhady.movies.domain.enums.HomeItemType" />
+            type="com.elhady.movies.domain.enums.SeeAllType" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

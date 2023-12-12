@@ -14,7 +14,7 @@
 
         <variable
             name="movieType"
-            type="com.elhady.movies.domain.enums.HomeItemType" />
+            type="com.elhady.movies.domain.enums.SeeAllType" />
 
         <import type="com.elhady.movies.domain.enums.AllMediaType"/>
     </data>

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.elhady.movies.BR
 import com.elhady.movies.R
-import com.elhady.movies.domain.enums.HomeItemType
+import com.elhady.movies.domain.enums.SeeAllType
 import com.elhady.movies.ui.adapter.MediaAdapter
 import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseAdapter
@@ -113,7 +113,7 @@ class HomeAdapter(
         }
     }
 
-    private fun bindMovie(holder: ItemViewHolder, items: List<MediaUiState>, type: HomeItemType){
+    private fun bindMovie(holder: ItemViewHolder, items: List<MediaUiState>, type: SeeAllType){
         holder.binding.run {
             setVariable(BR.adapterRecycler, MovieAdapter(items = items, listener = listener as MovieInteractionListener))
             setVariable(BR.movieType, type)

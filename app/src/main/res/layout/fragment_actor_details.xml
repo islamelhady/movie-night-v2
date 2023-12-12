@@ -9,7 +9,7 @@
             name="viewModel"
             type="com.elhady.movies.ui.actorDetails.ActorDetailsViewModel" />
         
-        <import type="com.elhady.movies.domain.enums.HomeItemType" />
+        <import type="com.elhady.movies.domain.enums.SeeAllType" />
 
     </data>
 

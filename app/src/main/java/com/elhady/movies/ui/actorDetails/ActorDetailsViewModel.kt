@@ -1,8 +1,7 @@
 package com.elhady.movies.ui.actorDetails
 
 import androidx.lifecycle.SavedStateHandle
-import com.elhady.movies.domain.enums.HomeItemType
-import com.elhady.movies.domain.models.ActorDetails
+import com.elhady.movies.domain.enums.SeeAllType
 import com.elhady.movies.domain.usecases.GetActorDetailsUseCase
 import com.elhady.movies.domain.usecases.GetActorsMoviesUseCase
 import com.elhady.movies.ui.actorDetails.mapper.ActorDetailsUiMapper
@@ -75,7 +74,7 @@ class ActorDetailsViewModel @Inject constructor(
         sendEvent(ActorDetailsUiEvent.ClickMovieEvent(movieID = movieID))
     }
 
-    override fun onClickSeeAllMovies(mediaType: HomeItemType) {
+    override fun onClickSeeAllMovies(mediaType: SeeAllType) {
         sendEvent(ActorDetailsUiEvent.ClickSeeAllEvent)
     }
 
