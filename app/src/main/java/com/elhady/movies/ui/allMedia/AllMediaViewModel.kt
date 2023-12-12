@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
+import com.elhady.movies.domain.enums.SeeAllType
 import com.elhady.movies.domain.usecases.seeAllMedia.CheckMediaTypeUseCase
 import com.elhady.movies.domain.usecases.seeAllMedia.GetAllMediaByTypeUseCase
 import com.elhady.movies.ui.adapter.MediaInteractionListener
@@ -27,12 +28,30 @@ class AllMediaViewModel @Inject constructor(
     private val args = AllMediaFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
     init {
+        _state.update { it.copy(isLoading = true) }
         getData()
     }
 
     override fun getData() {
-        _state.update { it.copy(isLoading = true) }
+        when(_state.value.mediaType){
+            SeeAllType.TOP_RATED_TV -> TODO()
+            SeeAllType.POPULAR_TV -> TODO()
+            SeeAllType.LATEST_TV -> TODO()
+            SeeAllType.ON_THE_AIR_TV -> TODO()
+            SeeAllType.UPCOMING_MOVIE -> getUpcomingMovie()
+            SeeAllType.TRENDING_MOVIE -> TODO()
+            SeeAllType.NOW_PLAYING_MOVIE -> TODO()
+            SeeAllType.TOP_RATED_MOVIE -> TODO()
+            SeeAllType.MYSTERY_MOVIE -> TODO()
+            SeeAllType.ADVENTURE_MOVIE -> TODO()
+            SeeAllType.ACTOR_MOVIES -> TODO()
+            SeeAllType.POPULAR_PEOPLE -> TODO()
+        }
         getAllMedia()
+    }
+
+    private fun getUpcomingMovie() {
+        TODO("Not yet implemented")
     }
 
 

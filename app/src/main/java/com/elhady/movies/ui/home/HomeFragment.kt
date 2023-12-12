@@ -7,6 +7,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.elhady.movies.R
 import com.elhady.movies.databinding.FragmentHomeBinding
+import com.elhady.movies.domain.enums.AllMediaType
+import com.elhady.movies.domain.enums.SeeAllType
 import com.elhady.movies.ui.base.BaseFragment
 import com.elhady.movies.ui.home.adapters.HomeAdapter
 import com.elhady.movies.ui.home.homeUiState.HomeUiEvent
@@ -66,9 +68,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>
             }
 
             is HomeUiEvent.ClickSeeAllMoviesEvent -> {
-                findNavController().navigate(
-                    HomeFragmentDirections.actionHomeFragmentToAllMediaFragment(event.mediaType, -1)
-                )
+               navigateToSeeAll(event.mediaType)
             }
 
             is HomeUiEvent.ClickSeeAllActorsEvent -> {
@@ -95,6 +95,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>
                 )
             }
         }
+    }
+
+    private fun navigateToSeeAll(type: SeeAllType) {
+       when(type){
+           SeeAllType.TOP_RATED_TV -> TODO()
+           SeeAllType.POPULAR_TV -> TODO()
+           SeeAllType.LATEST_TV -> TODO()
+           SeeAllType.ON_THE_AIR_TV -> TODO()
+           SeeAllType.UPCOMING_MOVIE -> {
+               findNavController().navigate(HomeFragmentDirections
+                   .actionHomeFragmentToAllMediaFragment(AllMediaType.UPCOMING,-1))
+           }
+           SeeAllType.TRENDING_MOVIE -> TODO()
+           SeeAllType.NOW_PLAYING_MOVIE -> TODO()
+           SeeAllType.TOP_RATED_MOVIE -> TODO()
+           SeeAllType.MYSTERY_MOVIE -> TODO()
+           SeeAllType.ADVENTURE_MOVIE -> TODO()
+           SeeAllType.ACTOR_MOVIES -> TODO()
+           SeeAllType.POPULAR_PEOPLE -> TODO()
+       }
+
     }
 
 

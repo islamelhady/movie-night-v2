@@ -65,9 +65,7 @@ class HomeViewModel @Inject constructor(
         getOnTheAirSeries()
         getAiringTodaySeries()
         getTVSeriesLists()
-        getMysteryMovies()
-        getAdventureMovies()
-        getPopularPersons()
+
     }
 
     /**
@@ -83,7 +81,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessPopularMovies(items :List<PopularUiState> ){
-        _state.update { it.copy(popularMovieSlider = HomeItem.PopularMovieSlider(items), isLoading = false, onErrors = emptyList()) }
+        _state.update { it.copy(popularMovieSlider = items, isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -99,7 +97,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessUpcoming(items: List<MediaUiState>) {
-        _state.update { it.copy(upcomingMovie = HomeItem.Upcoming(items), isLoading = false, onErrors = emptyList()) }
+        _state.update { it.copy(upcomingMovie = items, isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -115,7 +113,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessTrending(items: List<MediaUiState>) {
-        _state.update { it.copy(trendingMovie = HomeItem.Trending(items), isLoading = false, onErrors = emptyList()) }
+        _state.update { it.copy(trendingMovie = items, isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -131,7 +129,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessNowPlaying(items: List<MediaUiState>) {
-        _state.update { it.copy(nowPlayingMovie = HomeItem.NowPlaying(items), isLoading = false, onErrors = emptyList()) }
+        _state.update { it.copy(nowPlayingMovie = items, isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -147,7 +145,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessTopRated(items: List<MediaUiState>) {
-        _state.update { it.copy(topRatedMovie = HomeItem.TopRated(items), isLoading = false, onErrors = emptyList()) }
+        _state.update { it.copy(topRatedMovie = items, isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -163,7 +161,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessMystery(items: List<MediaUiState>) {
-        _state.update { it.copy(mysteryMovies = HomeItem.Mystery(items), isLoading = false, onErrors = emptyList()) }
+        _state.update { it.copy(mysteryMovies = items, isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -179,7 +177,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessAdventure(items: List<MediaUiState>) {
-        _state.update { it.copy(adventureMovies = HomeItem.Adventure(items), isLoading = false, onErrors = emptyList()) }
+        _state.update { it.copy(adventureMovies = items, isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -195,7 +193,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessTheAirSeries(items: List<MediaUiState>) {
-        _state.update { it.copy(onTheAirSeries = HomeItem.OnTheAirSeries(items), isLoading = false, onErrors = emptyList()) }
+        _state.update { it.copy(onTheAirSeries = items, isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -211,7 +209,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessAiringTodaySeries(items: List<MediaUiState>) {
-        _state.update { it.copy(airingTodaySeries = HomeItem.AiringTodaySeries(items), isLoading = false, onErrors = emptyList()) }
+        _state.update { it.copy(airingTodaySeries = items, isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -230,7 +228,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessTVSeriesLists(items: List<MediaUiState>) {
-        _state.update { it.copy(tvSeriesLists = HomeItem.TVSeriesLists(items), isLoading = false, onErrors = emptyList()) }
+        _state.update { it.copy(tvSeriesLists = items, isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -246,7 +244,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessPopularPersons(items: List<ActorUiState>) {
-        _state.update { it.copy(popularPeople = HomeItem.Actor(items), isLoading = false, onErrors = emptyList()) }
+        _state.update { it.copy(popularPeople = items, isLoading = false, onErrors = emptyList()) }
     }
 
     private fun onError(error: Throwable){
@@ -260,18 +258,7 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun onClickSeeAllMovies(mediaType: SeeAllType) {
-        val type = when (mediaType) {
-            SeeAllType.TRENDING_MOVIE -> AllMediaType.TRENDING
-            SeeAllType.UPCOMING_MOVIE -> AllMediaType.UPCOMING
-            SeeAllType.NOW_PLAYING_MOVIE -> AllMediaType.NOW_PLAYING
-            SeeAllType.TOP_RATED_MOVIE -> AllMediaType.TOP_RATED_MOVIE
-            SeeAllType.TOP_RATED_TV -> AllMediaType.TOP_RATED_TV
-            SeeAllType.ON_THE_AIR_TV -> TODO()
-            SeeAllType.MYSTERY_MOVIE -> AllMediaType.MYSTERY
-            SeeAllType.ADVENTURE_MOVIE -> AllMediaType.ADVENTURE
-            SeeAllType.ACTOR_MOVIES -> AllMediaType.ACTOR_MOVIES
-        }
-        sendEvent(HomeUiEvent.ClickSeeAllMoviesEvent(type))
+        sendEvent(HomeUiEvent.ClickSeeAllMoviesEvent(mediaType))
     }
 
     override fun onClickTVSeries(seriesID: Int) {
