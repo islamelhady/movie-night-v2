@@ -3,6 +3,7 @@ package com.elhady.movies.ui.seriesDetails
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.models.Media
+import com.elhady.movies.domain.models.Season
 import com.elhady.movies.domain.models.SeriesDetails
 import com.elhady.movies.domain.usecases.GetSessionIdUseCase
 import com.elhady.movies.domain.usecases.seriesDetails.GetSeriesDetailsUseCase
@@ -103,16 +104,16 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     private fun getSeasonSeries(seriesId: Int) {
-        viewModelScope.launch {
-            val result = getSeriesDetailsUseCase.getSeasons(seriesId).map {
-                seasonUiMapper.map(it)
-            }
-            _state.update {
-                it.copy(seriesSeasonsResult = result)
-            }
-//            onAddMovieDetailsItemOfNestedView(SeriesItems.Season(_state.value.seriesSeasonsResult))
-        }
+        tryToExecute(
+            call = { getSeriesDetailsUseCase.getSeasons(seriesId) },
+            mapper = seasonUiMapper,
+            onSuccess = ::onSuccessSeasonSeries,
+            onError = ::onError
+        )
+    }
 
+    private fun onSuccessSeasonSeries(season: List<SeasonUiState>) {
+        _state.update { it.copy(seriesSeasonsResult = season, isLoading = false, onError = emptyList()) }
     }
 
 //    private fun getSeriesReview(seriesId: Int) {
