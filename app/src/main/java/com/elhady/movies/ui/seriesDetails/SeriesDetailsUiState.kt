@@ -13,7 +13,7 @@ data class SeriesDetailsUiState(
     val ratingValue: Float = 0f,
     val isLoading: Boolean = false,
     val isLogin: Boolean = false,
-    val onError: List<String> = emptyList()
+    val onErrors: List<String> = emptyList()
 )
 
 data class SeasonUiState(

@@ -2,10 +2,8 @@ package com.elhady.movies.ui.seriesDetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.elhady.movies.domain.models.Media
 import com.elhady.movies.domain.models.MediaDetailsReview
 import com.elhady.movies.domain.models.RatingStatus
-import com.elhady.movies.domain.models.Season
 import com.elhady.movies.domain.models.SeriesDetails
 import com.elhady.movies.domain.usecases.GetSessionIdUseCase
 import com.elhady.movies.domain.usecases.seriesDetails.GetSeriesDetailsUseCase
@@ -20,7 +18,6 @@ import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.mappers.ReviewUiMapper
 import com.elhady.movies.ui.models.ActorUiState
 import com.elhady.movies.ui.models.MediaUiState
-import com.elhady.movies.ui.models.ReviewUiState
 import com.elhady.movies.ui.movieDetails.DetailsInteractionListener
 import com.elhady.movies.ui.seriesDetails.seriesUiMapper.SeasonUiMapper
 import com.elhady.movies.ui.seriesDetails.seriesUiMapper.SeriesDetailsUiMapper
@@ -53,6 +50,7 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     override fun getData() {
+        _state.update { it.copy(isLoading = true, onErrors = emptyList()) }
         getTVShowDetails(args.seriesId)
         getSeriesCast(args.seriesId)
         getSimilarSeries(args.seriesId)
@@ -77,7 +75,7 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     private fun onSuccessTvShowDetails(details: SeriesDetails) {
-        _state.update { it.copy(seriesDetailsResult = seriesDetailsUiMapper.map(details), isLoading = false, onError = emptyList()) }
+        _state.update { it.copy(seriesDetailsResult = seriesDetailsUiMapper.map(details), isLoading = false, onErrors = emptyList()) }
     }
 
     private fun getSeriesCast(tvShowId: Int) {
@@ -90,7 +88,7 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     private fun onSuccessSeriesCast(cast: List<ActorUiState>) {
-        _state.update { it.copy(seriesCastResult = cast, isLoading = false, onError = emptyList()) }
+        _state.update { it.copy(seriesCastResult = cast, isLoading = false, onErrors = emptyList()) }
     }
 
     private fun getSimilarSeries(seriesId: Int) {
@@ -103,7 +101,7 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     private fun onSuccessSimilarSeries(similar: List<MediaUiState>) {
-        _state.update { it.copy(seriesSimilarResult = similar, isLoading = false, onError = emptyList()) }
+        _state.update { it.copy(seriesSimilarResult = similar, isLoading = false, onErrors = emptyList()) }
     }
 
     private fun getSeasonSeries(seriesId: Int) {
@@ -116,7 +114,7 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     private fun onSuccessSeasonSeries(season: List<SeasonUiState>) {
-        _state.update { it.copy(seriesSeasonsResult = season, isLoading = false, onError = emptyList()) }
+        _state.update { it.copy(seriesSeasonsResult = season, isLoading = false, onErrors = emptyList()) }
     }
 
     private fun getSeriesReview(seriesId: Int) {
@@ -129,7 +127,7 @@ class SeriesDetailsViewModel @Inject constructor(
 
     private fun onSuccessSeriesReview(review: MediaDetailsReview) {
         val result = reviewUiMapper.map(review.reviews)
-        _state.update { it.copy(seriesReviewResult = result, isLoading = false, onError = emptyList()) }
+        _state.update { it.copy(seriesReviewResult = result, isLoading = false, onErrors = emptyList()) }
     }
 
     fun onChangeRating(value: Float) {
@@ -160,13 +158,13 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     private fun onSuccessRatedSeries(value: Float) {
-        _state.update { it.copy(ratingValue = value, isLoading = false, onError = emptyList()) }
+        _state.update { it.copy(ratingValue = value, isLoading = false, onErrors = emptyList()) }
     }
 
     private fun onError(th: Throwable) {
-        val errors = _state.value.onError.toMutableList()
+        val errors = _state.value.onErrors.toMutableList()
         errors.add(th.message.toString())
-        _state.update { it.copy(onError = errors, isLoading = false) }
+        _state.update { it.copy(onErrors = errors, isLoading = false) }
     }
 
     override fun onClickBackButton() {
