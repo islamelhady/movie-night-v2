@@ -2,6 +2,7 @@ package com.elhady.movies.ui.seriesDetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.domain.models.Media
 import com.elhady.movies.domain.models.SeriesDetails
 import com.elhady.movies.domain.usecases.GetSessionIdUseCase
 import com.elhady.movies.domain.usecases.seriesDetails.GetSeriesDetailsUseCase
@@ -15,6 +16,7 @@ import com.elhady.movies.ui.mappers.ActorUiMapper
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.mappers.ReviewUiMapper
 import com.elhady.movies.ui.models.ActorUiState
+import com.elhady.movies.ui.models.MediaUiState
 import com.elhady.movies.ui.movieDetails.DetailsInteractionListener
 import com.elhady.movies.ui.seriesDetails.seriesUiMapper.SeasonUiMapper
 import com.elhady.movies.ui.seriesDetails.seriesUiMapper.SeriesDetailsUiMapper
@@ -88,15 +90,16 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     private fun getSimilarSeries(seriesId: Int) {
-        viewModelScope.launch {
-            val result = getSeriesDetailsUseCase.getSimilarSeries(seriesId).map {
-                mediaUiMapper.map(it)
-            }
-            _state.update {
-                it.copy(seriesSimilarResult = result)
-            }
-//            onAddMovieDetailsItemOfNestedView(SeriesItems.Similar(_state.value.seriesSimilarResult))
-        }
+        tryToExecute(
+            call = { getSeriesDetailsUseCase.getSimilarSeries(seriesId) },
+            mapper = mediaUiMapper,
+            onSuccess = ::onSuccessSimilarSeries,
+            onError = ::onError
+        )
+    }
+
+    private fun onSuccessSimilarSeries(similar: List<MediaUiState>) {
+        _state.update { it.copy(seriesSimilarResult = similar, isLoading = false, onError = emptyList()) }
     }
 
     private fun getSeasonSeries(seriesId: Int) {
