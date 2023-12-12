@@ -39,7 +39,7 @@ class SeriesDetailsFragment :
                         SeriesItems.ReviewText,
                         SeriesItems.SeeAllReviews,
                         SeriesItems.Rating(viewModel)
-                    )
+                    ) + state.seriesReviewResult.map { SeriesItems.Review(it) }
                 )
             }
         }
@@ -79,9 +79,9 @@ class SeriesDetailsFragment :
                 )
             )
 
-            SeriesDetailsUiEvent.MessageAppear -> Toast.makeText(
+           is SeriesDetailsUiEvent.MessageAppear -> Toast.makeText(
                 context,
-                R.string.submit_toast,
+                event.message + R.string.submit_toast,
                 Toast.LENGTH_LONG
             ).show()
         }

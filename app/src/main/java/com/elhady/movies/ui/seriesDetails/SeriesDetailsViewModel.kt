@@ -3,6 +3,8 @@ package com.elhady.movies.ui.seriesDetails
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.models.Media
+import com.elhady.movies.domain.models.MediaDetailsReview
+import com.elhady.movies.domain.models.RatingStatus
 import com.elhady.movies.domain.models.Season
 import com.elhady.movies.domain.models.SeriesDetails
 import com.elhady.movies.domain.usecases.GetSessionIdUseCase
@@ -18,6 +20,7 @@ import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.mappers.ReviewUiMapper
 import com.elhady.movies.ui.models.ActorUiState
 import com.elhady.movies.ui.models.MediaUiState
+import com.elhady.movies.ui.models.ReviewUiState
 import com.elhady.movies.ui.movieDetails.DetailsInteractionListener
 import com.elhady.movies.ui.seriesDetails.seriesUiMapper.SeasonUiMapper
 import com.elhady.movies.ui.seriesDetails.seriesUiMapper.SeriesDetailsUiMapper
@@ -54,7 +57,7 @@ class SeriesDetailsViewModel @Inject constructor(
         getSeriesCast(args.seriesId)
         getSimilarSeries(args.seriesId)
         getSeasonSeries(args.seriesId)
-//        getSeriesReview(args.seriesId)
+        getSeriesReview(args.seriesId)
         getLoginStatus()
     }
 
@@ -116,31 +119,29 @@ class SeriesDetailsViewModel @Inject constructor(
         _state.update { it.copy(seriesSeasonsResult = season, isLoading = false, onError = emptyList()) }
     }
 
-//    private fun getSeriesReview(seriesId: Int) {
-//        viewModelScope.launch {
-//            val result = getSeriesDetailsUseCase.getSeriesReview(seriesId)
-//            _state.update {
-//                it.copy(seriesReviewResult = result.reviews.map(reviewUiMapper::map))
-//            }
-//            if (result.reviews.isNotEmpty()) {
-//                _state.value.seriesReviewResult.forEach {
-//                    onAddMovieDetailsItemOfNestedView(SeriesItems.Review(it))
-//                }
-//                onAddMovieDetailsItemOfNestedView(SeriesItems.ReviewText)
-//            }
-//            if (result.isMoreThanMax) {
-//                onAddMovieDetailsItemOfNestedView(SeriesItems.SeeAllReviews)
-//            }
-//        }
-//
-//    }
+    private fun getSeriesReview(seriesId: Int) {
+        tryToExecute(
+            call = { getSeriesDetailsUseCase.getSeriesReview(seriesId) },
+            onSuccess = ::onSuccessSeriesReview,
+            onError = ::onError
+        )
+    }
+
+    private fun onSuccessSeriesReview(review: MediaDetailsReview) {
+        val result = reviewUiMapper.map(review.reviews)
+        _state.update { it.copy(seriesReviewResult = result, isLoading = false, onError = emptyList()) }
+    }
 
     fun onChangeRating(value: Float) {
-        viewModelScope.launch {
-            setRatingUseCase(args.seriesId, value = value)
-            _state.update { it.copy(ratingValue = value) }
-            sendEvent(SeriesDetailsUiEvent.MessageAppear)
-        }
+        tryToExecute(
+            call = { setRatingUseCase(seriesId = args.seriesId, value = value) },
+            onSuccess = ::onSuccessRating,
+            onError = ::onError
+        )
+    }
+
+    private fun onSuccessRating(status: RatingStatus) {
+        sendEvent(SeriesDetailsUiEvent.MessageAppear(status.statusMessage))
     }
 
     private fun getLoginStatus() {
@@ -151,19 +152,16 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     private fun getRatedSeries(seriesId: Int) {
-        viewModelScope.launch {
-            val result = getSeriesRateUseCase(seriesId = seriesId)
-            _state.update { it.copy(ratingValue = result) }
-//            onAddMovieDetailsItemOfNestedView(SeriesItems.Rating(this@SeriesDetailsViewModel))
-        }
+        tryToExecute(
+            call = { getSeriesRateUseCase(seriesId) },
+            onSuccess = ::onSuccessRatedSeries,
+            onError = ::onError
+        )
     }
 
-
-//    private fun onAddMovieDetailsItemOfNestedView(items: SeriesItems) {
-//        val itemsList = _state.value.seriesItems.toMutableList()
-//        itemsList.add(items)
-//        _state.update { it.copy(seriesItems = itemsList.toList()) }
-//    }
+    private fun onSuccessRatedSeries(value: Float) {
+        _state.update { it.copy(ratingValue = value, isLoading = false, onError = emptyList()) }
+    }
 
     private fun onError(th: Throwable) {
         val errors = _state.value.onError.toMutableList()
