@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import com.elhady.movies.R
 import com.elhady.movies.databinding.FragmentActorDetailsBinding
 import com.elhady.movies.domain.enums.AllMediaType
+import com.elhady.movies.domain.enums.SeeAllType
 import com.elhady.movies.ui.base.BaseFragment
 import com.elhady.movies.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +34,7 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding, ActorDeta
             }
 
             is ActorDetailsUiEvent.ClickSeeAllEvent -> {
-                findNavController().navigate(ActorDetailsFragmentDirections.actionActorDetailsFragmentToAllMediaFragment(AllMediaType.ACTOR_MOVIES, viewModel.args.actorID))
+                findNavController().navigate(ActorDetailsFragmentDirections.actionActorDetailsFragmentToAllMediaFragment(SeeAllType.ACTOR_MOVIES, viewModel.args.actorID))
 
             }
             is ActorDetailsUiEvent.ClickBackButton -> {

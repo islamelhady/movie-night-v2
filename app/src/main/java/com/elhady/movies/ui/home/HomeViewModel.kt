@@ -65,6 +65,9 @@ class HomeViewModel @Inject constructor(
         getOnTheAirSeries()
         getAiringTodaySeries()
         getTVSeriesLists()
+        getMysteryMovies()
+        getAdventureMovies()
+        getPopularPersons()
 
     }
 
@@ -265,7 +268,7 @@ class HomeViewModel @Inject constructor(
         sendEvent(HomeUiEvent.ClickSeriesEvent(seriesID))
     }
 
-    override fun onClickAllTVSeries(type: AllMediaType) {
+    override fun onClickAllTVSeries(type: SeeAllType) {
         sendEvent(HomeUiEvent.ClickSeeAllSeriesEvent(type))
     }
 

@@ -67,9 +67,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>
                 )
             }
 
-            is HomeUiEvent.ClickSeeAllMoviesEvent -> {
-               navigateToSeeAll(event.mediaType)
-            }
+            is HomeUiEvent.ClickSeeAllMoviesEvent -> navigateToSeeAllMovies(event.mediaType)
 
             is HomeUiEvent.ClickSeeAllActorsEvent -> {
                 findNavController().navigate(
@@ -89,33 +87,64 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>
                 )
             }
 
-            is HomeUiEvent.ClickSeeAllSeriesEvent -> {
-                findNavController().navigate(
-                    HomeFragmentDirections.actionHomeFragmentToAllMediaFragment(event.mediaType, -1)
-                )
-            }
+            is HomeUiEvent.ClickSeeAllSeriesEvent ->  navigateToSeeAllTvShow(event.mediaType)
         }
     }
 
-    private fun navigateToSeeAll(type: SeeAllType) {
+    private fun navigateToSeeAllMovies(type: SeeAllType) {
        when(type){
-           SeeAllType.TOP_RATED_TV -> TODO()
-           SeeAllType.POPULAR_TV -> TODO()
-           SeeAllType.LATEST_TV -> TODO()
-           SeeAllType.ON_THE_AIR_TV -> TODO()
            SeeAllType.UPCOMING_MOVIE -> {
                findNavController().navigate(HomeFragmentDirections
-                   .actionHomeFragmentToAllMediaFragment(AllMediaType.UPCOMING,-1))
+                   .actionHomeFragmentToAllMediaFragment(SeeAllType.UPCOMING_MOVIE,-1))
            }
-           SeeAllType.TRENDING_MOVIE -> TODO()
-           SeeAllType.NOW_PLAYING_MOVIE -> TODO()
-           SeeAllType.TOP_RATED_MOVIE -> TODO()
-           SeeAllType.MYSTERY_MOVIE -> TODO()
-           SeeAllType.ADVENTURE_MOVIE -> TODO()
-           SeeAllType.ACTOR_MOVIES -> TODO()
-           SeeAllType.POPULAR_PEOPLE -> TODO()
+           SeeAllType.TRENDING_MOVIE -> {
+               findNavController().navigate(HomeFragmentDirections
+                   .actionHomeFragmentToAllMediaFragment(SeeAllType.TRENDING_MOVIE,-1))
+           }
+           SeeAllType.NOW_PLAYING_MOVIE -> {
+               findNavController().navigate(HomeFragmentDirections
+                   .actionHomeFragmentToAllMediaFragment(SeeAllType.NOW_PLAYING_MOVIE,-1))
+           }
+           SeeAllType.TOP_RATED_MOVIE -> {
+               findNavController().navigate(HomeFragmentDirections
+                   .actionHomeFragmentToAllMediaFragment(SeeAllType.TOP_RATED_MOVIE,-1))
+           }
+           SeeAllType.MYSTERY_MOVIE -> {
+               findNavController().navigate(HomeFragmentDirections
+                   .actionHomeFragmentToAllMediaFragment(SeeAllType.MYSTERY_MOVIE,-1))
+           }
+           SeeAllType.ADVENTURE_MOVIE -> {
+               findNavController().navigate(HomeFragmentDirections
+                   .actionHomeFragmentToAllMediaFragment(SeeAllType.ADVENTURE_MOVIE,-1))
+           }
+
+           else -> {
+               TODO()
+           }
        }
 
+    }
+
+    private fun navigateToSeeAllTvShow(type: SeeAllType){
+        when(type){
+            SeeAllType.TOP_RATED_TV -> {
+                findNavController().navigate(HomeFragmentDirections
+                    .actionHomeFragmentToAllMediaFragment(SeeAllType.TOP_RATED_TV,-1))
+            }
+            SeeAllType.POPULAR_TV -> {
+                findNavController().navigate(HomeFragmentDirections
+                    .actionHomeFragmentToAllMediaFragment(SeeAllType.POPULAR_TV,-1))
+            }
+            SeeAllType.LATEST_TV -> {
+                findNavController().navigate(HomeFragmentDirections
+                    .actionHomeFragmentToAllMediaFragment(SeeAllType.LATEST_TV,-1))
+            }
+            SeeAllType.ON_THE_AIR_TV -> {
+                findNavController().navigate(HomeFragmentDirections
+                    .actionHomeFragmentToAllMediaFragment(SeeAllType.ON_THE_AIR_TV,-1))
+            }
+            else -> {}
+        }
     }
 
 
