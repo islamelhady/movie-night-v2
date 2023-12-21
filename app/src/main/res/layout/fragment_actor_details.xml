@@ -257,7 +257,7 @@
                     android:id="@+id/button_see_all"
                     style="@style/Regular.Small"
                     showWhenListNotEmpty="@{viewModel.state.actorMovies}"
-                    android:onClick="@{ () -> viewModel.onClickSeeAllMovies(HomeItemType.ACTOR_MOVIES)}"
+                    android:onClick="@{ () -> viewModel.onClickSeeAllMovies(SeeAllType.ACTOR_MOVIES)}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/spacing_small"
