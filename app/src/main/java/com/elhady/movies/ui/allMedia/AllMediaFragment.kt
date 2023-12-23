@@ -70,6 +70,8 @@ class AllMediaFragment : BaseFragment<FragmentAlMediaBinding, AllMediaUiState, A
                     )
                 )
             }
+
+            is AllMediaUiEvent.ShowSnackBar -> showSnackBar(event.message)
         }
     }
 

@@ -9,4 +9,7 @@ data class AllMediaUiState(
     val allMedia: Flow<PagingData<MediaUiState>> = emptyFlow(),
     val isLoading: Boolean = false,
     val onErrors: List<String> = emptyList()
-)
+){
+    val isError: Boolean
+        get() = onErrors.isNotEmpty()
+}

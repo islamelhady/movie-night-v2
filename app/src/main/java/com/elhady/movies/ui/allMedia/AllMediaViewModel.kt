@@ -14,6 +14,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import okhttp3.internal.canParseAsIpAddress
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,15 +38,37 @@ class AllMediaViewModel @Inject constructor(
     }
 
     private fun getAllMedia() {
-        viewModelScope.launch {
-            val items =
-                getAllMediaByTypeUseCase(type = args.type, actionId = args.id).map { pagingData ->
-                    pagingData.map { mediaUiMapper.map(it) }
+        try {
+            viewModelScope.launch {
+                val items = getAllMediaByTypeUseCase(
+                        type = args.type,
+                        actionId = args.id
+                    ).map { pagingData ->
+                        pagingData.map { mediaUiMapper.map(it) }
+                    }
+                _state.update {
+                    it.copy(allMedia = items, isLoading = false, onErrors = emptyList())
                 }
-            _state.update {
-                it.copy(allMedia = items, isLoading = false, onErrors = emptyList())
             }
+        } catch (th: UnknownHostException) {
+            onError(th)
         }
+    }
+
+    private fun onError(throwable: Throwable) {
+        val errorMessage = _state.value.onErrors.toMutableList()
+        errorMessage.add(throwable.message ?: "No network connection ")
+        showErrorWithSnackBar(errorMessage.toString())
+        _state.update {
+            it.copy(
+                onErrors = errorMessage,
+                isLoading = false
+            )
+        }
+    }
+
+    private fun showErrorWithSnackBar(messages: String) {
+        sendEvent(AllMediaUiEvent.ShowSnackBar(messages))
     }
 
 
