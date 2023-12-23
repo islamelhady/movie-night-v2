@@ -1,6 +1,5 @@
 package com.elhady.movies.domain.usecases.seeAllMedia
 
-import com.elhady.movies.domain.enums.AllMediaType
 import com.elhady.movies.domain.enums.SeeAllType
 import javax.inject.Inject
 

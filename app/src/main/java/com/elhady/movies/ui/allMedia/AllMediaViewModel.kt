@@ -24,10 +24,10 @@ class AllMediaViewModel @Inject constructor(
     private val mediaUiMapper: MediaUiMapper
 ) : BaseViewModel<AllMediaUiState, AllMediaUiEvent>(AllMediaUiState()), MediaInteractionListener {
 
-    private val args = AllMediaFragmentArgs.fromSavedStateHandle(savedStateHandle)
+    val args = AllMediaFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
     init {
-        _state.update { it.copy(isLoading = true) }
+        _state.update { it.copy(isLoading = true, onErrors = emptyList()) }
         getData()
     }
 
@@ -42,7 +42,7 @@ class AllMediaViewModel @Inject constructor(
                     pagingData.map { mediaUiMapper.map(it) }
                 }
             _state.update {
-                it.copy(allMedia = items, isLoading = false)
+                it.copy(allMedia = items, isLoading = false, onErrors = emptyList())
             }
         }
     }
@@ -52,19 +52,19 @@ class AllMediaViewModel @Inject constructor(
         when (combinedLoadStates.refresh) {
             is LoadState.NotLoading -> {
                 _state.update {
-                    it.copy(isLoading = false, error = emptyList())
+                    it.copy(isLoading = false, onErrors = emptyList())
                 }
             }
 
             is LoadState.Loading -> {
                 _state.update {
-                    it.copy(isLoading = true, error = emptyList())
+                    it.copy(isLoading = true, onErrors = emptyList())
                 }
             }
 
             is LoadState.Error -> {
                 _state.update {
-                    it.copy(isLoading = false, error = listOf(Error(404, "Not found.")))
+                    it.copy(isLoading = false, onErrors = listOf("No network"))
                 }
             }
         }

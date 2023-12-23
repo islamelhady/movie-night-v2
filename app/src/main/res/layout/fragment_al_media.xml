@@ -39,7 +39,7 @@
             layout="@layout/loading" />
 
         <include
-            isVisible="@{!viewModel.state.error.isEmpty}"
+            isVisible="@{!viewModel.state.onErrors.isEmpty}"
             layout="@layout/error" />
 
 

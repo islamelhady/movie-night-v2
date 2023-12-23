@@ -1,9 +1,9 @@
 package com.elhady.movies.domain.enums
 
 enum class SeeAllType(val value: String) {
-    TOP_RATED_TV(""),
-    POPULAR_TV(""),
-    LATEST_TV(""),
+    TOP_RATED_TV("Top rated series"),
+    POPULAR_TV("Popular series"),
+    LATEST_TV("Latest series"),
     ON_THE_AIR_TV("On the air TV"),
     UPCOMING_MOVIE("Upcoming"),
     TRENDING_MOVIE("Trending"),
