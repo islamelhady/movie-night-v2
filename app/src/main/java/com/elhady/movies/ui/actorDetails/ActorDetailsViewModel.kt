@@ -44,7 +44,7 @@ class ActorDetailsViewModel @Inject constructor(
     }
 
     private fun onSuccessActorInfo(actorInfoUiState: ActorInfoUiState) {
-        _state.update { it.copy(actorInfo = actorInfoUiState, isLoading = false) }
+        _state.update { it.copy(actorInfo = actorInfoUiState, isLoading = false, onErrors = emptyList()) }
     }
 
 
@@ -59,7 +59,7 @@ class ActorDetailsViewModel @Inject constructor(
 
     private fun onSuccessMoviesByActor(actorMovies: List<ActorMoviesUiState>) {
         _state.update {
-            it.copy(actorMovies = actorMovies, isLoading = false)
+            it.copy(actorMovies = actorMovies, isLoading = false, onErrors = emptyList())
         }
     }
 
