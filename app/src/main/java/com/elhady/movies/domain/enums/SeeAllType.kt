@@ -11,6 +11,5 @@ enum class SeeAllType(val value: String) {
     TOP_RATED_MOVIE("Top rated"),
     MYSTERY_MOVIE("Mystery"),
     ADVENTURE_MOVIE("Adventure"),
-    ACTOR_MOVIES(""),
-    POPULAR_PEOPLE("Popular people")
+    ACTOR_MOVIES("Actor movies")
 }

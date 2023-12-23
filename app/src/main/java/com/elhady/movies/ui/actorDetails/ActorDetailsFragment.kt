@@ -32,8 +32,7 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding, ActorDeta
                     )
                 )
             }
-
-            is ActorDetailsUiEvent.ClickSeeAllEvent -> {
+            ActorDetailsUiEvent.ClickSeeAllEvent -> {
                 findNavController().navigate(ActorDetailsFragmentDirections.actionActorDetailsFragmentToAllMediaFragment(SeeAllType.ACTOR_MOVIES, viewModel.args.actorID))
 
             }
