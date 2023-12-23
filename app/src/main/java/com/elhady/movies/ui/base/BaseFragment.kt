@@ -10,6 +10,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.elhady.movies.BR
 import com.elhady.movies.utilities.collectLast
+import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseFragment<VDB: ViewDataBinding, STATE, EVENT>: Fragment(){
 
@@ -51,5 +52,9 @@ abstract class BaseFragment<VDB: ViewDataBinding, STATE, EVENT>: Fragment(){
         } else {
             (activity as AppCompatActivity).supportActionBar?.hide()
         }
+    }
+
+    protected fun showSnackBar(message: String){
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 }

@@ -84,11 +84,7 @@ class MovieDetailsFragment :
                     mediaType = MediaType.MOVIES
                 )
 
-            is MovieDetailsUiEvent.MessageAppear -> Toast.makeText(
-                context,
-                event.status.statusMessage,
-                Toast.LENGTH_LONG
-            ).show()
+            is MovieDetailsUiEvent.MessageAppear -> showSnackBar(event.status)
 
             MovieDetailsUiEvent.ClickFavourite -> action =
                 MovieDetailsFragmentDirections.actionMovieDetailsFragmentToSaveMovieDialog(viewModel.args.movieID)

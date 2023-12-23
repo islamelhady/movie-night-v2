@@ -8,7 +8,8 @@ sealed interface MovieDetailsUiEvent {
     object ClickBackButton: MovieDetailsUiEvent
     data class ClickCastEvent(val castId: Int): MovieDetailsUiEvent
     object ClickSeeReviewsEvent: MovieDetailsUiEvent
-    data class MessageAppear(val status: RatingStatus) : MovieDetailsUiEvent
+    data class MessageAppear(val status: String) : MovieDetailsUiEvent
+
     object ClickFavourite: MovieDetailsUiEvent
 
 }

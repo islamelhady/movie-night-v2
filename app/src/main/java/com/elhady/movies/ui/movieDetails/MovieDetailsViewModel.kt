@@ -170,7 +170,7 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun onSuccessChangeRating(rated: RatingStatus) {
-        sendEvent(MovieDetailsUiEvent.MessageAppear(rated))
+        sendEvent(MovieDetailsUiEvent.MessageAppear(rated.statusMessage))
     }
 
     private fun onError(error: Throwable) {
