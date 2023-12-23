@@ -31,8 +31,8 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lost_connection"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
+            android:layout_width="@dimen/spacing_connection_large"
+            android:layout_height="@dimen/spacing_connection_large"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
