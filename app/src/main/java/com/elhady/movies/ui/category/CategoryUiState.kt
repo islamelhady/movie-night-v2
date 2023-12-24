@@ -13,3 +13,8 @@ data class CategoryUiState(
     val isLoading: Boolean = false,
     val onErrors: List<String> = emptyList()
 )
+data class CategoryGenreUiState(
+    val id: Int = FIRST_CATEGORY_ID,
+    val name: String ="",
+    val isSelected: Boolean = false
+)
