@@ -1,11 +1,9 @@
 package com.elhady.movies.ui.explore
 
-import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.GetTrendingTvSeriesUseCase
 import com.elhady.movies.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,15 +17,27 @@ class ExploreViewModel @Inject constructor(
     }
 
     override fun getData() {
-        viewModelScope.launch {
-            val result = trendingTvSeriesUseCase().map {
-                trendingUiStateMapper.map(it)
-            }
+        _state.update { it.copy(isLoading = true, onErrors = emptyList()) }
+       getTrending()
+    }
 
-            _state.update {
-                it.copy(trendMediaResult = result)
-            }
-        }
+    private fun getTrending(){
+        tryToExecute(
+            call = { trendingTvSeriesUseCase() },
+            mapper = trendingUiStateMapper,
+            onSuccess = ::onSuccessTrending,
+            onError = ::onError
+        )
+    }
+
+    private fun onSuccessTrending(list: List<TrendingMediaUiState>){
+        _state.update { it.copy(trendMediaResult = list, isLoading = false, onErrors = emptyList()) }
+    }
+
+    private fun onError(th: Throwable){
+        val listErrors = _state.value.onErrors.toMutableList()
+        listErrors.add(th.message.toString())
+        _state.update { it.copy(isLoading = false, onErrors = listErrors) }
     }
 
     override fun onClickTrending(item: TrendingMediaUiState) {
