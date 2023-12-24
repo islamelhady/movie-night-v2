@@ -19,7 +19,7 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setTitle(true)
         binding.recyclerExplore.adapter = TrendingAdapter(mutableListOf(), viewModel)
     }
 

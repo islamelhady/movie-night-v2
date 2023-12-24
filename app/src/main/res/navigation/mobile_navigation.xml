@@ -137,7 +137,7 @@
     <fragment
         android:id="@+id/actorsFragment"
         android:name="com.elhady.movies.ui.actors.ActorsFragment"
-        android:label="fragment_actors"
+        android:label="@string/actors"
         tools:layout="@layout/fragment_actors">
         <action
             android:id="@+id/action_actorsFragment_to_actorDetailsFragment"

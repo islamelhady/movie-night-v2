@@ -19,7 +19,7 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding, ActorDeta
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setTitle(false)
         binding.recyclerRelatedMovie.adapter = ActorMoviesAdapter(mutableListOf(), viewModel)
     }
 

@@ -19,6 +19,7 @@ class EpisodesFragment : BaseFragment<FragmentEpisodesBinding, EpisodesUiState, 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setTitle(true)
         binding.recyclerEpisode.adapter = EpisodeAdapter(mutableListOf(), viewModel)
 
     }

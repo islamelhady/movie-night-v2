@@ -46,6 +46,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setTitle(false)
         getSearchResultsBySearchTerm()
         setHistoryAdapter()
     }

@@ -25,6 +25,7 @@ class SeriesDetailsFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setTitle(false)
         val seriesAdapter = SeriesDetailsAdapter(mutableListOf(), viewModel)
         binding.recyclerSeriesDetails.adapter = seriesAdapter
 

@@ -19,6 +19,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding, FavCreatedListUiS
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setTitle(true)
         setupAdapter()
     }
 

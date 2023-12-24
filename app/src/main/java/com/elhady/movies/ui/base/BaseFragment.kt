@@ -12,7 +12,7 @@ import com.elhady.movies.BR
 import com.elhady.movies.utilities.collectLast
 import com.google.android.material.snackbar.Snackbar
 
-abstract class BaseFragment<VDB: ViewDataBinding, STATE, EVENT>: Fragment(){
+abstract class BaseFragment<VDB : ViewDataBinding, STATE, EVENT> : Fragment() {
 
     abstract val layoutIdFragment: Int
 
@@ -38,7 +38,7 @@ abstract class BaseFragment<VDB: ViewDataBinding, STATE, EVENT>: Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        collectLast(flow = viewModel.event, action = {onEvent(it)})
+        collectLast(flow = viewModel.event, action = { onEvent(it) })
     }
 
     abstract fun onEvent(event: EVENT)
