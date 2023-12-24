@@ -9,8 +9,6 @@ import com.elhady.movies.R
 import com.elhady.movies.databinding.FragmentExploreBinding
 import com.elhady.movies.domain.enums.MediaType
 import com.elhady.movies.ui.base.BaseFragment
-import com.elhady.movies.utilities.Constants
-import com.elhady.movies.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -56,16 +54,20 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
 
     private fun navigateToMediaDetails(media: TrendingMediaUiState) {
         when (media.type) {
-            Constants.TV_SERIES_SHOW -> {
+            MediaType.SERIES.value -> {
                 findNavController().navigate(
                     ExploreFragmentDirections.actionExploreFragmentToTvShowDetailsFragment(
                         media.id
                     )
                 )
             }
-
-            Constants.MOVIE -> TODO()
-            Constants.PERSON -> TODO()
+            MediaType.MOVIES.value -> {
+                findNavController().navigate(
+                    ExploreFragmentDirections.actionExploreFragmentToMovieDetailsFragment(
+                        media.id
+                    )
+                )
+            }
         }
     }
 }
