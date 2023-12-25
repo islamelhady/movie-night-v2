@@ -47,7 +47,7 @@ class SearchViewModel @Inject constructor(
                 }
                 it.copy(
                     moviesSearchResult = result,
-                    mediaType = MediaTypes.MOVIES,
+                    mediaType = SearchType.MOVIES,
                     isLoading = false
                 )
             }
@@ -63,7 +63,7 @@ class SearchViewModel @Inject constructor(
                     }
                 it.copy(
                     moviesSearchResult = result,
-                    mediaType = MediaTypes.SERIES,
+                    mediaType = SearchType.TV,
                     isLoading = false
                 )
             }
@@ -80,7 +80,7 @@ class SearchViewModel @Inject constructor(
                 }
                 it.copy(
                     moviesSearchResult = result,
-                    mediaType = MediaTypes.ACTORS,
+                    mediaType = SearchType.PEOPLE,
                     isLoading = false
                 )
             }
@@ -90,9 +90,9 @@ class SearchViewModel @Inject constructor(
     fun onClickInputSearch(searchInput: CharSequence) {
         _state.update { it.copy(inputSearch = searchInput.toString(), isLoading = true) }
         when (_state.value.mediaType) {
-            MediaTypes.MOVIES -> onSearchForMovies()
-            MediaTypes.SERIES -> onSearchForSeries()
-            MediaTypes.ACTORS -> onSearchForActors()
+            SearchType.MOVIES -> onSearchForMovies()
+            SearchType.TV -> onSearchForSeries()
+            SearchType.PEOPLE -> onSearchForActors()
         }
 
     }

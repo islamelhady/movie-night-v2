@@ -113,7 +113,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
 
     private fun getSearchResult(){
         when(viewModel.state.value.mediaType){
-            MediaTypes.ACTORS -> bindActors()
+            SearchType.PEOPLE -> bindActors()
             else -> bindMedia()
         }
     }
