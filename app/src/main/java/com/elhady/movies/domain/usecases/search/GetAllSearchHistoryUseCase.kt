@@ -3,8 +3,6 @@ package com.elhady.movies.domain.usecases.search
 import com.elhady.movies.data.repository.MovieRepository
 import com.elhady.movies.domain.mappers.search.SearchHistoryMapper
 import com.elhady.movies.domain.models.SearchHistory
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GetAllSearchHistoryUseCase @Inject constructor(
