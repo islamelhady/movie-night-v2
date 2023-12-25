@@ -390,7 +390,7 @@ class MovieRepositoryImp @Inject constructor(
         TODO()
     }
 
-    override fun getAllSearchItems(): Flow<List<SearchHistoryEntity>> {
+    override suspend fun getAllSearchItems(): List<SearchHistoryEntity> {
         return movieDao.getAllSearch()
     }
 

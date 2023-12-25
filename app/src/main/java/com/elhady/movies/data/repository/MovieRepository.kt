@@ -73,7 +73,7 @@ interface MovieRepository {
 
     suspend fun deleteSearchItem(item: SearchHistoryEntity)
 
-    fun getAllSearchItems(): Flow<List<SearchHistoryEntity>>
+    suspend fun getAllSearchItems(): List<SearchHistoryEntity>
 
     suspend fun getMovieTrailer(movieId: Int): VideoDto?
 

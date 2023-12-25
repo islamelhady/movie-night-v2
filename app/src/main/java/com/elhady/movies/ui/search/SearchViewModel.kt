@@ -100,13 +100,12 @@ class SearchViewModel @Inject constructor(
     private fun getAllSearchHistory() {
         _state.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            getAllSearchHistoryUseCase().collect { list ->
+            val list = getAllSearchHistoryUseCase()
                 val result = list.map { item ->
                     searchHistoryUiMapper.map(item)
                 }
                 _state.update { it.copy(searchHistoryResult = result, isLoading = false) }
             }
-        }
     }
 
     override fun onClickMediaResult(media: MediaUiState) {

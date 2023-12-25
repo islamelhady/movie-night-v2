@@ -11,7 +11,7 @@ class GetAllSearchHistoryUseCase @Inject constructor(
     private val repository: MovieRepository,
     private val searchHistoryMapper: SearchHistoryMapper
 ) {
-    operator fun invoke(): Flow<List<SearchHistory>> {
+    suspend operator fun invoke(): List<SearchHistory> {
         return repository.getAllSearchItems().map(searchHistoryMapper::map)
     }
 }

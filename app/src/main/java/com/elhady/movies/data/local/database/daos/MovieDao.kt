@@ -116,7 +116,7 @@ interface MovieDao {
     suspend fun deleteSearch(item: SearchHistoryEntity)
 
     @Query("select * from SEARCH_HISTORY_TABLE")
-    fun getAllSearch(): Flow<List<SearchHistoryEntity>>
+    suspend fun getAllSearch(): List<SearchHistoryEntity>
 
     /**
      *  Watch History
