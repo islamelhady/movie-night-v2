@@ -15,22 +15,19 @@ import javax.inject.Inject
 class VideoViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getTrailerUseCase: GetTrailerUseCase
-) : BaseViewModel<TrailerUiState>(TrailerUiState()) {
+) : BaseViewModel<TrailerUiState, VideoInteracion>(TrailerUiState()) {
 
     val args = VideoFragmentArgs.fromSavedStateHandle(savedStateHandle)
-
-    private val _trailerUiState = MutableStateFlow(TrailerUiState())
-    val trailerUiState = _trailerUiState.asStateFlow()
-
+    
     init {
         getData()
     }
 
     override fun getData() {
-        _trailerUiState.update { it.copy(isLoading = true) }
+        _state.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             val result = getTrailerUseCase(args.mediaType, args.mediaId)
-            _trailerUiState.update { it.copy(videoKey = result.videoKey, isLoading = false) }
+            _state.update { it.copy(videoKey = result.videoKey, isLoading = false) }
         }
     }
 }

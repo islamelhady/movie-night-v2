@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface ActorRepository {
 
-    suspend fun getPopularPersons(): Flow<List<ActorEntity>>
+    suspend fun getPopularPersons(): List<ActorEntity>
 
     fun getAllPopularPersons(): Pager<Int, PersonDto>
 

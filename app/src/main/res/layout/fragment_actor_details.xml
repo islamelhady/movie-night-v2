@@ -9,7 +9,7 @@
             name="viewModel"
             type="com.elhady.movies.ui.actorDetails.ActorDetailsViewModel" />
         
-        <import type="com.elhady.movies.domain.enums.HomeItemType" />
+        <import type="com.elhady.movies.domain.enums.SeeAllType" />
 
     </data>
 
@@ -18,11 +18,67 @@
         android:layout_height="match_parent"
         app:layoutDescription="@xml/fragment_actor_details_scene">
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/loading"
+            android:layout_width="@dimen/spacing_progress_large"
+            android:layout_height="@dimen/spacing_progress_large"
+            android:elevation="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading"
+            app:isVisible="@{viewModel.state.loading}" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lost_connection"
+            android:layout_width="@dimen/spacing_connection_large"
+            android:layout_height="@dimen/spacing_connection_large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_colorFilter="@color/red"
+            app:lottie_rawRes="@raw/lost_internet_connection"
+            app:showWhenListNotEmpty="@{viewModel.state.onErrors}" />
+
+
+        <TextView
+            android:id="@+id/description_lost_connection"
+            style="@style/Regular.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:gravity="center"
+            android:text="@string/description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lost_connection"
+            app:showWhenListNotEmpty="@{viewModel.state.onErrors}" />
+
+        <Button
+            android:id="@+id/button_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:onClick="@{() -> viewModel.getData()}"
+            android:text="@string/retry"
+            android:textColor="@color/white_primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description_lost_connection"
+            app:showWhenListNotEmpty="@{viewModel.state.onErrors}" />
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/actor_image"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
+            isVisible="@{!viewModel.state.isLoading}"
             android:shadowColor="@color/shade_secondary_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent=".70"
@@ -35,6 +91,7 @@
             android:id="@+id/actor_shadow"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            isVisible="@{!viewModel.state.isLoading}"
             android:background="@drawable/shadow_shape"
             app:layout_constraintEnd_toEndOf="@id/actor_image"
             app:layout_constraintHeight_percent=".70"
@@ -50,7 +107,7 @@
             app:layout_constraintBottom_toBottomOf="@id/actor_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="name" />
+            tools:text="@tools:sample/full_names" />
 
         <ImageView
             android:id="@+id/back_button"
@@ -84,6 +141,7 @@
                     style="@style/Regular.Small.Secondary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    showWhenTextNotEmpty="@{viewModel.state.actorInfo.gender}"
                     android:layout_marginTop="@dimen/spacing_large"
                     android:text="@string/gender"
                     app:layout_constraintEnd_toStartOf="@+id/birthday_title"
@@ -107,6 +165,7 @@
                     style="@style/Regular.Small.Secondary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    showWhenTextNotEmpty="@{viewModel.state.actorInfo.birthday}"
                     android:layout_marginTop="@dimen/spacing_large"
                     android:text="@string/birthday"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -130,6 +189,7 @@
                     style="@style/Regular.Small.Secondary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    showWhenTextNotEmpty="@{viewModel.state.actorInfo.placeOfBirth}"
                     android:layout_marginTop="@dimen/spacing_large"
                     android:text="@string/place_of_birth"
                     app:layout_constraintEnd_toStartOf="@+id/known_for_title"
@@ -157,6 +217,7 @@
                     style="@style/Regular.Small.Secondary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    showWhenTextNotEmpty="@{viewModel.state.actorInfo.knownForDepartment}"
                     android:layout_marginTop="@dimen/spacing_large"
                     android:text="@string/known_for"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -187,15 +248,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/radius_medium"
                     android:layout_marginTop="@dimen/spacing_large"
-                    android:text="@string/movies"
+                    android:text="@{SeeAllType.ACTOR_MOVIES.value}"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_place_of_birth_actor" />
+                    app:layout_constraintTop_toBottomOf="@+id/text_place_of_birth_actor"
+                    tools:text="@string/movies"/>
 
                 <TextView
                     android:id="@+id/button_see_all"
                     style="@style/Regular.Small"
                     showWhenListNotEmpty="@{viewModel.state.actorMovies}"
-                    android:onClick="@{ () -> viewModel.onClickSeeAllMovies(HomeItemType.ACTOR_MOVIES)}"
+                    android:onClick="@{ () -> viewModel.onClickSeeAllMovies(SeeAllType.ACTOR_MOVIES)}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/spacing_small"

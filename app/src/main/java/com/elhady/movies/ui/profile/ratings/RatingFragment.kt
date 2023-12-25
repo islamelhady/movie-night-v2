@@ -11,7 +11,7 @@ import com.elhady.movies.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RatingFragment : BaseFragment<FragmentRatingBinding>() {
+class RatingFragment : BaseFragment<FragmentRatingBinding, MyRateUiState, MyRatingUiEvent>() {
 
     override val layoutIdFragment: Int = R.layout.fragment_rating
     override val viewModel: RatingViewModel by viewModels()
@@ -19,24 +19,15 @@ class RatingFragment : BaseFragment<FragmentRatingBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setTitle(true)
         setupAdapter()
-        collectEvent()
     }
 
     private fun setupAdapter() {
         binding.recyclerMyRating.adapter = MyRatingAdapter(mutableListOf(), viewModel)
     }
 
-    fun collectEvent() {
-        collectLast(viewModel.rateUiEvent) { event ->
-            event?.getContentIfNotHandled()?.let {
-                onEvent(it)
-            }
-        }
-    }
-
-    private fun onEvent(event: MyRatingUiEvent) {
+    override fun onEvent(event: MyRatingUiEvent) {
         val action = when (event) {
             is MyRatingUiEvent.MovieEvent -> RatingFragmentDirections.actionRatingFragmentToMovieDetailsFragment(
                 event.movieId

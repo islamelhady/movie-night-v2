@@ -59,7 +59,7 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  Popular Movies
      */
-    override suspend fun getPopularMovies(): Flow<List<PopularMovieEntity>> {
+    override suspend fun getPopularMovies(): List<PopularMovieEntity> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.POPULAR_MOVIE_REQUEST_DATE_KEY),
             ::refreshPopularMovies
@@ -110,7 +110,7 @@ class MovieRepositoryImp @Inject constructor(
      *  Upcoming Movies
      */
 
-    override suspend fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>> {
+    override suspend fun getUpcomingMovies(): List<UpcomingMovieEntity> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.UPCOMING_MOVIE_REQUEST_DATE_KEY),
             ::refreshUpcomingMovies
@@ -148,7 +148,7 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  Top Rated Movies
      */
-    override suspend fun getTopRatedMovies(): Flow<List<TopRatedMovieEntity>> {
+    override suspend fun getTopRatedMovies(): List<TopRatedMovieEntity> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.TOP_RATED_MOVIE_REQUEST_DATE_KEY),
             ::refreshTopRatedMovies
@@ -185,7 +185,7 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  Now Playing Movies
      */
-    override suspend fun getNowPlayingMovies(): Flow<List<NowPlayingMovieEntity>> {
+    override suspend fun getNowPlayingMovies(): List<NowPlayingMovieEntity> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.NOW_PLAYING_MOVIE_REQUEST_DATE_KEY),
             ::refreshNowPlayingMovies
@@ -223,7 +223,7 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  Trending Movies
      */
-    override suspend fun getTrendingMovie(): Flow<List<TrendingMovieEntity>> {
+    override suspend fun getTrendingMovie(): List<TrendingMovieEntity> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.TRENDING_MOVIE_REQUEST_DATE_KEY),
             ::refreshTrendingMovies
@@ -264,7 +264,7 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  Mystery Movies
      */
-    override suspend fun getMysteryMovies(): Flow<List<MysteryMovieEntity>> {
+    override suspend fun getMysteryMovies(): List<MysteryMovieEntity> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.MYSTERY_MOVIE_REQUEST_DATE_KEY),
             ::refreshMysteryMovies
@@ -304,7 +304,7 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  Adventure Movies
      */
-    override suspend fun getAdventureMovies(): Flow<List<AdventureMovieEntity>> {
+    override suspend fun getAdventureMovies(): List<AdventureMovieEntity> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.ADVENTURE_MOVIE_REQUEST_DATE_KEY),
             ::refreshAdventureMovies
@@ -390,7 +390,7 @@ class MovieRepositoryImp @Inject constructor(
         TODO()
     }
 
-    override fun getAllSearchItems(): Flow<List<SearchHistoryEntity>> {
+    override suspend fun getAllSearchItems(): List<SearchHistoryEntity> {
         return movieDao.getAllSearch()
     }
 

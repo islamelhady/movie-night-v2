@@ -10,13 +10,12 @@ import com.elhady.movies.domain.usecases.seeAllMedia.GetAllMediaByTypeUseCase
 import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.mappers.MediaUiMapper
-import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import okhttp3.internal.canParseAsIpAddress
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,31 +24,51 @@ class AllMediaViewModel @Inject constructor(
     private val getAllMediaByTypeUseCase: GetAllMediaByTypeUseCase,
     private val checkMediaTypeUseCase: CheckMediaTypeUseCase,
     private val mediaUiMapper: MediaUiMapper
-) : BaseViewModel<AllMediaUiState>(AllMediaUiState()), MediaInteractionListener {
+) : BaseViewModel<AllMediaUiState, AllMediaUiEvent>(AllMediaUiState()), MediaInteractionListener {
 
-    private val args =  AllMediaFragmentArgs.fromSavedStateHandle(savedStateHandle)
-
-    private val _uiEvent = MutableStateFlow<Event<AllMediaUiEvent>?>(null)
-    val uiEvent = _uiEvent.asStateFlow()
+    val args = AllMediaFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
     init {
+        _state.update { it.copy(isLoading = true, onErrors = emptyList()) }
         getData()
     }
+
     override fun getData() {
-        _state.update { it.copy(isLoading = true) }
         getAllMedia()
     }
 
-
     private fun getAllMedia() {
-        viewModelScope.launch {
-            val items = getAllMediaByTypeUseCase(type = args.type, actionId = args.id).map { pagingData ->
-                pagingData.map { mediaUiMapper.map(it) }
+        try {
+            viewModelScope.launch {
+                val items = getAllMediaByTypeUseCase(
+                        type = args.type,
+                        actionId = args.id
+                    ).map { pagingData ->
+                        pagingData.map { mediaUiMapper.map(it) }
+                    }
+                _state.update {
+                    it.copy(allMedia = items, isLoading = false, onErrors = emptyList())
+                }
             }
-            _state.update {
-                it.copy(allMedia = items, isLoading = false)
-            }
+        } catch (th: UnknownHostException) {
+            onError(th)
         }
+    }
+
+    private fun onError(throwable: Throwable) {
+        val errorMessage = _state.value.onErrors.toMutableList()
+        errorMessage.add(throwable.message ?: "No network connection ")
+        showErrorWithSnackBar(errorMessage.toString())
+        _state.update {
+            it.copy(
+                onErrors = errorMessage,
+                isLoading = false
+            )
+        }
+    }
+
+    private fun showErrorWithSnackBar(messages: String) {
+        sendEvent(AllMediaUiEvent.ShowSnackBar(messages))
     }
 
 
@@ -57,19 +76,19 @@ class AllMediaViewModel @Inject constructor(
         when (combinedLoadStates.refresh) {
             is LoadState.NotLoading -> {
                 _state.update {
-                    it.copy(isLoading = false, error = emptyList())
+                    it.copy(isLoading = false, onErrors = emptyList())
                 }
             }
 
             is LoadState.Loading -> {
                 _state.update {
-                    it.copy(isLoading = true, error = emptyList())
+                    it.copy(isLoading = true, onErrors = emptyList())
                 }
             }
 
             is LoadState.Error -> {
                 _state.update {
-                    it.copy(isLoading = false, error = listOf(Error(404, "Not found.")))
+                    it.copy(isLoading = false, onErrors = listOf("No network"))
                 }
             }
         }
@@ -77,14 +96,10 @@ class AllMediaViewModel @Inject constructor(
     }
 
     override fun onClickMedia(mediaId: Int) {
-        if(checkMediaTypeUseCase(args.type)){
-            _uiEvent.update {
-                Event(AllMediaUiEvent.ClickSeriesEvent(mediaId))
-            }
+        if (checkMediaTypeUseCase(args.type)) {
+            sendEvent(AllMediaUiEvent.ClickSeriesEvent(mediaId))
         } else {
-            _uiEvent.update {
-                Event(AllMediaUiEvent.ClickMovieEvent(mediaId))
-            }
+            sendEvent(AllMediaUiEvent.ClickMovieEvent(mediaId))
         }
     }
 

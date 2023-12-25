@@ -27,29 +27,29 @@ import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
 
-    suspend fun getPopularMovies(): Flow<List<PopularMovieEntity>>
+    suspend fun getPopularMovies(): List<PopularMovieEntity>
 
-    suspend fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
+    suspend fun getUpcomingMovies(): List<UpcomingMovieEntity>
 
     fun getAllUpcomingMovies(): Pager<Int, MovieDto>
 
-    suspend fun getTopRatedMovies(): Flow<List<TopRatedMovieEntity>>
+    suspend fun getTopRatedMovies(): List<TopRatedMovieEntity>
 
     fun getAllTopRatedMovies(): Pager<Int, MovieDto>
 
-    suspend fun getNowPlayingMovies(): Flow<List<NowPlayingMovieEntity>>
+    suspend fun getNowPlayingMovies(): List<NowPlayingMovieEntity>
 
     fun getAllNowPlayingMovies(): Pager<Int, MovieDto>
 
-    suspend fun getMysteryMovies(): Flow<List<MysteryMovieEntity>>
+    suspend fun getMysteryMovies(): List<MysteryMovieEntity>
 
     fun getAllMysteryMovies(): Pager<Int, MovieDto>
 
-    suspend fun getAdventureMovies(): Flow<List<AdventureMovieEntity>>
+    suspend fun getAdventureMovies(): List<AdventureMovieEntity>
 
     fun getAllAdventureMovies(): Pager<Int, MovieDto>
 
-    suspend fun getTrendingMovie(): Flow<List<TrendingMovieEntity>>
+    suspend fun getTrendingMovie(): List<TrendingMovieEntity>
 
     fun getAllTrendingMovies(): Pager<Int, MovieDto>
 
@@ -73,7 +73,7 @@ interface MovieRepository {
 
     suspend fun deleteSearchItem(item: SearchHistoryEntity)
 
-    fun getAllSearchItems(): Flow<List<SearchHistoryEntity>>
+    suspend fun getAllSearchItems(): List<SearchHistoryEntity>
 
     suspend fun getMovieTrailer(movieId: Int): VideoDto?
 

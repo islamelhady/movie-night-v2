@@ -19,57 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/movie_image"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/login_movie"
-            app:layout_constraintDimensionRatio="2:2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:movieImage="@{item.image}"
-            tools:src="@tools:sample/backgrounds/scenic" />
-
-        <View
-            android:id="@+id/movie_shadow"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@drawable/shadow_shape"
-            app:layout_constraintBottom_toBottomOf="@id/movie_image"
-            app:layout_constraintEnd_toEndOf="@id/movie_image"
-            app:layout_constraintStart_toStartOf="@id/movie_image"
-            app:layout_constraintTop_toTopOf="@id/movie_image" />
-
-        <ImageView
-            android:id="@+id/back_button"
-            android:onClick="@{ () -> listener.onClickBackButton()}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:background="@drawable/back_button_shape"
-            android:padding="@dimen/spacing_small"
-            android:src="@drawable/ic_arrow_left"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/background_color" />
-
-        <ImageView
-            android:id="@+id/fav_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_medium"
-            android:background="@drawable/back_button_shape"
-            android:padding="@dimen/spacing_small"
-            android:onClick="@{ () -> listener.onClickFavourite()}"
-            android:src="@drawable/ic_favorite"
-            app:layout_constraintBottom_toBottomOf="@id/back_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/back_button"
-            app:tint="@color/background_color" />
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/play_button"
             style="@style/SimiBold.Medium"
@@ -83,24 +32,10 @@
             app:cornerRadius="@dimen/spacing_small"
             app:icon="@drawable/ic_play"
             app:iconTint="@color/background_color"
-            app:layout_constraintBottom_toBottomOf="@id/movie_image"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-
-        <TextView
-            android:id="@+id/movie_name"
-            style="@style/SimiBold.Large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:text="@{item.name}"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/movie_image"
-            tools:text="@tools:sample/full_names" />
 
         <TextView
             android:id="@+id/release_date"
@@ -122,7 +57,7 @@
             android:background="@color/shade_ternary_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movie_name" />
+            app:layout_constraintTop_toBottomOf="@+id/play_button" />
 
         <TextView
             android:id="@+id/duration"

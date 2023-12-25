@@ -12,18 +12,18 @@ import com.elhady.movies.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LoginFragment : BaseFragment<FragmentLoginBinding>() {
+class LoginFragment : BaseFragment<FragmentLoginBinding, LoginUiState, LoginUiEvent>() {
     override val layoutIdFragment: Int = R.layout.fragment_login
     override val viewModel: LoginViewModel by viewModels()
 
     override fun onStart() {
         super.onStart()
-        collectLast(viewModel.loginUiEvent) {
-            it.getContentIfNotHandled()?.let { onEvent(it) }
+        collectLast(viewModel.event) {
+             onEvent(it)
         }
     }
 
-    private fun onEvent(event: LoginUiEvent) {
+    override fun onEvent(event: LoginUiEvent) {
         when (event) {
             is LoginUiEvent.LoginEvent -> {
                 findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToProfileFragment())

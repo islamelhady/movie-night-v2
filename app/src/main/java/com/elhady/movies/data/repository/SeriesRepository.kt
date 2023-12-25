@@ -21,13 +21,13 @@ import retrofit2.Response
 
 interface SeriesRepository {
 
-    suspend fun getAiringTodaySeries(): Flow<List<AiringTodaySeriesEntity>>
+    suspend fun getAiringTodaySeries(): List<AiringTodaySeriesEntity>
 
-    suspend fun getOnTheAirSeries(): Flow<List<OnTheAirSeriesEntity>>
+    suspend fun getOnTheAirSeries(): List<OnTheAirSeriesEntity>
 
     fun getAllOnTheAirSeries(): Pager<Int, SeriesDto>
 
-    suspend fun getTVSeriesLists(): Flow<List<TVSeriesListsEntity>>
+    suspend fun getTVSeriesLists(): List<TVSeriesListsEntity>
 
     fun getAllTopRatedTV(): Pager<Int, SeriesDto>
 

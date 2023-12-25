@@ -12,30 +12,22 @@ import com.elhady.movies.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
+class FavoriteFragment : BaseFragment<FragmentFavoriteBinding, FavCreatedListUiState, FavouriteUiEvent>() {
 
     override val layoutIdFragment: Int = R.layout.fragment_favorite
     override val viewModel: FavoriteViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setTitle(true)
         setupAdapter()
-        collectEvent()
     }
 
     private fun setupAdapter(){
         binding.recyclerFavourite.adapter = CreatedListAdapter(mutableListOf(), viewModel)
     }
 
-    private fun collectEvent() {
-        collectLast(viewModel.uiEvent){ event ->
-            event?.getContentIfNotHandled()?.let {
-                onEvent(it)
-            }
-        }
-    }
-
-    private fun onEvent(event: FavouriteUiEvent) {
+    override fun onEvent(event: FavouriteUiEvent) {
         when(event){
             FavouriteUiEvent.CLickAddEvent -> findNavController().navigate(FavoriteFragmentDirections.actionFavoriteFragmentToCreateListDialog())
             is FavouriteUiEvent.ClickSelectedItemEvent -> findNavController().navigate(FavoriteFragmentDirections.actionFavoriteFragmentToFavListDetailsFragment(event.item.id))

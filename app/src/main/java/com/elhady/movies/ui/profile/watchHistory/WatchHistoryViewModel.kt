@@ -5,10 +5,7 @@ import com.elhady.movies.domain.usecases.GetWatchHistoryUseCase
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.mappers.WatchHistoryUiMapper
 import com.elhady.movies.utilities.Constants
-import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,10 +14,8 @@ import javax.inject.Inject
 class WatchHistoryViewModel @Inject constructor(
     private val getWatchHistoryUseCase: GetWatchHistoryUseCase,
     private val watchHistoryUiMapper: WatchHistoryUiMapper
-) : BaseViewModel<WatchHistoryUiState>(WatchHistoryUiState()), WatchHistoryInteractionListener {
-
-    private val _uiEvent = MutableStateFlow<Event<WatchHistoryUiEvent>?>(null)
-    val uiEvent = _uiEvent.asStateFlow()
+) : BaseViewModel<WatchHistoryUiState, WatchHistoryUiEvent>(WatchHistoryUiState()),
+    WatchHistoryInteractionListener {
 
     init {
         getData()
@@ -41,9 +36,9 @@ class WatchHistoryViewModel @Inject constructor(
 
     override fun onClickMedia(item: MediaHistoryUiState) {
         if (item.mediaType.equals(Constants.MOVIE, true)) {
-            _uiEvent.update { Event(WatchHistoryUiEvent.MovieEvent(item.id)) }
+            sendEvent(WatchHistoryUiEvent.MovieEvent(item.id))
         } else {
-            _uiEvent.update { Event(WatchHistoryUiEvent.SeriesEvent(item.id)) }
+            sendEvent(WatchHistoryUiEvent.SeriesEvent(item.id))
         }
     }
 

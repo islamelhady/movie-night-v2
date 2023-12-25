@@ -17,12 +17,9 @@ class EpisodesViewModel @Inject constructor(
     state: SavedStateHandle,
     private val getSeasonsEpisodesUseCase: GetSeasonsEpisodesUseCase,
     private val episodeUiMapper: EpisodeUiMapper
-) : BaseViewModel<EpisodesUiState>(EpisodesUiState()), BaseInteractionListener {
+) : BaseViewModel<EpisodesUiState, EpisodesInteraction>(EpisodesUiState()), BaseInteractionListener {
 
     private val args = EpisodesFragmentArgs.fromSavedStateHandle(state)
-
-    private val _episodeUiState = MutableStateFlow(EpisodesUiState())
-    val episodeUiState = _episodeUiState.asStateFlow()
 
 
     init {
@@ -34,7 +31,7 @@ class EpisodesViewModel @Inject constructor(
                 episodeUiMapper.map(it)
             }
 
-            _episodeUiState.update {
+            _state.update {
                 it.copy(
                 seasonsEpisodesResult = result
                 )

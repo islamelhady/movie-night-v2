@@ -3,15 +3,13 @@ package com.elhady.movies.domain.usecases.search
 import com.elhady.movies.data.repository.MovieRepository
 import com.elhady.movies.domain.mappers.search.SearchHistoryMapper
 import com.elhady.movies.domain.models.SearchHistory
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GetAllSearchHistoryUseCase @Inject constructor(
     private val repository: MovieRepository,
     private val searchHistoryMapper: SearchHistoryMapper
 ) {
-    operator fun invoke(): Flow<List<SearchHistory>> {
+    suspend operator fun invoke(): List<SearchHistory> {
         return repository.getAllSearchItems().map(searchHistoryMapper::map)
     }
 }

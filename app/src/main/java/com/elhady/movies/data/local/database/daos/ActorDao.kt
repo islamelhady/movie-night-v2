@@ -16,7 +16,7 @@ interface ActorDao {
     @Query("delete from ACTOR_TABLE")
     suspend fun deleteActors()
 
-    @Query("select * from ACTOR_TABLE")
-    fun getActors(): Flow<List<ActorEntity>>
+    @Query("select * from ACTOR_TABLE ORDER BY RANDOM()")
+    suspend fun getActors(): List<ActorEntity>
 
 }
