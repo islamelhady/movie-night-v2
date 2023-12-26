@@ -61,14 +61,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
         collectLast(mediaSearchAdapter.loadStateFlow){
             viewModel.setError(it)
         }
-        getMediaSearch()
-    }
-
-    private fun getMediaSearch(){
-        viewLifecycleOwner.lifecycleScope.launch {
-            collectLast(viewModel.state.value.moviesSearchResult){
-                mediaSearchAdapter.submitData(it)
-            }
+        collectLast(viewModel.state.value.moviesSearchResult){
+            mediaSearchAdapter.submitData(it)
         }
     }
 
@@ -83,10 +77,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
             viewModel.setError(it)
         }
 
-        getActorSearch()
-    }
-
-    private fun getActorSearch(){
         collectLast(viewModel.state.value.moviesSearchResult){
             actorSearchAdapter.submitData(it)
         }
@@ -109,8 +99,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
 
     private fun getSearchResult(){
         when(viewModel.state.value.mediaType){
+            SearchType.MOVIES, SearchType.TV -> bindMedia()
             SearchType.PEOPLE -> bindActors()
-            else -> bindMedia()
         }
     }
 
@@ -120,19 +110,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
             is SearchUiEvent.ClickActorEvent -> findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToActorDetailsFragment(event.actorId))
             is SearchUiEvent.ClickMediaEvent -> {
                 when(event.mediaUiState.mediaTypes){
-                   Constants.MOVIE -> navigateToMovies(event.mediaUiState.id)
-                   Constants.TV_SERIES_SHOW -> navigateToSeries(event.mediaUiState.id)
+                   Constants.MOVIE -> {findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToMovieDetailsFragment(event.mediaUiState.id))}
+                    Constants.TV_SERIES_SHOW -> { findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToTvShowDetailsFragment(event.mediaUiState.id))}
+
                 }
             }
         }
-    }
-
-    private fun navigateToMovies(movieId: Int){
-        findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToMovieDetailsFragment(movieId))
-    }
-
-    private fun navigateToSeries(seriesId: Int){
-        findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToTvShowDetailsFragment(seriesId))
     }
 
     @OptIn(FlowPreview::class)
