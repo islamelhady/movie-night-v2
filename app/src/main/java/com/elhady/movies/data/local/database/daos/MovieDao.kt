@@ -110,13 +110,19 @@ interface MovieDao {
      *  History Search
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSearch(item: SearchHistoryEntity)
+    suspend fun insertSearchHistory(searchHistory: SearchHistoryEntity)
 
-    @Delete
-    suspend fun deleteSearch(item: SearchHistoryEntity)
+    @Query("delete from SEARCH_HISTORY_TABLE where keyword like :keyword")
+    suspend fun deleteSearch(keyword: String)
 
-    @Query("select * from SEARCH_HISTORY_TABLE")
-    suspend fun getAllSearch(): List<SearchHistoryEntity>
+    @Query("delete from SEARCH_HISTORY_TABLE")
+    suspend fun clearAllSearchHistory()
+
+    @Query("select * from SEARCH_HISTORY_TABLE where keyword like :keyword")
+    suspend fun getSearchHistory(keyword: String): List<SearchHistoryEntity>
+
+    @Query("select * from SEARCH_HISTORY_TABLE order by keyword ASC")
+    suspend fun getSearchHistory(): List<SearchHistoryEntity>
 
     /**
      *  Watch History

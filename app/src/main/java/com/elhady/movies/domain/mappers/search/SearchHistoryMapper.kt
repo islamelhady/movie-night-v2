@@ -8,8 +8,7 @@ import javax.inject.Inject
 class SearchHistoryMapper @Inject constructor() : Mapper<SearchHistoryEntity, SearchHistory> {
     override fun map(input: SearchHistoryEntity): SearchHistory {
         return SearchHistory(
-            id = input.id,
-            name = input.name
+            name = input.keyword
         )
     }
 }

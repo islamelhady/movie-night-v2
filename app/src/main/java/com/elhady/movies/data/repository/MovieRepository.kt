@@ -69,11 +69,15 @@ interface MovieRepository {
 
     suspend fun searchForMoviesPager(query: String): Pager<Int, MovieDto>
 
-    suspend fun insertSearchItem(item: SearchHistoryEntity)
+    suspend fun insertSearchHistory(searchHistory: String)
 
-    suspend fun deleteSearchItem(item: SearchHistoryEntity)
+    suspend fun deleteSearchHistory(keyword: String)
 
-    suspend fun getAllSearchItems(): List<SearchHistoryEntity>
+    suspend fun getSearchHistory(): List<SearchHistoryEntity>
+
+    suspend fun getSearchHistory(keyword: String): List<SearchHistoryEntity>
+
+    suspend fun clearAllSearchHistory()
 
     suspend fun getMovieTrailer(movieId: Int): VideoDto?
 

@@ -10,6 +10,6 @@ class GetAllSearchHistoryUseCase @Inject constructor(
     private val searchHistoryMapper: SearchHistoryMapper
 ) {
     suspend operator fun invoke(): List<SearchHistory> {
-        return repository.getAllSearchItems().map(searchHistoryMapper::map)
+        return repository.getSearchHistory().map { searchHistoryMapper.map(it) }
     }
 }
