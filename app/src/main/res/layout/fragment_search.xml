@@ -14,13 +14,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <TextView
             android:id="@+id/image_back_arrow"
+            style="@style/Regular.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
             android:onClick="@{() -> viewModel.onClickBack()}"
-            android:src="@drawable/ic_arrow_left"
+            android:text="@string/cancel"
             app:layout_constraintBottom_toBottomOf="@id/input_text_search"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/input_text_search" />
@@ -55,21 +56,38 @@
             <requestFocus />
         </com.google.android.material.textfield.TextInputEditText>
 
-        <TextView
-            android:id="@+id/text_search_label"
-            style="@style/SimiBold.Medium"
+        <ImageButton
+            android:id="@+id/image_button_clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:background="@null"
+            android:onClick="@{() -> viewModel.onClickClear()}"
+            app:isVisible="@{(!viewModel.state.inputSearch.empty)}"
+            android:src="@drawable/ic_clear"
+            app:layout_constraintBottom_toBottomOf="@+id/input_text_search"
+            app:layout_constraintTop_toTopOf="@+id/input_text_search"
+            app:layout_constraintEnd_toEndOf="@+id/input_text_search"
+            app:tint="@color/shade_quaternary_color" />
+
+        <TextView
+            android:id="@+id/text_search_label"
+            style="@style/Regular.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
             android:drawablePadding="@dimen/spacing_small"
-            android:gravity="center"
+            android:gravity="start|center_vertical"
             android:text="@string/history_label"
             app:hideWhenListIsEmpty="@{viewModel.state.searchHistoryResult}"
             app:hideWhenSearch="@{viewModel.state.inputSearch}"
-            android:textColor="@color/shade_primary_color"
+            android:textColor="@color/shade_quaternary_color"
             app:drawableStartCompat="@drawable/ic_history"
+            app:drawableEndCompat="@drawable/ic_clear"
             app:layout_constraintStart_toStartOf="@id/image_back_arrow"
-            app:layout_constraintTop_toBottomOf="@id/input_text_search" />
+            app:layout_constraintTop_toBottomOf="@id/input_text_search"
+            app:drawableTint="@color/shade_quaternary_color" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_search_history"

@@ -122,6 +122,10 @@ class SearchViewModel @Inject constructor(
         sendEvent(SearchUiEvent.ClickBackEvent)
     }
 
+    fun onClickClear(){
+        _state.update { it.copy(inputSearch = "") }
+    }
+
     private suspend fun saveSearch(name: String) {
             insertSearchHistoryUseCase(name)
     }
