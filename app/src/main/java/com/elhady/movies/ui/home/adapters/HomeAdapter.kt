@@ -124,6 +124,10 @@ class HomeAdapter(
         return oldItem == newItem
     }
 
+    override fun areItemSame(oldItem: HomeItem, newItem: HomeItem): Boolean {
+        return oldItem.priority == newItem.priority
+    }
+
     override fun getItemViewType(position: Int): Int {
         return when (homeItems[position]) {
             is HomeItem.PopularMovieSlider -> R.layout.list_popular_movie

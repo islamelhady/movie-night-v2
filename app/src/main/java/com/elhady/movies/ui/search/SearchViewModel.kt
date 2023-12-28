@@ -5,10 +5,12 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
 import com.elhady.movies.domain.usecases.search.GetAllSearchHistoryUseCase
+import com.elhady.movies.domain.usecases.search.GetClearAllSearchHistoryUseCase
+import com.elhady.movies.domain.usecases.search.GetClearSearchHistoryItemUseCase
 import com.elhady.movies.domain.usecases.search.GetSearchForActorsUseCase
 import com.elhady.movies.domain.usecases.search.GetSearchForMovieUseCase
 import com.elhady.movies.domain.usecases.search.GetSearchForSeriesUseCase
-import com.elhady.movies.domain.usecases.search.PostSearchHistoryUseCase
+import com.elhady.movies.domain.usecases.search.InsertSearchHistoryUseCase
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.mappers.MediaUiMapper
 import com.elhady.movies.ui.models.MediaUiState
@@ -23,8 +25,10 @@ class SearchViewModel @Inject constructor(
     private val searchForMovieUseCase: GetSearchForMovieUseCase,
     private val searchForSeriesUseCase: GetSearchForSeriesUseCase,
     private val searchForActorsUseCase: GetSearchForActorsUseCase,
-    private val postSearchHistoryUseCase: PostSearchHistoryUseCase,
+    private val insertSearchHistoryUseCase: InsertSearchHistoryUseCase,
     private val getAllSearchHistoryUseCase: GetAllSearchHistoryUseCase,
+    private val getClearAllSearchHistoryUseCase: GetClearAllSearchHistoryUseCase,
+    private val getClearSearchHistoryItemUseCase: GetClearSearchHistoryItemUseCase,
     private val searchHistoryUiMapper: SearchHistoryUiMapper,
     private val mediaUiMapper: MediaUiMapper
 ) : BaseViewModel<SearchUiState, SearchUiEvent>(SearchUiState()), MediaSearchInteractionListener,
@@ -47,7 +51,7 @@ class SearchViewModel @Inject constructor(
                 }
                 it.copy(
                     moviesSearchResult = result,
-                    mediaType = MediaTypes.MOVIES,
+                    mediaType = SearchType.MOVIES,
                     isLoading = false
                 )
             }
@@ -63,7 +67,7 @@ class SearchViewModel @Inject constructor(
                     }
                 it.copy(
                     moviesSearchResult = result,
-                    mediaType = MediaTypes.SERIES,
+                    mediaType = SearchType.TV,
                     isLoading = false
                 )
             }
@@ -80,7 +84,7 @@ class SearchViewModel @Inject constructor(
                 }
                 it.copy(
                     moviesSearchResult = result,
-                    mediaType = MediaTypes.ACTORS,
+                    mediaType = SearchType.PEOPLE,
                     isLoading = false
                 )
             }
@@ -90,11 +94,13 @@ class SearchViewModel @Inject constructor(
     fun onClickInputSearch(searchInput: CharSequence) {
         _state.update { it.copy(inputSearch = searchInput.toString(), isLoading = true) }
         when (_state.value.mediaType) {
-            MediaTypes.MOVIES -> onSearchForMovies()
-            MediaTypes.SERIES -> onSearchForSeries()
-            MediaTypes.ACTORS -> onSearchForActors()
+            SearchType.MOVIES -> onSearchForMovies()
+            SearchType.TV -> onSearchForSeries()
+            SearchType.PEOPLE -> onSearchForActors()
         }
-
+        viewModelScope.launch {
+            saveSearch(searchInput.toString())
+        }
     }
 
     private fun getAllSearchHistory() {
@@ -109,12 +115,10 @@ class SearchViewModel @Inject constructor(
     }
 
     override fun onClickMediaResult(media: MediaUiState) {
-        saveSearch(media.id, media.name)
         sendEvent(SearchUiEvent.ClickMediaEvent(media))
     }
 
-    override fun onClickActor(actorId: Int, name: String) {
-        saveSearch(actorId, name)
+    override fun onClickActor(actorId: Int) {
         sendEvent(SearchUiEvent.ClickActorEvent(actorId))
     }
 
@@ -122,10 +126,27 @@ class SearchViewModel @Inject constructor(
         sendEvent(SearchUiEvent.ClickBackEvent)
     }
 
-    private fun saveSearch(id: Int, name: String) {
+    fun onClickClearInputSearch(){
+        getAllSearchHistory()
+        _state.update { it.copy(inputSearch = "" )}
+    }
+
+    override fun onClickClearSearchHistoryItem(search: String){
         viewModelScope.launch {
-            postSearchHistoryUseCase(id, name)
+            getClearSearchHistoryItemUseCase(search)
         }
+        getAllSearchHistory()
+    }
+
+    fun onClickAllClearHistorySearch(){
+        viewModelScope.launch {
+            getClearAllSearchHistoryUseCase()
+            _state.update { it.copy(searchHistoryResult = emptyList()) }
+        }
+    }
+
+    private suspend fun saveSearch(name: String) {
+            insertSearchHistoryUseCase(name)
     }
 
     override fun onClickHistorySearch(search: String) {

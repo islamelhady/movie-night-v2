@@ -381,17 +381,23 @@ class MovieRepositoryImp @Inject constructor(
         return Pager(config = pagingConfig, pagingSourceFactory = { dataSource })
     }
 
-    override suspend fun insertSearchItem(item: SearchHistoryEntity) {
-        return movieDao.insertSearch(item)
+    override suspend fun insertSearchHistory(searchHistory: String) {
+        return movieDao.insertSearchHistory(SearchHistoryEntity(keyword = searchHistory))
+    }
+    override suspend fun deleteSearchHistory(keyword: String) {
+        return movieDao.deleteSearch(keyword)
     }
 
-    override suspend fun deleteSearchItem(item: SearchHistoryEntity) {
-        return movieDao.deleteSearch(item)
-        TODO()
+    override suspend fun getSearchHistory(): List<SearchHistoryEntity> {
+        return movieDao.getSearchHistory()
     }
 
-    override suspend fun getAllSearchItems(): List<SearchHistoryEntity> {
-        return movieDao.getAllSearch()
+    override suspend fun getSearchHistory(keyword: String): List<SearchHistoryEntity> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun clearAllSearchHistory() {
+        movieDao.clearAllSearchHistory()
     }
 
     /**
