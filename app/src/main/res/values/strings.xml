@@ -74,6 +74,7 @@
     <string name="items">%1$s Items</string>
     <string name="save_to">Save to..</string>
     <string name="this_list_has_no_lists">No list found</string>
+    <string name="clear">Clear</string>
 
 
 </resources>

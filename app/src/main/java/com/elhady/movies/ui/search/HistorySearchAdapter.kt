@@ -10,4 +10,5 @@ class HistorySearchAdapter(items: List<SearchHistoryUiState>, listener: HistoryI
 
 interface HistoryInteractionListener: BaseInteractionListener{
     fun onClickHistorySearch(search: String)
+    fun onClickClearSearchHistoryItem(search: String)
 }
