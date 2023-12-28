@@ -5,6 +5,7 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
 import com.elhady.movies.domain.usecases.search.GetAllSearchHistoryUseCase
+import com.elhady.movies.domain.usecases.search.GetClearAllSearchHistoryUseCase
 import com.elhady.movies.domain.usecases.search.GetSearchForActorsUseCase
 import com.elhady.movies.domain.usecases.search.GetSearchForMovieUseCase
 import com.elhady.movies.domain.usecases.search.GetSearchForSeriesUseCase
@@ -25,6 +26,7 @@ class SearchViewModel @Inject constructor(
     private val searchForActorsUseCase: GetSearchForActorsUseCase,
     private val insertSearchHistoryUseCase: InsertSearchHistoryUseCase,
     private val getAllSearchHistoryUseCase: GetAllSearchHistoryUseCase,
+    private val getClearAllSearchHistoryUseCase: GetClearAllSearchHistoryUseCase,
     private val searchHistoryUiMapper: SearchHistoryUiMapper,
     private val mediaUiMapper: MediaUiMapper
 ) : BaseViewModel<SearchUiState, SearchUiEvent>(SearchUiState()), MediaSearchInteractionListener,
@@ -123,7 +125,16 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onClickClear(){
-        _state.update { it.copy(inputSearch = "") }
+        getAllSearchHistory()
+        _state.update { it.copy(inputSearch = "" )}
+    }
+
+    fun onClickAllClearHistorySearch(){
+        viewModelScope.launch {
+            getClearAllSearchHistoryUseCase()
+            _state.update { it.copy(searchHistoryResult = emptyList()) }
+
+        }
     }
 
     private suspend fun saveSearch(name: String) {

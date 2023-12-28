@@ -397,7 +397,7 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     override suspend fun clearAllSearchHistory() {
-        TODO("Not yet implemented")
+        movieDao.clearAllSearchHistory()
     }
 
     /**
