@@ -1,5 +1,6 @@
 package com.elhady.movies.utilities
 
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Rect
 import android.view.LayoutInflater
@@ -15,6 +16,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.R
 import com.elhady.movies.data.remote.response.FavListDto
 import com.elhady.movies.data.remote.response.video.ResultDto
@@ -23,6 +26,7 @@ import com.elhady.movies.ui.adapter.LoadAdapter
 import com.elhady.movies.ui.base.BasePagingAdapter
 import com.elhady.movies.ui.category.CategoryGenreUiState
 import com.elhady.movies.ui.category.CategoryInteractionListener
+import com.elhady.movies.ui.search.SearchType
 import com.google.android.material.chip.ChipGroup
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
@@ -61,6 +65,26 @@ fun <T : Any> GridLayoutManager.setSpanSize(
             }
         }
     }
+}
+
+@BindingAdapter(value = ["app:setSearchLayoutManager"])
+fun RecyclerView.setSearchLayoutManager(searchType: SearchType) {
+    val layoutManager = when (searchType) {
+        SearchType.MOVIES, SearchType.TV -> {
+            LinearLayoutManager(context)
+        }
+        SearchType.PEOPLE -> {
+            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                GridLayoutManager(context, 8)
+            } else {
+                GridLayoutManager(context, 5)
+            }
+        }
+        else -> {
+            LinearLayoutManager(context)
+        }
+    }
+    this.layoutManager = layoutManager
 }
 
 fun Date.convertToDayMonthYearFormat(): String {
