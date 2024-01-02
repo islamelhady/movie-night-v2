@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="com.elhady.movies.domain.enums.AllMediaType"/>
+        <import type="com.elhady.movies.domain.enums.SeeAllType"/>
 
         <variable
             name="listener"
@@ -47,7 +47,7 @@
             android:layout_marginStart="@dimen/spacing_medium"
             android:background="@color/brand_color"
             app:movieImage="@{topRated.imageUrl}"
-            android:onClick="@{() -> listener.onClickAllTVSeries(AllMediaType.TOP_RATED_TV)}"
+            android:onClick="@{() -> listener.onClickAllTVSeries(SeeAllType.TOP_RATED_TV)}"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="@+id/image_popular"
             app:layout_constraintEnd_toStartOf="@+id/image_latest"
@@ -75,7 +75,7 @@
             android:background="@color/brand_color"
             android:scaleType="centerCrop"
             app:movieImage="@{latest.imageUrl}"
-            android:onClick="@{ () -> listener.onClickAllTVSeries(AllMediaType.LATEST)}"
+            android:onClick="@{ () -> listener.onClickAllTVSeries(SeeAllType.LATEST_TV)}"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
@@ -102,7 +102,7 @@
             android:background="@color/brand_color"
             app:movieImage="@{popular.imageUrl}"
             android:scaleType="centerCrop"
-            android:onClick="@{ () -> listener.onClickAllTVSeries(AllMediaType.POPULAR)}"
+            android:onClick="@{ () -> listener.onClickAllTVSeries(SeeAllType.POPULAR_TV)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@+id/image_latest"

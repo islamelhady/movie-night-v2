@@ -27,29 +27,29 @@ import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
 
-    suspend fun getPopularMovies(): Flow<List<PopularMovieEntity>>
+    suspend fun getPopularMovies(): List<PopularMovieEntity>
 
-    suspend fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
+    suspend fun getUpcomingMovies(): List<UpcomingMovieEntity>
 
     fun getAllUpcomingMovies(): Pager<Int, MovieDto>
 
-    suspend fun getTopRatedMovies(): Flow<List<TopRatedMovieEntity>>
+    suspend fun getTopRatedMovies(): List<TopRatedMovieEntity>
 
     fun getAllTopRatedMovies(): Pager<Int, MovieDto>
 
-    suspend fun getNowPlayingMovies(): Flow<List<NowPlayingMovieEntity>>
+    suspend fun getNowPlayingMovies(): List<NowPlayingMovieEntity>
 
     fun getAllNowPlayingMovies(): Pager<Int, MovieDto>
 
-    suspend fun getMysteryMovies(): Flow<List<MysteryMovieEntity>>
+    suspend fun getMysteryMovies(): List<MysteryMovieEntity>
 
     fun getAllMysteryMovies(): Pager<Int, MovieDto>
 
-    suspend fun getAdventureMovies(): Flow<List<AdventureMovieEntity>>
+    suspend fun getAdventureMovies(): List<AdventureMovieEntity>
 
     fun getAllAdventureMovies(): Pager<Int, MovieDto>
 
-    suspend fun getTrendingMovie(): Flow<List<TrendingMovieEntity>>
+    suspend fun getTrendingMovie(): List<TrendingMovieEntity>
 
     fun getAllTrendingMovies(): Pager<Int, MovieDto>
 
@@ -69,11 +69,15 @@ interface MovieRepository {
 
     suspend fun searchForMoviesPager(query: String): Pager<Int, MovieDto>
 
-    suspend fun insertSearchItem(item: SearchHistoryEntity)
+    suspend fun insertSearchHistory(searchHistory: String)
 
-    suspend fun deleteSearchItem(item: SearchHistoryEntity)
+    suspend fun deleteSearchHistory(keyword: String)
 
-    fun getAllSearchItems(): Flow<List<SearchHistoryEntity>>
+    suspend fun getSearchHistory(): List<SearchHistoryEntity>
+
+    suspend fun getSearchHistory(keyword: String): List<SearchHistoryEntity>
+
+    suspend fun clearAllSearchHistory()
 
     suspend fun getMovieTrailer(movieId: Int): VideoDto?
 

@@ -17,7 +17,7 @@ import com.elhady.movies.utilities.setSpanSize
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
+class ActorsFragment : BaseFragment<FragmentActorsBinding, ActorsUiState, ActorsUiEvent>() {
     override val layoutIdFragment: Int = R.layout.fragment_actors
     override val viewModel: ActorsViewModel by viewModels()
     private val actorsAdapter by lazy {
@@ -27,9 +27,8 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setTitle(true)
         setAdapter()
-        collectEvent()
     }
 
     private fun setAdapter() {
@@ -41,22 +40,14 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
 
         collect(flow = actorsAdapter.loadStateFlow, action = { viewModel.setErrorUiState(it) })
 
-        collectLast(flow = viewModel.actorsUiState.value.actors, ::setAllActors)
+        collectLast(flow = viewModel.state.value.actors, ::setAllActors)
     }
 
     private suspend fun setAllActors(itemsPagingData: PagingData<ActorUiState>) {
         actorsAdapter.submitData(pagingData = itemsPagingData)
     }
 
-    private fun collectEvent(){
-        collectLast(flow = viewModel.actorsUiEvent){ event ->
-            event?.getContentIfNotHandled()?.let {
-                onEvent(it)
-            }
-        }
-    }
-
-    private fun onEvent(event: ActorsUiEvent){
+    override fun onEvent(event: ActorsUiEvent){
         when(event){
             is ActorsUiEvent.ClickActorEvent -> {
                 findNavController().navigate(ActorsFragmentDirections.actionActorsFragmentToActorDetailsFragment(event.actorID))

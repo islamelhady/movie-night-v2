@@ -5,11 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.favList.GetCreatedListUseCase
 import com.elhady.movies.domain.usecases.favList.SaveMovieToFavListUseCase
 import com.elhady.movies.ui.base.BaseViewModel
-import com.elhady.movies.ui.movieDetails.ErrorUiState
-import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,15 +16,9 @@ class SaveMovieViewModel @Inject constructor(
     private val saveMovieToFavListUseCase: SaveMovieToFavListUseCase,
     private val getCreatedListUseCase: GetCreatedListUseCase,
     private val favListItemUiStateMapper: FavListItemUiStateMapper,
-) : BaseViewModel(), SaveListInteractionListener {
+) : BaseViewModel<FavListUiState, SaveMovieUiEvent>(FavListUiState()), SaveListInteractionListener {
 
     val args = SaveMovieBottomSheetArgs.fromSavedStateHandle(savedStateHandle)
-
-    private val _saveUiState = MutableStateFlow(FavListUiState())
-    val saveUiState = _saveUiState.asStateFlow()
-
-    private val _saveUiEvent = MutableStateFlow<Event<SaveMovieUiEvent>?>(null)
-    val saveUiEvent = _saveUiEvent.asStateFlow()
 
     init {
         getData()
@@ -37,20 +27,17 @@ class SaveMovieViewModel @Inject constructor(
 
     override fun getData() {
         viewModelScope.launch {
-            _saveUiState.update { it.copy(isLoading = true, error = emptyList()) }
+            _state.update { it.copy(isLoading = true, error = emptyList()) }
             try {
-                _saveUiState.update {
+                _state.update {
                     it.copy(
                         isLoading = false,
                         myListItemUI = getCreatedListUseCase().map { favListItemUiStateMapper.map(it) }
                     )
                 }
             } catch (error: Throwable) {
-                _saveUiState.update {
-                    it.copy(
-                        isLoading = false,
-                        error = listOf(ErrorUiState(error.message.toString(), 404))
-                    )
+                _state.update {
+                    it.copy(isLoading = false)
                 }
             }
         }
@@ -63,7 +50,7 @@ class SaveMovieViewModel @Inject constructor(
             } catch (t: Throwable) {
                 t.message.toString()
             }
-            _saveUiEvent.update { Event(SaveMovieUiEvent.DisplayMessage(message ?: "")) }
+            sendEvent(SaveMovieUiEvent.DisplayMessage(message ?: ""))
         }
     }
 }

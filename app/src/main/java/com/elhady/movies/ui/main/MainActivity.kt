@@ -1,8 +1,8 @@
 package com.elhady.movies.ui.main
 
 import android.os.Bundle
+import android.view.View
 import android.view.Window
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -51,6 +51,25 @@ class MainActivity : AppCompatActivity() {
     private fun setBottomNavigationVisibility(navController: NavController) {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             binding.navView.isVisible = destination.id != R.id.loginFragment
+            when (destination.id) {
+                R.id.movieDetailsFragment -> {
+                    binding.toolbar.visibility = View.GONE
+                }
+
+                R.id.tvShowDetailsFragment -> {
+                    binding.toolbar.visibility = View.GONE
+                }
+
+                R.id.searchFragment -> {
+                    binding.toolbar.visibility = View.GONE
+                }
+
+                R.id.actorDetailsFragment -> {
+                    binding.toolbar.visibility = View.GONE
+                }
+
+                else -> binding.toolbar.visibility = View.VISIBLE
+            }
         }
     }
 

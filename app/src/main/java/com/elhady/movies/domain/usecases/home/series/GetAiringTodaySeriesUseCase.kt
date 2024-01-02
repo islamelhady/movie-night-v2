@@ -11,7 +11,7 @@ class GetAiringTodaySeriesUseCase @Inject constructor(
     private val seriesRepository: SeriesRepository,
     private val airingTodaySeriesMapper: AiringTodaySeriesMapper
 ) {
-    suspend operator fun invoke(): Flow<List<Media>> {
+    suspend operator fun invoke(): List<Media> {
         return seriesRepository.getAiringTodaySeries().map {
                 airingTodaySeriesMapper.map(it)
         }

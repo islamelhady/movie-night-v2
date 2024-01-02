@@ -8,5 +8,5 @@ import kotlinx.coroutines.flow.emptyFlow
 data class ActorsUiState (
     val actors: Flow<PagingData<ActorUiState>> = emptyFlow(),
     val isLoading: Boolean = false,
-    val error: List<Error> = emptyList()
+    val onErrors: List<String> = emptyList()
 )

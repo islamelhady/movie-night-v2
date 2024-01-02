@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,36 +10,147 @@
             type="com.elhady.movies.ui.movieDetails.MovieDetailsViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.motion.widget.MotionLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.movieDetails.MovieDetailsFragment">
+        app:layoutDescription="@xml/fragment_movie_details_scene">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="vertical"
-            android:overScrollMode="never"
-            android:scrollbars="none"
-            hideIfTrue="@{viewModel.detailsUiState.loading}"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/loading"
+            android:layout_width="@dimen/spacing_progress_large"
+            android:layout_height="@dimen/spacing_progress_large"
+            android:elevation="1dp"
+            app:isVisible="@{viewModel.state.loading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/item_movie_details"/>
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading" />
 
-        <include
-            android:id="@+id/loading"
-            layout="@layout/loading"
-            isVisible="@{viewModel.detailsUiState.loading}" />
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lost_connection"
+            android:layout_width="@dimen/spacing_connection_large"
+            android:layout_height="@dimen/spacing_connection_large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_colorFilter="@color/red"
+            app:lottie_rawRes="@raw/lost_internet_connection"
+            app:showWhenListNotEmpty="@{viewModel.state.onErrors}" />
 
-        <include
-            android:id="@+id/error"
-            layout="@layout/error"
-            isVisible="@{!viewModel.detailsUiState.loading}"
-            />
+        <TextView
+            android:id="@+id/description_lost_connection"
+            style="@style/Regular.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:gravity="center"
+            android:text="@string/description"
+            android:textColor="@color/red"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lost_connection"
+            app:showWhenListNotEmpty="@{viewModel.state.onErrors}" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/button_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:onClick="@{() -> viewModel.getData()}"
+            android:text="@string/retry"
+            android:textColor="@color/white_primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description_lost_connection"
+            app:showWhenListNotEmpty="@{viewModel.state.onErrors}" />
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/movie_image"
+            isVisible="@{!viewModel.state.isLoading}"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:shadowColor="@color/shade_secondary_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".70"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:movieImage="@{viewModel.state.movieDetailsResult.image}"
+            tools:src="@drawable/login_movie" />
+
+        <View
+            android:id="@+id/movie_shadow"
+            isVisible="@{!viewModel.state.isLoading}"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/shadow_shape"
+            app:layout_constraintEnd_toEndOf="@id/movie_image"
+            app:layout_constraintHeight_percent=".70"
+            app:layout_constraintStart_toStartOf="@id/movie_image"
+            app:layout_constraintTop_toTopOf="@id/movie_image" />
+
+        <TextView
+            android:id="@+id/movie_text_name"
+            style="@style/SimiBold.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            showWhenTextNotEmpty="@{viewModel.state.movieDetailsResult.name}"
+            android:text="@{viewModel.state.movieDetailsResult.name}"
+            app:layout_constraintBottom_toBottomOf="@id/movie_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="@tools:sample/full_names" />
+
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:background="@drawable/back_button_shape"
+            android:onClick="@{() -> viewModel.onClickBackButton()}"
+            android:padding="@dimen/spacing_small"
+            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/background_color" />
+
+        <ImageButton
+            android:id="@+id/favorite_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:background="@drawable/back_button_shape"
+            android:backgroundTint="@color/black"
+            android:padding="@dimen/spacing_small"
+            android:src="@drawable/ic_favorite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/background_color" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            hideIfTrue="@{viewModel.state.loading}"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/movie_image" />
+
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

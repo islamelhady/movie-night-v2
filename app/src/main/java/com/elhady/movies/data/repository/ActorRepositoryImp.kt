@@ -30,7 +30,7 @@ class ActorRepositoryImp @Inject constructor(
     /**
      *  Popular Persons
      */
-    override suspend fun getPopularPersons(): Flow<List<ActorEntity>> {
+    override suspend fun getPopularPersons(): List<ActorEntity> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.POPULAR_PERSON_REQUEST_DATE_KEY),
             ::refreshPopularPersons

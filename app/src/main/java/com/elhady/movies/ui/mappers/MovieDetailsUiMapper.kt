@@ -1,7 +1,8 @@
-package com.elhady.movies.ui.movieDetails
+package com.elhady.movies.ui.mappers
 
 import com.elhady.movies.domain.mappers.Mapper
 import com.elhady.movies.domain.models.MovieDetails
+import com.elhady.movies.ui.movieDetails.MovieDetailsUiState
 import javax.inject.Inject
 
 class MovieDetailsUiMapper @Inject constructor() : Mapper<MovieDetails, MovieDetailsUiState> {

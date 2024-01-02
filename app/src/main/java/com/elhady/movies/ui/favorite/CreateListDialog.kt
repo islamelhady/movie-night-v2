@@ -16,14 +16,11 @@ class CreateListDialog : BaseFragmentBottomSheet<DialogCreateListBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        collectLast(viewModel.uiEvent) { event ->
-            event?.peekContent()?.let {
-                if (it is FavouriteUiEvent.ClickCreateEvent) {
-                    dismiss()
-                }
+        collectLast(viewModel.event) {
+            if (it is FavouriteUiEvent.ClickCreateEvent) {
+                dismiss()
             }
-
         }
-    }
 
+    }
 }

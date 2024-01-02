@@ -5,7 +5,7 @@ data class ActorDetailsUiState(
     val actorInfo: ActorInfoUiState = ActorInfoUiState(),
     val actorMovies: List<ActorMoviesUiState> = emptyList(),
     val isLoading: Boolean = false,
-    val onError: List<String> = emptyList()
+    val onErrors: List<String> = emptyList()
 )
 
 data class ActorInfoUiState(
@@ -23,8 +23,4 @@ data class ActorMoviesUiState(
     val id: Int = 0,
     val image: String = "",
     val name: String = ""
-)
-
-data class Error(
-    val message: String = ""
 )
