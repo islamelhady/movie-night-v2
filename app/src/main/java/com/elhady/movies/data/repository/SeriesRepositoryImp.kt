@@ -45,7 +45,7 @@ class SeriesRepositoryImp @Inject constructor(
     /**
      *  Airing Today Series
      */
-    override suspend fun getAiringTodaySeries(): Flow<List<AiringTodaySeriesEntity>> {
+    override suspend fun getAiringTodaySeries(): List<AiringTodaySeriesEntity> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.AIRING_TODAY_SERIES_REQUEST_DATE_KEY),
             ::refreshAiringTodaySeries
@@ -75,7 +75,7 @@ class SeriesRepositoryImp @Inject constructor(
     /**
      *  On The Air Series
      */
-    override suspend fun getOnTheAirSeries(): Flow<List<OnTheAirSeriesEntity>> {
+    override suspend fun getOnTheAirSeries(): List<OnTheAirSeriesEntity> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.ON_THE_AIR_SERIES_REQUEST_DATE_KEY),
             ::refreshOnTheAirSeries
@@ -117,7 +117,7 @@ class SeriesRepositoryImp @Inject constructor(
      * * Top Rated
      * * Airing Today
      */
-    override suspend fun getTVSeriesLists(): Flow<List<TVSeriesListsEntity>> {
+    override suspend fun getTVSeriesLists(): List<TVSeriesListsEntity> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.TV_SERIES_LISTS_REQUEST_DATE_KEY),
             ::refreshTVSeriesLists

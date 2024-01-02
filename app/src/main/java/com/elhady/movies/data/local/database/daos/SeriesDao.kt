@@ -21,8 +21,8 @@ interface SeriesDao {
     @Query("DELETE FROM ON_THE_AIR_SERIES_TABLE")
     suspend fun deleteOnTheAirSeries()
 
-    @Query("SELECT * FROM ON_THE_AIR_SERIES_TABLE")
-    fun getOnTheAirSeries(): Flow<List<OnTheAirSeriesEntity>>
+    @Query("SELECT * FROM ON_THE_AIR_SERIES_TABLE ORDER BY RANDOM()")
+    suspend fun getOnTheAirSeries(): List<OnTheAirSeriesEntity>
 
     /**
      *  Airing Today Series
@@ -33,8 +33,8 @@ interface SeriesDao {
     @Query("DELETE FROM AIRING_TODAY_SERIES_TABLE")
     suspend fun deleteAiringTodaySeries()
 
-    @Query("SELECT * FROM AIRING_TODAY_SERIES_TABLE")
-    fun getAiringTodaySeries(): Flow<List<AiringTodaySeriesEntity>>
+    @Query("SELECT * FROM AIRING_TODAY_SERIES_TABLE ORDER BY RANDOM()")
+    suspend fun getAiringTodaySeries(): List<AiringTodaySeriesEntity>
 
     /**
      *  TV Series Lists:
@@ -48,6 +48,6 @@ interface SeriesDao {
     @Query("DELETE FROM TV_SERIES_TABLE")
     suspend fun deleteTVSeriesLists()
 
-    @Query("SELECT * FROM TV_SERIES_TABLE")
-    fun getTVSeriesLists(): Flow<List<TVSeriesListsEntity>>
+    @Query("SELECT * FROM TV_SERIES_TABLE ORDER BY RANDOM()")
+    suspend fun getTVSeriesLists(): List<TVSeriesListsEntity>
 }

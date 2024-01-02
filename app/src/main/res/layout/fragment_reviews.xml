@@ -22,7 +22,7 @@
             android:orientation="vertical"
             android:overScrollMode="never"
             android:scrollbars="none"
-            app:items="@{viewModel.reviewUiState.review}"
+            app:items="@{viewModel.state.review}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +32,7 @@
         <include
             android:id="@+id/loading"
             layout="@layout/loading"
-            isVisible="@{viewModel.reviewUiState.loading}" />
+            isVisible="@{viewModel.state.loading}" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

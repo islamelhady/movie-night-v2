@@ -122,7 +122,7 @@
         tools:layout="@layout/fragment_al_media">
         <argument
             android:name="type"
-            app:argType="com.elhady.movies.domain.enums.AllMediaType" />
+            app:argType="com.elhady.movies.domain.enums.SeeAllType" />
         <argument
             android:name="id"
             app:argType="integer" />
@@ -137,7 +137,7 @@
     <fragment
         android:id="@+id/actorsFragment"
         android:name="com.elhady.movies.ui.actors.ActorsFragment"
-        android:label="fragment_actors"
+        android:label="@string/actors"
         tools:layout="@layout/fragment_actors">
         <action
             android:id="@+id/action_actorsFragment_to_actorDetailsFragment"

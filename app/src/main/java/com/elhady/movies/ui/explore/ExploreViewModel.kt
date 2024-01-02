@@ -1,77 +1,67 @@
 package com.elhady.movies.ui.explore
 
-import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.GetTrendingTvSeriesUseCase
 import com.elhady.movies.ui.base.BaseViewModel
-import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ExploreViewModel @Inject constructor(
     private val trendingTvSeriesUseCase: GetTrendingTvSeriesUseCase,
     private val trendingUiStateMapper: TrendingUiStateMapper
-) : BaseViewModel(), TrendingInteractionListener {
+) : BaseViewModel<ExploreUiState, ExploreUiEvent>(ExploreUiState()), TrendingInteractionListener {
 
-    private val _exploreUiState = MutableStateFlow(ExploreUiState())
-    val exploreUiState = _exploreUiState.asStateFlow()
-
-    private val _exploreUiEvent = MutableStateFlow<Event<ExploreUiEvent>?>(null)
-    val exploreUiEvent = _exploreUiEvent.asStateFlow()
     init {
         getData()
     }
 
     override fun getData() {
-        viewModelScope.launch {
-            val result = trendingTvSeriesUseCase().map {
-                trendingUiStateMapper.map(it)
-            }
+        _state.update { it.copy(isLoading = true, onErrors = emptyList()) }
+       getTrending()
+    }
 
-            _exploreUiState.update {
-                it.copy(trendMediaResult = result)
-            }
-        }
+    private fun getTrending(){
+        tryToExecute(
+            call = { trendingTvSeriesUseCase() },
+            mapper = trendingUiStateMapper,
+            onSuccess = ::onSuccessTrending,
+            onError = ::onError
+        )
+    }
+
+    private fun onSuccessTrending(list: List<TrendingMediaUiState>){
+        _state.update { it.copy(trendMediaResult = list, isLoading = false, onErrors = emptyList()) }
+    }
+
+    private fun onError(th: Throwable){
+        val listErrors = _state.value.onErrors.toMutableList()
+        listErrors.add(th.message.toString())
+        _state.update { it.copy(isLoading = false, onErrors = listErrors) }
     }
 
     override fun onClickTrending(item: TrendingMediaUiState) {
-        _exploreUiEvent.update {
-            Event(ExploreUiEvent.ClickTrendEvent(item))
-        }
+        sendEvent(ExploreUiEvent.ClickTrendEvent(item))
     }
 
     fun scrollToTopScreen() {
-        _exploreUiEvent.update {
-            Event(ExploreUiEvent.ScrollToTopRecycler)
-        }
+        sendEvent(ExploreUiEvent.ScrollToTopRecycler)
     }
 
-    fun onClickMovies(){
-        _exploreUiEvent.update {
-            Event(ExploreUiEvent.ClickMoviesEvent)
-        }
+    fun onClickMovies() {
+        sendEvent(ExploreUiEvent.ClickMoviesEvent)
     }
 
-    fun onClickSeries(){
-        _exploreUiEvent.update {
-            Event(ExploreUiEvent.ClickSeriesEvent)
-        }
+    fun onClickSeries() {
+        sendEvent(ExploreUiEvent.ClickSeriesEvent)
     }
 
 
-    fun onClickActors(){
-        _exploreUiEvent.update {
-            Event(ExploreUiEvent.ClickActorsEvent)
-        }
+    fun onClickActors() {
+        sendEvent(ExploreUiEvent.ClickActorsEvent)
     }
 
-    fun onClickSearch(){
-        _exploreUiEvent.update {
-            Event(ExploreUiEvent.ClickSearchEvent)
-        }
+    fun onClickSearch() {
+        sendEvent(ExploreUiEvent.ClickSearchEvent)
     }
 }

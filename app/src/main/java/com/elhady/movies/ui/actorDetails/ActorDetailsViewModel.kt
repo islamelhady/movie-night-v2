@@ -1,18 +1,14 @@
 package com.elhady.movies.ui.actorDetails
 
 import androidx.lifecycle.SavedStateHandle
-import com.elhady.movies.domain.enums.HomeItemType
-import com.elhady.movies.domain.models.ActorDetails
+import com.elhady.movies.domain.enums.SeeAllType
 import com.elhady.movies.domain.usecases.GetActorDetailsUseCase
 import com.elhady.movies.domain.usecases.GetActorsMoviesUseCase
 import com.elhady.movies.ui.actorDetails.mapper.ActorDetailsUiMapper
 import com.elhady.movies.ui.actorDetails.mapper.ActorMoviesUiMapper
 import com.elhady.movies.ui.base.BaseViewModel
 import com.elhady.movies.ui.home.adapters.MovieInteractionListener
-import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
@@ -23,22 +19,17 @@ class ActorDetailsViewModel @Inject constructor(
     private val actorDetailsUiMapper: ActorDetailsUiMapper,
     private val getActorsMoviesUseCase: GetActorsMoviesUseCase,
     private val actorMoviesUiMapper: ActorMoviesUiMapper
-) : BaseViewModel(), MovieInteractionListener {
+) : BaseViewModel<ActorDetailsUiState, ActorDetailsUiEvent>(ActorDetailsUiState()),
+    MovieInteractionListener {
 
     val args = ActorDetailsFragmentArgs.fromSavedStateHandle(state)
-
-    private val _uIState = MutableStateFlow(ActorDetailsUiState())
-    val uiState = _uIState.asStateFlow()
-
-    private val _uiEvent = MutableStateFlow<Event<ActorDetailsUiEvent>?>(null)
-    val uiEvent = _uiEvent.asStateFlow()
 
     init {
         getData()
     }
 
     override fun getData() {
-        _uIState.update { it.copy(isLoading = true, onError = emptyList()) }
+        _state.update { it.copy(isLoading = true, onErrors = emptyList()) }
         getActorInfo()
         getMoviesByActor()
     }
@@ -46,27 +37,18 @@ class ActorDetailsViewModel @Inject constructor(
     private fun getActorInfo() {
         tryToExecute(
             call = { getActorDetailsUseCase(args.actorID) },
+            mapper = actorDetailsUiMapper,
             onSuccess = ::onSuccessActorInfo,
-            onError = ::onErrorGetActorData
+            onError = ::onError
         )
     }
 
-    private fun onSuccessActorInfo(actorDetails: ActorDetails){
-        val result = actorDetailsUiMapper.map(actorDetails)
-        _uIState.update {
-            it.copy(actorInfo = result, isLoading = false)
-        }
-    }
-
-    private fun onErrorGetActorData(error: Throwable){
-        val errors = _uIState.value.onError.toMutableList()
-        errors.add(error.message.toString())
-        _uIState.update { it.copy(onError = errors, isLoading = false) }
-
+    private fun onSuccessActorInfo(actorInfoUiState: ActorInfoUiState) {
+        _state.update { it.copy(actorInfo = actorInfoUiState, isLoading = false, onErrors = emptyList()) }
     }
 
 
-    private fun getMoviesByActor(){
+    private fun getMoviesByActor() {
         tryToExecute(
             call = { getActorsMoviesUseCase(args.actorID) },
             onSuccess = ::onSuccessMoviesByActor,
@@ -75,35 +57,29 @@ class ActorDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessMoviesByActor(actorMovies: List<ActorMoviesUiState>){
-        _uIState.update {
-            it.copy(actorMovies = actorMovies, isLoading = false)
+    private fun onSuccessMoviesByActor(actorMovies: List<ActorMoviesUiState>) {
+        _state.update {
+            it.copy(actorMovies = actorMovies, isLoading = false, onErrors = emptyList())
         }
     }
 
 
     private fun onError(error: Throwable) {
-        val errors = _uIState.value.onError.toMutableList()
+        val errors = _state.value.onErrors.toMutableList()
         errors.add(error.message.toString())
-        _uIState.update { it.copy(onError = errors, isLoading = false) }
+        _state.update { it.copy(onErrors = errors, isLoading = false) }
     }
 
     override fun onClickMovie(movieID: Int) {
-        _uiEvent.update {
-            Event(ActorDetailsUiEvent.ClickMovieEvent(movieID = movieID))
-        }
+        sendEvent(ActorDetailsUiEvent.ClickMovieEvent(movieID = movieID))
     }
 
-    override fun onClickSeeAllMovies(mediaType: HomeItemType) {
-        _uiEvent.update {
-            Event(ActorDetailsUiEvent.ClickSeeAllEvent)
-        }
+    override fun onClickSeeAllMovies(mediaType: SeeAllType) {
+        sendEvent(ActorDetailsUiEvent.ClickSeeAllEvent)
     }
 
-    fun onClickBackButton(){
-        _uiEvent.update {
-            Event(ActorDetailsUiEvent.ClickBackButton)
-        }
+    fun onClickBackButton() {
+        sendEvent(ActorDetailsUiEvent.ClickBackButton)
     }
 
 

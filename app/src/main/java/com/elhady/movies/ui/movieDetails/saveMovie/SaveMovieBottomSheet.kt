@@ -27,15 +27,13 @@ class SaveMovieBottomSheet : BaseFragmentBottomSheet<BottomSheetSaveMovieBinding
         binding.recyclerSaveMovie.adapter = SaveListAdapter(mutableListOf(), viewModel)
     }
 
-    fun collectEvent(){
-        collectLast(viewModel.saveUiEvent){ event ->
-            event?.getContentIfNotHandled()?.let {
-                onEvent(it)
-            }
+    fun collectEvent() {
+        collectLast(viewModel.event) {
+            onEvent(it)
         }
     }
 
-    private fun onEvent(event: SaveMovieUiEvent){
+    private fun onEvent(event: SaveMovieUiEvent) {
         if (event is SaveMovieUiEvent.DisplayMessage) {
             if (!event.message.isNullOrBlank()) {
                 Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()

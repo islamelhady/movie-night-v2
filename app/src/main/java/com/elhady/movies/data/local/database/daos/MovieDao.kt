@@ -29,8 +29,8 @@ interface MovieDao {
     @Query("DELETE FROM POPULAR_MOVIE_TABLE")
     suspend fun deletePopularMovie()
 
-    @Query("SELECT * FROM POPULAR_MOVIE_TABLE")
-    fun getPopularMovies(): Flow<List<PopularMovieEntity>>
+    @Query("SELECT * FROM POPULAR_MOVIE_TABLE ORDER BY RANDOM()")
+    suspend fun getPopularMovies(): List<PopularMovieEntity>
 
     /**
      * Trending Movies
@@ -42,8 +42,8 @@ interface MovieDao {
     @Query("DELETE FROM TRENDING_MOVIE_TABLE")
     suspend fun deleteTrendingMovies()
 
-    @Query("SELECT * FROM TRENDING_MOVIE_TABLE")
-    fun getAllTrendingMovies(): Flow<List<TrendingMovieEntity>>
+    @Query("SELECT * FROM TRENDING_MOVIE_TABLE ORDER BY RANDOM()")
+    suspend fun getAllTrendingMovies(): List<TrendingMovieEntity>
 
     /**
      * Upcoming Movies
@@ -54,8 +54,8 @@ interface MovieDao {
     @Query("DELETE FROM UPCOMING_MOVIE_TABLE")
     suspend fun deleteUpcomingMovies()
 
-    @Query("SELECT * FROM UPCOMING_MOVIE_TABLE")
-    fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
+    @Query("SELECT * FROM UPCOMING_MOVIE_TABLE ORDER BY RANDOM()")
+    suspend fun getUpcomingMovies(): List<UpcomingMovieEntity>
 
     /**
      * Now Playing Movies
@@ -66,8 +66,8 @@ interface MovieDao {
     @Query("DELETE FROM NOW_PLAYING_MOVIE_TABLE")
     suspend fun deleteNowPlayingMovies()
 
-    @Query("SELECT * FROM NOW_PLAYING_MOVIE_TABLE")
-    fun getNowPlayingMovies(): Flow<List<NowPlayingMovieEntity>>
+    @Query("SELECT * FROM NOW_PLAYING_MOVIE_TABLE ORDER BY RANDOM()")
+    suspend fun getNowPlayingMovies(): List<NowPlayingMovieEntity>
 
     /**
      *  Top Rated Movies
@@ -78,8 +78,8 @@ interface MovieDao {
     @Query("DELETE FROM TOP_RATED_MOVIE_TABLE")
     suspend fun deleteTopRatedMovies()
 
-    @Query("SELECT * FROM TOP_RATED_MOVIE_TABLE")
-    fun getTopRatedMovies(): Flow<List<TopRatedMovieEntity>>
+    @Query("SELECT * FROM TOP_RATED_MOVIE_TABLE ORDER BY RANDOM()")
+    suspend fun getTopRatedMovies(): List<TopRatedMovieEntity>
 
     /**
      *  Mystery Movies
@@ -90,8 +90,8 @@ interface MovieDao {
     @Query("DELETE FROM MYSTERY_MOVIE_TABLE")
     suspend fun deleteMysteryMovies()
 
-    @Query("SELECT * FROM MYSTERY_MOVIE_TABLE")
-    fun getMysteryMovies(): Flow<List<MysteryMovieEntity>>
+    @Query("SELECT * FROM MYSTERY_MOVIE_TABLE ORDER BY RANDOM()")
+    suspend fun getMysteryMovies(): List<MysteryMovieEntity>
 
     /**
      *  Adventure Movies
@@ -102,21 +102,27 @@ interface MovieDao {
     @Query("DELETE FROM ADVENTURE_MOVIE_TABLE")
     suspend fun deleteAdventureMovies()
 
-    @Query("select * from ADVENTURE_MOVIE_TABLE")
-    fun getAdventureMovies(): Flow<List<AdventureMovieEntity>>
+    @Query("select * from ADVENTURE_MOVIE_TABLE ORDER BY RANDOM()")
+    suspend fun getAdventureMovies(): List<AdventureMovieEntity>
 
 
     /**
      *  History Search
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSearch(item: SearchHistoryEntity)
+    suspend fun insertSearchHistory(searchHistory: SearchHistoryEntity)
 
-    @Delete
-    suspend fun deleteSearch(item: SearchHistoryEntity)
+    @Query("delete from SEARCH_HISTORY_TABLE where keyword like :keyword")
+    suspend fun deleteSearch(keyword: String)
 
-    @Query("select * from SEARCH_HISTORY_TABLE")
-    fun getAllSearch(): Flow<List<SearchHistoryEntity>>
+    @Query("delete from SEARCH_HISTORY_TABLE")
+    suspend fun clearAllSearchHistory()
+
+    @Query("select * from SEARCH_HISTORY_TABLE where keyword like :keyword")
+    suspend fun getSearchHistory(keyword: String): List<SearchHistoryEntity>
+
+    @Query("select * from SEARCH_HISTORY_TABLE order by keyword ASC")
+    suspend fun getSearchHistory(): List<SearchHistoryEntity>
 
     /**
      *  Watch History

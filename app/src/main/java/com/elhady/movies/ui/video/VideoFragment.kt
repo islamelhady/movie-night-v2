@@ -12,7 +12,7 @@ import com.elhady.movies.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class VideoFragment : BaseFragment<FragmentVideoBinding>() {
+class VideoFragment : BaseFragment<FragmentVideoBinding, TrailerUiState, VideoInteracion>() {
     override val layoutIdFragment: Int = R.layout.fragment_video
     override val viewModel: VideoViewModel by viewModels()
 
@@ -21,6 +21,10 @@ class VideoFragment : BaseFragment<FragmentVideoBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         fullScreen(requireActivity().window)
+    }
+
+    override fun onEvent(event: VideoInteracion) {
+        TODO("Not yet implemented")
     }
 
     private fun fullScreen(window: Window) {

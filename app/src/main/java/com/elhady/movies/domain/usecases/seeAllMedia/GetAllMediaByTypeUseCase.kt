@@ -7,6 +7,7 @@ import com.elhady.movies.data.repository.ActorRepository
 import com.elhady.movies.data.repository.MovieRepository
 import com.elhady.movies.data.repository.SeriesRepository
 import com.elhady.movies.domain.enums.AllMediaType
+import com.elhady.movies.domain.enums.SeeAllType
 import com.elhady.movies.domain.mappers.movie.MovieDtoMapper
 import com.elhady.movies.domain.mappers.series.TVShowDtoMapper
 import com.elhady.movies.domain.models.Media
@@ -21,19 +22,19 @@ class GetAllMediaByTypeUseCase @Inject constructor(
     private val tvShowDtoMapper: TVShowDtoMapper,
     private val actorRepository: ActorRepository
 ) {
-    suspend operator fun invoke(type: AllMediaType, actionId: Int =0): Flow<PagingData<Media>> {
+    suspend operator fun invoke(type: SeeAllType, actionId: Int =0): Flow<PagingData<Media>> {
         return when(type){
-            AllMediaType.UPCOMING -> wrapper(movieRepository::getAllUpcomingMovies ,movieDtoMapper::map)
-            AllMediaType.TRENDING -> wrapper(movieRepository::getAllTrendingMovies, movieDtoMapper::map)
-            AllMediaType.NOW_PLAYING -> wrapper(movieRepository::getAllNowPlayingMovies, movieDtoMapper::map)
-            AllMediaType.MYSTERY -> wrapper(movieRepository::getAllMysteryMovies, movieDtoMapper::map)
-            AllMediaType.ADVENTURE -> wrapper(movieRepository::getAllAdventureMovies, movieDtoMapper::map)
-            AllMediaType.LATEST -> wrapper(seriesRepository::getAllLatestTV, tvShowDtoMapper::map)
-            AllMediaType.POPULAR -> wrapper(seriesRepository::getAllPopularTV, tvShowDtoMapper::map)
-            AllMediaType.TOP_RATED_TV -> wrapper(seriesRepository::getAllTopRatedTV, tvShowDtoMapper::map)
-            AllMediaType.TOP_RATED_MOVIE -> wrapper(movieRepository::getAllTopRatedMovies, movieDtoMapper::map)
-            AllMediaType.ON_THE_AIR -> wrapper(seriesRepository::getAllOnTheAirSeries, tvShowDtoMapper::map)
-            AllMediaType.ACTOR_MOVIES -> wrapper( { actorRepository.getAllActorMovies(actionId) }, movieDtoMapper::map)
+            SeeAllType.UPCOMING_MOVIE -> wrapper(movieRepository::getAllUpcomingMovies ,movieDtoMapper::map)
+            SeeAllType.TRENDING_MOVIE -> wrapper(movieRepository::getAllTrendingMovies, movieDtoMapper::map)
+            SeeAllType.NOW_PLAYING_MOVIE -> wrapper(movieRepository::getAllNowPlayingMovies, movieDtoMapper::map)
+            SeeAllType.MYSTERY_MOVIE -> wrapper(movieRepository::getAllMysteryMovies, movieDtoMapper::map)
+            SeeAllType.ADVENTURE_MOVIE -> wrapper(movieRepository::getAllAdventureMovies, movieDtoMapper::map)
+            SeeAllType.LATEST_TV -> wrapper(seriesRepository::getAllLatestTV, tvShowDtoMapper::map)
+            SeeAllType.POPULAR_TV -> wrapper(seriesRepository::getAllPopularTV, tvShowDtoMapper::map)
+            SeeAllType.TOP_RATED_TV -> wrapper(seriesRepository::getAllTopRatedTV, tvShowDtoMapper::map)
+            SeeAllType.TOP_RATED_MOVIE -> wrapper(movieRepository::getAllTopRatedMovies, movieDtoMapper::map)
+            SeeAllType.ON_THE_AIR_TV -> wrapper(seriesRepository::getAllOnTheAirSeries, tvShowDtoMapper::map)
+            SeeAllType.ACTOR_MOVIES -> wrapper( { actorRepository.getAllActorMovies(actionId) }, movieDtoMapper::map)
         }
     }
 

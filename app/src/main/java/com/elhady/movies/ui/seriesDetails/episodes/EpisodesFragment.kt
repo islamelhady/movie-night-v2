@@ -12,15 +12,20 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class EpisodesFragment : BaseFragment<FragmentEpisodesBinding>() {
+class EpisodesFragment : BaseFragment<FragmentEpisodesBinding, EpisodesUiState, EpisodesInteraction>() {
     override val layoutIdFragment: Int = R.layout.fragment_episodes
     override val viewModel: EpisodesViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setTitle(true)
         binding.recyclerEpisode.adapter = EpisodeAdapter(mutableListOf(), viewModel)
 
+    }
+
+    override fun onEvent(event: EpisodesInteraction) {
+        TODO("Not yet implemented")
     }
 
 }

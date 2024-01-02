@@ -2,7 +2,7 @@ package com.elhady.movies.ui.seriesDetails.seriesUiMapper
 
 import com.elhady.movies.domain.mappers.Mapper
 import com.elhady.movies.domain.models.Season
-import com.elhady.movies.ui.seriesDetails.seriesUiState.SeasonUiState
+import com.elhady.movies.ui.seriesDetails.SeasonUiState
 import javax.inject.Inject
 
 class SeasonUiMapper @Inject constructor(): Mapper<Season, SeasonUiState> {

@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import com.elhady.movies.ui.models.ActorUiState
 import com.elhady.movies.ui.models.MediaUiState
 import com.elhady.movies.ui.models.ReviewUiState
-import com.elhady.movies.ui.seriesDetails.seriesUiState.SeasonUiState
 
 sealed class SeriesItems(val priority: Int){
     data class Header(val data: SeriesDetailsResultUiState): SeriesItems(0)

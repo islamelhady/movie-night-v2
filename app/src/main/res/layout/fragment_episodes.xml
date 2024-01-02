@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
-            app:items="@{viewModel.episodeUiState.seasonsEpisodesResult}"
+            app:items="@{viewModel.state.seasonsEpisodesResult}"
             android:overScrollMode="never"
             android:paddingTop="@dimen/spacing_small"
             android:scrollbars="none"

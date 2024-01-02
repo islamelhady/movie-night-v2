@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.elhady.movies.ui.seriesDetails.seriesUiState.SeasonUiState" />
+            type="com.elhady.movies.ui.seriesDetails.SeasonUiState" />
         
         <variable
             name="listener"

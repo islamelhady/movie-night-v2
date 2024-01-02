@@ -12,11 +12,11 @@
             name="adapterRecycler"
             type="com.elhady.movies.ui.home.adapters.TVSeriesAdapter" />
 
-        <variable
-            name="movieType"
-            type="com.elhady.movies.domain.enums.HomeItemType" />
+<!--        <variable-->
+<!--            name="type"-->
+<!--            type="com.elhady.movies.domain.enums.SeeAllType" />-->
 
-        <import type="com.elhady.movies.domain.enums.AllMediaType"/>
+        <import type="com.elhady.movies.domain.enums.SeeAllType"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
-            android:text="@{movieType.value}"
+            android:text="@{SeeAllType.ON_THE_AIR_TV.value}"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -46,7 +46,7 @@
             android:layout_marginEnd="@dimen/spacing_too_small"
             android:layout_marginBottom="@dimen/spacing_too_small"
             android:text="@string/see_all"
-            android:onClick="@{() -> adapterRecycler.listener.onClickAllTVSeries(AllMediaType.ON_THE_AIR)}"
+            android:onClick="@{() -> adapterRecycler.listener.onClickAllTVSeries(SeeAllType.ON_THE_AIR_TV)}"
             android:textColor="@color/brand_color"
             app:drawableEndCompat="@drawable/ic_arrow_forward"
             android:gravity="center"

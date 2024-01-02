@@ -4,10 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.CheckIfLoggedInUseCase
 import com.elhady.movies.domain.usecases.GetAccountDetailsUseCase
 import com.elhady.movies.ui.base.BaseViewModel
-import com.elhady.movies.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,13 +14,7 @@ class ProfileViewModel @Inject constructor(
     private val checkIfLoggedInUseCase: CheckIfLoggedInUseCase,
     private val getAccountDetailsUseCase: GetAccountDetailsUseCase,
     private val accountUiStateMapper: AccountUiStateMapper
-) : BaseViewModel() {
-
-    private val _profileUiState = MutableStateFlow(ProfileUiState())
-    val profileUiState = _profileUiState.asStateFlow()
-
-    private val _profileUIEvent=MutableStateFlow<Event<ProfileUiEvent>?>(null)
-    val profileUIEvent= _profileUIEvent.asStateFlow()
+) : BaseViewModel<ProfileUiState, ProfileUiEvent>(ProfileUiState()) {
 
     init {
         getData()
@@ -31,13 +22,13 @@ class ProfileViewModel @Inject constructor(
 
     override fun getData() {
         if (checkIfLoggedInUseCase()) {
-            _profileUiState.update {
+            _state.update {
                 it.copy(isLoading = true, isLoggedIn = true, error = false)
             }
 
             viewModelScope.launch {
                 val accountResult = accountUiStateMapper.map(getAccountDetailsUseCase())
-                _profileUiState.update {
+                _state.update {
                     it.copy(
                         avatarPath = accountResult.avatarPath,
                         name = accountResult.name,
@@ -47,28 +38,26 @@ class ProfileViewModel @Inject constructor(
                 }
             }
         } else {
-            _profileUiState.update {
+            _state.update {
                 it.copy(isLoggedIn = false)
             }
         }
     }
 
     fun onClickRatedMovies() {
-        _profileUIEvent.update { Event(ProfileUiEvent.RatedMoviesEvent) }
+        sendEvent(ProfileUiEvent.RatedMoviesEvent)
     }
 
     fun onClickLogout() {
-        _profileUIEvent.update { Event(ProfileUiEvent.DialogLogoutEvent) }
+        sendEvent(ProfileUiEvent.DialogLogoutEvent)
     }
 
     fun onClickWatchHistory() {
-        _profileUIEvent.update { Event(ProfileUiEvent.WatchHistoryEvent) }
+        sendEvent(ProfileUiEvent.WatchHistoryEvent)
     }
 
-    fun onClickLogin(){
-        _profileUIEvent.update {
-            Event(ProfileUiEvent.LoginEvent)
-        }
+    fun onClickLogin() {
+        sendEvent(ProfileUiEvent.LoginEvent)
     }
 
 

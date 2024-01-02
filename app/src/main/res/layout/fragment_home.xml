@@ -16,21 +16,35 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:background="@color/background_color"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            hideIfTrue="@{viewModel.homeUiState.loading}"
+            hideIfTrue="@{viewModel.state.loading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/list_popular_movie" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <include
             android:id="@+id/loading"
             layout="@layout/loading"
-            isVisible="@{viewModel.homeUiState.loading}" />
+            isVisible="@{viewModel.state.loading}" />
+
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lost_connection"
+            android:layout_width="@dimen/spacing_connection_large"
+            android:layout_height="@dimen/spacing_connection_large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_colorFilter="@color/red"
+            app:lottie_rawRes="@raw/lost_internet_connection"
+            app:showWhenListNotEmpty="@{viewModel.state.onErrors}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
