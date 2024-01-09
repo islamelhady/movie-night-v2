@@ -97,7 +97,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_watch_history" />
 
-
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/second_divider"
             android:layout_width="match_parent"
@@ -107,6 +106,44 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_rated_movies" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_view_theme"
+            style="@style/SimiBold.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_medium"
+            app:drawableStartCompat="@drawable/ic_sun"
+            app:drawableTint="@color/black"
+            android:onClick="@{ () -> viewModel.onClickRatedMovies()}"
+            android:drawablePadding="@dimen/spacing_medium"
+            android:paddingVertical="@dimen/spacing_medium"
+            android:text="@string/theme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_rated_movies" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switch_botton_theme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:checked="true"
+            app:layout_constraintBottom_toBottomOf="@id/text_view_theme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/text_view_theme"
+            app:showText="false" />
+
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/third_divider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_medium"
+            app:dividerColor="@color/shade_quaternary_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_theme" />
 
 
         <com.google.android.material.textview.MaterialTextView
@@ -123,7 +160,7 @@
             android:textColor="@color/shade_ternary_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_rated_movies" />
+            app:layout_constraintTop_toBottomOf="@+id/third_divider" />
 
         <ImageView
             android:id="@+id/vector_image"

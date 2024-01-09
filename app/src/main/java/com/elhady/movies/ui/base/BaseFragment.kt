@@ -21,7 +21,6 @@ abstract class BaseFragment<VDB : ViewDataBinding, STATE, EVENT> : Fragment() {
 
     abstract val layoutIdFragment: Int
 
-    //    lateinit var viewModel: VM
     abstract val viewModel: BaseViewModel<STATE, EVENT>
 
     private lateinit var _binding: VDB
