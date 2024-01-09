@@ -128,7 +128,7 @@
             android:id="@+id/switch_botton_theme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_medium"
             android:checked="true"
             app:layout_constraintBottom_toBottomOf="@id/text_view_theme"
             app:layout_constraintEnd_toEndOf="parent"
@@ -229,11 +229,13 @@
             text_sign_out,
             first_divider,
             second_divider,
+            text_view_theme,
+            switch_botton_theme,
             image_actor,
             text_name_actor,
             text_username"
             app:showProfileWhenSuccess="@{viewModel.state.username}"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/group_when_no_logged_in"
@@ -246,7 +248,7 @@
             text_message_wrong,
             button_nav_login"
             app:showWhenNoLoggedIn="@{viewModel.state.isLoggedIn}"
-            tools:visibility="gone"/>
+            tools:visibility="visible"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
