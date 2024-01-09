@@ -8,9 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.elhady.movies.BR
-import com.elhady.movies.utilities.collectLast
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 abstract class BaseFragment<VDB : ViewDataBinding, STATE, EVENT> : Fragment() {
 
@@ -38,9 +43,20 @@ abstract class BaseFragment<VDB : ViewDataBinding, STATE, EVENT> : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        collectLast(flow = viewModel.event, action = { onEvent(it) })
+        collectLatest {
+            viewModel.event.collectLatest {
+                onEvent(it)
+            }
+        }
     }
 
+    private fun collectLatest(collect: suspend CoroutineScope.() -> Unit) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                collect()
+            }
+        }
+    }
     abstract fun onEvent(event: EVENT)
 
     protected fun setTitle(visibility: Boolean, title: String? = null) {
