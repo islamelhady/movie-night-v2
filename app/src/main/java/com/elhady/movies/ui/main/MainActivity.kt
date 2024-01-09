@@ -1,9 +1,11 @@
 package com.elhady.movies.ui.main
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
@@ -24,9 +26,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY)
-        setTheme(R.style.Theme_Movies)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
+        changeAppTheme()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
@@ -84,4 +85,20 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return findNavController(R.id.nav_host_fragment_activity_main).navigateUp() || super.onSupportNavigateUp()
     }
+
+    private fun changeAppTheme() {
+        val sharedPreferences = getPreferences(Context.MODE_PRIVATE)
+        val savedThemeState = sharedPreferences.getBoolean(KEY_NIGHT_MODE, false)
+        if (savedThemeState) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+    }
+
+    companion object {
+        const val KEY_NIGHT_MODE = "night_mode"
+    }
+
+
 }

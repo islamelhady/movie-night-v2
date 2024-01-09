@@ -36,11 +36,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
     private fun changeAppTheme() {
         val sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
         val switchButtonTheme = binding.switchBottonTheme
-        val savedThemeState = sharedPreferences.getBoolean(PREF_THEME_STATE, false)
+        val savedThemeState = sharedPreferences.getBoolean(KEY_NIGHT_MODE, false)
         switchButtonTheme.isChecked = savedThemeState
 
         switchButtonTheme.setOnCheckedChangeListener { _, isChecked ->
-            sharedPreferences.edit().putBoolean(PREF_THEME_STATE, isChecked).apply()
+            sharedPreferences.edit().putBoolean(KEY_NIGHT_MODE, isChecked).apply()
             if (isChecked) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             } else {
@@ -49,9 +49,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
         }
     }
 
-    companion object{
-        private const val PREF_THEME_STATE = "theme"
+    companion object {
+        const val KEY_NIGHT_MODE = "night_mode"
     }
-
 
 }
