@@ -55,6 +55,7 @@
                 android:layout_height="56dp"
                 android:afterTextChanged="@{(username) -> viewModel.onUserNameInputChange(username)}"
                 android:maxLines="1"
+                android:inputType="textPersonName"
                 android:textAppearance="@style/Regular.Medium" />
         </com.google.android.material.textfield.TextInputLayout>
 
