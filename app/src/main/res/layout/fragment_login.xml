@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_medium"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/spacing_large"
             android:text="@string/login_to_your_account"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -43,18 +43,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_medium"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/spacing_large"
             app:helperText="@{viewModel.state.userNameHelperText}"
             android:hint="@string/username"
+            app:errorEnabled="true"
             app:helperTextTextColor="@color/red"
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:startIconDrawable="@drawable/ic_profile">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="wrap_content"
                 android:afterTextChanged="@{(username) -> viewModel.onUserNameInputChange(username)}"
                 android:maxLines="1"
+                android:maxLength="24"
                 android:inputType="textPersonName"
                 android:textAppearance="@style/Regular.Medium" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -64,8 +66,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_medium"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/spacing_large"
             app:passwordToggleEnabled="true"
+            app:passwordToggleDrawable="@drawable/selector_password_icon"
             app:passwordToggleTint="@color/shade_secondary_color"
             android:hint="@string/password"
             app:helperText="@{viewModel.state.passwordHelperText}"
@@ -76,7 +79,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:afterTextChanged="@{(password) -> viewModel.onPasswordInputChange(password)}"
                 android:maxLines="1"
@@ -86,12 +89,12 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:enabled="@{viewModel.state.validForm}"
             android:onClick="@{() -> viewModel.login()}"
             app:hideIfTrue="@{viewModel.state.loading}"
             android:layout_marginHorizontal="@dimen/spacing_medium"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="@dimen/spacing_extra_large"
             android:text="@string/login"
             android:textAppearance="@style/SimiBold.Medium"
             app:cornerRadius="@dimen/radius_small"
@@ -100,7 +103,7 @@
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="@dimen/spacing_extra_large"
             android:indeterminate="true"
             android:visibility="gone"
             isVisible="@{viewModel.state.loading}"
