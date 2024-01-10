@@ -1,7 +1,6 @@
 package com.elhady.movies.di
 
 import com.elhady.movies.data.local.AppConfiguration
-import com.elhady.movies.data.DataClassParser
 import com.elhady.movies.data.local.database.daos.ActorDao
 import com.elhady.movies.data.local.database.daos.MovieDao
 import com.elhady.movies.data.local.database.daos.SeriesDao
@@ -27,16 +26,7 @@ import com.elhady.movies.data.repository.ActorRepositoryImp
 import com.elhady.movies.data.repository.SeriesRepository
 import com.elhady.movies.data.repository.SeriesRepositoryImp
 import com.elhady.movies.data.repository.mediaDataSource.actors.ActorMoviesDataSource
-import com.elhady.movies.data.repository.mediaDataSource.movies.AdventureMovieDataSource
 import com.elhady.movies.data.repository.mediaDataSource.movies.MovieDataSourceContainer
-import com.elhady.movies.data.repository.mediaDataSource.movies.MysteryMovieDataSource
-import com.elhady.movies.data.repository.mediaDataSource.movies.NowPlayingMovieDataSource
-import com.elhady.movies.data.repository.mediaDataSource.series.TopRatedTVDataSource
-import com.elhady.movies.data.repository.mediaDataSource.movies.TrendingMovieDataSource
-import com.elhady.movies.data.repository.mediaDataSource.movies.UpcomingMovieDataSource
-import com.elhady.movies.data.repository.mediaDataSource.series.LatestTVDataSource
-import com.elhady.movies.data.repository.mediaDataSource.series.OnTheAirTVDataSource
-import com.elhady.movies.data.repository.mediaDataSource.series.PopularTVDataSource
 import com.elhady.movies.data.repository.mediaDataSource.series.SeriesDataSourceContainer
 import com.elhady.movies.data.repository.searchDataSource.ActorsSearchDataSource
 import com.elhady.movies.data.repository.searchDataSource.MovieSearchDataSource
