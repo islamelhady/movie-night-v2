@@ -26,7 +26,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginUiState, LoginUiEv
     override fun onEvent(event: LoginUiEvent) {
         when (event) {
             is LoginUiEvent.LoginEvent -> {
-                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToProfileFragment())
+                val navController = findNavController()
+                navController.popBackStack(navController.graph.startDestinationId, inclusive = false)
+                navController.navigate(event.login)
             }
             LoginUiEvent.SignUpEvent -> {
                 val browser = Intent(Intent.ACTION_VIEW, Uri.parse(Constants.TMDB_SIGNUP_URL))

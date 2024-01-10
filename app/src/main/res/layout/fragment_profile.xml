@@ -231,6 +231,7 @@
             second_divider,
             text_view_theme,
             switch_botton_theme,
+            third_divider,
             image_actor,
             text_name_actor,
             text_username"

@@ -1,7 +1,7 @@
 package com.elhady.movies.ui.login
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.R
 import com.elhady.movies.domain.usecases.login.LoginWithUsernameAndPasswordUseCase
 import com.elhady.movies.domain.usecases.login.ValidateFieldUseCase
 import com.elhady.movies.domain.usecases.login.ValidatePasswordUseCase
@@ -14,14 +14,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
     private val loginWithUsernameAndPasswordUseCase: LoginWithUsernameAndPasswordUseCase,
     private val validateFieldUseCase: ValidateFieldUseCase,
     private val validateUsernameFieldUseCase: ValidateUsernameFieldUseCase,
     private val validatePasswordUseCase: ValidatePasswordUseCase
 ) : BaseViewModel<LoginUiState, LoginUiEvent>(LoginUiState()) {
 
-    val args = LoginFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
     override fun getData() {
         TODO("Not yet implemented")
@@ -80,7 +78,7 @@ class LoginViewModel @Inject constructor(
 
     private fun onLoginSuccess() {
         _state.update { it.copy(isLoading = false) }
-        sendEvent(LoginUiEvent.LoginEvent(args.form))
+        sendEvent(LoginUiEvent.LoginEvent(R.id.profileFragment))
         resetForm()
     }
 

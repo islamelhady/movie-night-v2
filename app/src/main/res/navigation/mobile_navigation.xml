@@ -84,15 +84,11 @@
         android:name="com.elhady.movies.ui.login.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
-        <argument
-            android:name="form"
-            app:argType="integer" />
         <action
             android:id="@+id/action_loginFragment_to_profileFragment"
+            app:popUpTo="@id/profileFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/profileFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"

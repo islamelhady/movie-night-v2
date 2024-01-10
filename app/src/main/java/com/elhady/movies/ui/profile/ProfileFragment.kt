@@ -28,7 +28,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
             ProfileUiEvent.DialogLogoutEvent -> ProfileFragmentDirections.actionProfileFragmentToLogoutDialog()
             ProfileUiEvent.RatedMoviesEvent -> ProfileFragmentDirections.actionProfileFragmentToRatingFragment()
             ProfileUiEvent.WatchHistoryEvent -> ProfileFragmentDirections.actionProfileFragmentToWatchHistoryFragment()
-            ProfileUiEvent.LoginEvent -> ProfileFragmentDirections.actionProfileFragmentToLoginFragment(2)
+            ProfileUiEvent.LoginEvent -> ProfileFragmentDirections.actionProfileFragmentToLoginFragment()
         }
         findNavController().navigate(action)
     }
