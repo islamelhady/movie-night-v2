@@ -1,12 +1,15 @@
 package com.elhady.movies.ui.login
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.R
+import com.elhady.movies.domain.usecases.login.LoginError
 import com.elhady.movies.domain.usecases.login.LoginWithUsernameAndPasswordUseCase
 import com.elhady.movies.domain.usecases.login.ValidateFieldUseCase
 import com.elhady.movies.domain.usecases.login.ValidatePasswordUseCase
 import com.elhady.movies.domain.usecases.login.ValidateUsernameFieldUseCase
 import com.elhady.movies.ui.base.BaseViewModel
+import com.elhady.movies.utilities.FormFieldState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -55,20 +58,14 @@ class LoginViewModel @Inject constructor(
 
     fun login() {
         viewModelScope.launch {
-            try {
-                _state.update {
-                    it.copy(isLoading = true)
+                val userName = _state.value.userName
+                val password = _state.value.password
+                _state.update { it.copy(isLoading = true) }
+                val loginState = loginWithUsernameAndPasswordUseCase(userName, password)
+                when (loginState) {
+                    LoginError.SUCCESS -> onLoginSuccess()
+                    LoginError.REQUEST_ERROR -> onLoginFailure()
                 }
-                val loginState = loginWithUsernameAndPasswordUseCase(
-                    state.value.userName,
-                    state.value.password
-                )
-                if (loginState) {
-                    onLoginSuccess()
-                }
-            } catch (e: Exception) {
-                onLoginError(e.message.toString())
-            }
         }
     }
 
@@ -82,14 +79,9 @@ class LoginViewModel @Inject constructor(
         resetForm()
     }
 
-    private fun onLoginError(message: String) {
-        _state.update {
-            it.copy(
-                isLoading = false,
-                error = message,
-                passwordHelperText = message
-            )
-        }
+    private fun onLoginFailure(){
+        _state.update { it.copy(isLoading = false) }
+        sendEvent(LoginUiEvent.ShowSnackBar("Failed Please Try Again Later  \uD83E\uDD14."))
     }
 
     private fun resetForm() {

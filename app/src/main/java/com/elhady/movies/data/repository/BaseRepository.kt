@@ -7,12 +7,35 @@ import com.elhady.movies.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
+import java.net.UnknownHostException
 import java.util.Date
 
 abstract class BaseRepository {
 
 
-    val pagingConfig = PagingConfig(pageSize = Constants.ITEMS_PER_PAGE, prefetchDistance = 5, enablePlaceholders = false)
+    val pagingConfig = PagingConfig(
+        pageSize = Constants.ITEMS_PER_PAGE,
+        prefetchDistance = 5,
+        enablePlaceholders = false
+    )
+
+    protected suspend fun <T> wrapApiCall(call: suspend () -> Response<T>): T {
+        return try {
+            val result = call()
+            if (result.code() == UNAUTHORIZED_CODE) {
+                throw UnauthorizedThrowable()
+            }
+            if (result.code() == TIMEOUT_CODE) {
+                throw TimeoutThrowable()
+            }
+            result.body() ?: throw ParsingThrowable()
+        } catch (e: UnknownHostException) {
+            throw NoNetworkThrowable()
+        } catch (e: Exception) {
+            throw ApiThrowable(e.message)
+        }
+    }
+
 
     protected fun <I, O> wrap(
         function: suspend () -> Response<I>,
@@ -80,8 +103,9 @@ abstract class BaseRepository {
     }
 
     protected suspend fun refreshOneTimePerDay(
-        requestDate:Long?,
-        refreshData :  suspend (Date) -> Unit){
+        requestDate: Long?,
+        refreshData: suspend (Date) -> Unit
+    ) {
         val currentDate = Date()
         if (requestDate != null) {
             if (Date(requestDate).after(currentDate)) {
@@ -90,5 +114,10 @@ abstract class BaseRepository {
         } else {
             refreshData(currentDate)
         }
+    }
+
+    private companion object {
+        const val UNAUTHORIZED_CODE = 401
+        const val TIMEOUT_CODE = 408
     }
 }

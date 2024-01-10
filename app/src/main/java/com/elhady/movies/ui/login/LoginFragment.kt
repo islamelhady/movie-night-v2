@@ -34,6 +34,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginUiState, LoginUiEv
                 val browser = Intent(Intent.ACTION_VIEW, Uri.parse(Constants.TMDB_SIGNUP_URL))
                 startActivity(browser)
             }
+
+            is LoginUiEvent.ShowSnackBar -> showSnackBar(event.message)
         }
     }
 
