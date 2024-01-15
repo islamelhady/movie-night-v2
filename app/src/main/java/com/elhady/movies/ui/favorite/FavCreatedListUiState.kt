@@ -5,5 +5,6 @@ data class FavCreatedListUiState(
     val dialogUiState: CreateListDialogUiState = CreateListDialogUiState(),
     val isLoading: Boolean = false,
     val isEmpty: Boolean = false,
+    val isLoggedIn: Boolean = false,
     val onErrors: List<String> = emptyList()
 )

@@ -1,9 +1,12 @@
 package com.elhady.movies.ui.favorite
 
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.domain.usecases.CheckIfLoggedInUseCase
+import com.elhady.movies.domain.usecases.GetAccountDetailsUseCase
 import com.elhady.movies.domain.usecases.favList.CreateListUseCase
 import com.elhady.movies.domain.usecases.favList.GetCreatedListUseCase
 import com.elhady.movies.ui.base.BaseViewModel
+import com.elhady.movies.ui.profile.AccountUiStateMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -13,6 +16,7 @@ import javax.inject.Inject
 class FavoriteViewModel @Inject constructor(
     private val createListUseCase: CreateListUseCase,
     private val getCreatedListUseCase: GetCreatedListUseCase,
+    private val checkIfLoggedInUseCase: CheckIfLoggedInUseCase,
     private val createdListUiMapper: CreatedListUiMapper
 ) : BaseViewModel<FavCreatedListUiState, FavouriteUiEvent>(FavCreatedListUiState()), CreatedListInteractionListener {
 
@@ -25,13 +29,19 @@ class FavoriteViewModel @Inject constructor(
     }
 
     private fun getCreatedList(){
-        _state.update { it.copy(isLoading = true) }
-        viewModelScope.launch {
-            val result = getCreatedListUseCase().map {
-                createdListUiMapper.map(it)
+        if (checkIfLoggedInUseCase()){
+            _state.update { it.copy(isLoading = true, isLoggedIn = true) }
+            viewModelScope.launch {
+                val result = getCreatedListUseCase().map {
+                    createdListUiMapper.map(it)
+                }
+                _state.update {
+                    it.copy(createdList = result, isLoading = false)
+                }
             }
+        }else{
             _state.update {
-                it.copy(createdList = result, isLoading = false)
+                it.copy(isLoggedIn = false)
             }
         }
     }
@@ -57,5 +67,9 @@ class FavoriteViewModel @Inject constructor(
 
     override fun onListClick(item: CreatedListUiState) {
         sendEvent(FavouriteUiEvent.ClickSelectedItemEvent(item))
+    }
+
+    fun onClickLogin(){
+        sendEvent(FavouriteUiEvent.ClickLogin)
     }
 }
