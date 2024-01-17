@@ -11,8 +11,8 @@ class SaveListDetailsMapper @Inject constructor() : Mapper<SavedListDto, SaveLis
         return SaveListDetails(
             id = input.id ?: 0,
             mediaType = input.mediaType ?: "",
-            title = listOf(input.originalTitle, input.originalTitle).filter { it != null }.first().toString(),
-            releaseDate = listOf(input.releaseDate, input.releaseDate).filter { it != null }.first().toString(),
+            title = input.originalTitle.toString(),
+            releaseDate = input.releaseDate.toString(),
             voteAverage = input.voteAverage ?: 0.0,
             posterPath = Constants.IMAGE_PATH + input.backdropPath,
         )

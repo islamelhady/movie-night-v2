@@ -112,13 +112,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
-            android:background="@drawable/back_button_shape"
             android:onClick="@{() -> viewModel.onClickBackButton()}"
             android:padding="@dimen/spacing_small"
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/background_color" />
+            app:tint="@color/shade_primary_color" />
 
         <ImageButton
             android:id="@+id/favorite_button"
@@ -126,13 +125,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
             android:layout_marginEnd="@dimen/spacing_medium"
-            android:background="@drawable/back_button_shape"
+            android:background="@null"
             android:backgroundTint="@color/black"
             android:padding="@dimen/spacing_small"
             android:src="@drawable/ic_favorite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/background_color" />
+            app:tint="@color/shade_primary_color" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_series_details"

@@ -115,13 +115,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
-            android:background="@drawable/back_button_shape"
             android:onClick="@{() -> viewModel.onClickBackButton()}"
             android:padding="@dimen/spacing_small"
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/background_color" />
+            app:tint="@color/shade_primary_color" />
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nested_scroll_view"

@@ -36,7 +36,7 @@
             android:layout_marginEnd="@dimen/spacing_medium"
             android:paddingStart="@dimen/spacing_small"
             android:drawableStart="@drawable/ic_search"
-            android:drawableTint="@color/brand_color"
+            android:drawableTint="@color/shade_primary_color"
             android:drawablePadding="@dimen/spacing_small"
             android:focusable="true"
             android:focusableInTouchMode="true"

@@ -10,6 +10,9 @@ class CreatedListMapper @Inject constructor() : Mapper<CreatedListDto, CreatedLi
         return CreatedList(
             id = input.id ?: 0,
             name = input.name ?: "unknown",
-            itemCount = input.itemCount ?: 0)
+            itemCount = input.itemCount ?: 0,
+            posterPath = listOfNotNull(input.posterPath),
+            listType = input.listType?: ""
+        )
     }
 }

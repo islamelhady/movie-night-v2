@@ -81,6 +81,7 @@
             android:layout_marginTop="@dimen/spacing_small"
             android:background="@drawable/edit_text_background"
             android:drawableStart="@drawable/ic_search"
+            android:drawableTint="@color/shade_primary_color"
             android:drawablePadding="@dimen/spacing_small"
             android:onClick="@{() -> viewModel.onClickSearch()}"
             android:focusableInTouchMode="false"
@@ -90,7 +91,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:paddingStart="@dimen/spacing_small" />
+            android:paddingStart="@dimen/spacing_small" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_movie"

@@ -31,7 +31,8 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding, FavCreatedListUiS
         when(event){
             FavouriteUiEvent.CLickAddEvent -> findNavController().navigate(FavoriteFragmentDirections.actionFavoriteFragmentToCreateListDialog())
             is FavouriteUiEvent.ClickSelectedItemEvent -> findNavController().navigate(FavoriteFragmentDirections.actionFavoriteFragmentToFavListDetailsFragment(event.item.id))
-            else -> {}
+            FavouriteUiEvent.ClickLogin -> findNavController().navigate(FavoriteFragmentDirections.actionFavoriteFragmentToLoginFragment())
+            FavouriteUiEvent.ClickCreateEvent -> TODO()
         }
 
     }
