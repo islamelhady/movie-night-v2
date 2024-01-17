@@ -2,11 +2,9 @@ package com.elhady.movies.ui.favorite
 
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.CheckIfLoggedInUseCase
-import com.elhady.movies.domain.usecases.GetAccountDetailsUseCase
 import com.elhady.movies.domain.usecases.favList.CreateListUseCase
-import com.elhady.movies.domain.usecases.favList.GetCreatedListUseCase
+import com.elhady.movies.domain.usecases.favList.GetFavouriteCreatedListUseCase
 import com.elhady.movies.ui.base.BaseViewModel
-import com.elhady.movies.ui.profile.AccountUiStateMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -15,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FavoriteViewModel @Inject constructor(
     private val createListUseCase: CreateListUseCase,
-    private val getCreatedListUseCase: GetCreatedListUseCase,
+    private val getFavouriteCreatedListUseCase: GetFavouriteCreatedListUseCase,
     private val checkIfLoggedInUseCase: CheckIfLoggedInUseCase,
     private val createdListUiMapper: CreatedListUiMapper
 ) : BaseViewModel<FavCreatedListUiState, FavouriteUiEvent>(FavCreatedListUiState()), CreatedListInteractionListener {
@@ -32,7 +30,7 @@ class FavoriteViewModel @Inject constructor(
         if (checkIfLoggedInUseCase()){
             _state.update { it.copy(isLoading = true, isLoggedIn = true) }
             viewModelScope.launch {
-                val result = getCreatedListUseCase().map {
+                val result = getFavouriteCreatedListUseCase().map {
                     createdListUiMapper.map(it)
                 }
                 _state.update {

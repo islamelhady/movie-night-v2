@@ -1,6 +1,5 @@
 package com.elhady.movies.ui.favorite
 
-import com.elhady.movies.domain.enums.MediaType
 
 data class FavCreatedListUiState(
     val createdList: List<CreatedListUiState> = emptyList(),
@@ -15,7 +14,7 @@ data class CreatedListUiState(
     val id: Int = 0,
     val name: String = "",
     val mediaCounts: Int = 0,
-    val mediaType: MediaType = MediaType.MOVIES,
+    val listType: String = "",
     val posterPath: List<String> = emptyList()
 )
 
