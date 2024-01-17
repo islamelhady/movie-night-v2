@@ -63,7 +63,6 @@
                 android:layout_marginEnd="@dimen/spacing_medium"
                 android:background="@null"
                 android:src="@drawable/ic_clear"
-                app:layout_constraintBottom_toBottomOf="@id/text_item"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/text_title"
                 app:tint="@color/red"
