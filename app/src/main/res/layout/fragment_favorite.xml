@@ -101,7 +101,7 @@
             recycler_favourite,
             text_favorite"
             app:showWhenNoLoggedIn="@{!viewModel.state.loggedIn}"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/group_when_no_logged_in"
@@ -114,6 +114,7 @@
             text_message_wrong,
             button_nav_login"
             app:showWhenNoLoggedIn="@{viewModel.state.loggedIn}"
-            tools:visibility="visible"/>
+            tools:visibility="gone"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

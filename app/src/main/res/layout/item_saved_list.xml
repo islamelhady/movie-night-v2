@@ -22,13 +22,13 @@
         android:layout_marginVertical="@dimen/spacing_small"
         android:backgroundTint="@color/card_background_color"
         app:cardCornerRadius="@dimen/spacing_medium"
+        android:onClick="@{ () -> listener.onListClick(item)}"
         app:cardElevation="1dp">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:onClick="@{ () -> listener.onListClick(item)}">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/text_title"
