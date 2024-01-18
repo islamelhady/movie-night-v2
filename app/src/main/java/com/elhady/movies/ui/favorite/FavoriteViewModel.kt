@@ -32,7 +32,7 @@ class FavoriteViewModel @Inject constructor(
                 mapper = createdListUiMapper
             )
         }else{
-            _state.update { it.copy(isLoggedIn = false, isLoading = false) }
+            _state.update { it.copy(isLoggedIn = false, isLoading = false, onErrors = emptyList()) }
         }
     }
 

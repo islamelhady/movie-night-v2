@@ -113,7 +113,7 @@
             text_message_wrong_title,
             text_message_wrong,
             button_nav_login"
-            app:isVisible="@{!viewModel.state.loggedIn &amp;&amp; !viewModel.state.loading}"
+            app:isVisible="@{!viewModel.state.loggedIn &amp;&amp; !viewModel.state.loading &amp;&amp; viewModel.state.onErrors.empty}"
             tools:visibility="gone"/>
 
         <include
