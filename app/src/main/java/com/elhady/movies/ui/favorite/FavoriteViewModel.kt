@@ -32,7 +32,7 @@ class FavoriteViewModel @Inject constructor(
                 mapper = createdListUiMapper
             )
         }else{
-            _state.update { it.copy(isLoggedIn = false, isLoading = false) }
+            _state.update { it.copy(isLoggedIn = false, isLoading = false, onErrors = emptyList()) }
         }
     }
 
@@ -64,7 +64,7 @@ class FavoriteViewModel @Inject constructor(
     }
 
     override fun onListClick(item: CreatedListUiState) {
-        sendEvent(FavouriteUiEvent.ClickSelectedItemEvent(item))
+        sendEvent(FavouriteUiEvent.ClickSelectedItemEvent(id = item.id, listName = item.name))
     }
 
     fun onClickLogin(){
