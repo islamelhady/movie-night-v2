@@ -280,7 +280,7 @@
     <fragment
         android:id="@+id/watchHistoryFragment"
         android:name="com.elhady.movies.ui.profile.watchHistory.WatchHistoryFragment"
-        android:label="fragment_watch_history"
+        android:label="@string/watch_history"
         tools:layout="@layout/fragment_watch_history" >
         <action
             android:id="@+id/action_watchHistoryFragment_to_tvShowDetailsFragment"

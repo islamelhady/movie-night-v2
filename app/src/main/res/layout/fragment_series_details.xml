@@ -99,6 +99,8 @@
             style="@style/SimiBold.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
             showWhenTextNotEmpty="@{viewModel.state.seriesDetailsResult.seriesName}"
             android:text="@{viewModel.state.seriesDetailsResult.seriesName}"
             app:layout_constraintBottom_toBottomOf="@id/series_image"

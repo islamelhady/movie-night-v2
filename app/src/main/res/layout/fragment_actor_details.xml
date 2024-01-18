@@ -103,6 +103,8 @@
             style="@style/SimiBold.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
             android:text="@{viewModel.state.actorInfo.name}"
             app:layout_constraintBottom_toBottomOf="@id/actor_image"
             app:layout_constraintEnd_toEndOf="parent"
