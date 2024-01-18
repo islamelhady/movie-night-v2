@@ -19,7 +19,7 @@ class EpisodesViewModel @Inject constructor(
     private val episodeUiMapper: EpisodeUiMapper
 ) : BaseViewModel<EpisodesUiState, EpisodesInteraction>(EpisodesUiState()), BaseInteractionListener {
 
-    private val args = EpisodesFragmentArgs.fromSavedStateHandle(state)
+    val args = EpisodesFragmentArgs.fromSavedStateHandle(state)
 
 
     init {

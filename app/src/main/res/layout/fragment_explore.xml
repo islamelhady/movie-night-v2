@@ -81,7 +81,7 @@
             android:layout_marginTop="@dimen/spacing_small"
             android:background="@drawable/edit_text_background"
             android:drawableStart="@drawable/ic_search"
-            android:drawableTint="@color/shade_primary_color"
+            app:drawableTint="@color/shade_primary_color"
             android:drawablePadding="@dimen/spacing_small"
             android:onClick="@{() -> viewModel.onClickSearch()}"
             android:focusableInTouchMode="false"
@@ -207,14 +207,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_large"
-            hideIfTrue="@{viewModel.state.loading}"
-            android:drawableEnd="@drawable/ic_trending"
-            android:drawableTint="@color/shade_secondary_color"
             android:drawablePadding="@dimen/spacing_too_small"
             android:gravity="center"
             android:text="@string/text_trend"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_movie" />
+            app:layout_constraintTop_toBottomOf="@id/card_movie"
+            app:drawableEndCompat="@drawable/ic_trending"
+            app:drawableTint="@color/shade_secondary_color" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_explore"

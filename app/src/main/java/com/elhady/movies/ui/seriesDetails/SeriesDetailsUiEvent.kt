@@ -3,7 +3,7 @@ package com.elhady.movies.ui.seriesDetails
 import com.elhady.movies.domain.models.RatingStatus
 
 sealed interface SeriesDetailsUiEvent {
-    data class ClickSeasonEvent(val seasonNumber: Int): SeriesDetailsUiEvent
+    data class ClickSeasonEvent(val seasonNumber: Int, val seasonName: String): SeriesDetailsUiEvent
     object ClickBackButtonEvent: SeriesDetailsUiEvent
     object ClickPlayTrailerEvent: SeriesDetailsUiEvent
     data class ClickCastEvent(val castId: Int): SeriesDetailsUiEvent

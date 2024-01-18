@@ -222,6 +222,9 @@
         <argument
             android:name="seasonNumber"
             app:argType="integer" />
+        <argument
+            android:name="seasonName"
+            app:argType="string" />
         <action
             android:id="@+id/action_tvShowDetailsFragment_to_episodesFragment"
             app:destination="@id/episodesFragment" />
