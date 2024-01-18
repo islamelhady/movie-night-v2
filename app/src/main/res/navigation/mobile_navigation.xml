@@ -119,9 +119,9 @@
     </fragment>
     <fragment
         android:id="@+id/allMediaFragment"
-        android:name="com.elhady.movies.ui.allMedia.AllMediaFragment"
+        android:name="com.elhady.movies.ui.seeAll.SeeAllMediaFragment"
         android:label="fragment_al_media"
-        tools:layout="@layout/fragment_al_media">
+        tools:layout="@layout/fragment_see_all_media">
         <argument
             android:name="type"
             app:argType="com.elhady.movies.domain.enums.SeeAllType" />

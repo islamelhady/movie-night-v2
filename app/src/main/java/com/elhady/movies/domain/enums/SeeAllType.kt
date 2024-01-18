@@ -1,15 +1,15 @@
 package com.elhady.movies.domain.enums
 
 enum class SeeAllType(val value: String) {
-    TOP_RATED_TV("Top rated series"),
-    POPULAR_TV("Popular series"),
-    LATEST_TV("Latest series"),
-    ON_THE_AIR_TV("On the air series"),
-    UPCOMING_MOVIE("Upcoming movies"),
-    TRENDING_MOVIE("Trending movies"),
-    NOW_PLAYING_MOVIE("Now playing in cinema"),
-    TOP_RATED_MOVIE("Top rated movies"),
-    MYSTERY_MOVIE("Mystery movies"),
-    ADVENTURE_MOVIE("Adventure movies"),
-    ACTOR_MOVIES("Actor movies")
+    TOP_RATED_TV("Top Rated Series"),
+    POPULAR_TV("Popular Series"),
+    LATEST_TV("Latest Series"),
+    ON_THE_AIR_TV("On The Air Series"),
+    UPCOMING_MOVIE("Upcoming Movies"),
+    TRENDING_MOVIE("Trending Movies"),
+    NOW_PLAYING_MOVIE("Now Playing in Cinema"),
+    TOP_RATED_MOVIE("Top Rated Movies"),
+    MYSTERY_MOVIE("Mystery Movies"),
+    ADVENTURE_MOVIE("Adventure Movies"),
+    ACTOR_MOVIES("Actor Movies")
 }

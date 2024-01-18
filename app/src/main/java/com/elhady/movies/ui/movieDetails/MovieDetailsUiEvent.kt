@@ -1,6 +1,5 @@
 package com.elhady.movies.ui.movieDetails
 
-import com.elhady.movies.domain.models.RatingStatus
 
 sealed interface MovieDetailsUiEvent {
     object ClickPlayTrailerEvent : MovieDetailsUiEvent
