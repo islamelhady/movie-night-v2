@@ -238,7 +238,7 @@
             image_actor,
             text_name_actor,
             text_username"
-            app:showProfileWhenSuccess="@{viewModel.state.username}"
+            app:isVisible="@{viewModel.state.loggedIn}"
             tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.Group
@@ -251,8 +251,56 @@
             text_message_wrong_title,
             text_message_wrong,
             button_nav_login"
-            app:isVisible="@{!viewModel.state.isLoggedIn}"
+            app:isVisible="@{!viewModel.state.isLoggedIn &amp;&amp; !viewModel.state.loading &amp;&amp; viewModel.state.onErrors.empty}"
             tools:visibility="gone"/>
+
+        <include
+            android:id="@+id/loading"
+            layout="@layout/loading"
+            isVisible="@{viewModel.state.loading}" />
+
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lost_connection"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_colorFilter="@color/red"
+            app:lottie_rawRes="@raw/lost_internet_connection"
+            app:showWhenListNotEmpty="@{viewModel.state.onErrors}" />
+
+        <TextView
+            android:id="@+id/description_lost_connection"
+            style="@style/Regular.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:gravity="center"
+            android:text="@string/description"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lost_connection"
+            app:showWhenListNotEmpty="@{viewModel.state.onErrors}" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:onClick="@{()->viewModel.getData()}"
+            android:text="@string/retry"
+            app:showWhenListNotEmpty="@{viewModel.state.onErrors}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description_lost_connection" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

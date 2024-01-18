@@ -1,12 +1,10 @@
 package com.elhady.movies.ui.profile
 
-import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.CheckIfLoggedInUseCase
 import com.elhady.movies.domain.usecases.GetAccountDetailsUseCase
 import com.elhady.movies.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,27 +19,31 @@ class ProfileViewModel @Inject constructor(
     }
 
     override fun getData() {
+        _state.update { it.copy(isLoading = true) }
         if (checkIfLoggedInUseCase()) {
-            _state.update {
-                it.copy(isLoading = true, isLoggedIn = true, error = false)
-            }
-
-            viewModelScope.launch {
-                val accountResult = accountUiStateMapper.map(getAccountDetailsUseCase())
-                _state.update {
-                    it.copy(
-                        avatarPath = accountResult.avatarPath,
-                        name = accountResult.name,
-                        username = accountResult.username,
-                        isLoading = false
-                    )
-                }
-            }
+            profile()
         } else {
             _state.update {
-                it.copy(isLoggedIn = false)
+                it.copy(isLoggedIn = false, isLoading = false, onErrors = emptyList())
             }
         }
+    }
+
+    private fun profile(){
+        tryToExecute(
+            call = { getAccountDetailsUseCase() },
+            onSuccess = ::onSuccessProfile,
+            mapper = accountUiStateMapper,
+            onError = ::onError
+        )
+    }
+
+    private fun onSuccessProfile(profileUiState: ProfileUiState){
+        _state.update { it.copy(isLoading = false, isLoggedIn = true, avatarPath = profileUiState.avatarPath, name = profileUiState.name, username = profileUiState.username, onErrors = emptyList()) }
+    }
+
+    private fun onError(throwable: Throwable) {
+        _state.update { it.copy(isLoading = false, onErrors = listOf(throwable.message.toString())) }
     }
 
     fun onClickRatedMovies() {

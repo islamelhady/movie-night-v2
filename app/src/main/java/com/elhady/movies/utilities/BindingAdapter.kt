@@ -154,9 +154,4 @@ fun hideWhenSearch(view: View, text: String) {
     view.isVisible =  text.isBlank()
 }
 
-@BindingAdapter("app:showProfileWhenSuccess")
-fun showWhenProfileSuccess(view: View, userName: String) {
-    view.isVisible = userName.isNotEmpty()
-}
-
 
