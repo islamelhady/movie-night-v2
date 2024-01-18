@@ -1,4 +1,4 @@
-package com.elhady.movies.ui.allMedia
+package com.elhady.movies.ui.seeAll
 
 import androidx.recyclerview.widget.DiffUtil
 import com.elhady.movies.R
@@ -6,7 +6,7 @@ import com.elhady.movies.ui.adapter.MediaInteractionListener
 import com.elhady.movies.ui.base.BasePagingAdapter
 import com.elhady.movies.ui.models.MediaUiState
 
-class AllMediaAdapter(listener: MediaInteractionListener) :
+class SeeAllMediaAdapter(listener: MediaInteractionListener) :
     BasePagingAdapter<MediaUiState>(AllMediaComparator, listener) {
 
     override val layoutID: Int = R.layout.item_all_media

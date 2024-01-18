@@ -19,7 +19,7 @@ class EpisodesFragment : BaseFragment<FragmentEpisodesBinding, EpisodesUiState, 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setTitle(true)
+        setTitle(visibility = true, title = viewModel.args.seasonName)
         binding.recyclerEpisode.adapter = EpisodeAdapter(mutableListOf(), viewModel)
 
     }

@@ -51,7 +51,8 @@ class SeriesDetailsFragment :
             is SeriesDetailsUiEvent.ClickSeasonEvent -> findNavController().navigate(
                 SeriesDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(
                     seriesId = viewModel.args.seriesId,
-                    event.seasonNumber
+                    seasonNumber = event.seasonNumber,
+                    seasonName = event.seasonName
                 )
             )
 

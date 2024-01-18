@@ -9,5 +9,5 @@ class SeasonAdapter(items: List<SeasonUiState>, listener: SeasonInteractionListe
 }
 
 interface SeasonInteractionListener: BaseInteractionListener{
-    fun onClickSeason(seasonNumber: Int)
+    fun onClickSeason(seasonNumber: Int, seasonName: String)
 }

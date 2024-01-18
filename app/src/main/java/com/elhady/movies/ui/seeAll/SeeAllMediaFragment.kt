@@ -1,4 +1,4 @@
-package com.elhady.movies.ui.allMedia
+package com.elhady.movies.ui.seeAll
 
 import android.os.Bundle
 import android.view.View
@@ -7,7 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.elhady.movies.R
-import com.elhady.movies.databinding.FragmentAlMediaBinding
+import com.elhady.movies.databinding.FragmentSeeAllMediaBinding
 import com.elhady.movies.domain.enums.SeeAllType
 import com.elhady.movies.ui.adapter.LoadAdapter
 import com.elhady.movies.ui.base.BaseFragment
@@ -18,12 +18,12 @@ import com.elhady.movies.utilities.setSpanSize
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AllMediaFragment : BaseFragment<FragmentAlMediaBinding, AllMediaUiState, AllMediaUiEvent>() {
+class SeeAllMediaFragment : BaseFragment<FragmentSeeAllMediaBinding, SeeAllMediaUiState, SeeAllMediaUiEvent>() {
 
-    override val layoutIdFragment: Int = R.layout.fragment_al_media
-    override val viewModel: AllMediaViewModel by viewModels()
+    override val layoutIdFragment: Int = R.layout.fragment_see_all_media
+    override val viewModel: SeeAllMediaViewModel by viewModels()
     private val allMediaAdapter by lazy {
-        AllMediaAdapter(viewModel)
+        SeeAllMediaAdapter(viewModel)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,25 +53,25 @@ class AllMediaFragment : BaseFragment<FragmentAlMediaBinding, AllMediaUiState, A
         allMediaAdapter.submitData(pagingData = itemsPagingData)
     }
 
-    override fun onEvent(event: AllMediaUiEvent) {
+    override fun onEvent(event: SeeAllMediaUiEvent) {
         when (event) {
-            is AllMediaUiEvent.ClickMovieEvent -> {
+            is SeeAllMediaUiEvent.ClickMovieEvent -> {
                 findNavController().navigate(
-                    AllMediaFragmentDirections.actionAllMediaFragmentToMovieDetailsFragment(
+                    SeeAllMediaFragmentDirections.actionAllMediaFragmentToMovieDetailsFragment(
                         event.mediaId
                     )
                 )
             }
 
-            is AllMediaUiEvent.ClickSeriesEvent -> {
+            is SeeAllMediaUiEvent.ClickSeriesEvent -> {
                 findNavController().navigate(
-                    AllMediaFragmentDirections.actionAllMediaFragmentToTvShowDetailsFragment(
+                    SeeAllMediaFragmentDirections.actionAllMediaFragmentToTvShowDetailsFragment(
                         event.mediaId
                     )
                 )
             }
 
-            is AllMediaUiEvent.ShowSnackBar -> showSnackBar(event.message)
+            is SeeAllMediaUiEvent.ShowSnackBar -> showSnackBar(event.message)
         }
     }
 

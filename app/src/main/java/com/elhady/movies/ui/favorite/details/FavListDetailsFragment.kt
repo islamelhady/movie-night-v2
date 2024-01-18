@@ -20,7 +20,7 @@ class FavListDetailsFragment : BaseFragment<FragmentFavListDetailsBinding, ListD
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setTitle(true)
+        setTitle(visibility = true, title = viewModel.args.listName)
         setupAdapter()
     }
 

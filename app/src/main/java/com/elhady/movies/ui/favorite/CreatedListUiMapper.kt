@@ -10,7 +10,8 @@ class CreatedListUiMapper @Inject constructor() : Mapper<CreatedList, CreatedLis
         return CreatedListUiState(
             id = input.id,
             name = input.name,
-            mediaCounts = input.itemCount
+            mediaCounts = input.itemCount,
+            posterPath = input.posterPath
         )
     }
 }

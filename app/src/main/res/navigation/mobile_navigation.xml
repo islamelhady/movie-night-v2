@@ -60,6 +60,9 @@
         <action
             android:id="@+id/action_favoriteFragment_to_favListDetailsFragment"
             app:destination="@id/favListDetailsFragment" />
+        <action
+            android:id="@+id/action_favoriteFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -116,9 +119,9 @@
     </fragment>
     <fragment
         android:id="@+id/allMediaFragment"
-        android:name="com.elhady.movies.ui.allMedia.AllMediaFragment"
+        android:name="com.elhady.movies.ui.seeAll.SeeAllMediaFragment"
         android:label="fragment_al_media"
-        tools:layout="@layout/fragment_al_media">
+        tools:layout="@layout/fragment_see_all_media">
         <argument
             android:name="type"
             app:argType="com.elhady.movies.domain.enums.SeeAllType" />
@@ -219,6 +222,9 @@
         <argument
             android:name="seasonNumber"
             app:argType="integer" />
+        <argument
+            android:name="seasonName"
+            app:argType="string" />
         <action
             android:id="@+id/action_tvShowDetailsFragment_to_episodesFragment"
             app:destination="@id/episodesFragment" />
@@ -265,7 +271,7 @@
     <fragment
         android:id="@+id/ratingFragment"
         android:name="com.elhady.movies.ui.profile.ratings.RatingFragment"
-        android:label="fragment_rating"
+        android:label="@string/my_rating"
         tools:layout="@layout/fragment_rating" >
         <action
             android:id="@+id/action_ratingFragment_to_movieDetailsFragment"
@@ -277,7 +283,7 @@
     <fragment
         android:id="@+id/watchHistoryFragment"
         android:name="com.elhady.movies.ui.profile.watchHistory.WatchHistoryFragment"
-        android:label="fragment_watch_history"
+        android:label="@string/watch_history"
         tools:layout="@layout/fragment_watch_history" >
         <action
             android:id="@+id/action_watchHistoryFragment_to_tvShowDetailsFragment"
@@ -299,6 +305,9 @@
         <argument
             android:name="mediaId"
             app:argType="integer" />
+        <argument
+            android:name="listName"
+            app:argType="string" />
         <action
             android:id="@+id/action_favListDetailsFragment_to_tvShowDetailsFragment"
             app:destination="@id/tvShowDetailsFragment" />

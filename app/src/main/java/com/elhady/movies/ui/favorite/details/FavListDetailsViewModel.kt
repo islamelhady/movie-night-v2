@@ -24,29 +24,22 @@ class FavListDetailsViewModel @Inject constructor(
     }
 
     override fun getData() {
-        _state.update {
-            it.copy(isLoading = true, isEmpty = false, onErrors = emptyList())
-        }
-        viewModelScope.launch {
-            try {
-                val result =
-                    getFavListDetailsUseCase(args.mediaId).map { mediaUiStateMapper.map(it) }
-                _state.update {
-                    it.copy(
-                        isLoading = false,
-                        isEmpty = result.isEmpty(),
-                        savedMedia = result
-                    )
-                }
-
-            } catch (t: Throwable) {
-                _state.update {
-                    it.copy(isLoading = false)
-                }
-            }
-        }
+        _state.update { it.copy(isLoading = true, isEmpty = false, onErrors = emptyList()) }
+        tryToExecute(
+            call = { getFavListDetailsUseCase(args.mediaId)},
+            onSuccess = ::onSuccessFavourite,
+            mapper = mediaUiStateMapper,
+            onError = ::onError
+        )
     }
 
+    private fun onSuccessFavourite(favouriteList: List<FavMediaUiState>) {
+        _state.update { it.copy(isLoading = false, onErrors = emptyList(), isEmpty = favouriteList.isEmpty(),  savedMedia = favouriteList) }
+    }
+
+    private fun onError(throwable: Throwable){
+        _state.update { it.copy(onErrors = listOf(throwable.message.toString()), isLoading = false) }
+    }
     override fun onItemClick(item: FavMediaUiState) {
         sendEvent(ListDetailsUiEvent.OnItemSelected(item))
     }

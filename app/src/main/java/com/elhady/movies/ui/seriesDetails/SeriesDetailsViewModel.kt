@@ -191,7 +191,7 @@ class SeriesDetailsViewModel @Inject constructor(
         sendEvent(SeriesDetailsUiEvent.ClickSimilarSeriesEvent(seriesId = mediaId))
     }
 
-    override fun onClickSeason(seasonNumber: Int) {
-        sendEvent(SeriesDetailsUiEvent.ClickSeasonEvent(seasonNumber = seasonNumber))
+    override fun onClickSeason(seasonNumber: Int, seasonName: String) {
+        sendEvent(SeriesDetailsUiEvent.ClickSeasonEvent(seasonNumber = seasonNumber, seasonName = seasonName))
     }
 }

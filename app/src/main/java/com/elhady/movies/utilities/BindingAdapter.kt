@@ -154,14 +154,4 @@ fun hideWhenSearch(view: View, text: String) {
     view.isVisible =  text.isBlank()
 }
 
-@BindingAdapter("app:showWhenNoLoggedIn")
-fun showWhenNoLoggedIn(view: View, isLoggedIn: Boolean) {
-    view.isVisible = !isLoggedIn
-}
-
-@BindingAdapter("app:showProfileWhenSuccess")
-fun showWhenProfileSuccess(view: View, userName: String) {
-    view.isVisible = userName.isNotEmpty()
-}
-
 
