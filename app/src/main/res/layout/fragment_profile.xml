@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
-            android:text="@{viewModel.state.name}"
+            android:text="@{viewModel.state.username}"
             android:textColor="@color/shade_primary_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -90,6 +90,7 @@
             android:layout_marginHorizontal="@dimen/spacing_medium"
             app:drawableStartCompat="@drawable/ic_star_outline"
             app:drawableTint="@color/red"
+            android:gravity="center_vertical"
             android:onClick="@{ () -> viewModel.onClickRatedMovies()}"
             android:drawablePadding="@dimen/spacing_medium"
             android:paddingVertical="@dimen/spacing_medium"
@@ -116,6 +117,7 @@
             android:layout_marginHorizontal="@dimen/spacing_medium"
             app:drawableStartCompat="@drawable/ic_sun"
             app:drawableTint="@color/black"
+            android:gravity="center_vertical"
             android:onClick="@{ () -> viewModel.onClickRatedMovies()}"
             android:drawablePadding="@dimen/spacing_medium"
             android:paddingVertical="@dimen/spacing_medium"
@@ -154,6 +156,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:drawableStart="@drawable/ic_logout"
+            android:gravity="center_vertical"
             android:drawablePadding="@dimen/spacing_medium"
             android:paddingVertical="@dimen/spacing_medium"
             android:onClick="@{ () -> viewModel.onClickLogout()}"
@@ -236,7 +239,7 @@
             text_name_actor,
             text_username"
             app:showProfileWhenSuccess="@{viewModel.state.username}"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/group_when_no_logged_in"
@@ -248,8 +251,8 @@
             text_message_wrong_title,
             text_message_wrong,
             button_nav_login"
-            app:showWhenNoLoggedIn="@{viewModel.state.isLoggedIn}"
-            tools:visibility="visible"/>
+            app:isVisible="@{!viewModel.state.isLoggedIn}"
+            tools:visibility="gone"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -19,29 +19,29 @@ class FavoriteViewModel @Inject constructor(
 ) : BaseViewModel<FavCreatedListUiState, FavouriteUiEvent>(FavCreatedListUiState()), CreatedListInteractionListener {
 
     init {
+        _state.update { it.copy(isLoading = true) }
         getData()
     }
 
     override fun getData() {
-        getCreatedList()
+        if (checkIfLoggedInUseCase()){
+            tryToExecute(
+                call = { getFavouriteCreatedListUseCase() },
+                onSuccess = ::onSuccessCreatedList,
+                onError = ::onErrors,
+                mapper = createdListUiMapper
+            )
+        }else{
+            _state.update { it.copy(isLoggedIn = false, isLoading = false) }
+        }
     }
 
-    private fun getCreatedList(){
-        if (checkIfLoggedInUseCase()){
-            _state.update { it.copy(isLoading = true, isLoggedIn = true) }
-            viewModelScope.launch {
-                val result = getFavouriteCreatedListUseCase().map {
-                    createdListUiMapper.map(it)
-                }
-                _state.update {
-                    it.copy(createdList = result, isLoading = false)
-                }
-            }
-        }else{
-            _state.update {
-                it.copy(isLoggedIn = false)
-            }
-        }
+    private fun onSuccessCreatedList(createdList: List<CreatedListUiState>) {
+        _state.update { it.copy(createdList = createdList, isLoading = false, isLoggedIn = true, onErrors = emptyList()) }
+    }
+
+    private fun onErrors(throwable: Throwable){
+        _state.update { it.copy(onErrors = listOf(throwable.message.toString()), isLoading = false) }
     }
 
     fun onClickCreateList() {
