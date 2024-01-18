@@ -29,19 +29,10 @@
             tools:listitem="@layout/item_all_actor"/>
 
 
-        <com.airbnb.lottie.LottieAnimationView
+        <include
             android:id="@+id/loading"
-            android:layout_width="@dimen/spacing_progress_large"
-            android:layout_height="@dimen/spacing_progress_large"
-            android:elevation="1dp"
-            app:isVisible="@{viewModel.state.loading}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loading" />
+            layout="@layout/loading"
+            app:isVisible="@{viewModel.state.loading}"/>
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lost_connection"
