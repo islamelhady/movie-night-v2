@@ -1,15 +1,11 @@
 package com.elhady.movies.ui.seriesDetails.episodes
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import com.elhady.movies.domain.usecases.seriesDetails.GetSeasonsEpisodesUseCase
 import com.elhady.movies.ui.base.BaseInteractionListener
 import com.elhady.movies.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,17 +22,20 @@ class EpisodesViewModel @Inject constructor(
         getData()
     }
     override fun getData() {
-        viewModelScope.launch {
-            val result =getSeasonsEpisodesUseCase(seriesId = args.seriesId, seasonNumber = args.seasonNumber).map {
-                episodeUiMapper.map(it)
-            }
-
-            _state.update {
-                it.copy(
-                seasonsEpisodesResult = result
-                )
-            }
-        }
+        _state.update { it.copy(isLoading = true) }
+        tryToExecute(
+            call = { getSeasonsEpisodesUseCase(seriesId = args.seriesId, seasonNumber = args.seasonNumber)},
+            onSuccess = ::onSuccessEpisodes,
+            mapper = episodeUiMapper,
+            onError = ::onError
+        )
     }
 
+    private fun onSuccessEpisodes(seasonEpisodes: List<SeasonEpisodesUiState>) {
+        _state.update { it.copy(isLoading = false, onErrors = emptyList(), seasonsEpisodesResult = seasonEpisodes) }
+    }
+
+    private fun onError(throwable: Throwable){
+        _state.update { it.copy(isLoading = false, onErrors = listOf(throwable.message.toString())) }
+    }
 }
