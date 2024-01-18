@@ -19,6 +19,7 @@ class FavoriteViewModel @Inject constructor(
 ) : BaseViewModel<FavCreatedListUiState, FavouriteUiEvent>(FavCreatedListUiState()), CreatedListInteractionListener {
 
     init {
+        _state.update { it.copy(isLoading = true) }
         getData()
     }
 
@@ -31,7 +32,7 @@ class FavoriteViewModel @Inject constructor(
                 mapper = createdListUiMapper
             )
         }else{
-            _state.update { it.copy(isLoggedIn = false) }
+            _state.update { it.copy(isLoggedIn = false, isLoading = false) }
         }
     }
 
@@ -40,9 +41,7 @@ class FavoriteViewModel @Inject constructor(
     }
 
     private fun onErrors(throwable: Throwable){
-        val errors = _state.value.onErrors.toMutableList()
-        errors.add(throwable.message.toString())
-        _state.update { it.copy(onErrors = errors, isLoading = false) }
+        _state.update { it.copy(onErrors = listOf(throwable.message.toString()), isLoading = false) }
     }
 
     fun onClickCreateList() {

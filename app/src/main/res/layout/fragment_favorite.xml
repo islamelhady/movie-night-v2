@@ -100,7 +100,7 @@
             app:constraint_referenced_ids="
             recycler_favourite,
             text_favorite"
-            app:showWhenNoLoggedIn="@{!viewModel.state.loggedIn}"
+            app:isVisible="@{viewModel.state.loggedIn &amp;&amp; !viewModel.state.loading}"
             tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.Group
@@ -113,8 +113,14 @@
             text_message_wrong_title,
             text_message_wrong,
             button_nav_login"
-            app:showWhenNoLoggedIn="@{viewModel.state.loggedIn}"
+            app:isVisible="@{!viewModel.state.loggedIn}"
             tools:visibility="gone"/>
+
+        <include
+            android:id="@+id/loading"
+            layout="@layout/loading"
+            isVisible="@{viewModel.state.loading}" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
