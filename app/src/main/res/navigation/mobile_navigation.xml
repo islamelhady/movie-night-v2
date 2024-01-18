@@ -302,6 +302,9 @@
         <argument
             android:name="mediaId"
             app:argType="integer" />
+        <argument
+            android:name="listName"
+            app:argType="string" />
         <action
             android:id="@+id/action_favListDetailsFragment_to_tvShowDetailsFragment"
             app:destination="@id/tvShowDetailsFragment" />

@@ -30,7 +30,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding, FavCreatedListUiS
     override fun onEvent(event: FavouriteUiEvent) {
         when(event){
             FavouriteUiEvent.CLickAddEvent -> findNavController().navigate(FavoriteFragmentDirections.actionFavoriteFragmentToCreateListDialog())
-            is FavouriteUiEvent.ClickSelectedItemEvent -> findNavController().navigate(FavoriteFragmentDirections.actionFavoriteFragmentToFavListDetailsFragment(event.item.id))
+            is FavouriteUiEvent.ClickSelectedItemEvent -> findNavController().navigate(FavoriteFragmentDirections.actionFavoriteFragmentToFavListDetailsFragment(mediaId = event.id, listName = event.listName))
             FavouriteUiEvent.ClickLogin -> findNavController().navigate(FavoriteFragmentDirections.actionFavoriteFragmentToLoginFragment())
             FavouriteUiEvent.ClickCreateEvent -> TODO()
         }
