@@ -100,4 +100,7 @@ dependencies {
 
     // Expandable TextView
     implementation ("io.github.glailton.expandabletextview:expandabletextview:1.0.2")
+
+    /// splash
+    implementation("androidx.core:core-splashscreen:1.0.1")
 }

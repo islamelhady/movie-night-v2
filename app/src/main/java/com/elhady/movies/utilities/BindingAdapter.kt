@@ -18,7 +18,7 @@ import com.google.android.material.chip.ChipGroup
 fun bindMovieImage(image: ImageView, imageURL: String?) {
     imageURL?.let {
         image.load(imageURL) {
-            error(R.drawable.ic_launcher_background)
+            error(R.color.brand_color)
         }
     }
 }
