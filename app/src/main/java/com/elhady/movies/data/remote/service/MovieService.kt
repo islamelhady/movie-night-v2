@@ -9,6 +9,7 @@ import com.elhady.movies.data.remote.response.FavListDto
 import com.elhady.movies.data.remote.response.RatedMovieDto
 import com.elhady.movies.data.remote.response.RatedSeriesDto
 import com.elhady.movies.data.remote.response.RatingDto
+import com.elhady.movies.data.remote.response.StatusResponseDto
 import com.elhady.movies.data.remote.response.TrendingDto
 import com.elhady.movies.data.remote.response.account.AccountDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
@@ -269,6 +270,9 @@ interface MovieService {
     @FormUrlEncoded
     @POST("list/{list_id}/add_item")
     suspend fun addMovieToFavList(@Path("list_id") listId: Int, @Query("session_id") seriesId: String, @Field("media_id") movieId: Int): Response<AddMovieDto>
+
+    @DELETE("list/{list_id}")
+    suspend fun deleteList(@Path("list_id") listId: Int): Response<StatusResponseDto>
 
 
     /**

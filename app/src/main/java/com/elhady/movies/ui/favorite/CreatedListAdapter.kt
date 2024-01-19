@@ -14,4 +14,5 @@ class CreatedListAdapter(
 
 interface CreatedListInteractionListener : BaseInteractionListener {
     fun onListClick(item: CreatedListUiState)
+    fun onClickDeleteList(id: Int)
 }

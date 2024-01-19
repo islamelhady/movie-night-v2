@@ -33,6 +33,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding, FavCreatedListUiS
             is FavouriteUiEvent.ClickSelectedItemEvent -> findNavController().navigate(FavoriteFragmentDirections.actionFavoriteFragmentToFavListDetailsFragment(mediaId = event.id, listName = event.listName))
             FavouriteUiEvent.ClickLogin -> findNavController().navigate(FavoriteFragmentDirections.actionFavoriteFragmentToLoginFragment())
             FavouriteUiEvent.ClickCreateEvent -> TODO()
+            is FavouriteUiEvent.ShowSnackBar -> showSnackBar(event.message)
         }
 
     }

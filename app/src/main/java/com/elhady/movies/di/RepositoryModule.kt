@@ -31,6 +31,7 @@ import com.elhady.movies.data.repository.mediaDataSource.series.SeriesDataSource
 import com.elhady.movies.data.repository.searchDataSource.ActorsSearchDataSource
 import com.elhady.movies.data.repository.searchDataSource.MovieSearchDataSource
 import com.elhady.movies.data.repository.searchDataSource.SeriesSearchDataSource
+import com.elhady.movies.domain.mappers.favList.StatusResponseMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,8 +44,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideRepository(movieService: MovieService, popularMovieMapper: PopularMovieMapper, movieDao: MovieDao, appConfiguration: AppConfiguration, upcomingMovieMapper: UpcomingMovieMapper, trendingMovieMapper: TrendingMovieMapper, nowPlayingMovieMapper: NowPlayingMovieMapper, topRatedMovieMapper: TopRatedMovieMapper, mysteryMoviesMapper: MysteryMoviesMapper, adventureMoviesMapper: AdventureMoviesMapper, movieDataSourceContainer: MovieDataSourceContainer, movieSearchDataSource: MovieSearchDataSource): MovieRepository{
-        return MovieRepositoryImp(movieService,popularMovieMapper, movieDao, appConfiguration,trendingMovieMapper , upcomingMovieMapper, nowPlayingMovieMapper, topRatedMovieMapper, mysteryMoviesMapper, adventureMoviesMapper, movieDataSourceContainer, movieSearchDataSource)
+    fun provideRepository(movieService: MovieService, popularMovieMapper: PopularMovieMapper, movieDao: MovieDao, appConfiguration: AppConfiguration, upcomingMovieMapper: UpcomingMovieMapper, trendingMovieMapper: TrendingMovieMapper, nowPlayingMovieMapper: NowPlayingMovieMapper, statusResponseMapper: StatusResponseMapper, topRatedMovieMapper: TopRatedMovieMapper, mysteryMoviesMapper: MysteryMoviesMapper, adventureMoviesMapper: AdventureMoviesMapper, movieDataSourceContainer: MovieDataSourceContainer, movieSearchDataSource: MovieSearchDataSource): MovieRepository{
+        return MovieRepositoryImp(movieService,popularMovieMapper, movieDao, appConfiguration,trendingMovieMapper , upcomingMovieMapper, nowPlayingMovieMapper, topRatedMovieMapper, mysteryMoviesMapper,statusResponseMapper, adventureMoviesMapper, movieDataSourceContainer, movieSearchDataSource)
     }
 
     @Provides

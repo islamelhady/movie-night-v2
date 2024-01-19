@@ -1,8 +1,10 @@
 package com.elhady.movies.ui.favorite
 
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.domain.models.StatusResponse
 import com.elhady.movies.domain.usecases.CheckIfLoggedInUseCase
 import com.elhady.movies.domain.usecases.favList.CreateListUseCase
+import com.elhady.movies.domain.usecases.favList.DeleteListUseCase
 import com.elhady.movies.domain.usecases.favList.GetFavouriteCreatedListUseCase
 import com.elhady.movies.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,6 +17,7 @@ class FavoriteViewModel @Inject constructor(
     private val createListUseCase: CreateListUseCase,
     private val getFavouriteCreatedListUseCase: GetFavouriteCreatedListUseCase,
     private val checkIfLoggedInUseCase: CheckIfLoggedInUseCase,
+    private val deleteListUseCase: DeleteListUseCase,
     private val createdListUiMapper: CreatedListUiMapper
 ) : BaseViewModel<FavCreatedListUiState, FavouriteUiEvent>(FavCreatedListUiState()), CreatedListInteractionListener {
 
@@ -25,15 +28,19 @@ class FavoriteViewModel @Inject constructor(
 
     override fun getData() {
         if (checkIfLoggedInUseCase()){
-            tryToExecute(
-                call = { getFavouriteCreatedListUseCase() },
-                onSuccess = ::onSuccessCreatedList,
-                onError = ::onErrors,
-                mapper = createdListUiMapper
-            )
+            getFavouriteList()
         }else{
             _state.update { it.copy(isLoggedIn = false, isLoading = false, onErrors = emptyList()) }
         }
+    }
+
+    private fun getFavouriteList(){
+        tryToExecute(
+            call = { getFavouriteCreatedListUseCase() },
+            onSuccess = ::onSuccessCreatedList,
+            onError = ::onErrors,
+            mapper = createdListUiMapper
+        )
     }
 
     private fun onSuccessCreatedList(createdList: List<CreatedListUiState>) {
@@ -65,6 +72,19 @@ class FavoriteViewModel @Inject constructor(
 
     override fun onListClick(item: CreatedListUiState) {
         sendEvent(FavouriteUiEvent.ClickSelectedItemEvent(id = item.id, listName = item.name))
+    }
+
+    override fun onClickDeleteList(id: Int) {
+        tryToExecute(
+            call = {deleteListUseCase(id)},
+            onSuccess = ::onSuccessDeleteList,
+            onError = ::onErrors,
+        )
+    }
+
+    private fun onSuccessDeleteList(statue: StatusResponse){
+        sendEvent(FavouriteUiEvent.ShowSnackBar("${statue.statusMessage} ${statue.success}"))
+        getFavouriteList()
     }
 
     fun onClickLogin(){

@@ -18,11 +18,13 @@ import com.elhady.movies.data.remote.response.FavListDto
 import com.elhady.movies.data.remote.response.RatedMovieDto
 import com.elhady.movies.data.remote.response.RatingDto
 import com.elhady.movies.data.remote.response.SavedListDto
+import com.elhady.movies.data.remote.response.StatusResponseDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.genre.GenreDto
 import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
 import com.elhady.movies.data.remote.response.video.VideoDto
+import com.elhady.movies.domain.models.StatusResponse
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
@@ -102,5 +104,7 @@ interface MovieRepository {
     suspend fun addMovieToList(sessionId: String, listId: Int, movieId: Int): AddMovieDto?
 
     suspend fun getSavedListDetails(listId: Int): List<SavedListDto>?
+
+    suspend fun deleteList(listId: Int): StatusResponse
 
 }

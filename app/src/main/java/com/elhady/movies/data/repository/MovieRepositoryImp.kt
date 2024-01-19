@@ -30,13 +30,16 @@ import com.elhady.movies.data.remote.response.FavListDto
 import com.elhady.movies.data.remote.response.RatedMovieDto
 import com.elhady.movies.data.remote.response.RatingDto
 import com.elhady.movies.data.remote.response.SavedListDto
+import com.elhady.movies.data.remote.response.StatusResponseDto
 import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
 import com.elhady.movies.data.remote.response.movie.MovieDto
 import com.elhady.movies.data.remote.response.review.ReviewDto
 import com.elhady.movies.data.remote.response.video.VideoDto
 import com.elhady.movies.data.repository.mediaDataSource.movies.MovieDataSourceContainer
 import com.elhady.movies.data.repository.searchDataSource.MovieSearchDataSource
+import com.elhady.movies.domain.mappers.favList.StatusResponseMapper
 import com.elhady.movies.domain.models.CreatedList
+import com.elhady.movies.domain.models.StatusResponse
 import com.elhady.movies.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
@@ -52,6 +55,7 @@ class MovieRepositoryImp @Inject constructor(
     private val nowPlayingMovieMapper: NowPlayingMovieMapper,
     private val topRatedMovieMapper: TopRatedMovieMapper,
     private val mysteryMoviesMapper: MysteryMoviesMapper,
+    private val statusResponseMapper: StatusResponseMapper,
     private val adventureMoviesMapper: AdventureMoviesMapper,
     private val movieDataSourceContainer: MovieDataSourceContainer,
     private val movieSearchDataSource: MovieSearchDataSource
@@ -465,4 +469,10 @@ class MovieRepositoryImp @Inject constructor(
     override suspend fun getSavedListDetails(listId: Int): List<SavedListDto>? {
         return movieService.getList(listId).body()?.items
     }
+
+    override suspend fun deleteList(listId: Int): StatusResponse {
+        return statusResponseMapper.map(wrapApiCall { movieService.deleteList(listId) })
+    }
+
+
 }
