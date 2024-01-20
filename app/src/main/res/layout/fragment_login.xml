@@ -47,7 +47,7 @@
             app:helperText="@{viewModel.state.userNameHelperText}"
             android:hint="@string/username"
             app:errorEnabled="true"
-            app:helperTextTextColor="@color/red"
+            app:helperTextTextColor="@color/brand_color"
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:startIconDrawable="@drawable/ic_profile">
 
@@ -73,7 +73,7 @@
             android:hint="@string/password"
             app:helperText="@{viewModel.state.passwordHelperText}"
             app:errorEnabled="true"
-            app:helperTextTextColor="@color/red"
+            app:helperTextTextColor="@color/brand_color"
             app:layout_constraintTop_toBottomOf="@+id/user_name"
             app:startIconDrawable="@drawable/ic_key">
 
@@ -95,6 +95,7 @@
             app:hideIfTrue="@{viewModel.state.loading}"
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_extra_large"
+            android:backgroundTint="@color/brand_color"
             android:text="@string/login"
             android:textAppearance="@style/SimiBold.Medium"
             app:cornerRadius="@dimen/radius_small"

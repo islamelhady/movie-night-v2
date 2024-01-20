@@ -83,6 +83,7 @@
             android:layout_marginTop="@dimen/spacing_small"
             android:onClick="@{()->viewModel.getData()}"
             android:text="@string/retry"
+            android:backgroundTint="@color/brand_color"
             app:showWhenListNotEmpty="@{viewModel.state.onErrors}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

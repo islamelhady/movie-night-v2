@@ -6,8 +6,8 @@
         <item name="colorPrimaryDark">@color/brand_color</item>
         <item name="android:windowBackground">@color/background_color</item>
 
-        <item name="android:statusBarColor">@color/brand_color</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+<!--        <item name="android:statusBarColor">@color/brand_color</item>-->
+<!--        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>-->
     </style>
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">

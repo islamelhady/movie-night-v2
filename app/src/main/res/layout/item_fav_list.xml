@@ -21,8 +21,9 @@
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:layout_marginVertical="@dimen/spacing_too_small"
         android:onClick="@{ () -> listener.onClickSaveList(item.listId)}"
-        app:cardBackgroundColor="@color/background_color"
+        app:cardBackgroundColor="@color/card_background_color"
         app:cardCornerRadius="@dimen/radius_large"
+        app:strokeWidth="0dp"
         app:cardElevation="0dp">
 
         <TextView

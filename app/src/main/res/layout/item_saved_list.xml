@@ -23,6 +23,7 @@
         android:backgroundTint="@color/card_background_color"
         app:cardCornerRadius="@dimen/spacing_small"
         android:onClick="@{ () -> listener.onListClick(item)}"
+        app:strokeWidth="0dp"
         app:cardElevation="0dp">
 
 

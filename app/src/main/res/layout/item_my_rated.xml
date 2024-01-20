@@ -65,8 +65,9 @@
                 android:layout_marginBottom="@dimen/spacing_small"
                 android:drawableStart="@drawable/ic_star_filled"
                 android:drawablePadding="@dimen/spacing_too_small"
+                android:drawableTint="@color/yellow"
                 android:text="@{String.valueOf(item.rating)}"
-                android:textColor="@color/red"
+                android:textColor="@color/yellow"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/image_movie"
                 tools:text="8.4" />

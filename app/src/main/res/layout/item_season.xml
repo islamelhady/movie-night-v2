@@ -30,6 +30,7 @@
             android:onClick="@{() -> listener.onClickSeason(item.seasonNumber, item.seasonName)}"
             app:cardCornerRadius="@dimen/radius_medium"
             app:cardElevation="0dp"
+            app:strokeWidth="0dp"
             app:layout_constraintBottom_toBottomOf="@+id/image_season"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

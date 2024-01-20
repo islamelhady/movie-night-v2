@@ -32,8 +32,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add"
+            android:backgroundTint="@color/brand_color"
+            android:tintMode="@color/white"
             android:onClick="@{ () -> viewModel.onClickAddList()}"
-            android:layout_margin="@dimen/spacing_large"
+            android:layout_margin="@dimen/spacing_medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -158,6 +160,7 @@
             android:layout_marginTop="@dimen/spacing_small"
             android:onClick="@{()->viewModel.getData()}"
             android:text="@string/retry"
+            android:textColor="@color/brand_color"
             app:showWhenListNotEmpty="@{viewModel.state.onErrors}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

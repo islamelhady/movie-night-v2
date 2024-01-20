@@ -66,9 +66,10 @@
                 android:layout_marginBottom="@dimen/spacing_small"
                 android:gravity="center"
                 android:drawableStart="@drawable/ic_star_filled"
+                android:drawableTint="@color/yellow"
                 android:drawablePadding="@dimen/spacing_too_small"
                 android:text="@{item.voteAverage}"
-                android:textColor="@color/red"
+                android:textColor="@color/yellow"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/image_movie"
                 tools:text="8.4" />

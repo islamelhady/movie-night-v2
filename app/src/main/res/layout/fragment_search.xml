@@ -22,6 +22,7 @@
             android:layout_marginStart="@dimen/spacing_medium"
             android:onClick="@{() -> viewModel.onClickBack()}"
             android:text="@string/cancel"
+            android:textColor="@color/brand_color"
             app:layout_constraintBottom_toBottomOf="@id/input_text_search"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/input_text_search" />
@@ -36,7 +37,7 @@
             android:layout_marginEnd="@dimen/spacing_medium"
             android:paddingStart="@dimen/spacing_small"
             android:drawableStart="@drawable/ic_search"
-            android:drawableTint="@color/shade_primary_color"
+            android:drawableTint="@color/search_tint"
             android:drawablePadding="@dimen/spacing_small"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -68,7 +69,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/input_text_search"
             app:layout_constraintTop_toTopOf="@+id/input_text_search"
             app:layout_constraintEnd_toEndOf="@+id/input_text_search"
-            app:tint="@color/shade_quaternary_color" />
+            app:tint="@color/brand_color" />
 
         <TextView
             android:id="@+id/text_search_label"

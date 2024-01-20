@@ -10,11 +10,13 @@
     <color name="color_primary">#ffffff</color>
     <color name="yellow">#ffdc64</color>
     <color name="second_yellow">#ffc850</color>
+    <color name="fab">@color/brand_color</color>
 
     <color name="background_color">#FFFFFF</color>
 
     <color name="card_background_color">#F3F5F6</color>
     <color name="slider_gradiant_end_color">#9903050A</color>
+    <color name="search_tint">@color/shade_primary_color</color>
 
     <color name="shade_primary_color">#DF03050A</color>
     <color name="shade_secondary_color">#9903050A</color>
