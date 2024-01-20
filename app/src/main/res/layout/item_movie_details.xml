@@ -28,10 +28,10 @@
             android:layout_marginBottom="@dimen/spacing_small"
             android:text="@string/play_trailer"
             android:textAllCaps="false"
-            android:textColor="@color/background_color"
+            android:textColor="@color/yellow"
             app:cornerRadius="@dimen/spacing_small"
             app:icon="@drawable/ic_play"
-            app:iconTint="@color/background_color"
+            app:iconTint="@color/yellow"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
