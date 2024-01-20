@@ -26,7 +26,7 @@ The **Movie Night** App is an Android application built using Kotlin and follows
 
 
 ## Features
-- <b>Login and Signup:</b> Users can create an account and log in to the app to access their lists and preferences across multiple devices.
+- <b>Authentication:</b> handles user authentication and account-related functionality.
 - <b>Browse movies and series:</b> Users can browse the app to discover new movies and series that are categorized as new, latest, popular, top-rated, or by genre.
 - <b>Browse actors and their works:</b> Users can browse actors' profiles and their past work, such as movies and series.
 - <b>Search for movies, series or actors:</b> Users can search for specific movies, series, or actors using a search bar with predictive search suggestions.
