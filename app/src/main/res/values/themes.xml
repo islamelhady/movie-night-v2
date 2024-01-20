@@ -2,12 +2,12 @@
     <!-- Base application theme. -->
     <style name="Theme.Movies" parent="Theme.Material3.DayNight">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="colorPrimary">@color/brand_color</item>
-        <item name="colorPrimaryVariant">@color/background_color</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/brand_color</item>
+        <item name="android:windowBackground">@color/background_color</item>
 
-        <item name="android:statusBarColor">@color/background_color</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:statusBarColor">@color/brand_color</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
     </style>
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
@@ -108,5 +108,11 @@
         <item name="android:textAlignment">center</item>
     </style>
 
+    <style name="BottomNavigation">
+        <item name="enforceTextAppearance">true</item>
+        <item name="enforceMaterialTheme">true</item>
+        <item name="itemIconTint">@color/brand_color</item>
+        <item name="itemTextColor">@color/brand_color</item>
+    </style>
 
 </resources>
