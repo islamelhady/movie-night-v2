@@ -17,3 +17,4 @@ rootProject.name = "movies"
 include(":app")
 include(":core:base")
 include(":core:data:remote")
+include(":core:data:repository")
