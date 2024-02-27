@@ -3,7 +3,6 @@ package com.elhady.local.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.elhady.local.Converters
 import com.elhady.local.database.daos.ActorDao
 import com.elhady.local.database.daos.MovieDao
 import com.elhady.local.database.daos.SeriesDao

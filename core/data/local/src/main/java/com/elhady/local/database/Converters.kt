@@ -1,4 +1,4 @@
-package com.elhady.local
+package com.elhady.local.database
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
