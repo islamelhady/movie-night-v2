@@ -53,4 +53,8 @@ dependencies {
 
     // gson converter
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    //data store preferences
+    implementation ("androidx.datastore:datastore-preferences:1.0.0")
+
 }
