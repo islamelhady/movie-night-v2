@@ -46,4 +46,11 @@ dependencies {
     implementation("androidx.room:room-runtime:2.4.3")
     kapt("androidx.room:room-compiler:2.4.3")
     implementation("androidx.room:room-ktx:2.4.3")
+
+    // Hilt
+    implementation ("com.google.dagger:hilt-android:2.45")
+    kapt ("com.google.dagger:hilt-compiler:2.45")
+
+    // gson converter
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 }
