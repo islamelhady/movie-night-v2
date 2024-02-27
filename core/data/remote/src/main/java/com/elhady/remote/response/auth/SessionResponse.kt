@@ -1,4 +1,4 @@
-package com.chocolatecake.remote.response.auth
+package com.elhady.remote.response.auth
 
 
 import com.google.gson.annotations.SerializedName
