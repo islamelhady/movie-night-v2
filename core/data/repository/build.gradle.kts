@@ -35,6 +35,7 @@ android {
 
 dependencies {
     implementation(project(":core:data:remote"))
+    implementation(project(":core:data:local"))
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -51,6 +52,6 @@ dependencies {
     implementation("androidx.paging:paging-runtime:3.2.1")
 
     // retrofit
-//    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
 
 }
