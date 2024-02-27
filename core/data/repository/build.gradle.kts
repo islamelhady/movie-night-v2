@@ -49,4 +49,7 @@ dependencies {
     // Paging
     implementation("androidx.paging:paging-runtime:3.2.1")
 
+    // retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
 }
