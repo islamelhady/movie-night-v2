@@ -16,9 +16,10 @@
             <option value="$PROJECT_DIR$/core/data/local" />
             <option value="$PROJECT_DIR$/core/data/remote" />
             <option value="$PROJECT_DIR$/core/data/repository" />
-            <option value="$PROJECT_DIR$/core/domain" />
-            <option value="$PROJECT_DIR$/core/domain/entities" />
-            <option value="$PROJECT_DIR$/core/domain/usecase" />
+            <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/auth" />
+            <option value="$PROJECT_DIR$/feature/auth/domain" />
+            <option value="$PROJECT_DIR$/feature/auth/domain/usecase" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
