@@ -3,15 +3,15 @@ package com.elhady.repository
 import androidx.paging.Pager
 import com.elhady.local.AppConfiguration
 import com.elhady.local.database.daos.MovieDao
-import com.elhady.local.database.entity.SearchHistoryEntity
-import com.elhady.local.database.entity.WatchHistoryEntity
-import com.elhady.local.database.entity.movies.AdventureMovieEntity
-import com.elhady.local.database.entity.movies.MysteryMovieEntity
-import com.elhady.local.database.entity.movies.NowPlayingMovieEntity
-import com.elhady.local.database.entity.movies.PopularMovieEntity
-import com.elhady.local.database.entity.movies.TopRatedMovieEntity
-import com.elhady.local.database.entity.movies.TrendingMovieEntity
-import com.elhady.local.database.entity.movies.UpcomingMovieEntity
+import com.elhady.local.database.entity.SearchHistoryLocalDto
+import com.elhady.local.database.entity.WatchHistoryLocalDto
+import com.elhady.local.database.entity.movies.AdventureMovieLocalDto
+import com.elhady.local.database.entity.movies.MysteryMovieLocalDto
+import com.elhady.local.database.entity.movies.NowPlayingMovieLocalDto
+import com.elhady.local.database.entity.movies.PopularMovieLocalDto
+import com.elhady.local.database.entity.movies.TopRatedMovieLocalDto
+import com.elhady.local.database.entity.movies.TrendingMovieLocalDto
+import com.elhady.local.database.entity.movies.UpcomingMovieLocalDto
 import com.elhady.local.mappers.movies.AdventureMoviesMapper
 import com.elhady.local.mappers.movies.MysteryMoviesMapper
 import com.elhady.local.mappers.movies.NowPlayingMovieMapper
@@ -57,7 +57,7 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  Popular Movies
      */
-    override suspend fun getPopularMovies(): List<PopularMovieEntity> {
+    override suspend fun getPopularMovies(): List<PopularMovieLocalDto> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.POPULAR_MOVIE_REQUEST_DATE_KEY),
             ::refreshPopularMovies
@@ -108,7 +108,7 @@ class MovieRepositoryImp @Inject constructor(
      *  Upcoming Movies
      */
 
-    override suspend fun getUpcomingMovies(): List<UpcomingMovieEntity> {
+    override suspend fun getUpcomingMovies(): List<UpcomingMovieLocalDto> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.UPCOMING_MOVIE_REQUEST_DATE_KEY),
             ::refreshUpcomingMovies
@@ -146,7 +146,7 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  Top Rated Movies
      */
-    override suspend fun getTopRatedMovies(): List<TopRatedMovieEntity> {
+    override suspend fun getTopRatedMovies(): List<TopRatedMovieLocalDto> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.TOP_RATED_MOVIE_REQUEST_DATE_KEY),
             ::refreshTopRatedMovies
@@ -183,7 +183,7 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  Now Playing Movies
      */
-    override suspend fun getNowPlayingMovies(): List<NowPlayingMovieEntity> {
+    override suspend fun getNowPlayingMovies(): List<NowPlayingMovieLocalDto> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.NOW_PLAYING_MOVIE_REQUEST_DATE_KEY),
             ::refreshNowPlayingMovies
@@ -221,7 +221,7 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  Trending Movies
      */
-    override suspend fun getTrendingMovie(): List<TrendingMovieEntity> {
+    override suspend fun getTrendingMovie(): List<TrendingMovieLocalDto> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.TRENDING_MOVIE_REQUEST_DATE_KEY),
             ::refreshTrendingMovies
@@ -262,7 +262,7 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  Mystery Movies
      */
-    override suspend fun getMysteryMovies(): List<MysteryMovieEntity> {
+    override suspend fun getMysteryMovies(): List<MysteryMovieLocalDto> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.MYSTERY_MOVIE_REQUEST_DATE_KEY),
             ::refreshMysteryMovies
@@ -302,7 +302,7 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  Adventure Movies
      */
-    override suspend fun getAdventureMovies(): List<AdventureMovieEntity> {
+    override suspend fun getAdventureMovies(): List<AdventureMovieLocalDto> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.ADVENTURE_MOVIE_REQUEST_DATE_KEY),
             ::refreshAdventureMovies
@@ -380,17 +380,17 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     override suspend fun insertSearchHistory(searchHistory: String) {
-        return movieDao.insertSearchHistory(SearchHistoryEntity(keyword = searchHistory))
+        return movieDao.insertSearchHistory(SearchHistoryLocalDto(keyword = searchHistory))
     }
     override suspend fun deleteSearchHistory(keyword: String) {
         return movieDao.deleteSearch(keyword)
     }
 
-    override suspend fun getSearchHistory(): List<SearchHistoryEntity> {
+    override suspend fun getSearchHistory(): List<SearchHistoryLocalDto> {
         return movieDao.getSearchHistory()
     }
 
-    override suspend fun getSearchHistory(keyword: String): List<SearchHistoryEntity> {
+    override suspend fun getSearchHistory(keyword: String): List<SearchHistoryLocalDto> {
         TODO("Not yet implemented")
     }
 
@@ -408,16 +408,16 @@ class MovieRepositoryImp @Inject constructor(
     /**
      * Watch
      */
-    override suspend fun insertMovieWatch(movie: WatchHistoryEntity) {
+    override suspend fun insertMovieWatch(movie: WatchHistoryLocalDto) {
         movieDao.insertWatch(movie)
     }
 
-    override suspend fun deleteMovieWatch(movie: WatchHistoryEntity) {
+    override suspend fun deleteMovieWatch(movie: WatchHistoryLocalDto) {
         movieDao.deleteWatch(movie)
         TODO()
     }
 
-    override fun getAllMoviesWatch(): Flow<List<WatchHistoryEntity>> {
+    override fun getAllMoviesWatch(): Flow<List<WatchHistoryLocalDto>> {
         return movieDao.getAllWatch()
     }
 

@@ -1,10 +1,10 @@
 package com.elhady.repository
 
 import androidx.paging.Pager
-import com.elhady.local.database.entity.WatchHistoryEntity
-import com.elhady.local.database.entity.series.AiringTodaySeriesEntity
-import com.elhady.local.database.entity.series.OnTheAirSeriesEntity
-import com.elhady.local.database.entity.series.TVSeriesListsEntity
+import com.elhady.local.database.entity.WatchHistoryLocalDto
+import com.elhady.local.database.entity.series.AiringTodaySeriesLocalDto
+import com.elhady.local.database.entity.series.OnTheAirSeriesLocalDto
+import com.elhady.local.database.entity.series.TVSeriesListsLocalDto
 import com.elhady.remote.response.CreditsDto
 import com.elhady.remote.response.RatedSeriesDto
 import com.elhady.remote.response.RatingDto
@@ -18,13 +18,13 @@ import com.elhady.remote.response.video.VideoDto
 
 interface SeriesRepository {
 
-    suspend fun getAiringTodaySeries(): List<AiringTodaySeriesEntity>
+    suspend fun getAiringTodaySeries(): List<AiringTodaySeriesLocalDto>
 
-    suspend fun getOnTheAirSeries(): List<OnTheAirSeriesEntity>
+    suspend fun getOnTheAirSeries(): List<OnTheAirSeriesLocalDto>
 
     fun getAllOnTheAirSeries(): Pager<Int, SeriesDto>
 
-    suspend fun getTVSeriesLists(): List<TVSeriesListsEntity>
+    suspend fun getTVSeriesLists(): List<TVSeriesListsLocalDto>
 
     fun getAllTopRatedTV(): Pager<Int, SeriesDto>
 
@@ -54,7 +54,7 @@ interface SeriesRepository {
 
     suspend fun getSeriesTrailer(seriesId: Int): VideoDto?
 
-    suspend fun insertSeriesWatch(movie: WatchHistoryEntity)
+    suspend fun insertSeriesWatch(movie: WatchHistoryLocalDto)
 
     suspend fun setRatingSeries(seriesId: Int, value: Float): RatingDto?
     suspend fun deleteRateSeries(seriesId: Int): RatingDto?

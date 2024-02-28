@@ -4,14 +4,13 @@ import androidx.paging.Pager
 import com.elhady.local.AppConfiguration
 import com.elhady.local.database.daos.MovieDao
 import com.elhady.local.database.daos.SeriesDao
-import com.elhady.local.database.entity.WatchHistoryEntity
-import com.elhady.local.database.entity.series.AiringTodaySeriesEntity
-import com.elhady.local.database.entity.series.OnTheAirSeriesEntity
-import com.elhady.local.database.entity.series.TVSeriesListsEntity
+import com.elhady.local.database.entity.WatchHistoryLocalDto
+import com.elhady.local.database.entity.series.AiringTodaySeriesLocalDto
+import com.elhady.local.database.entity.series.OnTheAirSeriesLocalDto
+import com.elhady.local.database.entity.series.TVSeriesListsLocalDto
 import com.elhady.local.mappers.series.AiringTodaySeriesMapper
 import com.elhady.local.mappers.series.OnTheAirSeriesMapper
 import com.elhady.local.mappers.series.TVSeriesListsMapper
-import com.elhady.remote.request.RatingDto
 import com.elhady.remote.response.CreditsDto
 import com.elhady.remote.response.RatedSeriesDto
 import com.elhady.remote.response.TrendingDto
@@ -42,7 +41,7 @@ class SeriesRepositoryImp @Inject constructor(
     /**
      *  Airing Today Series
      */
-    override suspend fun getAiringTodaySeries(): List<AiringTodaySeriesEntity> {
+    override suspend fun getAiringTodaySeries(): List<AiringTodaySeriesLocalDto> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.AIRING_TODAY_SERIES_REQUEST_DATE_KEY),
             ::refreshAiringTodaySeries
@@ -72,7 +71,7 @@ class SeriesRepositoryImp @Inject constructor(
     /**
      *  On The Air Series
      */
-    override suspend fun getOnTheAirSeries(): List<OnTheAirSeriesEntity> {
+    override suspend fun getOnTheAirSeries(): List<OnTheAirSeriesLocalDto> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.ON_THE_AIR_SERIES_REQUEST_DATE_KEY),
             ::refreshOnTheAirSeries
@@ -114,7 +113,7 @@ class SeriesRepositoryImp @Inject constructor(
      * * Top Rated
      * * Airing Today
      */
-    override suspend fun getTVSeriesLists(): List<TVSeriesListsEntity> {
+    override suspend fun getTVSeriesLists(): List<TVSeriesListsLocalDto> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.TV_SERIES_LISTS_REQUEST_DATE_KEY),
             ::refreshTVSeriesLists
@@ -123,7 +122,7 @@ class SeriesRepositoryImp @Inject constructor(
     }
 
     private suspend fun refreshTVSeriesLists(currentDate: Date) {
-        val items = mutableListOf<TVSeriesListsEntity>()
+        val items = mutableListOf<TVSeriesListsLocalDto>()
         movieService.getPopularTV().body()?.items?.first()?.let {
             items.add(tvSeriesListsMapper.map(it))
         }
@@ -249,7 +248,7 @@ class SeriesRepositoryImp @Inject constructor(
     /**
      * Watch
      */
-    override suspend fun insertSeriesWatch(series: WatchHistoryEntity) {
+    override suspend fun insertSeriesWatch(series: WatchHistoryLocalDto) {
         movieDao.insertWatch(series)
     }
 

@@ -1,14 +1,14 @@
 package com.elhady.local.mappers.movies
 
 import com.elhady.local.Constants
-import com.elhady.local.database.entity.movies.PopularMovieEntity
+import com.elhady.local.database.entity.movies.PopularMovieLocalDto
 import com.elhady.remote.response.dto.MovieDto
 import com.elhady.remote.response.genre.GenreDto
 import javax.inject.Inject
 
 class PopularMovieMapper @Inject constructor()  {
-    fun map(movie: MovieDto, genreList: List<GenreDto>): PopularMovieEntity {
-        return PopularMovieEntity(
+    fun map(movie: MovieDto, genreList: List<GenreDto>): PopularMovieLocalDto {
+        return PopularMovieLocalDto(
             id = movie.id ?: 0,
             title = movie.title ?: "",
             movieRate = movie.voteAverage ?: 0.0,

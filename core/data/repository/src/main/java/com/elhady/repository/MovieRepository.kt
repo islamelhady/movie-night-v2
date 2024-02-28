@@ -1,22 +1,21 @@
 package com.elhady.repository
 
 import androidx.paging.Pager
-import com.elhady.local.database.entity.SearchHistoryEntity
-import com.elhady.local.database.entity.WatchHistoryEntity
-import com.elhady.local.database.entity.movies.AdventureMovieEntity
-import com.elhady.local.database.entity.movies.MysteryMovieEntity
-import com.elhady.local.database.entity.movies.NowPlayingMovieEntity
-import com.elhady.local.database.entity.movies.PopularMovieEntity
-import com.elhady.local.database.entity.movies.TopRatedMovieEntity
-import com.elhady.local.database.entity.movies.TrendingMovieEntity
-import com.elhady.local.database.entity.movies.UpcomingMovieEntity
+import com.elhady.local.database.entity.SearchHistoryLocalDto
+import com.elhady.local.database.entity.WatchHistoryLocalDto
+import com.elhady.local.database.entity.movies.AdventureMovieLocalDto
+import com.elhady.local.database.entity.movies.MysteryMovieLocalDto
+import com.elhady.local.database.entity.movies.NowPlayingMovieLocalDto
+import com.elhady.local.database.entity.movies.PopularMovieLocalDto
+import com.elhady.local.database.entity.movies.TopRatedMovieLocalDto
+import com.elhady.local.database.entity.movies.TrendingMovieLocalDto
+import com.elhady.local.database.entity.movies.UpcomingMovieLocalDto
 import com.elhady.remote.response.AddListResponse
 import com.elhady.remote.response.AddMovieDto
 import com.elhady.remote.response.CreatedListDto
 import com.elhady.remote.response.CreditsDto
 import com.elhady.remote.response.FavListDto
 import com.elhady.remote.response.RatedMovieDto
-import com.elhady.remote.response.RatingDto
 import com.elhady.remote.response.SavedListDto
 import com.elhady.remote.response.dto.MovieDto
 import com.elhady.remote.response.genre.GenreDto
@@ -27,29 +26,29 @@ import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
 
-    suspend fun getPopularMovies(): List<PopularMovieEntity>
+    suspend fun getPopularMovies(): List<PopularMovieLocalDto>
 
-    suspend fun getUpcomingMovies(): List<UpcomingMovieEntity>
+    suspend fun getUpcomingMovies(): List<UpcomingMovieLocalDto>
 
     fun getAllUpcomingMovies(): Pager<Int, MovieDto>
 
-    suspend fun getTopRatedMovies(): List<TopRatedMovieEntity>
+    suspend fun getTopRatedMovies(): List<TopRatedMovieLocalDto>
 
     fun getAllTopRatedMovies(): Pager<Int, MovieDto>
 
-    suspend fun getNowPlayingMovies(): List<NowPlayingMovieEntity>
+    suspend fun getNowPlayingMovies(): List<NowPlayingMovieLocalDto>
 
     fun getAllNowPlayingMovies(): Pager<Int, MovieDto>
 
-    suspend fun getMysteryMovies(): List<MysteryMovieEntity>
+    suspend fun getMysteryMovies(): List<MysteryMovieLocalDto>
 
     fun getAllMysteryMovies(): Pager<Int, MovieDto>
 
-    suspend fun getAdventureMovies(): List<AdventureMovieEntity>
+    suspend fun getAdventureMovies(): List<AdventureMovieLocalDto>
 
     fun getAllAdventureMovies(): Pager<Int, MovieDto>
 
-    suspend fun getTrendingMovie(): List<TrendingMovieEntity>
+    suspend fun getTrendingMovie(): List<TrendingMovieLocalDto>
 
     fun getAllTrendingMovies(): Pager<Int, MovieDto>
 
@@ -73,19 +72,19 @@ interface MovieRepository {
 
     suspend fun deleteSearchHistory(keyword: String)
 
-    suspend fun getSearchHistory(): List<SearchHistoryEntity>
+    suspend fun getSearchHistory(): List<SearchHistoryLocalDto>
 
-    suspend fun getSearchHistory(keyword: String): List<SearchHistoryEntity>
+    suspend fun getSearchHistory(keyword: String): List<SearchHistoryLocalDto>
 
     suspend fun clearAllSearchHistory()
 
     suspend fun getMovieTrailer(movieId: Int): VideoDto?
 
-    suspend fun insertMovieWatch(movie: WatchHistoryEntity)
+    suspend fun insertMovieWatch(movie: WatchHistoryLocalDto)
 
-    suspend fun deleteMovieWatch(movie: WatchHistoryEntity)
+    suspend fun deleteMovieWatch(movie: WatchHistoryLocalDto)
 
-    fun getAllMoviesWatch(): Flow<List<WatchHistoryEntity>>
+    fun getAllMoviesWatch(): Flow<List<WatchHistoryLocalDto>>
 
     suspend fun getRatedMovie(): List<RatedMovieDto>?
 

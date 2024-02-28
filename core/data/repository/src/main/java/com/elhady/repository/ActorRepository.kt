@@ -1,14 +1,13 @@
 package com.elhady.repository
 
 import androidx.paging.Pager
-import com.elhady.local.database.entity.actor.ActorEntity
-import com.elhady.remote.MovieCreditsDto
+import com.elhady.local.database.entity.actor.ActorLocalDto
 import com.elhady.remote.response.actor.PersonDto
 import com.elhady.remote.response.dto.MovieDto
 
 interface ActorRepository {
 
-    suspend fun getPopularPersons(): List<ActorEntity>
+    suspend fun getPopularPersons(): List<ActorLocalDto>
 
     fun getAllPopularPersons(): Pager<Int, PersonDto>
 

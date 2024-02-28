@@ -3,10 +3,8 @@ package com.elhady.remote.serviece
 import com.elhady.remote.response.auth.RequestTokenResponse
 import com.elhady.remote.response.auth.SessionResponse
 import com.elhady.remote.BaseResponse
-import com.elhady.remote.MovieCreditsDto
 import com.elhady.remote.PersonDto
 import com.elhady.remote.TrendingTimeWindow
-import com.elhady.remote.request.RatingDto
 import com.elhady.remote.response.AddListResponse
 import com.elhady.remote.response.AddMovieDto
 import com.elhady.remote.response.CreatedListDto

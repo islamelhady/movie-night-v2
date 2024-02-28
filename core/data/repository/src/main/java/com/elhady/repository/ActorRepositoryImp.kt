@@ -3,9 +3,8 @@ package com.elhady.repository
 import androidx.paging.Pager
 import com.elhady.local.AppConfiguration
 import com.elhady.local.database.daos.ActorDao
-import com.elhady.local.database.entity.actor.ActorEntity
+import com.elhady.local.database.entity.actor.ActorLocalDto
 import com.elhady.local.mappers.actors.ActorsMapper
-import com.elhady.remote.MovieCreditsDto
 import com.elhady.remote.response.actor.PersonDto
 import com.elhady.remote.response.dto.MovieDto
 import com.elhady.remote.serviece.MovieService
@@ -28,7 +27,7 @@ class ActorRepositoryImp @Inject constructor(
     /**
      *  Popular Persons
      */
-    override suspend fun getPopularPersons(): List<ActorEntity> {
+    override suspend fun getPopularPersons(): List<ActorLocalDto> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.POPULAR_PERSON_REQUEST_DATE_KEY),
             ::refreshPopularPersons
