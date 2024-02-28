@@ -52,8 +52,8 @@ dependencies {
     /// glide
     implementation("com.github.bumptech.glide:glide:4.15.1")
 
-    /// splash
-//    implementation("androidx.core:core-splashscreen:1.0.1")
+    // splash
+    implementation("androidx.core:core-splashscreen:1.0.1")
 
 
     // Hilt
