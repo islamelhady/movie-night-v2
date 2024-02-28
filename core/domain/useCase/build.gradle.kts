@@ -34,7 +34,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:domain:entities"))
+    api(project(":core:domain:entities"))
 //    TODO()
     // temporary i will delete it soon (remote and local)
     implementation(project(":core:data:remote"))
