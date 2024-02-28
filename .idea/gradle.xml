@@ -23,6 +23,9 @@
             <option value="$PROJECT_DIR$/feature/auth/presentation" />
             <option value="$PROJECT_DIR$/feature/auth/presentation/ui" />
             <option value="$PROJECT_DIR$/feature/auth/presentation/viewModel" />
+            <option value="$PROJECT_DIR$/feature/home" />
+            <option value="$PROJECT_DIR$/feature/home/domain" />
+            <option value="$PROJECT_DIR$/feature/home/domain/useCase" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
