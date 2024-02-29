@@ -1,11 +1,11 @@
 package com.elhady.entities
 
 data class MovieEntity(
-    val mediaID: Int,
-    val mediaName: String,
-    val mediaType:String = "movie",
-    val mediaGenreEntities: List<GenreEntity>,
-    val mediaRate: Float,
-    val mediaImage: String,
-    val mediaYear: String,
+    val movieId: Int,
+    val movieName: String,
+    val movieType:String = "movie",
+    val movieGenreEntities: List<GenreEntity>,
+    val movieRate: Float,
+    val movieImage: String,
+    val movieYear: String,
 )
