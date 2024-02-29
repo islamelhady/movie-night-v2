@@ -1,6 +1,7 @@
 package com.elhady.usecase.repository
 
 import androidx.paging.Pager
+import com.elhady.entities.PopularMovieEntity
 import com.elhady.local.database.entity.SearchHistoryLocalDto
 import com.elhady.local.database.entity.WatchHistoryLocalDto
 import com.elhady.local.database.entity.movies.AdventureMovieLocalDto
@@ -28,9 +29,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
 
-    suspend fun getPopularMovies(): List<PopularMovieLocalDto>
+    suspend fun getPopularMovies(): List<PopularMovieEntity>
 
-    suspend fun getUpcomingMovies(): List<UpcomingMovieLocalDto>
+    suspend fun getUpcomingMovies(): List<Upmovieen>
 
     fun getAllUpcomingMovies(): Pager<Int, MovieDto>
 
