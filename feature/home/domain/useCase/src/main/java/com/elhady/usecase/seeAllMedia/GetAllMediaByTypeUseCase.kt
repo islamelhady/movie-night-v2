@@ -3,7 +3,7 @@ package com.elhady.usecase.seeAllMedia
 import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.elhady.entities.MediaEntity
+import com.elhady.entities.MovieEntity
 import com.elhady.usecase.repository.ActorRepository
 import com.elhady.usecase.repository.MovieRepository
 import com.elhady.usecase.repository.SeriesRepository
@@ -18,7 +18,7 @@ class GetAllMediaByTypeUseCase @Inject constructor(
     private val tvShowDtoMapper: TVShowDtoMapper,
     private val actorRepository: ActorRepository
 ) {
-    suspend operator fun invoke(type: SeeAllType, actionId: Int =0): Flow<PagingData<MediaEntity>> {
+    suspend operator fun invoke(type: SeeAllType, actionId: Int =0): Flow<PagingData<MovieEntity>> {
         return when(type){
             SeeAllType.UPCOMING_MOVIE -> wrapper(movieRepository::getAllUpcomingMovies ,movieDtoMapper::map)
             SeeAllType.TRENDING_MOVIE -> wrapper(movieRepository::getAllTrendingMovies, movieDtoMapper::map)
@@ -36,8 +36,8 @@ class GetAllMediaByTypeUseCase @Inject constructor(
 
     private suspend fun <T : Any> wrapper(
         data: suspend () -> Pager<Int, T>,
-        mapper: (T) -> MediaEntity,
-    ): Flow<PagingData<MediaEntity>> {
+        mapper: (T) -> MovieEntity,
+    ): Flow<PagingData<MovieEntity>> {
         return data().flow.map { pagingData ->
             pagingData.map {
                 mapper(it)

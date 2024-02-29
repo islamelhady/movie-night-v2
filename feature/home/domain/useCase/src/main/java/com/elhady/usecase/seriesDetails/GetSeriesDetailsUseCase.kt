@@ -2,7 +2,7 @@ package com.elhady.usecase.seriesDetails
 
 import com.elhady.entities.ActorEntity
 import com.elhady.entities.MediaDetailsReviewEntity
-import com.elhady.entities.MediaEntity
+import com.elhady.entities.MovieEntity
 import com.elhady.entities.SeasonEntity
 import com.elhady.entities.SeriesDetailsEntity
 import com.elhady.usecase.GetReviewsUseCase
@@ -31,7 +31,7 @@ class GetSeriesDetailsUseCase @Inject constructor(
             ?: throw Throwable("not found")
     }
 
-    suspend fun getSimilarSeries(seriesId: Int): List<MediaEntity> {
+    suspend fun getSimilarSeries(seriesId: Int): List<MovieEntity> {
         return repository.getSimilarSeries(seriesId)?.map(seriesDtoMapper::map)
             ?: throw Throwable("not success")
     }

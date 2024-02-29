@@ -2,7 +2,7 @@ package com.elhady.usecase.movieDetails
 
 import com.elhady.entities.ActorEntity
 import com.elhady.entities.MediaDetailsReviewEntity
-import com.elhady.entities.MediaEntity
+import com.elhady.entities.MovieEntity
 import com.elhady.entities.MovieDetailsEntity
 import com.elhady.usecase.GetReviewsUseCase
 import com.elhady.usecase.MediaType
@@ -31,7 +31,7 @@ class GetMovieDetailsUseCase @Inject constructor(
          ?: throw Throwable("Not success")
     }
 
-    suspend fun getSimilarMovies(movieId: Int): List<MediaEntity> {
+    suspend fun getSimilarMovies(movieId: Int): List<MovieEntity> {
         val response = movieRepository.getSimilarMovies(movieId)
         return response?.let ( movieDtoMapper::map) ?: throw Throwable("Not success")
     }
