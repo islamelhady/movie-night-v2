@@ -1,6 +1,5 @@
 package com.elhady.usecase
 
-import com.elhady.repository.AccountRepository
 import javax.inject.Inject
 
 class LoginWithUsernameAndPasswordUseCase @Inject constructor(private val accountRepository: AccountRepository) {

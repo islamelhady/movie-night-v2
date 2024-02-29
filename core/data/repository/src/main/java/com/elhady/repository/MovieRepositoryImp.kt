@@ -25,7 +25,9 @@ import com.elhady.remote.response.CreatedListDto
 import com.elhady.remote.response.CreditsDto
 import com.elhady.remote.response.FavListDto
 import com.elhady.remote.response.RatedMovieDto
+import com.elhady.remote.response.RatingDto
 import com.elhady.remote.response.SavedListDto
+import com.elhady.remote.response.StatusResponseDto
 import com.elhady.remote.response.dto.MovieDto
 import com.elhady.remote.response.genre.GenreDto
 import com.elhady.remote.response.movie.MovieDetailsDto
@@ -34,6 +36,7 @@ import com.elhady.remote.response.video.VideoDto
 import com.elhady.remote.serviece.MovieService
 import com.elhady.repository.mediaDataSource.movies.MovieDataSourceContainer
 import com.elhady.repository.searchDataSource.MovieSearchDataSource
+import com.elhady.usecase.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 import javax.inject.Inject
@@ -52,7 +55,7 @@ class MovieRepositoryImp @Inject constructor(
     private val adventureMoviesMapper: AdventureMoviesMapper,
     private val movieDataSourceContainer: MovieDataSourceContainer,
     private val movieSearchDataSource: MovieSearchDataSource
-) : MovieRepository, BaseRepository() {
+) : BaseRepository(), MovieRepository {
 
     /**
      *  Popular Movies
@@ -428,13 +431,13 @@ class MovieRepositoryImp @Inject constructor(
         return movieService.getRatedMovie().body()?.items
     }
 
-//    override suspend fun setRateMovie(movieId: Int, value: Float): RatingDto? {
-//        return movieService.setRateMovie(movieId, value).body()
-//    }
+    override suspend fun setRateMovie(movieId: Int, value: Float): RatingDto? {
+        return movieService.setRateMovie(movieId, value).body()
+    }
 
-//    override suspend fun deleteRateMovie(movieId: Int): RatingDto? {
-//        return movieService.deleteRatingMovie(movieId).body()
-//    }
+    override suspend fun deleteRateMovie(movieId: Int): RatingDto? {
+        return movieService.deleteRatingMovie(movieId).body()
+    }
 
     /**
      * List
@@ -461,6 +464,10 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getSavedListDetails(listId: Int): List<SavedListDto>? {
         return movieService.getList(listId).body()?.items
+    }
+
+    override suspend fun deleteList(listId: Int): StatusResponseDto {
+        TODO("Not yet implemented")
     }
 
 //    override suspend fun deleteList(listId: Int): StatusResponse {

@@ -5,12 +5,14 @@ import com.elhady.local.AppConfiguration
 import com.elhady.local.database.daos.ActorDao
 import com.elhady.local.database.entity.actor.ActorLocalDto
 import com.elhady.local.mappers.actors.ActorsMapper
+import com.elhady.remote.response.actor.MovieCreditsDto
 import com.elhady.remote.response.actor.PersonDto
 import com.elhady.remote.response.dto.MovieDto
 import com.elhady.remote.serviece.MovieService
 import com.elhady.repository.mediaDataSource.actors.ActorDataSource
 import com.elhady.repository.mediaDataSource.actors.ActorMoviesDataSource
 import com.elhady.repository.searchDataSource.ActorsSearchDataSource
+import com.elhady.usecase.repository.ActorRepository
 import java.util.Date
 import javax.inject.Inject
 
@@ -65,9 +67,9 @@ class ActorRepositoryImp @Inject constructor(
      *  Persons Details
      */
 
-//    override suspend fun getPersonsDetails(actorID: Int): PersonDto? {
-//        return service.getPersonsDetails(actorID = actorID).body()
-//    }
+    override suspend fun getPersonsDetails(actorID: Int): PersonDto? {
+        return service.getPersonsDetails(actorID = actorID).body()
+    }
 
     /**
      *  Movie Credits

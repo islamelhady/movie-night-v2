@@ -13,6 +13,7 @@ import com.elhady.local.mappers.series.OnTheAirSeriesMapper
 import com.elhady.local.mappers.series.TVSeriesListsMapper
 import com.elhady.remote.response.CreditsDto
 import com.elhady.remote.response.RatedSeriesDto
+import com.elhady.remote.response.RatingDto
 import com.elhady.remote.response.TrendingDto
 import com.elhady.remote.response.episode.EpisodeDto
 import com.elhady.remote.response.genre.GenreDto
@@ -23,6 +24,7 @@ import com.elhady.remote.response.video.VideoDto
 import com.elhady.remote.serviece.MovieService
 import com.elhady.repository.mediaDataSource.series.SeriesDataSourceContainer
 import com.elhady.repository.searchDataSource.SeriesSearchDataSource
+import com.elhady.usecase.repository.SeriesRepository
 import java.util.Date
 import javax.inject.Inject
 
