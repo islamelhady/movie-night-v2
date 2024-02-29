@@ -1,6 +1,7 @@
 package com.elhady.usecase.repository
 
 import androidx.paging.Pager
+import com.elhady.entities.MovieEntity
 import com.elhady.entities.PopularMovieEntity
 import com.elhady.local.database.entity.SearchHistoryLocalDto
 import com.elhady.local.database.entity.WatchHistoryLocalDto
@@ -31,7 +32,7 @@ interface MovieRepository {
 
     suspend fun getPopularMovies(): List<PopularMovieEntity>
 
-    suspend fun getUpcomingMovies(): List<Upmovieen>
+    suspend fun getUpcomingMovies(): List<MovieEntity>
 
     fun getAllUpcomingMovies(): Pager<Int, MovieDto>
 

@@ -1,6 +1,7 @@
 package com.elhady.repository
 
 import androidx.paging.Pager
+import com.elhady.entities.MovieEntity
 import com.elhady.entities.PopularMovieEntity
 import com.elhady.local.AppConfiguration
 import com.elhady.local.database.daos.MovieDao
@@ -35,6 +36,7 @@ import com.elhady.remote.response.review.ReviewDto
 import com.elhady.remote.response.video.VideoDto
 import com.elhady.remote.serviece.MovieService
 import com.elhady.repository.mappers.domain.DomainPopularMovieMapper
+import com.elhady.repository.mappers.domain.DomainUpcomingMovieMapper
 import com.elhady.repository.mediaDataSource.movies.MovieDataSourceContainer
 import com.elhady.repository.searchDataSource.MovieSearchDataSource
 import com.elhady.usecase.repository.MovieRepository
@@ -45,6 +47,7 @@ import javax.inject.Inject
 class MovieRepositoryImp @Inject constructor(
     private val movieService: MovieService,
     private val domainPopularMovieMapper: DomainPopularMovieMapper,
+    private val domainUpcomingMovieMapper: DomainUpcomingMovieMapper,
     private val popularMovieMapper: PopularMovieMapper,
     private val movieDao: MovieDao,
     private val appConfiguration: AppConfiguration,
@@ -113,15 +116,15 @@ class MovieRepositoryImp @Inject constructor(
      *  Upcoming Movies
      */
 
-    override suspend fun getUpcomingMovies(): List<UpcomingMovieLocalDto> {
+    override suspend fun getUpcomingMovies(): List<MovieEntity> {
         refreshOneTimePerDay(
             appConfiguration.getRequestDate(Constant.UPCOMING_MOVIE_REQUEST_DATE_KEY),
             ::refreshUpcomingMovies
         )
-        return movieDao.getUpcomingMovies()
+        return domainUpcomingMovieMapper.map(movieDao.getUpcomingMovies())
     }
 
-    suspend fun refreshUpcomingMovies(currentDate: Date) {
+    private suspend fun refreshUpcomingMovies(currentDate: Date) {
         wrap(
             { movieService.getUpcomingMovies() },
             { list ->
