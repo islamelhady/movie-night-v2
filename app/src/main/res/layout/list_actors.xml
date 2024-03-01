@@ -11,7 +11,7 @@
 
         <variable
             name="listener"
-            type="com.elhady.movies.ui.home.HomeInteractionListener" />
+            type="com.elhady.viewmodel.home.HomeInteractionListener" />
 
 
     </data>

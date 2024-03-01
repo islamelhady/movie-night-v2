@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.elhady.movies.ui.models.MediaUiState" />
+            type="com.elhady.viewmodel.models.MediaUiState" />
 
         <variable
             name="listener"

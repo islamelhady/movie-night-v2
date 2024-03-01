@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.elhady.movies.ui.home.HomeViewModel" />
+            type="com.elhady.viewmodel.home.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

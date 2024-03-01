@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.elhady.movies.ui.movieDetails.saveMovie.SaveMovieViewModel" />
+            type="com.elhady.viewmodel.movieDetails.saveMovie.SaveMovieViewModel" />
 
     </data>
 

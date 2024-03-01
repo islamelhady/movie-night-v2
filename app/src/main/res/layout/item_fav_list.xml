@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.ui.movieDetails.saveMovie.FavListItemUiState" />
+            type="com.elhady.viewmodel.movieDetails.saveMovie.FavListItemUiState" />
 
         <variable
             name="listener"

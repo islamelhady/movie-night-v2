@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.elhady.movies.ui.search.SearchViewModel" />
+            type="com.elhady.viewmodel.search.SearchViewModel" />
 
     </data>
 

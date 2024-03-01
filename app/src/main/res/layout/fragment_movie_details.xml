@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.elhady.movies.ui.movieDetails.MovieDetailsViewModel" />
+            type="com.elhady.viewmodel.movieDetails.MovieDetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.motion.widget.MotionLayout

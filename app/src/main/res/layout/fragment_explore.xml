@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.elhady.movies.ui.explore.ExploreViewModel" />
+            type="com.elhady.viewmodel.explore.ExploreViewModel" />
 
     </data>
 

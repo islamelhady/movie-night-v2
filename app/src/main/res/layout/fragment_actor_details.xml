@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.elhady.movies.ui.actorDetails.ActorDetailsViewModel" />
+            type="com.elhady.viewmodel.actorDetails.ActorDetailsViewModel" />
         
         <import type="com.elhady.movies.domain.enums.SeeAllType" />
 

@@ -7,11 +7,11 @@
     <data>
         <variable
             name="item"
-            type="com.elhady.movies.ui.movieDetails.MovieDetailsUiState" />
+            type="com.elhady.viewmodel.movieDetails.MovieDetailsUiState" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.ui.movieDetails.DetailsInteractionListener" />
+            type="com.elhady.viewmodel.movieDetails.DetailsInteractionListener" />
 
     </data>
 

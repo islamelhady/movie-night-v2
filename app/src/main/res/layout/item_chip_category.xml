@@ -7,11 +7,11 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.ui.category.CategoryGenreUiState" />
+            type="com.elhady.viewmodel.category.CategoryGenreUiState" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.ui.category.CategoryInteractionListener" />
+            type="com.elhady.viewmodel.category.CategoryInteractionListener" />
 
     </data>
 

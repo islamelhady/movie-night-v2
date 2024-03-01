@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.elhady.movies.ui.seriesDetails.SeriesDetailsViewModel" />
+            type="com.elhady.viewmodel.seriesDetails.SeriesDetailsViewModel" />
 
     </data>
 

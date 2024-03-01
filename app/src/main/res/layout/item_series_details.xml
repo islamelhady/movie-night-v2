@@ -6,15 +6,15 @@
     <data>
         <variable
             name="item"
-            type="com.elhady.movies.ui.seriesDetails.SeriesDetailsResultUiState" />
+            type="com.elhady.viewmodel.seriesDetails.SeriesDetailsResultUiState" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.ui.movieDetails.DetailsInteractionListener" />
+            type="com.elhady.viewmodel.movieDetails.DetailsInteractionListener" />
 
         <variable
             name="viewModel"
-            type="com.elhady.movies.ui.seriesDetails.SeriesDetailsViewModel" />
+            type="com.elhady.viewmodel.seriesDetails.SeriesDetailsViewModel" />
 
     </data>
 

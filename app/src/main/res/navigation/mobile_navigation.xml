@@ -317,7 +317,7 @@
     </fragment>
     <dialog
         android:id="@+id/saveMovieDialog"
-        android:name="com.elhady.movies.ui.movieDetails.saveMovie.SaveMovieBottomSheet"
+        android:name="com.elhady.viewmodel.movieDetails.saveMovie.SaveMovieBottomSheet"
         android:label="SaveMovieDialog"
         tools:layout="@layout/bottom_sheet_save_movie">
         <argument

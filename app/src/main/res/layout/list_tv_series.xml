@@ -11,15 +11,15 @@
 
         <variable
             name="topRated"
-            type="com.elhady.movies.ui.models.MediaUiState" />
+            type="com.elhady.viewmodel.models.MediaUiState" />
 
         <variable
             name="popular"
-            type="com.elhady.movies.ui.models.MediaUiState" />
+            type="com.elhady.viewmodel.models.MediaUiState" />
 
         <variable
             name="latest"
-            type="com.elhady.movies.ui.models.MediaUiState" />
+            type="com.elhady.viewmodel.models.MediaUiState" />
 
     </data>
 

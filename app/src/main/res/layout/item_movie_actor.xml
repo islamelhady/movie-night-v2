@@ -11,7 +11,7 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.ui.actorDetails.ActorMoviesUiState" />
+            type="com.elhady.viewmodel.actorDetails.ActorMoviesUiState" />
 
     </data>
 

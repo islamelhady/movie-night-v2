@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.elhady.movies.ui.favorite.FavoriteViewModel" />
+            type="com.elhady.viewmodel.favorite.FavoriteViewModel" />
 
     </data>
 
