@@ -29,6 +29,7 @@
             <option value="$PROJECT_DIR$/feature/home" />
             <option value="$PROJECT_DIR$/feature/home/domain" />
             <option value="$PROJECT_DIR$/feature/home/domain/useCase" />
+            <option value="$PROJECT_DIR$/feature/home/viewModel" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
