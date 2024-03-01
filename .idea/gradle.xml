@@ -30,6 +30,7 @@
             <option value="$PROJECT_DIR$/feature/home/domain" />
             <option value="$PROJECT_DIR$/feature/home/domain/useCase" />
             <option value="$PROJECT_DIR$/feature/home/presentation" />
+            <option value="$PROJECT_DIR$/feature/home/presentation/ui" />
             <option value="$PROJECT_DIR$/feature/home/presentation/viewModel" />
           </set>
         </option>
