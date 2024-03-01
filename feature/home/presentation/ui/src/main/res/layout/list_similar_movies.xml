@@ -7,7 +7,7 @@
 
         <variable
             name="adapterRecycler"
-            type="com.elhady.movies.ui.adapter.MediaAdapter" />
+            type="com.elhady.ui.adapter.MediaAdapter" />
 
         <variable
             name="viewModel"

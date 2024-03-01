@@ -10,7 +10,7 @@
 
         <variable
             name="listener"
-            type="com.elhady.movies.ui.home.adapters.ActorInteractionListener" />
+            type="com.elhady.ui.home.adapters.ActorInteractionListener" />
 
     </data>
 

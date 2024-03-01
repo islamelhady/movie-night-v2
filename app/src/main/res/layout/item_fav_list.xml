@@ -11,7 +11,7 @@
 
         <variable
             name="listener"
-            type="com.elhady.movies.ui.movieDetails.saveMovie.SaveListInteractionListener" />
+            type="com.elhady.ui.movieDetails.saveMovie.SaveListInteractionListener" />
 
     </data>
 

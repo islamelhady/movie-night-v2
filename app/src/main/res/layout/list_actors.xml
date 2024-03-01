@@ -7,7 +7,7 @@
 
         <variable
             name="adapterRecycler"
-            type="com.elhady.movies.ui.home.adapters.ActorAdapter" />
+            type="com.elhady.ui.home.adapters.ActorAdapter" />
 
         <variable
             name="listener"

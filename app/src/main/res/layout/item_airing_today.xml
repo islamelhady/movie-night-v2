@@ -9,7 +9,7 @@
 
         <variable
             name="listener"
-            type="com.elhady.movies.ui.home.adapters.TVSeriesInteractionListener" />
+            type="com.elhady.ui.home.adapters.TVSeriesInteractionListener" />
 
     </data>
 

@@ -10,7 +10,7 @@
 
         <variable
             name="adapterRecycler"
-            type="com.elhady.movies.ui.home.adapters.TVSeriesAdapter" />
+            type="com.elhady.ui.home.adapters.TVSeriesAdapter" />
 
 <!--        <variable-->
 <!--            name="type"-->

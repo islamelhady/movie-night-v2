@@ -11,7 +11,7 @@
 
         <variable
             name="listener"
-            type="com.elhady.movies.ui.profile.ratings.MyRatingInteractionListener" />
+            type="com.elhady.ui.profile.ratings.MyRatingInteractionListener" />
 
     </data>
 

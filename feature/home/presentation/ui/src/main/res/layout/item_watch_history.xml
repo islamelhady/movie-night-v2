@@ -11,7 +11,7 @@
 
         <variable
             name="listener"
-            type="com.elhady.movies.ui.profile.watchHistory.WatchHistoryInteractionListener" />
+            type="com.elhady.ui.profile.watchHistory.WatchHistoryInteractionListener" />
     </data>
 
     <androidx.cardview.widget.CardView
