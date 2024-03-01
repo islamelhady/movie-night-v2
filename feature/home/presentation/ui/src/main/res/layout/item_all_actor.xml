@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="item"
-            type="com.elhady.viewmodel.models.MediaUiState" />
+            type="com.elhady.viewmodel.models.ActorUiState" />
 
         <variable
             name="listener"
-            type="com.elhady.ui.search.ActorSearchInteractionListener" />
+            type="com.elhady.movies.ui.home.adapters.ActorInteractionListener" />
 
     </data>
 
@@ -26,16 +25,16 @@
             android:id="@+id/image_actor"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/gray"
+            android:background="@color/background_color"
+            android:onClick="@{()->listener.onClickActor(item.id)}"
             android:scaleType="centerCrop"
-            android:onClick="@{ () -> listener.onClickActor(item.id)}"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:movieImage="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/Circle"
-            tools:src="@tools:sample/avatars" />
+            tools:src="@color/brand_color" />
 
         <TextView
             android:id="@+id/cast_name"
@@ -50,8 +49,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image_actor"
-            tools:text="@tools:sample/full_names" />
+            tools:text="Actor Name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
-

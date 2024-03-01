@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="item"
             type="com.elhady.viewmodel.models.MediaUiState" />
 
         <variable
             name="listener"
-            type="com.elhady.ui.search.ActorSearchInteractionListener" />
+            type="com.elhady.movies.ui.adapter.MediaInteractionListener" />
+
 
     </data>
 
@@ -24,34 +24,19 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_actor"
+            android:onClick="@{ () -> listener.onClickMedia(item.id)}"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/gray"
+            app:layout_constraintDimensionRatio="1:1.5"
+            android:background="@color/background_color"
             android:scaleType="centerCrop"
-            android:onClick="@{ () -> listener.onClickActor(item.id)}"
-            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:movieImage="@{item.imageUrl}"
-            app:shapeAppearanceOverlay="@style/Circle"
-            tools:src="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/cast_name"
-            style="@style/Regular.Small.Secondary"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:ellipsize="end"
-            android:lines="2"
-            android:text="@{item.name}"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_actor"
-            tools:text="@tools:sample/full_names" />
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium"
+            tools:src="@color/brand_color" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
-

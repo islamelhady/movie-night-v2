@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.elhady.viewmodel.favorite.CreatedListUiState" />
+
+        <variable
+            name="listener"
+            type="com.elhady.movies.ui.favorite.CreatedListInteractionListener" />
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_medium"
+        android:layout_marginVertical="@dimen/spacing_small"
+        android:backgroundTint="@color/card_background_color"
+        app:cardCornerRadius="@dimen/spacing_small"
+        android:onClick="@{ () -> listener.onListClick(item)}"
+        app:strokeWidth="0dp"
+        app:cardElevation="0dp">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/text_title"
+                style="@style/SimiBold.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:maxLines="2"
+                android:text="@{item.name}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Action movies" />
+
+            <TextView
+                android:id="@+id/text_item"
+                style="@style/Regular.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/spacing_medium"
+                android:text="@{@string/items(item.mediaCounts)}"
+                app:layout_constraintStart_toStartOf="@id/text_title"
+                app:layout_constraintTop_toBottomOf="@+id/text_title"
+                tools:text="19 items" />
+
+
+            <ImageButton
+                android:id="@+id/delete_item"
+                style="@style/Regular.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:onClick="@{() -> listener.onClickDeleteList(item.id)}"
+                android:background="@null"
+                android:src="@drawable/ic_clear"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/text_title"
+                app:tint="@color/red" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/poster_one"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                android:layout_marginEnd="@dimen/spacing_too_small"
+                app:shapeAppearance="@style/CardCorners.Small"
+                app:layout_constraintHorizontal_weight="4"
+                app:layout_constraintDimensionRatio="2:3"
+                app:movieImage="@{item.posterPath[0]}"
+                app:isVisible="@{item.mediaCounts != 0}"
+                app:layout_constraintEnd_toStartOf="@+id/poster_two"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_item"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/poster_two"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                android:layout_marginEnd="@dimen/spacing_too_small"
+                app:shapeAppearance="@style/CardCorners.Small"
+                app:layout_constraintHorizontal_weight="4"
+                app:layout_constraintDimensionRatio="2:3"
+                app:movieImage="@{item.posterPath[1]}"
+                app:isVisible="@{item.mediaCounts != 0}"
+                app:layout_constraintEnd_toStartOf="@+id/poster_three"
+                app:layout_constraintTop_toTopOf="@id/poster_one"
+                app:layout_constraintStart_toEndOf="@+id/poster_one"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/poster_three"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:shapeAppearance="@style/CardCorners.Small"
+                app:layout_constraintHorizontal_weight="3"
+                app:layout_constraintDimensionRatio="1:2"
+                app:movieImage="@{item.posterPath[3]}"
+                app:isVisible="@{item.mediaCounts != 0}"
+                app:layout_constraintTop_toTopOf="@id/poster_one"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/poster_two"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

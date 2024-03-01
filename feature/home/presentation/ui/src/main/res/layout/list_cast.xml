@@ -7,39 +7,44 @@
 
         <variable
             name="adapterRecycler"
-            type="com.elhady.ui.seriesDetails.SeasonAdapter" />
+            type="com.elhady.movies.ui.home.adapters.ActorAdapter" />
+
+        <variable
+            name="viewModel"
+            type="com.elhady.viewmodel.movieDetails.MovieDetailsViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:background="@color/background_color">
+        android:layout_marginTop="@dimen/spacing_medium">
 
         <TextView
-            android:id="@+id/text_seasons"
+            android:id="@+id/cast"
             style="@style/SimiBold.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:text="@string/seasons"
+            android:text="@string/cast"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_seasons"
+            android:id="@+id/cast_adapter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:orientation="vertical"
-            android:adapter="@{adapterRecycler}"
+            android:layout_marginTop="@dimen/spacing_small"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            android:clipToPadding="false"
+            android:paddingHorizontal="@dimen/spacing_small"
+            android:adapter="@{adapterRecycler}"
+            app:layout_constraintTop_toBottomOf="@+id/cast"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_seasons"
-            tools:itemCount="4"
-            tools:listitem="@layout/item_season" />
+            tools:listitem="@layout/item_cast" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

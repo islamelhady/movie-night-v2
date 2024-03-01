@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.elhady.viewmodel.favorite.details.FavListDetailsViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.favorite.details.FavListDetailsFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_list_details"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:items="@{viewModel.state.savedMedia}"
+            app:showWhenListNotEmpty="@{viewModel.state.savedMedia}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/item_list_details"/>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/no_items"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:isVisible="@{(!viewModel.state.loading &amp;&amp; viewModel.state.isEmpty)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/no_item_have" />
+
+        <include
+            android:id="@+id/loading"
+            layout="@layout/loading"
+            isVisible="@{viewModel.state.loading}"
+            />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lost_connection"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_colorFilter="@color/red"
+            app:lottie_rawRes="@raw/lost_internet_connection"
+            app:showWhenListNotEmpty="@{viewModel.state.onErrors}" />
+
+        <TextView
+            android:id="@+id/description_lost_connection"
+            style="@style/Regular.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:gravity="center"
+            android:text="@string/description"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lost_connection"
+            app:showWhenListNotEmpty="@{viewModel.state.onErrors}" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:onClick="@{()->viewModel.getData()}"
+            android:text="@string/retry"
+            android:backgroundTint="@color/brand_color"
+            app:showWhenListNotEmpty="@{viewModel.state.onErrors}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description_lost_connection" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
