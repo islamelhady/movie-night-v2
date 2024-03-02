@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.elhady.local.database.dto.GenresMoviesLocalDto
 import com.elhady.local.database.dto.SearchHistoryLocalDto
 import com.elhady.local.database.dto.WatchHistoryLocalDto
 import com.elhady.local.database.dto.movies.AdventureMovieLocalDto
@@ -31,6 +32,19 @@ interface MovieDao {
 
     @Query("SELECT * FROM POPULAR_MOVIE_TABLE ORDER BY RANDOM()")
     suspend fun getPopularMovies(): List<PopularMovieLocalDto>
+
+    /**
+     * Genres Movies
+     */
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertGenresMovies(genresMovies: List<GenresMoviesLocalDto>)
+
+    @Query("SELECT * FROM GENRES_MOVIES_TABLE")
+    suspend fun getGenresMovies(): List<GenresMoviesLocalDto>
+
+    @Query("DELETE FROM GENRES_MOVIES_TABLE")
+    suspend fun clearAllGenresMovies()
 
     /**
      * Trending Movies
