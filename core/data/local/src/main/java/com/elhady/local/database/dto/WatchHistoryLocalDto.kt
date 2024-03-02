@@ -1,4 +1,4 @@
-package com.elhady.local.database.entity
+package com.elhady.local.database.dto
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

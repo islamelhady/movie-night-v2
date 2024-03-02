@@ -1,7 +1,7 @@
 package com.elhady.usecase.repository
 
 import androidx.paging.Pager
-import com.elhady.local.database.entity.actor.ActorLocalDto
+import com.elhady.local.database.dto.actor.ActorLocalDto
 import com.elhady.remote.response.actor.MovieCreditsDto
 import com.elhady.remote.response.actor.PersonDto
 import com.elhady.remote.response.dto.MovieDto

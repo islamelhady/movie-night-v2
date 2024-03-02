@@ -5,9 +5,9 @@ import androidx.room.Room
 import com.elhady.local.DataStorePreferences
 import com.elhady.local.database.Converters
 import com.elhady.local.database.MovieDatabase
-import com.elhady.local.database.daos.ActorDao
-import com.elhady.local.database.daos.MovieDao
-import com.elhady.local.database.daos.SeriesDao
+import com.elhady.local.database.dao.ActorDao
+import com.elhady.local.database.dao.MovieDao
+import com.elhady.local.database.dao.SeriesDao
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides

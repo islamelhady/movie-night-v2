@@ -1,7 +1,7 @@
 package com.elhady.local.mappers.actors
 
 import com.elhady.local.Constants
-import com.elhady.local.database.entity.actor.ActorLocalDto
+import com.elhady.local.database.dto.actor.ActorLocalDto
 import com.elhady.local.mappers.Mapper
 import com.elhady.remote.PersonDto
 import javax.inject.Inject

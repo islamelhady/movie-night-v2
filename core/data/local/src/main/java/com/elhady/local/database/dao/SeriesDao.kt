@@ -1,12 +1,12 @@
-package com.elhady.local.database.daos
+package com.elhady.local.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.elhady.local.database.entity.series.AiringTodaySeriesLocalDto
-import com.elhady.local.database.entity.series.OnTheAirSeriesLocalDto
-import com.elhady.local.database.entity.series.TVSeriesListsLocalDto
+import com.elhady.local.database.dto.series.AiringTodaySeriesLocalDto
+import com.elhady.local.database.dto.series.OnTheAirSeriesLocalDto
+import com.elhady.local.database.dto.series.TVSeriesListsLocalDto
 
 @Dao
 interface SeriesDao {

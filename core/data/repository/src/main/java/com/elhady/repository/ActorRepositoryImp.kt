@@ -2,8 +2,8 @@ package com.elhady.repository
 
 import androidx.paging.Pager
 import com.elhady.local.AppConfiguration
-import com.elhady.local.database.daos.ActorDao
-import com.elhady.local.database.entity.actor.ActorLocalDto
+import com.elhady.local.database.dao.ActorDao
+import com.elhady.local.database.dto.actor.ActorLocalDto
 import com.elhady.local.mappers.actors.ActorsMapper
 import com.elhady.remote.response.actor.MovieCreditsDto
 import com.elhady.remote.response.actor.PersonDto

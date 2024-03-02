@@ -2,7 +2,7 @@ package com.elhady.repository.mappers.domain
 
 import com.elhady.entities.PopularMovieEntity
 import com.elhady.local.Constants
-import com.elhady.local.database.entity.movies.PopularMovieLocalDto
+import com.elhady.local.database.dto.movies.PopularMovieLocalDto
 import com.elhady.repository.mappers.Mapper
 import javax.inject.Inject
 

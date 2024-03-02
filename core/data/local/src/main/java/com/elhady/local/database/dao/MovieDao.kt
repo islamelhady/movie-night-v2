@@ -1,19 +1,19 @@
-package com.elhady.local.database.daos
+package com.elhady.local.database.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.elhady.local.database.entity.SearchHistoryLocalDto
-import com.elhady.local.database.entity.WatchHistoryLocalDto
-import com.elhady.local.database.entity.movies.AdventureMovieLocalDto
-import com.elhady.local.database.entity.movies.MysteryMovieLocalDto
-import com.elhady.local.database.entity.movies.NowPlayingMovieLocalDto
-import com.elhady.local.database.entity.movies.PopularMovieLocalDto
-import com.elhady.local.database.entity.movies.TopRatedMovieLocalDto
-import com.elhady.local.database.entity.movies.TrendingMovieLocalDto
-import com.elhady.local.database.entity.movies.UpcomingMovieLocalDto
+import com.elhady.local.database.dto.SearchHistoryLocalDto
+import com.elhady.local.database.dto.WatchHistoryLocalDto
+import com.elhady.local.database.dto.movies.AdventureMovieLocalDto
+import com.elhady.local.database.dto.movies.MysteryMovieLocalDto
+import com.elhady.local.database.dto.movies.NowPlayingMovieLocalDto
+import com.elhady.local.database.dto.movies.PopularMovieLocalDto
+import com.elhady.local.database.dto.movies.TopRatedMovieLocalDto
+import com.elhady.local.database.dto.movies.TrendingMovieLocalDto
+import com.elhady.local.database.dto.movies.UpcomingMovieLocalDto
 import kotlinx.coroutines.flow.Flow
 
 

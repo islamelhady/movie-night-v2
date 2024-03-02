@@ -1,10 +1,10 @@
-package com.elhady.local.database.daos
+package com.elhady.local.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.elhady.local.database.entity.actor.ActorLocalDto
+import com.elhady.local.database.dto.actor.ActorLocalDto
 
 @Dao
 interface ActorDao {

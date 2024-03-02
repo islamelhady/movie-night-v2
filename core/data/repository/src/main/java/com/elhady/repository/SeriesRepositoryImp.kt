@@ -2,12 +2,12 @@ package com.elhady.repository
 
 import androidx.paging.Pager
 import com.elhady.local.AppConfiguration
-import com.elhady.local.database.daos.MovieDao
-import com.elhady.local.database.daos.SeriesDao
-import com.elhady.local.database.entity.WatchHistoryLocalDto
-import com.elhady.local.database.entity.series.AiringTodaySeriesLocalDto
-import com.elhady.local.database.entity.series.OnTheAirSeriesLocalDto
-import com.elhady.local.database.entity.series.TVSeriesListsLocalDto
+import com.elhady.local.database.dao.MovieDao
+import com.elhady.local.database.dao.SeriesDao
+import com.elhady.local.database.dto.WatchHistoryLocalDto
+import com.elhady.local.database.dto.series.AiringTodaySeriesLocalDto
+import com.elhady.local.database.dto.series.OnTheAirSeriesLocalDto
+import com.elhady.local.database.dto.series.TVSeriesListsLocalDto
 import com.elhady.local.mappers.series.AiringTodaySeriesMapper
 import com.elhady.local.mappers.series.OnTheAirSeriesMapper
 import com.elhady.local.mappers.series.TVSeriesListsMapper
