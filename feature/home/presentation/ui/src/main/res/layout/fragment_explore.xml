@@ -24,7 +24,7 @@
             android:elevation="1dp"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loading"
+            app:lottie_rawRes="@raw/dots_loading"
             isVisible="@{viewModel.state.loading}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

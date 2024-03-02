@@ -62,7 +62,7 @@ fun ImageView.loadImage(imageUrl: String?) {
 
     Glide.with(context)
         .load(imageLink)
-        .thumbnail(Glide.with(context).load(R.raw.dots_loading))
+        .thumbnail(Glide.with(context).load(R.raw.dots_loadin))
         .centerCrop()
         .error(android.R.drawable.stat_notify_error)
         .into(this)
@@ -89,7 +89,7 @@ fun ImageView.loadProfileImage(profileUrl: String?) {
 
     Glide.with(context)
         .load(imageLink)
-        .thumbnail(Glide.with(context).load(R.raw.dots_loading))
+        .thumbnail(Glide.with(context).load(R.raw.dots_loadin))
         .centerCrop()
         .error(android.R.drawable.stat_notify_error)
         .into(this)
