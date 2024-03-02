@@ -3,17 +3,10 @@ package com.elhady.movies
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.isVisible
-import androidx.databinding.DataBindingUtil
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.elhady.movies.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,70 +20,49 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
 
-        supportRequestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         changeAppTheme()
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+
     }
 
     override fun onResume() {
         super.onResume()
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
+
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        binding.bottomNavView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
                 R.id.homeFragment,
                 R.id.exploreFragment,
                 R.id.favoriteFragment,
-                R.id.profileFragment,
-            )
-        )
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        binding.navView.setupWithNavController(navController)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+                R.id.profileFragment -> showBottomNav()
 
-        setBottomNavigationVisibility(navController)
-        setNavigationController(navController)
-    }
-
-    private fun setBottomNavigationVisibility(navController: NavController) {
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            binding.navView.isVisible = destination.id != R.id.loginFragment
-            when (destination.id) {
-                R.id.movieDetailsFragment -> {
-                    binding.toolbar.visibility = View.GONE
-                }
-
-                R.id.tvShowDetailsFragment -> {
-                    binding.toolbar.visibility = View.GONE
-                }
-
-                R.id.searchFragment -> {
-                    binding.toolbar.visibility = View.GONE
-                }
-
-                R.id.actorDetailsFragment -> {
-                    binding.toolbar.visibility = View.GONE
-                }
-
-                else -> binding.toolbar.visibility = View.VISIBLE
+                else -> hideBottomNav()
             }
         }
     }
 
-    private fun setNavigationController(navController: NavController) {
-        binding.navView.setOnItemSelectedListener { item ->
-            NavigationUI.onNavDestinationSelected(item, navController)
-            navController.popBackStack(item.itemId, inclusive = false)
-            true
+    private fun showBottomNav() {
+        binding.bottomNavView.apply {
+            visibility = View.VISIBLE
+            animate().translationY(0f).setDuration(300).start()
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return findNavController(R.id.nav_host_fragment_activity_main).navigateUp() || super.onSupportNavigateUp()
+    private fun hideBottomNav() {
+        binding.bottomNavView.apply {
+            animate().translationY(height.toFloat()).setDuration(300)
+                .withEndAction { visibility = View.GONE }.start()
+        }
     }
+
 
     private fun changeAppTheme() {
         val sharedPreferences = getPreferences(Context.MODE_PRIVATE)
-        val savedThemeState = sharedPreferences.getBoolean(KEY_NIGHT_MODE, false)
+        val savedThemeState = sharedPreferences.getBoolean(KEY_NIGHT_MODE_STATE, false)
         if (savedThemeState) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {
@@ -99,7 +71,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val KEY_NIGHT_MODE = "night_mode"
+        const val KEY_NIGHT_MODE_STATE = "night_mode_state"
     }
 
 
