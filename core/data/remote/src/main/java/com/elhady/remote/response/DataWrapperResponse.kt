@@ -1,8 +1,8 @@
-package com.elhady.remote
+package com.elhady.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class BaseResponse<T>(
+data class DataWrapperResponse<T>(
     @SerializedName("page")
     val page: Int?,
     @SerializedName("results")
