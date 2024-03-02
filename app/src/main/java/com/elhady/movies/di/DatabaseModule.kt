@@ -2,12 +2,12 @@ package com.elhady.movies.di
 
 import android.content.Context
 import androidx.room.Room
-import com.elhady.movies.data.local.DataStorePreferences
-import com.elhady.movies.data.local.Converters
-import com.elhady.movies.data.local.database.MovieDatabase
-import com.elhady.movies.data.local.database.daos.ActorDao
-import com.elhady.movies.data.local.database.daos.MovieDao
-import com.elhady.movies.data.local.database.daos.SeriesDao
+import com.elhady.local.DataStorePreferences
+import com.elhady.local.database.Converters
+import com.elhady.local.database.MovieDatabase
+import com.elhady.local.database.daos.ActorDao
+import com.elhady.local.database.daos.MovieDao
+import com.elhady.local.database.daos.SeriesDao
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -42,13 +42,13 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideSeriesDao(movieDatabase: MovieDatabase): SeriesDao{
+    fun provideSeriesDao(movieDatabase: MovieDatabase): SeriesDao {
         return movieDatabase.seriesDao()
     }
 
     @Singleton
     @Provides
-    fun provideActorDao(movieDatabase: MovieDatabase): ActorDao{
+    fun provideActorDao(movieDatabase: MovieDatabase): ActorDao {
         return movieDatabase.actorsDao()
     }
 

@@ -44,7 +44,17 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:base"))
     implementation(project(":core:data:local"))
+    implementation(project(":core:data:remote"))
+    implementation(project(":core:data:repository"))
+    implementation(project(":core:domain:useCase"))
+//    implementation(project(":feature:home:domain:useCase"))
+//    implementation(project(":feature:home:presentation:viewModel"))
+//    implementation(project(":feature:auth:presentation:viewModel"))
+    implementation(project(":feature:home:presentation:ui"))
+    implementation(project(":feature:auth:presentation:ui"))
+//    implementation(project(":feature:auth:domain:usecase"))
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")

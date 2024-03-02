@@ -1,8 +1,8 @@
 package com.elhady.movies.di
 
-import com.elhady.movies.data.remote.AuthInterceptor
-import com.elhady.movies.data.remote.service.MovieService
-import com.elhady.movies.utilities.Constants
+import com.elhady.local.Constants
+import com.elhady.remote.serviece.AuthInterceptor
+import com.elhady.remote.serviece.MovieService
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
