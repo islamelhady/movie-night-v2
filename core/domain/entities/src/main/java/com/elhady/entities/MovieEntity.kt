@@ -7,5 +7,5 @@ data class MovieEntity(
     val movieGenreEntities: List<GenreEntity>,
     val movieRate: Double,
     val movieImage: String,
-    val movieYear: String,
+    val movieYear: String = "",
 )

@@ -14,9 +14,7 @@ class DomainUpcomingMovieMapper @Inject constructor()
             movieImage = (Constants.IMAGE_PATH + input.imageUrl),
             movieName = input.title,
             movieGenreEntities = emptyList(),
-            movieRate = 0f,
-            movieType = "",
-            movieYear = ""
+            movieRate = 0.0
         )
     }
 }
