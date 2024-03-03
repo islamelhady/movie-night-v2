@@ -6,7 +6,7 @@ data class DataWrapperResponse<T>(
     @SerializedName("page")
     val page: Int?,
     @SerializedName("results")
-    val result: List<T?>?,
+    val results: List<T?>?,
     @SerializedName("total_pages")
     val totalPages: Int?,
     @SerializedName("total_results")

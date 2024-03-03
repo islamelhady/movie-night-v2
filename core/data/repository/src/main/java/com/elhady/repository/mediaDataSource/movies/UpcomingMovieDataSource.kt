@@ -14,7 +14,7 @@ class UpcomingMovieDataSource @Inject constructor(private val service: MovieServ
             val response = service.getUpcomingMovies(page = pageNumber)
 
             LoadResult.Page(
-                data = response.body()?.result ?: emptyList(),
+                data = response.body()?.results ?: emptyList(),
                 prevKey = null,
                 nextKey = response.body()?.page?.plus(1)
             )

@@ -42,7 +42,7 @@ abstract class BaseRepository {
         insertIntoDatabase: suspend (List<OUTPUT>) -> Unit
     ) {
         try {
-            wrapApiCall(apiCall).result?.filterNotNull()?.let {
+            wrapApiCall(apiCall).results?.filterNotNull()?.let {
                 clearOldLocalData?.invoke()
                 insertIntoDatabase(it.map { item ->
                     localMapper(item)
