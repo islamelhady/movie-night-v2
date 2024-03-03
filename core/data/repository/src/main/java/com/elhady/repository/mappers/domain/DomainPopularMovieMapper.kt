@@ -6,15 +6,15 @@ import com.elhady.local.database.dto.movies.PopularMovieLocalDto
 import com.elhady.repository.mappers.Mapper
 import javax.inject.Inject
 
-class DomainPopularMovieMapper @Inject constructor()
-    : Mapper<PopularMovieLocalDto, PopularMovieEntity> {
-    override fun map(input: PopularMovieLocalDto): PopularMovieEntity {
+class DomainPopularMovieMapper @Inject constructor() :
+    Mapper<PopularMovieLocalDto, PopularMovieEntity> {
+    override fun map(movie: PopularMovieLocalDto): PopularMovieEntity {
         return PopularMovieEntity(
-            movieId = input.id,
-            imageUrl = (Constants.IMAGE_PATH + input.imageUrl),
-            title = input.title,
-            genre = emptyList(),
-            movieRate = input.movieRate
+            movieId = movie.id ?: 0,
+            movieName = movie.title ?: "",
+            movieRate = movie.movieRate ?: 0.0,
+            movieImage = (Constants.IMAGE_PATH + movie.imageUrl),
+            movieGenre = movie.genres
         )
     }
 }
