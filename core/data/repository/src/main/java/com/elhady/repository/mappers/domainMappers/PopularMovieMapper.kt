@@ -1,4 +1,4 @@
-package com.elhady.movies.domain.mappers
+package com.elhady.repository.mappers.domainMappers
 
 import com.elhady.movies.data.local.database.entity.movies.PopularMovieEntity
 import com.elhady.movies.domain.models.PopularMovie

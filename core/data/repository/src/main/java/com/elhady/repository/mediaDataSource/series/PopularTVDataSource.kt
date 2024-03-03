@@ -13,7 +13,7 @@ class PopularTVDataSource @Inject constructor(private val service: MovieService)
         return try {
             val response = service.getPopularTV( page = pageNumber)
             LoadResult.Page(
-                data = response.body()?.items ?: emptyList(),
+                data = response.body()?.result ?: emptyList(),
                 prevKey = null,
                 nextKey = response.body()?.page?.plus(1)
             )

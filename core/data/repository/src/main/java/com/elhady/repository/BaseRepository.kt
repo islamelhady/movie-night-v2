@@ -1,7 +1,7 @@
 package com.elhady.repository
 
 import androidx.paging.PagingConfig
-import com.elhady.remote.BaseResponse
+import com.elhady.remote.response.DataWrapperResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
@@ -12,7 +12,7 @@ abstract class BaseRepository {
 
 
     val pagingConfig = PagingConfig(
-        pageSize = Constants.ITEMS_PER_PAGE,
+        pageSize = Constant.ITEMS_PER_PAGE,
         prefetchDistance = 5,
         enablePlaceholders = false
     )
@@ -35,6 +35,24 @@ abstract class BaseRepository {
     }
 
 
+    protected suspend fun <INPUT, OUTPUT> refreshWrapper(
+        apiCall: suspend () -> Response<DataWrapperResponse<INPUT>>,
+        localMapper: (INPUT)-> OUTPUT,
+        clearOldLocalData: (suspend () -> Unit)? = null,
+        insertIntoDatabase: suspend (List<OUTPUT>) -> Unit
+    ) {
+        try {
+            wrapApiCall(apiCall).result?.filterNotNull()?.let {
+                clearOldLocalData?.invoke()
+                insertIntoDatabase(it.map { item ->
+                    localMapper(item)
+                })
+            }
+        } catch (th: Throwable){
+            th.message
+        }
+    }
+
     protected fun <I, O> wrap(
         function: suspend () -> Response<I>,
         mapper: (I) -> O
@@ -55,34 +73,18 @@ abstract class BaseRepository {
         }
     }
 
-    protected suspend fun <T> wrapWithService(
-        request: suspend () -> Response<BaseResponse<T>>,
-    ): Flow<List<T>> {
-        return flow {
-            val response = request()
-            if (response.isSuccessful) {
-                response.body()?.items?.let {
-                    emit(it)
-                }
-            }
-        }
-    }
-
-    protected suspend fun <T, E> wrap(
-        request: suspend () -> Response<BaseResponse<T>>,
-        mapper: (List<T>?) -> List<E>?,
-        insertIntoDatabase: suspend (List<E>) -> Unit
-    ) {
-        val response = request()
-        if (response.isSuccessful) {
-            val items = response.body()?.items
-            mapper(items)?.let {
-                insertIntoDatabase(it)
-            }
-        } else {
-            throw Throwable()
-        }
-    }
+//    protected suspend fun <T> wrapWithService(
+//        request: suspend () -> Response<DataWrapperResponse<T>>,
+//    ): Flow<List<T>> {
+//        return flow {
+//            val response = request()
+//            if (response.isSuccessful) {
+//                response.body()?.result?.let {
+//                    emit(it)
+//                }
+//            }
+//        }
+//    }
 
     protected fun <T> wrapWithFlow(function: suspend () -> Response<T>): Flow<State<T>> {
         return flow {

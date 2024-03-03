@@ -1,6 +1,7 @@
 package com.elhady.usecase.repository
 
 import androidx.paging.Pager
+import com.elhady.entities.GenreEntity
 import com.elhady.entities.MovieEntity
 import com.elhady.entities.PopularMovieEntity
 import com.elhady.local.database.dto.SearchHistoryLocalDto
@@ -19,8 +20,7 @@ import com.elhady.remote.response.RatedMovieDto
 import com.elhady.remote.response.RatingDto
 import com.elhady.remote.response.SavedListDto
 import com.elhady.remote.response.StatusResponseDto
-import com.elhady.remote.response.dto.MovieDto
-import com.elhady.remote.response.genre.GenreDto
+import com.elhady.remote.response.dto.MovieRemoteDto
 import com.elhady.remote.response.movie.MovieDetailsDto
 import com.elhady.remote.response.review.ReviewDto
 import com.elhady.remote.response.video.VideoDto
@@ -28,47 +28,50 @@ import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
 
-    suspend fun getPopularMovies(): List<PopularMovieEntity>
+    suspend fun getPopularMoviesFromRemote(): List<PopularMovieEntity>
+    suspend fun getPopularMoviesFromDatabase(): List<PopularMovieEntity>
+    suspend fun refreshPopularMovies()
 
     suspend fun getUpcomingMovies(): List<MovieEntity>
 
-    fun getAllUpcomingMovies(): Pager<Int, MovieDto>
+    fun getAllUpcomingMovies(): Pager<Int, MovieRemoteDto>
 
     suspend fun getTopRatedMovies(): List<TopRatedMovieLocalDto>
 
-    fun getAllTopRatedMovies(): Pager<Int, MovieDto>
+    fun getAllTopRatedMovies(): Pager<Int, MovieRemoteDto>
 
     suspend fun getNowPlayingMovies(): List<NowPlayingMovieLocalDto>
 
-    fun getAllNowPlayingMovies(): Pager<Int, MovieDto>
+    fun getAllNowPlayingMovies(): Pager<Int, MovieRemoteDto>
 
     suspend fun getMysteryMovies(): List<MysteryMovieLocalDto>
 
-    fun getAllMysteryMovies(): Pager<Int, MovieDto>
+    fun getAllMysteryMovies(): Pager<Int, MovieRemoteDto>
 
     suspend fun getAdventureMovies(): List<AdventureMovieLocalDto>
 
-    fun getAllAdventureMovies(): Pager<Int, MovieDto>
+    fun getAllAdventureMovies(): Pager<Int, MovieRemoteDto>
 
     suspend fun getTrendingMovie(): List<TrendingMovieLocalDto>
 
-    fun getAllTrendingMovies(): Pager<Int, MovieDto>
+    fun getAllTrendingMovies(): Pager<Int, MovieRemoteDto>
 
-    fun getMoviesByGenre(genreId: Int): Pager<Int, MovieDto>
+    fun getMoviesByGenre(genreId: Int): Pager<Int, MovieRemoteDto>
 
-    fun getAllMovies(): Pager<Int, MovieDto>
+    fun getAllMovies(): Pager<Int, MovieRemoteDto>
 
-    suspend fun getGenreMovies(): List<GenreDto>?
+    suspend fun getGenreMovies(): List<GenreEntity>
+    suspend fun refreshGenres()
 
     suspend fun getDetailsMovies(movieId: Int): MovieDetailsDto?
 
     suspend fun getMovieCast(movieId: Int): CreditsDto?
 
-    suspend fun getSimilarMovies(movieId: Int): List<MovieDto>?
+    suspend fun getSimilarMovies(movieId: Int): List<MovieRemoteDto>?
 
     suspend fun getMovieReview(movieId: Int): List<ReviewDto>?
 
-    suspend fun searchForMoviesPager(query: String): Pager<Int, MovieDto>
+    suspend fun searchForMoviesPager(query: String): Pager<Int, MovieRemoteDto>
 
     suspend fun insertSearchHistory(searchHistory: String)
 

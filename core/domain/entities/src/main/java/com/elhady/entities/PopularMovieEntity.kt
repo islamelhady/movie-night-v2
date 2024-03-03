@@ -2,8 +2,8 @@ package com.elhady.entities
 
 data class PopularMovieEntity(
     val movieId: Int,
-    val imageUrl: String,
-    val title: String,
+    val movieImage: String,
+    val movieName: String,
     val movieRate: Double,
-    val genre: List<String>
+    val movieGenre: List<String>
 )
