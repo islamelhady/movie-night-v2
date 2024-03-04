@@ -1,6 +1,7 @@
 package com.elhady.repository
 
 import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.elhady.entities.GenreEntity
 import com.elhady.entities.MovieEntity
 import com.elhady.entities.PopularMovieEntity
@@ -36,10 +37,12 @@ import com.elhady.remote.response.video.VideoDto
 import com.elhady.remote.serviece.MovieService
 import com.elhady.repository.mappers.cash.LocalGenresMovieMapper
 import com.elhady.repository.mappers.cash.LocalPopularMovieMapper
+import com.elhady.repository.mappers.cash.LocalUpcomingMovieMapper
 import com.elhady.repository.mappers.domain.DomainGenreMapper
 import com.elhady.repository.mappers.domain.DomainUpcomingMovieMapper
 import com.elhady.repository.mediaDataSource.movies.MovieDataSourceContainer
 import com.elhady.repository.searchDataSource.MovieSearchDataSource
+import com.elhady.repository.showMore.PopularMoviesShowMorePagingSource
 import com.elhady.usecase.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
@@ -51,9 +54,11 @@ class MovieRepositoryImp @Inject constructor(
     private val random: Random,
     private val domainPopularMovieMapper: DomainPopularMovieMapper,
     private val localPopularMovieMapper: LocalPopularMovieMapper,
+    private val localUpcomingMovieMapper: LocalUpcomingMovieMapper,
     private val localGenresMovieMapper: LocalGenresMovieMapper,
     private val domainGenreMapper: DomainGenreMapper,
     private val domainUpcomingMovieMapper: DomainUpcomingMovieMapper,
+    private val popularMovieMapperShowMore: PopularMoviesShowMorePagingSource,
     private val movieDao: MovieDao,
     private val appConfiguration: AppConfiguration,
     private val trendingMovieMapper: TrendingMovieMapper,
@@ -122,39 +127,26 @@ class MovieRepositoryImp @Inject constructor(
      *  Upcoming Movies
      */
 
-    override suspend fun getUpcomingMovies(): List<MovieEntity> {
-        refreshOneTimePerDay(
-            appConfiguration.getRequestDate(Constant.UPCOMING_MOVIE_REQUEST_DATE_KEY),
-            ::refreshUpcomingMovies
-        )
+    override suspend fun getUpcomingMoviesFromDatabase(): List<MovieEntity> {
         return domainUpcomingMovieMapper.map(movieDao.getUpcomingMovies())
     }
 
-    private suspend fun refreshUpcomingMovies(currentDate: Date) {
-        wrap(
-            { movieService.getUpcomingMovies() },
-            { list ->
-                list?.map {
-                    upcomingMovieMapper.map(it)
-                }
-            },
-            {
-                movieDao.deleteUpcomingMovies()
-                movieDao.insertUpcomingMovie(it)
-                appConfiguration.saveRequestDate(
-                    Constant.UPCOMING_MOVIE_REQUEST_DATE_KEY,
-                    currentDate.time
-                )
-            })
+    override suspend fun refreshUpcomingMovies() {
+        refreshWrapper(
+            { movieService.getUpcomingMovies(page = random.nextInt(20) + 1) },
+            { localUpcomingMovieMapper.map(it) },
+            movieDao::deleteUpcomingMovies,
+            movieDao::insertUpcomingMovie
+        )
     }
 
     /**
      *  All Popular Movies
      */
-    override fun getAllUpcomingMovies(): Pager<Int, MovieRemoteDto> {
+    override fun getUpcomingMoviesPaging(): Pager<Int, MovieEntity> {
         return Pager(
-            config = pagingConfig,
-            pagingSourceFactory = { movieDataSourceContainer.upcomingMovieDataSource })
+            config = PagingConfig(pageSize = 30),
+            pagingSourceFactory = { popularMovieMapperShowMore })
     }
 
     /**
@@ -368,11 +360,11 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     override suspend fun getSimilarMovies(movieId: Int): List<MovieRemoteDto>? {
-        return movieService.getSimilarMovie(movieId = movieId).body()?.result
+        return movieService.getSimilarMovie(movieId = movieId).body()?.results
     }
 
     override suspend fun getMovieReview(movieId: Int): List<ReviewDto>? {
-        return movieService.getMovieReview(movieId).body()?.result
+        return movieService.getMovieReview(movieId).body()?.results
     }
 
     /**
@@ -442,7 +434,7 @@ class MovieRepositoryImp @Inject constructor(
      * Rating
      */
     override suspend fun getRatedMovie(): List<RatedMovieDto>? {
-        return movieService.getRatedMovie().body()?.result
+        return movieService.getRatedMovie().body()?.results
     }
 
     override suspend fun setRateMovie(movieId: Int, value: Float): RatingDto? {
@@ -461,7 +453,7 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     override suspend fun getCreatedList(sessionId: String): List<CreatedListDto>? {
-        return movieService.getCreatedList(sessionId = sessionId).body()?.result
+        return movieService.getCreatedList(sessionId = sessionId).body()?.results
     }
 
     override suspend fun addMovieToList(
