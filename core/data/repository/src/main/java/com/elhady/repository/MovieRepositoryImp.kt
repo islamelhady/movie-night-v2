@@ -37,6 +37,7 @@ import com.elhady.repository.mappers.cash.LocalGenresMovieMapper
 import com.elhady.repository.mappers.cash.LocalPopularMovieMapper
 import com.elhady.repository.mappers.cash.LocalUpcomingMovieMapper
 import com.elhady.repository.mappers.domain.DomainGenreMapper
+import com.elhady.repository.mappers.domain.movie.DomainMysteryMoviesMapper
 import com.elhady.repository.mappers.domain.movie.DomainNowPlayingMovieMapper
 import com.elhady.repository.mappers.domain.movie.DomainTopRatedMovieMapper
 import com.elhady.repository.mappers.domain.movie.DomainUpcomingMovieMapper
@@ -63,6 +64,7 @@ class MovieRepositoryImp @Inject constructor(
     private val domainNowPlayingMovieMapper: DomainNowPlayingMovieMapper,
     private val localTrendingMovieMapper: LocalTrendingMovieMapper,
     private val localMysteryMoviesMapper: LocalMysteryMoviesMapper,
+    private val domainMysteryMoviesMapper: DomainMysteryMoviesMapper,
     private val domainGenreMapper: DomainGenreMapper,
     private val domainUpcomingMovieMapper: DomainUpcomingMovieMapper,
     private val popularMovieMapperShowMore: PopularMoviesShowMorePagingSource,
@@ -245,33 +247,18 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  Mystery Movies
      */
-    override suspend fun getMysteryMovies(): List<MysteryMovieLocalDto> {
-        refreshOneTimePerDay(
-            appConfiguration.getRequestDate(Constant.MYSTERY_MOVIE_REQUEST_DATE_KEY),
-            ::refreshMysteryMovies
-        )
-        return movieDao.getMysteryMovies()
+    override suspend fun getMysteryMoviesFromDatabase(): List<MovieEntity> {
+        return domainMysteryMoviesMapper.map(movieDao.getMysteryMovies())
     }
 
-    suspend fun refreshMysteryMovies(currentDate: Date) {
-        wrap(
-            { movieService.getMoviesListByGenre(genreID = Constant.MYSTERY_ID) },
-            { list ->
-                list?.map {
-                    mysteryMoviesMapper.map(it)
-                }
-            },
-            {
-                movieDao.deleteMysteryMovies()
-                movieDao.insertMysteryMovies(it)
-                appConfiguration.saveRequestDate(
-                    Constant.MYSTERY_MOVIE_REQUEST_DATE_KEY,
-                    currentDate.time
-                )
-            }
+    override suspend fun refreshMysteryMovies() {
+        refreshWrapper(
+            { movieService.getMoviesListByGenre(page = random.nextInt(20)+1, genreID = Constant.MYSTERY_ID) },
+            { localMysteryMoviesMapper.map(it) },
+            movieDao::deleteMysteryMovies,
+            movieDao::insertMysteryMovies
         )
     }
-
     /**
      *  All Mystery Movies
      */
