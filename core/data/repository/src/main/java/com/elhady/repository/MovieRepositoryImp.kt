@@ -37,6 +37,7 @@ import com.elhady.repository.mappers.cash.LocalGenresMovieMapper
 import com.elhady.repository.mappers.cash.LocalPopularMovieMapper
 import com.elhady.repository.mappers.cash.LocalUpcomingMovieMapper
 import com.elhady.repository.mappers.domain.DomainGenreMapper
+import com.elhady.repository.mappers.domain.movie.DomainTopRatedMovieMapper
 import com.elhady.repository.mappers.domain.movie.DomainUpcomingMovieMapper
 import com.elhady.repository.mediaDataSource.movies.MovieDataSourceContainer
 import com.elhady.repository.searchDataSource.MovieSearchDataSource
@@ -55,6 +56,7 @@ class MovieRepositoryImp @Inject constructor(
     private val localUpcomingMovieMapper: LocalUpcomingMovieMapper,
     private val localGenresMovieMapper: LocalGenresMovieMapper,
     private val localTopRatedMovieMapper: LocalTopRatedMovieMapper,
+    private val domainTopRatedMovieMapper: DomainTopRatedMovieMapper,
     private val localAdventureMoviesMapper: LocalAdventureMoviesMapper
     private val localNowPlayingMovieMapper: LocalNowPlayingMovieMapper,
     private val localTrendingMovieMapper: LocalTrendingMovieMapper,
@@ -150,7 +152,7 @@ class MovieRepositoryImp @Inject constructor(
      *  Top Rated Movies
      */
     override suspend fun getTopRatedMoviesFromDatabase(): List<MovieEntity> {
-        domainPopularMovieMapper.map(movieDao.getTopRatedMovies())
+        return domainTopRatedMovieMapper.map(movieDao.getTopRatedMovies())
     }
 
     override suspend fun refreshTopRatedMovies{
