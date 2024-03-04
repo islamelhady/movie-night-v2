@@ -9,10 +9,6 @@ import com.elhady.local.AppConfiguration
 import com.elhady.local.database.dao.MovieDao
 import com.elhady.local.database.dto.SearchHistoryLocalDto
 import com.elhady.local.database.dto.WatchHistoryLocalDto
-import com.elhady.local.database.dto.movies.AdventureMovieLocalDto
-import com.elhady.local.database.dto.movies.MysteryMovieLocalDto
-import com.elhady.local.database.dto.movies.NowPlayingMovieLocalDto
-import com.elhady.local.database.dto.movies.TrendingMovieLocalDto
 import com.elhady.repository.mappers.cash.movies.LocalAdventureMoviesMapper
 import com.elhady.repository.mappers.cash.movies.LocalMysteryMoviesMapper
 import com.elhady.repository.mappers.cash.movies.LocalNowPlayingMovieMapper
@@ -36,6 +32,7 @@ import com.elhady.remote.serviece.MovieService
 import com.elhady.repository.mappers.cash.LocalGenresMovieMapper
 import com.elhady.repository.mappers.cash.LocalPopularMovieMapper
 import com.elhady.repository.mappers.cash.LocalUpcomingMovieMapper
+import com.elhady.repository.mappers.domain.DomainPopularActorMapper
 import com.elhady.repository.mappers.domain.DomainGenreMapper
 import com.elhady.repository.mappers.domain.movie.DomainAdventureMovieMapper
 import com.elhady.repository.mappers.domain.movie.DomainMysteryMoviesMapper
@@ -48,7 +45,6 @@ import com.elhady.repository.searchDataSource.MovieSearchDataSource
 import com.elhady.repository.showMore.PopularMoviesShowMorePagingSource
 import com.elhady.usecase.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
-import java.util.Date
 import java.util.Random
 import javax.inject.Inject
 

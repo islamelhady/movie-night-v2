@@ -3,7 +3,7 @@ package com.elhady.remote
 
 import com.google.gson.annotations.SerializedName
 
-data class PersonDto(
+data class ActorRemoteDto(
     @SerializedName("adult")
     val adult: Boolean?,
     @SerializedName("gender")
