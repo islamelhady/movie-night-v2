@@ -1,9 +1,9 @@
-package com.elhady.remote.response.series
+package com.elhady.remote.response.dto
 
 
 import com.google.gson.annotations.SerializedName
 
-data class SeriesDto(
+data class TVShowsRemoteDto(
     @SerializedName("backdrop_path")
     val backdropPath: String?,
     @SerializedName("first_air_date")

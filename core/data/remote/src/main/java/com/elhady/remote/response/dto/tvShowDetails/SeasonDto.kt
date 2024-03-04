@@ -1,4 +1,4 @@
-package com.elhady.remote.response.series
+package com.elhady.remote.response.dto.tvShowDetails
 
 import com.elhady.remote.response.episode.EpisodeDto
 import com.google.gson.annotations.SerializedName

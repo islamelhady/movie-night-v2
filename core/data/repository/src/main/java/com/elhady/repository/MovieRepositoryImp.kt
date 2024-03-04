@@ -25,14 +25,13 @@ import com.elhady.remote.response.StatusResponse
 import com.elhady.remote.response.SavedListDto
 import com.elhady.remote.response.StatusResponseDto
 import com.elhady.remote.response.dto.MovieRemoteDto
-import com.elhady.remote.response.movie.MovieDetailsDto
+import com.elhady.remote.response.movieDetails.MovieDetailsDto
 import com.elhady.remote.response.review.ReviewDto
 import com.elhady.remote.response.video.VideoDto
 import com.elhady.remote.serviece.MovieService
 import com.elhady.repository.mappers.cash.LocalGenresMovieMapper
 import com.elhady.repository.mappers.cash.LocalPopularMovieMapper
 import com.elhady.repository.mappers.cash.LocalUpcomingMovieMapper
-import com.elhady.repository.mappers.domain.DomainPopularActorMapper
 import com.elhady.repository.mappers.domain.DomainGenreMapper
 import com.elhady.repository.mappers.domain.movie.DomainAdventureMovieMapper
 import com.elhady.repository.mappers.domain.movie.DomainMysteryMoviesMapper

@@ -6,10 +6,6 @@ import com.elhady.entities.MovieEntity
 import com.elhady.entities.PopularMovieEntity
 import com.elhady.local.database.dto.SearchHistoryLocalDto
 import com.elhady.local.database.dto.WatchHistoryLocalDto
-import com.elhady.local.database.dto.movies.AdventureMovieLocalDto
-import com.elhady.local.database.dto.movies.MysteryMovieLocalDto
-import com.elhady.local.database.dto.movies.NowPlayingMovieLocalDto
-import com.elhady.local.database.dto.movies.TrendingMovieLocalDto
 import com.elhady.remote.response.AddListResponse
 import com.elhady.remote.response.AddMovieDto
 import com.elhady.remote.response.CreatedListDto
@@ -20,7 +16,7 @@ import com.elhady.remote.response.StatusResponse
 import com.elhady.remote.response.SavedListDto
 import com.elhady.remote.response.StatusResponseDto
 import com.elhady.remote.response.dto.MovieRemoteDto
-import com.elhady.remote.response.movie.MovieDetailsDto
+import com.elhady.remote.response.movieDetails.MovieDetailsDto
 import com.elhady.remote.response.review.ReviewDto
 import com.elhady.remote.response.video.VideoDto
 import kotlinx.coroutines.flow.Flow
