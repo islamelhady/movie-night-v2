@@ -32,9 +32,9 @@ interface MovieRepository {
     suspend fun getPopularMoviesFromDatabase(): List<PopularMovieEntity>
     suspend fun refreshPopularMovies()
 
-    suspend fun getUpcomingMovies(): List<MovieEntity>
-
-    fun getAllUpcomingMovies(): Pager<Int, MovieRemoteDto>
+    suspend fun getUpcomingMoviesFromDatabase(): List<MovieEntity>
+    suspend fun refreshUpcomingMovies()
+    fun getUpcomingMoviesPaging(): Pager<Int, MovieEntity>
 
     suspend fun getTopRatedMovies(): List<TopRatedMovieLocalDto>
 
