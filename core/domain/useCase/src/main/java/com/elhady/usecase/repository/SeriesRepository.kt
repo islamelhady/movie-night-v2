@@ -34,32 +34,32 @@ interface SeriesRepository {
     //    fun getAllPopularTV(): Pager<Int, TVShowsRemoteDto>
 //    fun getAllLatestTV(): Pager<Int, TVShowsRemoteDto>
 
-    suspend fun getSeriesDetails(seriesId: Int): SeriesDetailsDto?
+//    suspend fun getSeriesDetails(seriesId: Int): SeriesDetailsDto?
+//
+//    suspend fun getSeriesCast(seriesId: Int): CreditsDto?
+//
+//    suspend fun getSimilarSeries(seriesId: Int): List<TVShowsRemoteDto>?
+//
+//    suspend fun getSeriesReview(seriesId: Int): List<ReviewDto>?
+//
+//    suspend fun getSeasonDetails(seriesId: Int, seasonNumber: Int): List<EpisodeDto>?
+//
+//    suspend fun getTrendingTvSries(): List<TrendingDto>?
+//
+//    fun getSeriesByGenre(genreId: Int): Pager<Int, TVShowsRemoteDto>
+//
+//    fun getAllSeries(): Pager<Int, TVShowsRemoteDto>
+//
+//    suspend fun getGenreSeries(): List<GenreMovieRemoteDto>?
+//
+//    suspend fun searchForSeriesPager(query: String): Pager<Int, TVShowsRemoteDto>
+//
+//    suspend fun getSeriesTrailer(seriesId: Int): VideoDto?
 
-    suspend fun getSeriesCast(seriesId: Int): CreditsDto?
-
-    suspend fun getSimilarSeries(seriesId: Int): List<TVShowsRemoteDto>?
-
-    suspend fun getSeriesReview(seriesId: Int): List<ReviewDto>?
-
-    suspend fun getSeasonDetails(seriesId: Int, seasonNumber: Int): List<EpisodeDto>?
-
-    suspend fun getTrendingTvSries(): List<TrendingDto>?
-
-    fun getSeriesByGenre(genreId: Int): Pager<Int, TVShowsRemoteDto>
-
-    fun getAllSeries(): Pager<Int, TVShowsRemoteDto>
-
-    suspend fun getGenreSeries(): List<GenreMovieRemoteDto>?
-
-    suspend fun searchForSeriesPager(query: String): Pager<Int, TVShowsRemoteDto>
-
-    suspend fun getSeriesTrailer(seriesId: Int): VideoDto?
-
-    suspend fun insertSeriesWatch(movie: WatchHistoryLocalDto)
-
-    suspend fun setRatingSeries(seriesId: Int, value: Float): StatusResponse?
-    suspend fun deleteRateSeries(seriesId: Int): StatusResponse?
-    suspend fun getRatedSeries(): List<RatedSeriesDto>?
+//    suspend fun insertSeriesWatch(movie: WatchHistoryLocalDto)
+//
+//    suspend fun setRatingSeries(seriesId: Int, value: Float): StatusResponse?
+//    suspend fun deleteRateSeries(seriesId: Int): StatusResponse?
+//    suspend fun getRatedSeries(): List<RatedSeriesDto>?
 
 }

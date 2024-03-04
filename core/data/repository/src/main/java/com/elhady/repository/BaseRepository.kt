@@ -12,7 +12,7 @@ abstract class BaseRepository {
 
 
     val pagingConfig = PagingConfig(
-        pageSize = Constant.ITEMS_PER_PAGE,
+        pageSize = Constants.ITEMS_PER_PAGE,
         prefetchDistance = 5,
         enablePlaceholders = false
     )

@@ -118,29 +118,29 @@ class SeriesRepositoryImp @Inject constructor(
     /**
      *  All Top Rated TV
      */
-    override fun getAllTopRatedTV(): Pager<Int, TVShowsRemoteDto> {
-        return Pager(
-            config = pagingConfig,
-            pagingSourceFactory = { seriesDataSourceContainer.topRatedTVDataSource })
-    }
+//    override fun getAllTopRatedTV(): Pager<Int, TVShowsRemoteDto> {
+//        return Pager(
+//            config = pagingConfig,
+//            pagingSourceFactory = { seriesDataSourceContainer.topRatedTVDataSource })
+//    }
 
     /**
      *  All Popular TV
      */
-    override fun getAllPopularTV(): Pager<Int, TVShowsRemoteDto> {
-        return Pager(
-            config = pagingConfig,
-            pagingSourceFactory = { seriesDataSourceContainer.popularTVDataSource })
-    }
+//    override fun getAllPopularTV(): Pager<Int, TVShowsRemoteDto> {
+//        return Pager(
+//            config = pagingConfig,
+//            pagingSourceFactory = { seriesDataSourceContainer.popularTVDataSource })
+//    }
 
     /**
      *  All Latest TV
      */
-    override fun getAllLatestTV(): Pager<Int, TVShowsRemoteDto> {
-        return Pager(
-            config = pagingConfig,
-            pagingSourceFactory = { seriesDataSourceContainer.latestTVDataSource })
-    }
+//    override fun getAllLatestTV(): Pager<Int, TVShowsRemoteDto> {
+//        return Pager(
+//            config = pagingConfig,
+//            pagingSourceFactory = { seriesDataSourceContainer.latestTVDataSource })
+//    }
 
     /**
      *  Details Series
@@ -149,98 +149,98 @@ class SeriesRepositoryImp @Inject constructor(
      * * Similar Series
      * * Details season (List Episode)
      */
-    override suspend fun getSeriesDetails(seriesId: Int): SeriesDetailsDto? {
-        return movieService.getSeriesDetails(seriesId).body()
-    }
-
-    override suspend fun getSeriesCast(seriesId: Int): CreditsDto? {
-        return movieService.getSeriesCast(seriesId).body()
-    }
-
-    override suspend fun getSimilarSeries(seriesId: Int): List<TVShowsRemoteDto>? {
-        return movieService.getSimilarSeries(seriesId).body()?.results
-    }
-
-    override suspend fun getSeriesReview(seriesId: Int): List<ReviewDto>? {
-        return movieService.getSeriesReview(seriesId).body()?.results
-    }
-
-    override suspend fun getSeasonDetails(seriesId: Int, seasonNumber: Int): List<EpisodeDto>? {
-        return movieService.getSeasonDetails(seriesId = seriesId, seasonNumber = seasonNumber)
-            .body()?.episodes
-    }
+//    override suspend fun getSeriesDetails(seriesId: Int): SeriesDetailsDto? {
+//        return movieService.getSeriesDetails(seriesId).body()
+//    }
+//
+//    override suspend fun getSeriesCast(seriesId: Int): CreditsDto? {
+//        return movieService.getSeriesCast(seriesId).body()
+//    }
+//
+//    override suspend fun getSimilarSeries(seriesId: Int): List<TVShowsRemoteDto>? {
+//        return movieService.getSimilarSeries(seriesId).body()?.results
+//    }
+//
+//    override suspend fun getSeriesReview(seriesId: Int): List<ReviewDto>? {
+//        return movieService.getSeriesReview(seriesId).body()?.results
+//    }
+//
+//    override suspend fun getSeasonDetails(seriesId: Int, seasonNumber: Int): List<EpisodeDto>? {
+//        return movieService.getSeasonDetails(seriesId = seriesId, seasonNumber = seasonNumber)
+//            .body()?.episodes
+//    }
 
     /**
      * Trending
      */
-    override suspend fun getTrendingTvSries(): List<TrendingDto>? {
-        return movieService.getTrending().body()?.results
-    }
+//    override suspend fun getTrendingTvSries(): List<TrendingDto>? {
+//        return service.getTrending().body()?.results
+//    }
 
     /**
      * Genre Series
      */
-    override suspend fun getGenreSeries(): List<GenreMovieRemoteDto>? {
-        return movieService.getGenreSeries().body()?.genres
-    }
+//    override suspend fun getGenreSeries(): List<GenreMovieRemoteDto>? {
+//        return movieService.getGenreSeries().body()?.genres
+//    }
 
     /**
      * Series By Genre
      */
-    override fun getSeriesByGenre(genreId: Int): Pager<Int, TVShowsRemoteDto> {
-        return Pager(config = pagingConfig, pagingSourceFactory = {
-            val seriesDataSource = seriesDataSourceContainer.seriesByGenreDataSource
-            seriesDataSource.setGenre(genreId)
-            seriesDataSource
-        })
-    }
+//    override fun getSeriesByGenre(genreId: Int): Pager<Int, TVShowsRemoteDto> {
+//        return Pager(config = pagingConfig, pagingSourceFactory = {
+//            val seriesDataSource = seriesDataSourceContainer.seriesByGenreDataSource
+//            seriesDataSource.setGenre(genreId)
+//            seriesDataSource
+//        })
+//    }
 
     /**
      * All Series
      */
-    override fun getAllSeries(): Pager<Int, TVShowsRemoteDto> {
-        return Pager(
-            config = pagingConfig,
-            pagingSourceFactory = { seriesDataSourceContainer.seriesDataSource })
-    }
+//    override fun getAllSeries(): Pager<Int, TVShowsRemoteDto> {
+//        return Pager(
+//            config = pagingConfig,
+//            pagingSourceFactory = { seriesDataSourceContainer.seriesDataSource })
+//    }
 
     /**
      *  Search series
      */
-    override suspend fun searchForSeriesPager(query: String): Pager<Int, TVShowsRemoteDto> {
-        val dataSource = seriesSearchDataSource
-        dataSource.setSearch(query)
-        return Pager(config = pagingConfig, pagingSourceFactory = { dataSource })
-    }
+//    override suspend fun searchForSeriesPager(query: String): Pager<Int, TVShowsRemoteDto> {
+//        val dataSource = seriesSearchDataSource
+//        dataSource.setSearch(query)
+//        return Pager(config = pagingConfig, pagingSourceFactory = { dataSource })
+//    }
 
     /**
      * Video
      */
-    override suspend fun getSeriesTrailer(seriesId: Int): VideoDto? {
-        return movieService.getSeriesTrailer(seriesId).body()
-    }
+//    override suspend fun getSeriesTrailer(seriesId: Int): VideoDto? {
+//        return movieService.getSeriesTrailer(seriesId).body()
+//    }
 
     /**
      * Watch
      */
-    override suspend fun insertSeriesWatch(series: WatchHistoryLocalDto) {
-        movieDao.insertWatch(series)
-    }
+//    override suspend fun insertSeriesWatch(series: WatchHistoryLocalDto) {
+//        movieDao.insertWatch(series)
+//    }
 
     /**
      * Rating
      */
-    override suspend fun setRatingSeries(seriesId: Int, value: Float): StatusResponse? {
-        return movieService.setRatingSeries(seriesId = seriesId, rating = value).body()
-    }
-
-    override suspend fun deleteRateSeries(seriesId: Int): StatusResponse? {
-        return movieService.deleteRatingSeries(seriesId).body()
-    }
-
-    override suspend fun getRatedSeries(): List<RatedSeriesDto>? {
-        return movieService.getRatedTvShow().body()?.results
-    }
+//    override suspend fun setRatingSeries(seriesId: Int, value: Float): StatusResponse? {
+//        return movieService.setRatingSeries(seriesId = seriesId, rating = value).body()
+//    }
+//
+//    override suspend fun deleteRateSeries(seriesId: Int): StatusResponse? {
+//        return movieService.deleteRatingSeries(seriesId).body()
+//    }
+//
+//    override suspend fun getRatedSeries(): List<RatedSeriesDto>? {
+//        return movieService.getRatedTvShow().body()?.results
+//    }
 
 
 }
