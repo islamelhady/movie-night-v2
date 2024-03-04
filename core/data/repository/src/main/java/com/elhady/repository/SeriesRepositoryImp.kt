@@ -1,6 +1,8 @@
 package com.elhady.repository
 
 import androidx.paging.Pager
+import com.elhady.entities.MovieEntity
+import com.elhady.entities.TvShowEntity
 import com.elhady.local.AppConfiguration
 import com.elhady.local.database.dao.MovieDao
 import com.elhady.local.database.dao.SeriesDao
@@ -8,31 +10,35 @@ import com.elhady.local.database.dto.WatchHistoryLocalDto
 import com.elhady.local.database.dto.series.AiringTodaySeriesLocalDto
 import com.elhady.local.database.dto.series.OnTheAirSeriesLocalDto
 import com.elhady.local.database.dto.series.TVSeriesListsLocalDto
-import com.elhady.local.mappers.series.AiringTodaySeriesMapper
-import com.elhady.local.mappers.series.OnTheAirSeriesMapper
-import com.elhady.local.mappers.series.TVSeriesListsMapper
+import com.elhady.repository.mappers.cash.series.LocalAiringTodayTVShowsMapper
+import com.elhady.repository.mappers.cash.series.LocalOnTheAirTVShowsMapper
+import com.elhady.repository.mappers.cash.series.LocalTVSeriesListsMapper
 import com.elhady.remote.response.CreditsDto
 import com.elhady.remote.response.RatedSeriesDto
-import com.elhady.remote.response.RatingDto
+import com.elhady.remote.response.StatusResponse
 import com.elhady.remote.response.TrendingDto
 import com.elhady.remote.response.episode.EpisodeDto
-import com.elhady.remote.response.genre.GenreDto
+import com.elhady.remote.response.genre.GenreMovieRemoteDto
 import com.elhady.remote.response.review.ReviewDto
-import com.elhady.remote.response.series.SeriesDetailsDto
-import com.elhady.remote.response.series.SeriesDto
+import com.elhady.remote.response.dto.tvShowDetails.SeriesDetailsDto
+import com.elhady.remote.response.dto.TVShowsRemoteDto
 import com.elhady.remote.response.video.VideoDto
 import com.elhady.remote.serviece.MovieService
+import com.elhady.repository.mappers.domain.series.DomainAiringTodayTVShowsMapper
 import com.elhady.repository.mediaDataSource.series.SeriesDataSourceContainer
 import com.elhady.repository.searchDataSource.SeriesSearchDataSource
 import com.elhady.usecase.repository.SeriesRepository
 import java.util.Date
+import java.util.Random
 import javax.inject.Inject
 
 class SeriesRepositoryImp @Inject constructor(
-    private val movieService: MovieService,
-    private val onTheAirSeriesMapper: OnTheAirSeriesMapper,
-    private val airingSeriesMapper: AiringTodaySeriesMapper,
-    private val tvSeriesListsMapper: TVSeriesListsMapper,
+    private val service: MovieService,
+    private val random: Random,
+    private val localAiringTodayTVShowsMapper: LocalAiringTodayTVShowsMapper,
+    private val domainAiringTodayTVShowsMapper: DomainAiringTodayTVShowsMapper,
+    private val localOnTheAirTVShowsMapper: LocalOnTheAirTVShowsMapper,
+    private val tvSeriesListsMapper: LocalTVSeriesListsMapper,
     private val seriesDao: SeriesDao,
     private val movieDao: MovieDao,
     private val appConfiguration: AppConfiguration,
@@ -41,32 +47,19 @@ class SeriesRepositoryImp @Inject constructor(
 ) : BaseRepository(), SeriesRepository {
 
     /**
-     *  Airing Today Series
+     *  Airing Today TV shows
      */
-    override suspend fun getAiringTodaySeries(): List<AiringTodaySeriesLocalDto> {
-        refreshOneTimePerDay(
-            appConfiguration.getRequestDate(Constant.AIRING_TODAY_SERIES_REQUEST_DATE_KEY),
-            ::refreshAiringTodaySeries
-        )
-        return seriesDao.getAiringTodaySeries()
+    override suspend fun getAiringTodayTVShowsFromDatabase(): List<TvShowEntity> {
+        return domainAiringTodayTVShowsMapper.map(seriesDao.getAiringTodaySeries())
     }
 
-    private suspend fun refreshAiringTodaySeries(currentDate: Date) {
-        wrap(
-            { movieService.getAiringTodayTV() },
-            { list ->
-                list?.map {
-                    airingSeriesMapper.map(it)
-                }
-            },
-            {
-                seriesDao.deleteAiringTodaySeries()
-                seriesDao.insertAiringTodaySeries(it)
-                appConfiguration.saveRequestDate(
-                    Constant.AIRING_TODAY_SERIES_REQUEST_DATE_KEY,
-                    currentDate.time
-                )
-            }
+
+    override suspend fun refreshAiringTodayTVShows() {
+        refreshWrapper(
+            { service.getAiringTodayTV(page = random.nextInt(20) + 1) },
+            localAiringTodayTVShowsMapper::map,
+            seriesDao::deleteAiringTodaySeries,
+            seriesDao::insertAiringTodaySeries
         )
     }
 
@@ -103,7 +96,7 @@ class SeriesRepositoryImp @Inject constructor(
     /**
      *  All On The Air Series
      */
-    override fun getAllOnTheAirSeries(): Pager<Int, SeriesDto> {
+    override fun getAllOnTheAirSeries(): Pager<Int, TVShowsRemoteDto> {
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = { seriesDataSourceContainer.onTheAirTVDataSource })
@@ -125,13 +118,13 @@ class SeriesRepositoryImp @Inject constructor(
 
     private suspend fun refreshTVSeriesLists(currentDate: Date) {
         val items = mutableListOf<TVSeriesListsLocalDto>()
-        movieService.getPopularTV().body()?.items?.first()?.let {
+        movieService.getPopularTV().body()?.results?.first()?.let {
             items.add(tvSeriesListsMapper.map(it))
         }
-        movieService.getTopRatedTV().body()?.items?.first()?.let {
+        movieService.getTopRatedTV().body()?.results?.first()?.let {
             items.add(tvSeriesListsMapper.map(it))
         }
-        movieService.getAiringTodayTV().body()?.items?.first()?.let {
+        movieService.getAiringTodayTV().body()?.results?.first()?.let {
             items.add(tvSeriesListsMapper.map(it))
         }
         seriesDao.deleteTVSeriesLists()
@@ -145,7 +138,7 @@ class SeriesRepositoryImp @Inject constructor(
     /**
      *  All Top Rated TV
      */
-    override fun getAllTopRatedTV(): Pager<Int, SeriesDto> {
+    override fun getAllTopRatedTV(): Pager<Int, TVShowsRemoteDto> {
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = { seriesDataSourceContainer.topRatedTVDataSource })
@@ -154,7 +147,7 @@ class SeriesRepositoryImp @Inject constructor(
     /**
      *  All Popular TV
      */
-    override fun getAllPopularTV(): Pager<Int, SeriesDto> {
+    override fun getAllPopularTV(): Pager<Int, TVShowsRemoteDto> {
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = { seriesDataSourceContainer.popularTVDataSource })
@@ -163,7 +156,7 @@ class SeriesRepositoryImp @Inject constructor(
     /**
      *  All Latest TV
      */
-    override fun getAllLatestTV(): Pager<Int, SeriesDto> {
+    override fun getAllLatestTV(): Pager<Int, TVShowsRemoteDto> {
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = { seriesDataSourceContainer.latestTVDataSource })
@@ -184,12 +177,12 @@ class SeriesRepositoryImp @Inject constructor(
         return movieService.getSeriesCast(seriesId).body()
     }
 
-    override suspend fun getSimilarSeries(seriesId: Int): List<SeriesDto>? {
-        return movieService.getSimilarSeries(seriesId).body()?.items
+    override suspend fun getSimilarSeries(seriesId: Int): List<TVShowsRemoteDto>? {
+        return movieService.getSimilarSeries(seriesId).body()?.results
     }
 
     override suspend fun getSeriesReview(seriesId: Int): List<ReviewDto>? {
-        return movieService.getSeriesReview(seriesId).body()?.items
+        return movieService.getSeriesReview(seriesId).body()?.results
     }
 
     override suspend fun getSeasonDetails(seriesId: Int, seasonNumber: Int): List<EpisodeDto>? {
@@ -201,20 +194,20 @@ class SeriesRepositoryImp @Inject constructor(
      * Trending
      */
     override suspend fun getTrendingTvSries(): List<TrendingDto>? {
-        return movieService.getTrending().body()?.items
+        return movieService.getTrending().body()?.results
     }
 
     /**
      * Genre Series
      */
-    override suspend fun getGenreSeries(): List<GenreDto>? {
+    override suspend fun getGenreSeries(): List<GenreMovieRemoteDto>? {
         return movieService.getGenreSeries().body()?.genres
     }
 
     /**
      * Series By Genre
      */
-    override fun getSeriesByGenre(genreId: Int): Pager<Int, SeriesDto> {
+    override fun getSeriesByGenre(genreId: Int): Pager<Int, TVShowsRemoteDto> {
         return Pager(config = pagingConfig, pagingSourceFactory = {
             val seriesDataSource = seriesDataSourceContainer.seriesByGenreDataSource
             seriesDataSource.setGenre(genreId)
@@ -225,7 +218,7 @@ class SeriesRepositoryImp @Inject constructor(
     /**
      * All Series
      */
-    override fun getAllSeries(): Pager<Int, SeriesDto> {
+    override fun getAllSeries(): Pager<Int, TVShowsRemoteDto> {
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = { seriesDataSourceContainer.seriesDataSource })
@@ -234,7 +227,7 @@ class SeriesRepositoryImp @Inject constructor(
     /**
      *  Search series
      */
-    override suspend fun searchForSeriesPager(query: String): Pager<Int, SeriesDto> {
+    override suspend fun searchForSeriesPager(query: String): Pager<Int, TVShowsRemoteDto> {
         val dataSource = seriesSearchDataSource
         dataSource.setSearch(query)
         return Pager(config = pagingConfig, pagingSourceFactory = { dataSource })
@@ -257,16 +250,16 @@ class SeriesRepositoryImp @Inject constructor(
     /**
      * Rating
      */
-    override suspend fun setRatingSeries(seriesId: Int, value: Float): RatingDto? {
+    override suspend fun setRatingSeries(seriesId: Int, value: Float): StatusResponse? {
         return movieService.setRatingSeries(seriesId = seriesId, rating = value).body()
     }
 
-    override suspend fun deleteRateSeries(seriesId: Int): RatingDto? {
+    override suspend fun deleteRateSeries(seriesId: Int): StatusResponse? {
         return movieService.deleteRatingSeries(seriesId).body()
     }
 
     override suspend fun getRatedSeries(): List<RatedSeriesDto>? {
-        return movieService.getRatedTvShow().body()?.items
+        return movieService.getRatedTvShow().body()?.results
     }
 
 
