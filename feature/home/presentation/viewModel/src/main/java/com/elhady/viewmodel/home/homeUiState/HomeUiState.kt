@@ -14,7 +14,7 @@ data class HomeUiState(
     val tvShowsLists: List<TVShowsListsUiState> = emptyList(),
     val mysteryMovies: List<MysteryMoviesUiState> = emptyList(),
     val adventureMovies: List<AdventureMoviesUiState> = emptyList(),
-    val popularPeople: List<PopularPeopleUiState> = emptyList(),
+    val popularPeople: List<PopularActorUiState> = emptyList(),
     val type: ShowMoreType = ShowMoreType.POPULAR_TV,
     val isLoading: Boolean = false,
     val onErrors: List<String> = emptyList()
@@ -108,7 +108,7 @@ data class AdventureMoviesUiState(
     fun formattedRate(): Double = (rate * 100).roundToInt() / 100.0
 }
 
-data class PopularPeopleUiState(
+data class PopularActorUiState(
     val id: Int,
     val profilePath: String,
     val name: String
