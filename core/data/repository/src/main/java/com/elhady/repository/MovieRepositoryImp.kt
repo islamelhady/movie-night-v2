@@ -14,13 +14,13 @@ import com.elhady.local.database.dto.movies.MysteryMovieLocalDto
 import com.elhady.local.database.dto.movies.NowPlayingMovieLocalDto
 import com.elhady.local.database.dto.movies.TopRatedMovieLocalDto
 import com.elhady.local.database.dto.movies.TrendingMovieLocalDto
-import com.elhady.local.mappers.movies.AdventureMoviesMapper
-import com.elhady.local.mappers.movies.MysteryMoviesMapper
-import com.elhady.local.mappers.movies.NowPlayingMovieMapper
+import com.elhady.repository.mappers.cash.movies.LocalAdventureMoviesMapper
+import com.elhady.repository.mappers.cash.movies.LocalMysteryMoviesMapper
+import com.elhady.repository.mappers.cash.movies.LocalNowPlayingMovieMapper
 import com.elhady.repository.mappers.domain.DomainPopularMovieMapper
-import com.elhady.local.mappers.movies.TopRatedMovieMapper
-import com.elhady.local.mappers.movies.TrendingMovieMapper
-import com.elhady.local.mappers.movies.UpcomingMovieMapper
+import com.elhady.repository.mappers.cash.movies.LocalTopRatedMovieMapper
+import com.elhady.repository.mappers.cash.movies.LocalTrendingMovieMapper
+import com.elhady.repository.mappers.cash.movies.LocalUpcomingMovieMapper
 import com.elhady.remote.response.AddListResponse
 import com.elhady.remote.response.AddMovieDto
 import com.elhady.remote.response.CreatedListDto
@@ -61,13 +61,13 @@ class MovieRepositoryImp @Inject constructor(
     private val popularMovieMapperShowMore: PopularMoviesShowMorePagingSource,
     private val movieDao: MovieDao,
     private val appConfiguration: AppConfiguration,
-    private val trendingMovieMapper: TrendingMovieMapper,
-    private val upcomingMovieMapper: UpcomingMovieMapper,
-    private val nowPlayingMovieMapper: NowPlayingMovieMapper,
-    private val topRatedMovieMapper: TopRatedMovieMapper,
-    private val mysteryMoviesMapper: MysteryMoviesMapper,
+    private val trendingMovieMapper: LocalTrendingMovieMapper,
+    private val upcomingMovieMapper: com.elhady.repository.mappers.cash.movies.LocalUpcomingMovieMapper,
+    private val nowPlayingMovieMapper: LocalNowPlayingMovieMapper,
+    private val topRatedMovieMapper: LocalTopRatedMovieMapper,
+    private val mysteryMoviesMapper: LocalMysteryMoviesMapper,
 //    private val statusResponseMapper: StatusResponseMapper,
-    private val adventureMoviesMapper: AdventureMoviesMapper,
+    private val adventureMoviesMapper: LocalAdventureMoviesMapper,
     private val movieDataSourceContainer: MovieDataSourceContainer,
     private val movieSearchDataSource: MovieSearchDataSource
 ) : BaseRepository(), MovieRepository {
@@ -160,11 +160,11 @@ class MovieRepositoryImp @Inject constructor(
         return movieDao.getTopRatedMovies()
     }
 
-    suspend fun refreshTopRatedMovies(currentDate: Date) {
-        wrap(
-            { movieService.getTopRatedMovies() },
-            { list ->
-                list?.map { topRatedMovieMapper.map(it) }
+    suspend fun refreshTopRatedMovies {
+        refreshWrapper(
+            { movieService.getTopRatedMovies(page = random.nextInt(20)+1) },
+            {
+                 { topRatedMovieMapper.map(it) }
             },
             {
                 movieDao.deleteTopRatedMovies()
