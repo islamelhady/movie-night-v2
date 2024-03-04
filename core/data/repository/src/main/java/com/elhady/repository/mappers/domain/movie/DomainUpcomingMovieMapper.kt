@@ -1,4 +1,4 @@
-package com.elhady.repository.mappers.domain
+package com.elhady.repository.mappers.domain.movie
 
 import com.elhady.entities.MovieEntity
 import com.elhady.local.Constants

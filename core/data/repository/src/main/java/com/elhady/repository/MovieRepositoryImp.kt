@@ -12,22 +12,20 @@ import com.elhady.local.database.dto.WatchHistoryLocalDto
 import com.elhady.local.database.dto.movies.AdventureMovieLocalDto
 import com.elhady.local.database.dto.movies.MysteryMovieLocalDto
 import com.elhady.local.database.dto.movies.NowPlayingMovieLocalDto
-import com.elhady.local.database.dto.movies.TopRatedMovieLocalDto
 import com.elhady.local.database.dto.movies.TrendingMovieLocalDto
 import com.elhady.repository.mappers.cash.movies.LocalAdventureMoviesMapper
 import com.elhady.repository.mappers.cash.movies.LocalMysteryMoviesMapper
 import com.elhady.repository.mappers.cash.movies.LocalNowPlayingMovieMapper
-import com.elhady.repository.mappers.domain.DomainPopularMovieMapper
+import com.elhady.repository.mappers.domain.movie.DomainPopularMovieMapper
 import com.elhady.repository.mappers.cash.movies.LocalTopRatedMovieMapper
 import com.elhady.repository.mappers.cash.movies.LocalTrendingMovieMapper
-import com.elhady.repository.mappers.cash.movies.LocalUpcomingMovieMapper
 import com.elhady.remote.response.AddListResponse
 import com.elhady.remote.response.AddMovieDto
 import com.elhady.remote.response.CreatedListDto
 import com.elhady.remote.response.CreditsDto
 import com.elhady.remote.response.FavListDto
 import com.elhady.remote.response.RatedMovieDto
-import com.elhady.remote.response.RatingDto
+import com.elhady.remote.response.StatusResponse
 import com.elhady.remote.response.SavedListDto
 import com.elhady.remote.response.StatusResponseDto
 import com.elhady.remote.response.dto.MovieRemoteDto
@@ -39,7 +37,7 @@ import com.elhady.repository.mappers.cash.LocalGenresMovieMapper
 import com.elhady.repository.mappers.cash.LocalPopularMovieMapper
 import com.elhady.repository.mappers.cash.LocalUpcomingMovieMapper
 import com.elhady.repository.mappers.domain.DomainGenreMapper
-import com.elhady.repository.mappers.domain.DomainUpcomingMovieMapper
+import com.elhady.repository.mappers.domain.movie.DomainUpcomingMovieMapper
 import com.elhady.repository.mediaDataSource.movies.MovieDataSourceContainer
 import com.elhady.repository.searchDataSource.MovieSearchDataSource
 import com.elhady.repository.showMore.PopularMoviesShowMorePagingSource
@@ -56,18 +54,17 @@ class MovieRepositoryImp @Inject constructor(
     private val localPopularMovieMapper: LocalPopularMovieMapper,
     private val localUpcomingMovieMapper: LocalUpcomingMovieMapper,
     private val localGenresMovieMapper: LocalGenresMovieMapper,
+    private val localTopRatedMovieMapper: LocalTopRatedMovieMapper,
+    private val localAdventureMoviesMapper: LocalAdventureMoviesMapper
+    private val localNowPlayingMovieMapper: LocalNowPlayingMovieMapper,
+    private val localTrendingMovieMapper: LocalTrendingMovieMapper,
+    private val localMysteryMoviesMapper: LocalMysteryMoviesMapper,
     private val domainGenreMapper: DomainGenreMapper,
     private val domainUpcomingMovieMapper: DomainUpcomingMovieMapper,
     private val popularMovieMapperShowMore: PopularMoviesShowMorePagingSource,
     private val movieDao: MovieDao,
     private val appConfiguration: AppConfiguration,
-    private val trendingMovieMapper: LocalTrendingMovieMapper,
-    private val upcomingMovieMapper: com.elhady.repository.mappers.cash.movies.LocalUpcomingMovieMapper,
-    private val nowPlayingMovieMapper: LocalNowPlayingMovieMapper,
-    private val topRatedMovieMapper: LocalTopRatedMovieMapper,
-    private val mysteryMoviesMapper: LocalMysteryMoviesMapper,
 //    private val statusResponseMapper: StatusResponseMapper,
-    private val adventureMoviesMapper: LocalAdventureMoviesMapper,
     private val movieDataSourceContainer: MovieDataSourceContainer,
     private val movieSearchDataSource: MovieSearchDataSource
 ) : BaseRepository(), MovieRepository {
@@ -152,28 +149,16 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  Top Rated Movies
      */
-    override suspend fun getTopRatedMovies(): List<TopRatedMovieLocalDto> {
-        refreshOneTimePerDay(
-            appConfiguration.getRequestDate(Constant.TOP_RATED_MOVIE_REQUEST_DATE_KEY),
-            ::refreshTopRatedMovies
-        )
-        return movieDao.getTopRatedMovies()
+    override suspend fun getTopRatedMoviesFromDatabase(): List<MovieEntity> {
+        domainPopularMovieMapper.map(movieDao.getTopRatedMovies())
     }
 
-    suspend fun refreshTopRatedMovies {
+    override suspend fun refreshTopRatedMovies{
         refreshWrapper(
-            { movieService.getTopRatedMovies(page = random.nextInt(20)+1) },
-            {
-                 { topRatedMovieMapper.map(it) }
-            },
-            {
-                movieDao.deleteTopRatedMovies()
-                movieDao.insertTopRatedMovies(it)
-                appConfiguration.saveRequestDate(
-                    Constant.TOP_RATED_MOVIE_REQUEST_DATE_KEY,
-                    currentDate.time
-                )
-            }
+            { movieService.getTopRatedMovies(page = random.nextInt(20) + 1) },
+            { localTopRatedMovieMapper.map(it) },
+            movieDao::deleteTopRatedMovies,
+            movieDao::insertTopRatedMovies
         )
     }
 
@@ -437,11 +422,11 @@ class MovieRepositoryImp @Inject constructor(
         return movieService.getRatedMovie().body()?.results
     }
 
-    override suspend fun setRateMovie(movieId: Int, value: Float): RatingDto? {
+    override suspend fun setRateMovie(movieId: Int, value: Float): StatusResponse? {
         return movieService.setRateMovie(movieId, value).body()
     }
 
-    override suspend fun deleteRateMovie(movieId: Int): RatingDto? {
+    override suspend fun deleteRateMovie(movieId: Int): StatusResponse? {
         return movieService.deleteRatingMovie(movieId).body()
     }
 

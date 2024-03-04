@@ -5,7 +5,7 @@ import com.elhady.local.database.dao.MovieDao
 import com.elhady.remote.serviece.MovieService
 import com.elhady.repository.BasePagingSource
 import com.elhady.repository.mappers.domain.DomainGenreMapper
-import com.elhady.repository.mappers.domain.DomainPopularMovieMapperShowMore
+import com.elhady.repository.mappers.domain.movie.DomainPopularMovieMapperShowMore
 import javax.inject.Inject
 
 class PopularMoviesShowMorePagingSource @Inject constructor(

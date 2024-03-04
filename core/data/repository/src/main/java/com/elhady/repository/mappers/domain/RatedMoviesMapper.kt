@@ -1,15 +1,13 @@
-package com.elhady.movies.domain.mappers.movie
+package com.elhady.repository.mappers.domain
 
-import com.elhady.movies.data.remote.response.RatedMovieDto
+import com.elhady.entities.RatedEntity
 import com.elhady.movies.domain.enums.MediaType
 import com.elhady.movies.domain.mappers.Mapper
-import com.elhady.movies.domain.models.Rated
-import com.elhady.movies.utilities.Constants
 import javax.inject.Inject
 
-class RatedMoviesMapper @Inject constructor() : Mapper<RatedMovieDto, Rated> {
+class RatedMoviesMapper @Inject constructor() : Mapper<Ratl, RatedEntity> {
     override fun map(input: RatedMovieDto): Rated {
-        return Rated(
+        return RatedEntity(
             id = input.id ?: 0,
             title = input.title ?: "",
             posterPath = Constants.IMAGE_PATH + input.backdropPath,

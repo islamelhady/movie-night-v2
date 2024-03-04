@@ -9,7 +9,6 @@ import com.elhady.local.database.dto.WatchHistoryLocalDto
 import com.elhady.local.database.dto.movies.AdventureMovieLocalDto
 import com.elhady.local.database.dto.movies.MysteryMovieLocalDto
 import com.elhady.local.database.dto.movies.NowPlayingMovieLocalDto
-import com.elhady.local.database.dto.movies.TopRatedMovieLocalDto
 import com.elhady.local.database.dto.movies.TrendingMovieLocalDto
 import com.elhady.remote.response.AddListResponse
 import com.elhady.remote.response.AddMovieDto
@@ -17,7 +16,7 @@ import com.elhady.remote.response.CreatedListDto
 import com.elhady.remote.response.CreditsDto
 import com.elhady.remote.response.FavListDto
 import com.elhady.remote.response.RatedMovieDto
-import com.elhady.remote.response.RatingDto
+import com.elhady.remote.response.StatusResponse
 import com.elhady.remote.response.SavedListDto
 import com.elhady.remote.response.StatusResponseDto
 import com.elhady.remote.response.dto.MovieRemoteDto
@@ -94,9 +93,9 @@ interface MovieRepository {
 
     suspend fun getRatedMovie(): List<RatedMovieDto>?
 
-    suspend fun setRateMovie(movieId: Int, value: Float): RatingDto?
+    suspend fun setRateMovie(movieId: Int, value: Float): StatusResponse?
 
-    suspend fun deleteRateMovie(movieId: Int): RatingDto?
+    suspend fun deleteRateMovie(movieId: Int): StatusResponse?
 
     suspend fun createList(sessionId: String, name: String): AddListResponse?
 

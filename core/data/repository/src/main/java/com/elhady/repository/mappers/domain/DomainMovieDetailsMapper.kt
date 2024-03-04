@@ -1,13 +1,9 @@
-package com.elhady.movies.domain.mappers.movie
+package com.elhady.repository.mappers.domain
 
-import com.elhady.movies.data.remote.response.movie.MovieDetailsDto
 import com.elhady.movies.domain.mappers.Mapper
-import com.elhady.movies.domain.models.MovieDetails
-import com.elhady.movies.utilities.Constants
-import com.elhady.movies.utilities.convertToDayMonthYearFormat
 import javax.inject.Inject
 
-class MovieDetailsDtoMapper @Inject constructor() : Mapper<MovieDetailsDto, MovieDetails> {
+class DomainMovieDetailsMapper @Inject constructor() : Mapper<Movdet, MovieDetails> {
     override fun map(input: MovieDetailsDto): MovieDetails {
         return MovieDetails(
             id = input.id ?: 0,
