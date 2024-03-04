@@ -1,18 +1,15 @@
 package com.elhady.repository
 
 import androidx.paging.Pager
-import com.elhady.entities.MovieEntity
 import com.elhady.entities.TvShowEntity
 import com.elhady.local.AppConfiguration
 import com.elhady.local.database.dao.MovieDao
 import com.elhady.local.database.dao.SeriesDao
 import com.elhady.local.database.dto.WatchHistoryLocalDto
-import com.elhady.local.database.dto.series.AiringTodaySeriesLocalDto
-import com.elhady.local.database.dto.series.OnTheAirSeriesLocalDto
 import com.elhady.local.database.dto.series.TVSeriesListsLocalDto
 import com.elhady.repository.mappers.cash.series.LocalAiringTodayTVShowsMapper
 import com.elhady.repository.mappers.cash.series.LocalOnTheAirTVShowsMapper
-import com.elhady.repository.mappers.cash.series.LocalTVSeriesListsMapper
+import com.elhady.repository.mappers.cash.series.LocalTVShowsListsMapper
 import com.elhady.remote.response.CreditsDto
 import com.elhady.remote.response.RatedSeriesDto
 import com.elhady.remote.response.StatusResponse
@@ -25,10 +22,11 @@ import com.elhady.remote.response.dto.TVShowsRemoteDto
 import com.elhady.remote.response.video.VideoDto
 import com.elhady.remote.serviece.MovieService
 import com.elhady.repository.mappers.domain.series.DomainAiringTodayTVShowsMapper
+import com.elhady.repository.mappers.domain.series.DomainOnTheAirTVShowMapper
+import com.elhady.repository.mappers.domain.series.DomainTVShowsListsMapper
 import com.elhady.repository.mediaDataSource.series.SeriesDataSourceContainer
 import com.elhady.repository.searchDataSource.SeriesSearchDataSource
 import com.elhady.usecase.repository.SeriesRepository
-import java.util.Date
 import java.util.Random
 import javax.inject.Inject
 
@@ -37,8 +35,10 @@ class SeriesRepositoryImp @Inject constructor(
     private val random: Random,
     private val localAiringTodayTVShowsMapper: LocalAiringTodayTVShowsMapper,
     private val domainAiringTodayTVShowsMapper: DomainAiringTodayTVShowsMapper,
+    private val domainOnTheAirTVShowMapper: DomainOnTheAirTVShowMapper,
     private val localOnTheAirTVShowsMapper: LocalOnTheAirTVShowsMapper,
-    private val tvSeriesListsMapper: LocalTVSeriesListsMapper,
+    private val localTVShowsListsMapper: LocalTVShowsListsMapper,
+    private val domainTVShowsListsMapper: DomainTVShowsListsMapper,
     private val seriesDao: SeriesDao,
     private val movieDao: MovieDao,
     private val appConfiguration: AppConfiguration,
@@ -64,75 +64,55 @@ class SeriesRepositoryImp @Inject constructor(
     }
 
     /**
-     *  On The Air Series
+     *  On The Air TV shows
      */
-    override suspend fun getOnTheAirSeries(): List<OnTheAirSeriesLocalDto> {
-        refreshOneTimePerDay(
-            appConfiguration.getRequestDate(Constant.ON_THE_AIR_SERIES_REQUEST_DATE_KEY),
-            ::refreshOnTheAirSeries
-        )
-        return seriesDao.getOnTheAirSeries()
+
+    override suspend fun getOnTheAirTVShowsFromDatabase(): List<TvShowEntity> {
+        return domainOnTheAirTVShowMapper.map(seriesDao.getOnTheAirSeries())
     }
 
-    private suspend fun refreshOnTheAirSeries(currentDate: Date) {
-        wrap(
-            { movieService.getOnTheAirTV() },
-            { list ->
-                list?.map {
-                    onTheAirSeriesMapper.map(it)
-                }
-            },
-            {
-                seriesDao.deleteOnTheAirSeries()
-                seriesDao.insertOnTheAirSeries(it)
-                appConfiguration.saveRequestDate(
-                    Constant.ON_THE_AIR_SERIES_REQUEST_DATE_KEY,
-                    currentDate.time
-                )
-            }
+    override suspend fun refreshOnTheAirTVShowsTVShows() {
+        refreshWrapper(
+            { service.getOnTheAirTV(page = random.nextInt(20)+1) },
+            localOnTheAirTVShowsMapper::map,
+            seriesDao::deleteOnTheAirSeries,
+            seriesDao::insertOnTheAirSeries
         )
     }
 
     /**
      *  All On The Air Series
      */
-    override fun getAllOnTheAirSeries(): Pager<Int, TVShowsRemoteDto> {
-        return Pager(
-            config = pagingConfig,
-            pagingSourceFactory = { seriesDataSourceContainer.onTheAirTVDataSource })
-    }
+//    override fun getAllOnTheAirSeries(): Pager<Int, TVShowsRemoteDto> {
+//        return Pager(
+//            config = pagingConfig,
+//            pagingSourceFactory = { seriesDataSourceContainer.onTheAirTVDataSource })
+//    }
 
     /**
-     *  TV Series Lists
+     *  TV Shows Lists
      * * Popular
      * * Top Rated
      * * Airing Today
      */
-    override suspend fun getTVSeriesLists(): List<TVSeriesListsLocalDto> {
-        refreshOneTimePerDay(
-            appConfiguration.getRequestDate(Constant.TV_SERIES_LISTS_REQUEST_DATE_KEY),
-            ::refreshTVSeriesLists
-        )
-        return seriesDao.getTVSeriesLists()
+
+    override suspend fun getTVShowsListsFromDatabase(): List<TvShowEntity> {
+        return domainTVShowsListsMapper.map(seriesDao.getTVSeriesLists())
     }
 
-    private suspend fun refreshTVSeriesLists(currentDate: Date) {
+    override suspend fun refreshTVShowsLists() {
         val items = mutableListOf<TVSeriesListsLocalDto>()
-        movieService.getPopularTV().body()?.results?.first()?.let {
-            items.add(tvSeriesListsMapper.map(it))
+        service.getPopularTV().body()?.results?.first()?.let {
+            items.add(localTVShowsListsMapper.map(it))
         }
-        movieService.getTopRatedTV().body()?.results?.first()?.let {
-            items.add(tvSeriesListsMapper.map(it))
+        service.getTopRatedTV().body()?.results?.first()?.let {
+            items.add(localTVShowsListsMapper.map(it))
         }
-        movieService.getAiringTodayTV().body()?.results?.first()?.let {
-            items.add(tvSeriesListsMapper.map(it))
+        service.getAiringTodayTV().body()?.results?.first()?.let {
+            items.add(localTVShowsListsMapper.map(it))
         }
         seriesDao.deleteTVSeriesLists()
         seriesDao.insertTVSeriesLists(items)
-        appConfiguration.saveRequestDate(
-            Constant.TV_SERIES_LISTS_REQUEST_DATE_KEY,
-            currentDate.time
-        )
     }
 
     /**

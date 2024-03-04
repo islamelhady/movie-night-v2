@@ -1,12 +1,13 @@
 package com.elhady.repository.mappers.cash.series
 
-import com.elhady.local.Constants
+import com.elhady.repository.Constants
 import com.elhady.local.database.dto.series.TVSeriesListsLocalDto
-import com.elhady.local.mappers.Mapper
 import com.elhady.remote.response.dto.TVShowsRemoteDto
+import com.elhady.repository.mappers.Mapper
 import javax.inject.Inject
 
-class LocalTVSeriesListsMapper @Inject constructor() : Mapper<TVShowsRemoteDto, TVSeriesListsLocalDto> {
+class LocalTVShowsListsMapper @Inject constructor() :
+    Mapper<TVShowsRemoteDto, TVSeriesListsLocalDto> {
     override fun map(input: TVShowsRemoteDto): TVSeriesListsLocalDto {
         return TVSeriesListsLocalDto(
             id = input.id ?: 0,

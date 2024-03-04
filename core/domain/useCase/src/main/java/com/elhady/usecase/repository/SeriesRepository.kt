@@ -23,17 +23,16 @@ interface SeriesRepository {
     suspend fun getAiringTodayTVShowsFromDatabase(): List<TvShowEntity>
     suspend fun refreshAiringTodayTVShows()
 
-    suspend fun getOnTheAirSeries(): List<OnTheAirSeriesLocalDto>
+    suspend fun getOnTheAirTVShowsFromDatabase(): List<TvShowEntity>
+    suspend fun refreshOnTheAirTVShowsTVShows()
+//    fun getAllOnTheAirSeries(): Pager<Int, TVShowsRemoteDto>
 
-    fun getAllOnTheAirSeries(): Pager<Int, TVShowsRemoteDto>
+    suspend fun getTVShowsListsFromDatabase(): List<TvShowEntity>
+    suspend fun refreshTVShowsLists()
 
-    suspend fun getTVSeriesLists(): List<TVSeriesListsLocalDto>
-
-    fun getAllTopRatedTV(): Pager<Int, TVShowsRemoteDto>
-
-    fun getAllPopularTV(): Pager<Int, TVShowsRemoteDto>
-
-    fun getAllLatestTV(): Pager<Int, TVShowsRemoteDto>
+//    fun getAllTopRatedTV(): Pager<Int, TVShowsRemoteDto>
+    //    fun getAllPopularTV(): Pager<Int, TVShowsRemoteDto>
+//    fun getAllLatestTV(): Pager<Int, TVShowsRemoteDto>
 
     suspend fun getSeriesDetails(seriesId: Int): SeriesDetailsDto?
 
