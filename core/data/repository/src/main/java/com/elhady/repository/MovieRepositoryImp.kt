@@ -37,6 +37,7 @@ import com.elhady.repository.mappers.cash.LocalGenresMovieMapper
 import com.elhady.repository.mappers.cash.LocalPopularMovieMapper
 import com.elhady.repository.mappers.cash.LocalUpcomingMovieMapper
 import com.elhady.repository.mappers.domain.DomainGenreMapper
+import com.elhady.repository.mappers.domain.movie.DomainAdventureMovieMapper
 import com.elhady.repository.mappers.domain.movie.DomainMysteryMoviesMapper
 import com.elhady.repository.mappers.domain.movie.DomainNowPlayingMovieMapper
 import com.elhady.repository.mappers.domain.movie.DomainTopRatedMovieMapper
@@ -60,6 +61,7 @@ class MovieRepositoryImp @Inject constructor(
     private val localTopRatedMovieMapper: LocalTopRatedMovieMapper,
     private val domainTopRatedMovieMapper: DomainTopRatedMovieMapper,
     private val localAdventureMoviesMapper: LocalAdventureMoviesMapper,
+    private val domainAdventureMovieMapper: DomainAdventureMovieMapper,
     private val localNowPlayingMovieMapper: LocalNowPlayingMovieMapper,
     private val domainNowPlayingMovieMapper: DomainNowPlayingMovieMapper,
     private val localTrendingMovieMapper: LocalTrendingMovieMapper,
@@ -272,30 +274,17 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  Adventure Movies
      */
-    override suspend fun getAdventureMovies(): List<AdventureMovieLocalDto> {
-        refreshOneTimePerDay(
-            appConfiguration.getRequestDate(Constant.ADVENTURE_MOVIE_REQUEST_DATE_KEY),
-            ::refreshAdventureMovies
-        )
-        return movieDao.getAdventureMovies()
+
+    override suspend fun getAdventureMoviesFromDatabase(): List<MovieEntity> {
+        return domainAdventureMovieMapper.map(movieDao.getAdventureMovies())
     }
 
-    suspend fun refreshAdventureMovies(currentDate: Date) {
-        wrap(
-            { movieService.getMoviesListByGenre(genreID = Constant.ADVENTURE_ID) },
-            { list ->
-                list?.map {
-                    adventureMoviesMapper.map(it)
-                }
-            },
-            {
-                movieDao.deleteAdventureMovies()
-                movieDao.insertAdventureMovies(it)
-                appConfiguration.saveRequestDate(
-                    Constant.ADVENTURE_MOVIE_REQUEST_DATE_KEY,
-                    currentDate.time
-                )
-            }
+    override suspend fun refreshAdventureMovies() {
+        refreshWrapper(
+            { movieService.getMoviesListByGenre(page = random.nextInt(20)+1, genreID = Constant.ADVENTURE_ID) },
+            { localAdventureMoviesMapper.map(it) },
+            movieDao::deleteAdventureMovies,
+            movieDao::insertAdventureMovies
         )
     }
 
