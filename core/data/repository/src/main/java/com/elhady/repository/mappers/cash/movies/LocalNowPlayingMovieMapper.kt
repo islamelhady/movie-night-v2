@@ -11,7 +11,7 @@ class LocalNowPlayingMovieMapper @Inject constructor() : Mapper<MovieRemoteDto, 
         return NowPlayingMovieLocalDto(
             id = input.id ?: 0,
             name = input.title ?: "",
-            imageUrl = (Constants.IMAGE_PATH + input.posterPath)
+            imageUrl = Constants.IMAGE_PATH + input.posterPath
         )
     }
 }

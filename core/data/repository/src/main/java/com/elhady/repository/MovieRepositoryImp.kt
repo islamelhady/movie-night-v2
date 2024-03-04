@@ -37,6 +37,7 @@ import com.elhady.repository.mappers.cash.LocalGenresMovieMapper
 import com.elhady.repository.mappers.cash.LocalPopularMovieMapper
 import com.elhady.repository.mappers.cash.LocalUpcomingMovieMapper
 import com.elhady.repository.mappers.domain.DomainGenreMapper
+import com.elhady.repository.mappers.domain.movie.DomainNowPlayingMovieMapper
 import com.elhady.repository.mappers.domain.movie.DomainTopRatedMovieMapper
 import com.elhady.repository.mappers.domain.movie.DomainUpcomingMovieMapper
 import com.elhady.repository.mediaDataSource.movies.MovieDataSourceContainer
@@ -57,8 +58,9 @@ class MovieRepositoryImp @Inject constructor(
     private val localGenresMovieMapper: LocalGenresMovieMapper,
     private val localTopRatedMovieMapper: LocalTopRatedMovieMapper,
     private val domainTopRatedMovieMapper: DomainTopRatedMovieMapper,
-    private val localAdventureMoviesMapper: LocalAdventureMoviesMapper
+    private val localAdventureMoviesMapper: LocalAdventureMoviesMapper,
     private val localNowPlayingMovieMapper: LocalNowPlayingMovieMapper,
+    private val domainNowPlayingMovieMapper: DomainNowPlayingMovieMapper,
     private val localTrendingMovieMapper: LocalTrendingMovieMapper,
     private val localMysteryMoviesMapper: LocalMysteryMoviesMapper,
     private val domainGenreMapper: DomainGenreMapper,
@@ -176,28 +178,16 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  Now Playing Movies
      */
-    override suspend fun getNowPlayingMovies(): List<NowPlayingMovieLocalDto> {
-        refreshOneTimePerDay(
-            appConfiguration.getRequestDate(Constant.NOW_PLAYING_MOVIE_REQUEST_DATE_KEY),
-            ::refreshNowPlayingMovies
-        )
-        return movieDao.getNowPlayingMovies()
+    override suspend fun getNowPlayingMoviesFromDatabase(): List<MovieEntity> {
+        return domainNowPlayingMovieMapper.map(movieDao.getNowPlayingMovies())
     }
 
-    private suspend fun refreshNowPlayingMovies(currentDate: Date) {
-        wrap(
-            { movieService.getNowPlayingMovies() },
-            { list ->
-                list?.map { nowPlayingMovieMapper.map(it) }
-            },
-            {
-                movieDao.deleteNowPlayingMovies()
-                movieDao.insertNowPlayingMovies(it)
-                appConfiguration.saveRequestDate(
-                    Constant.NOW_PLAYING_MOVIE_REQUEST_DATE_KEY,
-                    currentDate.time
-                )
-            }
+    override suspend fun refreshNowPlayingMovies() {
+        refreshWrapper(
+            { movieService.getNowPlayingMovies(page = random.nextInt(20) + 1) },
+            { localNowPlayingMovieMapper.map(it) },
+            movieDao::deleteNowPlayingMovies,
+            movieDao::insertNowPlayingMovies
         )
     }
 
