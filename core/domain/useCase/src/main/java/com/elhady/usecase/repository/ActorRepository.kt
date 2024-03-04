@@ -12,13 +12,13 @@ interface ActorRepository {
     suspend fun getPopularActorFromDatabase(): List<ActorEntity>
     suspend fun refreshPopularActor()
 
-    fun getAllPopularPersons(): Pager<Int, PersonDto>
+//    fun getAllPopularPersons(): Pager<Int, PersonDto>
 
-    suspend fun getPersonsDetails(actorID: Int): PersonDto?
+//    suspend fun getPersonsDetails(actorID: Int): PersonDto?
 
-    suspend fun getPersonMovies(actorID: Int): MovieCreditsDto?
+//    suspend fun getPersonMovies(actorID: Int): MovieCreditsDto?
 
-    suspend fun getAllActorMovies(actorID: Int): Pager<Int, MovieRemoteDto>
+//    suspend fun getAllActorMovies(actorID: Int): Pager<Int, MovieRemoteDto>
 
-    suspend fun searchForActors(query: String): Pager<Int, PersonDto>
+//    suspend fun searchForActors(query: String): Pager<Int, PersonDto>
 }
