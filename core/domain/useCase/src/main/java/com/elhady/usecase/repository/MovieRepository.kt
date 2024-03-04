@@ -23,85 +23,85 @@ import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
 
-    suspend fun getPopularMoviesFromRemote(): List<PopularMovieEntity>
+//    suspend fun getPopularMoviesFromRemote(): List<PopularMovieEntity>
     suspend fun getPopularMoviesFromDatabase(): List<PopularMovieEntity>
     suspend fun refreshPopularMovies()
 
     suspend fun getUpcomingMoviesFromDatabase(): List<MovieEntity>
     suspend fun refreshUpcomingMovies()
-    fun getUpcomingMoviesPaging(): Pager<Int, MovieEntity>
+//    fun getUpcomingMoviesPaging(): Pager<Int, MovieEntity>
 
     suspend fun refreshTopRatedMovies()
     suspend fun getTopRatedMoviesFromDatabase(): List<MovieEntity>
-    fun getAllTopRatedMovies(): Pager<Int, MovieRemoteDto>
+//    fun getAllTopRatedMovies(): Pager<Int, MovieRemoteDto>
 
     suspend fun getNowPlayingMoviesFromDatabase(): List<MovieEntity>
     suspend fun refreshNowPlayingMovies()
-    fun getAllNowPlayingMovies(): Pager<Int, MovieRemoteDto>
+//    fun getAllNowPlayingMovies(): Pager<Int, MovieRemoteDto>
 
     suspend fun getMysteryMoviesFromDatabase(): List<MovieEntity>
     suspend fun refreshMysteryMovies()
-    fun getAllMysteryMovies(): Pager<Int, MovieRemoteDto>
+//    fun getAllMysteryMovies(): Pager<Int, MovieRemoteDto>
 
     suspend fun getAdventureMoviesFromDatabase(): List<MovieEntity>
     suspend fun refreshAdventureMovies()
-    fun getAllAdventureMovies(): Pager<Int, MovieRemoteDto>
+//    fun getAllAdventureMovies(): Pager<Int, MovieRemoteDto>
 
     suspend fun getTrendingMovieFromDatabase(): List<MovieEntity>
     suspend fun refreshTrendingMovies()
-    fun getAllTrendingMovies(): Pager<Int, MovieRemoteDto>
+//    fun getAllTrendingMovies(): Pager<Int, MovieRemoteDto>
 
     fun getMoviesByGenre(genreId: Int): Pager<Int, MovieRemoteDto>
 
-    fun getAllMovies(): Pager<Int, MovieRemoteDto>
+//    fun getAllMovies(): Pager<Int, MovieRemoteDto>
 
     suspend fun getGenreMovies(): List<GenreEntity>
     suspend fun refreshGenres()
 
-    suspend fun getDetailsMovies(movieId: Int): MovieDetailsDto?
+//    suspend fun getDetailsMovies(movieId: Int): MovieDetailsDto?
 
-    suspend fun getMovieCast(movieId: Int): CreditsDto?
+//    suspend fun getMovieCast(movieId: Int): CreditsDto?
 
-    suspend fun getSimilarMovies(movieId: Int): List<MovieRemoteDto>?
+//    suspend fun getSimilarMovies(movieId: Int): List<MovieRemoteDto>?
 
-    suspend fun getMovieReview(movieId: Int): List<ReviewDto>?
+//    suspend fun getMovieReview(movieId: Int): List<ReviewDto>?
 
-    suspend fun searchForMoviesPager(query: String): Pager<Int, MovieRemoteDto>
+//    suspend fun searchForMoviesPager(query: String): Pager<Int, MovieRemoteDto>
 
-    suspend fun insertSearchHistory(searchHistory: String)
+//    suspend fun insertSearchHistory(searchHistory: String)
 
-    suspend fun deleteSearchHistory(keyword: String)
+//    suspend fun deleteSearchHistory(keyword: String)
 
-    suspend fun getSearchHistory(): List<SearchHistoryLocalDto>
+//    suspend fun getSearchHistory(): List<SearchHistoryLocalDto>
 
-    suspend fun getSearchHistory(keyword: String): List<SearchHistoryLocalDto>
+//    suspend fun getSearchHistory(keyword: String): List<SearchHistoryLocalDto>
 
-    suspend fun clearAllSearchHistory()
-
-    suspend fun getMovieTrailer(movieId: Int): VideoDto?
-
-    suspend fun insertMovieWatch(movie: WatchHistoryLocalDto)
-
-    suspend fun deleteMovieWatch(movie: WatchHistoryLocalDto)
-
-    fun getAllMoviesWatch(): Flow<List<WatchHistoryLocalDto>>
-
-    suspend fun getRatedMovie(): List<RatedMovieDto>?
-
-    suspend fun setRateMovie(movieId: Int, value: Float): StatusResponse?
-
-    suspend fun deleteRateMovie(movieId: Int): StatusResponse?
-
-    suspend fun createList(sessionId: String, name: String): AddListResponse?
-
-    suspend fun getCreatedList(sessionId: String): List<CreatedListDto>?
-
-    suspend fun getListDetails(listId: Int): FavListDto?
-
-    suspend fun addMovieToList(sessionId: String, listId: Int, movieId: Int): AddMovieDto?
-
-    suspend fun getSavedListDetails(listId: Int): List<SavedListDto>?
-
-    suspend fun deleteList(listId: Int): StatusResponseDto
+//    suspend fun clearAllSearchHistory()
+//
+//    suspend fun getMovieTrailer(movieId: Int): VideoDto?
+//
+//    suspend fun insertMovieWatch(movie: WatchHistoryLocalDto)
+//
+//    suspend fun deleteMovieWatch(movie: WatchHistoryLocalDto)
+//
+//    fun getAllMoviesWatch(): Flow<List<WatchHistoryLocalDto>>
+//
+//    suspend fun getRatedMovie(): List<RatedMovieDto>?
+//
+//    suspend fun setRateMovie(movieId: Int, value: Float): StatusResponse?
+//
+//    suspend fun deleteRateMovie(movieId: Int): StatusResponse?
+//
+//    suspend fun createList(sessionId: String, name: String): AddListResponse?
+//
+//    suspend fun getCreatedList(sessionId: String): List<CreatedListDto>?
+//
+//    suspend fun getListDetails(listId: Int): FavListDto?
+//
+//    suspend fun addMovieToList(sessionId: String, listId: Int, movieId: Int): AddMovieDto?
+//
+//    suspend fun getSavedListDetails(listId: Int): List<SavedListDto>?
+//
+//    suspend fun deleteList(listId: Int): StatusResponseDto
 
 }
