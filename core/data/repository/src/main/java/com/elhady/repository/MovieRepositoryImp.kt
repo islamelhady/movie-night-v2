@@ -41,6 +41,7 @@ import com.elhady.repository.mappers.domain.movie.DomainAdventureMovieMapper
 import com.elhady.repository.mappers.domain.movie.DomainMysteryMoviesMapper
 import com.elhady.repository.mappers.domain.movie.DomainNowPlayingMovieMapper
 import com.elhady.repository.mappers.domain.movie.DomainTopRatedMovieMapper
+import com.elhady.repository.mappers.domain.movie.DomainTrendingMovieMapper
 import com.elhady.repository.mappers.domain.movie.DomainUpcomingMovieMapper
 import com.elhady.repository.mediaDataSource.movies.MovieDataSourceContainer
 import com.elhady.repository.searchDataSource.MovieSearchDataSource
@@ -65,6 +66,7 @@ class MovieRepositoryImp @Inject constructor(
     private val localNowPlayingMovieMapper: LocalNowPlayingMovieMapper,
     private val domainNowPlayingMovieMapper: DomainNowPlayingMovieMapper,
     private val localTrendingMovieMapper: LocalTrendingMovieMapper,
+    private val domainTrendingMovieMapper: DomainTrendingMovieMapper,
     private val localMysteryMoviesMapper: LocalMysteryMoviesMapper,
     private val domainMysteryMoviesMapper: DomainMysteryMoviesMapper,
     private val domainGenreMapper: DomainGenreMapper,
@@ -208,32 +210,16 @@ class MovieRepositoryImp @Inject constructor(
     /**
      *  Trending Movies
      */
-    override suspend fun getTrendingMovie(): List<TrendingMovieLocalDto> {
-        refreshOneTimePerDay(
-            appConfiguration.getRequestDate(Constant.TRENDING_MOVIE_REQUEST_DATE_KEY),
-            ::refreshTrendingMovies
-        )
-        return movieDao.getAllTrendingMovies()
+    override suspend fun getTrendingMovieFromDatabase(): List<MovieEntity> {
+        return domainTrendingMovieMapper.map(movieDao.getAllTrendingMovies())
     }
 
-    suspend fun refreshTrendingMovies(currentDate: Date) {
-        wrap(
-            {
-                movieService.getTrendingMovie()
-            },
-            { list ->
-                list?.map {
-                    trendingMovieMapper.map(it)
-                }
-            },
-            {
-                movieDao.deleteTrendingMovies()
-                movieDao.insertTrendingMovies(it)
-                appConfiguration.saveRequestDate(
-                    Constant.TRENDING_MOVIE_REQUEST_DATE_KEY,
-                    currentDate.time
-                )
-            }
+    override suspend fun refreshTrendingMovies() {
+        refreshWrapper(
+            { movieService.getTrendingMovie(page = random.nextInt(20) + 1) },
+            { localTrendingMovieMapper.map(it) },
+            movieDao::deleteTrendingMovies,
+            movieDao::insertTrendingMovies
         )
     }
 

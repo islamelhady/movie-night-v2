@@ -51,8 +51,8 @@ interface MovieRepository {
     suspend fun refreshAdventureMovies()
     fun getAllAdventureMovies(): Pager<Int, MovieRemoteDto>
 
-    suspend fun getTrendingMovie(): List<TrendingMovieLocalDto>
-
+    suspend fun getTrendingMovieFromDatabase(): List<MovieEntity>
+    suspend fun refreshTrendingMovies()
     fun getAllTrendingMovies(): Pager<Int, MovieRemoteDto>
 
     fun getMoviesByGenre(genreId: Int): Pager<Int, MovieRemoteDto>
