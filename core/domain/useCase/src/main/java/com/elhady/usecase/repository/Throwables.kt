@@ -1,4 +1,4 @@
-package com.elhady.repository
+package com.elhady.usecase.repository
 
 open class ApiThrowable(message: String?) : Throwable(message)
 class UnauthorizedThrowable : ApiThrowable("Unauthorized")

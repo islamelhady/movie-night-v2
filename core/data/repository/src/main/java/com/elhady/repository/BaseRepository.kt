@@ -2,6 +2,11 @@ package com.elhady.repository
 
 import androidx.paging.PagingConfig
 import com.elhady.remote.response.DataWrapperResponse
+import com.elhady.usecase.repository.ApiThrowable
+import com.elhady.usecase.repository.NoNetworkThrowable
+import com.elhady.usecase.repository.ParsingThrowable
+import com.elhady.usecase.repository.TimeoutThrowable
+import com.elhady.usecase.repository.UnauthorizedThrowable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
