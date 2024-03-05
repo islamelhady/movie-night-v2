@@ -1,9 +1,5 @@
 package com.elhady.ui.home
 
-import com.elhady.viewmodel.models.ActorUiState
-import com.elhady.viewmodel.models.MediaUiState
-import com.elhady.viewmodel.models.PopularUiState
-
 
 sealed class HomeItem (val priority: Int){
     data class PopularMovieSlider(val items: List<PopularUiState>): HomeItem(0)

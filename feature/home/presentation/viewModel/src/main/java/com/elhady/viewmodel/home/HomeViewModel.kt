@@ -3,12 +3,9 @@ package com.elhady.viewmodel.home
 import com.elhady.base.BaseViewModel
 import com.elhady.viewmodel.home.homeUiState.HomeUiEvent
 import com.elhady.viewmodel.home.homeUiState.HomeUiState
-import com.elhady.viewmodel.mappers.ActorUiMapper
-import com.elhady.viewmodel.mappers.MediaUiMapper
-import com.elhady.viewmodel.mappers.PopularUiMapper
-import com.elhady.viewmodel.models.ActorUiState
-import com.elhady.viewmodel.models.MediaUiState
-import com.elhady.viewmodel.models.PopularUiState
+import com.elhady.viewmodel.home.mappers.PopularActorUiMapper
+import com.elhady.viewmodel.home.mappers.TrendingMovieUiMapper
+import com.elhady.viewmodel.home.mappers.PopularMovieUiMapper
 import com.elhady.usecase.home.movies.GetAdventureMoviesUseCase
 import com.elhady.usecase.home.movies.GetMysteryMoviesUseCase
 import com.elhady.usecase.home.movies.GetNowPlayingMoviesUseCase
@@ -16,11 +13,31 @@ import com.elhady.usecase.home.movies.GetPopularMoviesUseCase
 import com.elhady.usecase.home.movies.GetTopRatedMoviesUseCase
 import com.elhady.usecase.home.movies.GetTrendingMoviesUseCase
 import com.elhady.usecase.home.movies.GetUpcomingMoviesUseCase
-import com.elhady.usecase.home.actor.GetTrendingActorsUseCase
+import com.elhady.usecase.home.actor.GetPopularActorUseCase
 import com.elhady.usecase.home.series.GetAiringTodaySeriesUseCase
 import com.elhady.usecase.home.series.GetOnTheAirSeriesUseCase
 import com.elhady.usecase.home.series.GetTVSeriesListsUseCase
-import com.elhady.usecase.seeAllMedia.SeeAllType
+import com.elhady.usecase.seeAllMedia.ShowMoreType
+import com.elhady.viewmodel.home.homeUiState.AdventureMoviesUiState
+import com.elhady.viewmodel.home.homeUiState.AiringTodayTVShowsUiState
+import com.elhady.viewmodel.home.homeUiState.HomeListener
+import com.elhady.viewmodel.home.homeUiState.MysteryMoviesUiState
+import com.elhady.viewmodel.home.homeUiState.NowPlayingMoviesUiState
+import com.elhady.viewmodel.home.homeUiState.OnTheAirTVShowsUiState
+import com.elhady.viewmodel.home.homeUiState.PopularActorUiState
+import com.elhady.viewmodel.home.homeUiState.PopularMoviesUiState
+import com.elhady.viewmodel.home.homeUiState.TVShowsListsUiState
+import com.elhady.viewmodel.home.homeUiState.TopRatedMoviesUiState
+import com.elhady.viewmodel.home.homeUiState.TrendingMoviesUiState
+import com.elhady.viewmodel.home.homeUiState.UpcomingMoviesUiState
+import com.elhady.viewmodel.home.mappers.AdventureMovieUiMapper
+import com.elhady.viewmodel.home.mappers.AiringTodayTVShowsUiMapper
+import com.elhady.viewmodel.home.mappers.MysteryMovieUiMapper
+import com.elhady.viewmodel.home.mappers.NowPlayingMovieUiMapper
+import com.elhady.viewmodel.home.mappers.OnTheAirTVShowsUiMapper
+import com.elhady.viewmodel.home.mappers.TVShowsListsUiMapper
+import com.elhady.viewmodel.home.mappers.TopRatedMovieUiMapper
+import com.elhady.viewmodel.home.mappers.UpcomingMovieUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -28,31 +45,37 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getPopularMoviesUseCase: GetPopularMoviesUseCase,
-    private val popularUiMapper: PopularUiMapper,
-    private val mediaUiMapper: MediaUiMapper,
-    private val getUpcomingMoviesUseCase: GetUpcomingMoviesUseCase,
+    private val popularMovieUiMapper: PopularMovieUiMapper,
     private val getTrendingMovieUseCase: GetTrendingMoviesUseCase,
+    private val trendingMovieUiMapper: TrendingMovieUiMapper,
+    private val getUpcomingMoviesUseCase: GetUpcomingMoviesUseCase,
+    private val upcomingMovieUiMapper: UpcomingMovieUiMapper,
     private val getNowPlayingMoviesUseCase: GetNowPlayingMoviesUseCase,
+    private val nowPlayingMovieUiMapper: NowPlayingMovieUiMapper,
     private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase,
+    private val topRatedMovieUiMapper: TopRatedMovieUiMapper,
     private val getOnTheAirSeriesUseCase: GetOnTheAirSeriesUseCase,
+    private val onTheAirTVShowsUiMapper: OnTheAirTVShowsUiMapper,
     private val getAiringTodaySeriesUseCase: GetAiringTodaySeriesUseCase,
+    private val airingTodayTVShowsUiMapper: AiringTodayTVShowsUiMapper,
     private val getTVSeriesListsUseCase: GetTVSeriesListsUseCase,
+    private val tvShowsListsUiMapper: TVShowsListsUiMapper,
     private val getMysteryMoviesUseCase: GetMysteryMoviesUseCase,
+    private val mysteryMovieUiMapper: MysteryMovieUiMapper,
     private val getAdventureMoviesUseCase: GetAdventureMoviesUseCase,
-    private val getTrendingActorsUseCase: GetTrendingActorsUseCase,
-    private val actorUiMapper: ActorUiMapper
+    private val adventureMovieUiMapper: AdventureMovieUiMapper,
+    private val getPopularActorUseCase: GetPopularActorUseCase,
+    private val popularActorUiMapper: PopularActorUiMapper
 ) :
-    BaseViewModel<HomeUiState, HomeUiEvent>(HomeUiState()), MovieInteractionListener,
-    TVSeriesInteractionListener,
-    ActorInteractionListener, MediaInteractionListener, HomeInteractionListener {
+    BaseViewModel<HomeUiState, HomeUiEvent>(HomeUiState()), HomeListener {
 
     init {
         getData()
     }
 
-    override fun getData() {
+    fun getData() {
         _state.update { it.copy(isLoading = true, onErrors = emptyList()) }
-        getPopular()
+        getPopularMovies()
         getUpcomingMovies()
         getTrendingMovie()
         getNowPlayingMovies()
@@ -69,16 +92,16 @@ class HomeViewModel @Inject constructor(
     /**
      *  Popular Movies
      */
-    private fun getPopular(){
+    private fun getPopularMovies(){
         tryToExecute(
             call =  {getPopularMoviesUseCase()} ,
             onSuccess = ::onSuccessPopularMovies,
-            mapper = popularUiMapper,
+            mapper = popularMovieUiMapper,
             onError = ::onError
         )
     }
 
-    private fun onSuccessPopularMovies(items :List<PopularUiState> ){
+    private fun onSuccessPopularMovies(items :List<PopularMoviesUiState> ){
         _state.update { it.copy(popularMovieSlider = items, isLoading = false, onErrors = emptyList()) }
     }
 
@@ -90,11 +113,11 @@ class HomeViewModel @Inject constructor(
             call = { getUpcomingMoviesUseCase() },
             onSuccess = ::onSuccessUpcoming,
             onError = ::onError,
-            mapper = mediaUiMapper
+            mapper = upcomingMovieUiMapper
         )
     }
 
-    private fun onSuccessUpcoming(items: List<MediaUiState>) {
+    private fun onSuccessUpcoming(items: List<UpcomingMoviesUiState>) {
         _state.update { it.copy(upcomingMovie = items, isLoading = false, onErrors = emptyList()) }
     }
 
@@ -106,11 +129,11 @@ class HomeViewModel @Inject constructor(
             call = { getTrendingMovieUseCase() },
             onError = ::onError,
             onSuccess = ::onSuccessTrending,
-            mapper = mediaUiMapper
+            mapper = trendingMovieUiMapper
         )
     }
 
-    private fun onSuccessTrending(items: List<MediaUiState>) {
+    private fun onSuccessTrending(items: List<TrendingMoviesUiState>) {
         _state.update { it.copy(trendingMovie = items, isLoading = false, onErrors = emptyList()) }
     }
 
@@ -122,11 +145,11 @@ class HomeViewModel @Inject constructor(
             call = { getNowPlayingMoviesUseCase() },
             onSuccess = ::onSuccessNowPlaying,
             onError = ::onError,
-            mapper = mediaUiMapper
+            mapper = nowPlayingMovieUiMapper
         )
     }
 
-    private fun onSuccessNowPlaying(items: List<MediaUiState>) {
+    private fun onSuccessNowPlaying(items: List<NowPlayingMoviesUiState>) {
         _state.update { it.copy(nowPlayingMovie = items, isLoading = false, onErrors = emptyList()) }
     }
 
@@ -137,12 +160,12 @@ class HomeViewModel @Inject constructor(
         tryToExecute(
             call = { getTopRatedMoviesUseCase() },
             onSuccess = ::onSuccessTopRated,
-            mapper = mediaUiMapper,
+            mapper = topRatedMovieUiMapper,
             onError = ::onError
         )
     }
 
-    private fun onSuccessTopRated(items: List<MediaUiState>) {
+    private fun onSuccessTopRated(items: List<TopRatedMoviesUiState>) {
         _state.update { it.copy(topRatedMovie = items, isLoading = false, onErrors = emptyList()) }
     }
 
@@ -153,12 +176,12 @@ class HomeViewModel @Inject constructor(
         tryToExecute(
             call = { getMysteryMoviesUseCase() },
             onSuccess = ::onSuccessMystery,
-            mapper = mediaUiMapper,
+            mapper = mysteryMovieUiMapper,
             onError = ::onError
         )
     }
 
-    private fun onSuccessMystery(items: List<MediaUiState>) {
+    private fun onSuccessMystery(items: List<MysteryMoviesUiState>) {
         _state.update { it.copy(mysteryMovies = items, isLoading = false, onErrors = emptyList()) }
     }
 
@@ -169,12 +192,12 @@ class HomeViewModel @Inject constructor(
         tryToExecute(
             call = { getAdventureMoviesUseCase() },
             onSuccess = ::onSuccessAdventure,
-            mapper = mediaUiMapper,
+            mapper = adventureMovieUiMapper,
             onError = ::onError
         )
     }
 
-    private fun onSuccessAdventure(items: List<MediaUiState>) {
+    private fun onSuccessAdventure(items: List<AdventureMoviesUiState>) {
         _state.update { it.copy(adventureMovies = items, isLoading = false, onErrors = emptyList()) }
     }
 
@@ -185,13 +208,13 @@ class HomeViewModel @Inject constructor(
         tryToExecute(
             call = { getOnTheAirSeriesUseCase() },
             onSuccess = ::onSuccessTheAirSeries,
-            mapper = mediaUiMapper,
+            mapper = onTheAirTVShowsUiMapper,
             onError = ::onError
         )
     }
 
-    private fun onSuccessTheAirSeries(items: List<MediaUiState>) {
-        _state.update { it.copy(onTheAirSeries = items, isLoading = false, onErrors = emptyList()) }
+    private fun onSuccessTheAirSeries(items: List<OnTheAirTVShowsUiState>) {
+        _state.update { it.copy(onTheAirTVShows = items, isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -201,13 +224,13 @@ class HomeViewModel @Inject constructor(
         tryToExecute(
             call = { getAiringTodaySeriesUseCase() },
             onSuccess = ::onSuccessAiringTodaySeries,
-            mapper = mediaUiMapper,
+            mapper = airingTodayTVShowsUiMapper,
             onError = ::onError
         )
     }
 
-    private fun onSuccessAiringTodaySeries(items: List<MediaUiState>) {
-        _state.update { it.copy(airingTodaySeries = items, isLoading = false, onErrors = emptyList()) }
+    private fun onSuccessAiringTodaySeries(items: List<AiringTodayTVShowsUiState>) {
+        _state.update { it.copy(airingTodayTVShows = items, isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -220,13 +243,13 @@ class HomeViewModel @Inject constructor(
         tryToExecute(
             call = { getTVSeriesListsUseCase() },
             onSuccess = ::onSuccessTVSeriesLists,
-            mapper = mediaUiMapper,
+            mapper = tvShowsListsUiMapper,
             onError = ::onError
         )
     }
 
-    private fun onSuccessTVSeriesLists(items: List<MediaUiState>) {
-        _state.update { it.copy(tvSeriesLists = items, isLoading = false, onErrors = emptyList()) }
+    private fun onSuccessTVSeriesLists(items: List<TVShowsListsUiState>) {
+        _state.update { it.copy(tvShowsLists = items, isLoading = false, onErrors = emptyList()) }
     }
 
     /**
@@ -234,14 +257,14 @@ class HomeViewModel @Inject constructor(
      */
     private fun getPopularPersons() {
         tryToExecute(
-            call = { getTrendingActorsUseCase() },
+            call = { getPopularActorUseCase() },
             onSuccess = ::onSuccessPopularPersons,
-            mapper = actorUiMapper,
+            mapper = popularActorUiMapper,
             onError = ::onError
         )
     }
 
-    private fun onSuccessPopularPersons(items: List<ActorUiState>) {
+    private fun onSuccessPopularPersons(items: List<PopularActorUiState>) {
         _state.update { it.copy(popularPeople = items, isLoading = false, onErrors = emptyList()) }
     }
 
@@ -251,32 +274,21 @@ class HomeViewModel @Inject constructor(
         _state.update { it.copy(onErrors = errors, isLoading = false) }
     }
 
-    override fun onClickMovie(movieID: Int) {
-        sendEvent(HomeUiEvent.ClickMovieEvent(movieID))
+
+    override fun onClickMovieDetails(id: Int) {
+        sendEvent(HomeUiEvent.ClickMovieEvent(id))
     }
 
-    override fun onClickSeeAllMovies(mediaType: SeeAllType) {
-        sendEvent(HomeUiEvent.ClickSeeAllMoviesEvent(mediaType))
+    override fun onClickTVShowDetails(id: Int) {
+        sendEvent(HomeUiEvent.ClickTVShowEvent(id))
     }
 
-    override fun onClickTVSeries(seriesID: Int) {
-        sendEvent(HomeUiEvent.ClickSeriesEvent(seriesID))
+    override fun onClickActorDetails(id: Int) {
+        sendEvent(HomeUiEvent.ClickActorEvent(id))
     }
 
-    override fun onClickAllTVSeries(type: SeeAllType) {
-        sendEvent(HomeUiEvent.ClickSeeAllSeriesEvent(type))
-    }
-
-    override fun onClickActor(actorID: Int) {
-        sendEvent(HomeUiEvent.ClickActorEvent(actorID))
-    }
-
-    override fun onClickSeeAllActors() {
-        sendEvent(HomeUiEvent.ClickSeeAllActorsEvent)
-    }
-
-    override fun onClickMedia(mediaId: Int) {
-        sendEvent(HomeUiEvent.ClickSeriesEvent(mediaId))
+    override fun onClickShowMore(type: ShowMoreType) {
+        sendEvent(HomeUiEvent.ClickShowMoreEvent(type))
     }
 
 }
