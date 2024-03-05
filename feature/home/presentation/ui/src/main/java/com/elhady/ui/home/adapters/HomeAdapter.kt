@@ -7,8 +7,8 @@ import com.elhady.base.BaseAdapter
 import com.elhady.base.BaseInteractionListener
 import com.elhady.ui.adapter.MediaAdapter
 import com.elhady.ui.adapter.MediaInteractionListener
-import com.elhady.ui.home.HomeItem
 import com.elhady.ui.R
+import com.elhady.ui.home.HomeItem
 
 class HomeAdapter(
     private var homeItems: List<HomeItem>,

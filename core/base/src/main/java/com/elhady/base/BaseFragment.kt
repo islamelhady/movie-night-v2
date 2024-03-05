@@ -46,7 +46,7 @@ abstract class BaseFragment<VDB : ViewDataBinding, STATE, EVENT> : Fragment() {
         }
     }
 
-    private fun collectLatest(collect: suspend CoroutineScope.() -> Unit) {
+    protected fun collectLatest(collect: suspend CoroutineScope.() -> Unit) {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 collect()

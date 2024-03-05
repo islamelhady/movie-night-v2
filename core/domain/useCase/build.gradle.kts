@@ -35,10 +35,6 @@ android {
 
 dependencies {
     api(project(":core:domain:entities"))
-//    TODO()
-    // temporary i will delete it soon (remote and local)
-    implementation(project(":core:data:remote"))
-    implementation(project(":core:data:local"))
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
