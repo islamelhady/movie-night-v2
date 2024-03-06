@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="com.elhady.viewmodel.home.ShowMoreType"/>
+        <import type="com.elhady.viewmodel.showMore.ShowMoreType"/>
 
         <variable
             name="listener"

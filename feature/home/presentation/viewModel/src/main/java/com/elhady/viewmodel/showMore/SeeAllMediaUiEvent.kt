@@ -1,4 +1,4 @@
-package com.elhady.viewmodel.seeAll
+package com.elhady.viewmodel.showMore
 
 sealed interface SeeAllMediaUiEvent {
     data class ClickMovieEvent(val mediaId: Int): SeeAllMediaUiEvent

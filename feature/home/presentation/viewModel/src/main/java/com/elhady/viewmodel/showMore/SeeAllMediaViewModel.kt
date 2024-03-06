@@ -1,4 +1,4 @@
-package com.elhady.viewmodel.seeAll
+package com.elhady.viewmodel.showMore
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.paging.CombinedLoadStates
@@ -8,7 +8,7 @@ import androidx.paging.map
 import com.elhady.base.BaseViewModel
 import com.elhady.usecase.seeAllMedia.CheckMediaTypeUseCase
 import com.elhady.usecase.seeAllMedia.GetAllMediaByTypeUseCase
-import com.elhady.viewmodel.mappers.MediaUiMapper
+import com.elhady.viewmodel.home.mappers.TrendingMovieUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -20,8 +20,8 @@ class SeeAllMediaViewModel @Inject constructor(
     val savedStateHandle: SavedStateHandle,
     private val getAllMediaByTypeUseCase: GetAllMediaByTypeUseCase,
     private val checkMediaTypeUseCase: CheckMediaTypeUseCase,
-    private val mediaUiMapper: MediaUiMapper
-) : BaseViewModel<SeeAllMediaUiState, SeeAllMediaUiEvent>(SeeAllMediaUiState()), MediaInteractionListener {
+    private val mediaUiMapper: TrendingMovieUiMapper
+) : BaseViewModel<ShowMoreUiState, SeeAllMediaUiEvent>(ShowMoreUiState()), MediaInteractionListener {
 
     val args = SeeAllMediaFragmentArgs.fromSavedStateHandle(savedStateHandle)
 

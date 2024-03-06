@@ -9,7 +9,7 @@ import com.elhady.ui.R
 import com.elhady.ui.databinding.FragmentHomeBinding
 import com.elhady.ui.home.adapters.HomeAdapter
 import com.elhady.viewmodel.home.HomeViewModel
-import com.elhady.viewmodel.home.ShowMoreType
+import com.elhady.viewmodel.showMore.ShowMoreType
 import com.elhady.viewmodel.home.homeUiState.HomeUiEvent
 import com.elhady.viewmodel.home.homeUiState.HomeUiState
 import dagger.hilt.android.AndroidEntryPoint

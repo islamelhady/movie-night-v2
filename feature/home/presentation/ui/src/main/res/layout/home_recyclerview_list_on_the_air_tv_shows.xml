@@ -12,7 +12,7 @@
             name="adapterRecycler"
             type="com.elhady.ui.home.adapters.OnTheAirAdapter" />
 
-        <import type="com.elhady.viewmodel.home.ShowMoreType"/>
+        <import type="com.elhady.viewmodel.showMore.ShowMoreType"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,10 +1,9 @@
-package com.elhady.ui.seeAll
+package com.elhady.ui.showMore
 
 import androidx.recyclerview.widget.DiffUtil
 import com.elhady.base.BasePagingAdapter
 import com.elhady.ui.adapter.MediaInteractionListener
 import com.elhady.ui.R
-import com.elhady.viewmodel.models.MediaUiState
 
 class SeeAllMediaAdapter(listener: MediaInteractionListener) :
     BasePagingAdapter<MediaUiState>(AllMediaComparator, listener) {

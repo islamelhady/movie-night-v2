@@ -1,4 +1,4 @@
-package com.elhady.ui.seeAll
+package com.elhady.ui.showMore
 
 import android.os.Bundle
 import android.view.View
@@ -9,13 +9,13 @@ import com.elhady.base.BaseFragment
 import com.elhady.ui.adapter.LoadAdapter
 import com.elhady.ui.R
 import com.elhady.ui.databinding.FragmentSeeAllMediaBinding
-import com.elhady.viewmodel.seeAll.SeeAllMediaUiEvent
-import com.elhady.viewmodel.seeAll.SeeAllMediaUiState
-import com.elhady.viewmodel.seeAll.SeeAllMediaViewModel
+import com.elhady.viewmodel.showMore.SeeAllMediaUiEvent
+import com.elhady.viewmodel.showMore.ShowMoreUiState
+import com.elhady.viewmodel.showMore.SeeAllMediaViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SeeAllMediaFragment : BaseFragment<FragmentSeeAllMediaBinding, SeeAllMediaUiState, SeeAllMediaUiEvent>() {
+class SeeAllMediaFragment : BaseFragment<FragmentSeeAllMediaBinding, ShowMoreUiState, SeeAllMediaUiEvent>() {
 
     override val layoutIdFragment: Int = R.layout.fragment_see_all_media
     override val viewModel: SeeAllMediaViewModel by viewModels()

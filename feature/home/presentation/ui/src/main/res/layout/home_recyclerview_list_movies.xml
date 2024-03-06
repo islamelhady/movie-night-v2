@@ -13,7 +13,7 @@
             type="com.elhady.ui.home.adapters.MovieAdapter" />
 
         <import
-            type="com.elhady.viewmodel.home.ShowMoreType" />
+            type="com.elhady.viewmodel.showMore.ShowMoreType" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.elhady.viewmodel.seeAll.SeeAllMediaViewModel" />
+            type="com.elhady.viewmodel.showMore.SeeAllMediaViewModel" />
 
     </data>
 

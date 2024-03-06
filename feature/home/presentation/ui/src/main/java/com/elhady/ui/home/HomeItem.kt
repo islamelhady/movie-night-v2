@@ -1,6 +1,6 @@
 package com.elhady.ui.home
 
-import com.elhady.viewmodel.home.ShowMoreType
+import com.elhady.viewmodel.showMore.ShowMoreType
 import com.elhady.viewmodel.home.homeUiState.AiringTodayTVShowsUiState
 import com.elhady.viewmodel.home.homeUiState.MoviesUiState
 import com.elhady.viewmodel.home.homeUiState.NowPlayingMoviesUiState

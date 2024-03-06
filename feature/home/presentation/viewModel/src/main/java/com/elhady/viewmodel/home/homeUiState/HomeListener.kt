@@ -1,7 +1,7 @@
 package com.elhady.viewmodel.home.homeUiState
 
 import com.elhady.base.BaseInteractionListener
-import com.elhady.viewmodel.home.ShowMoreType
+import com.elhady.viewmodel.showMore.ShowMoreType
 
 
 interface HomeListener: BaseInteractionListener {

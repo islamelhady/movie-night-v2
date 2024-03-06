@@ -1,4 +1,4 @@
-package com.elhady.viewmodel.home
+package com.elhady.viewmodel.showMore
 
 enum class ShowMoreType(val value: String) {
     TOP_RATED_TV_SHOW("Top Rated Tv Shows"),

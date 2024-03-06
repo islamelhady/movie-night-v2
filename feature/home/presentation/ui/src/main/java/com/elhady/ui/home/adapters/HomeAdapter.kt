@@ -7,7 +7,7 @@ import com.elhady.base.BaseAdapter
 import com.elhady.base.BaseInteractionListener
 import com.elhady.ui.R
 import com.elhady.ui.home.HomeItem
-import com.elhady.viewmodel.home.ShowMoreType
+import com.elhady.viewmodel.showMore.ShowMoreType
 import com.elhady.viewmodel.home.homeUiState.HomeListener
 import com.elhady.viewmodel.home.homeUiState.MoviesUiState
 

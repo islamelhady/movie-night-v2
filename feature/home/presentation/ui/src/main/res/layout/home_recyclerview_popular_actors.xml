@@ -13,7 +13,7 @@
             name="listener"
             type="com.elhady.viewmodel.home.homeUiState.HomeListener" />
 
-        <import type="com.elhady.viewmodel.home.ShowMoreType"/>
+        <import type="com.elhady.viewmodel.showMore.ShowMoreType"/>
 
     </data>
 

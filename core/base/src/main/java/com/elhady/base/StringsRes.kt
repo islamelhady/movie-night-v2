@@ -16,8 +16,16 @@ interface StringsRes {
     val watchlist:String
     val favourite:String
     val popularMovies:String
+    val upcomingMovies:String
+    val nowPlayingMovies:String
+    val mysteryMovies:String
+    val popularActors:String
+    val adventureMovies:String
+    val popularTvShow:String
+    val latestTvShow:String
+    val onTheAirTvShow:String
     val topRatedMovies:String
-    val trending:String
+    val trendingMovies:String
     val timeOut:String
     val today:String
     val yesterday:String
