@@ -1,4 +1,4 @@
-package com.elhady.remote.response.account
+package com.elhady.remote.response.profile
 
 
 import com.google.gson.annotations.SerializedName

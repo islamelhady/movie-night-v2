@@ -1,6 +1,6 @@
 package com.elhady.movies.di
 
-import com.elhady.repository.AccountRepositoryImp
+import com.elhady.repository.AuthRepositoryImp
 import com.elhady.repository.ActorRepositoryImp
 import com.elhady.repository.MovieRepositoryImp
 import com.elhady.repository.SeriesRepositoryImp
@@ -35,5 +35,5 @@ abstract class RepositoryModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun bindAccountRepository(accountRepositoryImp: AccountRepositoryImp): AuthRepository
+    abstract fun bindAccountRepository(accountRepositoryImp: AuthRepositoryImp): AuthRepository
 }

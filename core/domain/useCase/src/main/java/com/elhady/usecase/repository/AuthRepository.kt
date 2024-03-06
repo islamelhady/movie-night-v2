@@ -10,6 +10,8 @@ interface AuthRepository {
 
     suspend fun getAccountDetails(): ProfileEntity?
 
+    suspend fun isUserLoggedIn(): Boolean
+
     suspend fun logout()
 
 }

@@ -1,9 +1,8 @@
-package com.elhady.remote.response.account
-
+package com.elhady.remote.response.profile
 
 import com.google.gson.annotations.SerializedName
 
-data class AccountDto(
+data class ProfileRemoteDto(
     @SerializedName("avatar")
     val avatar: Avatar?,
     @SerializedName("id")

@@ -17,7 +17,7 @@ import com.elhady.remote.response.RatedSeriesDto
 import com.elhady.remote.response.StatusResponse
 import com.elhady.remote.response.StatusResponseDto
 import com.elhady.remote.response.TrendingDto
-import com.elhady.remote.response.account.AccountDto
+import com.elhady.remote.response.profile.ProfileRemoteDto
 import com.elhady.remote.response.actor.MovieCreditsDto
 import com.elhady.remote.response.dto.MovieRemoteDto
 import com.elhady.remote.response.genre.GenreMovieRemoteDto
@@ -31,7 +31,6 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Field
-import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -224,7 +223,7 @@ interface MovieService {
      */
 
     @GET("account")
-    suspend fun getAccountDetails(@Query("session_id") sessionId: String? = ""): Response<AccountDto>
+    suspend fun getAccountDetails(@Query("session_id") sessionId: String = " "): Response<ProfileRemoteDto>
 
     @GET("account/{account_id}/rated/movies")
     suspend fun getRatedMovie(@Path("account_id") accountId: Int = 0): Response<DataWrapperResponse<RatedMovieDto>>
