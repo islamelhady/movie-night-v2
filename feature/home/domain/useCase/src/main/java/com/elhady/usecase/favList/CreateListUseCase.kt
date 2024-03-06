@@ -1,13 +1,13 @@
 package com.elhady.usecase.favList
 
 import com.elhady.entities.CreatedListEntity
-import com.elhady.usecase.repository.AccountRepository
+import com.elhady.usecase.repository.AuthRepository
 import com.elhady.usecase.repository.MovieRepository
 import javax.inject.Inject
 
 class CreateListUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
-    private val accountRepository: AccountRepository,
+    private val accountRepository: AuthRepository,
     private val getCreatedListUseCase: GetCreatedListUseCase
 ) {
     suspend operator fun invoke(listName: String): List<CreatedListEntity> {

@@ -1,11 +1,11 @@
 package com.elhady.usecase.favList
 
-import com.elhady.usecase.repository.AccountRepository
+import com.elhady.usecase.repository.AuthRepository
 import com.elhady.usecase.repository.MovieRepository
 import javax.inject.Inject
 
 class SaveMovieToFavListUseCase @Inject constructor(
-    private val accountRepository: AccountRepository,
+    private val accountRepository: AuthRepository,
     private val movieRepository: MovieRepository
 ) {
 

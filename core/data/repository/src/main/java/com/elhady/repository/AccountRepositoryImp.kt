@@ -3,12 +3,13 @@ package com.elhady.repository
 import com.elhady.local.AppConfiguration
 import com.elhady.remote.response.account.AccountDto
 import com.elhady.remote.serviece.MovieService
+import com.elhady.usecase.repository.AuthRepository
 import javax.inject.Inject
 
 class AccountRepositoryImp @Inject constructor(
     private val movieService: MovieService,
     private val appConfiguration: AppConfiguration,
-) : AccountRepository, BaseRepository() {
+) : AuthRepository, BaseRepository() {
     override suspend fun loginWithUsernameAndPassword(userName: String, password: String): Boolean {
         val token = getRequestToken()
         val body = mapOf<String, Any>(

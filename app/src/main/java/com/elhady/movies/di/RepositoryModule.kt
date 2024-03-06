@@ -4,7 +4,7 @@ import com.elhady.repository.AccountRepositoryImp
 import com.elhady.repository.ActorRepositoryImp
 import com.elhady.repository.MovieRepositoryImp
 import com.elhady.repository.SeriesRepositoryImp
-import com.elhady.usecase.repository.AccountRepository
+import com.elhady.usecase.repository.AuthRepository
 import com.elhady.usecase.repository.ActorRepository
 import com.elhady.usecase.repository.MovieRepository
 import com.elhady.usecase.repository.SeriesRepository
@@ -35,5 +35,5 @@ abstract class RepositoryModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun bindAccountRepository(accountRepositoryImp: AccountRepositoryImp): AccountRepository
+    abstract fun bindAccountRepository(accountRepositoryImp: AccountRepositoryImp): AuthRepository
 }
