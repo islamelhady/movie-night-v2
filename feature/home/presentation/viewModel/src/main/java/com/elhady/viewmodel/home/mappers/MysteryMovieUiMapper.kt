@@ -2,16 +2,15 @@ package com.elhady.viewmodel.home.mappers
 
 import com.elhady.entities.MovieEntity
 import com.elhady.mapper.Mapper
-import com.elhady.viewmodel.home.homeUiState.MysteryMoviesUiState
+import com.elhady.viewmodel.home.homeUiState.MoviesUiState
 import javax.inject.Inject
 
-class MysteryMovieUiMapper @Inject constructor() : Mapper<MovieEntity, MysteryMoviesUiState> {
-    override fun map(input: MovieEntity): MysteryMoviesUiState {
-        return MysteryMoviesUiState(
+class MysteryMovieUiMapper @Inject constructor() : Mapper<MovieEntity, MoviesUiState> {
+    override fun map(input: MovieEntity): MoviesUiState {
+        return MoviesUiState(
             id = input.movieId,
-            rate = input.movieRate,
             imageUrl = input.movieImage,
-            title = input.movieName
+            rate = input.movieRate
         )
     }
 }

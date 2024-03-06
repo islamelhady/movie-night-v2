@@ -17,18 +17,14 @@ import com.elhady.usecase.home.actor.GetPopularActorUseCase
 import com.elhady.usecase.home.series.GetAiringTodaySeriesUseCase
 import com.elhady.usecase.home.series.GetOnTheAirSeriesUseCase
 import com.elhady.usecase.home.series.GetTVSeriesListsUseCase
-import com.elhady.viewmodel.home.homeUiState.AdventureMoviesUiState
 import com.elhady.viewmodel.home.homeUiState.AiringTodayTVShowsUiState
 import com.elhady.viewmodel.home.homeUiState.HomeListener
-import com.elhady.viewmodel.home.homeUiState.MysteryMoviesUiState
+import com.elhady.viewmodel.home.homeUiState.MoviesUiState
 import com.elhady.viewmodel.home.homeUiState.NowPlayingMoviesUiState
 import com.elhady.viewmodel.home.homeUiState.OnTheAirTVShowsUiState
 import com.elhady.viewmodel.home.homeUiState.PopularActorUiState
 import com.elhady.viewmodel.home.homeUiState.PopularMoviesUiState
 import com.elhady.viewmodel.home.homeUiState.TVShowsListsUiState
-import com.elhady.viewmodel.home.homeUiState.TopRatedMoviesUiState
-import com.elhady.viewmodel.home.homeUiState.TrendingMoviesUiState
-import com.elhady.viewmodel.home.homeUiState.UpcomingMoviesUiState
 import com.elhady.viewmodel.home.mappers.AdventureMovieUiMapper
 import com.elhady.viewmodel.home.mappers.AiringTodayTVShowsUiMapper
 import com.elhady.viewmodel.home.mappers.MysteryMovieUiMapper
@@ -116,7 +112,7 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessUpcoming(items: List<UpcomingMoviesUiState>) {
+    private fun onSuccessUpcoming(items: List<MoviesUiState>) {
         _state.update { it.copy(upcomingMovie = items, isLoading = false, onErrors = emptyList()) }
     }
 
@@ -132,7 +128,7 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessTrending(items: List<TrendingMoviesUiState>) {
+    private fun onSuccessTrending(items: List<MoviesUiState>) {
         _state.update { it.copy(trendingMovie = items, isLoading = false, onErrors = emptyList()) }
     }
 
@@ -164,7 +160,7 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessTopRated(items: List<TopRatedMoviesUiState>) {
+    private fun onSuccessTopRated(items: List<MoviesUiState>) {
         _state.update { it.copy(topRatedMovie = items, isLoading = false, onErrors = emptyList()) }
     }
 
@@ -180,7 +176,7 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessMystery(items: List<MysteryMoviesUiState>) {
+    private fun onSuccessMystery(items: List<MoviesUiState>) {
         _state.update { it.copy(mysteryMovies = items, isLoading = false, onErrors = emptyList()) }
     }
 
@@ -196,7 +192,7 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessAdventure(items: List<AdventureMoviesUiState>) {
+    private fun onSuccessAdventure(items: List<MoviesUiState>) {
         _state.update { it.copy(adventureMovies = items, isLoading = false, onErrors = emptyList()) }
     }
 
