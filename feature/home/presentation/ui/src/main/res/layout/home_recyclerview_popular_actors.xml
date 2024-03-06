@@ -7,12 +7,13 @@
 
         <variable
             name="adapterRecycler"
-            type="com.elhady.ui.home.adapters.ActorAdapter" />
+            type="com.elhady.ui.home.adapters.PopularActorAdapter" />
 
         <variable
             name="listener"
-            type="com.elhady.viewmodel.home.HomeInteractionListener" />
+            type="com.elhady.viewmodel.home.homeUiState.HomeListener" />
 
+        <import type="com.elhady.viewmodel.home.ShowMoreType"/>
 
     </data>
 
@@ -40,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_too_small"
             android:gravity="center"
-            android:onClick="@{ () -> listener.onClickSeeAllActors()}"
+            android:onClick="@{ () -> listener.onClickShowMore(ShowMoreType.POPULAR_ACTORS)}"
             android:paddingEnd="@dimen/spacing_too_small"
             android:text="@string/see_all"
             android:textColor="@color/brand_color"
@@ -64,7 +65,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_actor"
             app:spanCount="2"
-            tools:listitem="@layout/item_actor" />
+            tools:listitem="@layout/home_item_popular_actor" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

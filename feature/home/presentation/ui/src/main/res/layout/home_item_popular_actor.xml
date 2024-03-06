@@ -7,11 +7,11 @@
 
         <variable
             name="item"
-            type="com.elhady.viewmodel.models.ActorUiState" />
+            type="com.elhady.viewmodel.home.homeUiState.PopularActorUiState" />
 
         <variable
             name="listener"
-            type="com.elhady.ui.home.adapters.ActorInteractionListener" />
+            type="com.elhady.viewmodel.home.homeUiState.HomeListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,8 +31,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:movieImage="@{item.imageUrl}"
-            app:shapeAppearanceOverlay="@style/Circle" />
+            app:movieImage="@{item.profilePath}"
+            app:shapeAppearanceOverlay="@style/Circle"
+            tools:src="@tools:sample/avatars"/>
 
         <TextView
             android:id="@+id/text_actor_name"

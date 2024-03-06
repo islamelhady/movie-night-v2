@@ -1,9 +1,9 @@
-package com.elhady.repository.mappers.cash
+package com.elhady.repository.mappers.cash.actor
 
-import com.elhady.local.Constants
+import com.elhady.repository.Constants
 import com.elhady.local.database.dto.actor.ActorLocalDto
-import com.elhady.movies.domain.mappers.Mapper
 import com.elhady.remote.ActorRemoteDto
+import com.elhady.repository.mappers.Mapper
 import javax.inject.Inject
 
 class LocalPopularActorsMapper @Inject constructor(): Mapper<ActorRemoteDto, ActorLocalDto> {
