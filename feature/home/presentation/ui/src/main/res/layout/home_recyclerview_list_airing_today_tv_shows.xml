@@ -66,7 +66,7 @@
             app:layout_constraintTop_toBottomOf="@+id/airing_today"
             app:spanCount="3"
             tools:itemCount="6"
-            tools:listitem="@layout/item_airing_today" />
+            tools:listitem="@layout/home_item_airing_today_tv_shows" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
