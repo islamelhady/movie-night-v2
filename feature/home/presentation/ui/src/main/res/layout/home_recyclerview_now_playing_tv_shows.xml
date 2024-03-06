@@ -10,7 +10,7 @@
 
         <variable
             name="adapterRecycler"
-            type="com.elhady.ui.home.adapters.TVSeriesAdapter" />
+            type="com.elhady.ui.home.adapters.OnTheAirAdapter" />
 
         <import type="com.elhady.viewmodel.home.ShowMoreType"/>
     </data>

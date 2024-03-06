@@ -3,24 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="com.elhady.movies.domain.enums.SeeAllType"/>
+        <import type="com.elhady.viewmodel.home.ShowMoreType"/>
 
         <variable
             name="listener"
-            type="com.elhady.ui.home.adapters.TVSeriesInteractionListener"/>
+            type="com.elhady.viewmodel.home.homeUiState.HomeListener"/>
 
         <variable
             name="topRated"
-            type="com.elhady.viewmodel.models.MediaUiState" />
+            type="com.elhady.viewmodel.home.homeUiState.TVShowsListsUiState" />
 
         <variable
             name="popular"
-            type="com.elhady.viewmodel.models.MediaUiState" />
+            type="com.elhady.viewmodel.home.homeUiState.TVShowsListsUiState" />
 
         <variable
             name="latest"
-            type="com.elhady.viewmodel.models.MediaUiState" />
-
+            type="com.elhady.viewmodel.home.homeUiState.TVShowsListsUiState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -47,7 +46,7 @@
             android:layout_marginStart="@dimen/spacing_medium"
             android:background="@color/brand_color"
             app:movieImage="@{topRated.imageUrl}"
-            android:onClick="@{() -> listener.onClickAllTVSeries(SeeAllType.TOP_RATED_TV)}"
+            android:onClick="@{() -> listener.onClickShowMore(ShowMoreType.TOP_RATED_TV_SHOW)}"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="@+id/image_popular"
             app:layout_constraintEnd_toStartOf="@+id/image_latest"
@@ -75,7 +74,7 @@
             android:background="@color/brand_color"
             android:scaleType="centerCrop"
             app:movieImage="@{latest.imageUrl}"
-            android:onClick="@{ () -> listener.onClickAllTVSeries(SeeAllType.LATEST_TV)}"
+            android:onClick="@{ () -> listener.onClickShowMore(ShowMoreType.LATEST_TV_SHOW)}"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
@@ -102,7 +101,7 @@
             android:background="@color/brand_color"
             app:movieImage="@{popular.imageUrl}"
             android:scaleType="centerCrop"
-            android:onClick="@{ () -> listener.onClickAllTVSeries(SeeAllType.POPULAR_TV)}"
+            android:onClick="@{ () -> listener.onClickShowMore(ShowMoreType.POPULAR_TV_SHOW)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@+id/image_latest"

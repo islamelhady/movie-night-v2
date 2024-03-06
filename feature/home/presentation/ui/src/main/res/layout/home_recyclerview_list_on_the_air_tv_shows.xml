@@ -10,11 +10,9 @@
 
         <variable
             name="adapterRecycler"
-            type="com.elhady.ui.home.adapters.MovieAdapter" />
+            type="com.elhady.ui.home.adapters.OnTheAirAdapter" />
 
-        <variable
-            name="movieType"
-            type="com.elhady.movies.domain.enums.SeeAllType" />
+        <import type="com.elhady.viewmodel.home.ShowMoreType"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,11 +27,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
-            android:text="@{movieType.value}"
+            android:text="@{ShowMoreType.ON_THE_AIR_TV_SHOW.value}"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Upcoming"/>
+            tools:text="TV shows"/>
 
 
         <TextView
@@ -44,7 +42,7 @@
             android:layout_marginEnd="@dimen/spacing_too_small"
             android:layout_marginBottom="@dimen/spacing_too_small"
             android:text="@string/see_all"
-            android:onClick="@{() -> adapterRecycler.listener.onClickSeeAllMovies(movieType)}"
+            android:onClick="@{() -> adapterRecycler.listener.onClickAllTVSeries(ShowMoreType.ON_THE_AIR_TV_SHOW)}"
             android:textColor="@color/brand_color"
             app:drawableEndCompat="@drawable/ic_arrow_forward"
             android:gravity="center"
@@ -67,7 +65,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title"
-            tools:listitem="@layout/item_movie" />
+            tools:listitem="@layout/home_item_on_the_air_tv_show" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="listener"
-            type="com.elhady.ui.home.adapters.MovieInteractionListener" />
+            type="com.elhady.viewmodel.home.homeUiState.HomeListener" />
 
         <variable
             name="item"
-            type="com.elhady.viewmodel.models.MediaUiState" />
+            type="com.elhady.viewmodel.home.homeUiState.TrendingMoviesUiState" />
 
     </data>
 

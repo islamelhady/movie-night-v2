@@ -5,10 +5,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.elhady.base.BaseAdapter
 import com.elhady.base.BaseInteractionListener
-import com.elhady.ui.adapter.MediaAdapter
-import com.elhady.ui.adapter.MediaInteractionListener
 import com.elhady.ui.R
 import com.elhady.ui.home.HomeItem
+import com.elhady.viewmodel.home.ShowMoreType
+import com.elhady.viewmodel.home.homeUiState.HomeListener
+import com.elhady.viewmodel.home.homeUiState.MoviesUiState
 
 class HomeAdapter(
     private var homeItems: List<HomeItem>,
@@ -44,74 +45,75 @@ class HomeAdapter(
             is HomeItem.PopularMovieSlider -> {
                 holder.binding.setVariable(
                     BR.adapterRecycler,
-                    PopularMovieAdapter(currentHomeItem.items, listener as MovieInteractionListener)
+                    PopularMovieAdapter(currentHomeItem.items, listener as HomeListener)
                 )
             }
 
-            is HomeItem.Upcoming -> {
+            is HomeItem.UpcomingMovies -> {
                 bindMovie(holder, currentHomeItem.items, currentHomeItem.type)
             }
 
-            is HomeItem.Trending -> {
+            is HomeItem.TrendingMovies -> {
                bindMovie(holder, currentHomeItem.items, currentHomeItem.type)
             }
 
-            is HomeItem.NowPlaying -> {
-               bindMovie(holder, currentHomeItem.items, currentHomeItem.type)
+            is HomeItem.NowPlayingMovies -> {
+               holder.binding.setVariable(BR.adapterRecycler, NowPlayingAdapter(currentHomeItem.items, listener as HomeListener))
+                holder.binding.setVariable(BR.movieType, currentHomeItem.type)
             }
 
-            is HomeItem.TopRated -> {
+            is HomeItem.TopRatedMovies -> {
               bindMovie(holder, currentHomeItem.items, currentHomeItem.type)
             }
 
-            is HomeItem.OnTheAirSeries -> {
+            is HomeItem.OnTheAirTvShows -> {
                 holder.binding.setVariable(
                     BR.adapterRecycler,
-                    TVSeriesAdapter(currentHomeItem.items, listener as TVSeriesInteractionListener, R.layout.item_tv_show)
+                    OnTheAirAdapter(currentHomeItem.items, listener as HomeListener)
                 )
                 holder.binding.setVariable(BR.movieType, currentHomeItem.type)
             }
 
-            is HomeItem.AiringTodaySeries -> {
+            is HomeItem.AiringTodayTvShows -> {
                 holder.binding.setVariable(
                     BR.adapterRecycler,
-                    MediaAdapter(
+                    AiringTodayAdapter(
                         currentHomeItem.items.take(6),
-                        listener as MediaInteractionListener, R.layout.item_airing_today
+                        listener as HomeListener
                     )
                 )
                 holder.binding.setVariable(BR.count, currentHomeItem.items.size)
             }
 
-            is HomeItem.TVSeriesLists -> {
+            is HomeItem.TvShowsLists -> {
                 holder.binding.run {
                     if (currentHomeItem.items.isNotEmpty()) {
                         holder.binding.setVariable(BR.topRated, currentHomeItem.items.first())
                         holder.binding.setVariable(BR.popular, currentHomeItem.items[1])
                         holder.binding.setVariable(BR.latest, currentHomeItem.items.last())
-                        holder.binding.setVariable(BR.listener, listener as TVSeriesInteractionListener)
+                        holder.binding.setVariable(BR.listener, listener as HomeListener)
                     }
                 }
             }
 
-            is HomeItem.Mystery -> {
+            is HomeItem.MysteryMovies -> {
                 bindMovie(holder, currentHomeItem.items, currentHomeItem.type)
             }
 
-            is HomeItem.Adventure -> {
+            is HomeItem.AdventureMovies -> {
                 bindMovie(holder,currentHomeItem.items, currentHomeItem.type)
             }
 
-            is HomeItem.Actor -> {
-                holder.binding.setVariable(BR.adapterRecycler, ActorAdapter(currentHomeItem.items, listener as ActorInteractionListener, R.layout.item_actor))
-                holder.binding.setVariable(BR.listener, listener as HomeInteractionListener)
+            is HomeItem.PopularActor -> {
+                holder.binding.setVariable(BR.adapterRecycler, PopularActorAdapter(currentHomeItem.items, listener as HomeListener))
+                holder.binding.setVariable(BR.listener, listener)
             }
         }
     }
 
-    private fun bindMovie(holder: ItemViewHolder, items: List<MediaUiState>, type: SeeAllType){
+    private fun bindMovie(holder: ItemViewHolder, items: List<MoviesUiState>, type: ShowMoreType){
         holder.binding.run {
-            setVariable(BR.adapterRecycler, MovieAdapter(items = items, listener = listener as MovieInteractionListener))
+            setVariable(BR.adapterRecycler, MovieAdapter(items = items, listener = listener as HomeListener))
             setVariable(BR.movieType, type)
         }
     }
@@ -126,18 +128,18 @@ class HomeAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (homeItems[position]) {
-            is HomeItem.PopularMovieSlider -> R.layout.list_popular_movie
-            is HomeItem.AiringTodaySeries -> R.layout.list_airing_today
-            is HomeItem.TVSeriesLists -> R.layout.list_tv_series
-            is HomeItem.Actor -> R.layout.list_actors
-            is HomeItem.OnTheAirSeries -> R.layout.list_series
-            is HomeItem.Upcoming,
-            is HomeItem.Trending,
-            is HomeItem.NowPlaying,
-            is HomeItem.TopRated,
-            is HomeItem.Mystery,
-            is HomeItem.Adventure,
-            -> R.layout.list_movie
+            is HomeItem.PopularMovieSlider -> R.layout.home_recyclerview_popular_movie_slider
+            is HomeItem.AiringTodayTvShows -> R.layout.home_recyclerview_list_airing_today_tv_shows
+            is HomeItem.TvShowsLists -> R.layout.home_recyclerview_list_tv_shows
+            is HomeItem.PopularActor -> R.layout.home_recyclerview_popular_actors
+            is HomeItem.OnTheAirTvShows -> R.layout.home_recyclerview_list_on_the_air_tv_shows
+            is HomeItem.NowPlayingMovies -> R.layout.home_recyclerview_now_playing_tv_shows
+            is HomeItem.UpcomingMovies,
+            is HomeItem.TrendingMovies,
+            is HomeItem.TopRatedMovies,
+            is HomeItem.MysteryMovies,
+            is HomeItem.AdventureMovies,
+            -> R.layout.home_recyclerview_list_movies
         }
     }
 

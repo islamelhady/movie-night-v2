@@ -1,6 +1,6 @@
 package com.elhady.viewmodel.home.homeUiState
 
-import com.elhady.usecase.seeAllMedia.ShowMoreType
+import com.elhady.viewmodel.home.ShowMoreType
 
 
 sealed interface HomeUiEvent {

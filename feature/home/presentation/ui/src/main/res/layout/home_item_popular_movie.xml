@@ -6,18 +6,18 @@
     <data>
         <variable
             name="item"
-            type="com.elhady.viewmodel.models.PopularUiState" />
+            type="com.elhady.viewmodel.home.homeUiState.PopularMoviesUiState" />
 
         <variable
             name="listener"
-            type="com.elhady.ui.home.adapters.MovieInteractionListener" />
+            type="com.elhady.viewmodel.home.homeUiState.HomeListener" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="@{() -> listener.onClickMovie(item.movieId)}"
+        android:onClick="@{() -> listener.onClickMovie(item.id)}"
         android:paddingVertical="@dimen/spacing_small">
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/spacing_too_small"
             android:gravity="start|center"
-            android:text="@{String.valueOf(item.movieRate)}"
+            android:text="@{String.valueOf(item.rate)}"
             android:textColor="@color/yellow"
             app:drawableStartCompat="@drawable/ic_star_filled"
             android:drawableTint="@color/yellow"

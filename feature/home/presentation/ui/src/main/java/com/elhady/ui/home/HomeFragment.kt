@@ -3,17 +3,16 @@ package com.elhady.ui.home
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.elhady.base.BaseFragment
 import com.elhady.ui.R
 import com.elhady.ui.databinding.FragmentHomeBinding
 import com.elhady.ui.home.adapters.HomeAdapter
 import com.elhady.viewmodel.home.HomeViewModel
+import com.elhady.viewmodel.home.ShowMoreType
 import com.elhady.viewmodel.home.homeUiState.HomeUiEvent
 import com.elhady.viewmodel.home.homeUiState.HomeUiState
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>() {
@@ -25,34 +24,35 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setTitle(true)
-        setupAdapter()
-        collectHomeData()
+//        setTitle(true)
+        setAdapter()
+        collectHomeDataChanges()
     }
 
-    private fun setupAdapter() {
+    private fun setAdapter() {
         homeAdapter = HomeAdapter(mutableListOf(), viewModel)
         binding.recyclerView.adapter = homeAdapter
     }
 
-    private fun collectHomeData() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collect { items ->
+    private fun collectHomeDataChanges() {
+        collectLatest {
+            viewModel.state.collect { state ->
                 homeAdapter.setItems(
                     mutableListOf(
-                        HomeItem.PopularMovieSlider(items.popularMovieSlider),
-                        HomeItem.Upcoming(items.upcomingMovie),
-                        HomeItem.Trending(items.trendingMovie),
-                        HomeItem.NowPlaying(items.nowPlayingMovie),
-                        HomeItem.TopRated(items.topRatedMovie),
-                        HomeItem.OnTheAirSeries(items.onTheAirSeries),
-                        HomeItem.AiringTodaySeries(items.airingTodaySeries),
-                        HomeItem.TVSeriesLists(items.tvSeriesLists),
-                        HomeItem.Mystery(items.mysteryMovies),
-                        HomeItem.Adventure(items.adventureMovies),
-                        HomeItem.Actor(items.popularPeople)
+                        HomeItem.PopularMovieSlider(state.popularMovieSlider),
+                        HomeItem.UpcomingMovies(state.upcomingMovie),
+                        HomeItem.TrendingMovies(state.trendingMovie),
+                        HomeItem.NowPlayingMovies(state.nowPlayingMovie),
+                        HomeItem.TopRatedMovies(state.topRatedMovie),
+                        HomeItem.OnTheAirTvShows(state.onTheAirTVShows),
+                        HomeItem.AiringTodayTvShows(state.airingTodayTVShows),
+                        HomeItem.TvShowsLists(state.tvShowsLists),
+                        HomeItem.MysteryMovies(state.mysteryMovies),
+                        HomeItem.AdventureMovies(state.adventureMovies),
+                        HomeItem.PopularActor(state.popularActor)
                     )
                 )
+                binding.recyclerView.smoothScrollToPosition(0)
             }
         }
     }
@@ -62,14 +62,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>
             is HomeUiEvent.ClickMovieEvent -> {
                 findNavController().navigate(
                     HomeFragmentDirections.actionHomeFragmentToMovieDetailsFragment(
-                        event.movieID
+                        event.id
                     )
                 )
             }
 
-            is HomeUiEvent.ClickSeeAllMoviesEvent -> navigateToSeeAllMovies(event.mediaType)
+            is HomeUiEvent.ClickShowMoreEvent -> navigateToShowMoreMovies(event.mediaType)
 
-            is HomeUiEvent.ClickSeeAllActorsEvent -> {
+            is HomeUiEvent.ClickShowMoreEvent -> {
                 findNavController().navigate(
                     HomeFragmentDirections.actionHomeFragmentToActorsFragment()
                 )
@@ -77,45 +77,45 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>
 
             is HomeUiEvent.ClickActorEvent -> {
                 findNavController().navigate(
-                    HomeFragmentDirections.actionHomeFragmentToActorDetailsFragment(event.actorID)
+                    HomeFragmentDirections.actionHomeFragmentToActorDetailsFragment(event.id)
                 )
             }
 
-            is HomeUiEvent.ClickSeriesEvent -> {
+            is HomeUiEvent.ClickTVShowEvent -> {
                 findNavController().navigate(
-                    HomeFragmentDirections.actionHomeFragmentToTvShowDetailsFragment(event.mediaID)
+                    HomeFragmentDirections.actionHomeFragmentToTvShowDetailsFragment(event.id)
                 )
             }
 
-            is HomeUiEvent.ClickSeeAllSeriesEvent ->  navigateToSeeAllTvShow(event.mediaType)
+            is HomeUiEvent.ClickShowMoreEvent ->  navigateToShowMoreTvShow(event.mediaType)
         }
     }
 
-    private fun navigateToSeeAllMovies(type: SeeAllType) {
+    private fun navigateToShowMoreMovies(type: ShowMoreType) {
        when(type){
-           SeeAllType.UPCOMING_MOVIE -> {
+           ShowMoreType.UPCOMING_MOVIES -> {
                findNavController().navigate(HomeFragmentDirections
-                   .actionHomeFragmentToAllMediaFragment(SeeAllType.UPCOMING_MOVIE,-1))
+                   .actionHomeFragmentToAllMediaFragment(ShowMoreType.UPCOMING_MOVIES,-1))
            }
-           SeeAllType.TRENDING_MOVIE -> {
+           ShowMoreType.TRENDING_MOVIES -> {
                findNavController().navigate(HomeFragmentDirections
-                   .actionHomeFragmentToAllMediaFragment(SeeAllType.TRENDING_MOVIE,-1))
+                   .actionHomeFragmentToAllMediaFragment(ShowMoreType.TRENDING_MOVIES,-1))
            }
-           SeeAllType.NOW_PLAYING_MOVIE -> {
+           ShowMoreType.NOW_PLAYING_MOVIES -> {
                findNavController().navigate(HomeFragmentDirections
-                   .actionHomeFragmentToAllMediaFragment(SeeAllType.NOW_PLAYING_MOVIE,-1))
+                   .actionHomeFragmentToAllMediaFragment(ShowMoreType.NOW_PLAYING_MOVIES,-1))
            }
-           SeeAllType.TOP_RATED_MOVIE -> {
+           ShowMoreType.TOP_RATED_MOVIES -> {
                findNavController().navigate(HomeFragmentDirections
-                   .actionHomeFragmentToAllMediaFragment(SeeAllType.TOP_RATED_MOVIE,-1))
+                   .actionHomeFragmentToAllMediaFragment(ShowMoreType.TOP_RATED_MOVIES,-1))
            }
-           SeeAllType.MYSTERY_MOVIE -> {
+           ShowMoreType.MYSTERY_MOVIES -> {
                findNavController().navigate(HomeFragmentDirections
-                   .actionHomeFragmentToAllMediaFragment(SeeAllType.MYSTERY_MOVIE,-1))
+                   .actionHomeFragmentToAllMediaFragment(ShowMoreType.MYSTERY_MOVIES,-1))
            }
-           SeeAllType.ADVENTURE_MOVIE -> {
+           ShowMoreType.ADVENTURE_MOVIES -> {
                findNavController().navigate(HomeFragmentDirections
-                   .actionHomeFragmentToAllMediaFragment(SeeAllType.ADVENTURE_MOVIE,-1))
+                   .actionHomeFragmentToAllMediaFragment(ShowMoreType.ADVENTURE_MOVIES,-1))
            }
 
            else -> {
@@ -125,23 +125,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>
 
     }
 
-    private fun navigateToSeeAllTvShow(type: SeeAllType){
+    private fun navigateToShowMoreTvShow(type: ShowMoreType){
         when(type){
-            SeeAllType.TOP_RATED_TV -> {
+            ShowMoreType.TOP_RATED_TV_SHOW -> {
                 findNavController().navigate(HomeFragmentDirections
-                    .actionHomeFragmentToAllMediaFragment(SeeAllType.TOP_RATED_TV,-1))
+                    .actionHomeFragmentToAllMediaFragment(ShowMoreType.TOP_RATED_TV_SHOW,-1))
             }
-            SeeAllType.POPULAR_TV -> {
+            ShowMoreType.POPULAR_TV_SHOW -> {
                 findNavController().navigate(HomeFragmentDirections
-                    .actionHomeFragmentToAllMediaFragment(SeeAllType.POPULAR_TV,-1))
+                    .actionHomeFragmentToAllMediaFragment(ShowMoreType.POPULAR_TV_SHOW,-1))
             }
-            SeeAllType.LATEST_TV -> {
+            ShowMoreType.LATEST_TV_SHOW -> {
                 findNavController().navigate(HomeFragmentDirections
-                    .actionHomeFragmentToAllMediaFragment(SeeAllType.LATEST_TV,-1))
+                    .actionHomeFragmentToAllMediaFragment(ShowMoreType.LATEST_TV_SHOW,-1))
             }
-            SeeAllType.ON_THE_AIR_TV -> {
+            ShowMoreType.ON_THE_AIR_TV_SHOW -> {
                 findNavController().navigate(HomeFragmentDirections
-                    .actionHomeFragmentToAllMediaFragment(SeeAllType.ON_THE_AIR_TV,-1))
+                    .actionHomeFragmentToAllMediaFragment(ShowMoreType.ON_THE_AIR_TV_SHOW,-1))
             }
             else -> {}
         }

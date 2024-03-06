@@ -1,17 +1,12 @@
 package com.elhady.ui.home.adapters
 
 import com.elhady.base.BaseAdapter
-import com.elhady.base.BaseInteractionListener
 import com.elhady.ui.R
-import com.elhady.viewmodel.models.MediaUiState
+import com.elhady.viewmodel.home.homeUiState.HomeListener
+import com.elhady.viewmodel.home.homeUiState.MoviesUiState
 
 
-class MovieAdapter(items: List<MediaUiState>, val listener: MovieInteractionListener) :
-    BaseAdapter<MediaUiState>(items, listener) {
-    override val layoutID: Int = R.layout.item_movie
-}
-
-interface MovieInteractionListener : BaseInteractionListener {
-    fun onClickMovie(movieID: Int)
-    fun onClickSeeAllMovies(mediaType: SeeAllType)
+class MovieAdapter(items: List<MoviesUiState>, val listener: HomeListener) :
+    BaseAdapter<MoviesUiState>(items, listener) {
+    override val layoutID: Int = R.layout.home_item_movie
 }

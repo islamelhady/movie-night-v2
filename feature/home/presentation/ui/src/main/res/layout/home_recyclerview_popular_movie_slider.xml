@@ -28,7 +28,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:usePagerSnapHelper="@{true}"
-            tools:listitem="@layout/item_popular_movie" />
+            tools:listitem="@layout/home_item_popular_movie" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

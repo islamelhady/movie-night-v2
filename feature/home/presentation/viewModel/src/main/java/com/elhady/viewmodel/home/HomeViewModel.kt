@@ -17,7 +17,6 @@ import com.elhady.usecase.home.actor.GetPopularActorUseCase
 import com.elhady.usecase.home.series.GetAiringTodaySeriesUseCase
 import com.elhady.usecase.home.series.GetOnTheAirSeriesUseCase
 import com.elhady.usecase.home.series.GetTVSeriesListsUseCase
-import com.elhady.usecase.seeAllMedia.ShowMoreType
 import com.elhady.viewmodel.home.homeUiState.AdventureMoviesUiState
 import com.elhady.viewmodel.home.homeUiState.AiringTodayTVShowsUiState
 import com.elhady.viewmodel.home.homeUiState.HomeListener
@@ -265,7 +264,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onSuccessPopularPersons(items: List<PopularActorUiState>) {
-        _state.update { it.copy(popularPeople = items, isLoading = false, onErrors = emptyList()) }
+        _state.update { it.copy(popularActor = items, isLoading = false, onErrors = emptyList()) }
     }
 
     private fun onError(error: Throwable){
@@ -275,15 +274,15 @@ class HomeViewModel @Inject constructor(
     }
 
 
-    override fun onClickMovieDetails(id: Int) {
+    override fun onClickMovie(id: Int) {
         sendEvent(HomeUiEvent.ClickMovieEvent(id))
     }
 
-    override fun onClickTVShowDetails(id: Int) {
+    override fun onClickTVShow(id: Int) {
         sendEvent(HomeUiEvent.ClickTVShowEvent(id))
     }
 
-    override fun onClickActorDetails(id: Int) {
+    override fun onClickActor(id: Int) {
         sendEvent(HomeUiEvent.ClickActorEvent(id))
     }
 
