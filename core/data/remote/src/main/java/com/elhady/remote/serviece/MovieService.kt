@@ -2,28 +2,33 @@ package com.elhady.remote.serviece
 
 import com.elhady.remote.response.auth.RequestTokenResponse
 import com.elhady.remote.response.auth.SessionResponse
-import com.elhady.remote.BaseResponse
-import com.elhady.remote.PersonDto
+import com.elhady.remote.response.DataWrapperResponse
+import com.elhady.remote.ActorRemoteDto
 import com.elhady.remote.TrendingTimeWindow
+import com.elhady.remote.request.LoginRequest
 import com.elhady.remote.response.AddListResponse
 import com.elhady.remote.response.AddMovieDto
 import com.elhady.remote.response.CreatedListDto
 import com.elhady.remote.response.CreditsDto
 import com.elhady.remote.response.FavListDto
+import com.elhady.remote.response.GenresWrapperResponse
 import com.elhady.remote.response.RatedMovieDto
 import com.elhady.remote.response.RatedSeriesDto
+import com.elhady.remote.response.StatusResponse
 import com.elhady.remote.response.StatusResponseDto
 import com.elhady.remote.response.TrendingDto
 import com.elhady.remote.response.account.AccountDto
-import com.elhady.remote.response.dto.MovieDto
-import com.elhady.remote.response.genre.GenreResponse
-import com.elhady.remote.response.movie.MovieDetailsDto
+import com.elhady.remote.response.actor.MovieCreditsDto
+import com.elhady.remote.response.dto.MovieRemoteDto
+import com.elhady.remote.response.genre.GenreMovieRemoteDto
+import com.elhady.remote.response.movieDetails.MovieDetailsDto
 import com.elhady.remote.response.review.ReviewDto
-import com.elhady.remote.response.series.SeasonDto
-import com.elhady.remote.response.series.SeriesDetailsDto
-import com.elhady.remote.response.series.SeriesDto
+import com.elhady.remote.response.dto.tvShowDetails.SeasonDto
+import com.elhady.remote.response.dto.tvShowDetails.SeriesDetailsDto
+import com.elhady.remote.response.dto.TVShowsRemoteDto
 import com.elhady.remote.response.video.VideoDto
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FieldMap
@@ -43,16 +48,16 @@ interface MovieService {
      * * Now Playing
      */
     @GET("movie/popular")
-    suspend fun getPopularMovies(@Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
+    suspend fun getPopularMovies(@Query("page") page: Int = 1): Response<DataWrapperResponse<MovieRemoteDto>>
 
     @GET("movie/upcoming")
-    suspend fun getUpcomingMovies(@Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
+    suspend fun getUpcomingMovies(@Query("page") page: Int = 1): Response<DataWrapperResponse<MovieRemoteDto>>
 
     @GET("movie/top_rated")
-    suspend fun getTopRatedMovies(@Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
+    suspend fun getTopRatedMovies(@Query("page") page: Int = 1): Response<DataWrapperResponse<MovieRemoteDto>>
 
     @GET("movie/now_playing")
-    suspend fun getNowPlayingMovies(@Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
+    suspend fun getNowPlayingMovies(@Query("page") page: Int = 1): Response<DataWrapperResponse<MovieRemoteDto>>
 
 
     /**
@@ -62,26 +67,26 @@ interface MovieService {
      * * People
      */
     @GET("trending/all/{time_window}")
-    suspend fun getTrending(@Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value): Response<BaseResponse<TrendingDto>>
+    suspend fun getTrending(@Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value): Response<DataWrapperResponse<TrendingDto>>
 
     @GET("trending/movie/{time_window}")
-    suspend fun getTrendingMovie(@Path("time_window") timeWindow: String = TrendingTimeWindow.WEEK.value, @Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
+    suspend fun getTrendingMovie(@Path("time_window") timeWindow: String = TrendingTimeWindow.WEEK.value, @Query("page") page: Int = 1): Response<DataWrapperResponse<MovieRemoteDto>>
 
     @GET("trending/person/{time_window}")
     suspend fun getTrendingPerson(
         @Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value,
         @Query("page") page: Int = 1
-    ): Response<BaseResponse<PersonDto>>
+    ): Response<DataWrapperResponse<ActorRemoteDto>>
 
 
     /**
      *  PEOPLE LISTS
      */
     @GET("person/popular")
-    suspend fun getPopularPerson(@Query("page") page: Int = 1): Response<BaseResponse<PersonDto>>
+    suspend fun getPopularPerson(@Query("page") page: Int = 1): Response<DataWrapperResponse<ActorRemoteDto>>
 
     @GET("person/{person_id}")
-    suspend fun getPersonsDetails(@Path("person_id") actorID: Int): Response<PersonDto>
+    suspend fun getPersonsDetails(@Path("person_id") actorID: Int): Response<ActorRemoteDto>
 
     @GET("person/{person_id}/movie_credits")
     suspend fun getPersonMovies(@Path("person_id") actorID: Int): Response<MovieCreditsDto>
@@ -92,10 +97,10 @@ interface MovieService {
      * * Series
      */
     @GET("genre/movie/list")
-    suspend fun getGenreMovies(): Response<GenreResponse>
+    suspend fun getListOfGenresForMovies(): Response<GenresWrapperResponse<GenreMovieRemoteDto>>
 
     @GET("genre/tv/list")
-    suspend fun getGenreSeries(): Response<GenreResponse>
+    suspend fun getGenreSeries(): Response<GenresWrapperResponse<GenreMovieRemoteDto>>
 
     /**
      * Movies
@@ -110,7 +115,7 @@ interface MovieService {
     suspend fun getMovieCast(@Path("movie_id") movieId: Int): Response<CreditsDto>
 
     @GET("movie/{movie_id}/similar")
-    suspend fun getSimilarMovie(@Path("movie_id") movieId: Int): Response<BaseResponse<MovieDto>>
+    suspend fun getSimilarMovie(@Path("movie_id") movieId: Int): Response<DataWrapperResponse<MovieRemoteDto>>
 
     /**
      * TV SERIES
@@ -126,7 +131,7 @@ interface MovieService {
     suspend fun getSeriesCast(@Path("series_id") seriesId: Int): Response<CreditsDto>
 
     @GET("tv/{series_id}/similar")
-    suspend fun getSimilarSeries(@Path("series_id") seriesId: Int): Response<BaseResponse<SeriesDto>>
+    suspend fun getSimilarSeries(@Path("series_id") seriesId: Int): Response<DataWrapperResponse<TVShowsRemoteDto>>
 
     /**
      *  TV SEASONS
@@ -142,10 +147,10 @@ interface MovieService {
      * * series
      */
     @GET("movie/{movie_id}/reviews")
-    suspend fun getMovieReview(@Path("movie_id") movieId: Int): Response<BaseResponse<ReviewDto>>
+    suspend fun getMovieReview(@Path("movie_id") movieId: Int): Response<DataWrapperResponse<ReviewDto>>
 
     @GET("tv/{series_id}/reviews")
-    suspend fun getSeriesReview(@Path("series_id") seriesId: Int): Response<BaseResponse<ReviewDto>>
+    suspend fun getSeriesReview(@Path("series_id") seriesId: Int): Response<DataWrapperResponse<ReviewDto>>
 
 
     /**
@@ -156,16 +161,16 @@ interface MovieService {
      * * Top Rated
      */
     @GET("tv/airing_today")
-    suspend fun getAiringTodayTV(): Response<BaseResponse<SeriesDto>>
+    suspend fun getAiringTodayTV(@Query("page") page: Int = 1): Response<DataWrapperResponse<TVShowsRemoteDto>>
 
     @GET("tv/on_the_air")
-    suspend fun getOnTheAirTV(@Query("page") page: Int = 1): Response<BaseResponse<SeriesDto>>
+    suspend fun getOnTheAirTV(@Query("page") page: Int = 1): Response<DataWrapperResponse<TVShowsRemoteDto>>
 
     @GET("tv/popular")
-    suspend fun getPopularTV(@Query("page") page: Int =1): Response<BaseResponse<SeriesDto>>
+    suspend fun getPopularTV(@Query("page") page: Int =1): Response<DataWrapperResponse<TVShowsRemoteDto>>
 
     @GET("tv/top_rated")
-    suspend fun getTopRatedTV(@Query("page") page: Int = 1): Response<BaseResponse<SeriesDto>>
+    suspend fun getTopRatedTV(@Query("page") page: Int = 1): Response<DataWrapperResponse<TVShowsRemoteDto>>
 
     /**
      *   DISCOVER
@@ -175,14 +180,14 @@ interface MovieService {
      * * Series TV by Genre
      */
     @GET("discover/movie")
-    suspend fun getAllMovies(@Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
+    suspend fun getAllMovies(@Query("page") page: Int = 1): Response<DataWrapperResponse<MovieRemoteDto>>
     @GET("discover/movie")
-    suspend fun getMoviesListByGenre(@Query("with_genres") genreID: Int, @Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
+    suspend fun getMoviesListByGenre(@Query("with_genres") genreID: Int, @Query("page") page: Int = 1): Response<DataWrapperResponse<MovieRemoteDto>>
 
     @GET("discover/tv")
-    suspend fun getAllSeries(@Query("page") page: Int = 1): Response<BaseResponse<SeriesDto>>
+    suspend fun getAllSeries(@Query("page") page: Int = 1): Response<DataWrapperResponse<TVShowsRemoteDto>>
     @GET("discover/tv")
-    suspend fun getSeriesByGenre(@Query("with_genres") genreID: Int ,@Query("page") page: Int = 1): Response<BaseResponse<SeriesDto>>
+    suspend fun getSeriesByGenre(@Query("with_genres") genreID: Int ,@Query("page") page: Int = 1): Response<DataWrapperResponse<TVShowsRemoteDto>>
 
 
     /**
@@ -192,13 +197,13 @@ interface MovieService {
      * * Actors
      */
     @GET("search/movie")
-    suspend fun searchForMovies(@Query("query") query: String, @Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
+    suspend fun searchForMovies(@Query("query") query: String, @Query("page") page: Int = 1): Response<DataWrapperResponse<MovieRemoteDto>>
 
     @GET("search/tv")
-    suspend fun searchForSeries(@Query("query") query: String, @Query("page") page: Int = 1): Response<BaseResponse<SeriesDto>>
+    suspend fun searchForSeries(@Query("query") query: String, @Query("page") page: Int = 1): Response<DataWrapperResponse<TVShowsRemoteDto>>
 
     @GET("search/person")
-    suspend fun searchForActors(@Query("query") query: String, @Query("page") page: Int = 1): Response<BaseResponse<PersonDto>>
+    suspend fun searchForActors(@Query("query") query: String, @Query("page") page: Int = 1): Response<DataWrapperResponse<ActorRemoteDto>>
 
     /**
      * Video
@@ -222,24 +227,24 @@ interface MovieService {
     suspend fun getAccountDetails(@Query("session_id") sessionId: String? = ""): Response<AccountDto>
 
     @GET("account/{account_id}/rated/movies")
-    suspend fun getRatedMovie(@Path("account_id") accountId: Int = 0): Response<BaseResponse<RatedMovieDto>>
+    suspend fun getRatedMovie(@Path("account_id") accountId: Int = 0): Response<DataWrapperResponse<RatedMovieDto>>
 
     @FormUrlEncoded
     @POST("movie/{movie_id}/rating")
-    suspend fun setRateMovie(@Path("movie_id") movieId: Int, @Field("value") rating: Float): Response<RatingDto>
+    suspend fun setRateMovie(@Path("movie_id") movieId: Int, @Field("value") rating: Float): Response<StatusResponse>
 
     @DELETE("movie/{movie_id}/rating")
-    suspend fun deleteRatingMovie(@Path("movie_id") movieId: Int): Response<RatingDto>
+    suspend fun deleteRatingMovie(@Path("movie_id") movieId: Int): Response<StatusResponse>
 
     @FormUrlEncoded
     @POST("tv/{tv_id}/rating")
-    suspend fun setRatingSeries( @Path("tv_id") seriesId: Int, @Field("value") rating: Float): Response<RatingDto>
+    suspend fun setRatingSeries( @Path("tv_id") seriesId: Int, @Field("value") rating: Float): Response<StatusResponse>
 
     @DELETE("tv/{tv_id}/rating")
-    suspend fun deleteRatingSeries(@Path("tv_id") seriesId: Int): Response<RatingDto>
+    suspend fun deleteRatingSeries(@Path("tv_id") seriesId: Int): Response<StatusResponse>
 
     @GET("account/{account_id}/rated/tv")
-    suspend fun getRatedTvShow(@Path("account_id") listId: Int = 0): Response<BaseResponse<RatedSeriesDto>>
+    suspend fun getRatedTvShow(@Path("account_id") listId: Int = 0): Response<DataWrapperResponse<RatedSeriesDto>>
 
     /**
      * List
@@ -260,7 +265,7 @@ interface MovieService {
     suspend fun getCreatedList(
         @Path("account_id") accountId: Int = 0,
         @Query("session_id") sessionId: String
-    ): Response<BaseResponse<CreatedListDto>>
+    ): Response<DataWrapperResponse<CreatedListDto>>
 
     @GET("list/{list_id}")
     suspend fun getList(@Path("list_id") listId: Int): Response<FavListDto>
@@ -280,12 +285,12 @@ interface MovieService {
      * * Create Session
      */
     @GET("authentication/token/new")
-    suspend fun getRequestToken(): Response<RequestTokenResponse>
+    suspend fun createRequestToken(): Response<RequestTokenResponse>
 
     @JvmSuppressWildcards
     @FormUrlEncoded
     @POST("authentication/token/validate_with_login")
-    suspend fun validateRequestTokenWithLogin(@FieldMap body: Map<String, Any>): Response<RequestTokenResponse>
+    suspend fun login(@Body loginRequest: LoginRequest): Response<RequestTokenResponse>
 
     @FormUrlEncoded
     @POST("authentication/session/new")

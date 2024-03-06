@@ -16,7 +16,7 @@ class AccountRepositoryImp @Inject constructor(
             "password" to password,
             "request_token" to token
         ).toMap()
-        return wrapApiCall { movieService.validateRequestTokenWithLogin(body) }
+        return wrapApiCall { movieService.login(body) }
             .requestToken?.let { createSession(it); true } ?: false
     }
 
@@ -33,7 +33,7 @@ class AccountRepositoryImp @Inject constructor(
     }
 
     private suspend fun getRequestToken(): String {
-        val tokenResponse = movieService.getRequestToken()
+        val tokenResponse = movieService.createRequestToken()
         return tokenResponse.body()?.requestToken.toString()
     }
 
