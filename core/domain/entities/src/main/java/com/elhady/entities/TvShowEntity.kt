@@ -5,4 +5,5 @@ data class TvShowEntity(
     val name: String,
     val imageUrl: String,
     val rate: Double,
+    val tvShowGenreEntities: List<GenreEntity>
 )

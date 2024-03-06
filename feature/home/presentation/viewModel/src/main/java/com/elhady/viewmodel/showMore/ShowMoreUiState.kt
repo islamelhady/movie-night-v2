@@ -16,6 +16,7 @@ data class ShowMoreUiState(
     val showMorePopularTvShows: Flow<PagingData<ShowMoreUi>> = emptyFlow(),
     val showMoreMysteryMovies: Flow<PagingData<ShowMoreUi>> = emptyFlow(),
     val showMoreAdventureMovies: Flow<PagingData<ShowMoreUi>> = emptyFlow(),
+    val showMoreUpcomingMovies: Flow<PagingData<ShowMoreUi>> = emptyFlow(),
     val showMorePopularActorMovies: Flow<PagingData<ShowMoreUi>> = emptyFlow(),
     val showMoreType: ShowMoreType = ShowMoreType.LATEST_TV_SHOW,
     val isLoading: Boolean = false,
@@ -41,12 +42,12 @@ data class ShowMoreUiState(
 }
 
 data class ShowMoreUi(
-    val id: Int,
-    val name: String,
-    val imageUrl: String,
-    val year: String,
-    val genreEntities: String,
-    val rate: Double,
+    val id: Int = 0,
+    val name: String = "",
+    val imageUrl: String = "",
+    val year: String = "",
+    val genreEntities: String = "",
+    val rate: Double = 0.0,
 ){
     fun formattedRate(): Double = (rate * 10.0).roundToInt() / 10.0
 }
