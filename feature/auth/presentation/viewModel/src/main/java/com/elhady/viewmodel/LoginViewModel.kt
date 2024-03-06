@@ -25,10 +25,6 @@ class LoginViewModel @Inject constructor(
 ) : BaseViewModel<LoginUiState, LoginUiEvent>(LoginUiState()) {
 
 
-    override fun getData() {
-        TODO("Not yet implemented")
-    }
-
     fun onUserNameInputChange(username: CharSequence) {
         val usernameFieldState = validateUsernameFieldUseCase(username.toString())
         _state.update {
