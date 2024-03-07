@@ -6,11 +6,11 @@
     <data>
         <variable
             name="item"
-            type="com.elhady.viewmodel.models.MediaUiState" />
+            type="com.elhady.viewmodel.showMore.ShowMoreUi" />
 
         <variable
             name="listener"
-            type="com.elhady.ui.adapter.MediaInteractionListener" />
+            type="com.elhady.viewmodel.showMore.ShowMoreListener" />
 
 
     </data>
