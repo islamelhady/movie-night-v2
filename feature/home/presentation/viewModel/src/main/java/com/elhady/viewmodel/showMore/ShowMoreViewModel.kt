@@ -5,8 +5,6 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.elhady.base.BaseViewModel
-import com.elhady.usecase.showMore.CheckMediaTypeUseCase
-import com.elhady.usecase.showMore.GetAllMediaByTypeUseCase
 import com.elhady.usecase.showMore.actor.GetMorePopularActorByTypeUseCase
 import com.elhady.usecase.showMore.movies.GetMoreAdventureMoviesByTypeUseCase
 import com.elhady.usecase.showMore.movies.GetMoreMysteryMoviesByTypeUseCase
@@ -40,8 +38,6 @@ class ShowMoreViewModel @Inject constructor(
     private val getMoreLatestTvShowsByTypeUseCase: GetMoreLatestTvShowsByTypeUseCase,
     private val getMoreTopRatedTvShowsByTypeUseCase: GetMoreTopRatedTvShowsByTypeUseCase,
     private val getMorePopularTvShowsByTypeUseCase: GetMorePopularTvShowsByTypeUseCase,
-    private val getAllMediaByTypeUseCase: GetAllMediaByTypeUseCase,
-    private val checkMediaTypeUseCase: CheckMediaTypeUseCase,
     private val showMoreMoviesUiMapper: ShowMoreMoviesUiMapper,
     private val showMoreActorsUiMapper: ShowMoreActorsUiMapper,
     private val showMoreTvShowsUiMapper: ShowMoreTvShowsUiMapper
@@ -309,11 +305,11 @@ class ShowMoreViewModel @Inject constructor(
     }
 
     override fun onClickMedia(mediaId: Int) {
-        if (checkMediaTypeUseCase(args.type)) {
-            sendEvent(SeeAllMediaUiEvent.ClickSeriesEvent(mediaId))
-        } else {
-            sendEvent(SeeAllMediaUiEvent.ClickMovieEvent(mediaId))
-        }
+//        if (checkMediaTypeUseCase(args.type)) {
+//            sendEvent(SeeAllMediaUiEvent.ClickSeriesEvent(mediaId))
+//        } else {
+//            sendEvent(SeeAllMediaUiEvent.ClickMovieEvent(mediaId))
+//        }
     }
 
     override fun backNavigate() {
