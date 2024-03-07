@@ -82,7 +82,7 @@
             app:layout_constraintHeight_percent=".70"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:movieImage="@{viewModel.state.movieDetailsResult.image}"
+            app:movieImage="@{viewModel.state.headerDetailsResult.image}"
             tools:src="@drawable/login_movie" />
 
         <View
@@ -103,8 +103,8 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:lines="1"
-            showWhenTextNotEmpty="@{viewModel.state.movieDetailsResult.name}"
-            android:text="@{viewModel.state.movieDetailsResult.name}"
+            showWhenTextNotEmpty="@{viewModel.state.headerDetailsResult.name}"
+            android:text="@{viewModel.state.headerDetailsResult.name}"
             app:layout_constraintBottom_toBottomOf="@id/movie_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

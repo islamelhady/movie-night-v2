@@ -1,10 +1,6 @@
 package com.elhady.remote.response.movieDetails
 
-
-import com.elhady.remote.response.SpokenLanguageDto
-import com.elhady.remote.response.genre.GenreMovieRemoteDto
 import com.google.gson.annotations.SerializedName
-import java.util.Date
 
 data class MovieDetailsDto(
     @SerializedName("adult")
@@ -15,8 +11,10 @@ data class MovieDetailsDto(
     val belongsToCollection: Any?,
     @SerializedName("budget")
     val budget: Int?,
+    @SerializedName("credits")
+    val credits: Credits?,
     @SerializedName("genres")
-    val genres: List<GenreMovieRemoteDto?>?,
+    val genres: List<Genre>?,
     @SerializedName("homepage")
     val homepage: String?,
     @SerializedName("id")
@@ -33,14 +31,20 @@ data class MovieDetailsDto(
     val popularity: Double?,
     @SerializedName("poster_path")
     val posterPath: String?,
+    @SerializedName("production_companies")
+    val productionCompanies: List<ProductionCompany>?,
+    @SerializedName("production_countries")
+    val productionCountries: List<ProductionCountry>?,
+    @SerializedName("recommendations")
+    val recommendations: Recommendations?,
     @SerializedName("release_date")
-    val releaseDate: Date?,
+    val releaseDate: String?,
     @SerializedName("revenue")
-    val revenue: Int?,
+    val revenue: Long?,
     @SerializedName("runtime")
     val runtime: Int?,
     @SerializedName("spoken_languages")
-    val spokenLanguages: List<SpokenLanguageDto>?,
+    val spokenLanguages: List<SpokenLanguage>?,
     @SerializedName("status")
     val status: String?,
     @SerializedName("tagline")
@@ -49,8 +53,12 @@ data class MovieDetailsDto(
     val title: String?,
     @SerializedName("video")
     val video: Boolean?,
+    @SerializedName("videos")
+    val videos: Videos?,
     @SerializedName("vote_average")
     val voteAverage: Double?,
     @SerializedName("vote_count")
-    val voteCount: Int?
+    val voteCount: Int?,
+    @SerializedName("reviews")
+    val reviews: ReviewsDto?
 )

@@ -18,7 +18,6 @@ import com.elhady.remote.response.StatusResponse
 import com.elhady.remote.response.StatusResponseDto
 import com.elhady.remote.response.TrendingDto
 import com.elhady.remote.response.profile.ProfileRemoteDto
-import com.elhady.remote.response.actor.MovieCreditsDto
 import com.elhady.remote.response.dto.MovieRemoteDto
 import com.elhady.remote.response.genre.GenreMovieRemoteDto
 import com.elhady.remote.response.movieDetails.MovieDetailsDto

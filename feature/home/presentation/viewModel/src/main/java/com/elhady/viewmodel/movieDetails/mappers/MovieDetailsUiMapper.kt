@@ -1,13 +1,12 @@
-package com.elhady.viewmodel.mappers
+package com.elhady.viewmodel.movieDetails.mappers
 
+import com.elhady.entities.MovieDetailsEntity
 import com.elhady.mapper.Mapper
 import com.elhady.viewmodel.movieDetails.HeaderDetailsUiState
 import javax.inject.Inject
 
-class MovieDetailsUiMapper @Inject constructor() : Mapper<MovieDetails, HeaderDetailsUiState> {
-
-
-    override fun map(input: MovieDetails): HeaderDetailsUiState {
+class MovieDetailsUiMapper @Inject constructor() : Mapper<MovieDetailsEntity, HeaderDetailsUiState> {
+    override fun map(input: MovieDetailsEntity): HeaderDetailsUiState {
 
         val duration = formatMovieDuration(input.duration)
 
