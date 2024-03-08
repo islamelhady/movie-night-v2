@@ -41,6 +41,7 @@ android {
 dependencies {
     implementation(project(":core:base"))
     implementation(project(":feature:home:presentation:viewModel"))
+    implementation(project(":feature:auth:presentation:ui"))
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -67,5 +68,18 @@ dependencies {
 
     // Paging
     implementation("androidx.paging:paging-runtime:3.2.1")
+
+    //glide
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    implementation("com.github.amoskorir:avatarimagegenerator:1.5.0")
+
+    /// refresh-layout
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
+    // recycler view decorator
+    implementation("com.github.xabaras:RecyclerViewSwipeDecorator:1.4")
+
+    //youtube player
+    implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0")
 
 }
