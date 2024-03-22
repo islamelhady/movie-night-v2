@@ -1,8 +1,8 @@
-package com.elhady.usecase.showMore.movies
+package com.elhady.movies.core.domain.usecase.usecase.showmore
 
 import androidx.paging.PagingData
-import com.elhady.entities.MovieEntity
-import com.elhady.usecase.repository.MovieRepository
+import com.elhady.movies.core.domain.entities.MovieEntity
+import com.elhady.movies.core.domain.usecase.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
