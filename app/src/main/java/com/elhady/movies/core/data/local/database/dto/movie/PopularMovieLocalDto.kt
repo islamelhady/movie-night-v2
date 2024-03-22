@@ -1,13 +1,14 @@
-package com.elhady.local.database.dto.movies
+package com.elhady.movies.core.data.local.database.dto.movie
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "POPULAR_MOVIE_TABLE")
 data class PopularMovieLocalDto(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = false)
+    val id: Int,
     val imageUrl: String,
+    val rate: Double,
     val title: String,
-    val movieRate: Double,
-    val genres: List<String>
 )
+

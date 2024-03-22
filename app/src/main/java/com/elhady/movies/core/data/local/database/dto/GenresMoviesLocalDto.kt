@@ -1,4 +1,4 @@
-package com.elhady.local.database.dto
+package com.elhady.movies.core.data.local.database.dto
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
