@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.elhady.movies.presentation.viewmodel.showmore.ShowMoreType"/>
+
+        <variable
+            name="item"
+            type="com.elhady.movies.presentation.ui.home.HomeItem.TvShow" />
+
+        <variable
+            name="airingTodayTv"
+            type="com.elhady.movies.presentation.viewmodel.home.TvShowUiState" />
+
+        <variable
+            name="topRatedTv"
+            type="com.elhady.movies.presentation.viewmodel.home.TvShowUiState" />
+
+        <variable
+            name="popularTv"
+            type="com.elhady.movies.presentation.viewmodel.home.TvShowUiState" />
+
+        <variable
+            name="onTheAirTv"
+            type="com.elhady.movies.presentation.viewmodel.home.TvShowUiState" />
+
+
+        <variable
+            name="listener"
+            type="com.elhady.movies.presentation.viewmodel.home.HomeListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:hideWhenNoResult="@{item.list}">
+
+        <TextView
+            android:id="@+id/text_tvShow_title"
+            style="@style/TextStyle.TitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_show"
+            android:textColor="@color/on_background_87"
+            android:layout_marginStart="@dimen/spacing_medium_16dp"
+            android:layout_marginTop="@dimen/spacing_medium_16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_top_rated"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+            android:layout_marginStart="@dimen/spacing_medium_16dp"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/image_latest"
+            app:layout_constraintBottom_toBottomOf="@+id/image_popular"
+            app:layout_constraintEnd_toStartOf="@+id/image_latest"
+            app:imageUrl="@{topRatedTv.imageUrl}" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+            android:onClick="@{() -> listener.onClickShowMore(ShowMoreType.TOP_RATED_TV)}"
+            android:background="@drawable/gradient_background"
+            app:layout_constraintStart_toStartOf="@id/image_top_rated"
+            app:layout_constraintBottom_toBottomOf="@+id/image_top_rated"
+            app:layout_constraintEnd_toEndOf="@id/image_top_rated"
+            app:layout_constraintTop_toTopOf="@id/image_top_rated"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/text_top_rated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="2dp"
+            android:layout_margin="@dimen/spacing_medium_16dp"
+            android:text="@string/top_rated"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/image_top_rated"
+            app:layout_constraintStart_toStartOf="@+id/image_top_rated" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_latest"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+            android:layout_marginHorizontal="@dimen/spacing_medium_16dp"
+            android:layout_marginTop="@dimen/spacing_small_8dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/image_top_rated"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_tvShow_title"
+            app:imageUrl="@{airingTodayTv.imageUrl}"/>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:onClick="@{() -> listener.onClickShowMore(ShowMoreType.AIRING_TODAY_TV)}"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+            android:background="@drawable/gradient_background"
+            app:layout_constraintBottom_toBottomOf="@+id/image_latest"
+            app:layout_constraintEnd_toEndOf="@id/image_latest"
+            app:layout_constraintStart_toStartOf="@id/image_latest"
+            app:layout_constraintTop_toTopOf="@id/image_latest"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/text_air_today"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="2dp"
+            android:layout_margin="@dimen/spacing_small_8dp"
+            android:text="Air Today"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/image_latest"
+            app:layout_constraintStart_toStartOf="@+id/image_latest" />
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_popular"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+            android:layout_marginTop="@dimen/spacing_medium_16dp"
+            android:layout_marginBottom="@dimen/spacing_medium_16dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="@+id/image_latest"
+            app:layout_constraintEnd_toEndOf="@+id/image_latest"
+            app:layout_constraintTop_toBottomOf="@+id/image_latest"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:imageUrl="@{popularTv.imageUrl}"/>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+            android:onClick="@{() -> listener.onClickShowMore(ShowMoreType.POPULAR_TV)}"
+            android:background="@drawable/gradient_background"
+            app:layout_constraintBottom_toBottomOf="@+id/image_popular"
+            app:layout_constraintEnd_toEndOf="@id/image_popular"
+            app:layout_constraintStart_toStartOf="@id/image_popular"
+            app:layout_constraintTop_toTopOf="@id/image_popular"
+            tools:src="@tools:sample/avatars"
+            />
+
+        <TextView
+            android:id="@+id/text_popular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="2dp"
+            android:layout_margin="@dimen/spacing_small_8dp"
+            android:text="@string/popular"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/image_popular"
+            app:layout_constraintStart_toStartOf="@+id/image_popular" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

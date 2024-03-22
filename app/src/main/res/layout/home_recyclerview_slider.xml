@@ -4,28 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="viewModel"
-            type="com.elhady.viewmodel.profile.ratings.RatingViewModel" />
 
+        <variable
+            name="item"
+            type="com.elhady.movies.presentation.ui.home.HomeItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.profile.ratings.RatingFragment">
+        android:layout_height="wrap_content">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_my_rating"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:items="@{ viewModel.state.ratedList}"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingHorizontal="@dimen/spacing_x_medium_20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/item_my_rated"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
