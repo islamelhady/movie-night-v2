@@ -1,4 +1,4 @@
-package com.elhady.base
+package com.elhady.movies.core.bases
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,16 +6,17 @@ import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.elhady.databinding.ItemLoaderBinding
+import com.elhady.movies.databinding.ItemFooterBinding
+import dagger.hilt.android.scopes.FragmentScoped
 
-//@FragmentScoped
-class BaseLoadAdapter(
+@FragmentScoped
+class BaseFooterAdapter(
     private val retry: () -> Unit
-) : LoadStateAdapter<BaseLoadAdapter.FooterViewHolder>() {
+) : LoadStateAdapter<BaseFooterAdapter.FooterViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState) =
         FooterViewHolder(
-            ItemLoaderBinding.inflate(
+            ItemFooterBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -26,7 +27,7 @@ class BaseLoadAdapter(
         holder.bind(loadState)
 
 
-    inner class FooterViewHolder(private val binding: ItemLoaderBinding) :
+    inner class FooterViewHolder(val binding: ItemFooterBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.buttonRetry.setOnClickListener {

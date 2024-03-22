@@ -1,17 +1,20 @@
-package com.elhady.base
+package com.elhady.movies.core.bases
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModel
-import com.elhady.BR
+import com.elhady.movies.BR
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
+abstract class BaseBottomSheet<VDB : ViewDataBinding>
+    : BottomSheetDialogFragment() {
 
-abstract class BaseDialog<VDB : ViewDataBinding> : DialogFragment() {
+    @get:LayoutRes
     abstract val layoutIdFragment: Int
     abstract val viewModel: ViewModel
 

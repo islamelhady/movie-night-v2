@@ -1,10 +1,10 @@
-package com.elhady.base
+package com.elhady.movies.core.bases
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.elhady.mapper.Mapper
+import com.elhady.movies.core.mapper.Mapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -17,12 +17,10 @@ import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<STATE, EVENT>(initialState: STATE) : ViewModel() {
 
-    protected val _state: MutableStateFlow<STATE> by lazy {
-        MutableStateFlow(initialState)
-    }
+    protected val _state: MutableStateFlow<STATE> by lazy { MutableStateFlow(initialState) }
     val state = _state.asStateFlow()
 
-    private val _event = MutableSharedFlow<EVENT>()
+    protected val _event = MutableSharedFlow<EVENT>()
     val event = _event.asSharedFlow()
 
     protected fun <T> tryToExecute(

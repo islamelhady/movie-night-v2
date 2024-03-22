@@ -1,8 +1,8 @@
-package com.elhady.repository
+package com.elhady.movies.core.data.repository
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.elhady.remote.serviece.MovieService
+import com.elhady.movies.core.data.remote.service.MovieService
 import java.io.IOException
 
 abstract class BasePagingSource<Value : Any>(
