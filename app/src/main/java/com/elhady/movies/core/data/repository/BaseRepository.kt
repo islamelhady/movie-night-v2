@@ -13,23 +13,6 @@ import java.net.UnknownHostException
 
 abstract class BaseRepository {
 
-//    protected suspend fun <T> wrapApiCall(call: suspend () -> Response<T>): T {
-//        return try {
-//            val result = call()
-//            if (result.code() == UNAUTHORIZED_CODE) {
-//                throw UnauthorizedThrowable()
-//            }
-//            if (result.code() == TIMEOUT_CODE) {
-//                throw TimeoutThrowable()
-//            }
-//            result.body() ?: throw ParsingThrowable()
-//        } catch (e: UnknownHostException) {
-//            throw NoNetworkThrowable()
-//        } catch (e: Exception) {
-//            throw ApiThrowable(e.message)
-//        }
-//    }
-
     protected suspend fun <T> wrapApiCall(call: suspend () -> Response<T>): T {
         return try {
             val result = call()
@@ -65,13 +48,13 @@ abstract class BaseRepository {
                     clearOldLocalData?.invoke()
                     databaseSaver(it.map { item -> localMapper(item) })
                 }
-        } catch (_: Throwable) {
+        } catch (throwable: Throwable) {
+            throw ApiThrowable(throwable.message)
         }
     }
 
     private companion object {
         const val UNAUTHORIZED_CODE = 401
-
         const val OK = 200 // The request has succeeded.
         const val CREATED = 201 // A new resource has been created as a result of the request.
         const val NO_CONTENT = 204 // The server successfully processed the request, but is not returning any content.
