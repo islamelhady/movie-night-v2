@@ -1,16 +1,16 @@
-package com.elhady.repository.showMore
+package com.elhady.movies.core.data.repository.showmore
 
-import com.elhady.entities.MovieEntity
-import com.elhady.local.database.dao.MovieDao
-import com.elhady.remote.serviece.MovieService
-import com.elhady.repository.BasePagingSource
-import com.elhady.repository.mappers.domain.DomainGenreMapper
-import com.elhady.repository.mappers.domain.movie.DomainPopularMovieMapperShowMore
+import com.elhady.movies.core.data.local.database.MovieDao
+import com.elhady.movies.core.data.remote.service.MovieService
+import com.elhady.movies.core.data.repository.BasePagingSource
+import com.elhady.movies.core.data.repository.mappers.domain.DomainGenreMapper
+import com.elhady.movies.core.data.repository.mappers.domain.movie.DomainPopularMovieShowMoreMapper
+import com.elhady.movies.core.domain.entities.MovieEntity
 import javax.inject.Inject
 
 class PopularMoviesShowMorePagingSource @Inject constructor(
     service: MovieService,
-    private val mapper: DomainPopularMovieMapperShowMore,
+    private val mapper: DomainPopularMovieShowMoreMapper,
     private val domainGenreMapper: DomainGenreMapper,
     private val movieDao: MovieDao,
 

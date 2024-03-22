@@ -1,16 +1,16 @@
-package com.chocolatecake.repository.mappers.domain.showmore
+package com.elhady.movies.core.data.repository.showmore
 
-import com.chocolatecake.entities.MovieEntity
-import com.chocolatecake.local.database.MovieDao
-import com.chocolatecake.remote.service.MovieService
-import com.chocolatecake.repository.BasePagingSource
-import com.chocolatecake.repository.mappers.domain.DomainGenreMapper
-import com.chocolatecake.repository.mappers.domain.movie.DomainTrendingMovieMapperShowMore
+import com.elhady.movies.core.data.local.database.MovieDao
+import com.elhady.movies.core.data.remote.service.MovieService
+import com.elhady.movies.core.data.repository.BasePagingSource
+import com.elhady.movies.core.data.repository.mappers.domain.DomainGenreMapper
+import com.elhady.movies.core.data.repository.mappers.domain.movie.DomainTrendingMovieShowMoreMapper
+import com.elhady.movies.core.domain.entities.MovieEntity
 import javax.inject.Inject
 
 class TrendingShowMorePagingSource @Inject constructor(
     service: MovieService,
-    private val mapper: DomainTrendingMovieMapperShowMore,
+    private val mapper: DomainTrendingMovieShowMoreMapper,
     private val domainGenreMapper: DomainGenreMapper,
     private val movieDao: MovieDao,
 ) : BasePagingSource<MovieEntity>(service) {
