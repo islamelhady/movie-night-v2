@@ -1,39 +1,36 @@
 package com.elhady.movies.di
 
-import com.elhady.repository.AuthRepositoryImp
-import com.elhady.repository.ActorRepositoryImp
-import com.elhady.repository.MovieRepositoryImp
-import com.elhady.repository.SeriesRepositoryImp
-import com.elhady.usecase.repository.AuthRepository
-import com.elhady.usecase.repository.ActorRepository
-import com.elhady.usecase.repository.MovieRepository
-import com.elhady.usecase.repository.SeriesRepository
+import com.elhady.movies.core.data.repository.MovieRepositoryImpl
+import com.elhady.movies.core.data.repository.TvShowRepositoryImp
+import com.elhady.movies.core.data.repository.WatchHistoryRepositoryImpl
+import com.elhady.movies.core.data.repository.auth.AuthRepositoryImpl
+import com.elhady.movies.core.domain.usecase.repository.AuthRepository
+import com.elhady.movies.core.domain.usecase.repository.MovieRepository
+import com.elhady.movies.core.domain.usecase.repository.TvShowRepository
+import com.elhady.movies.core.domain.usecase.repository.WatchHistoryRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
-import dagger.hilt.components.SingletonComponent
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ViewModelComponent::class)
 abstract class RepositoryModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun provideMovieRepository(movieRepositoryImp: MovieRepositoryImp): MovieRepository
-
-
-    @Binds
-    @ViewModelScoped
-    abstract fun bindSeriesRepository(seriesRepositoryImp: SeriesRepositoryImp): SeriesRepository
-
+    abstract fun bindAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
 
     @Binds
     @ViewModelScoped
-    abstract fun bindActorRepository(actorRepositoryImp: ActorRepositoryImp): ActorRepository
-
+    abstract fun bindMovieRepository(movieRepositoryImpl: MovieRepositoryImpl): MovieRepository
 
     @Binds
     @ViewModelScoped
-    abstract fun bindAccountRepository(accountRepositoryImp: AuthRepositoryImp): AuthRepository
+    abstract fun bindTvShowRepository(tvShowRepositoryImp: TvShowRepositoryImp): TvShowRepository
+
+    @Binds
+    @ViewModelScoped abstract fun bindWatchHistoryRepository(watchHistoryRepositoryImpl: WatchHistoryRepositoryImpl): WatchHistoryRepository
+
 }

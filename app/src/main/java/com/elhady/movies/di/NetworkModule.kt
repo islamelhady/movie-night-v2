@@ -1,14 +1,14 @@
 package com.elhady.movies.di
 
-import com.elhady.local.Constants
-import com.elhady.remote.serviece.AuthInterceptor
-import com.elhady.remote.serviece.MovieService
-import com.google.gson.Gson
+import com.elhady.movies.core.data.remote.service.AuthInterceptor
+import com.elhady.movies.core.data.remote.service.MovieService
+import com.elhady.movies.core.data.repository.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -19,38 +19,44 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideMovieService(
-        client: OkHttpClient,
-        gsonConverterFactory: GsonConverterFactory
-    ): MovieService {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
-            .client(client)
-            .addConverterFactory(gsonConverterFactory)
-            .build()
-
+    fun provideMovieService(retrofit: Retrofit): MovieService {
         return retrofit.create(MovieService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(interceptor: AuthInterceptor): OkHttpClient {
-        return OkHttpClient.Builder().addInterceptor(interceptor).build()
+    fun provideRetrofit(
+        client: OkHttpClient,
+        gsonConverter: GsonConverterFactory
+    ): Retrofit{
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(gsonConverter)
+            .client(client)
+            .build()
     }
 
     @Provides
     @Singleton
-    fun provideGsonConverterFactory(): GsonConverterFactory {
+    fun provideClient(
+        authInterceptor: AuthInterceptor,
+        loggingInterceptor: HttpLoggingInterceptor
+    ): OkHttpClient{
+       return OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
+            .addInterceptor(loggingInterceptor)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor{
+        return HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
+    }
+
+    @Provides
+    @Singleton
+    fun provideGsonConverterFactory(): GsonConverterFactory{
         return GsonConverterFactory.create()
     }
-
-//    @Provides
-//    @Singleton
-//    fun provideAuthInterceptor(): AuthInterceptor {
-//        return AuthInterceptor()
-//    }
-
-    @Provides
-    @Singleton
-    fun provideGson():Gson = Gson()
 }

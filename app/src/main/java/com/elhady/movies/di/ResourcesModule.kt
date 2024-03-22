@@ -1,9 +1,9 @@
 package com.elhady.movies.di
 
-import com.elhady.base.NavigationRes
-import com.elhady.base.StringsRes
-import com.elhady.movies.resoursesHelper.NavigationResImp
-import com.elhady.movies.resoursesHelper.StringResImp
+import com.elhady.movies.core.bases.NavigationRes
+import com.elhady.movies.core.bases.StringsRes
+import com.elhady.movies.core.resourses_helper.NavigationResImpl
+import com.elhady.movies.core.resourses_helper.StringsResImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,11 +16,9 @@ abstract class ResourcesModule {
 
     @Binds
     @Singleton
-    abstract fun bindNavigationRes(navigationResImp: NavigationResImp): NavigationRes
-
+    abstract fun bindStringsRes(stringsResImpl: StringsResImpl): StringsRes
 
     @Binds
     @Singleton
-    abstract fun bindStringsRes(stringResImp: StringResImp): StringsRes
-
+    abstract fun bindNavigationRes(navigationResImpl: NavigationResImpl): NavigationRes
 }
