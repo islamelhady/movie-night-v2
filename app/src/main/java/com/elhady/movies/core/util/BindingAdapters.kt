@@ -1,16 +1,18 @@
-package com.elhady.util
+package com.elhady.movies.core.util
 
 import android.annotation.SuppressLint
 import android.app.UiModeManager
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.elhady.R
-import com.elhady.base.BaseAdapter
+import com.elhady.movies.core.bases.BaseAdapter
+import com.elhady.movies.R
 import com.google.android.material.progressindicator.LinearProgressIndicator
 
 @BindingAdapter(value = ["app:items"])
@@ -19,6 +21,18 @@ fun <T> RecyclerView.setRecyclerItems(items: List<T>?) {
     smoothScrollToPosition(0)
 }
 
+@BindingAdapter(value = ["app:usePagerSnapHelper"])
+fun usePagerSnapHelperWithRecycler(recycler: RecyclerView, useSnapHelper: Boolean = false) {
+    if (useSnapHelper)
+        PagerSnapHelper().attachToRecyclerView(recycler)
+}
+
+@BindingAdapter(value = ["app:genres"])
+fun setGenres(textView: TextView, genres: List<String>?){
+    genres?.let {
+        textView.text = genres.joinToString(" • ") { it }
+    }
+}
 @BindingAdapter(value = ["app:isVisible"])
 fun View.isVisible(isVisible: Boolean) {
     if (isVisible) {
@@ -62,7 +76,7 @@ fun ImageView.loadImage(imageUrl: String?) {
 
     Glide.with(context)
         .load(imageLink)
-        .thumbnail(Glide.with(context).load(R.raw.dots_loadin))
+        .thumbnail(Glide.with(context).load(R.raw.dots_loading))
         .centerCrop()
         .error(android.R.drawable.stat_notify_error)
         .into(this)
@@ -77,7 +91,7 @@ fun ImageView.loadImageWithPlaceholderColor(imageUri: String?) {
             .into(this)
     } else {
         this.let {
-            this.setBackgroundColor(R.color.color_primary)
+            this.setBackgroundColor(R.color.background)
         }
     }
 }
@@ -89,7 +103,7 @@ fun ImageView.loadProfileImage(profileUrl: String?) {
 
     Glide.with(context)
         .load(imageLink)
-        .thumbnail(Glide.with(context).load(R.raw.dots_loadin))
+        .thumbnail(Glide.with(context).load(R.raw.dots_loading))
         .centerCrop()
         .error(android.R.drawable.stat_notify_error)
         .into(this)
@@ -233,4 +247,14 @@ fun androidx.appcompat.widget.Toolbar.addNavigationListener(onClick: () -> Unit)
         onClick()
 
     }
+}
+
+@BindingAdapter("convertGenderText")
+fun TextView.convertGenderText(gender: String?) {
+    text = when (gender) {
+        "1" -> context.getString(R.string.female)
+        "2" -> context.getString(R.string.male)
+        else -> ""
+    }.takeIf { gender != null } ?: ""
+
 }
