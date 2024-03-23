@@ -1,4 +1,4 @@
-package com.elhady.base
+package com.elhady.movies.core.bases
 
 interface StringsRes {
     val theRequestFailed: String
@@ -10,9 +10,6 @@ interface StringsRes {
     val newListAddSuccessFully: String
     val ratingAddSuccessFully: String
     val someThingErrorWhenAddRating: String
-    val easy:String
-    val medium:String
-    val hard:String
     val watchlist:String
     val favourite:String
     val popularMovies:String
@@ -22,8 +19,9 @@ interface StringsRes {
     val popularActors:String
     val adventureMovies:String
     val popularTvShow:String
-    val latestTvShow:String
+    val topRatedTvShow:String
     val onTheAirTvShow:String
+    val airingTodayTvShow:String
     val topRatedMovies:String
     val trendingMovies:String
     val timeOut:String

@@ -1,4 +1,4 @@
-package com.elhady.base
+package com.elhady.movies.core.bases
 
 interface NavigationRes {
     val homeFeatureLink: Int
