@@ -1,4 +1,4 @@
-package com.elhady.movies.core.resourses_helper
+package com.elhady.movies.core.resourseshelper
 
 import android.content.Context
 import androidx.annotation.StringRes
@@ -14,6 +14,8 @@ class StringsResImpl @Inject constructor(
 ) : StringsRes {
     override val theRequestFailed: String = getString(R.string.the_request_failed)
 
+    override val noNetworkConnection: String = getString(R.string.no_network_connection)
+
     override val passwordIsRequired: String = getString(R.string.password_is_required)
 
     override val usernameIsRequired: String = getString(R.string.username_is_required)
@@ -27,6 +29,8 @@ class StringsResImpl @Inject constructor(
     override val newListAddSuccessFully: String = getString(R.string.new_list_was_added_successfully)
 
     override val ratingAddSuccessFully: String = getString(R.string.rating_was_added_successfully)
+
+    override val notLoggedInToRate: String = getString(R.string.your_not_loged_in_to_rate)
 
     override val someThingErrorWhenAddRating: String = getString(R.string.something_went_wrong_please_try_again_later)
 

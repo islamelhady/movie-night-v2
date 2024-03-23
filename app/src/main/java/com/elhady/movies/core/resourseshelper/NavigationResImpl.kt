@@ -1,4 +1,4 @@
-package com.elhady.movies.core.resourses_helper
+package com.elhady.movies.core.resourseshelper
 
 import com.elhady.movies.core.bases.NavigationRes
 import com.elhady.movies.R
