@@ -3,6 +3,7 @@ package com.elhady.movies.core.bases
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import androidx.paging.map
 import com.elhady.movies.core.mapper.Mapper
 import kotlinx.coroutines.CoroutineDispatcher
@@ -73,7 +74,7 @@ abstract class BaseViewModel<STATE, EVENT>(initialState: STATE) : ViewModel() {
 
     protected fun <INPUT : Any, OUTPUT : Any> wrapperPager(
         data: suspend () -> Flow<PagingData<INPUT>>,
-        mapper: (INPUT) -> OUTPUT,
+        mapper: Mapper<INPUT,OUTPUT>,
         onSuccess: (Flow<PagingData<OUTPUT>>) -> Unit,
         onError: (Throwable) -> Unit,
         dispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -81,10 +82,8 @@ abstract class BaseViewModel<STATE, EVENT>(initialState: STATE) : ViewModel() {
         viewModelScope.launch(dispatcher) {
             try {
                 data().map { pagingData ->
-                    pagingData.map {
-                        mapper(it)
-                    }
-                }.also(onSuccess)
+                    pagingData.map (mapper::map)
+                }.cachedIn(viewModelScope).also(onSuccess)
             } catch (th: Throwable) {
                 onError(th)
             }
