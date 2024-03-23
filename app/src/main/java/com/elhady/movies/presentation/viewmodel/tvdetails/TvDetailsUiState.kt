@@ -20,7 +20,7 @@ data class TvDetailsUiState(
     val youtubeKeyId: String = "",
     val userLists: List<UserListUi> = emptyList(),
     val userSelectedLists: List<Int> = emptyList(),
-    val isLogined: Boolean = false,
+    val isLogin: Boolean = false,
 ) {
     val reviewsIsEmpty : Boolean get() = reviews.isEmpty()
     val isFailure: Boolean get() =
@@ -32,7 +32,7 @@ data class TvDetailsUiState(
         val rating: Float = 0.0f,
         val description: String = "",
         val genres: List<String> = emptyList(),
-        val isLogined: Boolean = false,
+        val isLogin: Boolean = false,
         )
 
 }

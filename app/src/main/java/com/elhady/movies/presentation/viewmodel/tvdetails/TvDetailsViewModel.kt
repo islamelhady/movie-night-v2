@@ -69,7 +69,7 @@ class TvDetailsViewModel @Inject constructor(
     }
 
     private fun getData() {
-        _state.update { it.copy(isLogined = checkIsLoginOrNotUseCase()) }
+        _state.update { it.copy(isLogin = checkIsLoginOrNotUseCase()) }
         getTvRecommendations()
         getYoutubeDetails()
         getTvShowInfo()
@@ -106,8 +106,8 @@ class TvDetailsViewModel @Inject constructor(
                     rating = item.info.rating,
                     description = item.info.description,
                     genres = item.info.genres,
-                    isLogined = checkIsLoginOrNotUseCase()
-                ),
+                    isLogin = checkIsLoginOrNotUseCase()
+                )
             )
         }
     }
@@ -330,21 +330,24 @@ class TvDetailsViewModel @Inject constructor(
             call = { createUserListUseCase(listName) },
             onSuccess = ::onCreateUserNewList,
             onError = {
-                sendEvent(TvDetailsUiEvent.onCreateNewList(stringsRes.someThingError))
+                sendEvent(TvDetailsUiEvent.OnCreateNewList(stringsRes.someThingError))
             }
         )
     }
 
     private fun onCreateUserNewList(statusEntity: StatusEntity) {
-        sendEvent(TvDetailsUiEvent.onCreateNewList(stringsRes.newListAddSuccessFully))
+        sendEvent(TvDetailsUiEvent.OnCreateNewList(stringsRes.newListAddSuccessFully))
         getUserLists()
     }
     //endregion
 
     //region events
     override fun onRateButtonClick() {
-        sendEvent(TvDetailsUiEvent.Rate)
-        getRatingTv()
+        if (state.value.isLogin) {
+            sendEvent(TvDetailsUiEvent.RateTvEvent)
+        } else {
+            sendEvent(TvDetailsUiEvent.ShowSnackBar(stringsRes.notLoggedInToRate))
+        }
     }
 
     override fun onClickPeople(id: Int) {
@@ -408,4 +411,16 @@ class TvDetailsViewModel @Inject constructor(
         _state.update { it.copy(errors = emptyList()) }
     }
     //endregion
+
+    fun onApplyRateBottomSheet() {
+        onRatingSubmit()
+    }
+
+    fun updateRatingValue(rate: Float) {
+       updateRatingUiState(rate)
+    }
+
+    fun getUserRating(): Float {
+        return state.value.userRating.div(2)
+    }
 }
