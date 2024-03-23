@@ -2,6 +2,7 @@ package com.elhady.movies.core.data.repository
 
 import com.elhady.movies.core.data.remote.response.DataWrapperResponse
 import com.elhady.movies.core.domain.usecase.repository.ApiThrowable
+import com.elhady.movies.core.domain.usecase.repository.ForbiddenThrowable
 import com.elhady.movies.core.domain.usecase.repository.NoNetworkThrowable
 import com.elhady.movies.core.domain.usecase.repository.ParsingThrowable
 import com.elhady.movies.core.domain.usecase.repository.ServerErrorThrowable
@@ -21,6 +22,7 @@ abstract class BaseRepository {
                 401 -> throw UnauthorizedThrowable()
                 408 -> throw TimeoutThrowable()
                 500 -> throw ServerErrorThrowable()
+                403 -> throw ForbiddenThrowable()
                 // Add more status code checks as needed
                 else -> throw ApiThrowable("Unhandled status code: ${result.code()}")
             }
@@ -54,7 +56,7 @@ abstract class BaseRepository {
     }
 
     private companion object {
-        const val UNAUTHORIZED_CODE = 401
+        const val UNAUTHORIZED_CODE = 401 //  it means the server knows the requested resource exists, but the client is not authorized to access it.
         const val OK = 200 // The request has succeeded.
         const val CREATED = 201 // A new resource has been created as a result of the request.
         const val NO_CONTENT = 204 // The server successfully processed the request, but is not returning any content.

@@ -47,17 +47,19 @@ import com.elhady.movies.core.data.repository.mappers.domain.episode.DomainCastM
 import com.elhady.movies.core.data.repository.mappers.domain.episode.DomainEpisodeDetailsMapper
 import com.elhady.movies.core.data.repository.mappers.domain.episode.DomainRatingEpisodeMapper
 import com.elhady.movies.core.data.repository.mappers.domain.movie.DomainMovieMapper
+import com.elhady.movies.core.data.repository.mappers.domain.movie.DomainMyRatedMoviesDetailsMapper
 import com.elhady.movies.core.data.repository.mappers.domain.movie.DomainNowPlayingMovieMapper
 import com.elhady.movies.core.data.repository.mappers.domain.movie.DomainPopularMovieMapper
 import com.elhady.movies.core.data.repository.mappers.domain.movie.DomainTopRatedMovieMapper
 import com.elhady.movies.core.data.repository.mappers.domain.movie.DomainTrendingMoviesMapper
 import com.elhady.movies.core.data.repository.mappers.domain.movie.DomainTvMapper
 import com.elhady.movies.core.data.repository.mappers.domain.movie.DomainUpcomingMovieMapper
+import com.elhady.movies.core.data.repository.mappers.domain.tv.DomainMyRatedTvShowDetailsMapper
 import com.elhady.movies.core.data.repository.showmore.PopularMoviesShowMorePagingSource
 import com.elhady.movies.core.data.repository.showmore.TopRatedShowMorePagingSource
 import com.elhady.movies.core.data.repository.showmore.TrendingShowMorePagingSource
-import com.elhady.movies.core.data.repository.my_rated.RatedMoviesPagingSource
-import com.elhady.movies.core.data.repository.my_rated.RatedTvShowPagingSource
+import com.elhady.movies.core.data.repository.myrated.RatedMoviesPagingSource
+import com.elhady.movies.core.data.repository.myrated.RatedTvShowPagingSource
 import com.elhady.movies.core.data.repository.tv_shows.AiringTodayTVShowsPagingSource
 import com.elhady.movies.core.data.repository.tv_shows.OnTheAirTVShowsPagingSource
 import com.elhady.movies.core.data.repository.tv_shows.PopularTVShowsPagingSource
@@ -70,17 +72,17 @@ import com.elhady.movies.core.domain.entities.PeopleEntity
 import com.elhady.movies.core.domain.entities.RatingEpisodeDetailsStatusEntity
 import com.elhady.movies.core.domain.entities.SeasonEntity
 import com.elhady.movies.core.domain.entities.StatusEntity
-import com.elhady.movies.core.domain.entities.TvDetailsInfoEntity
+import com.elhady.movies.core.domain.entities.tvdetails.TvDetailsInfoEntity
 import com.elhady.movies.core.domain.entities.TvEntity
 import com.elhady.movies.core.domain.entities.TvShowEntity
 import com.elhady.movies.core.domain.entities.UserListEntity
 import com.elhady.movies.core.domain.entities.YoutubeVideoDetailsEntity
-import com.elhady.movies.core.domain.entities.movieDetails.MovieDetailsEntity
-import com.elhady.movies.core.domain.entities.movieDetails.ReviewEntity
-import com.elhady.movies.core.domain.entities.movieDetails.ReviewResponseEntity
-import com.elhady.movies.core.domain.entities.myList.ListCreatedEntity
-import com.elhady.movies.core.domain.entities.my_rated.MyRatedMovieEntity
-import com.elhady.movies.core.domain.entities.my_rated.MyRatedTvShowEntity
+import com.elhady.movies.core.domain.entities.moviedetails.MovieDetailsEntity
+import com.elhady.movies.core.domain.entities.ReviewEntity
+import com.elhady.movies.core.domain.entities.moviedetails.ReviewResponseEntity
+import com.elhady.movies.core.domain.entities.mylist.ListCreatedEntity
+import com.elhady.movies.core.domain.entities.myrated.MyRatedMovieEntity
+import com.elhady.movies.core.domain.entities.myrated.MyRatedTvShowEntity
 import com.elhady.movies.core.domain.entities.season_details.SeasonDetailsEntity
 import com.elhady.movies.core.domain.usecase.repository.MovieRepository
 import java.util.Random
@@ -136,6 +138,8 @@ class MovieRepositoryImpl @Inject constructor(
     private val domainPeopleDetailsMapper: DomainPeopleDetailsMapper,
     private val domainMoviesByPeopleMapper: DomainMoviesByPeopleMapper,
     private val tvShowsByPeopleMapper: DomainTvShowsByPeopleMapper,
+    private val domainMyRatedMoviesDetailsMapper: DomainMyRatedMoviesDetailsMapper,
+    private val domainMyRatedTvShowDetailsMapper: DomainMyRatedTvShowDetailsMapper
 ) : BaseRepository(), MovieRepository {
 
     /// region showMore
@@ -424,6 +428,10 @@ class MovieRepositoryImpl @Inject constructor(
         })
     }
 
+    override suspend fun getRateTvShow(): List<MyRatedTvShowEntity> {
+        return domainMyRatedTvShowDetailsMapper.map(wrapApiCall { movieService.getRatedTv() }.results?.filterNotNull() ?: emptyList())
+    }
+
 
     //region my list
     override suspend fun getFavoriteMovies(): List<MovieEntity> {
@@ -488,8 +496,14 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun setMovieRate(movieId: Int, rate: Float): StatusEntity {
         return domainStatusMapper.map(wrapApiCall {
-            movieService.setMovieRate(RatingRequest(rate), movieId)
+            movieService.setMovieRate(ratingRequest = RatingRequest(rate), movieId = movieId)
         })
+    }
+
+    override suspend fun getMovieRate(): List<MyRatedMovieEntity> {
+        return domainMyRatedMoviesDetailsMapper.map(
+            wrapApiCall { movieService.getRatedMovies() }.results?.filterNotNull() ?: emptyList()
+        )
     }
 
     override suspend fun getMovieReviews(movieId: Int, page: Int): ReviewResponseEntity {
@@ -537,7 +551,7 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun getTvShowRecommendations(tvShowID: Int): List<TvShowEntity> {
         val call =
-            wrapApiCall { movieService.getTvShowRecomendations(tvShowID) }.results?.filterNotNull()
+            wrapApiCall { movieService.getTvShowRecommendations(tvShowID) }.results?.filterNotNull()
                 ?: emptyList()
         return domainTvShowMapper.map(call)
     }
@@ -693,7 +707,7 @@ class MovieRepositoryImpl @Inject constructor(
 
     /// endregion
 
-    override fun isLoginedOrNot(): Boolean {
+    override fun isLoginOrNot(): Boolean {
         return !preferenceStorage.sessionId.isNullOrBlank()
     }
 

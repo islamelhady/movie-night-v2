@@ -1,22 +1,22 @@
 package com.elhady.movies.core.data.repository.mappers.domain
 
 import com.elhady.movies.core.mapper.Mapper
-import com.elhady.movies.core.data.remote.response.movieDetails.CreditsRemoteDto
-import com.elhady.movies.core.data.remote.response.movieDetails.MovieDetailsRemoteDto
-import com.elhady.movies.core.data.remote.response.movieDetails.RecommendationsRemoteDto
-import com.elhady.movies.core.data.remote.response.movieDetails.ReviewsRemoteDto
-import com.elhady.movies.core.data.remote.response.movieDetails.VideosRemoteDto
+import com.elhady.movies.core.data.remote.response.moviedetails.CreditsRemoteDto
+import com.elhady.movies.core.data.remote.response.moviedetails.MovieDetailsRemoteDto
+import com.elhady.movies.core.data.remote.response.moviedetails.RecommendationsRemoteDto
+import com.elhady.movies.core.data.remote.response.moviedetails.ReviewsRemoteDto
+import com.elhady.movies.core.data.remote.response.moviedetails.VideosRemoteDto
 import com.elhady.movies.core.data.repository.Constants.IMAGE_BASE_PATH
-import com.elhady.movies.core.domain.entities.movieDetails.CastEntity
-import com.elhady.movies.core.domain.entities.movieDetails.CreditsEntity
-import com.elhady.movies.core.domain.entities.movieDetails.CrewEntity
-import com.elhady.movies.core.domain.entities.movieDetails.MovieDetailsEntity
-import com.elhady.movies.core.domain.entities.movieDetails.MovieVideoEntity
-import com.elhady.movies.core.domain.entities.movieDetails.RecommendationsEntity
-import com.elhady.movies.core.domain.entities.movieDetails.RecommendedMovieEntity
-import com.elhady.movies.core.domain.entities.movieDetails.ReviewEntity
-import com.elhady.movies.core.domain.entities.movieDetails.ReviewResponseEntity
-import com.elhady.movies.core.domain.entities.movieDetails.VideosEntity
+import com.elhady.movies.core.domain.entities.moviedetails.CastEntity
+import com.elhady.movies.core.domain.entities.moviedetails.CreditsEntity
+import com.elhady.movies.core.domain.entities.moviedetails.CrewEntity
+import com.elhady.movies.core.domain.entities.moviedetails.MovieDetailsEntity
+import com.elhady.movies.core.domain.entities.moviedetails.MovieVideoEntity
+import com.elhady.movies.core.domain.entities.moviedetails.RecommendationsEntity
+import com.elhady.movies.core.domain.entities.moviedetails.RecommendedMovieEntity
+import com.elhady.movies.core.domain.entities.ReviewEntity
+import com.elhady.movies.core.domain.entities.moviedetails.ReviewResponseEntity
+import com.elhady.movies.core.domain.entities.moviedetails.VideosEntity
 import javax.inject.Inject
 
 class DomainMovieDetailsMapper @Inject constructor() : Mapper<MovieDetailsRemoteDto, MovieDetailsEntity> {

@@ -1,8 +1,8 @@
-package com.elhady.repository.mappers.cash
+package com.elhady.movies.core.data.repository.mappers.cash
 
-import com.elhady.local.database.dto.GenresMoviesLocalDto
-import com.elhady.remote.response.genre.GenreMovieRemoteDto
-import com.elhady.repository.mappers.Mapper
+import com.elhady.movies.core.mapper.Mapper
+import com.elhady.movies.core.data.local.database.dto.GenresMoviesLocalDto
+import com.elhady.movies.core.data.remote.response.dto.GenreMovieRemoteDto
 import javax.inject.Inject
 
 class LocalGenresMovieMapper @Inject constructor() :
