@@ -1,7 +1,7 @@
 package com.elhady.movies.presentation.viewmodel.myrated.mappers
 
 import com.elhady.movies.core.mapper.Mapper
-import com.elhady.movies.core.domain.entities.my_rated.MyRatedMovieEntity
+import com.elhady.movies.core.domain.entities.myrated.MyRatedMovieEntity
 import com.elhady.movies.presentation.viewmodel.common.model.MovieHorizontalUIState
 import javax.inject.Inject
 
