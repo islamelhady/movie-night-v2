@@ -2,6 +2,7 @@ package com.elhady.movies.core.bases
 
 interface StringsRes {
     val theRequestFailed: String
+    val noNetworkConnection: String
     val passwordIsRequired: String
     val usernameIsRequired: String
     val duplicateEntity: String
@@ -9,6 +10,7 @@ interface StringsRes {
     val addSuccessfully: String
     val newListAddSuccessFully: String
     val ratingAddSuccessFully: String
+    val notLoggedInToRate: String
     val someThingErrorWhenAddRating: String
     val watchlist:String
     val favourite:String
