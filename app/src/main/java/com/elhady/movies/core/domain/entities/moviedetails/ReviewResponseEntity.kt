@@ -1,5 +1,7 @@
 package com.elhady.movies.core.domain.entities.moviedetails
 
+import com.elhady.movies.core.domain.entities.ReviewEntity
+
 
 data class ReviewResponseEntity(
     val reviews: List<ReviewEntity> = emptyList(),
