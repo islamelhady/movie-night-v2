@@ -241,13 +241,8 @@ class TvDetailsViewModel @Inject constructor(
 
     private fun onRatingSuccess(statusEntity: StatusEntity) {
         sendEvent(TvDetailsUiEvent.ApplyRating(stringsRes.ratingAddSuccessFully))
-        val item = TvRatingUiMapper().map(statusEntity)
-        _state.update {
-            it.copy(
-                ratingSuccess = item.ratingSuccess
-            )
-        }
-        Log.d("RateTVSuccess", "${state.value.userRating} ${item.id} TV Show Id $tvShowId")
+
+        Log.d("RateTVSuccess", "${state.value.userRating}  TV Show Id $tvShowId")
     }
 
     private fun getRatingTv() {
