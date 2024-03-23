@@ -1,4 +1,4 @@
-package com.elhady.movies.presentation.viewmodel.tv_shows
+package com.elhady.movies.presentation.viewmodel.tvshows
 
 import com.elhady.movies.core.mapper.Mapper
 import com.elhady.movies.core.domain.entities.TVShowsEntity

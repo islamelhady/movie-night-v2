@@ -1,4 +1,4 @@
-package com.elhady.movies.presentation.ui.tv_shows
+package com.elhady.movies.presentation.ui.tvshows
 
 import android.os.Bundle
 import android.view.View
@@ -11,10 +11,10 @@ import com.elhady.movies.R
 import com.elhady.movies.core.bases.BaseFooterAdapter
 import com.elhady.movies.core.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentTvShowsBinding
-import com.elhady.movies.presentation.viewmodel.tv_shows.TVShowUIState
-import com.elhady.movies.presentation.viewmodel.tv_shows.TVShowsUiEvent
-import com.elhady.movies.presentation.viewmodel.tv_shows.TVShowsType
-import com.elhady.movies.presentation.viewmodel.tv_shows.TVShowsViewModel
+import com.elhady.movies.presentation.viewmodel.tvshows.TVShowUIState
+import com.elhady.movies.presentation.viewmodel.tvshows.TVShowsUiEvent
+import com.elhady.movies.presentation.viewmodel.tvshows.TVShowsType
+import com.elhady.movies.presentation.viewmodel.tvshows.TVShowsViewModel
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest

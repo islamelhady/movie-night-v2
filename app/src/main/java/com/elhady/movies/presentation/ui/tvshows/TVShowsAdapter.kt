@@ -1,11 +1,11 @@
-package com.elhady.movies.presentation.ui.tv_shows
+package com.elhady.movies.presentation.ui.tvshows
 
 import androidx.recyclerview.widget.DiffUtil
 import com.elhady.movies.R
 import com.elhady.movies.core.bases.BasePagingAdapter
 import com.elhady.movies.databinding.ItemTvShowBinding
-import com.elhady.movies.presentation.viewmodel.tv_shows.TVShowsListener
-import com.elhady.movies.presentation.viewmodel.tv_shows.TVShowsUI
+import com.elhady.movies.presentation.viewmodel.tvshows.TVShowsListener
+import com.elhady.movies.presentation.viewmodel.tvshows.TVShowsUI
 
 class TVShowsAdapter(listener: TVShowsListener) :
     BasePagingAdapter<TVShowsUI, ItemTvShowBinding>(Comparator, listener) {

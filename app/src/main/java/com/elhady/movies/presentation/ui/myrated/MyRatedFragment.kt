@@ -9,7 +9,7 @@ import com.elhady.movies.R
 import com.elhady.movies.core.bases.BaseFooterAdapter
 import com.elhady.movies.core.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentMyRatedBinding
-import com.elhady.movies.presentation.ui.tv_shows.collectLast
+import com.elhady.movies.presentation.ui.tvshows.collectLast
 import com.elhady.movies.presentation.viewmodel.myrated.MyRatedEvents
 import com.elhady.movies.presentation.viewmodel.myrated.MyRatedUiState
 import com.elhady.movies.presentation.viewmodel.myrated.MyRatedViewModel

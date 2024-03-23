@@ -1,8 +1,8 @@
-package com.elhady.movies.presentation.ui.tv_shows
+package com.elhady.movies.presentation.ui.tvshows
 
 import androidx.databinding.BindingAdapter
 import com.elhady.movies.R
-import com.elhady.movies.presentation.viewmodel.tv_shows.TVShowsType
+import com.elhady.movies.presentation.viewmodel.tvshows.TVShowsType
 import com.google.android.material.chip.ChipGroup
 
 @BindingAdapter(value = ["app:selectedTVShowType"])
