@@ -9,9 +9,10 @@ import com.elhady.movies.databinding.TvDetailsItemBotomSheetBinding
 import com.elhady.movies.presentation.viewmodel.tvdetails.TvDetailsViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class RateBottomSheet :
+class RateTvDetailsBottomSheet :
     BaseBottomSheet<TvDetailsItemBotomSheetBinding>() {
     override val layoutIdFragment: Int = R.layout.tv_details_item_botom_sheet
     override val viewModel by activityViewModels<TvDetailsViewModel>()

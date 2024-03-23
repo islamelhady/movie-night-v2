@@ -22,7 +22,7 @@ class TvDetailsFragment :
     BaseFragment<FragmentTvDetailsBinding, TvDetailsUiState, TvDetailsUiEvent>(),
     BottomSheetDismissListener, WatchlistFavouriteListener {
 
-    private lateinit var rateBottomSheet: RateBottomSheet
+    private lateinit var rateBottomSheet: RateTvDetailsBottomSheet
     private lateinit var addToWatchlistFavouriteBottomSheet: SaveTvShowToListBottomSheet
     private lateinit var tvDetailsAdapter: TvDetailsAdapter
     private val args: TvDetailsFragmentArgs by navArgs()
@@ -38,7 +38,10 @@ class TvDetailsFragment :
 
     override fun onEvent(event: TvDetailsUiEvent) {
         when (event) {
-            is TvDetailsUiEvent.Rate -> checkIsLoggedInOrNot()
+            is TvDetailsUiEvent.RateTvEvent -> {
+                showRateBottomSheet()
+            }
+
             is TvDetailsUiEvent.OnPersonClick -> {
                 findNavController()
                     .navigate(
@@ -64,7 +67,7 @@ class TvDetailsFragment :
             is TvDetailsUiEvent.PlayButton -> navigateToTrailerFragment(event.youtubeKey)
             is TvDetailsUiEvent.OnSaveButtonClick -> showAddToWatchlistFavouriteBottomSheet()
             is TvDetailsUiEvent.OnDoneAdding -> showSnackBar(event.message)
-            is TvDetailsUiEvent.onCreateNewList -> showSnackBar(event.message)
+            is TvDetailsUiEvent.OnCreateNewList -> showSnackBar(event.message)
             is TvDetailsUiEvent.OnFavourite -> showSnackBar(event.message)
             is TvDetailsUiEvent.OnWatchList -> showSnackBar(event.message)
             is TvDetailsUiEvent.ShowSnackBar -> showSnackBar(event.message)
@@ -72,14 +75,6 @@ class TvDetailsFragment :
         }
     }
 
-    private fun checkIsLoggedInOrNot() {
-        val isLoggedIn = viewModel.state.value.isLogined
-        if (isLoggedIn) {
-            showRateBottomSheet()
-        } else {
-            showSnackBar(getString(R.string.your_not_loged_in_to_rate))
-        }
-    }
 
     private fun navigateToTrailerFragment(videoKey: String) {
         findNavController().navigate(
@@ -124,7 +119,7 @@ class TvDetailsFragment :
     }
     //region rating bottom sheet
     private fun showRateBottomSheet() {
-        rateBottomSheet = RateBottomSheet()
+        rateBottomSheet = RateTvDetailsBottomSheet()
         rateBottomSheet.setListener(this)
         rateBottomSheet.show(childFragmentManager, "BOTTOM")
     }
