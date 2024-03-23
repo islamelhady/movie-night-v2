@@ -1,4 +1,4 @@
-package com.elhady.movies.core.domain.usecase.usecase.common
+package com.elhady.movies.core.domain.usecase.usecase.tvdetails
 
 import com.elhady.movies.core.domain.entities.UserListEntity
 import com.elhady.movies.core.domain.usecase.repository.MovieRepository
