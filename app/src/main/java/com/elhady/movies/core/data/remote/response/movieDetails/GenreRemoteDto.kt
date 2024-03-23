@@ -1,8 +1,8 @@
-package com.elhady.remote.response.movieDetails
+package com.elhady.movies.core.data.remote.response.movieDetails
 
 import com.google.gson.annotations.SerializedName
 
-data class Genre(
+data class GenreRemoteDto(
     @SerializedName("id")
     val id: Int?,
     @SerializedName("name")

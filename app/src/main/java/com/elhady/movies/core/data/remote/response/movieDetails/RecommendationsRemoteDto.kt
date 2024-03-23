@@ -1,13 +1,12 @@
-package com.elhady.remote.response.movieDetails
-
+package com.elhady.movies.core.data.remote.response.movieDetails
 
 import com.google.gson.annotations.SerializedName
 
-data class ReviewsDto(
+data class RecommendationsRemoteDto(
     @SerializedName("page")
     val page: Int?,
     @SerializedName("results")
-    val results: List<Result>?,
+    val recommendedMovies: List<RecommendedMovie>?,
     @SerializedName("total_pages")
     val totalPages: Int?,
     @SerializedName("total_results")

@@ -1,8 +1,8 @@
-package com.elhady.remote.response.movieDetails
+package com.elhady.movies.core.data.remote.response.movieDetails
 
 import com.google.gson.annotations.SerializedName
 
-data class MovieDetailsDto(
+data class MovieDetailsRemoteDto(
     @SerializedName("adult")
     val adult: Boolean?,
     @SerializedName("backdrop_path")
@@ -12,9 +12,9 @@ data class MovieDetailsDto(
     @SerializedName("budget")
     val budget: Int?,
     @SerializedName("credits")
-    val credits: Credits?,
+    val credits: CreditsRemoteDto?,
     @SerializedName("genres")
-    val genres: List<Genre>?,
+    val genres: List<GenreRemoteDto>?,
     @SerializedName("homepage")
     val homepage: String?,
     @SerializedName("id")
@@ -36,7 +36,7 @@ data class MovieDetailsDto(
     @SerializedName("production_countries")
     val productionCountries: List<ProductionCountry>?,
     @SerializedName("recommendations")
-    val recommendations: Recommendations?,
+    val recommendations: RecommendationsRemoteDto?,
     @SerializedName("release_date")
     val releaseDate: String?,
     @SerializedName("revenue")
@@ -54,11 +54,11 @@ data class MovieDetailsDto(
     @SerializedName("video")
     val video: Boolean?,
     @SerializedName("videos")
-    val videos: Videos?,
+    val videos: VideosRemoteDto?,
     @SerializedName("vote_average")
     val voteAverage: Double?,
     @SerializedName("vote_count")
     val voteCount: Int?,
     @SerializedName("reviews")
-    val reviews: ReviewsDto?
+    val reviews: ReviewsRemoteDto?
 )

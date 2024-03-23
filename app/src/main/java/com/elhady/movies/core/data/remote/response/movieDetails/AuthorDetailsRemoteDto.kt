@@ -1,9 +1,9 @@
-package com.elhady.remote.response.movieDetails
+package com.elhady.movies.core.data.remote.response.movieDetails
 
 
 import com.google.gson.annotations.SerializedName
 
-data class AuthorDetails(
+data class AuthorDetailsRemoteDto(
     @SerializedName("avatar_path")
     val avatarPath: String?,
     @SerializedName("name")

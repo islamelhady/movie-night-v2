@@ -1,4 +1,4 @@
-package com.elhady.remote.response.movieDetails
+package com.elhady.movies.core.data.remote.response.movieDetails
 
 
 import com.google.gson.annotations.SerializedName
@@ -7,7 +7,7 @@ data class Result(
     @SerializedName("author")
     val author: String?,
     @SerializedName("author_details")
-    val authorDetails: AuthorDetails?,
+    val authorDetails: AuthorDetailsRemoteDto?,
     @SerializedName("content")
     val content: String?,
     @SerializedName("created_at")

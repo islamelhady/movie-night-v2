@@ -1,8 +1,9 @@
-package com.elhady.remote.response
+package com.elhady.movies.core.data.remote.response.dto
+
 
 import com.google.gson.annotations.SerializedName
 
-data class RatedMovieDto(
+data class MovieRemoteDto(
     @SerializedName("adult")
     val adult: Boolean?,
     @SerializedName("backdrop_path")
@@ -21,8 +22,6 @@ data class RatedMovieDto(
     val popularity: Double?,
     @SerializedName("poster_path")
     val posterPath: String?,
-    @SerializedName("rating")
-    val rating: Float?,
     @SerializedName("release_date")
     val releaseDate: String?,
     @SerializedName("title")
