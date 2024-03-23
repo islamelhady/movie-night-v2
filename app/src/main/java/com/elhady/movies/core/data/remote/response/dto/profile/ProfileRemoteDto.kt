@@ -1,20 +1,21 @@
-package com.elhady.remote.response.profile
+package com.elhady.movies.core.data.remote.response.dto.profile
+
 
 import com.google.gson.annotations.SerializedName
 
 data class ProfileRemoteDto(
     @SerializedName("avatar")
-    val avatar: Avatar?,
+    val avatar: Avatar? = null,
     @SerializedName("id")
-    val id: Int?,
+    val id: Int? = null,
     @SerializedName("include_adult")
-    val includeAdult: Boolean?,
+    val includeAdult: Boolean? = null,
     @SerializedName("iso_3166_1")
-    val iso31661: String?,
+    val iso31661: String? = null,
     @SerializedName("iso_639_1")
-    val iso6391: String?,
+    val iso6391: String? = null,
     @SerializedName("name")
-    val name: String?,
+    val name: String? = null,
     @SerializedName("username")
-    val username: String?
+    val username: String? = null
 )

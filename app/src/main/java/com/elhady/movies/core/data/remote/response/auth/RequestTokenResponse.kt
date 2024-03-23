@@ -1,4 +1,4 @@
-package com.elhady.remote.response.auth
+package com.elhady.movies.core.data.remote.response.auth
 
 
 import com.google.gson.annotations.SerializedName
