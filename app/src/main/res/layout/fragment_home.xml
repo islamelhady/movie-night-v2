@@ -42,17 +42,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textView" />
 
-<!--        <include-->
-<!--            android:id="@+id/progressBar"-->
-<!--            layout="@layout/layout_loading"-->
-<!--            android:layout_width="100dp"-->
-<!--            android:layout_height="100dp"-->
-<!--            app:isVisible="@{viewModel.state.loading}"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/progressBar"
             android:layout_width="@dimen/spacing_extra_giant_48dp"
@@ -80,20 +69,6 @@
             app:lottie_colorFilter="@color/primary"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/no_connection" />
-
-        <!--        <include-->
-        <!--            android:id="@+id/lottie_animation_view_no_network"-->
-        <!--            layout="@layout/layout_no_connection"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent"-->
-        <!--            app:isVisibleOrGone="@{viewModel.state.isError}"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="parent" />-->
-
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

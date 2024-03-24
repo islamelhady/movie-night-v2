@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.elhady.movies.presentation.viewmodel.season_details.SeasonDetailsViewModel" />
+            type="com.elhady.movies.presentation.viewmodel.seasondetails.SeasonDetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,16 +43,6 @@
             app:layout_constraintTop_toBottomOf="@id/season_appbar"
             tools:listitem="@layout/item_episode_horizontal" />
 
-<!--        <include-->
-<!--            layout="@layout/layout_loading"-->
-<!--            android:id="@+id/progressBar"-->
-<!--            android:layout_width="100dp"-->
-<!--            android:layout_height="100dp"-->
-<!--            app:isVisible="@{viewModel.state.loading}"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/progressBar"
@@ -68,18 +58,6 @@
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/anim_loading" />
 
-
-
-<!--        <include-->
-<!--            android:id="@+id/lottie_animation_view_no_network"-->
-<!--            layout="@layout/layout_no_connection"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottie_animation_view_no_network"

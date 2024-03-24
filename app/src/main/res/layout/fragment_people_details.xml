@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.elhady.movies.presentation.viewmodel.people.PeopleDetailsViewModel" />
+            type="com.elhady.movies.presentation.viewmodel.peopledetails.PeopleDetailsViewModel" />
 
     </data>
 

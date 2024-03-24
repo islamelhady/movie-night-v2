@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.elhady.movies.presentation.viewmodel.tvdetails.TvDetailsViewModel" />
+    </data>
+
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:isVisibleOrGone="@{(!viewModel.state.loading) &amp;&amp; (!viewModel.state.failure)}"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsingToolbarLayout_details"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                app:contentScrim="@color/card"
+                android:nestedScrollingEnabled="false"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+                <ImageView
+                    android:id="@+id/image_view_main_image"
+                    imageUrl="@{viewModel.state.info.backdropImageUrl}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax"
+                    tools:src="@tools:sample/backgrounds/scenic" />
+
+                <ImageButton
+                    android:id="@+id/image_button_play"
+                    android:layout_width="@dimen/spacing_extra_giant_48dp"
+                    android:layout_height="@dimen/spacing_extra_giant_48dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginEnd="@dimen/spacing_medium_16dp"
+                    android:layout_marginBottom="@dimen/spacing_medium_16dp"
+                    app:isVisibleOrGone="@{!viewModel.state.youtubeKeyId.blank}"
+                    android:onClick="@{()->viewModel.onClickPlayButton()}"
+                    android:background="@drawable/play_button_background"
+                    android:src="@drawable/movie_play"
+                    app:tint="@color/on_background_60" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:elevation="2dp"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        >
+                        <LinearLayout
+                            android:layout_weight="1"
+                            android:layout_gravity="start|center_vertical"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <ImageButton
+                                android:id="@+id/backButton"
+                                android:layout_width="24dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_height="24dp"
+                                android:background="@null"
+                                android:onClick="@{()->viewModel.onBack()}"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/arrow_left"
+                                app:tint="@color/on_background_60" />
+
+                            <TextView
+                                android:id="@+id/text_view_tool_bar_name"
+                                style="@style/TextStyle.TitleMedium"
+                                android:layout_width="250dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_height="wrap_content"
+                                android:paddingEnd="@dimen/spacing_small_8dp"
+                                android:paddingStart="@dimen/spacing_small_8dp"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:text="@{viewModel.state.info.name}"
+                                android:textColor="@color/on_background_87"
+                                android:visibility="invisible" />
+                        </LinearLayout>
+
+                        <ImageButton
+                            android:id="@+id/saveButton"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="end|center_vertical"
+                            android:layout_marginEnd="16dp"
+                            android:background="@null"
+                            app:tint="@color/on_background_60"
+                            android:backgroundTint="@color/on_primary"
+                            android:onClick="@{()-> viewModel.onClickSaveButton()}"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_save_unpressed"
+                            app:isVisible="@{!viewModel.state.isLoading &amp; viewModel.state.login}" />
+                    </LinearLayout>
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <!--region nested recycler-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/nestedRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/spacing_medium_16dp"
+            app:isVisible="@{!viewModel.state.isLoading &amp;&amp; viewModel.state.onErrors.empty}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <!--endregion-->
+
+        <!--region loading-->
+<!--        <include-->
+<!--            layout="@layout/layout_loading"-->
+<!--            android:id="@+id/progressBar"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:layout_gravity="center"-->
+<!--            app:isVisible="@{viewModel.state.isLoading}"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent" />-->
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/progressBar"
+            android:layout_width="@dimen/spacing_extra_giant_48dp"
+            android:layout_height="@dimen/spacing_extra_giant_48dp"
+            app:isVisible="@{viewModel.state.isLoading}"
+            android:layout_gravity="center"
+            app:lottie_autoPlay="true"
+            app:lottie_colorFilter="@color/primary"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/anim_loading" />
+
+        <!--endregion-->
+
+        <!--region error-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+<!--            <include-->
+<!--                android:id="@+id/lottie_animation_view_no_network"-->
+<!--                layout="@layout/layout_no_connection"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:showWhenError="@{viewModel.state.errors}"/>-->
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottie_animation_view_no_network"
+                android:layout_width="@dimen/lottie_error_size"
+                android:layout_height="@dimen/lottie_error_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_colorFilter="@color/primary"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/no_connection"
+                app:showWhenError="@{viewModel.state.onErrors}"/>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/spacing_small_8dp"
+                android:onClick="@{()->viewModel.refreshScreen()}"
+                android:text="try again"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lottie_animation_view_no_network"
+                app:showWhenError="@{viewModel.state.onErrors}" />
+        </LinearLayout>
+        <!--endregion-->
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
