@@ -36,8 +36,8 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.homeFragment,
+                R.id.tvFragment,
                 R.id.exploreFragment,
-                R.id.favoriteFragment,
                 R.id.profileFragment -> showBottomNav()
 
                 else -> hideBottomNav()
