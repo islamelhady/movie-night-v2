@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.elhady.movies.presentation.viewmodel.search.SearchViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutDescription="@xml/fragment_search_scene">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/edittext_search"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginStart="@dimen/spacing_medium_16dp"
+            android:layout_marginEnd="@dimen/spacing_small_8dp"
+            android:layout_marginTop="@dimen/spacing_large_24dp"
+            android:background="@drawable/edittext_background"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="@dimen/spacing_custom_12dp"
+            android:drawableTint="@color/on_background_60"
+            android:imeOptions="flagNoFullscreen"
+            android:inputType="text"
+            android:paddingStart="@dimen/spacing_custom_12dp"
+            android:paddingEnd="74dp"
+            android:text="@={viewModel.query}"
+            android:textColor="@color/on_background_60"
+            app:layout_constraintEnd_toStartOf="@id/image_button_filter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/linear_progress_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_x_medium_20dp"
+            android:indeterminate="true"
+            app:indeterminateAnimationType="disjoint"
+            app:indicatorColor="@color/primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edittext_search"
+            app:loading="@{viewModel.state.loading}" />
+
+        <ImageButton
+            android:id="@+id/image_button_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_medium_16dp"
+            android:background="@null"
+            android:onClick="@{() -> viewModel.onClickFilter()}"
+            app:isVisibleOrGone="@{(!viewModel.state.isSelectedPeople) &amp;&amp; (!viewModel.query.empty) &amp;&amp; (!viewModel.state.isFailure) }"
+            android:src="@drawable/ic_filter"
+            app:layout_constraintBottom_toBottomOf="@+id/edittext_search"
+            app:layout_constraintTop_toTopOf="@+id/edittext_search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/on_background_60" />
+
+        <ImageButton
+            android:id="@+id/image_button_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_custom_12dp"
+            android:background="@null"
+            android:onClick="@{() -> viewModel.onClickClear()}"
+            app:isVisibleOrGone="@{(!viewModel.query.empty) &amp;&amp; (!viewModel.state.isFailure) }"
+            android:src="@drawable/ic_clear"
+            app:layout_constraintBottom_toBottomOf="@+id/edittext_search"
+            app:layout_constraintTop_toTopOf="@+id/edittext_search"
+            app:layout_constraintEnd_toEndOf="@+id/edittext_search"
+            app:tint="@color/on_background_60" />
+
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium_16dp"
+            android:clipToPadding="false"
+            android:paddingStart="@dimen/spacing_medium_16dp"
+            android:paddingEnd="@dimen/spacing_small_8dp"
+            android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/edittext_search"
+            app:layout_constraintTop_toBottomOf="@id/edittext_search">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:selectedMedia="@{viewModel.state.mediaType}"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipMovie"
+                    style="@style/TextStyle.BodySmall.ChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="@{() -> viewModel.showResultMovie()}"
+                    android:text="@string/movie" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipTV"
+                    style="@style/TextStyle.BodySmall.ChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.showResultTv()}"
+                    android:text="@string/tv" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipPerson"
+                    style="@style/TextStyle.BodySmall.ChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.showResultPeople()}"
+                    android:text="@string/person" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+        </HorizontalScrollView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_search"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            app:searchLayoutManager="@{viewModel.state}"
+            app:hideResult="@{viewModel.state.error}"
+            app:query="@{viewModel.query}"
+            android:paddingBottom="100dp"
+            android:paddingHorizontal="@dimen/spacing_custom_12dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
+            tools:listitem="@layout/item_movie_horizontal" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_animation_view_empty"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="@dimen/spacing_extra_extra_giant_56dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="false"
+            app:isVisibleOrGone="@{viewModel.state.emptyResult &amp;&amp; !viewModel.query.empty &amp;&amp; !viewModel.state.isFailure &amp;&amp; !viewModel.state.loading}"
+            app:lottie_rawRes="@raw/empty_state" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_animation_view_search"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="@dimen/spacing_extra_extra_giant_56dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="false"
+            app:isVisibleOrGone="@{viewModel.query.empty &amp;&amp; !viewModel.state.isFailure}"
+            app:lottie_rawRes="@raw/search" />
+
+        <TextView
+            android:id="@+id/textview_no_items_found"
+            style="@style/TextStyle.TitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/spacing_medium_16dp"
+            android:text="@string/no_items_found"
+            android:textColor="@color/on_background_60"
+            app:isVisibleOrGone="@{viewModel.state.emptyResult &amp;&amp; !viewModel.query.empty &amp;&amp; !viewModel.state.isFailure &amp;&amp; !viewModel.state.loading}"
+            app:layout_constraintEnd_toEndOf="@id/lottie_animation_view_empty"
+            app:layout_constraintStart_toStartOf="@id/lottie_animation_view_empty"
+            app:layout_constraintTop_toBottomOf="@id/lottie_animation_view_empty" />
+
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_animation_view_no_network"
+            android:layout_width="@dimen/lottie_error_size"
+            android:layout_height="@dimen/lottie_error_size"
+            app:isVisibleOrGone="@{viewModel.state.isFailure}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_colorFilter="@color/primary"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/no_connection" />
+
+        <TextView
+            android:id="@+id/text_view_try_again"
+            style="@style/TextStyle.TitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/spacing_medium_16dp"
+            android:text="@string/try_again"
+            android:onClick="@{() -> viewModel.getData()}"
+            android:textColor="@color/on_background_60"
+            app:isVisibleOrGone="@{viewModel.state.isFailure}"
+            app:layout_constraintEnd_toEndOf="@id/lottie_animation_view_no_network"
+            app:layout_constraintStart_toStartOf="@id/lottie_animation_view_no_network"
+            app:layout_constraintTop_toBottomOf="@id/lottie_animation_view_no_network" />
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+</layout>
