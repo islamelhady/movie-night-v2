@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Movies</string>
+    <string name="home">Home</string>
+    <string name="now_playing">Now Playing</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="trending">Trending</string>
+    <string name="recommended">Recommended</string>
+    <string name="show_more">Show More</string>
+    <string name="popular_people">Popular People</string>
+    <string name="popular">Popular</string>
+    <string name="don_t_have_an_account">Don’t have an account?</string>
+    <string name="signup">Signup</string>
+    <string name="password">password</string>
+    <string name="username">username</string>
+    <string name="login">Login</string>
+    <string name="password_is_required">Password is required</string>
+    <string name="username_is_required">Username is required</string>
+    <string name="password_hint">2131321</string>
+    <string name="the_request_failed">The Request sadly failed 😢</string>
+    <string name="no_network_connection">No Network Connection 😢</string>
+    <string name="movie">Movie</string>
+    <string name="tv">TV Shows</string>
+    <string name="person">People</string>
+    <string name="collection">Collection</string>
+    <string name="company">Company</string>
+    <string name="apply">Apply</string>
+    <string name="Popular_Movies">Popular Movies</string>
+    <string name="movies">Movies</string>
+    <string name="retry">retry</string>
+    <string name="item_deleted">Item Deleted</string>
+    <string name="undo">UNDO</string>
+    <string name="duplicate_entry">Duplicate entry: The Media you tried to add already exists.</string>
+    <string name="some_thing_error">something went wrong</string>
+    <string name="added_successfully">added successfully</string>
+    <string name="new_list_was_added_successfully">New List Was Added Successfully</string>
+    <string name="rating_was_added_successfully">rating was added successfully 🥰</string>
+    <string name="something_went_wrong_please_try_again_later">Something Went Wrong 🤔\nPlease Try Again Later.</string>
+    <string name="profile">Profile</string>
+    <string name="female">female</string>
+    <string name="male">male</string>
+    <string name="time_out">Time Out !</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+
+    <string name="no_items_found">No items found</string>
+    <string name="no_items_have">No items have</string>
+    <string name="items">%s items</string>
+    <string name="search">Search</string>
+    <string name="favorite">Favorite</string>
+    <string name="your_not_loged_in_to_rate">You are not logged in 😢, please login to rate this Movie</string>
+    <string name="watchlist">Watchlist</string>
+    <string name="watch_history">Watch History</string>
+    <string name="my_lists">My Lists</string>
+    <string name="rating">Rating</string>
+    <string name="popcorn_puzzles">Popcorn Puzzles!</string>
+    <string name="theme">Theme</string>
+    <string name="logout">Logout</string>
+    <string name="do_u_wanna_leave_us">Really wanna Leave us?</string>
+    <string name="_9_6" tools:ignore="ExtraTranslation">9.6</string>
+    <string name="explore_the_best_tv_shows" tools:ignore="ExtraTranslation">Explore The Best TV Shows</string>
+    <string name="explore_the_best_movies_tv_shows" tools:ignore="ExtraTranslation">Explore The Best Movies and TV Shows</string>
+    <string name="airing_today" tools:ignore="ExtraTranslation">Airing Today</string>
+    <string name="count_tv_shows">%s TV Shows</string>
+    <string name="on_the_air" tools:ignore="ExtraTranslation">On The Air</string>
+    <string name="cannot_fetch_movies" tools:ignore="ExtraTranslation">cannot fetch movies 😢</string>
+    <string name="swipe_to_delete" tools:ignore="ExtraTranslation">swipe to delete\n</string>
+    <string name="error_occured" tools:ignore="ExtraTranslation">error occurred</string>
+    <string name="overview_title" tools:ignore="ExtraTranslation">Overview</string>
+    <string name="episodes_title" tools:ignore="ExtraTranslation">Episodes</string>
+    <string name="rate_this_tv_show" tools:ignore="ExtraTranslation">Rate This Tv Show</string>
+    <string name="cast" tools:ignore="ExtraTranslation">Cast</string>
+    <string name="seasons" tools:ignore="ExtraTranslation">Seasons</string>
+    <string name="comments" tools:ignore="ExtraTranslation">Comments</string>
+    <string name="home_much_you_love_this_tv_show" tools:ignore="ExtraTranslation">Home Much You Love This Tv Show ?</string>
+    <string name="home_much_you_love_this_movie" tools:ignore="ExtraTranslation">Home much you love this Movie ?</string>
+    <string name="rate_it_with_stars_your_satisfaction_level" tools:ignore="ExtraTranslation">Rate it with stars your satisfaction level</string>
+    <string name="create" tools:ignore="ExtraTranslation">Create</string>
+    <string name="login_title">Lights, Camera, Action! Login to Personalize Your Movie Experience</string>
+    <string name="season">Season</string>
+    <string name="number_of_movies">Number of Movies: </string>
+    <string name="episode">Episode</string>
+    <string name="rate_the_episode">ٌRate The Episode</string>
+    <string name="rate_this_movie">ٌRate This Movie</string>
+    <string name="actors">Actors</string>
+    <string name="share_your_love_for_this_episode">Share your love for this Episode!</string>
+    <string name="rating_description">Help us by rating the episode with stars based on your satisfaction level!</string>
+    <string name="try_again">try again 🤔</string>
+    <string name="trailer">Trailer</string>
+    <string name="play_icon">Play Icon</string>
+    <string name="play_full_screen">Play Full Screen</string>
+    <string name="tv_show">Tv Show</string>
+    <string name="my_rated">My Rated</string>
+    <string name="new_list_button">New List</string>
+    <string name="my_list_title">My List</string>
+    <string name="delete">Delete</string>
+    <string name="biography">Biography</string>
+    <string name="empty_field">Please enter list name</string>
+    <string name="add_list">+ Add List</string>
+    <string name="done">Done</string>
+    <string name="create_list">Create List</string>
+    <string name="list_name">List Name</string>
+    <string name="close">Close</string>
+    <string name="save_to">Save to</string>
+    <string name="are_you_sure_that_you_want_to_delete_1d">Are you sure that you want to delete %1s ?</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="please_rate_first">Please Rate First</string>
+    <string name="trending_today">Trending Today</string>
+    <string name="explore">Explore</string>
+    <string name="search_hint">Search for a movie, tv show, person…</string>
+
+</resources>
