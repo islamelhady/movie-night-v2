@@ -1,4 +1,4 @@
-package com.elhady.movies.presentation.viewmodel.season_details
+package com.elhady.movies.presentation.viewmodel.seasondetails
 
 import com.elhady.movies.presentation.viewmodel.common.model.EpisodeHorizontalUIState
 

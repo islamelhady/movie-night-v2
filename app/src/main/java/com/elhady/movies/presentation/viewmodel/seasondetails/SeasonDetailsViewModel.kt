@@ -1,8 +1,7 @@
-package com.elhady.movies.presentation.viewmodel.season_details
+package com.elhady.movies.presentation.viewmodel.seasondetails
 
 import androidx.lifecycle.SavedStateHandle
 import com.elhady.movies.core.bases.BaseViewModel
-import com.elhady.movies.core.domain.entities.seasondetails.SeasonDetailsEntity
 import com.elhady.movies.core.domain.usecase.usecase.seasondetails.GetSeasonDetailsUseCase
 import com.elhady.movies.presentation.viewmodel.common.listener.EpisodeListener
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +24,7 @@ class SeasonDetailsViewModel @Inject constructor(
         getData()
     }
 
-     fun getData() {
+    fun getData() {
         _state.update { it.copy(isLoading = true) }
         getSeasonDetails()
     }
@@ -34,13 +33,20 @@ class SeasonDetailsViewModel @Inject constructor(
         tryToExecute(
             call = { getSeasonDetailsUseCase(seriesId = seriesId, seasonNumber = seasonNumber) },
             onSuccess = ::onSuccessSeasonDetails,
+            mapper = seasonDetailsUiMapper,
             onError = ::onError,
         )
     }
 
-    private fun onSuccessSeasonDetails(seasonDetailsEntity: SeasonDetailsEntity) {
+    private fun onSuccessSeasonDetails(seasonDetailsEntity: SeasonDetailsUiState) {
         _state.update {
-            seasonDetailsUiMapper.map(seasonDetailsEntity)
+            it.copy(
+                id = seasonDetailsEntity.id,
+                name = seasonDetailsEntity.name,
+                episodes = seasonDetailsEntity.episodes,
+                onErrors = emptyList(),
+                isLoading = false
+            )
         }
     }
 
@@ -54,7 +60,7 @@ class SeasonDetailsViewModel @Inject constructor(
         }
     }
 
-    fun onClickBack(){
+    fun onClickBack() {
         sendEvent(SeasonDetailsUiEvent.NavigateBack)
     }
 
@@ -63,6 +69,6 @@ class SeasonDetailsViewModel @Inject constructor(
     }
 
     override fun onClickEpisode(id: Int) {
-        sendEvent(SeasonDetailsUiEvent.NavigateToEpisodeDetails(id))
+        sendEvent(SeasonDetailsUiEvent.NavigateToEpisodeDetails(episodeId = id, seriesId = seriesId , seasonNumber =  seasonNumber))
     }
 }
