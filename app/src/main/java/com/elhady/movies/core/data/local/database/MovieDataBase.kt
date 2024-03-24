@@ -43,9 +43,9 @@ import com.elhady.movies.core.data.local.database.dto.tvshow.TvShowsLocalDto
         MovieInWatchHistoryLocalDto::class,
         AiringTodayTvShowsLocalDto::class
     ],
-    version = 6,
+    version = 9,
     exportSchema = true,
-//    autoMigrations = [AutoMigration(from = 5, to = 6)]
+//    autoMigrations = [AutoMigration(from = 8, to = 9)]
 )
 @TypeConverters(Convertors::class)
 abstract class MovieDataBase : RoomDatabase() {
