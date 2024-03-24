@@ -1,4 +1,4 @@
-package com.elhady.movies.presentation.viewmodel.people
+package com.elhady.movies.presentation.viewmodel.peopledetails
 
 data class PersonDetailsUiState(
     val peopleData: PersonInfoUiState = PersonInfoUiState(),
@@ -9,7 +9,7 @@ data class PersonDetailsUiState(
 ) {
     data class PeopleMediaUiState(
         val id: Int,
-        val name: String,
+        val type: String,
         val imageUrl: String,
         val rate: Double
     )

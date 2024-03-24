@@ -1,9 +1,9 @@
-package com.elhady.movies.presentation.ui.people.adapter
+package com.elhady.movies.presentation.ui.peopledetails
 
 import com.elhady.movies.R
 import com.elhady.movies.core.bases.BaseAdapter
-import com.elhady.movies.presentation.viewmodel.people.PeopleDetailsListener
-import com.elhady.movies.presentation.viewmodel.people.PersonDetailsUiState
+import com.elhady.movies.presentation.viewmodel.peopledetails.PeopleDetailsListener
+import com.elhady.movies.presentation.viewmodel.peopledetails.PersonDetailsUiState
 
 
 class  PeopleDetailsRecyclerAdapter(items: List<PersonDetailsUiState.PeopleMediaUiState>, listener: PeopleDetailsListener):

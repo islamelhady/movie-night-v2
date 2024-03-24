@@ -1,4 +1,4 @@
-package com.elhady.movies.presentation.ui.people
+package com.elhady.movies.presentation.ui.peopledetails
 
 import android.os.Bundle
 import android.view.View
@@ -7,10 +7,9 @@ import androidx.navigation.fragment.findNavController
 import com.elhady.movies.R
 import com.elhady.movies.core.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentPeopleDetailsBinding
-import com.elhady.movies.presentation.ui.people.adapter.PeopleDetailsRecyclerAdapter
-import com.elhady.movies.presentation.viewmodel.people.PeopleDetailsUiEvent
-import com.elhady.movies.presentation.viewmodel.people.PeopleDetailsViewModel
-import com.elhady.movies.presentation.viewmodel.people.PersonDetailsUiState
+import com.elhady.movies.presentation.viewmodel.peopledetails.PeopleDetailsUiEvent
+import com.elhady.movies.presentation.viewmodel.peopledetails.PeopleDetailsViewModel
+import com.elhady.movies.presentation.viewmodel.peopledetails.PersonDetailsUiState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -52,20 +51,27 @@ class PeopleDetailsFragment :
     override fun onEvent(event: PeopleDetailsUiEvent) {
         when (event) {
             PeopleDetailsUiEvent.BackNavigate -> findNavController().popBackStack()
-            is PeopleDetailsUiEvent.ClickMovieEvent ->
-                findNavController().navigate(
-                    PeopleDetailsFragmentDirections.actionPeopleDetailsFragmentToMovieDetailsFragment(
-                        event.itemId
-                    )
-                )
+            is PeopleDetailsUiEvent.ClickMovieEvent -> navigateToMovieDetails(event.itemId)
 
-            is PeopleDetailsUiEvent.ClickTvShowsEvent ->
-                findNavController().navigate(
-                    PeopleDetailsFragmentDirections.actionPeopleDetailsFragmentToTvDetailsFragment(
-                        event.itemId
-                    )
-                )
+            is PeopleDetailsUiEvent.ClickTvShowsEvent -> navigateToTvShowDetails(event.itemId)
         }
+    }
+
+    private fun navigateToMovieDetails(id: Int) {
+        findNavController().navigate(
+            PeopleDetailsFragmentDirections.actionPeopleDetailsFragmentToMovieDetailsFragment(
+                movieId = id
+            )
+        )
+    }
+
+    private fun navigateToTvShowDetails(id: Int) {
+        findNavController().navigate(
+            PeopleDetailsFragmentDirections.actionPeopleDetailsFragmentToTvDetailsFragment(
+                tvShowId =
+                id
+            )
+        )
     }
 
 }

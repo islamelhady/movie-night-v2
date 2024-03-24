@@ -1,17 +1,15 @@
-package com.elhady.movies.presentation.viewmodel.people
+package com.elhady.movies.presentation.viewmodel.peopledetails
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.bases.BaseViewModel
 import com.elhady.movies.core.domain.usecase.usecase.people.GetMoviesByPersonUseCase
 import com.elhady.movies.core.domain.usecase.usecase.people.GetPeopleDetailsUseCase
 import com.elhady.movies.core.domain.usecase.usecase.tvdetails.GetTvShowsByPersonUseCase
-import com.elhady.movies.presentation.viewmodel.people.mapper.MoviesByPeopleUiMapper
-import com.elhady.movies.presentation.viewmodel.people.mapper.PeopleDataUiMapper
-import com.elhady.movies.presentation.viewmodel.people.mapper.TvShowsByPeopleUiMapper
+import com.elhady.movies.presentation.viewmodel.peopledetails.mapper.MoviesByPeopleUiMapper
+import com.elhady.movies.presentation.viewmodel.peopledetails.mapper.PeopleDataUiMapper
+import com.elhady.movies.presentation.viewmodel.peopledetails.mapper.TvShowsByPeopleUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,21 +20,21 @@ class PeopleDetailsViewModel @Inject constructor(
     private val peopleDataUiMapper: PeopleDataUiMapper,
     private val moviesByPeopleUiMapper: MoviesByPeopleUiMapper,
     private val tvShowsByPeopleUiMapper: TvShowsByPeopleUiMapper,
-    savedStateHandle: SavedStateHandle,
-
-    ) : BaseViewModel<PersonDetailsUiState, PeopleDetailsUiEvent>(PersonDetailsUiState()),
+    savedStateHandle: SavedStateHandle
+) : BaseViewModel<PersonDetailsUiState, PeopleDetailsUiEvent>(PersonDetailsUiState()),
     PeopleDetailsListener {
-    private val personId =
-        savedStateHandle.get<Int>("personId") ?: 3
+
+    private val personId = savedStateHandle.get<Int>("personId") ?: 3
 
     init {
         refreshScreen()
     }
+
     fun refreshScreen() {
+        _state.update { it.copy(onErrors = emptyList(), isLoading = true) }
         getPersonData()
         getMoviesByPeople()
         getTvShowsByPeople()
-        _state.update { it.copy(onErrors = emptyList(), isLoading = true) }
     }
 
     private fun getPersonData() {
@@ -52,7 +50,8 @@ class PeopleDetailsViewModel @Inject constructor(
         _state.update {
             it.copy(
                 peopleData = personInfoUiState,
-                isLoading = false
+                isLoading = false,
+                onErrors = emptyList()
             )
         }
     }
@@ -72,6 +71,7 @@ class PeopleDetailsViewModel @Inject constructor(
             it.copy(
                 movies = list,
                 isLoading = false,
+                onErrors = emptyList()
             )
         }
     }
@@ -90,7 +90,8 @@ class PeopleDetailsViewModel @Inject constructor(
         _state.update {
             it.copy(
                 tvShows = list,
-                isLoading = false
+                isLoading = false,
+                onErrors = emptyList()
             )
         }
     }
@@ -101,10 +102,10 @@ class PeopleDetailsViewModel @Inject constructor(
         _state.update { it.copy(onErrors = errors, isLoading = false) }
     }
 
-    override fun onClickMedia(itemId: Int, name: String) {
-        if (name == "movies") {
+    override fun onClickMedia(itemId: Int, type: String) {
+        if (type == "movies") {
             sendEvent(PeopleDetailsUiEvent.ClickMovieEvent(itemId))
-        } else if (name == "tvShows") {
+        } else if (type == "tvShows") {
             sendEvent(PeopleDetailsUiEvent.ClickTvShowsEvent(itemId))
         }
     }
