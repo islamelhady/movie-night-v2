@@ -32,9 +32,6 @@
         android:name="com.elhady.movies.presentation.ui.search.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search">
-        <argument
-            android:name="movieId"
-            app:argType="integer" />
         <action
             android:id="@+id/action_searchFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
@@ -87,7 +84,7 @@
     </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"
-        android:name="com.elhady.movies.presentation.ui.movie_details.MovieDetailsFragment"
+        android:name="com.elhady.movies.presentation.ui.moviedetails.MovieDetailsFragment"
         android:label="MovieDetailsFragment"
         tools:layout="@layout/fragment_movie_details">
         <argument
@@ -135,7 +132,7 @@
     </fragment>
     <fragment
         android:id="@+id/seasonDetailsFragment"
-        android:name="com.elhady.movies.presentation.ui.season_details.SeasonDetailsFragment"
+        android:name="com.elhady.movies.presentation.ui.seasondetails.SeasonDetailsFragment"
         android:label="SeasonDetailsFragment"
         tools:layout="@layout/fragment_season_details">
         <argument
@@ -190,7 +187,7 @@
     <fragment
         android:id="@+id/myListFragment"
         tools:layout="@layout/fragment_my_list"
-        android:name="com.elhady.movies.presentation.ui.my_list.MyListFragment"
+        android:name="com.elhady.movies.presentation.ui.mylist.MyListFragment"
         android:label="MyListFragment" >
         <action
             android:id="@+id/action_myListFragment_to_myListDetailsFragment"
@@ -259,8 +256,9 @@
     </fragment>
     <fragment
         android:id="@+id/peopleDetailsFragment"
-        android:name="com.elhady.movies.presentation.ui.people.PeopleDetailsFragment"
-        android:label="PeopleDetailsFragment" >
+        android:name="com.elhady.movies.presentation.ui.peopledetails.PeopleDetailsFragment"
+        android:label="PeopleDetailsFragment"
+        tools:layout="@layout/fragment_people_details">
         <argument
             android:name="personId"
             app:argType="integer" />
@@ -275,9 +273,21 @@
 
     <dialog
         android:id="@+id/saveToListBottomSheet"
-        android:name="com.elhady.movies.presentation.ui.movie_details.SaveMovieToListBottomSheet"
+        android:name="com.elhady.movies.presentation.ui.moviedetails.SaveMovieToListBottomSheet"
         android:label="SaveToListBottomSheet"
         tools:layout="@layout/save_movie_to_create_list_bottom_sheet"/>
+    <fragment
+        android:id="@+id/exploreFragment"
+        android:name="com.elhady.movies.presentation.ui.explore.ExploreFragment"
+        android:label="fragment_explore"
+        tools:layout="@layout/fragment_explore" >
+        <action
+            android:id="@+id/action_exploreFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_exploreFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+    </fragment>
 
 
 </navigation>
