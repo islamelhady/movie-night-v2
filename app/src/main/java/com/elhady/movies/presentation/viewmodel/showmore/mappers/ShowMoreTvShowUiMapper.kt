@@ -17,7 +17,7 @@ class ShowMoreTvShowUiMapper @Inject constructor() :
             rate = input.rate,
             year = input.year,
             genreEntities = convertGenreListToString(input.genreEntities),
-            type = ListType.tv
+            type = ListType.TV
         )
     }
 
