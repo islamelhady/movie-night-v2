@@ -11,7 +11,7 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.presentation.ui.movie_details.adapter.MovieDetailsItem.Recommended" />
+            type="com.elhady.movies.presentation.ui.moviedetails.adapter.MovieDetailsItem.Recommended" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

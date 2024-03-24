@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.presentation.ui.movie_details.adapter.MovieDetailsItem.People" />
+            type="com.elhady.movies.presentation.ui.moviedetails.adapter.MovieDetailsItem.People" />
 
         <variable
             name="listener"
