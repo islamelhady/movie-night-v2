@@ -3,6 +3,7 @@ package com.elhady.movies.presentation.ui.search.utils
 import android.content.res.Configuration
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ToggleButton
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -57,6 +58,16 @@ fun RecyclerView.setSearchLayoutManager(searchUiState: SearchUiState?) {
         else -> {
             LinearLayoutManager(context)
         }
+    }
+    this.layoutManager = layoutManager
+}
+
+@BindingAdapter("app:exploreLayoutManagerToggle")
+fun RecyclerView.setLayoutManagerToggle(useGrid: Boolean) {
+    val layoutManager = if (useGrid) {
+        GridLayoutManager(context, 2)
+    } else {
+        LinearLayoutManager(context)
     }
     this.layoutManager = layoutManager
 }

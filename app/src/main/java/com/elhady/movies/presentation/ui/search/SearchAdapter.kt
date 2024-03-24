@@ -61,13 +61,13 @@ class SearchAdapter(
         holder.binding.listener = listener
     }
 
-    fun setItem(item: SearchItem) {
-        val newItems = list.apply {
-            removeAt(item.type.ordinal)
-            add(item.type.ordinal, item)
-        }
-        setItems(newItems)
-    }
+//    fun setItem(item: SearchItem) {
+//        val newItems = list.apply {
+//            removeAt(item.type.ordinal)
+//            add(item.type.ordinal, item)
+//        }
+//        setItems(newItems)
+//    }
 
     override fun setItems(newItems: List<SearchItem>) {
         list = newItems.sortedBy { it.type.ordinal }.toMutableList()

@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.explor.ExploreFragment">
+        tools:context=".presentation.ui.explore.ExploreFragment">
 
         <TextView
             android:id="@+id/textView"
@@ -62,26 +62,44 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/input_search" />
 
+        <androidx.appcompat.widget.AppCompatToggleButton
+            android:id="@+id/switchCompat"
+            android:layout_width="@dimen/spacing_x_medium_20dp"
+            android:layout_height="@dimen/spacing_x_medium_20dp"
+            android:layout_marginEnd="@dimen/spacing_custom_12dp"
+            android:background="@drawable/trend_button"
+            android:checked="@={viewModel.layout}"
+            android:onClick="@{() -> viewModel.getTrendingMovies()}"
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintBottom_toBottomOf="@id/text_trend_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/text_trend_label"
+            app:showText="false" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_trend"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="@dimen/spacing_small_8dp"
+            android:layout_marginStart="@dimen/spacing_small_8dp"
             android:layout_marginTop="@dimen/spacing_small_8dp"
             android:clipToPadding="false"
             android:elevation="@dimen/spacing_tiny_4dp"
+            app:exploreLayoutManagerToggle="@{viewModel.state.layoutManager}"
+            app:isVisible="@{!viewModel.state.loading}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_trend_label"
             app:spanCount="2"
-            tools:listitem="@layout/item_tv_show" />
+            tools:listitem="@layout/explore_item_trending_movie_grid" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_loading"
             android:layout_width="128dp"
             android:layout_height="128dp"
+            app:isVisible="@{viewModel.state.loading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -7,11 +7,11 @@ import com.elhady.movies.core.domain.entities.GenreEntity
 import javax.inject.Inject
 
 class LocalUpcomingMovieMapper @Inject constructor() {
-    fun map(input: MovieRemoteDto, geners: List<GenreEntity>): UpcomingMovieLocalDto {
+    fun map(input: MovieRemoteDto, genres: List<GenreEntity>): UpcomingMovieLocalDto {
 
         val genreIds = input.genreIds ?: emptyList()
         val genreNames = genreIds.mapNotNull { genreId ->
-            geners.find { it.genreID == genreId }?.genreName ?: ""
+            genres.find { it.genreID == genreId }?.genreName ?: ""
         }
 
         return UpcomingMovieLocalDto(
