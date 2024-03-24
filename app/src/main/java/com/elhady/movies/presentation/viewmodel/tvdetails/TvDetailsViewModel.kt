@@ -31,7 +31,6 @@ import com.elhady.movies.presentation.viewmodel.tvdetails.mappers.TvDetailsCastU
 import com.elhady.movies.presentation.viewmodel.tvdetails.mappers.TvDetailsInfoUiMapper
 import com.elhady.movies.presentation.viewmodel.tvdetails.mappers.TvDetailsReviewUiMapper
 import com.elhady.movies.presentation.viewmodel.tvdetails.mappers.TvDetailsSeasonUiMapper
-import com.elhady.movies.presentation.viewmodel.tvdetails.mappers.TvRatingUiMapper
 import com.elhady.movies.presentation.viewmodel.tvdetails.mappers.TvShowUiMapper
 import com.elhady.movies.presentation.viewmodel.tvdetails.mappers.TvShowYoutubeVideoDetailsUiMapper
 import com.elhady.movies.presentation.viewmodel.tvdetails.mappers.UserListsUiMapper
@@ -392,9 +391,9 @@ class TvDetailsViewModel @Inject constructor(
 
     //region util
     private fun onError(th: Throwable) {
-        val errors = _state.value.errors.toMutableList()
+        val errors = _state.value.onErrors.toMutableList()
         errors.add(th.message.toString())
-        _state.update { it.copy(errors = errors, isLoading = false) }
+        _state.update { it.copy(onErrors = errors, isLoading = false) }
     }
 
     private fun updateLoading(value: Boolean) {
@@ -403,7 +402,7 @@ class TvDetailsViewModel @Inject constructor(
 
     fun refreshScreen() {
         getData()
-        _state.update { it.copy(errors = emptyList()) }
+        _state.update { it.copy(onErrors = emptyList()) }
     }
     //endregion
 

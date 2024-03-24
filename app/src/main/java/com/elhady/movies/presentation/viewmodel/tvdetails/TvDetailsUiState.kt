@@ -12,7 +12,7 @@ data class TvDetailsUiState(
     val cast: List<PeopleUIState> = emptyList(),
     val recommended: List<MediaVerticalUIState> = emptyList(),
     val seasons: List<SeasonHorizontalUIState> = emptyList(),
-    val errors: List<String> = emptyList(),
+    val onErrors: List<String> = emptyList(),
     val isLoading: Boolean = true,
     val reviews: List<CommentUIState> = emptyList(),
     val ratingSuccess: String = "",
@@ -22,9 +22,10 @@ data class TvDetailsUiState(
     val userSelectedLists: List<Int> = emptyList(),
     val isLogin: Boolean = false,
 ) {
-    val reviewsIsEmpty : Boolean get() = reviews.isEmpty()
-    val isFailure: Boolean get() =
-        errors.isNotEmpty()
+    val reviewsIsEmpty: Boolean get() = reviews.isEmpty()
+    val isFailure: Boolean
+        get() =
+            onErrors.isNotEmpty()
 
     data class Info(
         val backdropImageUrl: String = "",
@@ -32,7 +33,7 @@ data class TvDetailsUiState(
         val rating: Float = 0.0f,
         val description: String = "",
         val genres: List<String> = emptyList(),
-        val isLogin: Boolean = false,
-        )
+        val isLogin: Boolean = false
+    )
 
 }
