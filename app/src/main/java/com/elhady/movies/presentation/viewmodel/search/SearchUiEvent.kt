@@ -7,6 +7,7 @@ sealed interface SearchUiEvent{
     data class NavigateToMovie(val movieId: Int): SearchUiEvent
     data class NavigateToTv(val tvId: Int): SearchUiEvent
     data class NavigateToPeople(val peopleId: Int): SearchUiEvent
+    object NavigateToBack: SearchUiEvent
     object ShowMovieResult: SearchUiEvent
     object ShowTvResult: SearchUiEvent
     object ShowPeopleResult: SearchUiEvent

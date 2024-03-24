@@ -1,6 +1,8 @@
 package com.elhady.movies.presentation.ui.search
 
 import android.os.Bundle
+import android.transition.ChangeTransform
+import android.transition.TransitionInflater
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
@@ -25,6 +27,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
 
     private lateinit var searchAdapter: SearchAdapter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition =
+            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupHomeAdapter()
@@ -78,7 +85,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
             is SearchUiEvent.ShowMovieResult -> showMovieResult()
             is SearchUiEvent.ShowTvResult -> showTvResult()
             is SearchUiEvent.ShowPeopleResult -> showPeopleResult()
+            is SearchUiEvent.NavigateToBack -> navigateBack()
         }
+    }
+
+    private fun navigateBack() {
+        findNavController().popBackStack()
     }
 
     private fun showBottomSheet() {

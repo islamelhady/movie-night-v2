@@ -10,5 +10,6 @@ interface SearchListener:  MovieListener, PeopleListener {
     fun showResultMovie()
     fun showResultTv()
     fun showResultPeople()
+    fun onClickBack()
 
 }

@@ -256,6 +256,10 @@ class SearchViewModel @Inject constructor(
         _state.update { it.copy(mediaType = SearchUiState.SearchMedia.PEOPLE) }
     }
 
+    override fun onClickBack() {
+        sendEvent(SearchUiEvent.NavigateToBack)
+    }
+
     override fun onClickMedia(id: Int) {
         when (_state.value.mediaType) {
             SearchUiState.SearchMedia.MOVIE -> sendEvent(SearchUiEvent.NavigateToMovie(id))
