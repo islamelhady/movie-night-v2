@@ -7,8 +7,8 @@ import com.elhady.movies.core.domain.usecase.repository.NoNetworkThrowable
 import com.elhady.movies.core.domain.usecase.usecase.search.SearchMoviesUseCase
 import com.elhady.movies.core.domain.usecase.usecase.search.SearchPeopleUseCase
 import com.elhady.movies.core.domain.usecase.usecase.search.SearchTvsUseCase
-import com.elhady.movies.core.domain.usecase.usecase.search_history.InsertSearchHistoryUseCase
-import com.elhady.movies.core.domain.usecase.usecase.search_history.SearchHistoryUseCase
+import com.elhady.movies.core.domain.usecase.usecase.searchhistory.InsertSearchHistoryUseCase
+import com.elhady.movies.core.domain.usecase.usecase.searchhistory.SearchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.usecase.GetAllGenresMoviesUseCase
 import com.elhady.movies.core.domain.usecase.usecase.GetAllGenresTvsUseCase
 import com.elhady.movies.presentation.viewmodel.common.model.MovieHorizontalUIState

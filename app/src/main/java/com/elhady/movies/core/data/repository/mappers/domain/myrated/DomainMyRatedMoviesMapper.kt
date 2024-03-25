@@ -1,4 +1,4 @@
-package com.elhady.movies.core.data.repository.mappers.domain.my_rated
+package com.elhady.movies.core.data.repository.mappers.domain.myrated
 
 import com.elhady.movies.core.data.remote.response.dto.myrated.MyRatedMovieDto
 import com.elhady.movies.core.data.repository.Constants.IMAGE_BASE_PATH

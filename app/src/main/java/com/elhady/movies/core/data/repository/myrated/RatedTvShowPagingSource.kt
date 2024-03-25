@@ -4,7 +4,7 @@ import com.elhady.movies.core.data.local.database.MovieDao
 import com.elhady.movies.core.data.remote.service.MovieService
 import com.elhady.movies.core.data.repository.BasePagingSource
 import com.elhady.movies.core.data.repository.mappers.domain.DomainGenreMapper
-import com.elhady.movies.core.data.repository.mappers.domain.my_rated.DomainMyRatedTvShowMapper
+import com.elhady.movies.core.data.repository.mappers.domain.myrated.DomainMyRatedTvShowMapper
 import com.elhady.movies.core.domain.entities.myrated.MyRatedTvShowEntity
 import javax.inject.Inject
 

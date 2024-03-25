@@ -75,7 +75,7 @@
 
     <fragment
         android:id="@+id/watchHistoryFragment"
-        android:name="com.elhady.movies.presentation.ui.watch_history.WatchHistoryFragment"
+        android:name="com.elhady.movies.presentation.ui.watchhistory.WatchHistoryFragment"
         android:label="WatchHistoryFragment"
         tools:layout="@layout/fragment_watch_history">
         <action
