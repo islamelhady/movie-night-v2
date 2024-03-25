@@ -3,7 +3,7 @@
 The **Movie Night** App is an Android application built using Kotlin and follows the MVVM (Model-View-ViewModel) architectural pattern. It utilizes various libraries and components such as Flow, XML, Room, Retrofit, Dagger Hilt. The app provides several features for movie enthusiasts, including user authentication, movie search, YouTube trailer playback, movie rating, review viewing, movie filtering, watch history, favourites, and user profile.
 
 
-![screens](screens/screens.jpg)
+![screens](figure/figure1.jpg)
 
 ## Architecture
 **Movie Night** is based on the recommended architecture and the Repository pattern, from Google with dependency inversion which follows [Google's official architecture guidance](https://developer.android.com/topic/architecture).
