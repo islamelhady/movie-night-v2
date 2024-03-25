@@ -81,7 +81,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:profileUrl="@{viewModel.state.avatarUrl}"
+                app:profileUrl="@{viewModel.avatar}"
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
                 tools:src="@tools:sample/backgrounds/scenic" />
 
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small_8dp"
                 android:gravity="center"
-                android:text="@{viewModel.state.username}"
+                android:text=" @islamelhady"
                 android:textColor="@color/on_background_60"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

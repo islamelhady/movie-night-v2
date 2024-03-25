@@ -31,7 +31,9 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch { state.value.log() }
     }
 
-    fun checkUserLoggedIn() {
+    val avatar = "https://avatars.githubusercontent.com/u/30935046?v=4"
+
+    private fun checkUserLoggedIn() {
         viewModelScope.launch {
             if (checkIsUserLoggedInUseCase()) {
                 _state.update { it.copy(isLogIn = true, isLoading = true, error = emptyList()) }
