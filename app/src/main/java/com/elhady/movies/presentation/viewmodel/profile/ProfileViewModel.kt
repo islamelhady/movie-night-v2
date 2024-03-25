@@ -1,9 +1,13 @@
 package com.elhady.movies.presentation.viewmodel.profile
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.bases.BaseViewModel
 import com.elhady.movies.core.bases.NavigationRes
 import com.elhady.movies.core.domain.entities.ProfileEntity
+import com.elhady.movies.core.domain.usecase.repository.ForbiddenThrowable
+import com.elhady.movies.core.domain.usecase.repository.NoNetworkThrowable
+import com.elhady.movies.core.domain.usecase.repository.UnauthorizedThrowable
 import com.elhady.movies.core.domain.usecase.usecase.profile.CheckIsUserLoggedInUseCase
 import com.elhady.movies.core.domain.usecase.usecase.profile.GetAccountDetailsUseCase
 import com.elhady.movies.core.domain.usecase.usecase.profile.LogoutUseCase
@@ -23,9 +27,21 @@ class ProfileViewModel @Inject constructor(
 ) : BaseViewModel<ProfileUIState, ProfileUiEvent>(ProfileUIState()), ProfileListener {
 
     init {
-        getAccountDetails()
+        checkUserLoggedIn()
         viewModelScope.launch { state.value.log() }
     }
+
+    fun checkUserLoggedIn() {
+        viewModelScope.launch {
+            if (checkIsUserLoggedInUseCase()) {
+                _state.update { it.copy(isLogIn = true, isLoading = true, error = emptyList()) }
+                getAccountDetails()
+            }else {
+                _state.update { it.copy(isLogIn = false) }
+            }
+        }
+    }
+
 
     private fun getAccountDetails() {
         tryToExecute(
@@ -41,16 +57,23 @@ class ProfileViewModel @Inject constructor(
             it.copy(
                 username = profileEntity.username,
                 avatarUrl = profileEntity.avatarUrl,
-                error = null,
-                isLogIn = true,
+                error = emptyList(),
                 isLoading = false
             )
         }
+        Log.d("OnSuccessGetAccount", "${profileEntity.username}")
     }
 
     private fun onError(throwable: Throwable) {
-        val errors = throwable.message ?: "no internet connection"
+        val errors = throwable.message ?: "SOME THINK WRONG"
+        when (throwable) {
+            is NoNetworkThrowable -> "No Network Connection"
+            is UnauthorizedThrowable -> "Unauthorized"
+            is ForbiddenThrowable -> "Forbidden"
+            else -> throwable.message.toString()
+        }
         _state.update { it.copy(error = listOf(errors), isLoading = false) }
+        Log.d("onError", "${throwable.message} $errors")
     }
 
     override fun onClickFavorite() {

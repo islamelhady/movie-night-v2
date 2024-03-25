@@ -12,5 +12,5 @@ interface AuthRepository {
     suspend fun getCurrentUsername(): String?
 
     suspend fun getAccountDetails(): ProfileEntity
-    suspend fun isUserLoggedIn():Boolean
+    fun isUserLoggedIn():Boolean
 }

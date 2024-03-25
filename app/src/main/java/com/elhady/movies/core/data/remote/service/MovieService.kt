@@ -199,8 +199,8 @@ interface MovieService {
     /// region season details
     @GET("tv/{series_id}/season/{season_number}")
     suspend fun getSeasonDetails(
-        @Path("series_id") series_id: Int,
-        @Path("season_number") season_number: Int
+        @Path("series_id") seriesId: Int,
+        @Path("season_number") seasonNumber: Int
     ): Response<SeasonDetailsDto>
     ///endregion
 
@@ -350,13 +350,13 @@ interface MovieService {
     /// region people details
 
     @GET("person/{person_id}")
-    suspend fun getPerson(@Path("person_id") person_id: Int): Response<PeopleDetailsResponse>
+    suspend fun getPerson(@Path("person_id") personId: Int): Response<PeopleDetailsResponse>
 
     @GET("person/{person_id}/movie_credits")
-    suspend fun getMoviesByPerson(@Path("person_id") person_id: Int): Response<MoviesByPeopleResponse>
+    suspend fun getMoviesByPerson(@Path("person_id") personId: Int): Response<MoviesByPeopleResponse>
 
     @GET("person/{person_id}/tv_credits")
-    suspend fun getTvShowsByPerson(@Path("person_id") person_id: Int): Response<TvShowsByPeopleResponse>
+    suspend fun getTvShowsByPerson(@Path("person_id") personId: Int): Response<TvShowsByPeopleResponse>
 
     ///endregion
 }

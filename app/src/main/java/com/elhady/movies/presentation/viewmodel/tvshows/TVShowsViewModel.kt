@@ -5,10 +5,10 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.elhady.movies.core.bases.BaseViewModel
-import com.elhady.movies.core.domain.usecase.usecase.tv_shows.GetAiringTodayTVShowsUseCase
-import com.elhady.movies.core.domain.usecase.usecase.tv_shows.GetOnTheAirTVShowsUseCase
-import com.elhady.movies.core.domain.usecase.usecase.tv_shows.GetPopularTVShowsUseCase
-import com.elhady.movies.core.domain.usecase.usecase.tv_shows.GetTopRatedTVShowsUseCase
+import com.elhady.movies.core.domain.usecase.usecase.tvshows.GetAiringTodayTVShowsUseCase
+import com.elhady.movies.core.domain.usecase.usecase.tvshows.GetOnTheAirTVShowsUseCase
+import com.elhady.movies.core.domain.usecase.usecase.tvshows.GetPopularTVShowsUseCase
+import com.elhady.movies.core.domain.usecase.usecase.tvshows.GetTopRatedTVShowsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.update

@@ -7,10 +7,6 @@ class CheckIsUserLoggedInUseCase @Inject constructor(
     private val authRepository: AuthRepository
 ) {
     suspend operator fun invoke(): Boolean {
-        val loginState = authRepository.isUserLoggedIn()
-        if (loginState) {
-            return true
-        }
-        return false
+        return authRepository.isUserLoggedIn()
     }
 }

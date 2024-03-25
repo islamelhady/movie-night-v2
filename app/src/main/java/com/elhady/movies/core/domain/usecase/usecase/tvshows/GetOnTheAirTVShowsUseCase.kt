@@ -1,15 +1,15 @@
-package com.elhady.movies.core.domain.usecase.usecase.tv_shows
+package com.elhady.movies.core.domain.usecase.usecase.tvshows
 
 import androidx.paging.PagingData
 import com.elhady.movies.core.domain.entities.TVShowsEntity
-import com.elhady.movies.core.domain.usecase.repository.TvShowRepository
+import com.elhady.movies.core.domain.usecase.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetOnTheAirTVShowsUseCase @Inject constructor(
-    private val tvShowRepository: TvShowRepository
+    private val movieRepository: MovieRepository
 ) {
     suspend operator fun invoke(): Flow<PagingData<TVShowsEntity>> {
-        return tvShowRepository.getOnTheAirTVShowsPager().flow
+        return movieRepository.getOnTheAirTVShowsPager().flow
     }
 }

@@ -1,5 +1,6 @@
 package com.elhady.movies.core.data.repository.auth
 
+import android.util.Log
 import com.elhady.movies.core.data.local.PreferenceStorage
 import com.elhady.movies.core.data.remote.request.LoginRequest
 import com.elhady.movies.core.data.remote.service.MovieService
@@ -8,6 +9,7 @@ import com.elhady.movies.core.data.repository.mappers.domain.DomainProfileMapper
 import com.elhady.movies.core.domain.entities.ProfileEntity
 import com.elhady.movies.core.domain.usecase.repository.AuthRepository
 import com.elhady.movies.core.domain.usecase.repository.UnauthorizedThrowable
+import com.elhady.movies.presentation.viewmodel.login.log
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
@@ -49,13 +51,17 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun getAccountDetails(): ProfileEntity {
         val sessionId = prefs.sessionId
-        val profileData = wrapApiCall { movieService.getAccountDetails(sessionId!!) }
+        val profileData = wrapApiCall { movieService.getAccountDetails() }
         return domainProfileMapper.map(profileData)
     }
 
-    override suspend fun isUserLoggedIn(): Boolean {
+    override fun isUserLoggedIn(): Boolean {
         val sessionId = prefs.sessionId
-        return sessionId != null
+        return !sessionId.isNullOrBlank()
+    }
+
+    private fun Any.log() {
+        Log.e("AuthRepositoryImp", "log(${this::class.java.simpleName}) : $this")
     }
 }
 

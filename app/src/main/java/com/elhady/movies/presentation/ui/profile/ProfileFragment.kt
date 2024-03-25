@@ -24,7 +24,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUIState, Pro
     override val viewModel: ProfileViewModel by viewModels()
 
     companion object {
-        private const val PREF_THEME_STATE = "theme_state"
+        private const val PREF_THEME_STATE = "night_mode_state"
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,11 +80,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUIState, Pro
             .setMessage(getString(R.string.do_u_wanna_leave_us))
             .setPositiveButton(getString(R.string.confirm)) { _, _ ->
                 viewModel.logout()
+                findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToLoginFragment())
             }
             .setNeutralButton(getString(R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()
+
     }
 
 

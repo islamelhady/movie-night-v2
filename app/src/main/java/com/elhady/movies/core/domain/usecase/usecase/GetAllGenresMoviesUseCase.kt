@@ -6,7 +6,7 @@ import com.elhady.movies.core.domain.usecase.repository.MovieRepository
 import javax.inject.Inject
 
 class GetAllGenresMoviesUseCase @Inject constructor(
-    private val movieRepository: MovieRepository,
+    private val movieRepository: MovieRepository
 ) {
     suspend operator fun invoke(): List<GenreEntity> {
         movieRepository.refreshGenres()

@@ -1,10 +1,13 @@
 package com.elhady.movies.core.data.repository
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.elhady.movies.core.data.local.PreferenceStorage
 import com.elhady.movies.core.data.local.database.MovieDao
+import com.elhady.movies.core.data.local.database.TvShowDao
 import com.elhady.movies.core.data.local.database.dto.SearchHistoryLocalDto
+import com.elhady.movies.core.data.local.database.dto.tvshow.TvShowsLocalDto
 import com.elhady.movies.core.data.remote.request.AddMediaToListRequest
 import com.elhady.movies.core.data.remote.request.CreateUserListRequest
 import com.elhady.movies.core.data.remote.request.DeleteMovieRequest
@@ -16,7 +19,6 @@ import com.elhady.movies.core.data.remote.request.RatingRequest
 import com.elhady.movies.core.data.remote.request.WatchlistRequest
 import com.elhady.movies.core.data.remote.response.dto.YoutubeVideoDetailsRemoteDto
 import com.elhady.movies.core.data.remote.service.MovieService
-import com.elhady.movies.core.data.repository.Constants.IMAGE_BASE_PATH
 import com.elhady.movies.core.data.repository.mappers.cash.LocalGenresMovieMapper
 import com.elhady.movies.core.data.repository.mappers.cash.LocalGenresTvMapper
 import com.elhady.movies.core.data.repository.mappers.cash.LocalPopularPeopleMapper
@@ -25,6 +27,8 @@ import com.elhady.movies.core.data.repository.mappers.cash.movie.LocalPopularMov
 import com.elhady.movies.core.data.repository.mappers.cash.movie.LocalTopRatedMovieMapper
 import com.elhady.movies.core.data.repository.mappers.cash.movie.LocalTrendingMoviesMapper
 import com.elhady.movies.core.data.repository.mappers.cash.movie.LocalUpcomingMovieMapper
+import com.elhady.movies.core.data.repository.mappers.cash.tv.LocalAiringTodayTvShowMapper
+import com.elhady.movies.core.data.repository.mappers.cash.tv.LocalTvShowMapper
 import com.elhady.movies.core.data.repository.mappers.domain.DomainGenreMapper
 import com.elhady.movies.core.data.repository.mappers.domain.DomainGenreTvMapper
 import com.elhady.movies.core.data.repository.mappers.domain.DomainMovieDetailsMapper
@@ -54,7 +58,12 @@ import com.elhady.movies.core.data.repository.mappers.domain.movie.DomainTopRate
 import com.elhady.movies.core.data.repository.mappers.domain.movie.DomainTrendingMoviesMapper
 import com.elhady.movies.core.data.repository.mappers.domain.movie.DomainTvMapper
 import com.elhady.movies.core.data.repository.mappers.domain.movie.DomainUpcomingMovieMapper
+import com.elhady.movies.core.data.repository.mappers.domain.search.DomainMovieSearchMapper
+import com.elhady.movies.core.data.repository.mappers.domain.search.DomainTvShowSearchMapper
+import com.elhady.movies.core.data.repository.mappers.domain.tv.DomainAiringTodayTVMapper
+import com.elhady.movies.core.data.repository.mappers.domain.tv.DomainAiringTodayTvShowsMapper
 import com.elhady.movies.core.data.repository.mappers.domain.tv.DomainMyRatedTvShowDetailsMapper
+import com.elhady.movies.core.data.repository.mappers.domain.tv.DomainTVMapper
 import com.elhady.movies.core.data.repository.showmore.PopularMoviesShowMorePagingSource
 import com.elhady.movies.core.data.repository.showmore.TopRatedShowMorePagingSource
 import com.elhady.movies.core.data.repository.showmore.TrendingShowMorePagingSource
@@ -79,12 +88,15 @@ import com.elhady.movies.core.domain.entities.UserListEntity
 import com.elhady.movies.core.domain.entities.YoutubeVideoDetailsEntity
 import com.elhady.movies.core.domain.entities.moviedetails.MovieDetailsEntity
 import com.elhady.movies.core.domain.entities.ReviewEntity
+import com.elhady.movies.core.domain.entities.TVShowsEntity
 import com.elhady.movies.core.domain.entities.moviedetails.ReviewResponseEntity
 import com.elhady.movies.core.domain.entities.mylist.ListCreatedEntity
 import com.elhady.movies.core.domain.entities.myrated.MyRatedMovieEntity
 import com.elhady.movies.core.domain.entities.myrated.MyRatedTvShowEntity
 import com.elhady.movies.core.domain.entities.seasondetails.SeasonDetailsEntity
+import com.elhady.movies.core.domain.usecase.repository.ApiThrowable
 import com.elhady.movies.core.domain.usecase.repository.MovieRepository
+import java.util.Locale
 import java.util.Random
 import javax.inject.Inject
 
@@ -129,11 +141,19 @@ class MovieRepositoryImpl @Inject constructor(
     private val domainTvDetailsCreditMapper: DomainTvDetailsCreditMapper,
     private val domainTvDetailsReviewMapper: DomainTvDetailsReviewMapper,
     private val domainTvShowMapper: DomainTvShowMapper,
+    private val domainTVMapper: DomainTVMapper,
     private val domainTvDetailsSeasonMapper: DomainTvDetailsSeasonMapper,
     private val domainMovieMapper: DomainMovieMapper,
+    private val domainMovieSearchMapper: DomainMovieSearchMapper,
+    private val domainTvShowSearchMapper: DomainTvShowSearchMapper,
     private val domainTvMapper: DomainTvMapper,
     private val domainReviewsMapper: DomainReviewsMapper,
     private val domainUserListsMapper: DomainUserListsMapper,
+    private val localTvShowMapper: LocalTvShowMapper,
+    private val tvShowDao: TvShowDao,
+    private val domainAiringTodayTvShowsMapper: DomainAiringTodayTvShowsMapper,
+    private val localAiringTodayTvShowMapper: LocalAiringTodayTvShowMapper,
+    private val domainAiringTodayTVMapper: DomainAiringTodayTVMapper,
     private val random: Random,
     private val domainPeopleDetailsMapper: DomainPeopleDetailsMapper,
     private val domainMoviesByPeopleMapper: DomainMoviesByPeopleMapper,
@@ -233,9 +253,10 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun refreshTrendingMovies() {
+        val genres = getGenresMovies()
         refreshWrapper(
             apiCall = movieService::getTrendingMovies,
-            localMapper = localTrendingMoviesMapper::map,
+            localMapper = { localTrendingMoviesMapper.map(it, genres)},
             databaseSaver = movieDao::insertTrendingMovies,
             clearOldLocalData = movieDao::clearAllTrendingMovies
         )
@@ -288,57 +309,33 @@ class MovieRepositoryImpl @Inject constructor(
 
     ///region search
     override suspend fun searchForMovies(keyword: String): List<MovieEntity> {
+        val movieRemoteDto =
+            wrapApiCall { movieService.searchForMovies(keyword) }.results?.filterNotNull()
+                ?: emptyList()
         val genresEntities = getGenresMovies()
-        return wrapApiCall { movieService.searchForMovies(keyword) }.results
-            ?.filterNotNull()?.let { movieDtos ->
-                movieDtos.map { input ->
-                    MovieEntity(
-                        id = input.id ?: 0,
-                        rate = input.voteAverage ?: 0.0,
-                        title = input.title ?: "",
-                        genreEntities = filterGenres(
-                            input.genreIds?.filterNotNull() ?: emptyList(),
-                            genresEntities
-                        ),
-                        imageUrl = IMAGE_BASE_PATH + input.posterPath,
-                        year = input.releaseDate ?: ""
-                    )
-                }
-            } ?: emptyList()
+        return domainMovieSearchMapper.map(movieRemoteDto, genresEntities)
     }
 
     override suspend fun searchForTv(keyword: String): List<TvEntity> {
+        val tvRemoteDto = wrapApiCall { movieService.searchForTv(keyword) }.results?.filterNotNull()
+            ?: emptyList()
         val genresTvEntities = getGenresTvs()
-        return wrapApiCall { movieService.searchForTv(keyword) }.results
-            ?.filterNotNull()?.let { tvDtos ->
-                tvDtos.map { input ->
-                    TvEntity(
-                        id = input.id ?: 0,
-                        title = input.name ?: "",
-                        rate = input.voteAverage ?: 0.0,
-                        imageUrl = IMAGE_BASE_PATH + input.posterPath,
-                        genreEntities = filterGenres(
-                            input.genreIds?.filterNotNull() ?: emptyList(),
-                            genresTvEntities
-                        ),
-                        year = input.firstAirDate ?: ""
-                    )
-                }
-            } ?: emptyList()
+        return domainTvShowSearchMapper.map(tvRemoteDto, genresTvEntities)
     }
 
     override suspend fun searchForPeople(keyword: String): List<PeopleEntity> {
-        return wrapApiCall { movieService.searchForPeople(keyword) }.results
-            ?.filterNotNull()?.map {
-                domainPeopleRemoteMapper.map(it)
-            } ?: emptyList()
-
+        return domainPeopleRemoteMapper.map(
+            wrapApiCall { movieService.searchForPeople(keyword) }.results?.filterNotNull()
+                ?: emptyList()
+        )
     }
 
     private fun filterGenres(
         genresIds: List<Int>,
         genresEntities: List<GenreEntity>
-    ): List<GenreEntity> = genresEntities.filter { it.genreID in genresIds }
+    ): List<GenreEntity> {
+        return genresEntities.filter { it.genreID in genresIds }
+    }
     //endregion
 
     /// region genres
@@ -407,6 +404,93 @@ class MovieRepositoryImpl @Inject constructor(
     /// endregion
 
     ///region tv
+
+    // region Airing Today
+    override suspend fun refreshAiringTodayTvShows() {
+        refreshWrapper(
+            apiCall = { movieService.getAiringTodayTVShows(random.nextInt(20) + 1) },
+            localMapper = localAiringTodayTvShowMapper::map,
+            databaseSaver = tvShowDao::insertAiringTodayTvShow,
+            clearOldLocalData = tvShowDao::clearAllAiringTodayTvShow
+        )
+    }
+
+    override suspend fun getAiringTodayTvShowsFromDatabase(): List<TVShowsEntity> {
+        Log.d("dao TVREPOSITORY" , "Airing Dao : ${tvShowDao.getAllTvShow().size}")
+        return domainAiringTodayTVMapper.map(tvShowDao.getAllAiringTodayTvShow())
+    }
+
+    override suspend fun getAiringTodayTVShowsFromRemote(): List<TVShowsEntity> {
+        val page = random.nextInt(500) + 1
+        val airingTodayRemoteDTOs =
+            wrapApiCall { movieService.getAiringTodayTVShows(page = page) }.results?.filterNotNull() ?: emptyList()
+        Log.d("remote TVREPOSITORY" , "${airingTodayRemoteDTOs.size}")
+        return domainAiringTodayTvShowsMapper.map(airingTodayRemoteDTOs)
+    }
+
+    // endregion
+
+    override suspend fun getTvShowsFromDatabase(): List<TVShowsEntity> {
+        return domainTVMapper.map(tvShowDao.getAllTvShow())
+    }
+
+    override suspend fun refreshTvShows() {
+        try {
+            val items = mutableListOf<TvShowsLocalDto>()
+            movieService.getAiringTodayTVShows().body()?.results?.first()
+                ?.let {
+                    items.add(localTvShowMapper.map(it))
+                }
+            movieService.getTopRatedTVShows().body()?.results?.first()
+                ?.let {
+                    items.add(localTvShowMapper.map(it))
+                }
+            movieService.getPopularTVShows().body()?.results?.first()
+                ?.let {
+                    items.add(localTvShowMapper.map(it))
+                }
+            movieService.getOnTheAirTVShows().body()?.results?.first()
+                ?.let {
+                    items.add(localTvShowMapper.map(it))
+                }
+            tvShowDao.clearAllTvShow()
+            tvShowDao.insertTvShow(items)
+
+        } catch (throwable: Throwable) {
+            throw ApiThrowable(throwable.message)
+        }
+    }
+
+
+
+    override suspend fun getAiringTodayTVShowsPager(): Pager<Int, TVShowsEntity> {
+        return Pager(
+            config = PagingConfig(pageSize = 20),
+            pagingSourceFactory = { airingTodayTvShowsPagingSource }
+        )
+    }
+
+    override suspend fun getTopRatedTVShowsPager(): Pager<Int, TVShowsEntity> {
+        return Pager(
+            config = PagingConfig(pageSize = 20),
+            pagingSourceFactory = { topRatedTvShowsPagingSource }
+        )
+    }
+
+    override suspend fun getPopularTVShowsPager(): Pager<Int, TVShowsEntity> {
+        return Pager(
+            config = PagingConfig(pageSize = 20),
+            pagingSourceFactory = { popularTVShowsPagingSource }
+        )
+    }
+
+    override suspend fun getOnTheAirTVShowsPager(): Pager<Int, TVShowsEntity> {
+        return Pager(
+            config = PagingConfig(pageSize = 20),
+            pagingSourceFactory = { onTheAirTVShowsPagingSource }
+        )
+    }
+
     override suspend fun getTvDetailsInfo(tvShowID: Int): TvDetailsInfoEntity {
         return domainTvDetailsMapper.map(wrapApiCall { movieService.getTvDetails(tvShowID) })
     }
@@ -429,7 +513,9 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getRateTvShow(): List<MyRatedTvShowEntity> {
-        return domainMyRatedTvShowDetailsMapper.map(wrapApiCall { movieService.getRatedTv() }.results?.filterNotNull() ?: emptyList())
+        return domainMyRatedTvShowDetailsMapper.map(
+            wrapApiCall { movieService.getRatedTv() }.results?.filterNotNull() ?: emptyList()
+        )
     }
 
 
@@ -729,18 +815,18 @@ class MovieRepositoryImpl @Inject constructor(
     /// endregion
 
     // region people details
-    override suspend fun getPersonDetails(person_id: Int): PeopleDetailsEntity {
-        return domainPeopleDetailsMapper.map(wrapApiCall { movieService.getPerson(person_id) })
+    override suspend fun getPersonDetails(personId: Int): PeopleDetailsEntity {
+        return domainPeopleDetailsMapper.map(wrapApiCall { movieService.getPerson(personId) })
     }
 
-    override suspend fun getMoviesByPerson(person_id: Int): List<MovieEntity> {
-        return domainMoviesByPeopleMapper.map(wrapApiCall { movieService.getMoviesByPerson(person_id) }.cast!!)
+    override suspend fun getMoviesByPerson(personId: Int): List<MovieEntity> {
+        return domainMoviesByPeopleMapper.map(wrapApiCall { movieService.getMoviesByPerson(personId) }.cast!!)
     }
 
-    override suspend fun getTvShowsByPerson(person_id: Int): List<TvShowEntity> {
+    override suspend fun getTvShowsByPerson(personId: Int): List<TvShowEntity> {
         return tvShowsByPeopleMapper.map(wrapApiCall {
             movieService.getTvShowsByPerson(
-                person_id
+                personId
             )
         }.cast!!)
     }

@@ -1,12 +1,10 @@
 package com.elhady.movies.di
 
 import com.elhady.movies.core.data.repository.MovieRepositoryImpl
-import com.elhady.movies.core.data.repository.TvShowRepositoryImp
 import com.elhady.movies.core.data.repository.WatchHistoryRepositoryImpl
 import com.elhady.movies.core.data.repository.auth.AuthRepositoryImpl
 import com.elhady.movies.core.domain.usecase.repository.AuthRepository
 import com.elhady.movies.core.domain.usecase.repository.MovieRepository
-import com.elhady.movies.core.domain.usecase.repository.TvShowRepository
 import com.elhady.movies.core.domain.usecase.repository.WatchHistoryRepository
 import dagger.Binds
 import dagger.Module
@@ -25,10 +23,6 @@ abstract class RepositoryModule {
     @Binds
     @ViewModelScoped
     abstract fun bindMovieRepository(movieRepositoryImpl: MovieRepositoryImpl): MovieRepository
-
-    @Binds
-    @ViewModelScoped
-    abstract fun bindTvShowRepository(tvShowRepositoryImp: TvShowRepositoryImp): TvShowRepository
 
     @Binds
     @ViewModelScoped abstract fun bindWatchHistoryRepository(watchHistoryRepositoryImpl: WatchHistoryRepositoryImpl): WatchHistoryRepository

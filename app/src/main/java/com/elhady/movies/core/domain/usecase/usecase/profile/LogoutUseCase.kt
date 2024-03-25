@@ -6,12 +6,7 @@ import javax.inject.Inject
 class LogoutUseCase @Inject constructor(
     private val authRepository: AuthRepository
 ) {
-    suspend operator fun invoke(): Boolean {
-        return try {
+    suspend operator fun invoke() {
             authRepository.logout()
-            false
-        } catch (_: Throwable) {
-            true
-        }
     }
 }
