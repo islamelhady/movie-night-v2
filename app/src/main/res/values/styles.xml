@@ -76,9 +76,10 @@
         <item name="enforceMaterialTheme">true</item>
         <item name="android:background">@color/bottom_navigation_background</item>
         <item name="itemIconTint">@color/bottom_nav_icon_tint</item>
+        <item name="itemTextColor">@color/bottom_nav_icon_tint</item>
         <item name="itemTextAppearanceActive">@style/TextStyle.TitleSmall.ItemTextAppearanceActive</item>
         <item name="itemTextAppearanceInactive">@style/TextStyle.TitleSmall.ItemTextAppearanceInactive</item>
-        <item name="labelVisibilityMode">labeled</item>
+        <item name="labelVisibilityMode">selected</item>
     </style>
 
     <style name="TextStyle.TitleSmall.ItemTextAppearanceActive">
@@ -137,9 +138,10 @@
         <item name="chipStartPadding">@dimen/spacing_medium_16dp</item>
         <item name="chipEndPadding">@dimen/spacing_medium_16dp</item>
         <item name="chipBackgroundColor">@color/chip_background</item>
-        <item name="chipStrokeColor">@color/primary</item>
-        <item name="chipStrokeWidth">0dp</item>
+        <item name="chipStrokeColor">@color/chip_stroke</item>
+        <item name="chipStrokeWidth">1dp</item>
         <item name="chipMinTouchTargetSize">0dp</item>
+        <item name="android:textAlignment">center</item>
     </style>
 
     <style name="AddToListChipStyle" parent="TextStyle.BodySmall.ChipStyle">

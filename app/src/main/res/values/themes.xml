@@ -50,11 +50,11 @@
     </style>
 
     <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
-        <item name="android:textColor">@color/on_background_60
-        </item> <!-- Change the text color to red -->
-        <item name="chipStrokeColor">@color/on_background_38
-        </item> <!-- Change the border color to green -->
-        <item name="chipStrokeWidth">1dp</item> <!-- Set the border width to 2dp -->
+        <item name="android:textColor">@color/on_background_60</item>
+        <item name="chipStrokeColor">@color/chip_stroke</item>
+        <item name="chipBackgroundColor">@color/chip_background</item>
+        <item name="android:textAlignment">center</item>
+        <item name="chipStrokeWidth">1dp</item>
     </style>
 
 

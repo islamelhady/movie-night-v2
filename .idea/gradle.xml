@@ -10,28 +10,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/core" />
-            <option value="$PROJECT_DIR$/core/base" />
-            <option value="$PROJECT_DIR$/core/data" />
-            <option value="$PROJECT_DIR$/core/data/local" />
-            <option value="$PROJECT_DIR$/core/data/remote" />
-            <option value="$PROJECT_DIR$/core/data/repository" />
-            <option value="$PROJECT_DIR$/core/domain" />
-            <option value="$PROJECT_DIR$/core/domain/entities" />
-            <option value="$PROJECT_DIR$/core/domain/useCase" />
-            <option value="$PROJECT_DIR$/feature" />
-            <option value="$PROJECT_DIR$/feature/auth" />
-            <option value="$PROJECT_DIR$/feature/auth/domain" />
-            <option value="$PROJECT_DIR$/feature/auth/domain/usecase" />
-            <option value="$PROJECT_DIR$/feature/auth/presentation" />
-            <option value="$PROJECT_DIR$/feature/auth/presentation/ui" />
-            <option value="$PROJECT_DIR$/feature/auth/presentation/viewModel" />
-            <option value="$PROJECT_DIR$/feature/home" />
-            <option value="$PROJECT_DIR$/feature/home/domain" />
-            <option value="$PROJECT_DIR$/feature/home/domain/useCase" />
-            <option value="$PROJECT_DIR$/feature/home/presentation" />
-            <option value="$PROJECT_DIR$/feature/home/presentation/ui" />
-            <option value="$PROJECT_DIR$/feature/home/presentation/viewModel" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
