@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.R
 import com.elhady.movies.core.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentMyListDetailsBinding
-import com.elhady.movies.presentation.ui.common.base.SwipeToDeleteItem
+import com.elhady.movies.core.bases.SwipeToDeleteItem
 import com.elhady.movies.presentation.viewmodel.mylistdetails.MyListDetailsUiEvent
 import com.elhady.movies.presentation.viewmodel.mylistdetails.MyListDetailsUiState
 import com.elhady.movies.presentation.viewmodel.mylistdetails.MyListDetailsViewModel

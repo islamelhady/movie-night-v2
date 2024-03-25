@@ -87,6 +87,9 @@ dependencies {
     // recycler
     implementation("androidx.recyclerview:recyclerview:1.2.0")
 
+    implementation("it.xabaras.android:recyclerview-swipedecorator:1.4")
+
+
     // refresh-layout
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 

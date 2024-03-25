@@ -214,7 +214,7 @@
     </fragment>
     <fragment
         android:id="@+id/episodeDetailsFragment"
-        android:name="com.elhady.movies.presentation.ui.episode_details.EpisodeDetailsFragment"
+        android:name="com.elhady.movies.presentation.ui.episodedetails.EpisodeDetailsFragment"
         android:label="EpisodeDetailsFragment"
         tools:layout="@layout/fragment_episode_details">
         <argument

@@ -1,4 +1,4 @@
-package com.elhady.movies.presentation.ui.episode_details
+package com.elhady.movies.presentation.ui.episodedetails
 
 import android.view.View
 import androidx.databinding.BindingAdapter

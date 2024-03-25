@@ -8,4 +8,10 @@
         android:drawable="@drawable/ic_launcher"
         android:gravity="center" />
 
+    <item
+        android:width="50dp"
+        android:height="50dp"
+        android:drawable="@drawable/ic_launcher"
+        android:gravity="bottom|center" />
+
 </layer-list>

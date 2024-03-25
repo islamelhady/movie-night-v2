@@ -73,7 +73,7 @@ fun EditText.setTipError(errorMessage: String?) {
 @BindingAdapter(value = ["app:imageUrl"])
 fun ImageView.loadImage(imageUrl: String?) {
     val imageLink = if (imageUrl == null || imageUrl.contains("null"))
-        "https://pbs.twimg.com/profile_images/1243623122089041920/gVZIvphd_400x400.jpg" else imageUrl
+        R.drawable.ic_launcher  else imageUrl
 
     Glide.with(context)
         .load(imageLink)
