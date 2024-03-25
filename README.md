@@ -3,7 +3,6 @@
 The **Movie Night** App is an Android application built using Kotlin and follows the MVVM (Model-View-ViewModel) architectural pattern. It utilizes various libraries and components such as Flow, XML, Room, Retrofit, Dagger Hilt. The app provides several features for movie enthusiasts, including user authentication, movie search, YouTube trailer playback, movie rating, review viewing, movie filtering, watch history, favourites, and user profile.
 
 
-![screens](figure/screens.jpg)
 
 ## Architecture
 **Movie Night** is based on the recommended architecture and the Repository pattern, from Google with dependency inversion which follows [Google's official architecture guidance](https://developer.android.com/topic/architecture).
@@ -33,6 +32,24 @@ The **Movie Night** App is an Android application built using Kotlin and follows
 - <b>Review and comment:</b> Users can add reviews and comments to movies and series, sharing their opinions and thoughts about the content.
 - <b>Create custom lists:</b> Users can create custom lists to keep track of the movies and series they want to watch, such as a watch later list or a list of favourites.
 - <b>Watch trailers:</b> Users can watch trailers of movies and series to get a glimpse of the content before watching it.
+
+## Light Theme
+|                                                        |                                                       |                                                     |
+|:------------------------------------------------------:|:-----------------------------------------------------:|:---------------------------------------------------:|
+| <img src="https://i.imgur.com/I300etz.jpg" width="250">  | <img src="https://imgur.com/eFNvTOL.jpg" width="250"> | <img src="https://imgur.com/wd9wTBy.jpg" width="250">   
+| <img src="https://i.imgur.com/MrjJ3iF.jpg" width="250">  | <img src="https://imgur.com/OB3voHY.jpg" width="250"> | <img src="https://imgur.com/cKgotDS.jpg" width="250"> 
+| <img src="https://imgur.com/LLEgoPr.jpg" width="250">  | <img src="https://imgur.com/XJQTOyx.jpg" width="250"> | <img src="https://imgur.com/aOgwh56.jpg" width="250"> 
+| <img src="https://imgur.com/DeNpsd2.jpg" width="250">  | <img src="https://imgur.com/QmtAm5V.jpg" width="250"> | <img src="https://i.imgur.com/zgz9Epj.jpg" width="250">
+
+## Dark Theme
+
+|                                                        |                                                       |                                                     |
+|:------------------------------------------------------:|:-----------------------------------------------------:|:---------------------------------------------------:|
+| <img src="https://imgur.com/2vv8ded.jpg" width="250">  | <img src="https://imgur.com/8H6AAPD.jpg" width="250">  | <img src="https://imgur.com/qvKkqxR.jpg" width="250">
+| <img src="https://imgur.com/WTbgV6a.jpg" width="250">  | <img src="https://imgur.com/WVngEtv.jpg" width="250"> | <img src="https://imgur.com/BpIrKDd.jpg" width="250"> 
+| <img src="https://imgur.com/hhVs90b.jpg" width="250">  | <img src="https://imgur.com/mVhEejx.jpg" width="250"> | <img src="https://imgur.com/Kbm2rDX.jpg" width="250">
+| <img src="https://imgur.com/3RO4LOQ.jpg" width="250">  | <img src="https://imgur.com/FY923cv.jpg" width="250"> | <img src="https://imgur.com/q9HpB50.jpg" width="250"> 
+
 
 ## Tech Stack
 - [Kotlin](https://developer.android.com/kotlin) - Kotlin is a programming language that can run on JVM. Google has announced Kotlin as one of its officially supported programming languages in Android Studio, and the Android community is migrating at a pace from Java to Kotlin.
