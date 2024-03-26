@@ -6,10 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.bases.BaseViewModel
 import com.elhady.movies.core.bases.StringsRes
 import com.elhady.movies.core.domain.entities.StatusEntity
-import com.elhady.movies.core.domain.usecase.usecase.mylist.CreateListUseCase
-import com.elhady.movies.core.domain.usecase.usecase.mylist.DeleteListUseCase
-import com.elhady.movies.core.domain.usecase.usecase.mylist.GetListsCreatedUseCase
-import com.elhady.movies.core.domain.usecase.repository.NoNetworkThrowable
+import com.elhady.movies.core.domain.usecase.mylist.CreateListUseCase
+import com.elhady.movies.core.domain.usecase.mylist.DeleteListUseCase
+import com.elhady.movies.core.domain.usecase.mylist.GetListsCreatedUseCase
+import com.elhady.movies.core.data.NoNetworkThrowable
 import com.elhady.movies.presentation.viewmodel.mylist.mapper.MyListUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update

@@ -8,19 +8,19 @@ import com.elhady.movies.core.bases.NavigationRes
 import com.elhady.movies.core.bases.StringsRes
 import com.elhady.movies.core.domain.entities.StatusEntity
 import com.elhady.movies.core.domain.entities.moviedetails.MovieDetailsEntity
-import com.elhady.movies.core.domain.usecase.repository.ForbiddenThrowable
-import com.elhady.movies.core.domain.usecase.usecase.moviedetails.AddToUserListUseCase
-import com.elhady.movies.core.domain.usecase.usecase.moviedetails.CreateUserListUseCase
-import com.elhady.movies.core.domain.usecase.usecase.moviedetails.GetUserListsUseCase
-import com.elhady.movies.core.domain.usecase.usecase.common.AddToFavouriteUseCase
-import com.elhady.movies.core.domain.usecase.usecase.common.AddToWatchList
-import com.elhady.movies.core.domain.usecase.usecase.common.CheckIsLoginOrNotUseCase
-import com.elhady.movies.core.domain.usecase.usecase.moviedetails.GetMovieDetailsUseCase
-import com.elhady.movies.core.domain.usecase.usecase.moviedetails.SetRatingUseCase
-import com.elhady.movies.core.domain.usecase.repository.NoNetworkThrowable
-import com.elhady.movies.core.domain.usecase.repository.UnauthorizedThrowable
-import com.elhady.movies.core.domain.usecase.usecase.moviedetails.GetRatingMovieUseCase
-import com.elhady.movies.core.domain.usecase.usecase.watchhistory.InsertMovieToWatchHistoryUseCase
+import com.elhady.movies.core.data.ForbiddenThrowable
+import com.elhady.movies.core.domain.usecase.moviedetails.AddToUserListUseCase
+import com.elhady.movies.core.domain.usecase.moviedetails.CreateUserListUseCase
+import com.elhady.movies.core.domain.usecase.moviedetails.GetUserListsUseCase
+import com.elhady.movies.core.domain.usecase.common.AddToFavouriteUseCase
+import com.elhady.movies.core.domain.usecase.common.AddToWatchList
+import com.elhady.movies.core.domain.usecase.common.CheckIsLoginOrNotUseCase
+import com.elhady.movies.core.domain.usecase.moviedetails.GetMovieDetailsUseCase
+import com.elhady.movies.core.domain.usecase.moviedetails.SetRatingUseCase
+import com.elhady.movies.core.data.NoNetworkThrowable
+import com.elhady.movies.core.data.UnauthorizedThrowable
+import com.elhady.movies.core.domain.usecase.moviedetails.GetRatingMovieUseCase
+import com.elhady.movies.core.domain.usecase.watchhistory.InsertMovieToWatchHistoryUseCase
 import com.elhady.movies.presentation.viewmodel.common.listener.ChipListener
 import com.elhady.movies.presentation.viewmodel.common.listener.MediaListener
 import com.elhady.movies.presentation.viewmodel.common.listener.PeopleListener
@@ -62,7 +62,6 @@ class MovieDetailsViewModel @Inject constructor(
     private val userListsUiMapper: UserListUiMapper,
     private val getRatingMovieUseCase: GetRatingMovieUseCase,
     private val stringsRes: StringsRes,
-    private val navigationRes: NavigationRes,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel<MovieDetailsUiState, MovieDetailsUiEvent>(MovieDetailsUiState()),
     MovieDetailsListener, MediaListener, PeopleListener, ChipListener, BottomSheetListener,

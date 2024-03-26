@@ -7,9 +7,8 @@ import com.elhady.movies.core.data.remote.service.MovieService
 import com.elhady.movies.core.data.repository.BaseRepository
 import com.elhady.movies.core.data.repository.mappers.domain.DomainProfileMapper
 import com.elhady.movies.core.domain.entities.ProfileEntity
-import com.elhady.movies.core.domain.usecase.repository.AuthRepository
-import com.elhady.movies.core.domain.usecase.repository.UnauthorizedThrowable
-import com.elhady.movies.presentation.viewmodel.login.log
+import com.elhady.movies.core.domain.repository.AuthRepository
+import com.elhady.movies.core.data.UnauthorizedThrowable
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(

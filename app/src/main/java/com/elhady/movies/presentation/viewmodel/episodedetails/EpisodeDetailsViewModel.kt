@@ -5,11 +5,11 @@ import com.elhady.movies.presentation.viewmodel.search.mappers.PeopleUiMapper
 import com.elhady.movies.core.bases.BaseViewModel
 import com.elhady.movies.core.bases.StringsRes
 import com.elhady.movies.core.domain.entities.RatingEpisodeDetailsStatusEntity
-import com.elhady.movies.core.domain.usecase.usecase.episodedetails.GetCastForEpisodeUseCase
-import com.elhady.movies.core.domain.usecase.usecase.episodedetails.GetEpisodeDetailsUseCase
-import com.elhady.movies.core.domain.usecase.usecase.episodedetails.GetEpisodeVideoUseCase
-import com.elhady.movies.core.domain.usecase.usecase.episodedetails.SetEpisodeRatingUseCase
-import com.elhady.movies.core.domain.usecase.usecase.common.CheckIsLoginOrNotUseCase
+import com.elhady.movies.core.domain.usecase.episodedetails.GetCastForEpisodeUseCase
+import com.elhady.movies.core.domain.usecase.episodedetails.GetEpisodeDetailsUseCase
+import com.elhady.movies.core.domain.usecase.episodedetails.GetEpisodeVideoUseCase
+import com.elhady.movies.core.domain.usecase.episodedetails.SetEpisodeRatingUseCase
+import com.elhady.movies.core.domain.usecase.common.CheckIsLoginOrNotUseCase
 import com.elhady.movies.presentation.viewmodel.common.listener.PeopleListener
 import com.elhady.movies.presentation.viewmodel.common.model.PeopleUIState
 import dagger.hilt.android.lifecycle.HiltViewModel

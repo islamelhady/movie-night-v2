@@ -2,9 +2,7 @@ package com.elhady.movies.presentation.viewmodel.explore
 
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.bases.BaseViewModel
-import com.elhady.movies.core.domain.usecase.usecase.home.GetTrendingMoviesUseCase
-import com.elhady.movies.presentation.viewmodel.home.TrendingMoviesUiState
-import com.elhady.movies.presentation.viewmodel.home.mappers.TrendingUiMapper
+import com.elhady.movies.core.domain.usecase.home.GetTrendingMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
