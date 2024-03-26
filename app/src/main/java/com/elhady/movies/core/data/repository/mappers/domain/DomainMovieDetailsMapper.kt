@@ -1,12 +1,12 @@
 package com.elhady.movies.core.data.repository.mappers.domain
 
+import com.elhady.movies.BuildConfig
 import com.elhady.movies.core.mapper.Mapper
 import com.elhady.movies.core.data.remote.response.moviedetails.CreditsRemoteDto
 import com.elhady.movies.core.data.remote.response.moviedetails.MovieDetailsRemoteDto
 import com.elhady.movies.core.data.remote.response.moviedetails.RecommendationsRemoteDto
 import com.elhady.movies.core.data.remote.response.moviedetails.ReviewsRemoteDto
 import com.elhady.movies.core.data.remote.response.moviedetails.VideosRemoteDto
-import com.elhady.movies.core.data.repository.Constants.IMAGE_BASE_PATH
 import com.elhady.movies.core.domain.entities.moviedetails.CastEntity
 import com.elhady.movies.core.domain.entities.moviedetails.CreditsEntity
 import com.elhady.movies.core.domain.entities.moviedetails.CrewEntity
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class DomainMovieDetailsMapper @Inject constructor() : Mapper<MovieDetailsRemoteDto, MovieDetailsEntity> {
     override fun map(input: MovieDetailsRemoteDto): MovieDetailsEntity {
         return MovieDetailsEntity(
-            backdropPath = IMAGE_BASE_PATH + input.backdropPath,
+            backdropPath = BuildConfig.IMAGE_BASE_PATH + input.backdropPath,
             credits = mapCredits(input.credits),
             genres = input.genres?.map { it.name!! } ?: emptyList(),
             id = input.id ?: 0,
@@ -52,7 +52,7 @@ class DomainMovieDetailsMapper @Inject constructor() : Mapper<MovieDetailsRemote
                     order = it.order ?: 0,
                     originalName = it.originalName ?: "",
                     popularity = it.popularity ?: 0.0,
-                    profilePath = IMAGE_BASE_PATH + it.profilePath
+                    profilePath = BuildConfig.IMAGE_BASE_PATH + it.profilePath
                 )
             } ?: emptyList(),
             crew = credits?.crew?.map {
@@ -79,7 +79,7 @@ class DomainMovieDetailsMapper @Inject constructor() : Mapper<MovieDetailsRemote
             recommendedMovies = recommendations?.recommendedMovies?.map {
                 RecommendedMovieEntity(
                     adult = it.adult ?: false,
-                    backdropPath = IMAGE_BASE_PATH + it.backdropPath,
+                    backdropPath = BuildConfig.IMAGE_BASE_PATH + it.backdropPath,
                     genreIds = it.genreIds ?: emptyList(),
                     id = it.id ?: 0,
                     mediaType = it.mediaType ?: "",
@@ -87,7 +87,7 @@ class DomainMovieDetailsMapper @Inject constructor() : Mapper<MovieDetailsRemote
                     originalTitle = it.originalTitle ?: "",
                     overview = it.overview ?: "",
                     popularity = it.popularity ?: 0.0,
-                    posterPath = IMAGE_BASE_PATH + it.posterPath,
+                    posterPath = BuildConfig.IMAGE_BASE_PATH + it.posterPath,
                     releaseDate = it.releaseDate ?: "",
                     title = it.title ?: "",
                     video = it.video ?: false,

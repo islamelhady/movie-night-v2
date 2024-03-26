@@ -1,8 +1,8 @@
 package com.elhady.movies.core.data.repository.mappers.domain.episode
 
+import com.elhady.movies.BuildConfig
 import com.elhady.movies.core.mapper.Mapper
 import com.elhady.movies.core.data.remote.response.dto.episode_details.EpisodeDetailsRemoteDto
-import com.elhady.movies.core.data.repository.Constants.IMAGE_BASE_PATH
 import com.elhady.movies.core.domain.entities.EpisodeDetailsEntity
 import javax.inject.Inject
 
@@ -17,7 +17,7 @@ class DomainEpisodeDetailsMapper @Inject constructor() :
             episodeNumber = input.episodeNumber ?: 0,
             episodeName = input.name ?: "",
             voteAverage = input.voteAverage ?: 0f,
-            imageUrl = IMAGE_BASE_PATH + input.stillPath,
+            imageUrl = BuildConfig.IMAGE_BASE_PATH + input.stillPath,
             episodeRate = input.voteAverage ?: 0.0F
         )
     }

@@ -1,8 +1,8 @@
 package com.elhady.movies.core.data.repository.mappers.domain
 
+import com.elhady.movies.BuildConfig
 import com.elhady.movies.core.mapper.Mapper
 import com.elhady.movies.core.data.remote.response.dto.TvDetailsCreditRemoteDto
-import com.elhady.movies.core.data.repository.Constants.IMAGE_BASE_PATH
 import com.elhady.movies.core.domain.entities.PeopleEntity
 import javax.inject.Inject
 
@@ -18,7 +18,7 @@ class DomainTvDetailsCreditMapper @Inject constructor() :
             PeopleEntity(
                 id = actor?.id ?: 0,
                 name = actor?.name ?: "",
-                imageUrl = (IMAGE_BASE_PATH + actor?.profilePath) ?: ""
+                imageUrl = (BuildConfig.IMAGE_BASE_PATH + actor?.profilePath) ?: ""
             )
         } ?: emptyList()
     }

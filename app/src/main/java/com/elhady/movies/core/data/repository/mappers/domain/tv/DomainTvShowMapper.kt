@@ -1,8 +1,8 @@
 package com.elhady.movies.core.data.repository.mappers.domain.tv
 
+import com.elhady.movies.BuildConfig
 import com.elhady.movies.core.mapper.Mapper
 import com.elhady.movies.core.data.remote.response.dto.TVShowsRemoteDto
-import com.elhady.movies.core.data.repository.Constants.IMAGE_BASE_PATH
 import com.elhady.movies.core.domain.entities.TvShowEntity
 import javax.inject.Inject
 
@@ -16,7 +16,7 @@ class DomainTvShowMapper @Inject constructor() : Mapper<TVShowsRemoteDto, TvShow
         return TvShowEntity(
             id = input.id ?: 0,
             name = input.name ?: "",
-            imageUrl = (IMAGE_BASE_PATH + input.posterPath),
+            imageUrl = BuildConfig.IMAGE_BASE_PATH + input.posterPath,
             rate = input.voteAverage?.times(0.5) ?: 0.0
         )
     }

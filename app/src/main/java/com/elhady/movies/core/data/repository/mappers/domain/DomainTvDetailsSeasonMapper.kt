@@ -1,8 +1,8 @@
 package com.elhady.movies.core.data.repository.mappers.domain
 
+import com.elhady.movies.BuildConfig
 import com.elhady.movies.core.mapper.Mapper
 import com.elhady.movies.core.data.remote.response.dto.TvDetailsRemoteDto
-import com.elhady.movies.core.data.repository.Constants.IMAGE_BASE_PATH
 import com.elhady.movies.core.domain.entities.SeasonEntity
 import javax.inject.Inject
 
@@ -12,7 +12,7 @@ class DomainTvDetailsSeasonMapper @Inject constructor() :
         return input.seasons?.map { season ->
              SeasonEntity(
                  id = season?.id ?: 0,
-                 imageUrl = IMAGE_BASE_PATH + season?.posterPath,
+                 imageUrl = BuildConfig.IMAGE_BASE_PATH + season?.posterPath,
                  title = season?.name ?: "",
                  description = season?.overview ?: "",
                  year = season?.airDate ?: "",

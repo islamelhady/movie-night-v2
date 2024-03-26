@@ -10,9 +10,9 @@ import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.elhady.movies.BuildConfig
 import com.elhady.movies.R
 import com.elhady.movies.core.bases.BaseFragment
-import com.elhady.movies.core.data.repository.Constants.TMDB_SIGNUP_URL
 import com.elhady.movies.databinding.FragmentLoginBinding
 import com.elhady.movies.presentation.viewmodel.login.LoginUiEvent
 import com.elhady.movies.presentation.viewmodel.login.LoginUiState
@@ -71,7 +71,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginUiState, LoginUiEv
 
             is LoginUiEvent.SignUpEvent -> {
                 val browserIntent =
-                    Intent(Intent.ACTION_VIEW, Uri.parse(TMDB_SIGNUP_URL))
+                    Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.TMDB_SIGNUP_URL))
                 startActivity(browserIntent)
             }
 

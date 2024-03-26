@@ -1,11 +1,12 @@
 import org.gradle.kotlin.dsl.kapt
+import java.util.Properties
 
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id ("kotlin-kapt")
-    id ("dagger.hilt.android.plugin")
-    id ("androidx.navigation.safeargs.kotlin")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -25,7 +26,23 @@ android {
                 arg("room.schemaLocation", "$projectDir/schemas")
             }
         }
+        val properties = Properties()
+        properties.load(project.rootProject.file("local.properties").inputStream())
 
+        buildTypes {
+            getByName("debug") {
+                buildConfigField("String", "API_KEY", "\"${properties.getProperty("API_KEY")}\"")
+                buildConfigField("String", "BASE_URL", "\"${properties.getProperty("BASE_URL")}\"")
+                buildConfigField("String", "IMAGE_BASE_PATH", "\"${properties.getProperty("IMAGE_BASE_PATH")}\"")
+                buildConfigField("String", "TMDB_SIGNUP_URL", "\"${properties.getProperty("TMDB_SIGNUP_URL")}\"")
+            }
+            getByName("release") {
+                buildConfigField("String", "API_KEY", "\"${properties.getProperty("API_KEY")}\"")
+                buildConfigField("String", "BASE_URL", "\"${properties.getProperty("BASE_URL")}\"")
+                buildConfigField("String", "IMAGE_BASE_PATH", "\"${properties.getProperty("IMAGE_BASE_PATH")}\"")
+                buildConfigField("String", "TMDB_SIGNUP_URL", "\"${properties.getProperty("TMDB_SIGNUP_URL")}\"")
+            }
+        }
     }
 
     buildTypes {
@@ -48,6 +65,7 @@ android {
     buildFeatures {
         dataBinding = true
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -64,8 +82,8 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    implementation ("androidx.fragment:fragment-ktx:1.6.1")
-    implementation ("androidx.activity:activity-ktx:1.7.2")
+    implementation("androidx.fragment:fragment-ktx:1.6.1")
+    implementation("androidx.activity:activity-ktx:1.7.2")
 
     // navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.2")
@@ -99,23 +117,23 @@ dependencies {
     implementation("androidx.room:room-ktx:2.4.3")
 
     // Hilt
-    implementation ("com.google.dagger:hilt-android:2.45")
-    kapt ("com.google.dagger:hilt-compiler:2.45")
+    implementation("com.google.dagger:hilt-android:2.45")
+    kapt("com.google.dagger:hilt-compiler:2.45")
 
     //data store preferences
-    implementation ("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     // Lottie
-    implementation ("com.airbnb.android:lottie:5.2.0")
+    implementation("com.airbnb.android:lottie:5.2.0")
 
     // Paging
     implementation("androidx.paging:paging-runtime:3.2.1")
 
     //youtube player
-    implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0")
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0")
 
     // Expandable TextView
-    implementation ("io.github.glailton.expandabletextview:expandabletextview:1.0.2")
+    implementation("io.github.glailton.expandabletextview:expandabletextview:1.0.2")
 
     // splash
     implementation("androidx.core:core-splashscreen:1.0.1")
@@ -126,7 +144,7 @@ dependencies {
     implementation("androidx.room:room-ktx:2.4.3")
 
     //data store preferences
-    implementation ("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     // retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

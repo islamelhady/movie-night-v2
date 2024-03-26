@@ -1,5 +1,6 @@
 package com.elhady.movies.core.data.remote.service
 
+import com.elhady.movies.BuildConfig
 import com.elhady.movies.core.data.local.PreferenceStorage
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
@@ -14,12 +15,11 @@ class AuthInterceptor @Inject constructor(
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val language = Locale.getDefault().language
-        val apiKey = "282157b63b2a2ef81abaca304a648cba"
         val sessionId = preferenceStorage.sessionId
 
         val request = chain.request()
         val url: HttpUrl = request.url.newBuilder()
-            .addQueryParameter(API_KEY, apiKey)
+            .addQueryParameter(API_KEY, BuildConfig.API_KEY)
             .addQueryParameter(SESSION_ID, sessionId)
             .addQueryParameter(LANGUAGE, language)
             .build()

@@ -1,8 +1,8 @@
 package com.elhady.movies.di
 
+import com.elhady.movies.BuildConfig
 import com.elhady.movies.core.data.remote.service.AuthInterceptor
 import com.elhady.movies.core.data.remote.service.MovieService
-import com.elhady.movies.core.data.repository.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,7 +30,7 @@ object NetworkModule {
         gsonConverter: GsonConverterFactory
     ): Retrofit{
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(gsonConverter)
             .client(client)
             .build()

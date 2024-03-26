@@ -3,9 +3,9 @@ package com.elhady.movies.di
 import com.elhady.movies.core.data.repository.MovieRepositoryImpl
 import com.elhady.movies.core.data.repository.WatchHistoryRepositoryImpl
 import com.elhady.movies.core.data.repository.auth.AuthRepositoryImpl
-import com.elhady.movies.core.domain.usecase.repository.AuthRepository
-import com.elhady.movies.core.domain.usecase.repository.MovieRepository
-import com.elhady.movies.core.domain.usecase.repository.WatchHistoryRepository
+import com.elhady.movies.core.domain.repository.AuthRepository
+import com.elhady.movies.core.domain.repository.MovieRepository
+import com.elhady.movies.core.domain.repository.WatchHistoryRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
