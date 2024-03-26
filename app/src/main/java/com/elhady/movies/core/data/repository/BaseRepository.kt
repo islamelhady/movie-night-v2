@@ -1,13 +1,13 @@
 package com.elhady.movies.core.data.repository
 
 import com.elhady.movies.core.data.remote.response.DataWrapperResponse
-import com.elhady.movies.core.domain.usecase.repository.ApiThrowable
-import com.elhady.movies.core.domain.usecase.repository.ForbiddenThrowable
-import com.elhady.movies.core.domain.usecase.repository.NoNetworkThrowable
-import com.elhady.movies.core.domain.usecase.repository.ParsingThrowable
-import com.elhady.movies.core.domain.usecase.repository.ServerErrorThrowable
-import com.elhady.movies.core.domain.usecase.repository.TimeoutThrowable
-import com.elhady.movies.core.domain.usecase.repository.UnauthorizedThrowable
+import com.elhady.movies.core.data.ApiThrowable
+import com.elhady.movies.core.data.ForbiddenThrowable
+import com.elhady.movies.core.data.NoNetworkThrowable
+import com.elhady.movies.core.data.ParsingThrowable
+import com.elhady.movies.core.data.ServerErrorThrowable
+import com.elhady.movies.core.data.TimeoutThrowable
+import com.elhady.movies.core.data.UnauthorizedThrowable
 import retrofit2.Response
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException

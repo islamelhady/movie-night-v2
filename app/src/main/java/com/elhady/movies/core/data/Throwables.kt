@@ -1,4 +1,4 @@
-package com.elhady.movies.core.domain.usecase.repository
+package com.elhady.movies.core.data
 
 open class ApiThrowable(message: String?): Throwable(message)
 class UnauthorizedThrowable: ApiThrowable("Unauthorized")

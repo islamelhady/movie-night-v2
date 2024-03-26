@@ -94,9 +94,8 @@ import com.elhady.movies.core.domain.entities.mylist.ListCreatedEntity
 import com.elhady.movies.core.domain.entities.myrated.MyRatedMovieEntity
 import com.elhady.movies.core.domain.entities.myrated.MyRatedTvShowEntity
 import com.elhady.movies.core.domain.entities.seasondetails.SeasonDetailsEntity
-import com.elhady.movies.core.domain.usecase.repository.ApiThrowable
-import com.elhady.movies.core.domain.usecase.repository.MovieRepository
-import java.util.Locale
+import com.elhady.movies.core.data.ApiThrowable
+import com.elhady.movies.core.domain.repository.MovieRepository
 import java.util.Random
 import javax.inject.Inject
 
