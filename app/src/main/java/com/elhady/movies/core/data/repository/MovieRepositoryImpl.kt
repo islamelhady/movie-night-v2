@@ -60,10 +60,10 @@ import com.elhady.movies.core.data.repository.showmore.TopRatedShowMorePagingSou
 import com.elhady.movies.core.data.repository.showmore.TrendingShowMorePagingSource
 import com.elhady.movies.core.data.repository.myrated.RatedMoviesPagingSource
 import com.elhady.movies.core.data.repository.myrated.RatedTvShowPagingSource
-import com.elhady.movies.core.data.repository.tv_shows.AiringTodayTVShowsPagingSource
-import com.elhady.movies.core.data.repository.tv_shows.OnTheAirTVShowsPagingSource
-import com.elhady.movies.core.data.repository.tv_shows.PopularTVShowsPagingSource
-import com.elhady.movies.core.data.repository.tv_shows.TopRatedTVShowsPagingSource
+import com.elhady.movies.core.data.repository.tvshows.AiringTodayTVShowsPagingSource
+import com.elhady.movies.core.data.repository.tvshows.OnTheAirTVShowsPagingSource
+import com.elhady.movies.core.data.repository.tvshows.PopularTVShowsPagingSource
+import com.elhady.movies.core.data.repository.tvshows.TopRatedTVShowsPagingSource
 import com.elhady.movies.core.domain.entities.EpisodeDetailsEntity
 import com.elhady.movies.core.domain.entities.GenreEntity
 import com.elhady.movies.core.domain.entities.MovieEntity
@@ -83,7 +83,7 @@ import com.elhady.movies.core.domain.entities.moviedetails.ReviewResponseEntity
 import com.elhady.movies.core.domain.entities.mylist.ListCreatedEntity
 import com.elhady.movies.core.domain.entities.myrated.MyRatedMovieEntity
 import com.elhady.movies.core.domain.entities.myrated.MyRatedTvShowEntity
-import com.elhady.movies.core.domain.entities.season_details.SeasonDetailsEntity
+import com.elhady.movies.core.domain.entities.seasondetails.SeasonDetailsEntity
 import com.elhady.movies.core.domain.usecase.repository.MovieRepository
 import java.util.Random
 import javax.inject.Inject

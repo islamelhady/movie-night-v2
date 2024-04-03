@@ -1,4 +1,4 @@
-package com.elhady.movies.core.data.repository.tv_shows
+package com.elhady.movies.core.data.repository.tvshows
 
 import com.elhady.movies.core.data.remote.service.MovieService
 import com.elhady.movies.core.data.repository.BasePagingSource

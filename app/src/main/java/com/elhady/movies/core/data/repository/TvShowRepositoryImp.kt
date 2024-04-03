@@ -11,10 +11,10 @@ import com.elhady.movies.core.data.repository.mappers.cash.tv.LocalTvShowMapper
 import com.elhady.movies.core.data.repository.mappers.domain.tv.DomainAiringTodayTVMapper
 import com.elhady.movies.core.data.repository.mappers.domain.tv.DomainTVMapper
 import com.elhady.movies.core.data.repository.mappers.domain.tv.DomainAiringTodayTvShowsMapper
-import com.elhady.movies.core.data.repository.tv_shows.AiringTodayTVShowsPagingSource
-import com.elhady.movies.core.data.repository.tv_shows.OnTheAirTVShowsPagingSource
-import com.elhady.movies.core.data.repository.tv_shows.PopularTVShowsPagingSource
-import com.elhady.movies.core.data.repository.tv_shows.TopRatedTVShowsPagingSource
+import com.elhady.movies.core.data.repository.tvshows.AiringTodayTVShowsPagingSource
+import com.elhady.movies.core.data.repository.tvshows.OnTheAirTVShowsPagingSource
+import com.elhady.movies.core.data.repository.tvshows.PopularTVShowsPagingSource
+import com.elhady.movies.core.data.repository.tvshows.TopRatedTVShowsPagingSource
 import com.elhady.movies.core.domain.entities.TVShowsEntity
 import com.elhady.movies.core.domain.usecase.repository.ApiThrowable
 import com.elhady.movies.core.domain.usecase.repository.TvShowRepository
