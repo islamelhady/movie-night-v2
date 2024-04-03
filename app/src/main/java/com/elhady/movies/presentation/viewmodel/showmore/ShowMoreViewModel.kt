@@ -251,8 +251,8 @@ class ShowMoreViewModel @Inject constructor(
 
     override fun onClickItem(mediaId: Int, type: ListType) {
         when(type){
-            ListType.tv -> sendEvent(ShowMoreUiEvent.NavigateToTvShowDetailsEvent(mediaId))
-            ListType.movie -> sendEvent(ShowMoreUiEvent.NavigateToMovieDetailsEvent(mediaId))
+            ListType.TV -> sendEvent(ShowMoreUiEvent.NavigateToTvShowDetailsEvent(mediaId))
+            ListType.MOVIE -> sendEvent(ShowMoreUiEvent.NavigateToMovieDetailsEvent(mediaId))
         }
     }
 }

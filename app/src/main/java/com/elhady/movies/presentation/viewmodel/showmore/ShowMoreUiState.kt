@@ -3,7 +3,6 @@ package com.elhady.movies.presentation.viewmodel.showmore
 import androidx.paging.PagingData
 import com.elhady.movies.core.bases.ListType
 import com.elhady.movies.core.bases.StringsRes
-import com.elhady.movies.presentation.viewmodel.tv_shows.TVShowsUI
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlin.math.roundToInt
@@ -42,7 +41,7 @@ data class ShowMoreUi(
     val year: String,
     val genreEntities: String,
     val rate: Double,
-    val type: ListType = ListType.movie
+    val type: ListType = ListType.MOVIE
 ) {
     fun formattedRate(): Double = (rate * 10.0).roundToInt() / 10.0
 }
