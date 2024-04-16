@@ -6,45 +6,69 @@
     <data>
         <variable
             name="viewModel"
-            type="com.elhady.movies.ui.home.HomeViewModel" />
+            type="com.elhady.movies.presentation.viewmodel.home.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".presentation.home.HomeFragment">
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/TextStyle.BodyLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_medium_16dp"
+            android:layout_marginTop="@dimen/spacing_medium_16dp"
+            android:text="@string/explore_the_best_movies_tv_shows"
+            android:textColor="@color/on_background_87"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Explore The Best Movies and TV Shows" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/recycler_view_home"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/background_color"
+            android:layout_height="@dimen/zero_height"
+            android:clipToPadding="false"
             android:orientation="vertical"
+            android:layout_marginTop="@dimen/spacing_medium_16dp"
+            android:paddingVertical="@dimen/spacing_medium_16dp"
+            app:isVisible="@{!viewModel.state.loading}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            hideIfTrue="@{viewModel.state.loading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <include
-            android:id="@+id/loading"
-            layout="@layout/loading"
-            isVisible="@{viewModel.state.loading}" />
-
+            app:layout_constraintTop_toBottomOf="@id/textView" />
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lost_connection"
-            android:layout_width="@dimen/spacing_connection_large"
-            android:layout_height="@dimen/spacing_connection_large"
+            android:id="@+id/progressBar"
+            android:layout_width="@dimen/spacing_extra_giant_48dp"
+            android:layout_height="@dimen/spacing_extra_giant_48dp"
+            app:isVisible="@{viewModel.state.loading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
+            app:lottie_colorFilter="@color/primary"
             app:lottie_loop="true"
-            app:lottie_colorFilter="@color/red"
-            app:lottie_rawRes="@raw/lost_internet_connection"
-            app:showWhenListNotEmpty="@{viewModel.state.onErrors}" />
+            app:lottie_rawRes="@raw/anim_loading" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_animation_view_no_network"
+            android:layout_width="@dimen/lottie_error_size"
+            android:layout_height="@dimen/lottie_error_size"
+            app:isVisibleOrGone="@{viewModel.state.isError}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_colorFilter="@color/primary"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/no_connection" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,23 +1,31 @@
+import org.gradle.kotlin.dsl.kapt
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id ("kotlin-kapt")
     id ("dagger.hilt.android.plugin")
-    id("androidx.navigation.safeargs.kotlin")
+    id ("androidx.navigation.safeargs.kotlin")
 }
 
 android {
     namespace = "com.elhady.movies"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.elhady.movies"
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
+
     }
 
     buildTypes {
@@ -48,11 +56,10 @@ dependencies {
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
-    implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -74,8 +81,17 @@ dependencies {
     // Coil
     implementation("io.coil-kt:coil:2.2.2")
 
+    /// glide
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+
     // recycler
     implementation("androidx.recyclerview:recyclerview:1.2.0")
+
+    implementation("it.xabaras.android:recyclerview-swipedecorator:1.4")
+
+
+    // refresh-layout
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     // room
     implementation("androidx.room:room-runtime:2.4.3")
@@ -101,6 +117,23 @@ dependencies {
     // Expandable TextView
     implementation ("io.github.glailton.expandabletextview:expandabletextview:1.0.2")
 
-    /// splash
+    // splash
     implementation("androidx.core:core-splashscreen:1.0.1")
+
+    // room
+    implementation("androidx.room:room-runtime:2.4.3")
+    kapt("androidx.room:room-compiler:2.4.3")
+    implementation("androidx.room:room-ktx:2.4.3")
+
+    //data store preferences
+    implementation ("androidx.datastore:datastore-preferences:1.0.0")
+
+    // retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // okhttp
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+
 }

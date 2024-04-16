@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.elhady.movies.presentation.ui.home.HomeItem.TopRated" />
+
+        <variable
+            name="listener"
+            type="com.elhady.movies.presentation.viewmodel.home.HomeListener" />
+
+        <import type="com.elhady.movies.presentation.viewmodel.showmore.ShowMoreType"/>
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hideWhenNoResult="@{item.list}">
+
+        <TextView
+            android:id="@+id/text_view_top_rated"
+            style="@style/TextStyle.TitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_medium_16dp"
+            android:layout_marginTop="@dimen/spacing_medium_16dp"
+            android:text="@string/top_rated"
+            android:textColor="@color/on_background_87"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_view_show_more"
+            style="@style/TextStyle.BodyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium_16dp"
+            android:layout_marginEnd="@dimen/spacing_medium_16dp"
+            android:text="@string/show_more"
+            android:onClick="@{()->listener.onClickShowMore(ShowMoreType.TOP_RATED_MOVIES)}"
+            android:textColor="@color/primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_top_rated"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small_8dp"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/spacing_custom_12dp"
+            app:items="@{item.list}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_top_rated"
+            tools:listitem="@layout/home_item_top_rated" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

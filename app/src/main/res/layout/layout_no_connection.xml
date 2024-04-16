@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.airbnb.lottie.LottieAnimationView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.airbnb.lottie.LottieAnimationView android:id="@+id/lottie_animation_view_no_network"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/lottie_animation_view_no_network"
-    app:lottie_colorFilter="@color/red"
-    android:layout_width="@dimen/spacing_connection_large"
-    android:layout_height="@dimen/spacing_connection_large"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/lottie_error_size"
+    android:layout_height="@dimen/lottie_error_size"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     app:lottie_autoPlay="true"
+    app:lottie_colorFilter="@color/primary"
     app:lottie_loop="true"
-    app:lottie_rawRes="@raw/lost_internet_connection" />
+    app:lottie_rawRes="@raw/no_connection" />
+
 

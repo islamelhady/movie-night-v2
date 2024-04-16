@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.elhady.movies.presentation.viewmodel.common.model.PeopleUIState" />
+
+        <variable
+            name="listener"
+            type="com.elhady.movies.presentation.viewmodel.common.listener.PeopleListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_tiny_4dp"
+        android:onClick="@{() -> listener.onClickPeople(item.id)}">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/shape_image_view_people"
+            android:layout_width="@dimen/image_width"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:profileUrl="@{item.imageUrl}"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/text_view_name_people"
+            style="@style/TextStyle.BodySmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny_4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{item.name}"
+            android:textColor="@color/on_background_87"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/shape_image_view_people"
+            app:layout_constraintTop_toBottomOf="@+id/shape_image_view_people"
+            tools:text="uncle bob" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

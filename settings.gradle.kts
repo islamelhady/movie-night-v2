@@ -15,4 +15,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "movies"
 include(":app")
- 
