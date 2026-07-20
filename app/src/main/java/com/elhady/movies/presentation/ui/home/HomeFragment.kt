@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.elhady.movies.BR
 import com.elhady.movies.R
 import com.elhady.movies.presentation.ui.home.adapter.HomeAdapter
 import com.elhady.movies.core.bases.BaseFragment
@@ -18,6 +19,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>
 
     override val layoutIdFragment: Int = R.layout.fragment_home
     override val viewModel: HomeViewModel by viewModels()
+    override val viewModelVariableId: Int = BR.viewModel
 
     private lateinit var homeAdapter: HomeAdapter
 

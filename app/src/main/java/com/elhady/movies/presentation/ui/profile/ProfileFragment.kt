@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.elhady.movies.BR
 import com.elhady.movies.R
 import com.elhady.movies.core.bases.BaseFragment
 import com.elhady.movies.core.bases.ListName
@@ -22,6 +23,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUIState, Pro
 
     override val layoutIdFragment: Int = R.layout.fragment_profile
     override val viewModel: ProfileViewModel by viewModels()
+    override val viewModelVariableId: Int = BR.viewModel
 
     companion object {
         private const val PREF_THEME_STATE = "night_mode_state"

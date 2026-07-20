@@ -3,6 +3,7 @@ package com.elhady.movies.presentation.ui.episodedetails
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import com.elhady.movies.BR
 import com.elhady.movies.R
 import com.elhady.movies.databinding.ItemEpisodeDetailsRateBottomSheetBinding
 import com.elhady.movies.core.bases.BaseBottomSheet
@@ -13,6 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class EpisodeRateBottomSheet : BaseBottomSheet<ItemEpisodeDetailsRateBottomSheetBinding>() {
     override val layoutIdFragment: Int = R.layout.item_episode_details_rate_bottom_sheet
     override val viewModel by activityViewModels<EpisodeDetailsViewModel>()
+    override val viewModelVariableId: Int = BR.viewModel
     private var dismissListener: BottomSheetListener? = null
 
     fun setListener(dismissListener: BottomSheetListener) {

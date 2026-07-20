@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.elhady.movies.BR
 import com.elhady.movies.R
 import com.elhady.movies.core.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentSearchBinding
@@ -24,6 +25,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
 
     override val layoutIdFragment: Int = R.layout.fragment_search
     override val viewModel by activityViewModels<SearchViewModel>()
+    override val viewModelVariableId: Int = BR.viewModel
 
     private lateinit var searchAdapter: SearchAdapter
 
