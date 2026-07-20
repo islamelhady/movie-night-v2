@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.elhady.movies.BR
 import com.elhady.movies.R
 import com.elhady.movies.core.bases.BaseFooterAdapter
 import com.elhady.movies.core.bases.BaseFragment
@@ -22,6 +23,7 @@ class MyRatedFragment : BaseFragment<FragmentMyRatedBinding, MyRatedUiState, MyR
 
     override val layoutIdFragment: Int = R.layout.fragment_my_rated
     override val viewModel: MyRatedViewModel by viewModels()
+    override val viewModelVariableId: Int = BR.viewModel
     private val myRateAdapter by lazy { MyRateAdapter(viewModel) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

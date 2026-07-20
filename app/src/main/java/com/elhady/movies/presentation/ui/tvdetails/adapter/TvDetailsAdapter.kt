@@ -3,6 +3,7 @@ package com.elhady.movies.presentation.ui.tvdetails.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import com.elhady.movies.BR
 import com.elhady.movies.R
 import com.elhady.movies.core.bases.BaseAdapter
 import com.elhady.movies.databinding.ItemCommentBinding
@@ -20,6 +21,8 @@ class TvDetailsAdapter(
     private val listener: TvDetailsListeners
 ) : BaseAdapter<TvDetailsItem>(tvDetailsItems, listener) {
     override val layoutID: Int = 4
+    override val itemVariableId: Int = BR.item
+    override val listenerVariableId: Int = BR.listener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return when (viewType) {

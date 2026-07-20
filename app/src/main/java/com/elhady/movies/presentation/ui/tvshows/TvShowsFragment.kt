@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.elhady.movies.BR
 import com.elhady.movies.R
 import com.elhady.movies.core.bases.BaseFooterAdapter
 import com.elhady.movies.core.bases.BaseFragment
@@ -25,6 +26,7 @@ class TvShowsFragment : BaseFragment<FragmentTvShowsBinding, TVShowUIState, TVSh
 
     override val layoutIdFragment = R.layout.fragment_tv_shows
     override val viewModel: TVShowsViewModel by viewModels()
+    override val viewModelVariableId: Int = BR.viewModel
     private val tvShowsAdapter by lazy { TVShowsAdapter(viewModel) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

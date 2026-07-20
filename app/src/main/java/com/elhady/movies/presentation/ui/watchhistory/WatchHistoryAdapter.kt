@@ -3,6 +3,7 @@ package com.elhady.movies.presentation.ui.watchhistory
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import com.elhady.movies.BR
 import com.elhady.movies.R
 import com.elhady.movies.core.bases.BaseAdapter
 import com.elhady.movies.databinding.WatchHistoryRecyclerViewCardBinding
@@ -14,6 +15,8 @@ class WatchHistoryAdapter(
     private val listener: MediaListener,
 ) : BaseAdapter<WatchHistoryRecyclerItem>(items, listener) {
     override val layoutID = -1
+    override val itemVariableId: Int = BR.item
+    override val listenerVariableId: Int = BR.listener
 
     class TitleViewHolder(val binding: WatchHistoryRecyclerViewTitleBinding) :
         BaseViewHolder(binding)

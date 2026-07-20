@@ -1,6 +1,7 @@
 package com.elhady.movies.presentation.ui.myrated
 
 import androidx.recyclerview.widget.DiffUtil
+import com.elhady.movies.BR
 import com.elhady.movies.R
 import com.elhady.movies.core.bases.BasePagingAdapter
 import com.elhady.movies.databinding.ItemMovieHorizontalBinding
@@ -11,6 +12,8 @@ class MyRateAdapter(listener: MyRatedListner) :
     BasePagingAdapter<MovieHorizontalUIState, ItemMovieHorizontalBinding>(Comparator, listener) {
 
     override val layoutId = R.layout.item_movie_horizontal
+    override val itemVariableId: Int = BR.item
+    override val listenerVariableId: Int = BR.listener
 
     object Comparator : DiffUtil.ItemCallback<MovieHorizontalUIState>() {
         override fun areItemsTheSame(oldItem: MovieHorizontalUIState, newItem: MovieHorizontalUIState): Boolean {

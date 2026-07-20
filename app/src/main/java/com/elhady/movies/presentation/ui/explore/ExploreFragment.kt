@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import com.elhady.movies.BR
 import com.elhady.movies.R
 import com.elhady.movies.core.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentExploreBinding
@@ -20,6 +21,7 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
 
     override val layoutIdFragment: Int = R.layout.fragment_explore
     override val viewModel: ExploreViewModel by viewModels()
+    override val viewModelVariableId: Int = BR.viewModel
     private lateinit var adapter: ExploreAdapter
 
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.elhady.movies.BR
 import com.elhady.movies.R
 import com.elhady.movies.core.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentSeasonDetailsBinding
@@ -19,6 +20,7 @@ class SeasonDetailsFragment
 
     override val layoutIdFragment: Int = R.layout.fragment_season_details
     override val viewModel: SeasonDetailsViewModel by viewModels()
+    override val viewModelVariableId: Int = BR.viewModel
 
     private val seasonDetailsAdapter: SeasonDetailsAdapter
             by lazy { SeasonDetailsAdapter(mutableListOf(), viewModel) }

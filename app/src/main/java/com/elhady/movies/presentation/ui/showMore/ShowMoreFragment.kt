@@ -8,6 +8,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.elhady.movies.BR
 import com.elhady.movies.R
 import com.elhady.movies.core.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentShowMoreBinding
@@ -25,6 +26,7 @@ class ShowMoreFragment : BaseFragment<FragmentShowMoreBinding, ShowMoreUiState, 
 
     override val layoutIdFragment: Int = R.layout.fragment_show_more
     override val viewModel: ShowMoreViewModel by viewModels()
+    override val viewModelVariableId: Int = BR.viewModel
     private val showMoreAdapter by lazy { ShowMoreAdapter(viewModel) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

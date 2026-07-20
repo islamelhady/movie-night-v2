@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.elhady.movies.BR
 import com.elhady.movies.R
 import com.elhady.movies.core.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentWatchHistoryBinding
@@ -25,6 +26,7 @@ class WatchHistoryFragment
 
     override val layoutIdFragment = R.layout.fragment_watch_history
     override val viewModel by viewModels<WatchHistoryViewModel>()
+    override val viewModelVariableId: Int = BR.viewModel
     private lateinit var adapter: WatchHistoryAdapter
     private val deletionIndicatorSnackBar by lazy {
         setupSnackBar()
