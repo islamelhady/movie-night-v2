@@ -21,6 +21,9 @@ misc.xml
 deploymentTargetDropDown.xml
 render.experimental.xml
 
+# AI Agent Artifacts
+.artifacts/
+
 # Keystore files
 *.jks
 *.keystore
