@@ -1,12 +1,13 @@
+@file:Suppress("DSL_SCOPE_VIOLATION")
 import org.gradle.kotlin.dsl.kapt
 import java.util.Properties
 
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
-    id("androidx.navigation.safeargs.kotlin")
+    alias(libs.plugins.navigation.safeargs)
 }
 
 android {
@@ -71,87 +72,71 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.legacy.support.v4)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation("androidx.fragment:fragment-ktx:1.6.1")
-    implementation("androidx.activity:activity-ktx:1.7.2")
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.activity.ktx)
 
     // navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.5.2")
-    implementation("androidx.navigation:navigation-ui-ktx:2.5.2")
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 
     // retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
 
     // okhttp
-    implementation("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
 
     // Coil
-    implementation("io.coil-kt:coil:2.2.2")
+    implementation(libs.coil)
 
     /// glide
-    implementation("com.github.bumptech.glide:glide:4.15.1")
+    implementation(libs.glide)
 
     // recycler
-    implementation("androidx.recyclerview:recyclerview:1.2.0")
+    implementation(libs.androidx.recyclerview)
 
-    implementation("it.xabaras.android:recyclerview-swipedecorator:1.4")
-
+    implementation(libs.recyclerview.swipe.decorator)
 
     // refresh-layout
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation(libs.androidx.swiperefreshlayout)
 
     // room
-    implementation("androidx.room:room-runtime:2.4.3")
-    kapt("androidx.room:room-compiler:2.4.3")
-    implementation("androidx.room:room-ktx:2.4.3")
+    implementation(libs.room.runtime)
+    kapt(libs.room.compiler)
+    implementation(libs.room.ktx)
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:2.45")
-    kapt("com.google.dagger:hilt-compiler:2.45")
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 
     //data store preferences
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation(libs.androidx.datastore.preferences)
 
     // Lottie
-    implementation("com.airbnb.android:lottie:5.2.0")
+    implementation(libs.lottie)
 
     // Paging
-    implementation("androidx.paging:paging-runtime:3.2.1")
+    implementation(libs.androidx.paging.runtime)
 
     //youtube player
-    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0")
+    implementation(libs.youtube.player)
 
     // Expandable TextView
-    implementation("io.github.glailton.expandabletextview:expandabletextview:1.0.2")
+    implementation(libs.expandable.textview)
 
     // splash
-    implementation("androidx.core:core-splashscreen:1.0.1")
-
-    // room
-    implementation("androidx.room:room-runtime:2.4.3")
-    kapt("androidx.room:room-compiler:2.4.3")
-    implementation("androidx.room:room-ktx:2.4.3")
-
-    //data store preferences
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
-
-    // retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-
-    // okhttp
-    implementation("com.squareup.okhttp3:okhttp:4.9.1")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+    implementation(libs.androidx.core.splashscreen)
 
 }
