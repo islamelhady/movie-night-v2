@@ -1,7 +1,9 @@
 package com.elhady.movies.core.bases
 
 import android.graphics.Canvas
+import android.os.Build
 import android.util.TypedValue
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.core.common.R
@@ -10,6 +12,7 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 abstract class SwipeToDeleteItem : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onChildDraw(
         c: Canvas,
         recyclerView: RecyclerView,

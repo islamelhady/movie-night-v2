@@ -2,10 +2,12 @@ package com.elhady.movies.core.util
 
 import android.annotation.SuppressLint
 import android.app.UiModeManager
+import android.os.Build
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SwitchCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -82,6 +84,7 @@ fun ImageView.loadImage(imageUrl: String?) {
         .into(this)
 }
 
+@RequiresApi(Build.VERSION_CODES.M)
 @SuppressLint("ResourceAsColor")
 @BindingAdapter(value = ["app:imageUri"], requireAll = false)
 fun ImageView.loadImageWithPlaceholderColor(imageUri: String?) {
