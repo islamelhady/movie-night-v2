@@ -4,10 +4,10 @@ import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.elhady.movies.core.common.local.PreferenceStorage
-import com.elhady.movies.core.data.local.database.MovieDao
-import com.elhady.movies.core.data.local.database.TvShowDao
-import com.elhady.movies.core.data.local.database.dto.SearchHistoryLocalDto
-import com.elhady.movies.core.data.local.database.dto.tvshow.TvShowsLocalDto
+import com.elhady.movies.core.database.MovieDao
+import com.elhady.movies.core.database.TvShowDao
+import com.elhady.movies.core.database.dto.SearchHistoryLocalDto
+import com.elhady.movies.core.database.dto.tvshow.TvShowsLocalDto
 import com.elhady.movies.core.network.model.request.AddMediaToListRequest
 import com.elhady.movies.core.network.model.request.CreateUserListRequest
 import com.elhady.movies.core.network.model.request.DeleteMovieRequest

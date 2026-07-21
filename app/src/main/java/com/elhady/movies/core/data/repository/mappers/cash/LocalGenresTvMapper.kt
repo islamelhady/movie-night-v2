@@ -1,7 +1,7 @@
 package com.elhady.movies.core.data.repository.mappers.cash
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.data.local.database.dto.GenresTvsLocalDto
+import com.elhady.movies.core.database.dto.GenresTvsLocalDto
 import com.elhady.movies.core.network.model.response.dto.GenreTVRemoteDto
 import javax.inject.Inject
 
