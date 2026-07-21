@@ -1,6 +1,6 @@
 package com.elhady.movies.core.network.service
 
-import com.elhady.movies.core.common.local.PreferenceStorage
+import com.elhady.movies.core.datastore.local.PreferenceStorage
 import com.elhady.movies.core.network.BuildConfig
 import okhttp3.HttpUrl
 import okhttp3.Interceptor

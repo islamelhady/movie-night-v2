@@ -2,7 +2,7 @@ package com.elhady.movies.core.data.repository.mappers.cash
 
 import com.elhady.movies.BuildConfig
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.data.local.database.dto.PopularPeopleLocalDto
+import com.elhady.movies.core.database.dto.PopularPeopleLocalDto
 import com.elhady.movies.core.network.model.response.dto.PeopleRemoteDto
 import javax.inject.Inject
 
