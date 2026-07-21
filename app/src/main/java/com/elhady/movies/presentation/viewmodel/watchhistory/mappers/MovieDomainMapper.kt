@@ -1,6 +1,6 @@
 package com.elhady.movies.presentation.viewmodel.watchhistory.mappers
 
-import com.elhady.movies.core.mapper.Mapper
+import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.entities.MovieInWatchHistoryEntity
 import com.elhady.movies.presentation.viewmodel.watchhistory.MovieUiState
 import java.util.Date

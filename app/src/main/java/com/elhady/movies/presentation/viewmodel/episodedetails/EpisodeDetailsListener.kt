@@ -1,6 +1,6 @@
 package com.elhady.movies.presentation.viewmodel.episodedetails
 
-import com.elhady.movies.core.bases.BaseInteractionListener
+import com.elhady.movies.core.common.bases.BaseInteractionListener
 
 
 interface EpisodeDetailsListener : BaseInteractionListener {

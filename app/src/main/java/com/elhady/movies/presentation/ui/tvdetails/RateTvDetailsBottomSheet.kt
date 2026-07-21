@@ -3,8 +3,9 @@ package com.elhady.movies.presentation.ui.tvdetails
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import com.elhady.movies.BR
 import com.elhady.movies.R
-import com.elhady.movies.core.bases.BaseBottomSheet
+import com.elhady.movies.core.common.bases.BaseBottomSheet
 import com.elhady.movies.databinding.TvDetailsItemBotomSheetBinding
 import com.elhady.movies.presentation.viewmodel.tvdetails.TvDetailsViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -16,6 +17,7 @@ class RateTvDetailsBottomSheet :
     BaseBottomSheet<TvDetailsItemBotomSheetBinding>() {
     override val layoutIdFragment: Int = R.layout.tv_details_item_botom_sheet
     override val viewModel by activityViewModels<TvDetailsViewModel>()
+    override val viewModelVariableId: Int = BR.viewModel
 
     private var dismissListener: BottomSheetDismissListener? = null
 

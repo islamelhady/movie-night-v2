@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.elhady.movies.BuildConfig
 import com.elhady.movies.BR
 import com.elhady.movies.R
-import com.elhady.movies.core.bases.BaseFragment
+import com.elhady.movies.core.common.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentLoginBinding
 import com.elhady.movies.presentation.viewmodel.login.LoginUiEvent
 import com.elhady.movies.presentation.viewmodel.login.LoginUiState

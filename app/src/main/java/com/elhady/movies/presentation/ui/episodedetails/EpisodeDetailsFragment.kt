@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.elhady.movies.BR
 import com.elhady.movies.R
-import com.elhady.movies.core.bases.BaseFragment
+import com.elhady.movies.core.common.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentEpisodeDetailsBinding
 import com.elhady.movies.presentation.ui.common.adapters.PeopleAdapter
 import com.elhady.movies.presentation.viewmodel.episodedetails.EpisodeDetailsUiEvent
@@ -21,6 +21,7 @@ class EpisodeDetailsFragment :
 
     override val layoutIdFragment = R.layout.fragment_episode_details
     override val viewModel: EpisodeDetailsViewModel by viewModels()
+    override val viewModelVariableId: Int = BR.viewModel
     private val peopleAdapter by lazy { PeopleAdapter(mutableListOf(), viewModel) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -7,8 +7,9 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.viewModels
+import com.elhady.movies.BR
 import com.elhady.movies.R
-import com.elhady.movies.core.bases.BaseFragment
+import com.elhady.movies.core.common.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentTrailerBinding
 import com.elhady.movies.presentation.viewmodel.youtubetrailer.TrailerInteraction
 import com.elhady.movies.presentation.viewmodel.youtubetrailer.TrailerViewModel
@@ -21,6 +22,7 @@ class TrailerFragment :
 
     override val layoutIdFragment = R.layout.fragment_trailer
     override val viewModel: TrailerViewModel by viewModels()
+    override val viewModelVariableId: Int = BR.viewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

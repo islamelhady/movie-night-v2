@@ -2,9 +2,9 @@ package com.elhady.movies.presentation.viewmodel.login
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.elhady.movies.core.bases.BaseViewModel
-import com.elhady.movies.core.bases.NavigationRes
-import com.elhady.movies.core.bases.StringsRes
+import com.elhady.movies.core.common.bases.BaseViewModel
+import com.elhady.movies.core.common.bases.NavigationRes
+import com.elhady.movies.core.common.bases.StringsRes
 import com.elhady.movies.core.domain.usecase.auth.LoginError
 import com.elhady.movies.core.domain.usecase.auth.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

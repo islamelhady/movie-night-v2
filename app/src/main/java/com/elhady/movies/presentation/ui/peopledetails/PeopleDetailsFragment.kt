@@ -4,8 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.elhady.movies.BR
 import com.elhady.movies.R
-import com.elhady.movies.core.bases.BaseFragment
+import com.elhady.movies.core.common.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentPeopleDetailsBinding
 import com.elhady.movies.presentation.viewmodel.peopledetails.PeopleDetailsUiEvent
 import com.elhady.movies.presentation.viewmodel.peopledetails.PeopleDetailsViewModel
@@ -18,6 +19,7 @@ class PeopleDetailsFragment :
 
     override val layoutIdFragment: Int = R.layout.fragment_people_details
     override val viewModel: PeopleDetailsViewModel by viewModels()
+    override val viewModelVariableId: Int = BR.viewModel
     private lateinit var peopleMoviesAdapter: PeopleDetailsRecyclerAdapter
     private lateinit var peopleTvShowsAdapter: PeopleDetailsRecyclerAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

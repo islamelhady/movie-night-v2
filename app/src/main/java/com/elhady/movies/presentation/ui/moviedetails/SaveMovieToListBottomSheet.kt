@@ -5,8 +5,9 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import com.elhady.movies.BR
 import com.elhady.movies.R
-import com.elhady.movies.core.bases.BaseBottomSheet
+import com.elhady.movies.core.common.bases.BaseBottomSheet
 import com.elhady.movies.databinding.SaveMovieToCreateListBottomSheetBinding
 import com.elhady.movies.presentation.viewmodel.moviedetails.MovieDetailsUiEvent
 import com.elhady.movies.presentation.viewmodel.moviedetails.MovieDetailsViewModel
@@ -22,6 +23,7 @@ class SaveMovieToListBottomSheet() :
 
     override val layoutIdFragment: Int = R.layout.save_movie_to_create_list_bottom_sheet
     override val viewModel: MovieDetailsViewModel by activityViewModels()
+    override val viewModelVariableId: Int = BR.viewModel
 //    private lateinit var binding: SaveToCreateListBottomSheetBinding
 //    val viewModel by activityViewModels<MovieDetailsViewModel>()
 

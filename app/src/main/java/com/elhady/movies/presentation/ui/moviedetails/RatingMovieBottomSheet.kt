@@ -3,9 +3,10 @@ package com.elhady.movies.presentation.ui.moviedetails
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import com.elhady.movies.BR
 import com.elhady.movies.R
 import com.elhady.movies.databinding.MovieRatingBottomSheetBinding
-import com.elhady.movies.core.bases.BaseBottomSheet
+import com.elhady.movies.core.common.bases.BaseBottomSheet
 import com.elhady.movies.presentation.ui.tvdetails.BottomSheetDismissListener
 import com.elhady.movies.presentation.viewmodel.moviedetails.MovieDetailsViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -16,6 +17,7 @@ class RatingMovieBottomSheet :
     BaseBottomSheet<MovieRatingBottomSheetBinding>() {
     override val layoutIdFragment: Int = R.layout.movie_rating_bottom_sheet
     override val viewModel by activityViewModels<MovieDetailsViewModel>()
+    override val viewModelVariableId: Int = BR.viewModel
 
     private var dismissListener: BottomSheetDismissListener? = null
 

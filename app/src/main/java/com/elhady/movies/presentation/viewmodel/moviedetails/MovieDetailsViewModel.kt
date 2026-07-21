@@ -3,9 +3,9 @@ package com.elhady.movies.presentation.viewmodel.moviedetails
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.elhady.movies.core.bases.BaseViewModel
-import com.elhady.movies.core.bases.NavigationRes
-import com.elhady.movies.core.bases.StringsRes
+import com.elhady.movies.core.common.bases.BaseViewModel
+import com.elhady.movies.core.common.bases.NavigationRes
+import com.elhady.movies.core.common.bases.StringsRes
 import com.elhady.movies.core.domain.entities.StatusEntity
 import com.elhady.movies.core.domain.entities.moviedetails.MovieDetailsEntity
 import com.elhady.movies.core.data.ForbiddenThrowable

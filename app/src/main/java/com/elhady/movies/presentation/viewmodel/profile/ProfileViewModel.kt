@@ -2,8 +2,8 @@ package com.elhady.movies.presentation.viewmodel.profile
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.elhady.movies.core.bases.BaseViewModel
-import com.elhady.movies.core.bases.NavigationRes
+import com.elhady.movies.core.common.bases.BaseViewModel
+import com.elhady.movies.core.common.bases.NavigationRes
 import com.elhady.movies.core.data.ForbiddenThrowable
 import com.elhady.movies.core.data.NoNetworkThrowable
 import com.elhady.movies.core.data.UnauthorizedThrowable

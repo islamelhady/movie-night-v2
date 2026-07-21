@@ -1,6 +1,6 @@
 package com.elhady.movies.presentation.viewmodel.mylist.mapper
 
-import com.elhady.movies.core.mapper.Mapper
+import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.entities.mylist.ListCreatedEntity
 import com.elhady.movies.presentation.viewmodel.mylist.ListMovieUiState
 import javax.inject.Inject

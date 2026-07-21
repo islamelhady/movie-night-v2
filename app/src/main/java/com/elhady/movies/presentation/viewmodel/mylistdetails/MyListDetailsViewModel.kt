@@ -2,10 +2,10 @@ package com.elhady.movies.presentation.viewmodel.mylistdetails
 
 
 import androidx.lifecycle.SavedStateHandle
-import com.elhady.movies.core.bases.BaseViewModel
-import com.elhady.movies.core.bases.ListName
-import com.elhady.movies.core.bases.ListType
-import com.elhady.movies.core.bases.StringsRes
+import com.elhady.movies.core.common.bases.BaseViewModel
+import com.elhady.movies.core.common.bases.ListName
+import com.elhady.movies.core.common.bases.ListType
+import com.elhady.movies.core.common.bases.StringsRes
 import com.elhady.movies.core.domain.entities.StatusEntity
 import com.elhady.movies.core.domain.usecase.common.AddToFavouriteUseCase
 import com.elhady.movies.core.domain.usecase.common.AddToWatchList

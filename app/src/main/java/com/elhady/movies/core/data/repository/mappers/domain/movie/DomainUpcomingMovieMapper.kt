@@ -1,6 +1,6 @@
 package com.elhady.movies.core.data.repository.mappers.domain.movie
 
-import com.elhady.movies.core.mapper.Mapper
+import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.data.local.database.dto.movie.UpcomingMovieLocalDto
 import com.elhady.movies.core.domain.entities.GenreEntity
 import com.elhady.movies.core.domain.entities.MovieEntity

@@ -1,7 +1,7 @@
 package com.elhady.movies.core.data.repository.mappers.domain
 
-import com.elhady.movies.core.mapper.Mapper
-import com.elhady.movies.core.data.remote.response.dto.YoutubeVideoDetailsRemoteDto
+import com.elhady.movies.core.common.mapper.Mapper
+import com.elhady.movies.core.network.model.response.dto.YoutubeVideoDetailsRemoteDto
 import com.elhady.movies.core.domain.entities.YoutubeVideoDetailsEntity
 import javax.inject.Inject
 

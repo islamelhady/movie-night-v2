@@ -14,7 +14,7 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.elhady.movies.BR
 import com.elhady.movies.R
-import com.elhady.movies.core.bases.BaseAdapter
+import com.elhady.movies.core.common.bases.BaseAdapter
 import com.elhady.movies.databinding.HomeRecyclerviewAiringTodayTvBinding
 import com.elhady.movies.databinding.HomeRecyclerviewNowPlayingBinding
 import com.elhady.movies.databinding.HomeRecyclerviewPopularMoviesBinding
@@ -35,6 +35,8 @@ class HomeAdapter(
 ) : BaseAdapter<HomeItem>(itemsHome, listener) {
 
     override val layoutID: Int = 0
+    override val itemVariableId: Int = BR.item
+    override val listenerVariableId: Int = BR.listener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return when (viewType) {

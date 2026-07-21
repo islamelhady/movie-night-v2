@@ -1,6 +1,6 @@
 package com.elhady.movies.presentation.ui.watchhistory
 
-import com.elhady.movies.core.bases.StringsRes
+import com.elhady.movies.core.common.bases.StringsRes
 import com.elhady.movies.presentation.viewmodel.watchhistory.MovieUiState
 import java.util.Date
 import kotlin.math.abs

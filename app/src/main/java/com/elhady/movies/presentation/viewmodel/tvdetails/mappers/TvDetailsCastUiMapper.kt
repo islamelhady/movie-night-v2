@@ -2,7 +2,7 @@ package com.elhady.movies.presentation.viewmodel.tvdetails.mappers
 
 import com.elhady.movies.presentation.viewmodel.common.model.PeopleUIState
 import com.elhady.movies.presentation.viewmodel.tvdetails.TvDetailsUiState
-import com.elhady.movies.core.mapper.Mapper
+import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.entities.PeopleEntity
 import javax.inject.Inject
 

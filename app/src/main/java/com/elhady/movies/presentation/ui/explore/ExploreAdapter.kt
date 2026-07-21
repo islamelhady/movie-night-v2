@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.elhady.movies.BR
 import com.elhady.movies.R
-import com.elhady.movies.core.bases.BaseAdapter
+import com.elhady.movies.core.common.bases.BaseAdapter
 import com.elhady.movies.databinding.ExploreItemTrendingMovieGridBinding
 import com.elhady.movies.databinding.ExploreItemTrendingMovieHorizontalBinding
 import com.elhady.movies.presentation.viewmodel.explore.ExploreItem

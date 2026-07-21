@@ -1,8 +1,8 @@
 package com.elhady.movies.presentation.viewmodel.watchhistory
 
 import androidx.lifecycle.viewModelScope
-import com.elhady.movies.core.bases.BaseViewModel
-import com.elhady.movies.core.bases.StringsRes
+import com.elhady.movies.core.common.bases.BaseViewModel
+import com.elhady.movies.core.common.bases.StringsRes
 import com.elhady.movies.core.domain.usecase.watchhistory.DeleteMovieFromWatchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.watchhistory.GetAllWatchHistoryMoviesUseCase
 import com.elhady.movies.core.domain.usecase.watchhistory.SearchWatchHistoryUseCase

@@ -8,9 +8,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.elhady.movies.BR
 import com.elhady.movies.R
-import com.elhady.movies.core.bases.BaseFragment
-import com.elhady.movies.core.bases.ListName
-import com.elhady.movies.core.bases.ListType
+import com.elhady.movies.core.common.bases.BaseFragment
+import com.elhady.movies.core.common.bases.ListName
+import com.elhady.movies.core.common.bases.ListType
 import com.elhady.movies.databinding.FragmentProfileBinding
 import com.elhady.movies.presentation.viewmodel.profile.ProfileUIState
 import com.elhady.movies.presentation.viewmodel.profile.ProfileUiEvent

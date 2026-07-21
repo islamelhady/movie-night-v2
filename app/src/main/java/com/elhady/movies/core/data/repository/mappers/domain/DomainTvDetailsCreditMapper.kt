@@ -1,8 +1,8 @@
 package com.elhady.movies.core.data.repository.mappers.domain
 
 import com.elhady.movies.BuildConfig
-import com.elhady.movies.core.mapper.Mapper
-import com.elhady.movies.core.data.remote.response.dto.TvDetailsCreditRemoteDto
+import com.elhady.movies.core.common.mapper.Mapper
+import com.elhady.movies.core.network.model.response.dto.TvDetailsCreditRemoteDto
 import com.elhady.movies.core.domain.entities.PeopleEntity
 import javax.inject.Inject
 

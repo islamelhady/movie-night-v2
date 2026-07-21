@@ -1,6 +1,6 @@
 package com.elhady.movies.presentation.viewmodel.home
 
-import com.elhady.movies.core.bases.BaseInteractionListener
+import com.elhady.movies.core.common.bases.BaseInteractionListener
 import com.elhady.movies.presentation.viewmodel.showmore.ShowMoreType
 
 

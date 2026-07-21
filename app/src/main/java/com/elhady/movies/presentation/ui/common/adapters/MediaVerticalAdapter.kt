@@ -2,7 +2,7 @@ package com.elhady.movies.presentation.ui.common.adapters
 
 import com.elhady.movies.BR
 import com.elhady.movies.R
-import com.elhady.movies.core.bases.BaseAdapter
+import com.elhady.movies.core.common.bases.BaseAdapter
 import com.elhady.movies.presentation.viewmodel.common.listener.MediaListener
 import com.elhady.movies.presentation.viewmodel.common.model.MediaVerticalUIState
 

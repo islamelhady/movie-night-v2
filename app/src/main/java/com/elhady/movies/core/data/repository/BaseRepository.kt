@@ -1,6 +1,6 @@
 package com.elhady.movies.core.data.repository
 
-import com.elhady.movies.core.data.remote.response.DataWrapperResponse
+import com.elhady.movies.core.network.model.response.DataWrapperResponse
 import com.elhady.movies.core.data.ApiThrowable
 import com.elhady.movies.core.data.ForbiddenThrowable
 import com.elhady.movies.core.data.NoNetworkThrowable
