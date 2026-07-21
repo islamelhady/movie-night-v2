@@ -1,7 +1,4 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
-
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
-
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)

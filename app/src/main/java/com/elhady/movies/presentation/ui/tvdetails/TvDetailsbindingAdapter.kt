@@ -5,6 +5,7 @@ import android.view.View
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import com.elhady.movies.R
+import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.databinding.GenereChipBinding
 import com.elhady.movies.presentation.viewmodel.common.listener.ChipListener
 import com.elhady.movies.presentation.viewmodel.common.model.UserListUi
@@ -21,7 +22,7 @@ fun ChipGroup.setChips(chips: List<String>) {
             this.context,
             null,
             0,
-            R.style.MediaDetailsChipStyle
+            CoreUiR.style.MediaDetailsChipStyle
         )
         chip.setChipDrawable(chipDrawable)
         chip.apply {

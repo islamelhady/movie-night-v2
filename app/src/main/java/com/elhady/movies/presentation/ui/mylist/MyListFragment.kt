@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.elhady.movies.BR
 import com.elhady.movies.R
+import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.core.common.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentMyListBinding
 import com.elhady.movies.presentation.viewmodel.mylist.MyListUiEvent
@@ -76,12 +77,12 @@ class MyListFragment :
 
     private fun showDialog(listId: Int, listName: String) {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(getString(R.string.delete))
-            .setMessage(getString(R.string.are_you_sure_that_you_want_to_delete_1d,listName))
-            .setPositiveButton(getString(R.string.confirm)) { _, _ ->
+            .setTitle(getString(CoreUiR.string.delete))
+            .setMessage(getString(CoreUiR.string.are_you_sure_that_you_want_to_delete_1d,listName))
+            .setPositiveButton(getString(CoreUiR.string.confirm)) { _, _ ->
                 viewModel.deleteList(listId)
             }
-            .setNeutralButton(getString(R.string.cancel)) { dialog, _ ->
+            .setNeutralButton(getString(CoreUiR.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()

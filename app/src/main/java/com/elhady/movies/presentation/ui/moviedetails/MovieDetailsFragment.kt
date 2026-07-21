@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.BR
 import com.elhady.movies.R
+import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.core.common.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentMovieDetailsBinding
 import com.elhady.movies.presentation.ui.moviedetails.adapter.MovieDetailsAdapter
@@ -106,7 +107,7 @@ class MovieDetailsFragment :
             }
 
             is MovieDetailsUiEvent.SaveToListEvent -> {
-                binding.saveButton.setBackgroundResource(R.drawable.ic_save_pressed)
+                binding.saveButton.setBackgroundResource(CoreUiR.drawable.ic_save_pressed)
                 findNavController().navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragmentToSaveToListBottomSheet())
             }
 

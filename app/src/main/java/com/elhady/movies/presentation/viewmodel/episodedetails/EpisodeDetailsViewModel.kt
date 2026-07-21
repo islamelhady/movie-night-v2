@@ -3,7 +3,7 @@ package com.elhady.movies.presentation.viewmodel.episodedetails
 import androidx.lifecycle.SavedStateHandle
 import com.elhady.movies.presentation.viewmodel.search.mappers.PeopleUiMapper
 import com.elhady.movies.core.common.bases.BaseViewModel
-import com.elhady.movies.core.common.bases.StringsRes
+import com.elhady.movies.core.ui.bases.StringsRes
 import com.elhady.movies.core.domain.entities.RatingEpisodeDetailsStatusEntity
 import com.elhady.movies.core.domain.usecase.episodedetails.GetCastForEpisodeUseCase
 import com.elhady.movies.core.domain.usecase.episodedetails.GetEpisodeDetailsUseCase

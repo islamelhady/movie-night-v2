@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import com.elhady.movies.BR
 import com.elhady.movies.R
+import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.databinding.BottomSheetCreateListBinding
 import com.elhady.movies.presentation.viewmodel.mylist.MyListViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -42,7 +43,7 @@ class CreateListBottomSheetFragment(private val createButton: CreateListener) :
         binding.materialButtonCreate.setOnClickListener {
             val listName = binding.textInputEditTextListName.text.toString().trim()
             if (listName == "") {
-                showSnackBar(getString(R.string.empty_field))
+                showSnackBar(getString(CoreUiR.string.empty_field))
             } else {
                 createButton.onClickCreate(listName)
             }

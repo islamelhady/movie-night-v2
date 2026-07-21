@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.elhady.movies.BR
 import com.elhady.movies.R
-import com.elhady.movies.core.common.bases.BaseFooterAdapter
+import com.elhady.movies.core.ui.adapters.BaseFooterAdapter
 import com.elhady.movies.core.common.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentTvShowsBinding
 import com.elhady.movies.presentation.viewmodel.tvshows.TVShowUIState
