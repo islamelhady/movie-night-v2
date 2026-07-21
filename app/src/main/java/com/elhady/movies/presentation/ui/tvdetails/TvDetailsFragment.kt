@@ -7,8 +7,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.elhady.movies.BR
 import com.elhady.movies.R
-import com.elhady.movies.core.bases.BaseFragment
+import com.elhady.movies.core.common.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentTvDetailsBinding
 import com.elhady.movies.presentation.ui.tvdetails.adapter.TvDetailsAdapter
 import com.elhady.movies.presentation.viewmodel.tvdetails.TvDetailsUiEvent
@@ -28,6 +29,7 @@ class TvDetailsFragment :
     private val args: TvDetailsFragmentArgs by navArgs()
     override val layoutIdFragment: Int = R.layout.fragment_tv_details
     override val viewModel: TvDetailsViewModel by viewModels()
+    override val viewModelVariableId: Int = BR.viewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

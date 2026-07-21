@@ -1,7 +1,7 @@
 package com.elhady.movies.core.data.repository.showmore
 
 import com.elhady.movies.core.data.local.database.MovieDao
-import com.elhady.movies.core.data.remote.service.MovieService
+import com.elhady.movies.core.network.service.MovieService
 import com.elhady.movies.core.data.repository.BasePagingSource
 import com.elhady.movies.core.data.repository.mappers.domain.DomainGenreMapper
 import com.elhady.movies.core.data.repository.mappers.domain.movie.DomainPopularMovieShowMoreMapper

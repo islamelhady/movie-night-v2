@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.BR
 import com.elhady.movies.R
-import com.elhady.movies.core.bases.BaseFragment
+import com.elhady.movies.core.common.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentWatchHistoryBinding
-import com.elhady.movies.core.bases.SwipeToDeleteItem
+import com.elhady.movies.core.common.bases.SwipeToDeleteItem
 import com.elhady.movies.presentation.viewmodel.watchhistory.WatchHistoryViewModel
 import com.elhady.movies.presentation.viewmodel.watchhistory.WatchHistoryUiEvent
 import com.elhady.movies.presentation.viewmodel.watchhistory.WatchHistoryUiState

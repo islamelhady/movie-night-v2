@@ -1,7 +1,7 @@
 package com.elhady.movies.di
 
-import com.elhady.movies.core.bases.NavigationRes
-import com.elhady.movies.core.resourseshelper.NavigationResImpl
+import com.elhady.movies.core.common.bases.NavigationRes
+import com.elhady.movies.presentation.resourseshelper.NavigationResImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -3,8 +3,8 @@ package com.elhady.movies.presentation.viewmodel.mylist
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.lifecycle.viewModelScope
-import com.elhady.movies.core.bases.BaseViewModel
-import com.elhady.movies.core.bases.StringsRes
+import com.elhady.movies.core.common.bases.BaseViewModel
+import com.elhady.movies.core.common.bases.StringsRes
 import com.elhady.movies.core.domain.entities.StatusEntity
 import com.elhady.movies.core.domain.usecase.mylist.CreateListUseCase
 import com.elhady.movies.core.domain.usecase.mylist.DeleteListUseCase

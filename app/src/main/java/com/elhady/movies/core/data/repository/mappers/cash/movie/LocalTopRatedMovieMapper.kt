@@ -1,9 +1,9 @@
 package com.elhady.movies.core.data.repository.mappers.cash.movie
 
 import com.elhady.movies.BuildConfig
-import com.elhady.movies.core.mapper.Mapper
+import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.data.local.database.dto.movie.TopRatedMovieLocalDto
-import com.elhady.movies.core.data.remote.response.dto.MovieRemoteDto
+import com.elhady.movies.core.network.model.response.dto.MovieRemoteDto
 import javax.inject.Inject
 
 class LocalTopRatedMovieMapper @Inject constructor():

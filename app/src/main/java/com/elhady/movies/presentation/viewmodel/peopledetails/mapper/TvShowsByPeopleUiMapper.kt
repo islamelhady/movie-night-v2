@@ -1,6 +1,6 @@
 package com.elhady.movies.presentation.viewmodel.peopledetails.mapper
 
-import com.elhady.movies.core.mapper.Mapper
+import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.entities.TvShowEntity
 import com.elhady.movies.presentation.viewmodel.peopledetails.PersonDetailsUiState
 import javax.inject.Inject

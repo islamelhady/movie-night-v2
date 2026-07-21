@@ -1,7 +1,7 @@
 package com.elhady.movies.presentation.viewmodel.showmore.mappers
 
-import com.elhady.movies.core.bases.ListType
-import com.elhady.movies.core.mapper.Mapper
+import com.elhady.movies.core.common.bases.ListType
+import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.entities.GenreEntity
 import com.elhady.movies.core.domain.entities.MovieEntity
 import com.elhady.movies.presentation.viewmodel.showmore.ShowMoreUi

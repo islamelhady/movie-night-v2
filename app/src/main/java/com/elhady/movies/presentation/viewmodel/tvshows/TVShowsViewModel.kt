@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.PagingData
-import com.elhady.movies.core.bases.BaseViewModel
+import com.elhady.movies.core.common.bases.BaseViewModel
 import com.elhady.movies.core.domain.usecase.tvshows.GetAiringTodayTVShowsUseCase
 import com.elhady.movies.core.domain.usecase.tvshows.GetOnTheAirTVShowsUseCase
 import com.elhady.movies.core.domain.usecase.tvshows.GetPopularTVShowsUseCase

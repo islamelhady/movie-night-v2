@@ -1,7 +1,7 @@
 package com.elhady.movies.presentation.viewmodel.showmore
 
-import com.elhady.movies.core.bases.BaseInteractionListener
-import com.elhady.movies.core.bases.ListType
+import com.elhady.movies.core.common.bases.BaseInteractionListener
+import com.elhady.movies.core.common.bases.ListType
 
 
 interface ShowMoreListener : BaseInteractionListener {

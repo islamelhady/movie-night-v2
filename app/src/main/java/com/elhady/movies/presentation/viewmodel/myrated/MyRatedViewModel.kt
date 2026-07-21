@@ -3,7 +3,7 @@ package com.elhady.movies.presentation.viewmodel.myrated
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.PagingData
-import com.elhady.movies.core.bases.BaseViewModel
+import com.elhady.movies.core.common.bases.BaseViewModel
 import com.elhady.movies.core.domain.usecase.myrated.GetMyRatedMoviesUseCase
 import com.elhady.movies.core.domain.usecase.myrated.GetMyRatedTVShowsUseCase
 import com.elhady.movies.presentation.viewmodel.common.listener.MovieListener

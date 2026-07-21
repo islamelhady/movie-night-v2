@@ -1,6 +1,6 @@
 package com.elhady.movies.presentation.viewmodel.moviedetails.mapper
 
-import com.elhady.movies.core.mapper.Mapper
+import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.entities.moviedetails.MovieDetailsEntity
 import com.elhady.movies.core.domain.entities.moviedetails.MovieVideoEntity
 import com.elhady.movies.presentation.viewmodel.moviedetails.UpperUiState

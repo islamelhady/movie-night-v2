@@ -1,6 +1,6 @@
 package com.elhady.movies.presentation.viewmodel.seasondetails
 
-import com.elhady.movies.core.mapper.Mapper
+import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.entities.seasondetails.EpisodeEntity
 import com.elhady.movies.core.domain.entities.seasondetails.SeasonDetailsEntity
 import com.elhady.movies.presentation.viewmodel.common.model.EpisodeHorizontalUIState

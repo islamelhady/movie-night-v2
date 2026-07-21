@@ -2,7 +2,7 @@ package com.elhady.movies.core.data.repository.mappers.cash.movie
 
 import com.elhady.movies.BuildConfig
 import com.elhady.movies.core.data.local.database.dto.movie.TrendingMoviesLocalDto
-import com.elhady.movies.core.data.remote.response.dto.MovieRemoteDto
+import com.elhady.movies.core.network.model.response.dto.MovieRemoteDto
 import com.elhady.movies.core.domain.entities.GenreEntity
 import javax.inject.Inject
 

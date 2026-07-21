@@ -44,6 +44,10 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.paging.runtime)
     implementation(libs.recyclerview.swipe.decorator)
+
+    // data store preferences
+    implementation(libs.androidx.datastore.preferences)
+
     implementation(libs.glide)
 
     // Hilt

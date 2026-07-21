@@ -1,9 +1,9 @@
 package com.elhady.movies.core.data.repository.auth
 
 import android.util.Log
-import com.elhady.movies.core.data.local.PreferenceStorage
-import com.elhady.movies.core.data.remote.request.LoginRequest
-import com.elhady.movies.core.data.remote.service.MovieService
+import com.elhady.movies.core.common.local.PreferenceStorage
+import com.elhady.movies.core.network.model.request.LoginRequest
+import com.elhady.movies.core.network.service.MovieService
 import com.elhady.movies.core.data.repository.BaseRepository
 import com.elhady.movies.core.data.repository.mappers.domain.DomainProfileMapper
 import com.elhady.movies.core.domain.entities.ProfileEntity

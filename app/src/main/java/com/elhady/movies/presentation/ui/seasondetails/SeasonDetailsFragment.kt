@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.elhady.movies.BR
 import com.elhady.movies.R
-import com.elhady.movies.core.bases.BaseFragment
+import com.elhady.movies.core.common.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentSeasonDetailsBinding
 import com.elhady.movies.presentation.viewmodel.seasondetails.SeasonDetailsUiEvent
 import com.elhady.movies.presentation.viewmodel.seasondetails.SeasonDetailsUiState

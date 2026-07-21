@@ -6,10 +6,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.elhady.movies.BR
 import com.elhady.movies.R
-import com.elhady.movies.core.bases.BaseFragment
+import com.elhady.movies.core.common.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentMyListDetailsBinding
-import com.elhady.movies.core.bases.SwipeToDeleteItem
+import com.elhady.movies.core.common.bases.SwipeToDeleteItem
 import com.elhady.movies.presentation.viewmodel.mylistdetails.MyListDetailsUiEvent
 import com.elhady.movies.presentation.viewmodel.mylistdetails.MyListDetailsUiState
 import com.elhady.movies.presentation.viewmodel.mylistdetails.MyListDetailsViewModel
@@ -21,6 +22,7 @@ class MyListDetailsFragment :
 
     override val layoutIdFragment: Int = R.layout.fragment_my_list_details
     override val viewModel: MyListDetailsViewModel by viewModels()
+    override val viewModelVariableId: Int = BR.viewModel
     private lateinit var myListDetailsAdapter: MyListDetailsAdapter
     private lateinit var swipeToDeleteMedia: SwipeToDeleteItem
     private lateinit var touchHelper: ItemTouchHelper

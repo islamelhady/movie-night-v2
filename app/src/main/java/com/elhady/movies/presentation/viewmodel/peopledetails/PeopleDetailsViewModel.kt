@@ -1,7 +1,7 @@
 package com.elhady.movies.presentation.viewmodel.peopledetails
 
 import androidx.lifecycle.SavedStateHandle
-import com.elhady.movies.core.bases.BaseViewModel
+import com.elhady.movies.core.common.bases.BaseViewModel
 import com.elhady.movies.core.domain.usecase.people.GetMoviesByPersonUseCase
 import com.elhady.movies.core.domain.usecase.people.GetPeopleDetailsUseCase
 import com.elhady.movies.core.domain.usecase.tvdetails.GetTvShowsByPersonUseCase

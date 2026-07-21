@@ -1,12 +1,12 @@
 package com.elhady.movies.core.data.repository.mappers.domain
 
 import com.elhady.movies.BuildConfig
-import com.elhady.movies.core.mapper.Mapper
-import com.elhady.movies.core.data.remote.response.moviedetails.CreditsRemoteDto
-import com.elhady.movies.core.data.remote.response.moviedetails.MovieDetailsRemoteDto
-import com.elhady.movies.core.data.remote.response.moviedetails.RecommendationsRemoteDto
-import com.elhady.movies.core.data.remote.response.moviedetails.ReviewsRemoteDto
-import com.elhady.movies.core.data.remote.response.moviedetails.VideosRemoteDto
+import com.elhady.movies.core.common.mapper.Mapper
+import com.elhady.movies.core.network.model.response.moviedetails.CreditsRemoteDto
+import com.elhady.movies.core.network.model.response.moviedetails.MovieDetailsRemoteDto
+import com.elhady.movies.core.network.model.response.moviedetails.RecommendationsRemoteDto
+import com.elhady.movies.core.network.model.response.moviedetails.ReviewsRemoteDto
+import com.elhady.movies.core.network.model.response.moviedetails.VideosRemoteDto
 import com.elhady.movies.core.domain.entities.moviedetails.CastEntity
 import com.elhady.movies.core.domain.entities.moviedetails.CreditsEntity
 import com.elhady.movies.core.domain.entities.moviedetails.CrewEntity

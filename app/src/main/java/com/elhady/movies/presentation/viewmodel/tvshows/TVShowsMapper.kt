@@ -1,6 +1,6 @@
 package com.elhady.movies.presentation.viewmodel.tvshows
 
-import com.elhady.movies.core.mapper.Mapper
+import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.entities.TVShowsEntity
 
 import javax.inject.Inject

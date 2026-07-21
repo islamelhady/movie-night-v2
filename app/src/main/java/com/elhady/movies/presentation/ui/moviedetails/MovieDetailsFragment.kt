@@ -7,8 +7,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.elhady.movies.BR
 import com.elhady.movies.R
-import com.elhady.movies.core.bases.BaseFragment
+import com.elhady.movies.core.common.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentMovieDetailsBinding
 import com.elhady.movies.presentation.ui.moviedetails.adapter.MovieDetailsAdapter
 import com.elhady.movies.presentation.ui.moviedetails.adapter.MovieDetailsItem
@@ -27,6 +28,7 @@ class MovieDetailsFragment :
 
     override val layoutIdFragment: Int = R.layout.fragment_movie_details
     override val viewModel: MovieDetailsViewModel by viewModels()
+    override val viewModelVariableId: Int = BR.viewModel
 
     private lateinit var movieDetailsAdapter: MovieDetailsAdapter
     private lateinit var rateBottomSheet: RatingMovieBottomSheet

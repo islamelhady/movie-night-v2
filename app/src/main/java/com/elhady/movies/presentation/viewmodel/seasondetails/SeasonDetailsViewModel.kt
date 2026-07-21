@@ -1,7 +1,7 @@
 package com.elhady.movies.presentation.viewmodel.seasondetails
 
 import androidx.lifecycle.SavedStateHandle
-import com.elhady.movies.core.bases.BaseViewModel
+import com.elhady.movies.core.common.bases.BaseViewModel
 import com.elhady.movies.core.domain.usecase.seasondetails.GetSeasonDetailsUseCase
 import com.elhady.movies.presentation.viewmodel.common.listener.EpisodeListener
 import dagger.hilt.android.lifecycle.HiltViewModel

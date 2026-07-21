@@ -4,8 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.elhady.movies.BR
 import com.elhady.movies.R
-import com.elhady.movies.core.bases.BaseFragment
+import com.elhady.movies.core.common.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentMyListBinding
 import com.elhady.movies.presentation.viewmodel.mylist.MyListUiEvent
 import com.elhady.movies.presentation.viewmodel.mylist.MyListUiState
@@ -19,6 +20,7 @@ class MyListFragment :
 
     override val layoutIdFragment: Int = R.layout.fragment_my_list
     override val viewModel: MyListViewModel by viewModels()
+    override val viewModelVariableId: Int = BR.viewModel
     private lateinit var createListBottomSheet: CreateListBottomSheetFragment
 
     private lateinit var myListAdapter: MyListAdapter

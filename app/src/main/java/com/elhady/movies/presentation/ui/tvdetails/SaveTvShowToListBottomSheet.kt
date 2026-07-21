@@ -4,8 +4,9 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import com.elhady.movies.BR
 import com.elhady.movies.R
-import com.elhady.movies.core.bases.BaseBottomSheet
+import com.elhady.movies.core.common.bases.BaseBottomSheet
 import com.elhady.movies.databinding.SaveTvShowToListBottomSheetTvCreateListBinding
 import com.elhady.movies.presentation.viewmodel.tvdetails.TvDetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,6 +17,7 @@ class SaveTvShowToListBottomSheet(private val watchlistFavouriteBottomSheet: Wat
     BaseBottomSheet<SaveTvShowToListBottomSheetTvCreateListBinding>() {
     override val layoutIdFragment: Int= R.layout.save_tv_show_to_list_bottom_sheet_tv_create_list
     override val viewModel by activityViewModels<TvDetailsViewModel>()
+    override val viewModelVariableId: Int = BR.viewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
