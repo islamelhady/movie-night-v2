@@ -1,7 +1,4 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
-import org.gradle.api.JavaVersion
-
-
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)

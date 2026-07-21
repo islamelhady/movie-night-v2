@@ -1,5 +1,4 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
-import org.gradle.kotlin.dsl.kapt
 import java.util.Properties
 
 plugins {
@@ -75,6 +74,7 @@ dependencies {
     implementation(project(":core:network"))
     implementation(project(":core:database"))
     implementation(project(":core:datastore"))
+    implementation(project(":core:ui"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

@@ -3,10 +3,10 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")}
+}
 
 android {
-    namespace = "com.elhady.movies.core.datastore"
+    namespace = "com.elhady.movies.core.ui"
     compileSdk = 34
 
     defaultConfig {
@@ -28,17 +28,18 @@ android {
 dependencies {
     implementation(project(":core:common"))
 
-    // DataStore
-    implementation(libs.androidx.datastore.preferences)
+    // Image Loading (Glide)
+     implementation(libs.coil)
 
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
-
+    // AndroidX & Material Design
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
