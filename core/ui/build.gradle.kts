@@ -23,13 +23,27 @@ android {
         jvmTarget = "17"
     }
 
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
+
 }
 
 dependencies {
     implementation(project(":core:common"))
 
-    // Image Loading (Glide)
-     implementation(libs.coil)
+    // Image Loading
+    api(libs.glide)
+
+    // Lottie Animations
+    api(libs.lottie)
+
+    // Paging (for BaseFooterAdapter)
+    implementation(libs.androidx.paging.runtime)
+
+    // Recycler Swipe Decorator
+    implementation(libs.recyclerview.swipe.decorator)
 
     // Hilt
     implementation(libs.hilt.android)

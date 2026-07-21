@@ -105,13 +105,8 @@ dependencies {
     // Coil
     implementation(libs.coil)
 
-    /// glide
-    implementation(libs.glide)
-
     // recycler
     implementation(libs.androidx.recyclerview)
-
-    implementation(libs.recyclerview.swipe.decorator)
 
     // refresh-layout
     implementation(libs.androidx.swiperefreshlayout)
@@ -119,12 +114,6 @@ dependencies {
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
-
-    // Lottie
-    implementation(libs.lottie)
-
-    // Paging
-    implementation(libs.androidx.paging.runtime)
 
     //youtube player
     implementation(libs.youtube.player)

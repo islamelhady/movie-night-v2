@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Movies</string>
     <string name="home">Home</string>
     <string name="now_playing">Now Playing</string>
     <string name="top_rated">Top Rated</string>
@@ -108,5 +109,9 @@
     <string name="trending_today">Trending Today</string>
     <string name="explore">Explore</string>
     <string name="search_hint">Search for a movie, tv show, person…</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="mystery">Mystery</string>
+    <string name="popular_actors">Popular Actors</string>
+    <string name="adventure">Adventure</string>
 
 </resources>

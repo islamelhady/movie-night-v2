@@ -39,10 +39,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.paging.runtime)
-    implementation(libs.recyclerview.swipe.decorator)
-
-    implementation(libs.glide)
+    api(libs.androidx.paging.runtime)
 
     // Hilt
     implementation(libs.hilt.android)
