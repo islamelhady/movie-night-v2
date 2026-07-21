@@ -76,6 +76,9 @@ dependencies {
     implementation(project(":core:datastore"))
     implementation(project(":core:ui"))
 
+    // Feature Modules
+    implementation(project(":feature:auth"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
