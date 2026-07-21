@@ -3,7 +3,7 @@ package com.elhady.movies.core.data.repository
 import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.elhady.movies.core.common.local.PreferenceStorage
+import com.elhady.movies.core.datastore.local.PreferenceStorage
 import com.elhady.movies.core.database.MovieDao
 import com.elhady.movies.core.database.TvShowDao
 import com.elhady.movies.core.database.dto.SearchHistoryLocalDto

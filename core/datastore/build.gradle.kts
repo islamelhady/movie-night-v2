@@ -1,16 +1,15 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
-import org.gradle.api.JavaVersion
 
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
-}
+    id("dagger.hilt.android.plugin")}
 
 android {
-    namespace = "com.elhady.movies.core.common"
+    namespace = "com.elhady.movies.core.datastore"
     compileSdk = 34
 
     defaultConfig {
@@ -27,30 +26,22 @@ android {
         jvmTarget = "17"
     }
 
-    buildFeatures {
-        dataBinding = true
-        viewBinding = true
-        buildConfig = true
-    }
 }
 
 dependencies {
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.material)
-    implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.paging.runtime)
-    implementation(libs.recyclerview.swipe.decorator)
+    implementation(project(":core:common"))
 
-    implementation(libs.glide)
+    // DataStore
+    implementation(libs.androidx.datastore.preferences)
 
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
+
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)

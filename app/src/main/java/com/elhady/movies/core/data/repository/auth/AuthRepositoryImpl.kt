@@ -1,7 +1,7 @@
 package com.elhady.movies.core.data.repository.auth
 
 import android.util.Log
-import com.elhady.movies.core.common.local.PreferenceStorage
+import com.elhady.movies.core.datastore.local.PreferenceStorage
 import com.elhady.movies.core.network.model.request.LoginRequest
 import com.elhady.movies.core.network.service.MovieService
 import com.elhady.movies.core.data.repository.BaseRepository
