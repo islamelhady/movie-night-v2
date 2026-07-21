@@ -10,9 +10,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.BR
 import com.elhady.movies.R
+import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.core.common.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentWatchHistoryBinding
-import com.elhady.movies.core.common.bases.SwipeToDeleteItem
+import com.elhady.movies.core.ui.bases.SwipeToDeleteItem
 import com.elhady.movies.presentation.viewmodel.watchhistory.WatchHistoryViewModel
 import com.elhady.movies.presentation.viewmodel.watchhistory.WatchHistoryUiEvent
 import com.elhady.movies.presentation.viewmodel.watchhistory.WatchHistoryUiState
@@ -48,7 +49,7 @@ class WatchHistoryFragment
         when (event) {
             is WatchHistoryUiEvent.NavigateToMovieDetails -> navigateToMovieDetails(event.movieId)
             is WatchHistoryUiEvent.ShowDeleteSnackBar -> deletionIndicatorSnackBar.show()
-            is WatchHistoryUiEvent.Error -> showSnackBar(getString(R.string.cannot_fetch_movies))
+            is WatchHistoryUiEvent.Error -> showSnackBar(getString(CoreUiR.string.cannot_fetch_movies))
             is WatchHistoryUiEvent.OnClickBack -> onBackButtonPressed()
         }
     }
@@ -97,18 +98,18 @@ class WatchHistoryFragment
     private fun setupSnackBar(): Snackbar {
         return Snackbar.make(
             binding.root,
-            getString(R.string.item_deleted),
+            getString(CoreUiR.string.item_deleted),
             Snackbar.LENGTH_LONG
         )
             .setAnimationMode(Snackbar.ANIMATION_MODE_FADE)
             .setActionTextColor(
                 ContextCompat.getColor(
                     requireContext(),
-                    R.color.orangeRed
+                    CoreUiR.color.orangeRed
                 )
             )
             .addCallback(setupSnackBarCallback())
-            .setAction(getString(R.string.undo)) {
+            .setAction(getString(CoreUiR.string.undo)) {
                 viewModel.addItemToUi()
             }
     }

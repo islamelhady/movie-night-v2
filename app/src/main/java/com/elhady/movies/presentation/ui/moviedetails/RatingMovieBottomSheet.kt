@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.elhady.movies.BR
 import com.elhady.movies.R
+import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.databinding.MovieRatingBottomSheetBinding
 import com.elhady.movies.core.common.bases.BaseBottomSheet
 import com.elhady.movies.presentation.ui.tvdetails.BottomSheetDismissListener
@@ -34,7 +35,7 @@ class RatingMovieBottomSheet :
         }
         binding.buttonApply.setOnClickListener {
             if (userRating == 0f) {
-                showSnackBar(getString(R.string.please_rate_first))
+                showSnackBar(getString(CoreUiR.string.please_rate_first))
             } else {
                 dismissListener?.onApplyRateBottomSheet()
                 dismissListener?.updateRatingValue(userRating)

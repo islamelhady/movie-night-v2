@@ -7,6 +7,7 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.elhady.movies.R
+import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.databinding.GenereChipBinding
 import com.elhady.movies.presentation.viewmodel.common.listener.ChipListener
 import com.elhady.movies.presentation.viewmodel.common.model.UserListUi
@@ -22,14 +23,14 @@ fun ChipGroup.setGenresMovieDetails(
     items?.forEach { genre ->
         val chip = Chip(this.context)
         chip.setCloseIconVisible(true)
-        chip.setTextColor(getResources().getColor(R.color.on_background_38))
+        chip.setTextColor(getResources().getColor(CoreUiR.color.on_background_38))
         chip.setText(genre)
         chip.ensureAccessibleTouchTarget(0)
         val chipDrawable = ChipDrawable.createFromAttributes(
             this.context,
             null,
             0,
-            R.style.MediaDetailsChipStyle
+            CoreUiR.style.MediaDetailsChipStyle
         )
         chip.setChipDrawable(chipDrawable)
         chip.isEnabled = false

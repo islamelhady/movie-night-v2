@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.elhady.movies.BR
 import com.elhady.movies.R
+import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.core.common.bases.BaseFragment
 import com.elhady.movies.core.common.bases.ListName
 import com.elhady.movies.core.common.bases.ListType
@@ -78,13 +79,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUIState, Pro
 
     private fun showConfirmDialog(){
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(getString(R.string.logout))
-            .setMessage(getString(R.string.do_u_wanna_leave_us))
-            .setPositiveButton(getString(R.string.confirm)) { _, _ ->
+            .setTitle(getString(CoreUiR.string.logout))
+            .setMessage(getString(CoreUiR.string.do_u_wanna_leave_us))
+            .setPositiveButton(getString(CoreUiR.string.confirm)) { _, _ ->
                 viewModel.logout()
                 findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToLoginFragment())
             }
-            .setNeutralButton(getString(R.string.cancel)) { dialog, _ ->
+            .setNeutralButton(getString(CoreUiR.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()

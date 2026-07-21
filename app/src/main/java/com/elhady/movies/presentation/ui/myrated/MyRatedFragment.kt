@@ -7,7 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.elhady.movies.BR
 import com.elhady.movies.R
-import com.elhady.movies.core.common.bases.BaseFooterAdapter
+import com.elhady.movies.core.ui.adapters.BaseFooterAdapter
 import com.elhady.movies.core.common.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentMyRatedBinding
 import com.elhady.movies.presentation.ui.tvshows.collectLast

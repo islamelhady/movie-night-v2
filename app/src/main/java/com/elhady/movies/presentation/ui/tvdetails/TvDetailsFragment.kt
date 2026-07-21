@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.BR
 import com.elhady.movies.R
+import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.core.common.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentTvDetailsBinding
 import com.elhady.movies.presentation.ui.tvdetails.adapter.TvDetailsAdapter
@@ -173,7 +174,7 @@ class TvDetailsFragment :
 
     //region save to bottom sheet
     private fun showAddToWatchlistFavouriteBottomSheet() {
-        binding.saveButton.setBackgroundResource(R.drawable.ic_save_pressed)
+        binding.saveButton.setBackgroundResource(CoreUiR.drawable.ic_save_pressed)
         addToWatchlistFavouriteBottomSheet = SaveTvShowToListBottomSheet(this)
         addToWatchlistFavouriteBottomSheet.show(childFragmentManager, "BOTTOM")
     }
@@ -188,7 +189,7 @@ class TvDetailsFragment :
     }
 
     override fun onDismiss() {
-        binding.saveButton.setBackgroundResource(R.drawable.ic_save_unpressed)
+        binding.saveButton.setBackgroundResource(CoreUiR.drawable.ic_save_unpressed)
     }
     //endregion
 }
