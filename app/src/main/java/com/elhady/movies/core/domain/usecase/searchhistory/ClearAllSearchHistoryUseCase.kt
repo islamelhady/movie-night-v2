@@ -1,6 +1,6 @@
 package com.elhady.movies.core.domain.usecase.searchhistory
 
-import com.elhady.movies.core.domain.repository.MovieRepository
+import com.elhady.movies.core.common.domain.repository.MovieRepository
 import javax.inject.Inject
 
 class ClearAllSearchHistoryUseCase @Inject constructor(
