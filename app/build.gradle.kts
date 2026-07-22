@@ -83,6 +83,7 @@ dependencies {
     implementation(project(":feature:search"))
     implementation(project(":feature:details"))
     implementation(project(":feature:watchlist"))
+    implementation(project(":feature:player"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
