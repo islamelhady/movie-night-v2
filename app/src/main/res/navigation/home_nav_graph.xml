@@ -76,9 +76,10 @@
 
     <fragment
         android:id="@+id/watchHistoryFragment"
-        android:name="com.elhady.movies.presentation.ui.watchhistory.WatchHistoryFragment"
+        android:name="com.elhady.movies.feature.watchlist.presentation.ui.watchhistory.WatchHistoryFragment"
         android:label="WatchHistoryFragment"
         tools:layout="@layout/fragment_watch_history">
+        <deepLink app:uri="movie://watch_history" />
         <action
             android:id="@+id/action_watchHistoryFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
@@ -192,8 +193,9 @@
     <fragment
         android:id="@+id/myListFragment"
         tools:layout="@layout/fragment_my_list"
-        android:name="com.elhady.movies.presentation.ui.mylist.MyListFragment"
+        android:name="com.elhady.movies.feature.watchlist.presentation.ui.mylist.MyListFragment"
         android:label="MyListFragment" >
+        <deepLink app:uri="movie://my_list" />
         <action
             android:id="@+id/action_myListFragment_to_myListDetailsFragment"
             app:destination="@id/myListDetailsFragment" />
@@ -201,7 +203,7 @@
     <fragment
         android:id="@+id/myListDetailsFragment"
         tools:layout="@layout/fragment_my_list_details"
-        android:name="com.elhady.movies.presentation.ui.mylistdetails.MyListDetailsFragment"
+        android:name="com.elhady.movies.feature.watchlist.presentation.ui.mylistdetails.MyListDetailsFragment"
         android:label="MyListDetailsFragment" >
         <argument
             android:name="listId"
@@ -210,6 +212,7 @@
             android:name="listType"
             app:argType="string" />
         <argument android:name="listName" />
+        <deepLink app:uri="movie://my_list_details/{listId}/{listType}/{listName}" />
         <action
             android:id="@+id/action_myListDetailsFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
@@ -252,8 +255,9 @@
 
     <fragment
         android:id="@+id/myRatedFragment"
-        android:name="com.elhady.movies.presentation.ui.myrated.MyRatedFragment"
+        android:name="com.elhady.movies.feature.watchlist.presentation.ui.myrated.MyRatedFragment"
         android:label="MyRatedFragment" >
+        <deepLink app:uri="movie://my_rated" />
         <action
             android:id="@+id/action_myRatedFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
