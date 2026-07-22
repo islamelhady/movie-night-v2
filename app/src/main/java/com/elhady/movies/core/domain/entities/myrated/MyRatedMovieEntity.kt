@@ -1,6 +1,6 @@
-package com.elhady.movies.core.domain.entities.myrated
+package com.elhady.movies.core.common.domain.entities.myrated
 
-import com.elhady.movies.core.domain.entities.GenreEntity
+import com.elhady.movies.core.common.domain.entities.GenreEntity
 
 
 data class MyRatedMovieEntity(

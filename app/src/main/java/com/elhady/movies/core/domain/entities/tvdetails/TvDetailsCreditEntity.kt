@@ -1,4 +1,4 @@
-package com.elhady.movies.core.domain.entities.tvdetails
+package com.elhady.movies.core.common.domain.entities.tvdetails
 
 data class CastEntity(
     val id: Int,

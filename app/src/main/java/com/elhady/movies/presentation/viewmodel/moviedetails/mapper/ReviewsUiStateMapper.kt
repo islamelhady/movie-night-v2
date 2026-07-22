@@ -1,7 +1,7 @@
 package com.elhady.movies.presentation.viewmodel.moviedetails.mapper
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.domain.entities.ReviewEntity
+import com.elhady.movies.core.common.domain.entities.ReviewEntity
 import com.elhady.movies.presentation.viewmodel.moviedetails.ReviewUiState
 import javax.inject.Inject
 

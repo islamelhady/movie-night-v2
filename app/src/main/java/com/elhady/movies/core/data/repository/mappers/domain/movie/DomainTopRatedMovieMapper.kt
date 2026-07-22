@@ -2,7 +2,7 @@ package com.elhady.movies.core.data.repository.mappers.domain.movie
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.database.dto.movie.TopRatedMovieLocalDto
-import com.elhady.movies.core.domain.entities.MovieEntity
+import com.elhady.movies.core.common.domain.entities.MovieEntity
 import javax.inject.Inject
 
 class DomainTopRatedMovieMapper @Inject constructor() : Mapper<TopRatedMovieLocalDto, MovieEntity> {

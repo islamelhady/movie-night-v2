@@ -175,7 +175,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.elhady.movies.presentation.ui.login.LoginFragment"
+        android:name="com.elhady.movies.feature.auth.presentation.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action

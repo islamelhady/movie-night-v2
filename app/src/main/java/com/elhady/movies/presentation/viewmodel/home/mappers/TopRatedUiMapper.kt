@@ -1,7 +1,7 @@
 package com.elhady.movies.presentation.viewmodel.home.mappers
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.domain.entities.MovieEntity
+import com.elhady.movies.core.common.domain.entities.MovieEntity
 import com.elhady.movies.presentation.viewmodel.home.TopRatedUiState
 import javax.inject.Inject
 

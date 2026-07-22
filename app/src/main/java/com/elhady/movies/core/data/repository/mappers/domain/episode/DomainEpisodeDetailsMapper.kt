@@ -3,7 +3,7 @@ package com.elhady.movies.core.data.repository.mappers.domain.episode
 import com.elhady.movies.BuildConfig
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.network.model.response.dto.episode_details.EpisodeDetailsRemoteDto
-import com.elhady.movies.core.domain.entities.EpisodeDetailsEntity
+import com.elhady.movies.core.common.domain.entities.EpisodeDetailsEntity
 import javax.inject.Inject
 
 class DomainEpisodeDetailsMapper @Inject constructor() :

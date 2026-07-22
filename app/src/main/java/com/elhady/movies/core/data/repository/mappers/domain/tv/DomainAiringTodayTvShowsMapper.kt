@@ -3,7 +3,7 @@ package com.elhady.movies.core.data.repository.mappers.domain.tv
 import com.elhady.movies.BuildConfig
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.network.model.response.dto.TVShowsRemoteDto
-import com.elhady.movies.core.domain.entities.TVShowsEntity
+import com.elhady.movies.core.common.domain.entities.TVShowsEntity
 import javax.inject.Inject
 
 class DomainAiringTodayTvShowsMapper @Inject constructor() :

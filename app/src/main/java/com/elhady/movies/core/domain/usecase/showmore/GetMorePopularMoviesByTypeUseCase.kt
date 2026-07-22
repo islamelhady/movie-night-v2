@@ -1,7 +1,7 @@
 package com.elhady.movies.core.domain.usecase.showmore
 
 import androidx.paging.PagingData
-import com.elhady.movies.core.domain.entities.MovieEntity
+import com.elhady.movies.core.common.domain.entities.MovieEntity
 import com.elhady.movies.core.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

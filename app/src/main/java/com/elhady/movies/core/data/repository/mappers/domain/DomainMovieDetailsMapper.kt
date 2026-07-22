@@ -7,16 +7,16 @@ import com.elhady.movies.core.network.model.response.moviedetails.MovieDetailsRe
 import com.elhady.movies.core.network.model.response.moviedetails.RecommendationsRemoteDto
 import com.elhady.movies.core.network.model.response.moviedetails.ReviewsRemoteDto
 import com.elhady.movies.core.network.model.response.moviedetails.VideosRemoteDto
-import com.elhady.movies.core.domain.entities.moviedetails.CastEntity
-import com.elhady.movies.core.domain.entities.moviedetails.CreditsEntity
-import com.elhady.movies.core.domain.entities.moviedetails.CrewEntity
-import com.elhady.movies.core.domain.entities.moviedetails.MovieDetailsEntity
-import com.elhady.movies.core.domain.entities.moviedetails.MovieVideoEntity
-import com.elhady.movies.core.domain.entities.moviedetails.RecommendationsEntity
-import com.elhady.movies.core.domain.entities.moviedetails.RecommendedMovieEntity
-import com.elhady.movies.core.domain.entities.ReviewEntity
-import com.elhady.movies.core.domain.entities.moviedetails.ReviewResponseEntity
-import com.elhady.movies.core.domain.entities.moviedetails.VideosEntity
+import com.elhady.movies.core.common.domain.entities.moviedetails.CastEntity
+import com.elhady.movies.core.common.domain.entities.moviedetails.CreditsEntity
+import com.elhady.movies.core.common.domain.entities.moviedetails.CrewEntity
+import com.elhady.movies.core.common.domain.entities.moviedetails.MovieDetailsEntity
+import com.elhady.movies.core.common.domain.entities.moviedetails.MovieVideoEntity
+import com.elhady.movies.core.common.domain.entities.moviedetails.RecommendationsEntity
+import com.elhady.movies.core.common.domain.entities.moviedetails.RecommendedMovieEntity
+import com.elhady.movies.core.common.domain.entities.ReviewEntity
+import com.elhady.movies.core.common.domain.entities.moviedetails.ReviewResponseEntity
+import com.elhady.movies.core.common.domain.entities.moviedetails.VideosEntity
 import javax.inject.Inject
 
 class DomainMovieDetailsMapper @Inject constructor() : Mapper<MovieDetailsRemoteDto, MovieDetailsEntity> {

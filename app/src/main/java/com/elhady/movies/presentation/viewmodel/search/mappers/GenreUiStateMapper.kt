@@ -1,6 +1,6 @@
 package com.elhady.movies.presentation.viewmodel.search.mappers
 
-import com.elhady.movies.core.domain.entities.GenreEntity
+import com.elhady.movies.core.common.domain.entities.GenreEntity
 import com.elhady.movies.presentation.viewmodel.search.SearchUiState
 import javax.inject.Inject
 

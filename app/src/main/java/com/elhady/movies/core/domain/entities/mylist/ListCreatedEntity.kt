@@ -1,4 +1,4 @@
-package com.elhady.movies.core.domain.entities.mylist
+package com.elhady.movies.core.common.domain.entities.mylist
 
 
 data class ListCreatedEntity(
