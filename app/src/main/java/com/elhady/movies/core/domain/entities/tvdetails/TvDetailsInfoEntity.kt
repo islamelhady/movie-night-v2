@@ -1,6 +1,6 @@
-package com.elhady.movies.core.domain.entities.tvdetails
+package com.elhady.movies.core.common.domain.entities.tvdetails
 
-import com.elhady.movies.core.domain.entities.GenreEntity
+import com.elhady.movies.core.common.domain.entities.GenreEntity
 
 data class TvDetailsInfoEntity(
     val backdropImageUrl: String,

@@ -1,4 +1,4 @@
-package com.elhady.movies.core.domain.entities.moviedetails
+package com.elhady.movies.core.common.domain.entities.moviedetails
 
 data class CreditsEntity(
     val cast: List<CastEntity> = emptyList(),

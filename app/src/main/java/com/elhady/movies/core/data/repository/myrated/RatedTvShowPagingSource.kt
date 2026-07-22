@@ -2,10 +2,10 @@ package com.elhady.movies.core.data.repository.myrated
 
 import com.elhady.movies.core.database.MovieDao
 import com.elhady.movies.core.network.service.MovieService
-import com.elhady.movies.core.data.repository.BasePagingSource
+import com.elhady.movies.core.network.BasePagingSource
 import com.elhady.movies.core.data.repository.mappers.domain.DomainGenreMapper
 import com.elhady.movies.core.data.repository.mappers.domain.myrated.DomainMyRatedTvShowMapper
-import com.elhady.movies.core.domain.entities.myrated.MyRatedTvShowEntity
+import com.elhady.movies.core.common.domain.entities.myrated.MyRatedTvShowEntity
 import javax.inject.Inject
 
 class RatedTvShowPagingSource @Inject constructor(

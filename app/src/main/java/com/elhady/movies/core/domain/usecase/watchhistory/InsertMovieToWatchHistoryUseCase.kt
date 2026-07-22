@@ -1,6 +1,6 @@
 package com.elhady.movies.core.domain.usecase.watchhistory
 
-import com.elhady.movies.core.domain.entities.MovieInWatchHistoryEntity
+import com.elhady.movies.core.common.domain.entities.MovieInWatchHistoryEntity
 import com.elhady.movies.core.domain.repository.WatchHistoryRepository
 import javax.inject.Inject
 

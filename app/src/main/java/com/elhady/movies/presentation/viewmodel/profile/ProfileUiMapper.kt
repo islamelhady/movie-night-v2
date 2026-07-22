@@ -1,7 +1,7 @@
 package com.elhady.movies.presentation.viewmodel.profile
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.domain.entities.ProfileEntity
+import com.elhady.movies.core.common.domain.entities.ProfileEntity
 import javax.inject.Inject
 
 class ProfileUiMapper @Inject constructor() : Mapper<ProfileEntity, ProfileUIState> {

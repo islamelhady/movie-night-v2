@@ -1,6 +1,6 @@
 package com.elhady.movies.core.domain.usecase.seasondetails
 
-import com.elhady.movies.core.domain.entities.seasondetails.SeasonDetailsEntity
+import com.elhady.movies.core.common.domain.entities.seasondetails.SeasonDetailsEntity
 import com.elhady.movies.core.domain.repository.MovieRepository
 import javax.inject.Inject
 

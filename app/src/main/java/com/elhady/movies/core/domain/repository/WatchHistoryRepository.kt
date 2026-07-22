@@ -1,6 +1,6 @@
 package com.elhady.movies.core.domain.repository
 
-import com.elhady.movies.core.domain.entities.MovieInWatchHistoryEntity
+import com.elhady.movies.core.common.domain.entities.MovieInWatchHistoryEntity
 
 
 interface WatchHistoryRepository {

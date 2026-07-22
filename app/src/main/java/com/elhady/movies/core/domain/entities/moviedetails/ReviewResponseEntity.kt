@@ -1,6 +1,6 @@
-package com.elhady.movies.core.domain.entities.moviedetails
+package com.elhady.movies.core.common.domain.entities.moviedetails
 
-import com.elhady.movies.core.domain.entities.ReviewEntity
+import com.elhady.movies.core.common.domain.entities.ReviewEntity
 
 
 data class ReviewResponseEntity(

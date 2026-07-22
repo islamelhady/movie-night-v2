@@ -1,4 +1,4 @@
-package com.elhady.movies.core.domain.entities.seasondetails
+package com.elhady.movies.core.common.domain.entities.seasondetails
 
 
 data class SeasonDetailsEntity(

@@ -1,4 +1,4 @@
-package com.elhady.movies.core.domain.entities.moviedetails
+package com.elhady.movies.core.common.domain.entities.moviedetails
 
 data class RecommendedMovieEntity(
     val adult: Boolean=false,

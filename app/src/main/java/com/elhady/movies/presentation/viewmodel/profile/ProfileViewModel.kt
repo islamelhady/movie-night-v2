@@ -4,13 +4,12 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.common.bases.BaseViewModel
 import com.elhady.movies.core.common.bases.NavigationRes
-import com.elhady.movies.core.data.ForbiddenThrowable
-import com.elhady.movies.core.data.NoNetworkThrowable
-import com.elhady.movies.core.data.UnauthorizedThrowable
-import com.elhady.movies.core.domain.usecase.profile.CheckIsUserLoggedInUseCase
+import com.elhady.movies.core.common.ForbiddenThrowable
+import com.elhady.movies.core.common.NoNetworkThrowable
+import com.elhady.movies.core.common.UnauthorizedThrowable
+import com.elhady.movies.feature.auth.domain.usecase.CheckIsUserLoggedInUseCase
 import com.elhady.movies.core.domain.usecase.profile.GetAccountDetailsUseCase
-import com.elhady.movies.core.domain.usecase.profile.LogoutUseCase
-import com.elhady.movies.presentation.viewmodel.login.log
+import com.elhady.movies.feature.auth.domain.usecase.LogoutUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -27,7 +26,6 @@ class ProfileViewModel @Inject constructor(
 
     init {
         checkUserLoggedIn()
-        viewModelScope.launch { state.value.log() }
     }
 
     val avatar = "https://avatars.githubusercontent.com/u/30935046?v=4"

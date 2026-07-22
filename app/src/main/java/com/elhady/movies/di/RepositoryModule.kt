@@ -2,8 +2,6 @@ package com.elhady.movies.di
 
 import com.elhady.movies.core.data.repository.MovieRepositoryImpl
 import com.elhady.movies.core.data.repository.WatchHistoryRepositoryImpl
-import com.elhady.movies.core.data.repository.auth.AuthRepositoryImpl
-import com.elhady.movies.core.domain.repository.AuthRepository
 import com.elhady.movies.core.domain.repository.MovieRepository
 import com.elhady.movies.core.domain.repository.WatchHistoryRepository
 import dagger.Binds
@@ -15,10 +13,6 @@ import dagger.hilt.android.scopes.ViewModelScoped
 @Module
 @InstallIn(ViewModelComponent::class)
 abstract class RepositoryModule {
-
-    @Binds
-    @ViewModelScoped
-    abstract fun bindAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
 
     @Binds
     @ViewModelScoped

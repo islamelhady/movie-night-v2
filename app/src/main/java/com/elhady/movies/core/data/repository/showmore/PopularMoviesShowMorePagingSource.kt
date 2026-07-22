@@ -2,10 +2,10 @@ package com.elhady.movies.core.data.repository.showmore
 
 import com.elhady.movies.core.database.MovieDao
 import com.elhady.movies.core.network.service.MovieService
-import com.elhady.movies.core.data.repository.BasePagingSource
+import com.elhady.movies.core.network.BasePagingSource
 import com.elhady.movies.core.data.repository.mappers.domain.DomainGenreMapper
 import com.elhady.movies.core.data.repository.mappers.domain.movie.DomainPopularMovieShowMoreMapper
-import com.elhady.movies.core.domain.entities.MovieEntity
+import com.elhady.movies.core.common.domain.entities.MovieEntity
 import javax.inject.Inject
 
 class PopularMoviesShowMorePagingSource @Inject constructor(

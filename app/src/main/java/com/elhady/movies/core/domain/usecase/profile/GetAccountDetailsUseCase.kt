@@ -1,7 +1,7 @@
 package com.elhady.movies.core.domain.usecase.profile
 
-import com.elhady.movies.core.domain.entities.ProfileEntity
-import com.elhady.movies.core.domain.repository.AuthRepository
+import com.elhady.movies.core.common.domain.entities.ProfileEntity
+import com.elhady.movies.feature.auth.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class GetAccountDetailsUseCase @Inject constructor(

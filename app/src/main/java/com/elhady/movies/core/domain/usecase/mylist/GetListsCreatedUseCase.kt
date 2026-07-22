@@ -1,6 +1,6 @@
 package com.elhady.movies.core.domain.usecase.mylist
 
-import com.elhady.movies.core.domain.entities.mylist.ListCreatedEntity
+import com.elhady.movies.core.common.domain.entities.mylist.ListCreatedEntity
 import com.elhady.movies.core.domain.repository.MovieRepository
 import javax.inject.Inject
 

@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.common.bases.BaseViewModel
 import com.elhady.movies.core.common.bases.NavigationRes
 import com.elhady.movies.core.ui.bases.StringsRes
-import com.elhady.movies.core.domain.entities.StatusEntity
-import com.elhady.movies.core.domain.entities.moviedetails.MovieDetailsEntity
-import com.elhady.movies.core.data.ForbiddenThrowable
+import com.elhady.movies.core.common.domain.entities.StatusEntity
+import com.elhady.movies.core.common.domain.entities.moviedetails.MovieDetailsEntity
+import com.elhady.movies.core.common.ForbiddenThrowable
 import com.elhady.movies.core.domain.usecase.moviedetails.AddToUserListUseCase
 import com.elhady.movies.core.domain.usecase.moviedetails.CreateUserListUseCase
 import com.elhady.movies.core.domain.usecase.moviedetails.GetUserListsUseCase
@@ -17,8 +17,8 @@ import com.elhady.movies.core.domain.usecase.common.AddToWatchList
 import com.elhady.movies.core.domain.usecase.common.CheckIsLoginOrNotUseCase
 import com.elhady.movies.core.domain.usecase.moviedetails.GetMovieDetailsUseCase
 import com.elhady.movies.core.domain.usecase.moviedetails.SetRatingUseCase
-import com.elhady.movies.core.data.NoNetworkThrowable
-import com.elhady.movies.core.data.UnauthorizedThrowable
+import com.elhady.movies.core.common.NoNetworkThrowable
+import com.elhady.movies.core.common.UnauthorizedThrowable
 import com.elhady.movies.core.domain.usecase.moviedetails.GetRatingMovieUseCase
 import com.elhady.movies.core.domain.usecase.watchhistory.InsertMovieToWatchHistoryUseCase
 import com.elhady.movies.presentation.viewmodel.common.listener.ChipListener

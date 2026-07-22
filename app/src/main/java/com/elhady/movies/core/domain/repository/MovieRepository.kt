@@ -1,27 +1,27 @@
 package com.elhady.movies.core.domain.repository
 
 import androidx.paging.Pager
-import com.elhady.movies.core.domain.entities.EpisodeDetailsEntity
-import com.elhady.movies.core.domain.entities.GenreEntity
-import com.elhady.movies.core.domain.entities.MovieEntity
-import com.elhady.movies.core.domain.entities.PeopleDetailsEntity
-import com.elhady.movies.core.domain.entities.PeopleEntity
-import com.elhady.movies.core.domain.entities.RatingEpisodeDetailsStatusEntity
-import com.elhady.movies.core.domain.entities.SeasonEntity
-import com.elhady.movies.core.domain.entities.StatusEntity
-import com.elhady.movies.core.domain.entities.tvdetails.TvDetailsInfoEntity
-import com.elhady.movies.core.domain.entities.TvEntity
-import com.elhady.movies.core.domain.entities.TvShowEntity
-import com.elhady.movies.core.domain.entities.UserListEntity
-import com.elhady.movies.core.domain.entities.YoutubeVideoDetailsEntity
-import com.elhady.movies.core.domain.entities.moviedetails.MovieDetailsEntity
-import com.elhady.movies.core.domain.entities.ReviewEntity
-import com.elhady.movies.core.domain.entities.TVShowsEntity
-import com.elhady.movies.core.domain.entities.moviedetails.ReviewResponseEntity
-import com.elhady.movies.core.domain.entities.mylist.ListCreatedEntity
-import com.elhady.movies.core.domain.entities.myrated.MyRatedMovieEntity
-import com.elhady.movies.core.domain.entities.myrated.MyRatedTvShowEntity
-import com.elhady.movies.core.domain.entities.seasondetails.SeasonDetailsEntity
+import com.elhady.movies.core.common.domain.entities.EpisodeDetailsEntity
+import com.elhady.movies.core.common.domain.entities.GenreEntity
+import com.elhady.movies.core.common.domain.entities.MovieEntity
+import com.elhady.movies.core.common.domain.entities.PeopleDetailsEntity
+import com.elhady.movies.core.common.domain.entities.PeopleEntity
+import com.elhady.movies.core.common.domain.entities.RatingEpisodeDetailsStatusEntity
+import com.elhady.movies.core.common.domain.entities.SeasonEntity
+import com.elhady.movies.core.common.domain.entities.StatusEntity
+import com.elhady.movies.core.common.domain.entities.tvdetails.TvDetailsInfoEntity
+import com.elhady.movies.core.common.domain.entities.TvEntity
+import com.elhady.movies.core.common.domain.entities.TvShowEntity
+import com.elhady.movies.core.common.domain.entities.UserListEntity
+import com.elhady.movies.core.common.domain.entities.YoutubeVideoDetailsEntity
+import com.elhady.movies.core.common.domain.entities.moviedetails.MovieDetailsEntity
+import com.elhady.movies.core.common.domain.entities.ReviewEntity
+import com.elhady.movies.core.common.domain.entities.TVShowsEntity
+import com.elhady.movies.core.common.domain.entities.moviedetails.ReviewResponseEntity
+import com.elhady.movies.core.common.domain.entities.mylist.ListCreatedEntity
+import com.elhady.movies.core.common.domain.entities.myrated.MyRatedMovieEntity
+import com.elhady.movies.core.common.domain.entities.myrated.MyRatedTvShowEntity
+import com.elhady.movies.core.common.domain.entities.seasondetails.SeasonDetailsEntity
 
 interface MovieRepository {
 

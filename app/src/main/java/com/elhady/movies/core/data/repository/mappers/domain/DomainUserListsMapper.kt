@@ -2,7 +2,7 @@ package com.elhady.movies.core.data.repository.mappers.domain
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.network.model.response.dto.UserListRemoteDto
-import com.elhady.movies.core.domain.entities.UserListEntity
+import com.elhady.movies.core.common.domain.entities.UserListEntity
 import javax.inject.Inject
 
 class DomainUserListsMapper @Inject constructor() : Mapper<UserListRemoteDto, UserListEntity> {

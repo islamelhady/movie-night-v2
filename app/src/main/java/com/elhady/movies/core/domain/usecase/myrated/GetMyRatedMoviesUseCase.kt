@@ -1,7 +1,7 @@
 package com.elhady.movies.core.domain.usecase.myrated
 
 import androidx.paging.PagingData
-import com.elhady.movies.core.domain.entities.myrated.MyRatedMovieEntity
+import com.elhady.movies.core.common.domain.entities.myrated.MyRatedMovieEntity
 import com.elhady.movies.core.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

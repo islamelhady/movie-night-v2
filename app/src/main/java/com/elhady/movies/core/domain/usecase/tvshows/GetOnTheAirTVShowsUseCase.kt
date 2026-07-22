@@ -1,7 +1,7 @@
 package com.elhady.movies.core.domain.usecase.tvshows
 
 import androidx.paging.PagingData
-import com.elhady.movies.core.domain.entities.TVShowsEntity
+import com.elhady.movies.core.common.domain.entities.TVShowsEntity
 import com.elhady.movies.core.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

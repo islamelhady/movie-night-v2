@@ -1,6 +1,6 @@
 package com.elhady.movies.core.domain.usecase.episodedetails
 
-import com.elhady.movies.core.domain.entities.YoutubeVideoDetailsEntity
+import com.elhady.movies.core.common.domain.entities.YoutubeVideoDetailsEntity
 import com.elhady.movies.core.domain.repository.MovieRepository
 import javax.inject.Inject
 
