@@ -1,9 +1,9 @@
-package com.elhady.movies.di
+package com.elhady.movies.core.data.di
 
-import com.elhady.movies.core.data.repository.MovieRepositoryImpl
-import com.elhady.movies.core.data.repository.WatchHistoryRepositoryImpl
 import com.elhady.movies.core.common.domain.repository.MovieRepository
 import com.elhady.movies.core.common.domain.repository.WatchHistoryRepository
+import com.elhady.movies.core.data.repository.MovieRepositoryImpl
+import com.elhady.movies.core.data.repository.WatchHistoryRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
