@@ -81,6 +81,7 @@ dependencies {
     implementation(project(":feature:auth"))
     implementation(project(":feature:home"))
     implementation(project(":feature:search"))
+    implementation(project(":feature:details"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
