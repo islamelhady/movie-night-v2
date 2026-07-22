@@ -38,28 +38,6 @@ fun ChipGroup.setGenresMovieDetails(
     }
 }
 
-@BindingAdapter(value = ["app:imageUrlForReviews", "app:autherName"])
-fun ImageView.loadImageForReviews(backDropPath: String?, autherName: String) {
-    //TODO Remove hardcoded link
-    if (!backDropPath.isNullOrEmpty())
-        Glide.with(context)
-            .load("https://image.tmdb.org/t/p/w500" + backDropPath)
-            .fitCenter()
-            .centerCrop()
-//            .placeholder(generateImage(this.context, autherName))
-            .into(this)
-}
-
-//fun generateImage(context: Context, name: String): BitmapDrawable {
-//    return AvatarGenerator.AvatarBuilder(context)
-//        .setLabel(name)
-//        .setAvatarSize(120)
-//        .setTextSize(30)
-//        .toSquare()
-//        .toCircle()
-//        .build()
-//}
-
 @BindingAdapter(value = ["app:genreChips", "app:listener"])
 fun ChipGroup.setGenreChips(
     chips: List<UserListUi>,

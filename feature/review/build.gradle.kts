@@ -24,11 +24,16 @@ android {
         jvmTarget = "17"
     }
 
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
 }
 
 dependencies {
     // Core Modules
     implementation(project(":core:common"))
+    implementation(project(":core:network"))
     implementation(project(":core:ui"))
 
     // Navigation & Lifecycle

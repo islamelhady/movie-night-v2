@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import com.elhady.movies.feature.details.BR
 import com.elhady.movies.feature.details.R
 import com.elhady.movies.core.common.bases.BaseAdapter
-import com.elhady.movies.feature.details.databinding.ItemCommentBinding
+import com.elhady.movies.feature.review.databinding.ItemCommentBinding
 import com.elhady.movies.feature.details.databinding.ItemSeasonHorizontalBinding
 import com.elhady.movies.feature.details.databinding.TvDetailsItemPeopleRvBinding
 import com.elhady.movies.feature.details.databinding.TvDetailsItemRecommendedRvBinding
@@ -57,7 +57,7 @@ class TvDetailsAdapter(
             TvDetailsType.REVIEWS.ordinal -> ReviewViewHolder(
                 DataBindingUtil.inflate(
                     LayoutInflater.from(parent.context),
-                    R.layout.item_comment, parent, false
+                    com.elhady.movies.feature.review.R.layout.item_comment, parent, false
                 )
             )
 

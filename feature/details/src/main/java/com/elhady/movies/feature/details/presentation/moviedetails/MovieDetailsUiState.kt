@@ -5,6 +5,10 @@ import com.elhady.movies.core.common.presentation.model.PeopleUIState
 import com.elhady.movies.core.common.presentation.model.UserListUi
 
 
+import com.elhady.movies.feature.review.presentation.ReviewDetailsUiState
+import com.elhady.movies.feature.review.presentation.ReviewUiState
+
+
 data class MovieDetailsUiState(
     val id: Int = 0,
     val movieUiState: UpperUiState = UpperUiState(),
@@ -32,18 +36,4 @@ data class UpperUiState(
     val voteAverage: Float = 0f,
     val videoKey: String = "",
     val isLogin: Boolean = false,
-)
-
-
-data class ReviewUiState(
-    val name: String?,
-    val avatarPath: String?,
-    val content: String?,
-    val createdAt: String?,
-)
-
-data class ReviewDetailsUiState(
-    val page: Int = 1,
-    val totalPages: Int = 1,
-    val totalReviews: Int = 1
 )

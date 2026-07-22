@@ -1,6 +1,6 @@
 package com.elhady.movies.feature.details.presentation.tvdetails
 
-import com.elhady.movies.core.common.presentation.model.CommentUIState
+import com.elhady.movies.feature.review.presentation.CommentUIState
 import com.elhady.movies.core.common.presentation.model.MediaVerticalUIState
 import com.elhady.movies.core.common.presentation.model.PeopleUIState
 import com.elhady.movies.core.common.presentation.model.SeasonHorizontalUIState

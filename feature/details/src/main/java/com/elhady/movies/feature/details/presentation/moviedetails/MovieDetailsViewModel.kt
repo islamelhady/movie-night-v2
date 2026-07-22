@@ -26,8 +26,8 @@ import com.elhady.movies.core.common.presentation.PeopleListener
 import com.elhady.movies.core.common.presentation.model.UserListUi
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.CastUiStateMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.RecommendedUiStateMapper
-import com.elhady.movies.feature.details.presentation.moviedetails.mapper.ReviewDetailsUiStateMapper
-import com.elhady.movies.feature.details.presentation.moviedetails.mapper.ReviewsUiStateMapper
+import com.elhady.movies.feature.review.presentation.mapper.ReviewDetailsUiStateMapper
+import com.elhady.movies.feature.review.presentation.mapper.ReviewsUiStateMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.UpperUiStateMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.UserListUiMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.WatchHistoryUiStateMapper

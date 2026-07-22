@@ -19,7 +19,7 @@ import com.elhady.movies.feature.details.domain.usecase.tvdetails.AddToUserListU
 import com.elhady.movies.feature.details.domain.usecase.tvdetails.CreateUserListUseCase
 import com.elhady.movies.feature.details.domain.usecase.tvdetails.GetTVDetailsInfoUseCase
 import com.elhady.movies.feature.details.domain.usecase.tvdetails.GetTvDetailsCreditUseCase
-import com.elhady.movies.feature.details.domain.usecase.tvdetails.GetTvDetailsReviewsUseCase
+import com.elhady.movies.feature.review.domain.usecase.GetTvDetailsReviewsUseCase
 import com.elhady.movies.feature.details.domain.usecase.tvdetails.GetTvDetailsSeasonsUseCase
 import com.elhady.movies.feature.details.domain.usecase.tvdetails.GetTvShowRecommendationsUseCase
 import com.elhady.movies.feature.details.domain.usecase.tvdetails.GetTvShowYoutubeDetailsUseCase
@@ -29,7 +29,7 @@ import com.elhady.movies.feature.details.domain.usecase.tvdetails.GetRatingTvUse
 import com.elhady.movies.feature.details.presentation.tvdetails.listener.TvDetailsListeners
 import com.elhady.movies.feature.details.presentation.tvdetails.mappers.TvDetailsCastUiMapper
 import com.elhady.movies.feature.details.presentation.tvdetails.mappers.TvDetailsInfoUiMapper
-import com.elhady.movies.feature.details.presentation.tvdetails.mappers.TvDetailsReviewUiMapper
+import com.elhady.movies.feature.review.presentation.mapper.TvDetailsReviewUiMapper
 import com.elhady.movies.feature.details.presentation.tvdetails.mappers.TvDetailsSeasonUiMapper
 import com.elhady.movies.feature.details.presentation.tvdetails.mappers.TvShowUiMapper
 import com.elhady.movies.feature.details.presentation.tvdetails.mappers.TvShowYoutubeVideoDetailsUiMapper

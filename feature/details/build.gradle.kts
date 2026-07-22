@@ -37,6 +37,7 @@ dependencies {
     implementation(project(":core:database"))
     implementation(project(":core:datastore"))
     implementation(project(":core:ui"))
+    implementation(project(":feature:review"))
 
     // Navigation, Motion & UI
     implementation(libs.androidx.navigation.fragment.ktx)

@@ -1,5 +1,6 @@
 package com.elhady.movies.feature.home.presentation.ui
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -15,6 +16,7 @@ import com.elhady.movies.feature.home.presentation.HomeUiEvent
 import com.elhady.movies.feature.home.presentation.HomeUiState
 import com.elhady.movies.feature.home.presentation.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.core.net.toUri
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>() {
