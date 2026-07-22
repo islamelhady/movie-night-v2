@@ -3,10 +3,11 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
+    alias(libs.plugins.hilt)
 }
 
 android {
-    namespace = "com.elhady.movie.feature.player"
+    namespace = "com.elhady.movies.feature.player"
     compileSdk = 34
 
     defaultConfig {
@@ -38,6 +39,9 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    // youtube player
+    implementation(libs.youtube.player)
 
     // Hilt Dependency Injection
     implementation(libs.hilt.android)

@@ -244,7 +244,7 @@
     </fragment>
     <fragment
         android:id="@+id/trailerFragment"
-        android:name="com.elhady.movies.feature.details.presentation.ui.youtubeplayer.TrailerFragment"
+        android:name="com.elhady.movies.feature.player.presentation.ui.TrailerFragment"
         android:label="TrailerFragment"
         tools:layout="@layout/fragment_trailer">
         <argument
