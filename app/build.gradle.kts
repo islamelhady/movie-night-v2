@@ -4,7 +4,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt")
+    kotlin("kapt")
     id("dagger.hilt.android.plugin")
     alias(libs.plugins.navigation.safeargs)
 }
@@ -80,6 +80,7 @@ dependencies {
     // Feature Modules
     implementation(project(":feature:auth"))
     implementation(project(":feature:home"))
+    implementation(project(":feature:search"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
