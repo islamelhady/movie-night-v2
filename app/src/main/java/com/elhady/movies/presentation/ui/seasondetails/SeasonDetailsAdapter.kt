@@ -8,7 +8,7 @@ import com.elhady.movies.R
 import com.elhady.movies.core.common.bases.BaseAdapter
 import com.elhady.movies.databinding.ItemEpisodeHorizontalBinding
 import com.elhady.movies.databinding.ItemSeasonDetailsHeaderBinding
-import com.elhady.movies.presentation.viewmodel.common.listener.EpisodeListener
+import com.elhady.movies.core.common.presentation.EpisodeListener
 
 class SeasonDetailsAdapter (
     private var list: MutableList<SeasonDetailsItem>,

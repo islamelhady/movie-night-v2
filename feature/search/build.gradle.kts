@@ -1,7 +1,9 @@
-@file:Suppress("DSL_SCOPE_VIOLATION")plugins {
+@file:Suppress("DSL_SCOPE_VIOLATION")
+plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    kotlin("kapt")
+    id("kotlin-kapt")
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -22,19 +24,32 @@ android {
         jvmTarget = "17"
     }
 
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+        buildConfig = true
+    }
+
 }
 
 dependencies {
-    // Core Modules
+    // Core Modules Dependencies
     implementation(project(":core:common"))
     implementation(project(":core:network"))
     implementation(project(":core:database"))
+    implementation(project(":core:datastore"))
     implementation(project(":core:ui"))
 
-    // Navigation & Coroutines / Flow
+    // Navigation & Lifecycle
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    // Paging
+    implementation(libs.androidx.paging.runtime)
+
+    // Coil
+    implementation(libs.coil)
 
     // Hilt Dependency Injection
     implementation(libs.hilt.android)

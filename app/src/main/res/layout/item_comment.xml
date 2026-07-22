@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.presentation.viewmodel.common.model.CommentUIState" />
+            type="com.elhady.movies.core.common.presentation.model.CommentUIState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

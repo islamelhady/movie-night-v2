@@ -1,6 +1,6 @@
 package com.elhady.movies.presentation.ui.seasondetails
 
-import com.elhady.movies.presentation.viewmodel.common.model.EpisodeHorizontalUIState
+import com.elhady.movies.core.common.presentation.model.EpisodeHorizontalUIState
 
 sealed class SeasonDetailsItem(val type: SeasonDetailsType){
     data class OverviewItem(val overview: String, val isEmptyEpisodes: Boolean): SeasonDetailsItem(SeasonDetailsType.OVERVIEW)

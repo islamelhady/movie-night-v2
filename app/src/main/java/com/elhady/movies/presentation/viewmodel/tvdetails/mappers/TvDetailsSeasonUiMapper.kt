@@ -2,7 +2,7 @@ package com.elhady.movies.presentation.viewmodel.tvdetails.mappers
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.common.domain.entities.SeasonEntity
-import com.elhady.movies.presentation.viewmodel.common.model.SeasonHorizontalUIState
+import com.elhady.movies.core.common.presentation.model.SeasonHorizontalUIState
 import com.elhady.movies.presentation.viewmodel.tvdetails.TvDetailsUiState
 import javax.inject.Inject
 

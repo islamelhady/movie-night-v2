@@ -1,7 +1,7 @@
 package com.elhady.movies.presentation.ui.moviedetails.adapter
 
-import com.elhady.movies.presentation.viewmodel.common.model.MediaVerticalUIState
-import com.elhady.movies.presentation.viewmodel.common.model.PeopleUIState
+import com.elhady.movies.core.common.presentation.model.MediaVerticalUIState
+import com.elhady.movies.core.common.presentation.model.PeopleUIState
 import com.elhady.movies.presentation.viewmodel.moviedetails.ReviewUiState
 import com.elhady.movies.presentation.viewmodel.moviedetails.UpperUiState
 

@@ -2,7 +2,7 @@ package com.elhady.movies.presentation.viewmodel.myrated.mappers
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.common.domain.entities.myrated.MyRatedTvShowEntity
-import com.elhady.movies.presentation.viewmodel.common.model.MovieHorizontalUIState
+import com.elhady.movies.core.common.presentation.model.MovieHorizontalUIState
 import javax.inject.Inject
 
 class MyRatedTvShowToMovieHorizontalUiMapper @Inject constructor()  :
