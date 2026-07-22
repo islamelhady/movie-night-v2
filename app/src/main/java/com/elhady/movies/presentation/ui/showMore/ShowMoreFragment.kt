@@ -12,7 +12,7 @@ import com.elhady.movies.BR
 import com.elhady.movies.R
 import com.elhady.movies.core.common.bases.BaseFragment
 import com.elhady.movies.databinding.FragmentShowMoreBinding
-import com.elhady.movies.presentation.viewmodel.showmore.ShowMoreType
+import com.elhady.movies.core.common.domain.ShowMoreType
 import com.elhady.movies.presentation.viewmodel.showmore.ShowMoreUiEvent
 import com.elhady.movies.presentation.viewmodel.showmore.ShowMoreUiState
 import com.elhady.movies.presentation.viewmodel.showmore.ShowMoreViewModel

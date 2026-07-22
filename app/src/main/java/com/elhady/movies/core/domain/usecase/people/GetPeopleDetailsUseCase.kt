@@ -1,7 +1,7 @@
 package com.elhady.movies.core.domain.usecase.people
 
 import com.elhady.movies.core.common.domain.entities.PeopleDetailsEntity
-import com.elhady.movies.core.domain.repository.MovieRepository
+import com.elhady.movies.core.common.domain.repository.MovieRepository
 import javax.inject.Inject
 
 class GetPeopleDetailsUseCase @Inject constructor(

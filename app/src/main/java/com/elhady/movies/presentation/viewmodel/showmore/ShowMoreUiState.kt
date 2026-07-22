@@ -3,6 +3,7 @@ package com.elhady.movies.presentation.viewmodel.showmore
 import androidx.paging.PagingData
 import com.elhady.movies.core.common.bases.ListType
 import com.elhady.movies.core.ui.bases.StringsRes
+import com.elhady.movies.core.common.domain.ShowMoreType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlin.math.roundToInt
@@ -44,14 +45,4 @@ data class ShowMoreUi(
     val type: ListType = ListType.MOVIE
 ) {
     fun formattedRate(): Double = (rate * 10.0).roundToInt() / 10.0
-}
-
-enum class ShowMoreType {
-    POPULAR_MOVIES,
-    TOP_RATED_MOVIES,
-    TRENDING_MOVIES,
-    AIRING_TODAY_TV,
-    TOP_RATED_TV,
-    POPULAR_TV,
-    ON_THE_AIR_TV
 }
