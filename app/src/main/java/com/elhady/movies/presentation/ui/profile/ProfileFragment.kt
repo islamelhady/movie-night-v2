@@ -1,10 +1,12 @@
 package com.elhady.movies.presentation.ui.profile
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import com.elhady.movies.BR
 import com.elhady.movies.R
@@ -38,33 +40,31 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUIState, Pro
     override fun onEvent(event: ProfileUiEvent) {
         when (event) {
             ProfileUiEvent.NavigateToFavoriteScreen -> {
-                findNavController().navigate(
-                    ProfileFragmentDirections.actionProfileFragmentToMyListDetailsFragment(
-                        listType = ListType.MOVIE.name,
-                        listId = 0,
-                        listName = ListName.FAVORITE.name,
-                    )
-                )
+                val request = NavDeepLinkRequest.Builder
+                    .fromUri(Uri.parse("movie://my_list_details/0/${ListType.MOVIE.name}/${ListName.FAVORITE.name}"))
+                    .build()
+                findNavController().navigate(request)
             }
 
             ProfileUiEvent.NavigateToWatchlistScreen -> {
-                findNavController().navigate(
-                    ProfileFragmentDirections.actionProfileFragmentToMyListDetailsFragment(
-                        listType = ListType.MOVIE.name,
-                        listId = 0,
-                        listName = ListName.WATCHLIST.name,
-                    )
-                )
+                val request = NavDeepLinkRequest.Builder
+                    .fromUri(Uri.parse("movie://my_list_details/0/${ListType.MOVIE.name}/${ListName.WATCHLIST.name}"))
+                    .build()
+                findNavController().navigate(request)
             }
 
             ProfileUiEvent.NavigateToWatchHistoryScreen -> {
-                findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToWatchHistoryFragment())
+                val request = NavDeepLinkRequest.Builder
+                    .fromUri(Uri.parse("movie://watch_history"))
+                    .build()
+                findNavController().navigate(request)
             }
 
             ProfileUiEvent.NavigateToMyListsScreen -> {
-                findNavController().navigate(
-                    ProfileFragmentDirections.actionProfileFragmentToMyListFragment()
-                )
+                val request = NavDeepLinkRequest.Builder
+                    .fromUri(Uri.parse("movie://my_list"))
+                    .build()
+                findNavController().navigate(request)
             }
 
             ProfileUiEvent.Logout -> {
