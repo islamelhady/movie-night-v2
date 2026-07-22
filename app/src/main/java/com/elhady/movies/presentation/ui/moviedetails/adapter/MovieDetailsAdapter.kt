@@ -12,8 +12,8 @@ import com.elhady.movies.databinding.MovieDetailsItemRecommendedBinding
 import com.elhady.movies.databinding.MovieDetailsItemUpperBinding
 import com.elhady.movies.presentation.ui.common.adapters.MediaVerticalAdapter
 import com.elhady.movies.presentation.ui.common.adapters.PeopleAdapter
-import com.elhady.movies.presentation.viewmodel.common.listener.MediaListener
-import com.elhady.movies.presentation.viewmodel.common.listener.PeopleListener
+import com.elhady.movies.core.common.presentation.MediaListener
+import com.elhady.movies.core.common.presentation.PeopleListener
 import com.elhady.movies.presentation.viewmodel.moviedetails.MovieDetailsListener
 
 class MovieDetailsAdapter(

@@ -8,7 +8,7 @@ import com.elhady.movies.core.domain.usecase.watchhistory.GetAllWatchHistoryMovi
 import com.elhady.movies.core.domain.usecase.watchhistory.SearchWatchHistoryUseCase
 import com.elhady.movies.presentation.ui.watchhistory.WatchHistoryRecyclerItem
 import com.elhady.movies.presentation.ui.watchhistory.WatchHistoryRecyclerItemsCreator
-import com.elhady.movies.presentation.viewmodel.common.listener.MediaListener
+import com.elhady.movies.core.common.presentation.MediaListener
 import com.elhady.movies.presentation.viewmodel.watchhistory.mappers.MovieDomainMapper
 import com.elhady.movies.presentation.viewmodel.watchhistory.mappers.MovieUiStateMapper
 import dagger.hilt.android.lifecycle.HiltViewModel

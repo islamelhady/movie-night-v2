@@ -8,7 +8,7 @@ import com.elhady.movies.R
 import com.elhady.movies.core.common.bases.BaseAdapter
 import com.elhady.movies.databinding.WatchHistoryRecyclerViewCardBinding
 import com.elhady.movies.databinding.WatchHistoryRecyclerViewTitleBinding
-import com.elhady.movies.presentation.viewmodel.common.listener.MediaListener
+import com.elhady.movies.core.common.presentation.MediaListener
 
 class WatchHistoryAdapter(
     private var items: List<WatchHistoryRecyclerItem>,

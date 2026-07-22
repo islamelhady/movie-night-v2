@@ -3,8 +3,8 @@ package com.elhady.movies.presentation.ui.common.adapters
 import com.elhady.movies.BR
 import com.elhady.movies.R
 import com.elhady.movies.core.common.bases.BaseAdapter
-import com.elhady.movies.presentation.viewmodel.common.listener.EpisodeListener
-import com.elhady.movies.presentation.viewmodel.common.model.EpisodeHorizontalUIState
+import com.elhady.movies.core.common.presentation.EpisodeListener
+import com.elhady.movies.core.common.presentation.model.EpisodeHorizontalUIState
 
 class EpisodeAdapter(
     list: List<EpisodeHorizontalUIState>,

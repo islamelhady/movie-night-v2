@@ -21,10 +21,10 @@ import com.elhady.movies.core.common.NoNetworkThrowable
 import com.elhady.movies.core.common.UnauthorizedThrowable
 import com.elhady.movies.core.domain.usecase.moviedetails.GetRatingMovieUseCase
 import com.elhady.movies.core.domain.usecase.watchhistory.InsertMovieToWatchHistoryUseCase
-import com.elhady.movies.presentation.viewmodel.common.listener.ChipListener
-import com.elhady.movies.presentation.viewmodel.common.listener.MediaListener
-import com.elhady.movies.presentation.viewmodel.common.listener.PeopleListener
-import com.elhady.movies.presentation.viewmodel.common.model.UserListUi
+import com.elhady.movies.core.common.presentation.ChipListener
+import com.elhady.movies.core.common.presentation.MediaListener
+import com.elhady.movies.core.common.presentation.PeopleListener
+import com.elhady.movies.core.common.presentation.model.UserListUi
 import com.elhady.movies.presentation.viewmodel.moviedetails.mapper.CastUiStateMapper
 import com.elhady.movies.presentation.viewmodel.moviedetails.mapper.RecommendedUiStateMapper
 import com.elhady.movies.presentation.viewmodel.moviedetails.mapper.ReviewDetailsUiStateMapper

@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.elhady.movies.BR
 import com.elhady.movies.R
 import com.elhady.movies.core.common.bases.BasePagingAdapter
-import com.elhady.movies.databinding.ItemMovieHorizontalBinding
+import com.elhady.movies.core.ui.databinding.ItemMovieHorizontalBinding
 import com.elhady.movies.presentation.viewmodel.showmore.ShowMoreListener
 import com.elhady.movies.presentation.viewmodel.showmore.ShowMoreUi
 

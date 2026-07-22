@@ -1,8 +1,8 @@
 package com.elhady.movies.presentation.viewmodel.moviedetails
 
-import com.elhady.movies.presentation.viewmodel.common.model.MediaVerticalUIState
-import com.elhady.movies.presentation.viewmodel.common.model.PeopleUIState
-import com.elhady.movies.presentation.viewmodel.common.model.UserListUi
+import com.elhady.movies.core.common.presentation.model.MediaVerticalUIState
+import com.elhady.movies.core.common.presentation.model.PeopleUIState
+import com.elhady.movies.core.common.presentation.model.UserListUi
 
 
 data class MovieDetailsUiState(

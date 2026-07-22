@@ -1,6 +1,6 @@
 package com.elhady.movies.presentation.viewmodel.seasondetails
 
-import com.elhady.movies.presentation.viewmodel.common.model.EpisodeHorizontalUIState
+import com.elhady.movies.core.common.presentation.model.EpisodeHorizontalUIState
 
 data class SeasonDetailsUiState(
     val id : Int = 0,

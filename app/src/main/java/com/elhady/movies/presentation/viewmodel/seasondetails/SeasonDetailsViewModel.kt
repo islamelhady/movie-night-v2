@@ -3,7 +3,7 @@ package com.elhady.movies.presentation.viewmodel.seasondetails
 import androidx.lifecycle.SavedStateHandle
 import com.elhady.movies.core.common.bases.BaseViewModel
 import com.elhady.movies.core.domain.usecase.seasondetails.GetSeasonDetailsUseCase
-import com.elhady.movies.presentation.viewmodel.common.listener.EpisodeListener
+import com.elhady.movies.core.common.presentation.EpisodeListener
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject

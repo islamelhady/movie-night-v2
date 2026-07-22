@@ -29,9 +29,10 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.elhady.movies.presentation.ui.search.SearchFragment"
+        android:name="com.elhady.movies.feature.search.presentation.ui.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search">
+        <deepLink app:uri="movie://search" />
         <action
             android:id="@+id/action_searchFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
@@ -265,6 +266,7 @@
         <argument
             android:name="personId"
             app:argType="integer" />
+        <deepLink app:uri="movie://people_details/{personId}" />
         <action
             android:id="@+id/action_peopleDetailsFragment_to_tvDetailsFragment"
             app:destination="@id/tvDetailsFragment" />

@@ -6,11 +6,11 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.presentation.viewmodel.common.model.UserListUi" />
+            type="com.elhady.movies.core.common.presentation.model.UserListUi" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.presentation.viewmodel.common.listener.ChipListener" />
+            type="com.elhady.movies.core.common.presentation.ChipListener" />
     </data>
 
     <com.google.android.material.chip.Chip
