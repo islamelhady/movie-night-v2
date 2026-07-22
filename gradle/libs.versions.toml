@@ -9,7 +9,6 @@ material = "1.9.0"
 fragmentKtx = "1.6.1"
 activityKtx = "1.7.2"
 recyclerview = "1.2.0"
-swiperefreshlayout = "1.1.0"
 
 # Architecture Components
 navigation = "2.5.2"
@@ -42,6 +41,7 @@ swipeDecorator = "1.4"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
+swiperefreshlayoutVersion = "1.1.0"
 
 [libraries]
 # AndroidX & UI Core
@@ -49,7 +49,7 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version = "1.0.0" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
+androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayoutVersion" }
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 
 # Navigation & Lifecycle
