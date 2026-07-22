@@ -2,7 +2,7 @@ package com.elhady.movies.presentation.viewmodel.explore
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.common.domain.entities.MovieEntity
-import com.elhady.movies.presentation.viewmodel.home.TrendingMoviesUiState
+import com.elhady.movies.feature.home.presentation.TrendingMoviesUiState
 import javax.inject.Inject
 
 class ExploreTrendingUiMapper @Inject constructor() : Mapper<MovieEntity, ExploreUiState.TrendingMoviesUiState> {

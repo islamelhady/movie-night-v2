@@ -70,6 +70,7 @@ android {
 }
 
 dependencies {
+    // Core Modules
     implementation(project(":core:common"))
     implementation(project(":core:network"))
     implementation(project(":core:database"))
@@ -78,6 +79,7 @@ dependencies {
 
     // Feature Modules
     implementation(project(":feature:auth"))
+    implementation(project(":feature:home"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

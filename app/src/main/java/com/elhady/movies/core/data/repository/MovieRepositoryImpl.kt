@@ -96,7 +96,7 @@ import com.elhady.movies.core.common.domain.entities.myrated.MyRatedMovieEntity
 import com.elhady.movies.core.common.domain.entities.myrated.MyRatedTvShowEntity
 import com.elhady.movies.core.common.domain.entities.seasondetails.SeasonDetailsEntity
 import com.elhady.movies.core.common.ApiThrowable
-import com.elhady.movies.core.domain.repository.MovieRepository
+import com.elhady.movies.core.common.domain.repository.MovieRepository
 import java.util.Random
 import javax.inject.Inject
 
