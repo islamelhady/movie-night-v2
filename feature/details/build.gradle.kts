@@ -44,6 +44,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.recyclerview)
 
+    // Swipe Refresh Layout
+    implementation(libs.androidx.swiperefreshlayout)
+
     // youtube player
     implementation(libs.youtube.player)
 

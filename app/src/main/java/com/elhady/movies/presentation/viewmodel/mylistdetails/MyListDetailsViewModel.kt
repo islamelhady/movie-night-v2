@@ -7,8 +7,8 @@ import com.elhady.movies.core.common.bases.ListName
 import com.elhady.movies.core.common.bases.ListType
 import com.elhady.movies.core.ui.bases.StringsRes
 import com.elhady.movies.core.common.domain.entities.StatusEntity
-import com.elhady.movies.core.domain.usecase.common.AddToFavouriteUseCase
-import com.elhady.movies.core.domain.usecase.common.AddToWatchList
+import com.elhady.movies.core.common.domain.usecase.AddToFavouriteUseCase
+import com.elhady.movies.core.common.domain.usecase.AddToWatchList
 import com.elhady.movies.core.domain.usecase.mylist.DeleteMovieFromDetailsListUseCase
 import com.elhady.movies.core.domain.usecase.mylist.GetMyFavoriteListUseCase
 import com.elhady.movies.core.domain.usecase.mylist.GetMyListDetailsByListIdUseCase

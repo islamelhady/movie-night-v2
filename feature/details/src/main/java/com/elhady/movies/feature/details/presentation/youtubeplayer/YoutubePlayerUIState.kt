@@ -1,4 +1,4 @@
-package com.elhady.movies.presentation.viewmodel.youtubetrailer
+package com.elhady.movies.feature.details.presentation.youtubeplayer
 
 data class YoutubePlayerUIState(
     val videoKey: String = "",

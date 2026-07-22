@@ -1,4 +1,4 @@
-package com.elhady.movies.presentation.viewmodel.youtubetrailer
+package com.elhady.movies.feature.details.presentation.youtubeplayer
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
