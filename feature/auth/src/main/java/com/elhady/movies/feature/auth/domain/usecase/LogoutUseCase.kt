@@ -1,6 +1,6 @@
-package com.elhady.movies.core.domain.usecase.profile
+package com.elhady.movies.feature.auth.domain.usecase
 
-import com.elhady.movies.core.domain.repository.AuthRepository
+import com.elhady.movies.feature.auth.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class LogoutUseCase @Inject constructor(
