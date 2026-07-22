@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -23,6 +24,10 @@ android {
         jvmTarget = "17"
     }
 
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -30,6 +35,7 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:network"))
     implementation(project(":core:database"))
+    implementation(project(":core:datastore"))
     implementation(project(":core:ui"))
 
     // Navigation, Motion & UI
@@ -37,6 +43,12 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.recyclerview)
+
+    // youtube player
+    implementation(libs.youtube.player)
+
+    // Expandable TextView
+    implementation(libs.expandable.textview)
 
     // Hilt Dependency Injection
     implementation(libs.hilt.android)
