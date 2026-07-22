@@ -1,0 +1,22 @@
+package com.elhady.movies.core.data.mappers.domain.myrated
+
+import com.elhady.movies.core.data.BuildConfig
+import com.elhady.movies.core.network.model.response.dto.myrated.MyRatedMovieDto
+import com.elhady.movies.core.common.domain.entities.GenreEntity
+import com.elhady.movies.core.common.domain.entities.myrated.MyRatedMovieEntity
+import javax.inject.Inject
+
+class DomainMyRatedMoviesMapper @Inject constructor() {
+    fun map(input: MyRatedMovieDto, genreEntities: List<GenreEntity>): MyRatedMovieEntity {
+        return MyRatedMovieEntity(
+            id = input.id ?: 0,
+            title = input.title ?: "",
+            imageUrl = BuildConfig.IMAGE_BASE_PATH + input.posterPath,
+            genreEntities = genreEntities.filter {
+                it.genreID in (input.genreIds?.filterNotNull() ?: emptyList())
+            },
+            myRate = input.rating ?: 0.0,
+            year = input.releaseDate ?: ""
+        )
+    }
+}

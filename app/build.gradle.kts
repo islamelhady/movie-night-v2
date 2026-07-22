@@ -72,10 +72,8 @@ android {
 dependencies {
     // Core Modules
     implementation(project(":core:common"))
-    implementation(project(":core:network"))
-    implementation(project(":core:database"))
-    implementation(project(":core:datastore"))
     implementation(project(":core:ui"))
+    implementation(project(":core:data"))
 
     // Feature Modules
     implementation(project(":feature:auth"))
