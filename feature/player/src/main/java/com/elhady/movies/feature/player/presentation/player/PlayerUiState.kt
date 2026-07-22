@@ -1,6 +1,6 @@
-package com.elhady.movies.feature.details.presentation.youtubeplayer
+package com.elhady.movies.feature.player.presentation.player
 
-data class YoutubePlayerUIState(
+data class PlayerUiState(
     val videoKey: String = "",
     val isLoading: Boolean = false,
     val errors: List<String>? = emptyList(),

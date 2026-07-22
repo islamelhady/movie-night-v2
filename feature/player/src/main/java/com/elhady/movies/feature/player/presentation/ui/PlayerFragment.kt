@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.details.presentation.ui.youtubeplayer
+package com.elhady.movies.feature.player.presentation.ui
 
 import android.content.pm.ActivityInfo
 import android.graphics.Color
@@ -6,22 +6,22 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import com.elhady.movies.feature.details.BR
 import androidx.fragment.app.viewModels
-import com.elhady.movies.feature.details.R
 import com.elhady.movies.core.common.bases.BaseFragment
-import com.elhady.movies.feature.details.databinding.FragmentTrailerBinding
-import com.elhady.movies.feature.details.presentation.youtubeplayer.TrailerInteraction
-import com.elhady.movies.feature.details.presentation.youtubeplayer.YoutubePlayerUIState
-import com.elhady.movies.feature.details.presentation.youtubeplayer.TrailerViewModel
+import com.elhady.movies.feature.player.BR
+import com.elhady.movies.feature.player.R
+import com.elhady.movies.feature.player.databinding.FragmentPlayerBinding
+import com.elhady.movies.feature.player.presentation.player.PlayerInteraction
+import com.elhady.movies.feature.player.presentation.player.PlayerUiState
+import com.elhady.movies.feature.player.presentation.player.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TrailerFragment :
-    BaseFragment<FragmentTrailerBinding, YoutubePlayerUIState, TrailerInteraction>() {
+class PlayerFragment :
+    BaseFragment<FragmentPlayerBinding, PlayerUiState, PlayerInteraction>() {
 
-    override val layoutIdFragment = R.layout.fragment_trailer
-    override val viewModel: TrailerViewModel by viewModels()
+    override val layoutIdFragment = R.layout.fragment_player
+    override val viewModel: PlayerViewModel by viewModels()
     override val viewModelVariableId: Int = BR.viewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,7 +44,7 @@ class TrailerFragment :
         requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
     }
 
-    override fun onEvent(event: TrailerInteraction) {
+    override fun onEvent(event: PlayerInteraction) {
 
     }
 }

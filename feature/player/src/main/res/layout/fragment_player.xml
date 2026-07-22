@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.elhady.movies.feature.details.presentation.youtubeplayer.TrailerViewModel" />
+            type="com.elhady.movies.feature.player.presentation.player.PlayerViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,16 +23,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:setVideoId="@{viewModel.state.videoKey}" />
-
-<!--        <include-->
-<!--            android:id="@+id/lottie_animation_view_no_network"-->
-<!--            layout="@layout/layout_no_connection"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:isVisible="@{viewModel.state.isError}"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottie_animation_view_no_network"
