@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.player.presentation.youtubeplayer
+package com.elhady.movies.feature.player.presentation.player
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -9,9 +9,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TrailerViewModel @Inject constructor(
+class PlayerViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-) : BaseViewModel<YoutubePlayerUIState, TrailerInteraction>(YoutubePlayerUIState()) {
+) : BaseViewModel<PlayerUiState, PlayerInteraction>(PlayerUiState()) {
 
     private val videoKey =
         savedStateHandle.get<String>("videoKey") ?: "GGE35fYuV1A"

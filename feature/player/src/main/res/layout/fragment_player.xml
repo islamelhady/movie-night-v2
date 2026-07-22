@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.elhady.movies.feature.player.presentation.youtubeplayer.TrailerViewModel" />
+            type="com.elhady.movies.feature.player.presentation.player.PlayerViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
