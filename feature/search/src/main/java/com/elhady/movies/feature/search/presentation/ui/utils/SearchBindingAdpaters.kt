@@ -61,13 +61,3 @@ fun RecyclerView.setSearchLayoutManager(searchUiState: SearchUiState?) {
     }
     this.layoutManager = layoutManager
 }
-
-@BindingAdapter("app:exploreLayoutManagerToggle")
-fun RecyclerView.setLayoutManagerToggle(useGrid: Boolean) {
-    val layoutManager = if (useGrid) {
-        GridLayoutManager(context, 2)
-    } else {
-        LinearLayoutManager(context)
-    }
-    this.layoutManager = layoutManager
-}

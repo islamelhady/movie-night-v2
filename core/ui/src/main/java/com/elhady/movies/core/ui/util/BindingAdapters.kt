@@ -10,12 +10,24 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SwitchCompat
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.elhady.movies.core.common.bases.BaseAdapter
 import com.elhady.movies.core.ui.R
 import com.google.android.material.progressindicator.LinearProgressIndicator
+
+@BindingAdapter("app:exploreLayoutManagerToggle")
+fun RecyclerView.setLayoutManagerToggle(useGrid: Boolean) {
+    val layoutManager = if (useGrid) {
+        GridLayoutManager(context, 2)
+    } else {
+        LinearLayoutManager(context)
+    }
+    this.layoutManager = layoutManager
+}
 
 @BindingAdapter(value = ["app:items"])
 fun <T> RecyclerView.setRecyclerItems(items: List<T>?) {
