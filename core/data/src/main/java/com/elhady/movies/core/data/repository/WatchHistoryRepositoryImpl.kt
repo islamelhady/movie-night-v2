@@ -1,7 +1,7 @@
 package com.elhady.movies.core.data.repository
 
-import com.elhady.movies.core.common.domain.entities.MovieInWatchHistoryEntity
-import com.elhady.movies.core.common.domain.repository.WatchHistoryRepository
+import com.elhady.movies.core.domain.model.MovieInWatchHistoryEntity
+import com.elhady.movies.core.domain.repository.WatchHistoryRepository
 import com.elhady.movies.core.data.mappers.cash.movie.LocalInWatchHistoryMoviesMapper
 import com.elhady.movies.core.data.mappers.domain.movie.DomainInWatchHistoryMoviesMapper
 import com.elhady.movies.core.database.MovieDao

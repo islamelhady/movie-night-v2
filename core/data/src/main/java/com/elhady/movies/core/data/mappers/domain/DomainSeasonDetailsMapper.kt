@@ -4,8 +4,8 @@ import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.network.model.response.dto.season_details.EpisodeDto
 import com.elhady.movies.core.network.model.response.dto.season_details.SeasonDetailsDto
-import com.elhady.movies.core.common.domain.entities.seasondetails.EpisodeEntity
-import com.elhady.movies.core.common.domain.entities.seasondetails.SeasonDetailsEntity
+import com.elhady.movies.core.domain.model.seasondetails.EpisodeEntity
+import com.elhady.movies.core.domain.model.seasondetails.SeasonDetailsEntity
 import javax.inject.Inject
 
 class DomainSeasonDetailsMapper @Inject constructor() :

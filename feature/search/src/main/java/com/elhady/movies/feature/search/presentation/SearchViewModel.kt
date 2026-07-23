@@ -2,15 +2,15 @@ package com.elhady.movies.feature.search.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.common.bases.BaseViewModel
-import com.elhady.movies.core.common.domain.entities.GenreEntity
+import com.elhady.movies.core.domain.model.GenreEntity
 import com.elhady.movies.core.common.NoNetworkThrowable
-import com.elhady.movies.feature.search.domain.usecase.SearchMoviesUseCase
-import com.elhady.movies.feature.search.domain.usecase.SearchPeopleUseCase
-import com.elhady.movies.feature.search.domain.usecase.SearchTvsUseCase
-import com.elhady.movies.feature.search.domain.usecase.InsertSearchHistoryUseCase
-import com.elhady.movies.feature.search.domain.usecase.SearchHistoryUseCase
-import com.elhady.movies.core.common.domain.usecase.GetAllGenresMoviesUseCase
-import com.elhady.movies.core.common.domain.usecase.GetAllGenresTvsUseCase
+import com.elhady.movies.core.domain.usecase.search.SearchMoviesUseCase
+import com.elhady.movies.core.domain.usecase.search.SearchPeopleUseCase
+import com.elhady.movies.core.domain.usecase.search.SearchTvsUseCase
+import com.elhady.movies.core.domain.usecase.search.InsertSearchHistoryUseCase
+import com.elhady.movies.core.domain.usecase.search.SearchHistoryUseCase
+import com.elhady.movies.core.domain.usecase.common.GetAllGenresMoviesUseCase
+import com.elhady.movies.core.domain.usecase.common.GetAllGenresTvsUseCase
 import com.elhady.movies.core.common.presentation.model.MovieHorizontalUIState
 import com.elhady.movies.core.common.presentation.model.PeopleUIState
 import com.elhady.movies.feature.search.presentation.mappers.GenreUiStateMapper

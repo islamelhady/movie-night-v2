@@ -1,7 +1,7 @@
 package com.elhady.movies.feature.search.presentation.mappers
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.common.domain.entities.TvEntity
+import com.elhady.movies.core.domain.model.TvEntity
 import com.elhady.movies.core.common.presentation.model.MovieHorizontalUIState
 import javax.inject.Inject
 

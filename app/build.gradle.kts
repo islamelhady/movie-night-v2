@@ -74,6 +74,7 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:ui"))
     implementation(project(":core:data"))
+    implementation(project(":core:domain"))
 
     // Feature Modules
     implementation(project(":feature:auth"))
@@ -83,6 +84,7 @@ dependencies {
     implementation(project(":feature:watchlist"))
     implementation(project(":feature:player"))
     implementation(project(":feature:explore"))
+    implementation(project(":feature:profile"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

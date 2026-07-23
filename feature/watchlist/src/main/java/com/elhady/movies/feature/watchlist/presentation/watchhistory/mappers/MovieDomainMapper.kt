@@ -1,7 +1,7 @@
 package com.elhady.movies.feature.watchlist.presentation.watchhistory.mappers
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.common.domain.entities.MovieInWatchHistoryEntity
+import com.elhady.movies.core.domain.model.MovieInWatchHistoryEntity
 import com.elhady.movies.feature.watchlist.presentation.watchhistory.MovieUiState
 import java.util.Date
 import javax.inject.Inject

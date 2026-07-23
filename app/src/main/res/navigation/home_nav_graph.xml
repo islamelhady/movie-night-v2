@@ -55,7 +55,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.elhady.movies.presentation.ui.profile.ProfileFragment"
+        android:name="com.elhady.movies.feature.profile.presentation.ProfileFragment"
         android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile">
         <action
@@ -122,7 +122,7 @@
 
         <argument
             android:name="showMoreType"
-            app:argType="com.elhady.movies.core.common.domain.ShowMoreType" />
+            app:argType="com.elhady.movies.core.domain.model.ShowMoreType" />
         <deepLink app:uri="movie://show_more/{showMoreType}" />
         <action
             android:id="@+id/action_showMoreFragment_to_homeFragment"
@@ -184,6 +184,7 @@
         android:name="com.elhady.movies.feature.auth.presentation.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
+        <deepLink app:uri="movie://login" />
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment"

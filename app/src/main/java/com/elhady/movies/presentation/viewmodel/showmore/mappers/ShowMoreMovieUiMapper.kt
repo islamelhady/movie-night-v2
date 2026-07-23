@@ -2,8 +2,8 @@ package com.elhady.movies.presentation.viewmodel.showmore.mappers
 
 import com.elhady.movies.core.common.bases.ListType
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.common.domain.entities.GenreEntity
-import com.elhady.movies.core.common.domain.entities.MovieEntity
+import com.elhady.movies.core.domain.model.GenreEntity
+import com.elhady.movies.core.domain.model.MovieEntity
 import com.elhady.movies.presentation.viewmodel.showmore.ShowMoreUi
 import javax.inject.Inject
 

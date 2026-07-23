@@ -1,6 +1,6 @@
 package com.elhady.movies.core.data.datasource.showmore
 
-import com.elhady.movies.core.common.domain.entities.MovieEntity
+import com.elhady.movies.core.domain.model.MovieEntity
 import com.elhady.movies.core.data.mappers.domain.DomainGenreMapper
 import com.elhady.movies.core.data.mappers.domain.movie.DomainTrendingMovieShowMoreMapper
 import com.elhady.movies.core.database.MovieDao
