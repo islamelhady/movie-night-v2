@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.presentation.viewmodel.explore.ExploreUiState.TrendingMoviesUiState" />
+            type="com.elhady.movies.feature.explore.viewmodel.explore.ExploreUiState.TrendingMoviesUiState" />
 
         <variable
             name="listener"

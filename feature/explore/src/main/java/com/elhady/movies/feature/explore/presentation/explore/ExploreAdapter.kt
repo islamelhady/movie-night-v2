@@ -1,22 +1,22 @@
-package com.elhady.movies.presentation.ui.explore
+package com.elhady.movies.feature.explore.presentation.explore
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import com.elhady.movies.BR
-import com.elhady.movies.R
+import com.elhady.movies.feature.explore.BR
 import com.elhady.movies.core.common.bases.BaseAdapter
-import com.elhady.movies.databinding.ExploreItemTrendingMovieGridBinding
-import com.elhady.movies.databinding.ExploreItemTrendingMovieHorizontalBinding
-import com.elhady.movies.presentation.viewmodel.explore.ExploreItem
-import com.elhady.movies.presentation.viewmodel.explore.ExploreListener
-import com.elhady.movies.presentation.viewmodel.explore.LayoutItemType
+import com.elhady.movies.feature.explore.R
+import com.elhady.movies.feature.explore.databinding.ExploreItemTrendingMovieGridBinding
+import com.elhady.movies.feature.explore.databinding.ExploreItemTrendingMovieHorizontalBinding
+import com.elhady.movies.feature.explore.viewmodel.explore.ExploreItem
+import com.elhady.movies.feature.explore.viewmodel.explore.ExploreListener
+import com.elhady.movies.feature.explore.viewmodel.explore.LayoutItemType
 
 class ExploreAdapter(
     private var list: MutableList<ExploreItem>,
     private val listener: ExploreListener
 ) : BaseAdapter<ExploreItem>(list, listener) {
-    override val layoutID: Int = 0 // handled in onCreateViewHolder
+    override val layoutID: Int = 0
     override val itemVariableId: Int = BR.item
     override val listenerVariableId: Int = BR.listener
 
@@ -75,6 +75,7 @@ class ExploreAdapter(
 
     class GridViewHolder(val binding: ExploreItemTrendingMovieGridBinding) : BaseViewHolder(binding)
 
-    class HorizontalViewHolder(val binding: ExploreItemTrendingMovieHorizontalBinding) : BaseViewHolder(binding)
+    class HorizontalViewHolder(val binding: ExploreItemTrendingMovieHorizontalBinding) :
+        BaseViewHolder(binding)
 
 }

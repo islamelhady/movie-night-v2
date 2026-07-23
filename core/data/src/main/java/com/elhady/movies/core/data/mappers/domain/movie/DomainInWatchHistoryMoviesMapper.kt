@@ -11,7 +11,7 @@ class DomainInWatchHistoryMoviesMapper @Inject constructor()
         return MovieInWatchHistoryEntity(
             id = input.id,
             title = input.title,
-            description = input.title,
+            description = input.description,
             voteAverage = input.voteAverage,
             dateWatched = input.dateWatched,
             posterPath = input.posterPath,

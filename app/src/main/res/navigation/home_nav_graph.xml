@@ -292,7 +292,7 @@
     </dialog>
     <fragment
         android:id="@+id/exploreFragment"
-        android:name="com.elhady.movies.presentation.ui.explore.ExploreFragment"
+        android:name="com.elhady.movies.feature.explore.presentation.explore.ExploreFragment"
         android:label="fragment_explore"
         tools:layout="@layout/fragment_explore" >
         <action

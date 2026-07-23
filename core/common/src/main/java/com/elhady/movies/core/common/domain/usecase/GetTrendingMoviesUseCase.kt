@@ -1,18 +1,17 @@
-package com.elhady.movies.feature.home.domain.usecase
+package com.elhady.movies.core.common.domain.usecase
 
 import com.elhady.movies.core.common.domain.entities.MovieEntity
 import com.elhady.movies.core.common.domain.repository.MovieRepository
-import com.elhady.movies.core.common.domain.usecase.RefreshIfNeededUseCase
 import javax.inject.Inject
 
-class GetTopRatedUseCase @Inject constructor(
+class GetTrendingMoviesUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
     private val refreshIfNeededUseCase: RefreshIfNeededUseCase
 ) {
     suspend operator fun invoke(limit: Int = 10): List<MovieEntity> {
         refreshIfNeededUseCase()
-        return movieRepository.getTopRatedMovies()
-            .also { if (it.isEmpty()) movieRepository.refreshTopRatedMovies() }
-            .take(limit)
+        return movieRepository.getTrendingMovies()
+            .also { if (it.isEmpty()) movieRepository.refreshTrendingMovies() }
+            .take(limit).sortedByDescending { it.rate }
     }
 }

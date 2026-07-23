@@ -1,11 +1,11 @@
-package com.elhady.movies.presentation.viewmodel.explore
+package com.elhady.movies.feature.explore.viewmodel.explore
 
-import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.common.domain.entities.MovieEntity
-import com.elhady.movies.feature.home.presentation.TrendingMoviesUiState
+import com.elhady.movies.core.common.mapper.Mapper
 import javax.inject.Inject
 
-class ExploreTrendingUiMapper @Inject constructor() : Mapper<MovieEntity, ExploreUiState.TrendingMoviesUiState> {
+class ExploreTrendingUiMapper @Inject constructor() :
+    Mapper<MovieEntity, ExploreUiState.TrendingMoviesUiState> {
     override fun map(input: MovieEntity): ExploreUiState.TrendingMoviesUiState {
         return ExploreUiState.TrendingMoviesUiState(
             id = input.id,

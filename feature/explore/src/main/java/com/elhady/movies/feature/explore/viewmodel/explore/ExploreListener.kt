@@ -1,4 +1,4 @@
-package com.elhady.movies.presentation.viewmodel.explore
+package com.elhady.movies.feature.explore.viewmodel.explore
 
 import com.elhady.movies.core.common.presentation.MovieListener
 

@@ -1,4 +1,4 @@
-package com.elhady.movies.presentation.viewmodel.explore
+package com.elhady.movies.feature.explore.viewmodel.explore
 
 import kotlin.math.roundToInt
 
@@ -7,7 +7,7 @@ data class ExploreUiState(
     val isLoading: Boolean = false,
     val layoutManager: Boolean = false,
     val onErrors: List<String> = emptyList(),
-){
+) {
 
     data class TrendingMoviesUiState(
         val id: Int,

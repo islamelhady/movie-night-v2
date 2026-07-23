@@ -1,19 +1,20 @@
-package com.elhady.movies.presentation.ui.explore
+package com.elhady.movies.feature.explore.presentation.explore
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
-import com.elhady.movies.BR
-import com.elhady.movies.R
 import com.elhady.movies.core.common.bases.BaseFragment
-import com.elhady.movies.databinding.FragmentExploreBinding
-import com.elhady.movies.presentation.viewmodel.explore.ExploreItem
-import com.elhady.movies.presentation.viewmodel.explore.ExploreUiEvent
-import com.elhady.movies.presentation.viewmodel.explore.ExploreUiState
-import com.elhady.movies.presentation.viewmodel.explore.ExploreViewModel
+import com.elhady.movies.feature.explore.BR
+import com.elhady.movies.feature.explore.R
+import com.elhady.movies.feature.explore.databinding.FragmentExploreBinding
+import com.elhady.movies.feature.explore.viewmodel.explore.ExploreItem
+import com.elhady.movies.feature.explore.viewmodel.explore.ExploreUiEvent
+import com.elhady.movies.feature.explore.viewmodel.explore.ExploreUiState
+import com.elhady.movies.feature.explore.viewmodel.explore.ExploreViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -58,21 +59,18 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
     }
 
     private fun navigateToMovieDetails(id: Int) {
-        findNavController().navigate(
-            ExploreFragmentDirections.actionExploreFragmentToMovieDetailsFragment(
-                movieId = id
-            )
-        )
+        val request =
+            NavDeepLinkRequest.Builder.fromUri(Uri.parse("movies://movie_details/$id")).build()
+        findNavController().navigate(request = request)
     }
 
 
     private fun navigateToSearch() {
         val extras = FragmentNavigatorExtras(binding.inputSearch to "search_box")
-        Navigation.findNavController(binding.root)
-            .navigate(
-                ExploreFragmentDirections.actionExploreFragmentToSearchFragment(),
-                extras
-            )
+        val request = NavDeepLinkRequest.Builder.fromUri(Uri.parse("movies://search"))
+            .build()
+
+        findNavController().navigate(request, null, extras)
     }
 
 }

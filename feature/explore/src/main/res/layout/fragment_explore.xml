@@ -6,14 +6,14 @@
     <data>
         <variable
             name="viewModel"
-            type="com.elhady.movies.presentation.viewmodel.explore.ExploreViewModel" />
+            type="com.elhady.movies.feature.explore.viewmodel.explore.ExploreViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.explore.ExploreFragment">
+        tools:context=".feature.explore.presentation.explore.ExploreFragment">
 
         <TextView
             android:id="@+id/textView"
