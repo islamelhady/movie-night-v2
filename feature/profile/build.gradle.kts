@@ -38,12 +38,16 @@ dependencies {
     implementation(project(":core:database"))
     implementation(project(":core:datastore"))
     implementation(project(":core:ui"))
+    implementation(project(":feature:auth"))
 
     // Navigation, Lifecycle & Paging
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.paging.runtime)
+
+    // Lottie
+    implementation(libs.lottie)
 
     // Hilt Dependency Injection
     implementation(libs.hilt.android)

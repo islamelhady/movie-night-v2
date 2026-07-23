@@ -1,4 +1,4 @@
-package com.elhady.movies.core.domain.usecase.people
+package com.elhady.movies.feature.profile.domain.usecase
 
 import com.elhady.movies.core.common.domain.entities.ProfileEntity
 import com.elhady.movies.feature.auth.domain.repository.AuthRepository

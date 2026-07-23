@@ -1,4 +1,4 @@
-package com.elhady.movies.presentation.viewmodel.profile
+package com.elhady.movies.feature.profile.presentation
 
 interface ProfileListener {
     fun onClickFavorite()

@@ -1,4 +1,4 @@
-package com.elhady.movies.presentation.viewmodel.profile
+package com.elhady.movies.feature.profile.presentation
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
@@ -8,8 +8,8 @@ import com.elhady.movies.core.common.ForbiddenThrowable
 import com.elhady.movies.core.common.NoNetworkThrowable
 import com.elhady.movies.core.common.UnauthorizedThrowable
 import com.elhady.movies.feature.auth.domain.usecase.CheckIsUserLoggedInUseCase
-import com.elhady.movies.core.domain.usecase.people.GetAccountDetailsUseCase
 import com.elhady.movies.feature.auth.domain.usecase.LogoutUseCase
+import com.elhady.movies.feature.profile.domain.usecase.GetAccountDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
