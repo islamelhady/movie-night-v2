@@ -2,7 +2,7 @@ package com.elhady.movies.core.data.mappers.domain.movie
 
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.network.model.response.dto.myrated.MyRatedMovieDto
-import com.elhady.movies.core.common.domain.entities.myrated.MyRatedMovieEntity
+import com.elhady.movies.core.domain.model.myrated.MyRatedMovieEntity
 import com.elhady.movies.core.common.mapper.Mapper
 import javax.inject.Inject
 

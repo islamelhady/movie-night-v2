@@ -7,16 +7,16 @@ import com.elhady.movies.core.network.model.response.moviedetails.MovieDetailsRe
 import com.elhady.movies.core.network.model.response.moviedetails.RecommendationsRemoteDto
 import com.elhady.movies.core.network.model.response.moviedetails.ReviewsRemoteDto
 import com.elhady.movies.core.network.model.response.moviedetails.VideosRemoteDto
-import com.elhady.movies.core.common.domain.entities.moviedetails.CastEntity
-import com.elhady.movies.core.common.domain.entities.moviedetails.CreditsEntity
-import com.elhady.movies.core.common.domain.entities.moviedetails.CrewEntity
-import com.elhady.movies.core.common.domain.entities.moviedetails.MovieDetailsEntity
-import com.elhady.movies.core.common.domain.entities.moviedetails.MovieVideoEntity
-import com.elhady.movies.core.common.domain.entities.moviedetails.RecommendationsEntity
-import com.elhady.movies.core.common.domain.entities.moviedetails.RecommendedMovieEntity
-import com.elhady.movies.core.common.domain.entities.ReviewEntity
-import com.elhady.movies.core.common.domain.entities.moviedetails.ReviewResponseEntity
-import com.elhady.movies.core.common.domain.entities.moviedetails.VideosEntity
+import com.elhady.movies.core.domain.model.moviedetails.CastEntity
+import com.elhady.movies.core.domain.model.moviedetails.CreditsEntity
+import com.elhady.movies.core.domain.model.moviedetails.CrewEntity
+import com.elhady.movies.core.domain.model.moviedetails.MovieDetailsEntity
+import com.elhady.movies.core.domain.model.moviedetails.MovieVideoEntity
+import com.elhady.movies.core.domain.model.moviedetails.RecommendationsEntity
+import com.elhady.movies.core.domain.model.moviedetails.RecommendedMovieEntity
+import com.elhady.movies.core.domain.model.ReviewEntity
+import com.elhady.movies.core.domain.model.moviedetails.ReviewResponseEntity
+import com.elhady.movies.core.domain.model.moviedetails.VideosEntity
 import javax.inject.Inject
 
 class DomainMovieDetailsMapper @Inject constructor() : Mapper<MovieDetailsRemoteDto, MovieDetailsEntity> {

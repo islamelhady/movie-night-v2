@@ -2,7 +2,7 @@ package com.elhady.movies.core.data.mappers.domain.tv
 
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.network.model.response.dto.myrated.MyRatedTvShowDto
-import com.elhady.movies.core.common.domain.entities.myrated.MyRatedTvShowEntity
+import com.elhady.movies.core.domain.model.myrated.MyRatedTvShowEntity
 import com.elhady.movies.core.common.mapper.Mapper
 import javax.inject.Inject
 

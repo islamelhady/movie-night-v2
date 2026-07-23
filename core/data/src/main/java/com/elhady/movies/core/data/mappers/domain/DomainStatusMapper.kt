@@ -2,7 +2,7 @@ package com.elhady.movies.core.data.mappers.domain
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.network.model.response.dto.StatusResponse
-import com.elhady.movies.core.common.domain.entities.StatusEntity
+import com.elhady.movies.core.domain.model.StatusEntity
 import javax.inject.Inject
 
 class DomainStatusMapper @Inject constructor() : Mapper<StatusResponse, StatusEntity> {

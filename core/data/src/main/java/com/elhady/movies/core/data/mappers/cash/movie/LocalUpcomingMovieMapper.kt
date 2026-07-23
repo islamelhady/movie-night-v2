@@ -3,7 +3,7 @@ package com.elhady.movies.core.data.mappers.cash.movie
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.database.dto.movie.UpcomingMovieLocalDto
 import com.elhady.movies.core.network.model.response.dto.MovieRemoteDto
-import com.elhady.movies.core.common.domain.entities.GenreEntity
+import com.elhady.movies.core.domain.model.GenreEntity
 import javax.inject.Inject
 
 class LocalUpcomingMovieMapper @Inject constructor() {
