@@ -7,9 +7,9 @@ import com.elhady.movies.core.common.bases.NavigationRes
 import com.elhady.movies.core.common.ForbiddenThrowable
 import com.elhady.movies.core.common.NoNetworkThrowable
 import com.elhady.movies.core.common.UnauthorizedThrowable
-import com.elhady.movies.feature.auth.domain.usecase.CheckIsUserLoggedInUseCase
-import com.elhady.movies.feature.auth.domain.usecase.LogoutUseCase
-import com.elhady.movies.feature.profile.domain.usecase.GetAccountDetailsUseCase
+import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
+import com.elhady.movies.core.domain.usecase.auth.LogoutUseCase
+import com.elhady.movies.core.domain.usecase.profile.GetAccountDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch

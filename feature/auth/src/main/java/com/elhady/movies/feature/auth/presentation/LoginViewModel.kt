@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.common.bases.BaseViewModel
 import com.elhady.movies.core.common.bases.NavigationRes
 import com.elhady.movies.core.ui.bases.StringsRes
-import com.elhady.movies.feature.auth.domain.usecase.LoginError
-import com.elhady.movies.feature.auth.domain.usecase.LoginUseCase
+import com.elhady.movies.core.domain.usecase.auth.LoginError
+import com.elhady.movies.core.domain.usecase.auth.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
