@@ -2,11 +2,11 @@ package com.elhady.movies.feature.profile.presentation
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.elhady.movies.core.common.bases.BaseViewModel
-import com.elhady.movies.core.common.bases.NavigationRes
 import com.elhady.movies.core.common.ForbiddenThrowable
 import com.elhady.movies.core.common.NoNetworkThrowable
 import com.elhady.movies.core.common.UnauthorizedThrowable
+import com.elhady.movies.core.common.bases.BaseViewModel
+import com.elhady.movies.core.common.bases.NavigationRes
 import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
 import com.elhady.movies.core.domain.usecase.auth.LogoutUseCase
 import com.elhady.movies.core.domain.usecase.profile.GetAccountDetailsUseCase
@@ -27,8 +27,6 @@ class ProfileViewModel @Inject constructor(
     init {
         checkUserLoggedIn()
     }
-
-    val avatar = "https://avatars.githubusercontent.com/u/30935046?v=4"
 
     private fun checkUserLoggedIn() {
         viewModelScope.launch {

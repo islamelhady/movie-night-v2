@@ -38,7 +38,6 @@ dependencies {
     implementation(project(":core:database"))
     implementation(project(":core:datastore"))
     implementation(project(":core:ui"))
-    implementation(project(":feature:auth"))
     implementation(project(":core:domain"))
 
     // Navigation, Lifecycle & Paging
