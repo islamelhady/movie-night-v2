@@ -4,7 +4,7 @@ package com.elhady.movies.core.data.datasource.myrated
 import com.elhady.movies.core.database.MovieDao
 import com.elhady.movies.core.network.service.MovieService
 import com.elhady.movies.core.network.BasePagingSource
-import com.elhady.movies.core.common.domain.entities.myrated.MyRatedMovieEntity
+import com.elhady.movies.core.domain.model.myrated.MyRatedMovieEntity
 import com.elhady.movies.core.data.mappers.domain.DomainGenreMapper
 import com.elhady.movies.core.data.mappers.domain.myrated.DomainMyRatedMoviesMapper
 import javax.inject.Inject

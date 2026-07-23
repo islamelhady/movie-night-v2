@@ -2,12 +2,12 @@ package com.elhady.movies.feature.auth.data
 
 import android.util.Log
 import com.elhady.movies.core.common.UnauthorizedThrowable
-import com.elhady.movies.core.common.domain.entities.ProfileEntity
+import com.elhady.movies.core.domain.model.ProfileEntity
 import com.elhady.movies.core.datastore.local.PreferenceStorage
 import com.elhady.movies.core.network.BaseRepository
 import com.elhady.movies.core.network.model.request.LoginRequest
 import com.elhady.movies.core.network.service.MovieService
-import com.elhady.movies.feature.auth.domain.repository.AuthRepository
+import com.elhady.movies.core.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
