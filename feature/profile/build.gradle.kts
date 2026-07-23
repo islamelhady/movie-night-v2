@@ -39,6 +39,7 @@ dependencies {
     implementation(project(":core:datastore"))
     implementation(project(":core:ui"))
     implementation(project(":feature:auth"))
+    implementation(project(":core:domain"))
 
     // Navigation, Lifecycle & Paging
     implementation(libs.androidx.navigation.fragment.ktx)

@@ -3,7 +3,7 @@ package com.elhady.movies.feature.auth.data
 import com.elhady.movies.feature.auth.BuildConfig
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.network.model.response.dto.profile.ProfileRemoteDto
-import com.elhady.movies.core.common.domain.entities.ProfileEntity
+import com.elhady.movies.core.domain.model.ProfileEntity
 import javax.inject.Inject
 
 class DomainProfileMapper @Inject constructor(): Mapper<ProfileRemoteDto, ProfileEntity> {

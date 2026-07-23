@@ -5,10 +5,10 @@ import android.os.Parcelable
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.common.bases.BaseViewModel
 import com.elhady.movies.core.ui.bases.StringsRes
-import com.elhady.movies.core.common.domain.entities.StatusEntity
-import com.elhady.movies.feature.watchlist.domain.usecase.mylist.CreateListUseCase
-import com.elhady.movies.feature.watchlist.domain.usecase.mylist.DeleteListUseCase
-import com.elhady.movies.feature.watchlist.domain.usecase.mylist.GetListsCreatedUseCase
+import com.elhady.movies.core.domain.model.StatusEntity
+import com.elhady.movies.core.domain.usecase.watchlist.mylist.CreateListUseCase
+import com.elhady.movies.core.domain.usecase.watchlist.mylist.DeleteListUseCase
+import com.elhady.movies.core.domain.usecase.watchlist.mylist.GetListsCreatedUseCase
 import com.elhady.movies.core.common.NoNetworkThrowable
 import com.elhady.movies.feature.watchlist.presentation.mylist.mapper.MyListUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -2,8 +2,8 @@ package com.elhady.movies.core.data.mappers.domain
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.network.model.response.moviedetails.ReviewsRemoteDto
-import com.elhady.movies.core.common.domain.entities.ReviewEntity
-import com.elhady.movies.core.common.domain.entities.moviedetails.ReviewResponseEntity
+import com.elhady.movies.core.domain.model.ReviewEntity
+import com.elhady.movies.core.domain.model.moviedetails.ReviewResponseEntity
 import javax.inject.Inject
 
 class DomainReviewsMapper @Inject constructor() : Mapper<ReviewsRemoteDto, ReviewResponseEntity> {

@@ -1,6 +1,6 @@
 package com.elhady.movies.feature.home.presentation
 
-import com.elhady.movies.core.common.domain.ShowMoreType
+import com.elhady.movies.core.domain.model.ShowMoreType
 
 sealed interface HomeUiEvent {
     data class MovieEvent(val itemId: Int) : HomeUiEvent

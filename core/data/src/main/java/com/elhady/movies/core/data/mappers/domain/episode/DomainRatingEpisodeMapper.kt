@@ -2,7 +2,7 @@ package com.elhady.movies.core.data.mappers.domain.episode
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.network.model.response.dto.episode_details.RatingEpisodeDetailsRemoteDto
-import com.elhady.movies.core.common.domain.entities.RatingEpisodeDetailsStatusEntity
+import com.elhady.movies.core.domain.model.RatingEpisodeDetailsStatusEntity
 import javax.inject.Inject
 
 class DomainRatingEpisodeMapper @Inject constructor() :

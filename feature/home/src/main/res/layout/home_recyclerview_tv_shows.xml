@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="com.elhady.movies.core.common.domain.ShowMoreType"/>
+        <import type="com.elhady.movies.core.domain.model.ShowMoreType"/>
 
         <variable
             name="item"

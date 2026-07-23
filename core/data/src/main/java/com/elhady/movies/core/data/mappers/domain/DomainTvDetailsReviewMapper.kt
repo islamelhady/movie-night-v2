@@ -2,7 +2,7 @@ package com.elhady.movies.core.data.mappers.domain
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.network.model.response.dto.TvReviewRemoteDto
-import com.elhady.movies.core.common.domain.entities.ReviewEntity
+import com.elhady.movies.core.domain.model.ReviewEntity
 import javax.inject.Inject
 
 class DomainTvDetailsReviewMapper @Inject constructor() : Mapper<TvReviewRemoteDto, ReviewEntity> {

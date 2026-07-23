@@ -1,8 +1,8 @@
 package com.elhady.movies.feature.details.presentation.moviedetails.mapper
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.common.domain.entities.moviedetails.MovieDetailsEntity
-import com.elhady.movies.core.common.domain.entities.moviedetails.MovieVideoEntity
+import com.elhady.movies.core.domain.model.moviedetails.MovieDetailsEntity
+import com.elhady.movies.core.domain.model.moviedetails.MovieVideoEntity
 import com.elhady.movies.feature.details.presentation.moviedetails.UpperUiState
 import javax.inject.Inject
 

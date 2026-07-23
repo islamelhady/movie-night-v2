@@ -1,7 +1,7 @@
 package com.elhady.movies.feature.details.presentation.tvdetails.mappers
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.common.domain.entities.ReviewEntity
+import com.elhady.movies.core.domain.model.ReviewEntity
 import com.elhady.movies.core.common.presentation.model.CommentUIState
 import javax.inject.Inject
 

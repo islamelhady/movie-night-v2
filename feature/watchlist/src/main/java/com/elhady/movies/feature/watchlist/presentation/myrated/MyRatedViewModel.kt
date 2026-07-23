@@ -4,8 +4,8 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.elhady.movies.core.common.bases.BaseViewModel
-import com.elhady.movies.feature.watchlist.domain.usecase.myrated.GetMyRatedMoviesUseCase
-import com.elhady.movies.feature.watchlist.domain.usecase.myrated.GetMyRatedTVShowsUseCase
+import com.elhady.movies.core.domain.usecase.watchlist.myrated.GetMyRatedMoviesUseCase
+import com.elhady.movies.core.domain.usecase.watchlist.myrated.GetMyRatedTVShowsUseCase
 import com.elhady.movies.core.common.presentation.MovieListener
 import com.elhady.movies.core.common.presentation.model.MovieHorizontalUIState
 import com.elhady.movies.feature.watchlist.presentation.myrated.mappers.MyRatedMovieToMovieHorizontalUiMapper

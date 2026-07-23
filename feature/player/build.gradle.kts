@@ -34,6 +34,7 @@ dependencies {
 // Core Modules
     implementation(project(":core:common"))
     implementation(project(":core:ui"))
+    implementation(project(":core:domain"))
 
     // Navigation & Lifecycle
     implementation(libs.androidx.navigation.fragment.ktx)

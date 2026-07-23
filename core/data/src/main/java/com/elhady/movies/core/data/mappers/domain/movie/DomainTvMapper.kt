@@ -2,8 +2,8 @@ package com.elhady.movies.core.data.mappers.domain.movie
 
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.network.model.response.dto.TvRemoteDto
-import com.elhady.movies.core.common.domain.entities.GenreEntity
-import com.elhady.movies.core.common.domain.entities.MovieEntity
+import com.elhady.movies.core.domain.model.GenreEntity
+import com.elhady.movies.core.domain.model.MovieEntity
 import javax.inject.Inject
 
 class DomainTvMapper @Inject constructor() {

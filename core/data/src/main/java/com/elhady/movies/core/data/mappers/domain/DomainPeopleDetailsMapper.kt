@@ -3,7 +3,7 @@ package com.elhady.movies.core.data.mappers.domain
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.network.model.response.dto.PeopleDetailsResponse
-import com.elhady.movies.core.common.domain.entities.PeopleDetailsEntity
+import com.elhady.movies.core.domain.model.PeopleDetailsEntity
 import javax.inject.Inject
 
 class DomainPeopleDetailsMapper @Inject constructor() :

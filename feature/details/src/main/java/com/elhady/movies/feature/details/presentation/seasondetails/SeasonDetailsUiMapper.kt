@@ -1,8 +1,8 @@
 package com.elhady.movies.feature.details.presentation.seasondetails
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.common.domain.entities.seasondetails.EpisodeEntity
-import com.elhady.movies.core.common.domain.entities.seasondetails.SeasonDetailsEntity
+import com.elhady.movies.core.domain.model.seasondetails.EpisodeEntity
+import com.elhady.movies.core.domain.model.seasondetails.SeasonDetailsEntity
 import com.elhady.movies.core.common.presentation.model.EpisodeHorizontalUIState
 import javax.inject.Inject
 

@@ -122,7 +122,7 @@
 
         <argument
             android:name="showMoreType"
-            app:argType="com.elhady.movies.core.common.domain.ShowMoreType" />
+            app:argType="com.elhady.movies.core.domain.model.ShowMoreType" />
         <deepLink app:uri="movie://show_more/{showMoreType}" />
         <action
             android:id="@+id/action_showMoreFragment_to_homeFragment"
