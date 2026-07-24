@@ -46,7 +46,7 @@
 
     <fragment
         android:id="@+id/tvFragment"
-        android:name="com.elhady.movies.presentation.ui.tvshows.TvShowsFragment"
+        android:name="com.elhady.movies.feature.tvshow.presentation.TvShowsFragment"
         android:label="TvFragment"
         tools:layout="@layout/fragment_tv_shows">
         <action

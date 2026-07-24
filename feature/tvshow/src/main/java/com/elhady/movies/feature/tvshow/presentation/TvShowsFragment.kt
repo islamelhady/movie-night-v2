@@ -1,5 +1,6 @@
-package com.elhady.movies.presentation.ui.tvshows
+package com.elhady.movies.feature.tvshow.presentation
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.forEach
@@ -7,19 +8,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.elhady.movies.BR
-import com.elhady.movies.R
+import com.elhady.movies.feature.tvshow.BR
+import com.elhady.movies.feature.tvshow.R
 import com.elhady.movies.core.ui.adapters.BaseFooterAdapter
 import com.elhady.movies.core.common.bases.BaseFragment
-import com.elhady.movies.databinding.FragmentTvShowsBinding
-import com.elhady.movies.presentation.viewmodel.tvshows.TVShowUIState
-import com.elhady.movies.presentation.viewmodel.tvshows.TVShowsUiEvent
-import com.elhady.movies.presentation.viewmodel.tvshows.TVShowsType
-import com.elhady.movies.presentation.viewmodel.tvshows.TVShowsViewModel
+import com.elhady.movies.feature.tvshow.databinding.FragmentTvShowsBinding
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import androidx.core.net.toUri
 
 @AndroidEntryPoint
 class TvShowsFragment : BaseFragment<FragmentTvShowsBinding, TVShowUIState, TVShowsUiEvent>() {
@@ -66,13 +64,14 @@ class TvShowsFragment : BaseFragment<FragmentTvShowsBinding, TVShowUIState, TVSh
             is TVShowsUiEvent.ShowAiringTodayTVShowsResult -> viewModel.getAiringTodayTVShows()
             is TVShowsUiEvent.ShowTopRatedTVShowsResult -> viewModel.getTopRatedTVShows()
             is TVShowsUiEvent.ShowPopularTVShowsResult -> viewModel.getPopularTVShows()
-            is TVShowsUiEvent.NavigateToTVShowDetails -> findNavController().navigate(
-                TvShowsFragmentDirections.actionTvFragmentToTvDetailsFragment(event.tvId)
-            )
-
+            is TVShowsUiEvent.NavigateToTVShowDetails -> navigate(event.tvId)
             is TVShowsUiEvent.ShowSnackBar -> showSnackBar(event.messages)
             is TVShowsUiEvent.ScrollToTopRecycler -> binding.recyclerViewTvShows.scrollToPosition(0)
         }
+    }
+
+    private fun navigate(tvId: Int) {
+        findNavController().navigate("movie://tv_details/${tvId}".toUri())
     }
 
 
