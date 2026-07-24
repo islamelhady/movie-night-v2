@@ -7,11 +7,11 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.presentation.viewmodel.tvshows.TVShowsUI" />
+            type="com.elhady.movies.feature.tvshow.presentation.TVShowsUI" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.presentation.viewmodel.tvshows.TVShowsListener" />
+            type="com.elhady.movies.feature.tvshow.presentation.TVShowsListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,4 +1,4 @@
-package com.elhady.movies.core.domain.usecase.tvshows
+package com.elhady.movies.core.domain.usecase.tvshow
 
 import androidx.paging.PagingData
 import com.elhady.movies.core.domain.model.TVShowsEntity

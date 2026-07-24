@@ -1,4 +1,4 @@
-package com.elhady.movies.presentation.viewmodel.tvshows
+package com.elhady.movies.feature.tvshow.presentation
 
 import com.elhady.movies.core.common.bases.BaseInteractionListener
 

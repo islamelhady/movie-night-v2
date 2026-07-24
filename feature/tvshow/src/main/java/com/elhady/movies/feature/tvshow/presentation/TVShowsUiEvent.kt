@@ -1,4 +1,4 @@
-package com.elhady.movies.presentation.viewmodel.tvshows
+package com.elhady.movies.feature.tvshow.presentation
 
 sealed interface TVShowsUiEvent {
     data class NavigateToTVShowDetails(val tvId: Int) : TVShowsUiEvent

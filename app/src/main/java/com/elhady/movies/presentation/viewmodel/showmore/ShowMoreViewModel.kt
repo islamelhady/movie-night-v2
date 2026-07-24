@@ -11,10 +11,10 @@ import com.elhady.movies.core.ui.bases.StringsRes
 import com.elhady.movies.core.domain.usecase.showmore.GetMorePopularMoviesByTypeUseCase
 import com.elhady.movies.core.domain.usecase.showmore.GetMoreTopRatedByTypeUseCase
 import com.elhady.movies.core.domain.usecase.showmore.GetMoreTrendingByTypeUseCase
-import com.elhady.movies.core.domain.usecase.tvshows.GetAiringTodayTVShowsUseCase
-import com.elhady.movies.core.domain.usecase.tvshows.GetOnTheAirTVShowsUseCase
-import com.elhady.movies.core.domain.usecase.tvshows.GetPopularTVShowsUseCase
-import com.elhady.movies.core.domain.usecase.tvshows.GetTopRatedTVShowsUseCase
+import com.elhady.movies.core.domain.usecase.tvshow.GetAiringTodayTVShowsUseCase
+import com.elhady.movies.core.domain.usecase.tvshow.GetOnTheAirTVShowsUseCase
+import com.elhady.movies.core.domain.usecase.tvshow.GetPopularTVShowsUseCase
+import com.elhady.movies.core.domain.usecase.tvshow.GetTopRatedTVShowsUseCase
 import com.elhady.movies.presentation.viewmodel.showmore.mappers.ShowMoreMovieUiMapper
 import com.elhady.movies.presentation.viewmodel.showmore.mappers.ShowMoreTvShowUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel

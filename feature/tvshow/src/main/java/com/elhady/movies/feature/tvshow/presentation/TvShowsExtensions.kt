@@ -1,4 +1,4 @@
-package com.elhady.movies.presentation.ui.tvshows
+package com.elhady.movies.feature.tvshow.presentation
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner

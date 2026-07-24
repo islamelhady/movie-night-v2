@@ -1,4 +1,4 @@
-package com.elhady.movies.presentation.viewmodel.tvshows
+package com.elhady.movies.feature.tvshow.presentation
 
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
@@ -32,4 +32,3 @@ enum class TVShowsType {
     TOP_RATED,
     POPULAR
 }
-
