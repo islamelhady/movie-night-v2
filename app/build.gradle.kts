@@ -85,6 +85,7 @@ dependencies {
     implementation(project(":feature:player"))
     implementation(project(":feature:explore"))
     implementation(project(":feature:profile"))
+    implementation(project(":feature:tvshow"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
