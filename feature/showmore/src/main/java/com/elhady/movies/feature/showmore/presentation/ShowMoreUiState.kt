@@ -1,4 +1,4 @@
-package com.elhady.movies.presentation.viewmodel.showmore
+package com.elhady.movies.feature.showmore.presentation
 
 import androidx.paging.PagingData
 import com.elhady.movies.core.common.bases.ListType

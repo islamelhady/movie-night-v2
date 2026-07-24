@@ -1,21 +1,20 @@
-package com.elhady.movies.presentation.ui.showMore
+package com.elhady.movies.feature.showmore.presentation
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.elhady.movies.BR
-import com.elhady.movies.R
+import com.elhady.movies.feature.showmore.BR
+import com.elhady.movies.feature.showmore.R
 import com.elhady.movies.core.common.bases.BaseFragment
-import com.elhady.movies.databinding.FragmentShowMoreBinding
+import com.elhady.movies.feature.showmore.databinding.FragmentShowMoreBinding
 import com.elhady.movies.core.domain.model.ShowMoreType
-import com.elhady.movies.presentation.viewmodel.showmore.ShowMoreUiEvent
-import com.elhady.movies.presentation.viewmodel.showmore.ShowMoreUiState
-import com.elhady.movies.presentation.viewmodel.showmore.ShowMoreViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -69,11 +68,11 @@ class ShowMoreFragment : BaseFragment<FragmentShowMoreBinding, ShowMoreUiState, 
     override fun onEvent(event: ShowMoreUiEvent) {
         when (event) {
             is ShowMoreUiEvent.NavigateToMovieDetailsEvent -> findNavController().navigate(
-                ShowMoreFragmentDirections.actionShowMoreFragmentToMovieDetailsFragment(event.itemId)
+                "movie://movie_details/${event.itemId}".toUri()
             )
 
             is ShowMoreUiEvent.NavigateToTvShowDetailsEvent -> findNavController().navigate(
-                ShowMoreFragmentDirections.actionShowMoreFragmentToTvDetailsFragment(event.itemId)
+                "movie://tv_details/${event.itemId}".toUri()
             )
             ShowMoreUiEvent.BackNavigateEvent -> findNavController().popBackStack()
             is ShowMoreUiEvent.ShowSnackBarEvent -> showSnackBar(event.messages)
@@ -81,5 +80,3 @@ class ShowMoreFragment : BaseFragment<FragmentShowMoreBinding, ShowMoreUiState, 
     }
 
 }
-
-
