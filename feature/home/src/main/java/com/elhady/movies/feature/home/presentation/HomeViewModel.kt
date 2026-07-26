@@ -2,7 +2,7 @@ package com.elhady.movies.feature.home.presentation
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.elhady.movies.core.common.bases.BaseViewModel
+import com.elhady.movies.core.ui.bases.BaseViewModel
 import com.elhady.movies.core.domain.usecase.home.GetAiringTodayTvUseCase
 import com.elhady.movies.core.domain.usecase.home.GetNowPlayingUseCase
 import com.elhady.movies.core.domain.usecase.home.GetPopularMoviesUseCase

@@ -1,4 +1,4 @@
-package com.elhady.movies.core.common.presentation.model
+package com.elhady.movies.feature.details.presentation.seasondetails
 
 data class SeasonHorizontalUIState(
     val id: Int = 0,

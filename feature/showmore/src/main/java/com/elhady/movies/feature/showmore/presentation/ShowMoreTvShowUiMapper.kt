@@ -1,6 +1,6 @@
 package com.elhady.movies.feature.showmore.presentation
 
-import com.elhady.movies.core.common.bases.ListType
+import com.elhady.movies.core.domain.model.ListType
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.model.GenreEntity
 import com.elhady.movies.core.domain.model.TVShowsEntity

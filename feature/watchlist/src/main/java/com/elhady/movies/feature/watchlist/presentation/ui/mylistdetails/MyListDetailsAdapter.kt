@@ -2,7 +2,7 @@ package com.elhady.movies.feature.watchlist.presentation.ui.mylistdetails
 
 import com.elhady.movies.feature.watchlist.BR
 import com.elhady.movies.feature.watchlist.R
-import com.elhady.movies.core.common.bases.BaseAdapter
+import com.elhady.movies.core.ui.bases.BaseAdapter
 import com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDetailsListener
 import com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDetailsUiState
 

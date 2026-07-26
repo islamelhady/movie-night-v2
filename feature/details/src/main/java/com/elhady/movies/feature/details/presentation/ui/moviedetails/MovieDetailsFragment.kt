@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.feature.details.BR
 import com.elhady.movies.feature.details.R
 import com.elhady.movies.core.ui.R as CoreUiR
-import com.elhady.movies.core.common.bases.BaseFragment
+import com.elhady.movies.core.ui.bases.BaseFragment
 import com.elhady.movies.feature.details.databinding.FragmentMovieDetailsBinding
 import com.elhady.movies.feature.details.presentation.ui.moviedetails.adapter.MovieDetailsAdapter
 import com.elhady.movies.feature.details.presentation.ui.moviedetails.adapter.MovieDetailsItem
@@ -18,7 +18,7 @@ import com.elhady.movies.feature.details.presentation.ui.tvdetails.BottomSheetDi
 import com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsUiEvent
 import com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsUiState
 import com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsViewModel
-import com.elhady.movies.core.common.navigation.Navigator
+import com.elhady.movies.core.domain.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject

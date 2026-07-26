@@ -6,11 +6,11 @@
     <data>
         <variable
             name="item"
-            type="com.elhady.movies.core.common.presentation.model.MediaHorizontalUIState" />
+            type="com.elhady.movies.core.ui.model.MediaHorizontalUIState" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.core.common.presentation.MediaListener" />
+            type="com.elhady.movies.core.ui.listener.MediaListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

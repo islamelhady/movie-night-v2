@@ -1,9 +1,9 @@
 package com.elhady.movies.feature.details.presentation.ui.tvdetails
 
-import com.elhady.movies.core.common.presentation.model.CommentUIState
-import com.elhady.movies.core.common.presentation.model.MediaVerticalUIState
-import com.elhady.movies.core.common.presentation.model.PeopleUIState
-import com.elhady.movies.core.common.presentation.model.SeasonHorizontalUIState
+import com.elhady.movies.feature.details.presentation.episodedetails.CommentUIState
+import com.elhady.movies.core.ui.model.MediaVerticalUIState
+import com.elhady.movies.core.ui.model.PeopleUIState
+import com.elhady.movies.feature.details.presentation.seasondetails.SeasonHorizontalUIState
 import com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsUiState
 
 sealed class TvDetailsItem(val type: TvDetailsType) {

@@ -7,11 +7,11 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.core.common.presentation.model.PeopleUIState" />
+            type="com.elhady.movies.core.ui.model.PeopleUIState" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.core.common.presentation.PeopleListener" />
+            type="com.elhady.movies.core.ui.listener.PeopleListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

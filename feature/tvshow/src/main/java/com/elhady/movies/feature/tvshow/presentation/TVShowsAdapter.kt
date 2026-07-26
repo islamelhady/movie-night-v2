@@ -3,7 +3,7 @@ package com.elhady.movies.feature.tvshow.presentation
 import androidx.recyclerview.widget.DiffUtil
 import com.elhady.movies.feature.tvshow.BR
 import com.elhady.movies.feature.tvshow.R
-import com.elhady.movies.core.common.bases.BasePagingAdapter
+import com.elhady.movies.core.ui.bases.BasePagingAdapter
 import com.elhady.movies.feature.tvshow.databinding.ItemTvShowBinding
 
 class TVShowsAdapter(listener: TVShowsListener) :

@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.feature.watchlist.BR
 import com.elhady.movies.feature.watchlist.R
-import com.elhady.movies.core.common.bases.BaseFragment
+import com.elhady.movies.core.ui.bases.BaseFragment
 import com.elhady.movies.feature.watchlist.databinding.FragmentMyListDetailsBinding
 import com.elhady.movies.core.ui.bases.SwipeToDeleteItem
 import com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDetailsUiEvent
 import com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDetailsUiState
 import com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDetailsViewModel
-import com.elhady.movies.core.common.navigation.Navigator
+import com.elhady.movies.core.domain.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

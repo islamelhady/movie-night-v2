@@ -1,6 +1,6 @@
 package com.elhady.movies.feature.home.presentation
 
-import com.elhady.movies.core.common.bases.BaseInteractionListener
+import com.elhady.movies.core.ui.bases.BaseInteractionListener
 import com.elhady.movies.core.domain.model.ShowMoreType
 
 interface HomeListener : BaseInteractionListener {

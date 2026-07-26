@@ -5,12 +5,12 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.elhady.movies.feature.details.BR
 import com.elhady.movies.feature.details.R
-import com.elhady.movies.core.common.bases.BaseFragment
+import com.elhady.movies.core.ui.bases.BaseFragment
 import com.elhady.movies.feature.details.databinding.FragmentSeasonDetailsBinding
 import com.elhady.movies.feature.details.presentation.seasondetails.SeasonDetailsUiEvent
 import com.elhady.movies.feature.details.presentation.seasondetails.SeasonDetailsUiState
 import com.elhady.movies.feature.details.presentation.seasondetails.SeasonDetailsViewModel
-import com.elhady.movies.core.common.navigation.Navigator
+import com.elhady.movies.core.domain.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject

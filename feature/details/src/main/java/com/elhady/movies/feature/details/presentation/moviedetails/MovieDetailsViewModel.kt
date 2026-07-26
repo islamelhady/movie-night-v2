@@ -3,7 +3,7 @@ package com.elhady.movies.feature.details.presentation.moviedetails
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.elhady.movies.core.common.bases.BaseViewModel
+import com.elhady.movies.core.ui.bases.BaseViewModel
 import com.elhady.movies.core.ui.bases.StringsRes
 import com.elhady.movies.core.domain.model.StatusEntity
 import com.elhady.movies.core.domain.model.moviedetails.MovieDetailsEntity
@@ -20,10 +20,10 @@ import com.elhady.movies.core.common.NoNetworkThrowable
 import com.elhady.movies.core.common.UnauthorizedThrowable
 import com.elhady.movies.core.domain.usecase.common.InsertMovieToWatchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.details.moviedetails.GetRatingMovieUseCase
-import com.elhady.movies.core.common.presentation.ChipListener
-import com.elhady.movies.core.common.presentation.MediaListener
-import com.elhady.movies.core.common.presentation.PeopleListener
-import com.elhady.movies.core.common.presentation.model.UserListUi
+import com.elhady.movies.core.ui.listener.ChipListener
+import com.elhady.movies.core.ui.listener.MediaListener
+import com.elhady.movies.core.ui.listener.PeopleListener
+import com.elhady.movies.core.ui.model.UserListUi
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.CastUiStateMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.RecommendedUiStateMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.ReviewDetailsUiStateMapper

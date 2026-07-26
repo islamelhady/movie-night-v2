@@ -9,10 +9,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.elhady.movies.feature.showmore.BR
 import com.elhady.movies.feature.showmore.R
-import com.elhady.movies.core.common.bases.BaseFragment
+import com.elhady.movies.core.ui.bases.BaseFragment
 import com.elhady.movies.feature.showmore.databinding.FragmentShowMoreBinding
 import com.elhady.movies.core.domain.model.ShowMoreType
-import com.elhady.movies.core.common.navigation.Navigator
+import com.elhady.movies.core.domain.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest

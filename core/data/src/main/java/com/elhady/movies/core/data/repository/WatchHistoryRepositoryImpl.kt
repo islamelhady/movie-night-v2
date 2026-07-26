@@ -5,7 +5,7 @@ import com.elhady.movies.core.domain.repository.WatchHistoryRepository
 import com.elhady.movies.core.data.mappers.cash.movie.LocalInWatchHistoryMoviesMapper
 import com.elhady.movies.core.data.mappers.domain.movie.DomainInWatchHistoryMoviesMapper
 import com.elhady.movies.core.database.MovieDao
-import com.elhady.movies.core.network.BaseRepository
+import com.elhady.movies.core.data.bases.BaseRepository
 import javax.inject.Inject
 
 

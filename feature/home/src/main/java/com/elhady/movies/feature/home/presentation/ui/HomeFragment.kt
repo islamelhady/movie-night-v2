@@ -3,11 +3,11 @@ package com.elhady.movies.feature.home.presentation.ui
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import com.elhady.movies.core.common.navigation.Navigator
+import com.elhady.movies.core.domain.navigation.Navigator
 import com.elhady.movies.feature.home.BR
 import com.elhady.movies.feature.home.R
 import com.elhady.movies.feature.home.presentation.ui.adapter.HomeAdapter
-import com.elhady.movies.core.common.bases.BaseFragment
+import com.elhady.movies.core.ui.bases.BaseFragment
 import com.elhady.movies.feature.home.databinding.FragmentHomeBinding
 import com.elhady.movies.feature.home.presentation.HomeUiEvent
 import com.elhady.movies.feature.home.presentation.HomeUiState
