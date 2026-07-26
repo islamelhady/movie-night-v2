@@ -10,24 +10,12 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SwitchCompat
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.elhady.movies.core.ui.bases.BaseAdapter
 import com.elhady.movies.core.ui.R
 import com.google.android.material.progressindicator.LinearProgressIndicator
-
-@BindingAdapter("app:exploreLayoutManagerToggle")
-fun RecyclerView.setLayoutManagerToggle(useGrid: Boolean) {
-    val layoutManager = if (useGrid) {
-        GridLayoutManager(context, 2)
-    } else {
-        LinearLayoutManager(context)
-    }
-    this.layoutManager = layoutManager
-}
 
 @BindingAdapter(value = ["app:items"])
 fun <T> RecyclerView.setRecyclerItems(items: List<T>?) {
@@ -124,15 +112,6 @@ fun ImageView.loadProfileImage(profileUrl: String?) {
 }
 /// endregion
 
-@BindingAdapter(value = ["app:hideResult", "app:query"])
-fun <T> View.hideResult(list: List<T>?, text: String) {
-    if (list.isNullOrEmpty() && text.isNotBlank()) {
-        this.visibility = View.VISIBLE
-    } else {
-        this.visibility = View.GONE
-    }
-}
-
 @BindingAdapter(value = ["app:hideWhenNoList"])
 fun <T> View.hideWhenNoList(list: List<T>?) {
     if (list.isNullOrEmpty()) {
@@ -169,15 +148,6 @@ fun LinearProgressIndicator.isLoading(isLoading: Boolean?) {
     }
 }
 
-@BindingAdapter(value = ["app:showWhenQueryEmpty"])
-fun View.showWhenEmptyData(query: String?) {
-    if (query?.isEmpty() == true) {
-        this.visibility = View.VISIBLE
-    } else {
-        this.visibility = View.GONE
-    }
-}
-
 @BindingAdapter(value = ["app:showWhenNoResult"])
 fun <T> View.showWhenNoResult(list: List<T>?) {
     if (list.isNullOrEmpty()) {
@@ -195,27 +165,6 @@ fun <T> View.showWhenError(list: List<T>?) {
 
     } else {
         this.visibility = View.VISIBLE
-    }
-}
-
-@BindingAdapter(value = ["app:showWhenQueryEmpty", "app:showWhenFailure"])
-fun View.showBasedOnState(
-    query: String?,
-    error: List<String>?
-) {
-    visibility = when {
-        query.isNullOrEmpty() && error.isNullOrEmpty() -> View.VISIBLE
-        else -> View.GONE
-    }
-}
-
-@BindingAdapter(value = ["app:showWhenFailure"])
-fun View.showBasedOnState(
-    error: List<String>?
-) {
-    visibility = when {
-        error?.isNotEmpty() == true -> View.VISIBLE
-        else -> View.GONE
     }
 }
 
