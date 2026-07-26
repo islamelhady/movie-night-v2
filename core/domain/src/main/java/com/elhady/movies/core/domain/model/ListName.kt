@@ -1,4 +1,4 @@
-package com.elhady.movies.core.common.bases
+package com.elhady.movies.core.domain.model
 
 enum class ListName {
     FAVORITE,
