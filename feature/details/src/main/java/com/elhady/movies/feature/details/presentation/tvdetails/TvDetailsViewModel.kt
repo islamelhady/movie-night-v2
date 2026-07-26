@@ -26,8 +26,8 @@ import com.elhady.movies.core.domain.usecase.details.tvdetails.GetUserListsUseCa
 import com.elhady.movies.core.domain.usecase.details.tvdetails.RateTvShowUseCase
 import com.elhady.movies.core.ui.bases.BaseViewModel
 import com.elhady.movies.core.ui.bases.StringsRes
+import com.elhady.movies.core.ui.mapper.PeopleUiMapper
 import com.elhady.movies.feature.details.presentation.tvdetails.listener.TvDetailsListeners
-import com.elhady.movies.feature.details.presentation.tvdetails.mappers.TvDetailsCastUiMapper
 import com.elhady.movies.feature.details.presentation.tvdetails.mappers.TvDetailsInfoUiMapper
 import com.elhady.movies.feature.details.presentation.tvdetails.mappers.TvDetailsReviewUiMapper
 import com.elhady.movies.feature.details.presentation.tvdetails.mappers.TvDetailsSeasonUiMapper
@@ -42,6 +42,7 @@ import javax.inject.Inject
 class TvDetailsViewModel @Inject constructor(
     private val tvDetailsInfoUiMapper: TvDetailsInfoUiMapper,
     private val tvShowUiMapper: TvShowUiMapper,
+    private val peopleUiMapper: PeopleUiMapper,
     private val tvDetailsInfoUseCase: GetTVDetailsInfoUseCase,
     private val getTvDetailsCreditUseCase: GetTvDetailsCreditUseCase,
     private val getTvDetailsSeasonsUseCase: GetTvDetailsSeasonsUseCase,
@@ -144,10 +145,10 @@ class TvDetailsViewModel @Inject constructor(
 
     private fun onTvDetailsCastSuccess(castEntity: List<PeopleEntity>) {
         updateLoading(false)
-        val item = TvDetailsCastUiMapper().map(castEntity)
+        val item = peopleUiMapper.map(castEntity)
         _state.update {
             it.copy(
-                cast = item.cast
+                cast = item
             )
         }
     }
