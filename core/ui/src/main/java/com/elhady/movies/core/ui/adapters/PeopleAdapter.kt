@@ -4,7 +4,7 @@ import com.elhady.movies.core.ui.BR
 import com.elhady.movies.core.ui.R
 import com.elhady.movies.core.common.bases.BaseAdapter
 import com.elhady.movies.core.common.presentation.PeopleListener
-import com.elhady.movies.core.common.presentation.model.PeopleUIState
+import com.elhady.movies.core.ui.model.PeopleUIState
 
 class PeopleAdapter(
     list: List<PeopleUIState>,

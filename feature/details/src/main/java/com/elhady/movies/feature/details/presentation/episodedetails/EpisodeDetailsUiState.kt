@@ -1,6 +1,6 @@
 package com.elhady.movies.feature.details.presentation.episodedetails
 
-import com.elhady.movies.core.common.presentation.model.PeopleUIState
+import com.elhady.movies.core.ui.model.PeopleUIState
 
 data class EpisodeDetailsUiState(
     val imageUrl: String = "",

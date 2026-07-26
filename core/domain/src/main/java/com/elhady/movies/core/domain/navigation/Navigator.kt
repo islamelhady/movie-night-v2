@@ -1,4 +1,4 @@
-package com.elhady.movies.core.common.navigation
+package com.elhady.movies.core.domain.navigation
 
 import com.elhady.movies.core.domain.model.ShowMoreType
 

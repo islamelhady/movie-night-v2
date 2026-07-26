@@ -1,7 +1,7 @@
 package com.elhady.movies.feature.details.presentation.episodedetails
 
 import androidx.lifecycle.SavedStateHandle
-import com.elhady.movies.core.common.presentation.mapper.PeopleUiMapper
+import com.elhady.movies.core.ui.mapper.PeopleUiMapper
 import com.elhady.movies.core.common.bases.BaseViewModel
 import com.elhady.movies.core.ui.bases.StringsRes
 import com.elhady.movies.core.domain.model.RatingEpisodeDetailsStatusEntity
@@ -11,7 +11,7 @@ import com.elhady.movies.core.domain.usecase.details.episodedetails.GetEpisodeVi
 import com.elhady.movies.core.domain.usecase.details.episodedetails.SetEpisodeRatingUseCase
 import com.elhady.movies.core.domain.usecase.common.CheckIsLoginOrNotUseCase
 import com.elhady.movies.core.common.presentation.PeopleListener
-import com.elhady.movies.core.common.presentation.model.PeopleUIState
+import com.elhady.movies.core.ui.model.PeopleUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject

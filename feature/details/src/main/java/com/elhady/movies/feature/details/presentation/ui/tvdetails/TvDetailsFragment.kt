@@ -15,7 +15,7 @@ import com.elhady.movies.feature.details.presentation.ui.tvdetails.adapter.TvDet
 import com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsUiEvent
 import com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsUiState
 import com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsViewModel
-import com.elhady.movies.core.common.navigation.Navigator
+import com.elhady.movies.core.domain.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.math.abs

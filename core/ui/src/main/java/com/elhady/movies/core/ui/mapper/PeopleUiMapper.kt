@@ -1,8 +1,8 @@
-package com.elhady.movies.core.common.presentation.mapper
+package com.elhady.movies.core.ui.mapper
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.model.PeopleEntity
-import com.elhady.movies.core.common.presentation.model.PeopleUIState
+import com.elhady.movies.core.ui.model.PeopleUIState
 import javax.inject.Inject
 
 class PeopleUiMapper @Inject constructor() :

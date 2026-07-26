@@ -12,10 +12,10 @@ import com.elhady.movies.core.domain.usecase.search.SearchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.common.GetAllGenresMoviesUseCase
 import com.elhady.movies.core.domain.usecase.common.GetAllGenresTvsUseCase
 import com.elhady.movies.core.common.presentation.model.MovieHorizontalUIState
-import com.elhady.movies.core.common.presentation.model.PeopleUIState
+import com.elhady.movies.core.ui.model.PeopleUIState
 import com.elhady.movies.feature.search.presentation.mappers.GenreUiStateMapper
 import com.elhady.movies.feature.search.presentation.mappers.MovieUiMapper
-import com.elhady.movies.core.common.presentation.mapper.PeopleUiMapper
+import com.elhady.movies.core.ui.mapper.PeopleUiMapper
 import com.elhady.movies.feature.search.presentation.mappers.TvUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
