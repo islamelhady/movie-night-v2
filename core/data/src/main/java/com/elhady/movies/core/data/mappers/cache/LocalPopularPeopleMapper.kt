@@ -1,4 +1,4 @@
-package com.elhady.movies.core.data.mappers.cash
+package com.elhady.movies.core.data.mappers.cache
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.database.dto.PopularPeopleLocalDto

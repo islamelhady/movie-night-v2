@@ -1,4 +1,4 @@
-package com.elhady.movies.core.data.mappers.cash.movie
+package com.elhady.movies.core.data.mappers.cache.movie
 
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.database.dto.movie.TrendingMoviesLocalDto
