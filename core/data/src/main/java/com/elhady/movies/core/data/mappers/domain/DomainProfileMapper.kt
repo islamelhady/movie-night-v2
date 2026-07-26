@@ -1,9 +1,9 @@
-package com.elhady.movies.feature.auth.data
+package com.elhady.movies.core.data.mappers.domain
 
-import com.elhady.movies.feature.auth.BuildConfig
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.network.model.response.dto.profile.ProfileRemoteDto
+import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.domain.model.ProfileEntity
+import com.elhady.movies.core.network.model.response.dto.profile.ProfileRemoteDto
 import javax.inject.Inject
 
 class DomainProfileMapper @Inject constructor(): Mapper<ProfileRemoteDto, ProfileEntity> {

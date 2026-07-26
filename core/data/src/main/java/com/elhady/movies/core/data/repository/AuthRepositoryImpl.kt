@@ -1,13 +1,14 @@
-package com.elhady.movies.feature.auth.data
+package com.elhady.movies.core.data.repository
 
 import android.util.Log
 import com.elhady.movies.core.common.UnauthorizedThrowable
-import com.elhady.movies.core.domain.model.ProfileEntity
+import com.elhady.movies.core.data.mappers.domain.DomainProfileMapper
 import com.elhady.movies.core.datastore.local.PreferenceStorage
+import com.elhady.movies.core.domain.model.ProfileEntity
+import com.elhady.movies.core.domain.repository.AuthRepository
 import com.elhady.movies.core.network.BaseRepository
 import com.elhady.movies.core.network.model.request.LoginRequest
 import com.elhady.movies.core.network.service.MovieService
-import com.elhady.movies.core.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
@@ -62,4 +63,3 @@ class AuthRepositoryImpl @Inject constructor(
         Log.e("AuthRepositoryImp", "log(${this::class.java.simpleName}) : $this")
     }
 }
-
