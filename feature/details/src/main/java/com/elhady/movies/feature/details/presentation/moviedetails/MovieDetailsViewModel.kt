@@ -11,8 +11,8 @@ import com.elhady.movies.core.common.ForbiddenThrowable
 import com.elhady.movies.core.domain.usecase.details.moviedetails.AddToUserListUseCase
 import com.elhady.movies.core.domain.usecase.details.moviedetails.CreateUserListUseCase
 import com.elhady.movies.core.domain.usecase.details.moviedetails.GetUserListsUseCase
-import com.elhady.movies.core.domain.usecase.common.AddToFavouriteUseCase
-import com.elhady.movies.core.domain.usecase.common.AddToWatchList
+import com.elhady.movies.core.domain.usecase.watchlist.AddToFavouriteUseCase
+import com.elhady.movies.core.domain.usecase.watchlist.AddToWatchList
 import com.elhady.movies.core.domain.usecase.details.moviedetails.GetMovieDetailsUseCase
 import com.elhady.movies.core.domain.usecase.details.moviedetails.SetRatingUseCase
 import com.elhady.movies.core.common.NoNetworkThrowable

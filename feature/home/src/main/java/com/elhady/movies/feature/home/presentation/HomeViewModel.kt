@@ -8,7 +8,7 @@ import com.elhady.movies.core.domain.usecase.home.GetNowPlayingUseCase
 import com.elhady.movies.core.domain.usecase.home.GetPopularMoviesUseCase
 import com.elhady.movies.core.domain.usecase.home.GetPopularPeopleUseCase
 import com.elhady.movies.core.domain.usecase.home.GetTopRatedUseCase
-import com.elhady.movies.core.domain.usecase.common.GetTrendingMoviesUseCase
+import com.elhady.movies.core.domain.usecase.movie.GetTrendingMoviesUseCase
 import com.elhady.movies.core.domain.usecase.home.GetTvShowUseCase
 import com.elhady.movies.core.domain.usecase.home.GetUpcomingMoviesUseCase
 import com.elhady.movies.feature.home.presentation.mappers.AiringTodayUiMapper

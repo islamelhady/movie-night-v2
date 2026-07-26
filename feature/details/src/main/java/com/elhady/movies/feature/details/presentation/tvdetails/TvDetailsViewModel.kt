@@ -11,8 +11,8 @@ import com.elhady.movies.core.domain.model.UserListEntity
 import com.elhady.movies.core.domain.model.YoutubeVideoDetailsEntity
 import com.elhady.movies.core.domain.model.tvdetails.TvDetailsInfoEntity
 import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
-import com.elhady.movies.core.domain.usecase.common.AddToFavouriteUseCase
-import com.elhady.movies.core.domain.usecase.common.AddToWatchList
+import com.elhady.movies.core.domain.usecase.watchlist.AddToFavouriteUseCase
+import com.elhady.movies.core.domain.usecase.watchlist.AddToWatchList
 import com.elhady.movies.core.domain.usecase.details.tvdetails.AddToUserListUseCase
 import com.elhady.movies.core.domain.usecase.details.tvdetails.CreateUserListUseCase
 import com.elhady.movies.core.domain.usecase.details.tvdetails.GetRatingTvUseCase
