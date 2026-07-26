@@ -41,7 +41,7 @@ dependencies {
     api(libs.lottie)
 
     // Paging (for BaseFooterAdapter)
-    implementation(libs.androidx.paging.runtime)
+    api(libs.androidx.paging.runtime)
 
     // Recycler Swipe Decorator
     implementation(libs.recyclerview.swipe.decorator)
