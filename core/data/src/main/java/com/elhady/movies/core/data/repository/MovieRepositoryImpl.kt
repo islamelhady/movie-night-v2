@@ -793,11 +793,6 @@ class MovieRepositoryImpl @Inject constructor(
 
     /// endregion
 
-    override fun isLoginOrNot(): Boolean {
-        return !preferenceStorage.sessionId.isNullOrBlank()
-    }
-
-
     /// region myRated
     override suspend fun getRatedMovies(): Pager<Int, MyRatedMovieEntity> {
         return Pager(
