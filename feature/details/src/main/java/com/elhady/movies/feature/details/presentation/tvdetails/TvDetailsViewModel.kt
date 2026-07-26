@@ -2,21 +2,20 @@ package com.elhady.movies.feature.details.presentation.tvdetails
 
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
-import com.elhady.movies.core.ui.bases.BaseViewModel
-import com.elhady.movies.core.ui.bases.StringsRes
 import com.elhady.movies.core.domain.model.PeopleEntity
+import com.elhady.movies.core.domain.model.ReviewEntity
 import com.elhady.movies.core.domain.model.SeasonEntity
 import com.elhady.movies.core.domain.model.StatusEntity
-import com.elhady.movies.core.domain.model.tvdetails.TvDetailsInfoEntity
 import com.elhady.movies.core.domain.model.TvShowEntity
 import com.elhady.movies.core.domain.model.UserListEntity
 import com.elhady.movies.core.domain.model.YoutubeVideoDetailsEntity
-import com.elhady.movies.core.domain.model.ReviewEntity
+import com.elhady.movies.core.domain.model.tvdetails.TvDetailsInfoEntity
+import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
 import com.elhady.movies.core.domain.usecase.common.AddToFavouriteUseCase
 import com.elhady.movies.core.domain.usecase.common.AddToWatchList
-import com.elhady.movies.core.domain.usecase.common.CheckIsLoginOrNotUseCase
 import com.elhady.movies.core.domain.usecase.details.tvdetails.AddToUserListUseCase
 import com.elhady.movies.core.domain.usecase.details.tvdetails.CreateUserListUseCase
+import com.elhady.movies.core.domain.usecase.details.tvdetails.GetRatingTvUseCase
 import com.elhady.movies.core.domain.usecase.details.tvdetails.GetTVDetailsInfoUseCase
 import com.elhady.movies.core.domain.usecase.details.tvdetails.GetTvDetailsCreditUseCase
 import com.elhady.movies.core.domain.usecase.details.tvdetails.GetTvDetailsReviewsUseCase
@@ -25,7 +24,8 @@ import com.elhady.movies.core.domain.usecase.details.tvdetails.GetTvShowRecommen
 import com.elhady.movies.core.domain.usecase.details.tvdetails.GetTvShowYoutubeDetailsUseCase
 import com.elhady.movies.core.domain.usecase.details.tvdetails.GetUserListsUseCase
 import com.elhady.movies.core.domain.usecase.details.tvdetails.RateTvShowUseCase
-import com.elhady.movies.core.domain.usecase.details.tvdetails.GetRatingTvUseCase
+import com.elhady.movies.core.ui.bases.BaseViewModel
+import com.elhady.movies.core.ui.bases.StringsRes
 import com.elhady.movies.feature.details.presentation.tvdetails.listener.TvDetailsListeners
 import com.elhady.movies.feature.details.presentation.tvdetails.mappers.TvDetailsCastUiMapper
 import com.elhady.movies.feature.details.presentation.tvdetails.mappers.TvDetailsInfoUiMapper
@@ -54,7 +54,7 @@ class TvDetailsViewModel @Inject constructor(
     private val createUserListUseCase: CreateUserListUseCase,
     private val addToFavouriteUseCase: AddToFavouriteUseCase,
     private val addToWatchList: AddToWatchList,
-    private val checkIsLoginOrNotUseCase: CheckIsLoginOrNotUseCase,
+    private val checkIsUserLoggedInUseCase: CheckIsUserLoggedInUseCase,
     private val getRatingTvUseCase: GetRatingTvUseCase,
     private val stringsRes: StringsRes,
     savedStateHandle: SavedStateHandle,
@@ -68,7 +68,7 @@ class TvDetailsViewModel @Inject constructor(
     }
 
     private fun getData() {
-        _state.update { it.copy(isLogin = checkIsLoginOrNotUseCase()) }
+        _state.update { it.copy(isLogin = checkIsUserLoggedInUseCase()) }
         getTvRecommendations()
         getYoutubeDetails()
         getTvShowInfo()
@@ -105,7 +105,7 @@ class TvDetailsViewModel @Inject constructor(
                     rating = item.info.rating,
                     description = item.info.description,
                     genres = item.info.genres,
-                    isLogin = checkIsLoginOrNotUseCase()
+                    isLogin = checkIsUserLoggedInUseCase()
                 )
             )
         }

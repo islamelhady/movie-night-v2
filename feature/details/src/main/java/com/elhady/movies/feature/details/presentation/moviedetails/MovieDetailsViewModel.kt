@@ -13,7 +13,6 @@ import com.elhady.movies.core.domain.usecase.details.moviedetails.CreateUserList
 import com.elhady.movies.core.domain.usecase.details.moviedetails.GetUserListsUseCase
 import com.elhady.movies.core.domain.usecase.common.AddToFavouriteUseCase
 import com.elhady.movies.core.domain.usecase.common.AddToWatchList
-import com.elhady.movies.core.domain.usecase.common.CheckIsLoginOrNotUseCase
 import com.elhady.movies.core.domain.usecase.details.moviedetails.GetMovieDetailsUseCase
 import com.elhady.movies.core.domain.usecase.details.moviedetails.SetRatingUseCase
 import com.elhady.movies.core.common.NoNetworkThrowable
