@@ -2,7 +2,7 @@ package com.elhady.movies.feature.details.presentation.tvdetails.mappers
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.model.ReviewEntity
-import com.elhady.movies.core.common.presentation.model.CommentUIState
+import com.elhady.movies.feature.details.presentation.episodedetails.CommentUIState
 import javax.inject.Inject
 
 class TvDetailsReviewUiMapper @Inject constructor() :

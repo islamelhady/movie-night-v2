@@ -1,7 +1,7 @@
 package com.elhady.movies.feature.watchlist.presentation.myrated
 
 import androidx.paging.PagingData
-import com.elhady.movies.core.common.presentation.model.MovieHorizontalUIState
+import com.elhady.movies.core.ui.model.MovieHorizontalUIState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 

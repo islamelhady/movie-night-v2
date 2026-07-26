@@ -1,10 +1,9 @@
 package com.elhady.movies.core.ui.adapters
 
 import com.elhady.movies.core.ui.BR
-import com.elhady.movies.core.ui.R
 import com.elhady.movies.core.common.bases.BaseAdapter
 import com.elhady.movies.core.common.presentation.MediaListener
-import com.elhady.movies.core.common.presentation.model.MediaVerticalUIState
+import com.elhady.movies.core.ui.model.MediaVerticalUIState
 
 class MediaVerticalAdapter(
     list: List<MediaVerticalUIState>,

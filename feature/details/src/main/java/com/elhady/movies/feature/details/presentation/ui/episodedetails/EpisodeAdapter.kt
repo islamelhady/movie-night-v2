@@ -4,7 +4,7 @@ import com.elhady.movies.feature.details.BR
 import com.elhady.movies.feature.details.R
 import com.elhady.movies.core.common.bases.BaseAdapter
 import com.elhady.movies.core.common.presentation.EpisodeListener
-import com.elhady.movies.core.common.presentation.model.EpisodeHorizontalUIState
+import com.elhady.movies.feature.details.presentation.episodedetails.EpisodeHorizontalUIState
 
 class EpisodeAdapter(
     list: List<EpisodeHorizontalUIState>,

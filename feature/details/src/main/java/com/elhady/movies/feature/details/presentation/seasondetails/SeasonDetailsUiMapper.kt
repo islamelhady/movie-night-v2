@@ -3,7 +3,7 @@ package com.elhady.movies.feature.details.presentation.seasondetails
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.model.seasondetails.EpisodeEntity
 import com.elhady.movies.core.domain.model.seasondetails.SeasonDetailsEntity
-import com.elhady.movies.core.common.presentation.model.EpisodeHorizontalUIState
+import com.elhady.movies.feature.details.presentation.episodedetails.EpisodeHorizontalUIState
 import javax.inject.Inject
 
 class SeasonDetailsUiMapper @Inject constructor():

@@ -2,7 +2,7 @@ package com.elhady.movies.feature.details.presentation.tvdetails.mappers
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.model.UserListEntity
-import com.elhady.movies.core.common.presentation.model.UserListUi
+import com.elhady.movies.core.ui.model.UserListUi
 import com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsUiState
 import javax.inject.Inject
 

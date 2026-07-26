@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.core.common.presentation.model.EpisodeHorizontalUIState" />
+            type="com.elhady.movies.feature.details.presentation.episodedetails.EpisodeHorizontalUIState" />
 
         <variable
             name="listener"

@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.elhady.movies.feature.watchlist.BR
 import com.elhady.movies.core.common.bases.BasePagingAdapter
 import com.elhady.movies.core.ui.databinding.ItemMovieHorizontalBinding
-import com.elhady.movies.core.common.presentation.model.MovieHorizontalUIState
+import com.elhady.movies.core.ui.model.MovieHorizontalUIState
 import com.elhady.movies.feature.watchlist.presentation.myrated.MyRatedListner
 
 class MyRateAdapter(listener: MyRatedListner) :

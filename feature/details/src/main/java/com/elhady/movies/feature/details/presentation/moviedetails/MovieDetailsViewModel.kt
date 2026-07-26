@@ -23,7 +23,7 @@ import com.elhady.movies.core.domain.usecase.details.moviedetails.GetRatingMovie
 import com.elhady.movies.core.common.presentation.ChipListener
 import com.elhady.movies.core.common.presentation.MediaListener
 import com.elhady.movies.core.common.presentation.PeopleListener
-import com.elhady.movies.core.common.presentation.model.UserListUi
+import com.elhady.movies.core.ui.model.UserListUi
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.CastUiStateMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.RecommendedUiStateMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.ReviewDetailsUiStateMapper

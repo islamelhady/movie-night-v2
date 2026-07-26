@@ -1,10 +1,9 @@
 package com.elhady.movies.feature.details.presentation.ui.tvdetails.adapter
 
 import com.elhady.movies.feature.details.BR
-import com.elhady.movies.feature.details.R
 import com.elhady.movies.core.common.bases.BaseAdapter
 import com.elhady.movies.core.common.presentation.MediaListener
-import com.elhady.movies.core.common.presentation.model.MediaVerticalUIState
+import com.elhady.movies.core.ui.model.MediaVerticalUIState
 
 
 class RecommendedAdapter(

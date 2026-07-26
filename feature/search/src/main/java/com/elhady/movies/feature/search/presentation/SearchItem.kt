@@ -1,6 +1,6 @@
 package com.elhady.movies.feature.search.presentation
 
-import com.elhady.movies.core.common.presentation.model.MovieHorizontalUIState
+import com.elhady.movies.core.ui.model.MovieHorizontalUIState
 import com.elhady.movies.core.ui.model.PeopleUIState
 
 sealed class SearchItem(val type: SearchItemType){
