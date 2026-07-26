@@ -1,11 +1,8 @@
 package com.elhady.movies.feature.watchlist.presentation.ui.mylist
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavDeepLinkRequest
-import androidx.navigation.fragment.findNavController
 import com.elhady.movies.feature.watchlist.BR
 import com.elhady.movies.feature.watchlist.R
 import com.elhady.movies.core.ui.R as CoreUiR
@@ -14,12 +11,17 @@ import com.elhady.movies.feature.watchlist.databinding.FragmentMyListBinding
 import com.elhady.movies.feature.watchlist.presentation.mylist.MyListUiEvent
 import com.elhady.movies.feature.watchlist.presentation.mylist.MyListUiState
 import com.elhady.movies.feature.watchlist.presentation.mylist.MyListViewModel
+import com.elhady.movies.core.common.navigation.Navigator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MyListFragment :
     BaseFragment<FragmentMyListBinding, MyListUiState, MyListUiEvent>(), CreateListener {
+
+    @Inject
+    lateinit var navigator: Navigator
 
     override val layoutIdFragment: Int = R.layout.fragment_my_list
     override val viewModel: MyListViewModel by viewModels()
@@ -42,10 +44,11 @@ class MyListFragment :
     override fun onEvent(event: MyListUiEvent) {
         when (event) {
             is MyListUiEvent.NavigateToListDetails -> {
-                val request = NavDeepLinkRequest.Builder
-                    .fromUri(Uri.parse("movie://my_list_details/${event.listId}/${event.listType}/${event.listName}"))
-                    .build()
-                findNavController().navigate(request)
+                navigator.navigateToMyListDetails(
+                    event.listId,
+                    event.listType,
+                    event.listName
+                )
             }
 
             is MyListUiEvent.ApplyCreateList -> {
@@ -57,7 +60,7 @@ class MyListFragment :
             }
 
             is MyListUiEvent.OnClickBack -> {
-                findNavController().popBackStack()
+                navigator.navigateBack()
             }
 
             is MyListUiEvent.ShowSnackBar -> {

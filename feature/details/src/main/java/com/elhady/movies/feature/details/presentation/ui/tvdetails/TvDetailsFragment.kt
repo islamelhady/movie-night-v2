@@ -1,10 +1,8 @@
 package com.elhady.movies.feature.details.presentation.ui.tvdetails
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,13 +15,18 @@ import com.elhady.movies.feature.details.presentation.ui.tvdetails.adapter.TvDet
 import com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsUiEvent
 import com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsUiState
 import com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsViewModel
+import com.elhady.movies.core.common.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlin.math.abs
 
 @AndroidEntryPoint
 class TvDetailsFragment :
     BaseFragment<FragmentTvDetailsBinding, TvDetailsUiState, TvDetailsUiEvent>(),
     BottomSheetDismissListener, WatchlistFavouriteListener {
+
+    @Inject
+    lateinit var navigator: Navigator
 
     private lateinit var rateBottomSheet: RateTvDetailsBottomSheet
     private lateinit var addToWatchlistFavouriteBottomSheet: SaveTvShowToListBottomSheet
@@ -47,23 +50,20 @@ class TvDetailsFragment :
             }
 
             is TvDetailsUiEvent.OnPersonClick -> {
-                val request = NavDeepLinkRequest.Builder
-                    .fromUri(Uri.parse("movie://people_details/${event.id}"))
-                    .build()
-                findNavController().navigate(request)
+                navigator.navigateToPeopleDetails(event.id)
             }
             is TvDetailsUiEvent.OnSeasonClick -> {
-                val request = NavDeepLinkRequest.Builder
-                    .fromUri(Uri.parse("movie://season_details/${viewModel.state.value.id}/${event.seasonNumber}"))
-                    .build()
-                findNavController().navigate(request)
+                navigator.navigateToSeasonDetails(viewModel.state.value.id, event.seasonNumber)
             }
-            is TvDetailsUiEvent.OnRecommended -> navigateToTvDetails(event.id)
-            is TvDetailsUiEvent.Back -> navigateBack()
+            is TvDetailsUiEvent.OnRecommended -> navigator.navigateToTvDetails(event.id)
+            is TvDetailsUiEvent.Back -> navigator.navigateBack()
             is TvDetailsUiEvent.ApplyRating -> showSnackBar(event.message)
             is TvDetailsUiEvent.OnShowMoreCast -> showSnackBar("Show More Cast")
             is TvDetailsUiEvent.OnShowMoreRecommended -> showSnackBar("Show More Recommended")
-            is TvDetailsUiEvent.PlayButton -> navigateToTrailerFragment(event.youtubeKey)
+            is TvDetailsUiEvent.PlayButton -> {
+                navigator.navigateToTrailer(event.youtubeKey)
+                showSnackBar(event.youtubeKey)
+            }
             is TvDetailsUiEvent.OnSaveButtonClick -> showAddToWatchlistFavouriteBottomSheet()
             is TvDetailsUiEvent.OnDoneAdding -> showSnackBar(event.message)
             is TvDetailsUiEvent.OnCreateNewList -> showSnackBar(event.message)
@@ -76,10 +76,7 @@ class TvDetailsFragment :
 
 
     private fun navigateToTrailerFragment(videoKey: String) {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri(Uri.parse("movie://trailer/$videoKey"))
-            .build()
-        findNavController().navigate(request)
+        navigator.navigateToTrailer(videoKey)
         showSnackBar(videoKey)
     }
 
@@ -89,14 +86,11 @@ class TvDetailsFragment :
     }
     //region navigation
     private fun navigateToTvDetails(tvId: Int) {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri(Uri.parse("movie://tv_details/$tvId"))
-            .build()
-        findNavController().navigate(request)
+        navigator.navigateToTvDetails(tvId)
     }
 
     private fun navigateBack() {
-        findNavController().popBackStack()
+        navigator.navigateBack()
     }
     //endregion
 

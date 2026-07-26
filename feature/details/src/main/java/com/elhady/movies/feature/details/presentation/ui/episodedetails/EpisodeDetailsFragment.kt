@@ -9,17 +9,22 @@ import androidx.navigation.fragment.findNavController
 import com.elhady.movies.feature.details.BR
 import com.elhady.movies.feature.details.R
 import com.elhady.movies.core.common.bases.BaseFragment
+import com.elhady.movies.core.common.navigation.Navigator
 import com.elhady.movies.feature.details.databinding.FragmentEpisodeDetailsBinding
 import com.elhady.movies.core.ui.adapters.PeopleAdapter
 import com.elhady.movies.feature.details.presentation.episodedetails.EpisodeDetailsUiEvent
 import com.elhady.movies.feature.details.presentation.episodedetails.EpisodeDetailsUiState
 import com.elhady.movies.feature.details.presentation.episodedetails.EpisodeDetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class EpisodeDetailsFragment :
     BaseFragment<FragmentEpisodeDetailsBinding, EpisodeDetailsUiState, EpisodeDetailsUiEvent>(),
     BottomSheetListener {
+
+    @Inject
+    lateinit var navigator: Navigator
 
     override val layoutIdFragment = R.layout.fragment_episode_details
     override val viewModel: EpisodeDetailsViewModel by viewModels()
@@ -61,10 +66,7 @@ class EpisodeDetailsFragment :
 
 
     private fun navigateToPlayFullScreen(videoKey: String) {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri(Uri.parse("movie://trailer/$videoKey"))
-            .build()
-        findNavController().navigate(request)
+        navigator.navigateToTrailer(videoKey)
     }
 
     override fun onApplyRateBottomSheet() {

@@ -1,13 +1,13 @@
 package com.elhady.movies.feature.profile.presentation
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
+import com.elhady.movies.core.common.navigation.Navigator
 import com.elhady.movies.feature.profile.BR
 import com.elhady.movies.feature.profile.R
 import com.elhady.movies.core.ui.R as CoreUiR
@@ -17,9 +17,13 @@ import com.elhady.movies.core.common.bases.ListType
 import com.elhady.movies.feature.profile.databinding.FragmentProfileBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUIState, ProfileUiEvent>() {
+
+    @Inject
+    lateinit var navigator: Navigator
 
     override val layoutIdFragment: Int = R.layout.fragment_profile
     override val viewModel: ProfileViewModel by viewModels()
@@ -37,31 +41,27 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUIState, Pro
     override fun onEvent(event: ProfileUiEvent) {
         when (event) {
             ProfileUiEvent.NavigateToFavoriteScreen -> {
-                val request = NavDeepLinkRequest.Builder
-                    .fromUri(Uri.parse("movie://my_list_details/0/${ListType.MOVIE.name}/${ListName.FAVORITE.name}"))
-                    .build()
-                findNavController().navigate(request)
+                navigator.navigateToMyListDetails(
+                    0,
+                    ListType.MOVIE.name,
+                    ListName.FAVORITE.name
+                )
             }
 
             ProfileUiEvent.NavigateToWatchlistScreen -> {
-                val request = NavDeepLinkRequest.Builder
-                    .fromUri(Uri.parse("movie://my_list_details/0/${ListType.MOVIE.name}/${ListName.WATCHLIST.name}"))
-                    .build()
-                findNavController().navigate(request)
+                navigator.navigateToMyListDetails(
+                    0,
+                    ListType.MOVIE.name,
+                    ListName.WATCHLIST.name
+                )
             }
 
             ProfileUiEvent.NavigateToWatchHistoryScreen -> {
-                val request = NavDeepLinkRequest.Builder
-                    .fromUri(Uri.parse("movie://watch_history"))
-                    .build()
-                findNavController().navigate(request)
+                navigator.navigateToWatchHistory()
             }
 
             ProfileUiEvent.NavigateToMyListsScreen -> {
-                val request = NavDeepLinkRequest.Builder
-                    .fromUri(Uri.parse("movie://my_list"))
-                    .build()
-                findNavController().navigate(request)
+                navigator.navigateToMyList()
             }
 
             ProfileUiEvent.Logout -> {
@@ -69,7 +69,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUIState, Pro
             }
 
             is ProfileUiEvent.NavigateWithLink -> {
-                findNavController().navigate(event.link)
+                navigator.navigateToLogin()
             }
         }
     }
@@ -80,8 +80,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUIState, Pro
             .setMessage(getString(CoreUiR.string.do_u_wanna_leave_us))
             .setPositiveButton(getString(CoreUiR.string.confirm)) { _, _ ->
                 viewModel.logout()
-                val request = NavDeepLinkRequest.Builder.fromUri(Uri.parse("movie://login")).build()
-                findNavController().navigate(request)
+                navigator.navigateToLogin()
             }
             .setNeutralButton(getString(CoreUiR.string.cancel)) { dialog, _ ->
                 dialog.dismiss()

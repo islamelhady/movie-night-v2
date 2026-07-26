@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.elhady.movies.feature.auth.BuildConfig
 import com.elhady.movies.feature.auth.BR
 import com.elhady.movies.feature.auth.R
@@ -18,11 +17,17 @@ import com.elhady.movies.feature.auth.databinding.FragmentLoginBinding
 import com.elhady.movies.feature.auth.presentation.LoginUiEvent
 import com.elhady.movies.feature.auth.presentation.LoginUiState
 import com.elhady.movies.feature.auth.presentation.LoginViewModel
+import com.elhady.movies.core.common.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding, LoginUiState, LoginUiEvent>() {
+
+    @Inject
+    lateinit var navigator: Navigator
+
     override val layoutIdFragment = R.layout.fragment_login
     override val viewModel by viewModels<LoginViewModel>()
     override val viewModelVariableId: Int = BR.viewModel
@@ -66,9 +71,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginUiState, LoginUiEv
     override fun onEvent(event: LoginUiEvent) {
         when (event) {
             is LoginUiEvent.NavigateToHomeScreen -> {
-                val navController = findNavController()
-                navController.popBackStack(navController.graph.startDestinationId, false)
-                navController.navigate(event.id)
+                navigator.navigateToHome()
             }
 
             is LoginUiEvent.SignUpEvent -> {

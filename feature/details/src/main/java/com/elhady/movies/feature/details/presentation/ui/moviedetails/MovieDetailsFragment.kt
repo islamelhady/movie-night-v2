@@ -1,11 +1,9 @@
 package com.elhady.movies.feature.details.presentation.ui.moviedetails
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,14 +18,19 @@ import com.elhady.movies.feature.details.presentation.ui.tvdetails.BottomSheetDi
 import com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsUiEvent
 import com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsUiState
 import com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsViewModel
+import com.elhady.movies.core.common.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import javax.inject.Inject
 import kotlin.math.abs
 
 
 @AndroidEntryPoint
 class MovieDetailsFragment :
     BaseFragment<FragmentMovieDetailsBinding, MovieDetailsUiState, MovieDetailsUiEvent>(), BottomSheetDismissListener{
+
+    @Inject
+    lateinit var navigator: Navigator
 
     override val layoutIdFragment: Int = R.layout.fragment_movie_details
     override val viewModel: MovieDetailsViewModel by viewModels()
@@ -77,14 +80,11 @@ class MovieDetailsFragment :
     override fun onEvent(event: MovieDetailsUiEvent) {
         when (event) {
             MovieDetailsUiEvent.OnClickBackEvent -> {
-                findNavController().popBackStack()
+                navigator.navigateBack()
             }
 
             is MovieDetailsUiEvent.NavigateToPeopleDetailsEvent -> {
-                val request = NavDeepLinkRequest.Builder
-                    .fromUri(Uri.parse("movie://people_details/${event.itemId}"))
-                    .build()
-                findNavController().navigate(request)
+                navigator.navigateToPeopleDetails(event.itemId)
             }
 
             is MovieDetailsUiEvent.ApplyRatingEvent -> {
@@ -92,7 +92,7 @@ class MovieDetailsFragment :
             }
 
             is MovieDetailsUiEvent.PlayVideoTrailerEvent -> {
-                navigateToTrailerVideo(event.videoKey)
+                navigator.navigateToTrailer(event.videoKey)
             }
 
             is MovieDetailsUiEvent.RateMovieEvent -> {
@@ -100,23 +100,17 @@ class MovieDetailsFragment :
             }
 
             is MovieDetailsUiEvent.NavigateToMovieDetailsEvent -> {
-                val request = NavDeepLinkRequest.Builder
-                    .fromUri(Uri.parse("movie://movie_details/${event.movieId}"))
-                    .build()
-                findNavController().navigate(request)
+                navigator.navigateToMovieDetails(event.movieId)
             }
 
             is MovieDetailsUiEvent.SaveToListEvent -> {
                 binding.saveButton.setBackgroundResource(CoreUiR.drawable.ic_save_pressed)
-                val request = NavDeepLinkRequest.Builder
-                    .fromUri(Uri.parse("movie://save_to_list"))
-                    .build()
-                findNavController().navigate(request)
+                navigator.navigateToSaveToList()
             }
 
 
             is MovieDetailsUiEvent.NavigateToShowMoreEvent -> {
-                TODO()
+                // TODO: Implement show more
             }
 
             is MovieDetailsUiEvent.ShowSnackBarMessageEvent -> showSnackBar(event.message)
@@ -128,13 +122,6 @@ class MovieDetailsFragment :
         rateBottomSheet = RatingMovieBottomSheet()
         rateBottomSheet.setListener(this)
         rateBottomSheet.show(childFragmentManager, "BOTTOM")
-    }
-
-    private fun navigateToTrailerVideo(videoKey: String) {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri(Uri.parse("movie://trailer/$videoKey"))
-            .build()
-        findNavController().navigate(request)
     }
 
 
