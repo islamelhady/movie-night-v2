@@ -1,5 +1,12 @@
 [versions]
 # Build Config & UI Core
+compileSdk = "34"
+minSdk = "21"
+targetSdk = "34"
+versionCode = "1"
+versionName = "1.0"
+javaVersion = "17"
+
 agp = "8.1.0"
 kotlin = "1.8.0"
 coreKtx = "1.9.0"

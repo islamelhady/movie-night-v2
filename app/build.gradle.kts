@@ -11,14 +11,14 @@ plugins {
 
 android {
     namespace = "com.elhady.movies"
-    compileSdk = 34
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.elhady.movies"
-        minSdk = 21
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
+        versionCode = libs.versions.versionCode.get().toInt()
+        versionName = libs.versions.versionName.get()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         kapt {
@@ -55,11 +55,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.toVersion(libs.versions.javaVersion.get())
+        targetCompatibility = JavaVersion.toVersion(libs.versions.javaVersion.get())
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = libs.versions.javaVersion.get()
     }
 
     buildFeatures {
