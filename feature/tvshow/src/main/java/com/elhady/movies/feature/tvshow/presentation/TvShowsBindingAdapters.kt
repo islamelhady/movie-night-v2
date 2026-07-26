@@ -1,0 +1,15 @@
+package com.elhady.movies.feature.tvshow.presentation
+
+import androidx.databinding.BindingAdapter
+import com.elhady.movies.feature.tvshow.R
+import com.google.android.material.chip.ChipGroup
+
+@BindingAdapter(value = ["app:selectedTVShowType"])
+fun ChipGroup.setSelectedTVShowsChip(type: TVShowsType) {
+    when (type) {
+        TVShowsType.ON_THE_AIR -> check(R.id.chip_on_the_air)
+        TVShowsType.AIRING_TODAY -> check(R.id.chip_airing_today)
+        TVShowsType.TOP_RATED -> check(R.id.chip_top_rated)
+        TVShowsType.POPULAR -> check(R.id.chip_popular)
+    }
+}

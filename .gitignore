@@ -1,5 +1,6 @@
 # Gradle files
-.gradle
+.gradle/
+build/
 
 # Local configuration file (sdk path, etc)
 /local.properties
@@ -20,6 +21,9 @@ output.json
 misc.xml
 deploymentTargetDropDown.xml
 render.experimental.xml
+
+# AI Agent Artifacts
+.artifacts/
 
 # Keystore files
 *.jks
