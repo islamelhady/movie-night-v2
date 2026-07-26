@@ -1,6 +1,6 @@
 package com.elhady.movies.feature.watchlist.presentation.mylist
 
-import com.elhady.movies.core.common.bases.BaseInteractionListener
+import com.elhady.movies.core.ui.bases.BaseInteractionListener
 
 interface MyListListener : BaseInteractionListener {
 

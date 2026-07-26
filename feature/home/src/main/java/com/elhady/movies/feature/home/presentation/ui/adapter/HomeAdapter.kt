@@ -1,12 +1,9 @@
 package com.elhady.movies.feature.home.presentation.ui.adapter
 
-import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
@@ -14,7 +11,7 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.elhady.movies.feature.home.BR
 import com.elhady.movies.feature.home.R
-import com.elhady.movies.core.common.bases.BaseAdapter
+import com.elhady.movies.core.ui.bases.BaseAdapter
 import com.elhady.movies.feature.home.databinding.HomeRecyclerviewAiringTodayTvBinding
 import com.elhady.movies.feature.home.databinding.HomeRecyclerviewNowPlayingBinding
 import com.elhady.movies.feature.home.databinding.HomeRecyclerviewPopularMoviesBinding
@@ -26,7 +23,6 @@ import com.elhady.movies.feature.home.databinding.HomeRecyclerviewTvShowsBinding
 import com.elhady.movies.feature.home.presentation.ui.HomeItem
 import com.elhady.movies.feature.home.presentation.ui.HomeItemType
 import com.elhady.movies.feature.home.presentation.HomeListener
-import dagger.hilt.android.qualifiers.ApplicationContext
 import java.lang.Math.abs
 
 class HomeAdapter(

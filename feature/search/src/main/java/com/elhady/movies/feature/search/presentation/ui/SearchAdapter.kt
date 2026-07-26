@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.elhady.movies.feature.search.BR
 import com.elhady.movies.feature.search.R
-import com.elhady.movies.core.common.bases.BaseAdapter
+import com.elhady.movies.core.ui.bases.BaseAdapter
 import com.elhady.movies.core.ui.databinding.ItemMovieHorizontalBinding
 import com.elhady.movies.feature.search.databinding.SearchItemPeopleBinding
 import com.elhady.movies.feature.search.presentation.SearchItem

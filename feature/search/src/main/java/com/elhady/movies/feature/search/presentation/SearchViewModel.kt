@@ -1,7 +1,7 @@
 package com.elhady.movies.feature.search.presentation
 
 import androidx.lifecycle.viewModelScope
-import com.elhady.movies.core.common.bases.BaseViewModel
+import com.elhady.movies.core.ui.bases.BaseViewModel
 import com.elhady.movies.core.domain.model.GenreEntity
 import com.elhady.movies.core.common.NoNetworkThrowable
 import com.elhady.movies.core.domain.usecase.search.SearchMoviesUseCase

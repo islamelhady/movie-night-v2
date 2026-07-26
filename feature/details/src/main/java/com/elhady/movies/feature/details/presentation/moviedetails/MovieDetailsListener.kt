@@ -1,6 +1,6 @@
 package com.elhady.movies.feature.details.presentation.moviedetails
 
-import com.elhady.movies.core.common.bases.BaseInteractionListener
+import com.elhady.movies.core.ui.bases.BaseInteractionListener
 
 
 interface MovieDetailsListener : BaseInteractionListener {

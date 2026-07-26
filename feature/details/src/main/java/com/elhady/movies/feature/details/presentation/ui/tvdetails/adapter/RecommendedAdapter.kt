@@ -1,8 +1,8 @@
 package com.elhady.movies.feature.details.presentation.ui.tvdetails.adapter
 
 import com.elhady.movies.feature.details.BR
-import com.elhady.movies.core.common.bases.BaseAdapter
-import com.elhady.movies.core.common.presentation.MediaListener
+import com.elhady.movies.core.ui.bases.BaseAdapter
+import com.elhady.movies.core.ui.listener.MediaListener
 import com.elhady.movies.core.ui.model.MediaVerticalUIState
 
 

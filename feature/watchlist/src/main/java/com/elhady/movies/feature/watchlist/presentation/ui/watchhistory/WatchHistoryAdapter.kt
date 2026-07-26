@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.elhady.movies.feature.watchlist.BR
 import com.elhady.movies.feature.watchlist.R
-import com.elhady.movies.core.common.bases.BaseAdapter
+import com.elhady.movies.core.ui.bases.BaseAdapter
 import com.elhady.movies.feature.watchlist.databinding.WatchHistoryRecyclerViewCardBinding
 import com.elhady.movies.feature.watchlist.databinding.WatchHistoryRecyclerViewTitleBinding
-import com.elhady.movies.core.common.presentation.MediaListener
+import com.elhady.movies.core.ui.listener.MediaListener
 
 class WatchHistoryAdapter(
     private var items: List<WatchHistoryRecyclerItem>,

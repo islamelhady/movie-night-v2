@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.common.ForbiddenThrowable
 import com.elhady.movies.core.common.NoNetworkThrowable
 import com.elhady.movies.core.common.UnauthorizedThrowable
-import com.elhady.movies.core.common.bases.BaseViewModel
+import com.elhady.movies.core.ui.bases.BaseViewModel
 import com.elhady.movies.core.common.bases.NavigationRes
 import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
 import com.elhady.movies.core.domain.usecase.auth.LogoutUseCase

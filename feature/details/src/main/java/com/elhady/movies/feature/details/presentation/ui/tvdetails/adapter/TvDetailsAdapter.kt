@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.elhady.movies.feature.details.BR
 import com.elhady.movies.feature.details.R
-import com.elhady.movies.core.common.bases.BaseAdapter
+import com.elhady.movies.core.ui.bases.BaseAdapter
 import com.elhady.movies.feature.details.databinding.ItemCommentBinding
 import com.elhady.movies.feature.details.databinding.ItemSeasonHorizontalBinding
 import com.elhady.movies.feature.details.databinding.TvDetailsItemPeopleRvBinding

@@ -3,7 +3,7 @@ package com.elhady.movies.feature.watchlist.presentation.mylist
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.lifecycle.viewModelScope
-import com.elhady.movies.core.common.bases.BaseViewModel
+import com.elhady.movies.core.ui.bases.BaseViewModel
 import com.elhady.movies.core.ui.bases.StringsRes
 import com.elhady.movies.core.domain.model.StatusEntity
 import com.elhady.movies.core.domain.usecase.watchlist.mylist.CreateListUseCase

@@ -5,15 +5,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavDeepLinkRequest
-import androidx.navigation.fragment.findNavController
 import com.elhady.movies.core.domain.navigation.Navigator
 import com.elhady.movies.feature.profile.BR
 import com.elhady.movies.feature.profile.R
 import com.elhady.movies.core.ui.R as CoreUiR
-import com.elhady.movies.core.common.bases.BaseFragment
-import com.elhady.movies.core.common.bases.ListName
-import com.elhady.movies.core.common.bases.ListType
+import com.elhady.movies.core.ui.bases.BaseFragment
+import com.elhady.movies.core.domain.model.ListName
+import com.elhady.movies.core.domain.model.ListType
 import com.elhady.movies.feature.profile.databinding.FragmentProfileBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint

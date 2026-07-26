@@ -10,7 +10,7 @@
 
         <variable
             name="listener"
-            type="com.elhady.movies.core.common.presentation.MediaListener" />
+            type="com.elhady.movies.core.ui.listener.MediaListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

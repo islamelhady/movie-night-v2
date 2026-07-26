@@ -5,12 +5,11 @@ import android.view.View
 import androidx.core.view.forEach
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.elhady.movies.feature.tvshow.BR
 import com.elhady.movies.feature.tvshow.R
 import com.elhady.movies.core.ui.adapters.BaseFooterAdapter
-import com.elhady.movies.core.common.bases.BaseFragment
+import com.elhady.movies.core.ui.bases.BaseFragment
 import com.elhady.movies.feature.tvshow.databinding.FragmentTvShowsBinding
 import com.elhady.movies.core.domain.navigation.Navigator
 import com.google.android.material.chip.Chip

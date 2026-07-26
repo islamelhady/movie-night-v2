@@ -8,7 +8,7 @@ import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import com.elhady.movies.feature.details.BR
 import com.elhady.movies.feature.details.R
-import com.elhady.movies.core.common.bases.BaseFragment
+import com.elhady.movies.core.ui.bases.BaseFragment
 import com.elhady.movies.core.domain.navigation.Navigator
 import com.elhady.movies.feature.details.databinding.FragmentEpisodeDetailsBinding
 import com.elhady.movies.core.ui.adapters.PeopleAdapter

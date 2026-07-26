@@ -2,7 +2,7 @@ package com.elhady.movies.feature.details.presentation.tvdetails
 
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
-import com.elhady.movies.core.common.bases.BaseViewModel
+import com.elhady.movies.core.ui.bases.BaseViewModel
 import com.elhady.movies.core.ui.bases.StringsRes
 import com.elhady.movies.core.domain.model.PeopleEntity
 import com.elhady.movies.core.domain.model.SeasonEntity

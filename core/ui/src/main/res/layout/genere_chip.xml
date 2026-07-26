@@ -10,7 +10,7 @@
 
         <variable
             name="listener"
-            type="com.elhady.movies.core.common.presentation.ChipListener" />
+            type="com.elhady.movies.core.ui.listener.ChipListener" />
     </data>
 
     <com.google.android.material.chip.Chip

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.feature.watchlist.BR
 import com.elhady.movies.feature.watchlist.R
 import com.elhady.movies.core.ui.R as CoreUiR
-import com.elhady.movies.core.common.bases.BaseFragment
+import com.elhady.movies.core.ui.bases.BaseFragment
 import com.elhady.movies.feature.watchlist.databinding.FragmentWatchHistoryBinding
 import com.elhady.movies.core.ui.bases.SwipeToDeleteItem
 import com.elhady.movies.feature.watchlist.presentation.watchhistory.WatchHistoryViewModel
