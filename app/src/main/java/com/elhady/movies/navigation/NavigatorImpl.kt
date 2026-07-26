@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.navigation.NavController
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.findNavController
+import androidx.navigation.navOptions
 import com.elhady.movies.R
 import com.elhady.movies.core.common.navigation.Navigator
 import com.elhady.movies.core.domain.model.ShowMoreType
@@ -74,7 +75,12 @@ class NavigatorImpl @Inject constructor(
         val request = NavDeepLinkRequest.Builder
             .fromUri(Uri.parse("movie://login"))
             .build()
-        navController?.navigate(request)
+        val navOptions = navOptions {
+            popUpTo(R.id.home_nav_graph) {
+                inclusive = true
+            }
+        }
+        navController?.navigate(request, navOptions)
     }
 
     override fun navigateToMyList() {
@@ -116,7 +122,12 @@ class NavigatorImpl @Inject constructor(
         val request = NavDeepLinkRequest.Builder
             .fromUri(Uri.parse("movie://home"))
             .build()
-        navController?.navigate(request)
+        val navOptions = navOptions {
+            popUpTo(R.id.home_nav_graph) {
+                inclusive = true
+            }
+        }
+        navController?.navigate(request, navOptions)
     }
 
     override fun navigateToSaveToList() {
