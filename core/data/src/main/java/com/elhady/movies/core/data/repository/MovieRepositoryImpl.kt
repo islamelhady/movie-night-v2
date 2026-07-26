@@ -19,51 +19,51 @@ import com.elhady.movies.core.network.model.request.RatingRequest
 import com.elhady.movies.core.network.model.request.WatchlistRequest
 import com.elhady.movies.core.network.model.response.dto.YoutubeVideoDetailsRemoteDto
 import com.elhady.movies.core.network.service.MovieService
-import com.elhady.movies.core.data.mappers.cash.LocalGenresMovieMapper
-import com.elhady.movies.core.data.mappers.cash.LocalGenresTvMapper
-import com.elhady.movies.core.data.mappers.cash.LocalPopularPeopleMapper
-import com.elhady.movies.core.data.mappers.cash.movie.LocalNowPlayingMovieMapper
-import com.elhady.movies.core.data.mappers.cash.movie.LocalPopularMovieMapper
-import com.elhady.movies.core.data.mappers.cash.movie.LocalTopRatedMovieMapper
-import com.elhady.movies.core.data.mappers.cash.movie.LocalTrendingMoviesMapper
-import com.elhady.movies.core.data.mappers.cash.movie.LocalUpcomingMovieMapper
-import com.elhady.movies.core.data.mappers.cash.tv.LocalAiringTodayTvShowMapper
-import com.elhady.movies.core.data.mappers.cash.tv.LocalTvShowMapper
-import com.elhady.movies.core.data.mappers.domain.DomainGenreMapper
-import com.elhady.movies.core.data.mappers.domain.DomainGenreTvMapper
-import com.elhady.movies.core.data.mappers.domain.DomainMovieDetailsMapper
-import com.elhady.movies.core.data.mappers.domain.DomainMoviesByPeopleMapper
-import com.elhady.movies.core.data.mappers.domain.DomainPeopleDetailsMapper
-import com.elhady.movies.core.data.mappers.domain.DomainPeopleMapper
-import com.elhady.movies.core.data.mappers.domain.DomainPeopleRemoteMapper
-import com.elhady.movies.core.data.mappers.domain.DomainReviewsMapper
-import com.elhady.movies.core.data.mappers.domain.DomainSeasonDetailsMapper
-import com.elhady.movies.core.data.mappers.domain.DomainStatusMapper
-import com.elhady.movies.core.data.mappers.domain.DomainTvDetailsCreditMapper
-import com.elhady.movies.core.data.mappers.domain.DomainTvDetailsMapper
-import com.elhady.movies.core.data.mappers.domain.DomainTvDetailsReviewMapper
-import com.elhady.movies.core.data.mappers.domain.DomainTvDetailsSeasonMapper
-import com.elhady.movies.core.data.mappers.domain.tv.DomainTvShowMapper
-import com.elhady.movies.core.data.mappers.domain.DomainTvShowsByPeopleMapper
-import com.elhady.movies.core.data.mappers.domain.DomainUserListsMapper
-import com.elhady.movies.core.data.mappers.domain.DomainYoutubeDetailsMapper
-import com.elhady.movies.core.data.mappers.domain.episode.DomainCastMapper
-import com.elhady.movies.core.data.mappers.domain.episode.DomainEpisodeDetailsMapper
-import com.elhady.movies.core.data.mappers.domain.episode.DomainRatingEpisodeMapper
-import com.elhady.movies.core.data.mappers.domain.movie.DomainMovieMapper
-import com.elhady.movies.core.data.mappers.domain.movie.DomainMyRatedMoviesDetailsMapper
-import com.elhady.movies.core.data.mappers.domain.movie.DomainNowPlayingMovieMapper
-import com.elhady.movies.core.data.mappers.domain.movie.DomainPopularMovieMapper
-import com.elhady.movies.core.data.mappers.domain.movie.DomainTopRatedMovieMapper
-import com.elhady.movies.core.data.mappers.domain.movie.DomainTrendingMoviesMapper
-import com.elhady.movies.core.data.mappers.domain.movie.DomainTvMapper
-import com.elhady.movies.core.data.mappers.domain.movie.DomainUpcomingMovieMapper
-import com.elhady.movies.core.data.mappers.domain.search.DomainMovieSearchMapper
-import com.elhady.movies.core.data.mappers.domain.search.DomainTvShowSearchMapper
-import com.elhady.movies.core.data.mappers.domain.tv.DomainAiringTodayTVMapper
-import com.elhady.movies.core.data.mappers.domain.tv.DomainAiringTodayTvShowsMapper
-import com.elhady.movies.core.data.mappers.domain.tv.DomainMyRatedTvShowDetailsMapper
-import com.elhady.movies.core.data.mappers.domain.tv.DomainTVMapper
+import com.elhady.movies.core.data.mapper.cache.LocalGenresMovieMapper
+import com.elhady.movies.core.data.mapper.cache.LocalGenresTvMapper
+import com.elhady.movies.core.data.mapper.cache.LocalPopularPeopleMapper
+import com.elhady.movies.core.data.mapper.cache.movie.LocalNowPlayingMovieMapper
+import com.elhady.movies.core.data.mapper.cache.movie.LocalPopularMovieMapper
+import com.elhady.movies.core.data.mapper.cache.movie.LocalTopRatedMovieMapper
+import com.elhady.movies.core.data.mapper.cache.movie.LocalTrendingMoviesMapper
+import com.elhady.movies.core.data.mapper.cache.movie.LocalUpcomingMovieMapper
+import com.elhady.movies.core.data.mapper.cache.tv.LocalAiringTodayTvShowMapper
+import com.elhady.movies.core.data.mapper.cache.tv.LocalTvShowMapper
+import com.elhady.movies.core.data.mapper.domain.DomainGenreMapper
+import com.elhady.movies.core.data.mapper.domain.DomainGenreTvMapper
+import com.elhady.movies.core.data.mapper.domain.DomainMovieDetailsMapper
+import com.elhady.movies.core.data.mapper.domain.DomainMoviesByPeopleMapper
+import com.elhady.movies.core.data.mapper.domain.DomainPeopleDetailsMapper
+import com.elhady.movies.core.data.mapper.domain.DomainPeopleMapper
+import com.elhady.movies.core.data.mapper.domain.DomainPeopleRemoteMapper
+import com.elhady.movies.core.data.mapper.domain.DomainReviewsMapper
+import com.elhady.movies.core.data.mapper.domain.DomainSeasonDetailsMapper
+import com.elhady.movies.core.data.mapper.domain.DomainStatusMapper
+import com.elhady.movies.core.data.mapper.domain.DomainTvDetailsCreditMapper
+import com.elhady.movies.core.data.mapper.domain.DomainTvDetailsMapper
+import com.elhady.movies.core.data.mapper.domain.DomainTvDetailsReviewMapper
+import com.elhady.movies.core.data.mapper.domain.DomainTvDetailsSeasonMapper
+import com.elhady.movies.core.data.mapper.domain.tv.DomainTvShowMapper
+import com.elhady.movies.core.data.mapper.domain.DomainTvShowsByPeopleMapper
+import com.elhady.movies.core.data.mapper.domain.DomainUserListsMapper
+import com.elhady.movies.core.data.mapper.domain.DomainYoutubeDetailsMapper
+import com.elhady.movies.core.data.mapper.domain.episode.DomainCastMapper
+import com.elhady.movies.core.data.mapper.domain.episode.DomainEpisodeDetailsMapper
+import com.elhady.movies.core.data.mapper.domain.episode.DomainRatingEpisodeMapper
+import com.elhady.movies.core.data.mapper.domain.movie.DomainMovieMapper
+import com.elhady.movies.core.data.mapper.domain.movie.DomainMyRatedMoviesDetailsMapper
+import com.elhady.movies.core.data.mapper.domain.movie.DomainNowPlayingMovieMapper
+import com.elhady.movies.core.data.mapper.domain.movie.DomainPopularMovieMapper
+import com.elhady.movies.core.data.mapper.domain.movie.DomainTopRatedMovieMapper
+import com.elhady.movies.core.data.mapper.domain.movie.DomainTrendingMoviesMapper
+import com.elhady.movies.core.data.mapper.domain.movie.DomainTvMapper
+import com.elhady.movies.core.data.mapper.domain.movie.DomainUpcomingMovieMapper
+import com.elhady.movies.core.data.mapper.domain.search.DomainMovieSearchMapper
+import com.elhady.movies.core.data.mapper.domain.search.DomainTvShowSearchMapper
+import com.elhady.movies.core.data.mapper.domain.tv.DomainAiringTodayTVMapper
+import com.elhady.movies.core.data.mapper.domain.tv.DomainAiringTodayTvShowsMapper
+import com.elhady.movies.core.data.mapper.domain.tv.DomainMyRatedTvShowDetailsMapper
+import com.elhady.movies.core.data.mapper.domain.tv.DomainTVMapper
 import com.elhady.movies.core.data.bases.BaseRepository
 import com.elhady.movies.core.domain.model.EpisodeDetailsEntity
 import com.elhady.movies.core.domain.model.GenreEntity
@@ -792,11 +792,6 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     /// endregion
-
-    override fun isLoginOrNot(): Boolean {
-        return !preferenceStorage.sessionId.isNullOrBlank()
-    }
-
 
     /// region myRated
     override suspend fun getRatedMovies(): Pager<Int, MyRatedMovieEntity> {

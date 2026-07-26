@@ -1,16 +1,16 @@
 package com.elhady.movies.feature.details.presentation.episodedetails
 
 import androidx.lifecycle.SavedStateHandle
-import com.elhady.movies.core.ui.mapper.PeopleUiMapper
-import com.elhady.movies.core.ui.bases.BaseViewModel
-import com.elhady.movies.core.ui.bases.StringsRes
 import com.elhady.movies.core.domain.model.RatingEpisodeDetailsStatusEntity
+import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
 import com.elhady.movies.core.domain.usecase.details.episodedetails.GetCastForEpisodeUseCase
 import com.elhady.movies.core.domain.usecase.details.episodedetails.GetEpisodeDetailsUseCase
 import com.elhady.movies.core.domain.usecase.details.episodedetails.GetEpisodeVideoUseCase
 import com.elhady.movies.core.domain.usecase.details.episodedetails.SetEpisodeRatingUseCase
-import com.elhady.movies.core.domain.usecase.common.CheckIsLoginOrNotUseCase
+import com.elhady.movies.core.ui.bases.BaseViewModel
+import com.elhady.movies.core.ui.bases.StringsRes
 import com.elhady.movies.core.ui.listener.PeopleListener
+import com.elhady.movies.core.ui.mapper.PeopleUiMapper
 import com.elhady.movies.core.ui.model.PeopleUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
@@ -25,7 +25,7 @@ class EpisodeDetailsViewModel @Inject constructor(
     private val peopleUiMapper: PeopleUiMapper,
     private val trailerUiMapper: TrailerUiMapper,
     private val episodeVideoUseCase: GetEpisodeVideoUseCase,
-    private val checkIsLoggedInOrNotUseCase: CheckIsLoginOrNotUseCase,
+    private val checkIsUserLoggedInUseCase: CheckIsUserLoggedInUseCase,
     savedStateHandle: SavedStateHandle,
     private val stringsRes: StringsRes
 ) : BaseViewModel<EpisodeDetailsUiState, EpisodeDetailsUiEvent>(EpisodeDetailsUiState()),
@@ -35,7 +35,7 @@ class EpisodeDetailsViewModel @Inject constructor(
     private val episodeNumber = savedStateHandle.get<Int>("episodeNumber") ?: 1
 
     init {
-        _state.update { it.copy(isLoading = true, isLoggedIn = checkIsLoggedInOrNotUseCase()) }
+        _state.update { it.copy(isLoading = true, isLoggedIn = checkIsUserLoggedInUseCase()) }
         getData(seriesId, seasonNumber, episodeNumber)
     }
 

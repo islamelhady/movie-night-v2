@@ -140,8 +140,6 @@ interface MovieRepository {
         value: Float
     ): RatingEpisodeDetailsStatusEntity
 
-    fun isLoginOrNot(): Boolean
-
 
     suspend fun getRatedMovies(): Pager<Int, MyRatedMovieEntity>
 

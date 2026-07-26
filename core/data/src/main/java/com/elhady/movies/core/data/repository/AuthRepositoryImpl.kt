@@ -2,7 +2,7 @@ package com.elhady.movies.core.data.repository
 
 import android.util.Log
 import com.elhady.movies.core.common.UnauthorizedThrowable
-import com.elhady.movies.core.data.mappers.domain.DomainProfileMapper
+import com.elhady.movies.core.data.mapper.domain.DomainProfileMapper
 import com.elhady.movies.core.datastore.local.PreferenceStorage
 import com.elhady.movies.core.domain.model.ProfileEntity
 import com.elhady.movies.core.domain.repository.AuthRepository

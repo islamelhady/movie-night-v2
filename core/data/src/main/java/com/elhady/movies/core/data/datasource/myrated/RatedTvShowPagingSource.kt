@@ -1,8 +1,8 @@
 package com.elhady.movies.core.data.datasource.myrated
 
 import com.elhady.movies.core.domain.model.myrated.MyRatedTvShowEntity
-import com.elhady.movies.core.data.mappers.domain.DomainGenreMapper
-import com.elhady.movies.core.data.mappers.domain.myrated.DomainMyRatedTvShowMapper
+import com.elhady.movies.core.data.mapper.domain.DomainGenreMapper
+import com.elhady.movies.core.data.mapper.domain.myrated.DomainMyRatedTvShowMapper
 import com.elhady.movies.core.database.MovieDao
 import com.elhady.movies.core.data.bases.BasePagingSource
 import com.elhady.movies.core.network.service.MovieService

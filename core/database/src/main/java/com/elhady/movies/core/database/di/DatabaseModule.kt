@@ -2,7 +2,7 @@ package com.elhady.movies.core.database.di
 
 import android.content.Context
 import androidx.room.Room
-import com.elhady.movies.core.database.Convertors
+import com.elhady.movies.core.database.Converters
 import com.elhady.movies.core.database.MovieDao
 import com.elhady.movies.core.database.MovieDataBase
 import com.elhady.movies.core.database.TvShowDao
@@ -22,13 +22,13 @@ object DataBaseModule {
     @Provides
     fun providesMovieDatabase(
         @ApplicationContext context: Context,
-        convertors: Convertors
+        converters: Converters
     ): MovieDataBase {
         return Room.databaseBuilder(
             context,
             MovieDataBase::class.java,
             "MovieDatabase.db"
-        ).addTypeConverter(convertors).build()
+        ).addTypeConverter(converters).build()
     }
 
     @Singleton
@@ -45,8 +45,8 @@ object DataBaseModule {
 
     @Singleton
     @Provides
-    fun provideConverters(gson: Gson): Convertors {
-        return Convertors(gson)
+    fun provideConverters(gson: Gson): Converters {
+        return Converters(gson)
     }
 
     @Provides

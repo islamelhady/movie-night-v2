@@ -11,20 +11,20 @@ import com.elhady.movies.core.common.ForbiddenThrowable
 import com.elhady.movies.core.domain.usecase.details.moviedetails.AddToUserListUseCase
 import com.elhady.movies.core.domain.usecase.details.moviedetails.CreateUserListUseCase
 import com.elhady.movies.core.domain.usecase.details.moviedetails.GetUserListsUseCase
-import com.elhady.movies.core.domain.usecase.common.AddToFavouriteUseCase
-import com.elhady.movies.core.domain.usecase.common.AddToWatchList
-import com.elhady.movies.core.domain.usecase.common.CheckIsLoginOrNotUseCase
+import com.elhady.movies.core.domain.usecase.watchlist.AddToFavouriteUseCase
+import com.elhady.movies.core.domain.usecase.watchlist.AddToWatchList
 import com.elhady.movies.core.domain.usecase.details.moviedetails.GetMovieDetailsUseCase
 import com.elhady.movies.core.domain.usecase.details.moviedetails.SetRatingUseCase
 import com.elhady.movies.core.common.NoNetworkThrowable
 import com.elhady.movies.core.common.UnauthorizedThrowable
+import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
 import com.elhady.movies.core.domain.usecase.common.InsertMovieToWatchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.details.moviedetails.GetRatingMovieUseCase
 import com.elhady.movies.core.ui.listener.ChipListener
 import com.elhady.movies.core.ui.listener.MediaListener
 import com.elhady.movies.core.ui.listener.PeopleListener
 import com.elhady.movies.core.ui.model.UserListUi
-import com.elhady.movies.feature.details.presentation.moviedetails.mapper.CastUiStateMapper
+import com.elhady.movies.core.ui.mapper.CastUiMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.RecommendedUiStateMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.ReviewDetailsUiStateMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.ReviewsUiStateMapper
@@ -51,11 +51,11 @@ class MovieDetailsViewModel @Inject constructor(
     private val addToFavouriteUseCase: AddToFavouriteUseCase,
     private val addToWatchList: AddToWatchList,
     private val insertMovieToWatchHistoryUseCase: InsertMovieToWatchHistoryUseCase,
-    private val checkIsLoginOrNotUseCase: CheckIsLoginOrNotUseCase,
+    private val checkIsUserLoggedInUseCase: CheckIsUserLoggedInUseCase,
     private val recommendedUiStateMapper: RecommendedUiStateMapper,
     private val upperUiStateMapper: UpperUiStateMapper,
     private val reviewsUiStateMapper: ReviewsUiStateMapper,
-    private val castUiStateMapper: CastUiStateMapper,
+    private val castUiMapper: CastUiMapper,
     private val reviewDetailsUiStateMapper: ReviewDetailsUiStateMapper,
     private val watchHistoryUiStateMapper: WatchHistoryUiStateMapper,
     private val userListsUiMapper: UserListUiMapper,
@@ -69,7 +69,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val movieId = savedStateHandle.get<Int>("movieId")
 
     init {
-        _state.update { it.copy(isLoading = true, isLogin = checkIsLoginOrNotUseCase()) }
+        _state.update { it.copy(isLoading = true, isLogin = checkIsUserLoggedInUseCase()) }
         if (movieId != null) {
             getMovieDetails(movieId)
             getRatingMovie()
@@ -97,7 +97,7 @@ class MovieDetailsViewModel @Inject constructor(
                 movieUiState = upperUiStateMapper.map(movieDetails),
                 recommendedUiState = recommendedUiStateMapper.map(movieDetails.recommendations.recommendedMovies),
                 reviewUiState = reviewsUiStateMapper.map(movieDetails.reviewEntity.reviews),
-                castUiState = castUiStateMapper.map(movieDetails.credits.cast),
+                castUiState = castUiMapper.map(movieDetails.credits.cast),
                 reviewsDetails = reviewDetailsUiStateMapper.map(movieDetails),
                 isLoading = false,
                 onErrors = emptyList()
