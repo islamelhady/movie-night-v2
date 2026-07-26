@@ -5,8 +5,8 @@ import com.elhady.movies.core.database.MovieDao
 import com.elhady.movies.core.network.service.MovieService
 import com.elhady.movies.core.data.bases.BasePagingSource
 import com.elhady.movies.core.domain.model.myrated.MyRatedMovieEntity
-import com.elhady.movies.core.data.mappers.domain.DomainGenreMapper
-import com.elhady.movies.core.data.mappers.domain.myrated.DomainMyRatedMoviesMapper
+import com.elhady.movies.core.data.mapper.domain.DomainGenreMapper
+import com.elhady.movies.core.data.mapper.domain.myrated.DomainMyRatedMoviesMapper
 import javax.inject.Inject
 
 class RatedMoviesPagingSource @Inject constructor(
