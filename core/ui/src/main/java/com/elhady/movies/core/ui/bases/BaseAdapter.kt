@@ -7,7 +7,6 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
-interface BaseInteractionListener
 
 abstract class BaseAdapter<T>(
     private var items: List<T>,
