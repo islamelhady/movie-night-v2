@@ -7,7 +7,7 @@ import java.util.Date
 import javax.inject.Inject
 
 @ProvidedTypeConverter
-class Convertors @Inject constructor(val gson: Gson){
+class Converters @Inject constructor(val gson: Gson){
 
     @TypeConverter
     fun dateToLong(date: Date): Long {

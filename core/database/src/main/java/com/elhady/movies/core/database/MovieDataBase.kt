@@ -1,11 +1,8 @@
 package com.elhady.movies.core.database
 
-import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.elhady.movies.core.database.dto.GenresMoviesLocalDto
 import com.elhady.movies.core.database.dto.GenresTvsLocalDto
 import com.elhady.movies.core.database.dto.PopularPeopleLocalDto
@@ -47,7 +44,7 @@ import com.elhady.movies.core.database.dto.tvshow.TvShowsLocalDto
     exportSchema = true,
 //    autoMigrations = [AutoMigration(from = 8, to = 9)]
 )
-@TypeConverters(Convertors::class)
+@TypeConverters(Converters::class)
 abstract class MovieDataBase : RoomDatabase() {
     abstract val movieDao: MovieDao
     abstract val tvShowDao: TvShowDao
