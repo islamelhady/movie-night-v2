@@ -1,6 +1,5 @@
-package com.elhady.movies
+package com.elhady.movies.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +7,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.elhady.movies.R
 import com.elhady.movies.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun changeAppTheme() {
-        val sharedPreferences = getPreferences(Context.MODE_PRIVATE)
+        val sharedPreferences = getPreferences(MODE_PRIVATE)
         val savedThemeState = sharedPreferences.getBoolean(KEY_NIGHT_MODE_STATE, false)
         if (savedThemeState) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)

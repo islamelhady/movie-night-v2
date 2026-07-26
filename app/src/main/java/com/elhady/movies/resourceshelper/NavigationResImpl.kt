@@ -1,4 +1,4 @@
-package com.elhady.movies.presentation.resourseshelper
+package com.elhady.movies.resourceshelper
 
 import com.elhady.movies.core.ui.listener.NavigationRes
 import com.elhady.movies.R
