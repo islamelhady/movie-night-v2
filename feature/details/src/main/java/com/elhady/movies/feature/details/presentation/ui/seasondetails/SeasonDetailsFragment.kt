@@ -1,11 +1,8 @@
 package com.elhady.movies.feature.details.presentation.ui.seasondetails
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavDeepLinkRequest
-import androidx.navigation.fragment.findNavController
 import com.elhady.movies.feature.details.BR
 import com.elhady.movies.feature.details.R
 import com.elhady.movies.core.common.bases.BaseFragment
@@ -13,12 +10,17 @@ import com.elhady.movies.feature.details.databinding.FragmentSeasonDetailsBindin
 import com.elhady.movies.feature.details.presentation.seasondetails.SeasonDetailsUiEvent
 import com.elhady.movies.feature.details.presentation.seasondetails.SeasonDetailsUiState
 import com.elhady.movies.feature.details.presentation.seasondetails.SeasonDetailsViewModel
+import com.elhady.movies.core.common.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SeasonDetailsFragment
     : BaseFragment<FragmentSeasonDetailsBinding, SeasonDetailsUiState, SeasonDetailsUiEvent>() {
+
+    @Inject
+    lateinit var navigator: Navigator
 
     override val layoutIdFragment: Int = R.layout.fragment_season_details
     override val viewModel: SeasonDetailsViewModel by viewModels()
@@ -48,13 +50,14 @@ class SeasonDetailsFragment
     override fun onEvent(event: SeasonDetailsUiEvent) {
         when (event) {
             is SeasonDetailsUiEvent.NavigateToEpisodeDetails -> {
-                val request = NavDeepLinkRequest.Builder
-                    .fromUri(Uri.parse("movie://episode_details/${event.seriesId}/${event.seasonNumber}/${event.episodeId}"))
-                    .build()
-                findNavController().navigate(request)
+                navigator.navigateToEpisodeDetails(
+                    event.seriesId,
+                    event.seasonNumber,
+                    event.episodeId
+                )
             }
 
-            SeasonDetailsUiEvent.NavigateBack -> findNavController().popBackStack()
+            SeasonDetailsUiEvent.NavigateBack -> navigator.navigateBack()
             is SeasonDetailsUiEvent.ShowSnackBar -> showSnackBar(event.messages)
         }
     }

@@ -1,6 +1,5 @@
 package com.elhady.movies.feature.tvshow.presentation
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.forEach
@@ -13,14 +12,18 @@ import com.elhady.movies.feature.tvshow.R
 import com.elhady.movies.core.ui.adapters.BaseFooterAdapter
 import com.elhady.movies.core.common.bases.BaseFragment
 import com.elhady.movies.feature.tvshow.databinding.FragmentTvShowsBinding
+import com.elhady.movies.core.common.navigation.Navigator
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import javax.inject.Inject
 import kotlinx.coroutines.launch
-import androidx.core.net.toUri
 
 @AndroidEntryPoint
 class TvShowsFragment : BaseFragment<FragmentTvShowsBinding, TVShowUIState, TVShowsUiEvent>() {
+
+    @Inject
+    lateinit var navigator: Navigator
 
     override val layoutIdFragment = R.layout.fragment_tv_shows
     override val viewModel: TVShowsViewModel by viewModels()
@@ -71,7 +74,7 @@ class TvShowsFragment : BaseFragment<FragmentTvShowsBinding, TVShowUIState, TVSh
     }
 
     private fun navigate(tvId: Int) {
-        findNavController().navigate("movie://tv_details/${tvId}".toUri())
+        navigator.navigateToTvDetails(tvId)
     }
 
 

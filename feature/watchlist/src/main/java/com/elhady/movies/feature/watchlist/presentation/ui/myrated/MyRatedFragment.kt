@@ -1,6 +1,5 @@
 package com.elhady.movies.feature.watchlist.presentation.ui.myrated
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -17,12 +16,17 @@ import com.elhady.movies.feature.watchlist.databinding.FragmentMyRatedBinding
 import com.elhady.movies.feature.watchlist.presentation.myrated.MyRatedEvents
 import com.elhady.movies.feature.watchlist.presentation.myrated.MyRatedUiState
 import com.elhady.movies.feature.watchlist.presentation.myrated.MyRatedViewModel
+import com.elhady.movies.core.common.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MyRatedFragment : BaseFragment<FragmentMyRatedBinding, MyRatedUiState, MyRatedEvents>() {
+
+    @Inject
+    lateinit var navigator: Navigator
 
     override val layoutIdFragment: Int = R.layout.fragment_my_rated
     override val viewModel: MyRatedViewModel by viewModels()
@@ -61,18 +65,12 @@ class MyRatedFragment : BaseFragment<FragmentMyRatedBinding, MyRatedUiState, MyR
     override fun onEvent(event: MyRatedEvents) {
         when(event){
             is MyRatedEvents.NavigateToMovieDetails -> {
-                val request = NavDeepLinkRequest.Builder
-                    .fromUri(Uri.parse("movie://movie_details/${event.movieId}"))
-                    .build()
-                findNavController().navigate(request)
+                navigator.navigateToMovieDetails(event.movieId)
             }
             is MyRatedEvents.NavigateToTVShowDetails -> {
-                val request = NavDeepLinkRequest.Builder
-                    .fromUri(Uri.parse("movie://tv_details/${event.tvId}"))
-                    .build()
-                findNavController().navigate(request)
+                navigator.navigateToTvDetails(event.tvId)
             }
-            is MyRatedEvents.NavigateBack -> findNavController().popBackStack()
+            is MyRatedEvents.NavigateBack -> navigator.navigateBack()
             is MyRatedEvents.ShowMyRatedMoviesPressed -> viewModel.fetchMyRatedMovies()
             is MyRatedEvents.ShowMyRatedTvShowPressed -> viewModel.fetchMyRatedTvShow()
         }

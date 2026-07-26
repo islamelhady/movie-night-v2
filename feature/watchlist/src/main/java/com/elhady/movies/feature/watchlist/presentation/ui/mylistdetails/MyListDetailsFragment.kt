@@ -1,11 +1,8 @@
 package com.elhady.movies.feature.watchlist.presentation.ui.mylistdetails
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavDeepLinkRequest
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.feature.watchlist.BR
@@ -16,11 +13,16 @@ import com.elhady.movies.core.ui.bases.SwipeToDeleteItem
 import com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDetailsUiEvent
 import com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDetailsUiState
 import com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDetailsViewModel
+import com.elhady.movies.core.common.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MyListDetailsFragment :
     BaseFragment<FragmentMyListDetailsBinding, MyListDetailsUiState, MyListDetailsUiEvent>() {
+
+    @Inject
+    lateinit var navigator: Navigator
 
     override val layoutIdFragment: Int = R.layout.fragment_my_list_details
     override val viewModel: MyListDetailsViewModel by viewModels()
@@ -70,22 +72,16 @@ class MyListDetailsFragment :
     override fun onEvent(event: MyListDetailsUiEvent) {
         when (event) {
             is MyListDetailsUiEvent.NavigateToMovieDetails -> {
-                val request = NavDeepLinkRequest.Builder
-                    .fromUri(Uri.parse("movie://movie_details/${event.movieId}"))
-                    .build()
-                findNavController().navigate(request)
+                navigator.navigateToMovieDetails(event.movieId)
             }
 
             is MyListDetailsUiEvent.OnClickBack -> {
-                findNavController().popBackStack()
+                navigator.navigateBack()
             }
 
             is MyListDetailsUiEvent.ShowSnackBar -> showSnackBar(event.message)
             is MyListDetailsUiEvent.NavigateToTvDetails -> {
-                val request = NavDeepLinkRequest.Builder
-                    .fromUri(Uri.parse("movie://tv_details/${event.movieId}"))
-                    .build()
-                findNavController().navigate(request)
+                navigator.navigateToTvDetails(event.movieId)
             }
         }
     }

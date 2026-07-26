@@ -1,13 +1,10 @@
 package com.elhady.movies.feature.watchlist.presentation.ui.watchhistory
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavDeepLinkRequest
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.feature.watchlist.BR
@@ -19,13 +16,18 @@ import com.elhady.movies.core.ui.bases.SwipeToDeleteItem
 import com.elhady.movies.feature.watchlist.presentation.watchhistory.WatchHistoryViewModel
 import com.elhady.movies.feature.watchlist.presentation.watchhistory.WatchHistoryUiEvent
 import com.elhady.movies.feature.watchlist.presentation.watchhistory.WatchHistoryUiState
+import com.elhady.movies.core.common.navigation.Navigator
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class WatchHistoryFragment
     : BaseFragment<FragmentWatchHistoryBinding, WatchHistoryUiState, WatchHistoryUiEvent>() {
+
+    @Inject
+    lateinit var navigator: Navigator
 
     override val layoutIdFragment = R.layout.fragment_watch_history
     override val viewModel by viewModels<WatchHistoryViewModel>()
@@ -49,18 +51,11 @@ class WatchHistoryFragment
 
     override fun onEvent(event: WatchHistoryUiEvent) {
         when (event) {
-            is WatchHistoryUiEvent.NavigateToMovieDetails -> navigateToMovieDetails(event.movieId)
+            is WatchHistoryUiEvent.NavigateToMovieDetails -> navigator.navigateToMovieDetails(event.movieId)
             is WatchHistoryUiEvent.ShowDeleteSnackBar -> deletionIndicatorSnackBar.show()
             is WatchHistoryUiEvent.Error -> showSnackBar(getString(CoreUiR.string.cannot_fetch_movies))
             is WatchHistoryUiEvent.OnClickBack -> onBackButtonPressed()
         }
-    }
-
-    private fun navigateToMovieDetails(movieId: Int) {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri(Uri.parse("movie://movie_details/$movieId"))
-            .build()
-        findNavController().navigate(request)
     }
 
     private fun swipeToDeleteItemSetup(itemRv: RecyclerView) {
@@ -136,7 +131,7 @@ class WatchHistoryFragment
 
 
     private fun onBackButtonPressed() {
-        findNavController().popBackStack()
+        navigator.navigateBack()
     }
 
     override fun onStop() {

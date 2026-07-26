@@ -1,11 +1,9 @@
 package com.elhady.movies.feature.home.presentation.ui
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavDeepLinkRequest
-import androidx.navigation.fragment.findNavController
+import com.elhady.movies.core.common.navigation.Navigator
 import com.elhady.movies.feature.home.BR
 import com.elhady.movies.feature.home.R
 import com.elhady.movies.feature.home.presentation.ui.adapter.HomeAdapter
@@ -15,9 +13,13 @@ import com.elhady.movies.feature.home.presentation.HomeUiEvent
 import com.elhady.movies.feature.home.presentation.HomeUiState
 import com.elhady.movies.feature.home.presentation.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>() {
+
+    @Inject
+    lateinit var navigator: Navigator
 
     override val layoutIdFragment: Int = R.layout.fragment_home
     override val viewModel: HomeViewModel by viewModels()
@@ -59,24 +61,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>
     override fun onEvent(event: HomeUiEvent) {
         when (event) {
             is HomeUiEvent.MovieEvent -> {
-                val request = NavDeepLinkRequest.Builder
-                    .fromUri(Uri.parse("movie://movie_details/${event.itemId}"))
-                    .build()
-                findNavController().navigate(request)
+                navigator.navigateToMovieDetails(event.itemId)
             }
 
             is HomeUiEvent.TvShowEvent -> {
-                val request = NavDeepLinkRequest.Builder
-                    .fromUri(Uri.parse("movie://tv_details/${event.itemId}"))
-                    .build()
-                findNavController().navigate(request)
+                navigator.navigateToTvDetails(event.itemId)
             }
 
             is HomeUiEvent.ClickShowMoreEvent -> {
-                val request = NavDeepLinkRequest.Builder
-                    .fromUri(Uri.parse("movie://show_more/${event.showMore}"))
-                    .build()
-                findNavController().navigate(request)
+                navigator.navigateToShowMore(event.showMore)
             }
 
             is HomeUiEvent.ShowSnackBarEvent -> {

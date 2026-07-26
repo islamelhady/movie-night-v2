@@ -1,11 +1,8 @@
 package com.elhady.movies.feature.details.presentation.ui.peopledetails
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavDeepLinkRequest
-import androidx.navigation.fragment.findNavController
 import com.elhady.movies.feature.details.BR
 import com.elhady.movies.feature.details.R
 import com.elhady.movies.core.common.bases.BaseFragment
@@ -13,11 +10,16 @@ import com.elhady.movies.feature.details.databinding.FragmentPeopleDetailsBindin
 import com.elhady.movies.feature.details.presentation.peopledetails.PeopleDetailsUiEvent
 import com.elhady.movies.feature.details.presentation.peopledetails.PeopleDetailsViewModel
 import com.elhady.movies.feature.details.presentation.peopledetails.PersonDetailsUiState
+import com.elhady.movies.core.common.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class PeopleDetailsFragment :
     BaseFragment<FragmentPeopleDetailsBinding, PersonDetailsUiState, PeopleDetailsUiEvent>() {
+
+    @Inject
+    lateinit var navigator: Navigator
 
     override val layoutIdFragment: Int = R.layout.fragment_people_details
     override val viewModel: PeopleDetailsViewModel by viewModels()
@@ -54,25 +56,11 @@ class PeopleDetailsFragment :
 
     override fun onEvent(event: PeopleDetailsUiEvent) {
         when (event) {
-            PeopleDetailsUiEvent.BackNavigate -> findNavController().popBackStack()
-            is PeopleDetailsUiEvent.ClickMovieEvent -> navigateToMovieDetails(event.itemId)
+            PeopleDetailsUiEvent.BackNavigate -> navigator.navigateBack()
+            is PeopleDetailsUiEvent.ClickMovieEvent -> navigator.navigateToMovieDetails(event.itemId)
 
-            is PeopleDetailsUiEvent.ClickTvShowsEvent -> navigateToTvShowDetails(event.itemId)
+            is PeopleDetailsUiEvent.ClickTvShowsEvent -> navigator.navigateToTvDetails(event.itemId)
         }
-    }
-
-    private fun navigateToMovieDetails(id: Int) {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri(Uri.parse("movie://movie_details/$id"))
-            .build()
-        findNavController().navigate(request)
-    }
-
-    private fun navigateToTvShowDetails(id: Int) {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri(Uri.parse("movie://tv_details/$id"))
-            .build()
-        findNavController().navigate(request)
     }
 
 }

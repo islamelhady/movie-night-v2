@@ -15,10 +15,15 @@ import com.elhady.movies.feature.explore.viewmodel.explore.ExploreItem
 import com.elhady.movies.feature.explore.viewmodel.explore.ExploreUiEvent
 import com.elhady.movies.feature.explore.viewmodel.explore.ExploreUiState
 import com.elhady.movies.feature.explore.viewmodel.explore.ExploreViewModel
+import com.elhady.movies.core.common.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, ExploreUiEvent>() {
+
+    @Inject
+    lateinit var navigator: Navigator
 
     override val layoutIdFragment: Int = R.layout.fragment_explore
     override val viewModel: ExploreViewModel by viewModels()
@@ -54,21 +59,16 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
         when (event) {
             ExploreUiEvent.NavigateToSearchEvent -> navigateToSearch()
             is ExploreUiEvent.ShowSnackBarMessageEvent -> showSnackBar(event.message)
-            is ExploreUiEvent.NavigateToMovieDetailsEvent -> navigateToMovieDetails(event.movieId)
+            is ExploreUiEvent.NavigateToMovieDetailsEvent -> navigator.navigateToMovieDetails(event.movieId)
         }
-    }
-
-    private fun navigateToMovieDetails(id: Int) {
-        val request =
-            NavDeepLinkRequest.Builder.fromUri(Uri.parse("movies://movie_details/$id")).build()
-        findNavController().navigate(request = request)
     }
 
 
     private fun navigateToSearch() {
+        // Keeping extras for now, using findNavController directly for infrastructure
         val extras = FragmentNavigatorExtras(binding.inputSearch to "search_box")
-        val request = NavDeepLinkRequest.Builder.fromUri(Uri.parse("movies://search"))
-            .build()
+        val request =
+            NavDeepLinkRequest.Builder.fromUri(Uri.parse("movie://search")).build()
 
         findNavController().navigate(request, null, extras)
     }

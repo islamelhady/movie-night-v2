@@ -1,18 +1,15 @@
 package com.elhady.movies.feature.search.presentation.ui
 
-import android.net.Uri
 import android.os.Bundle
-import android.transition.ChangeTransform
 import android.transition.TransitionInflater
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavDeepLinkRequest
-import androidx.navigation.fragment.findNavController
 import com.elhady.movies.feature.search.BR
 import com.elhady.movies.feature.search.R
 import com.elhady.movies.core.common.bases.BaseFragment
+import com.elhady.movies.core.common.navigation.Navigator
 import com.elhady.movies.feature.search.databinding.FragmentSearchBinding
 import com.elhady.movies.feature.search.presentation.SearchItem
 import com.elhady.movies.feature.search.presentation.SearchUiEvent
@@ -20,10 +17,14 @@ import com.elhady.movies.feature.search.presentation.SearchUiState
 import com.elhady.movies.feature.search.presentation.SearchViewModel
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, SearchUiEvent>() {
+
+    @Inject
+    lateinit var navigator: Navigator
 
     override val layoutIdFragment: Int = R.layout.fragment_search
     override val viewModel by activityViewModels<SearchViewModel>()
@@ -94,7 +95,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
     }
 
     private fun navigateBack() {
-        findNavController().popBackStack()
+        navigator.navigateBack()
     }
 
     private fun showBottomSheet() {
@@ -108,24 +109,15 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
     }
 
     private fun navigateToMovie(movieId: Int) {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri(Uri.parse("movie://movie_details/$movieId"))
-            .build()
-        findNavController().navigate(request)
+        navigator.navigateToMovieDetails(movieId)
     }
 
     private fun navigateToPeople(peopleId: Int) {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri(Uri.parse("movie://people_details/$peopleId"))
-            .build()
-        findNavController().navigate(request)
+        navigator.navigateToPeopleDetails(peopleId)
     }
 
     private fun navigateToTv(tvId: Int) {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri(Uri.parse("movie://tv_details/$tvId"))
-            .build()
-        findNavController().navigate(request)
+        navigator.navigateToTvDetails(tvId)
     }
 
     private fun showMovieResult() {
