@@ -64,7 +64,7 @@ import com.elhady.movies.core.data.mappers.domain.tv.DomainAiringTodayTVMapper
 import com.elhady.movies.core.data.mappers.domain.tv.DomainAiringTodayTvShowsMapper
 import com.elhady.movies.core.data.mappers.domain.tv.DomainMyRatedTvShowDetailsMapper
 import com.elhady.movies.core.data.mappers.domain.tv.DomainTVMapper
-import com.elhady.movies.core.network.BaseRepository
+import com.elhady.movies.core.data.bases.BaseRepository
 import com.elhady.movies.core.domain.model.EpisodeDetailsEntity
 import com.elhady.movies.core.domain.model.GenreEntity
 import com.elhady.movies.core.domain.model.MovieEntity
