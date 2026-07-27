@@ -11,7 +11,7 @@ import com.elhady.movies.feature.tvshow.R
 import com.elhady.movies.core.ui.adapters.BaseFooterAdapter
 import com.elhady.movies.core.ui.bases.BaseFragment
 import com.elhady.movies.feature.tvshow.databinding.FragmentTvShowsBinding
-import com.elhady.movies.core.domain.navigation.Navigator
+import com.elhady.movies.core.ui.navigation.Navigator
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest

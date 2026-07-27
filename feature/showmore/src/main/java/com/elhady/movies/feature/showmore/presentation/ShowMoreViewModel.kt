@@ -6,7 +6,7 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.elhady.movies.core.ui.bases.BaseViewModel
 import com.elhady.movies.core.domain.model.ListType
-import com.elhady.movies.core.domain.model.ShowMoreType
+import com.elhady.movies.core.common.ShowMoreType
 import com.elhady.movies.core.ui.bases.StringsRes
 import com.elhady.movies.core.domain.usecase.showmore.GetMorePopularMoviesByTypeUseCase
 import com.elhady.movies.core.domain.usecase.showmore.GetMoreTopRatedByTypeUseCase

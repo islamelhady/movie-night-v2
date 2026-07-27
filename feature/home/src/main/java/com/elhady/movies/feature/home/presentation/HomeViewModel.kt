@@ -19,7 +19,7 @@ import com.elhady.movies.feature.home.presentation.mappers.TopRatedUiMapper
 import com.elhady.movies.feature.home.presentation.mappers.TrendingUiMapper
 import com.elhady.movies.feature.home.presentation.mappers.TvShowUiMapper
 import com.elhady.movies.feature.home.presentation.mappers.UpComingUiMapper
-import com.elhady.movies.core.domain.model.ShowMoreType
+import com.elhady.movies.core.common.ShowMoreType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update

@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
-import com.elhady.movies.core.domain.navigation.Navigator
+import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.profile.BR
 import com.elhady.movies.feature.profile.R
 import com.elhady.movies.core.ui.R as CoreUiR

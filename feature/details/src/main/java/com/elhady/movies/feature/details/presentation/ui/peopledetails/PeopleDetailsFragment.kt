@@ -10,7 +10,7 @@ import com.elhady.movies.feature.details.databinding.FragmentPeopleDetailsBindin
 import com.elhady.movies.feature.details.presentation.peopledetails.PeopleDetailsUiEvent
 import com.elhady.movies.feature.details.presentation.peopledetails.PeopleDetailsViewModel
 import com.elhady.movies.feature.details.presentation.peopledetails.PersonDetailsUiState
-import com.elhady.movies.core.domain.navigation.Navigator
+import com.elhady.movies.core.ui.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
