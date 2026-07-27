@@ -1,6 +1,7 @@
-package com.elhady.movies.core.domain.navigation
+package com.elhady.movies.core.ui.navigation
 
-import com.elhady.movies.core.domain.model.ShowMoreType
+import com.elhady.movies.core.common.ShowMoreType
+
 
 interface Navigator {
     fun navigateToMovieDetails(movieId: Int)
