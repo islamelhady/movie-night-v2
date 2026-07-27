@@ -1,6 +1,6 @@
 package com.elhady.movies.core.network.service
 
-import com.elhady.movies.core.datastore.local.PreferenceStorage
+import com.elhady.movies.core.common.UserDataProvider
 import com.elhady.movies.core.network.BuildConfig
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
@@ -11,11 +11,11 @@ import javax.inject.Singleton
 
 @Singleton
 class AuthInterceptor @Inject constructor(
-    private val preferenceStorage: PreferenceStorage,
+    private val userDataProvider: UserDataProvider,
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val language = Locale.getDefault().language
-        val sessionId = preferenceStorage.sessionId
+        val sessionId = userDataProvider.sessionId
 
         val request = chain.request()
         val url: HttpUrl = request.url.newBuilder()
