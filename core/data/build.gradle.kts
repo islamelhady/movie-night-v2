@@ -55,7 +55,7 @@ dependencies {
 
     // Retrofit & Paging
     implementation(libs.retrofit)
-    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.common)
 
     // Hilt Dependency Injection
     implementation(libs.hilt.android)
