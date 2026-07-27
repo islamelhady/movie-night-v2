@@ -24,7 +24,7 @@ import com.elhady.movies.core.ui.listener.ChipListener
 import com.elhady.movies.core.ui.listener.MediaListener
 import com.elhady.movies.core.ui.listener.PeopleListener
 import com.elhady.movies.core.ui.model.UserListUi
-import com.elhady.movies.core.ui.mapper.CastUiMapper
+import com.elhady.movies.feature.details.presentation.moviedetails.mapper.CastUiMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.RecommendedUiStateMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.ReviewDetailsUiStateMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.ReviewsUiStateMapper

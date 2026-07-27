@@ -15,7 +15,7 @@ import com.elhady.movies.core.ui.model.MovieHorizontalUIState
 import com.elhady.movies.core.ui.model.PeopleUIState
 import com.elhady.movies.feature.search.presentation.mappers.GenreUiStateMapper
 import com.elhady.movies.feature.search.presentation.mappers.MovieUiMapper
-import com.elhady.movies.core.ui.mapper.PeopleUiMapper
+import com.elhady.movies.feature.search.presentation.mappers.PeopleUiMapper
 import com.elhady.movies.feature.search.presentation.mappers.TvUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
