@@ -23,6 +23,7 @@ class PreferenceStorageIml @Inject constructor(
 
     override val sessionId: String?
         get() = runBlocking { dataStore.data.map { it[PreferencesKeys.SESSION_ID] }.first() }
+
     override val currentUserName: String?
         get() = runBlocking {
             dataStore.data.map { it[PreferencesKeys.CURRENT_USERNAME_ID] }.first()
