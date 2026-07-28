@@ -1,13 +1,13 @@
 package com.elhady.movies.core.domain.usecase.details.tvdetails
 
-import com.elhady.movies.core.domain.repository.MovieRepository
+import com.elhady.movies.core.domain.repository.TvShowRepository
 import javax.inject.Inject
 
 class GetRatingTvUseCase @Inject constructor(
-    private val movieRepository: MovieRepository
+    private val tvShowRepository: TvShowRepository
 ) {
     suspend operator fun invoke(tvShowId: Int): Float {
-        val rating = movieRepository.getRateTvShow().find {
+        val rating = tvShowRepository.getRateTvShow().find {
             it.id == tvShowId
         }?.rate ?: 0.0
         return rating.toFloat()
