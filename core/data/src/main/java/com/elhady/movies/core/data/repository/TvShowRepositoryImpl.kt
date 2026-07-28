@@ -45,12 +45,16 @@ import com.elhady.movies.core.domain.repository.TvShowRepository
 import com.elhady.movies.core.network.model.request.RateRequest
 import com.elhady.movies.core.network.model.request.RatingEpisodeDetailsRequest
 import com.elhady.movies.core.network.model.response.dto.YoutubeVideoDetailsRemoteDto
-import com.elhady.movies.core.network.service.MovieService
+import com.elhady.movies.core.network.api.AccountApiService
+import com.elhady.movies.core.network.api.PeopleApiService
+import com.elhady.movies.core.network.api.TvShowApiService
 import java.util.Random
 import javax.inject.Inject
 
 class TvShowRepositoryImpl @Inject constructor(
-    private val movieService: MovieService,
+    private val tvShowApiService: TvShowApiService,
+    private val accountApiService: AccountApiService,
+    private val peopleApiService: PeopleApiService,
     private val tvShowDao: TvShowDao,
     private val airingTodayTvShowsPagingSource: AiringTodayTVShowsPagingSource,
     private val topRatedTVShowsPagingSource: TopRatedTVShowsPagingSource,
@@ -81,13 +85,13 @@ class TvShowRepositoryImpl @Inject constructor(
     override suspend fun refreshTvShows() {
         try {
             val items = mutableListOf<TvShowsLocalDto>()
-            movieService.getAiringTodayTVShows().body()?.results?.firstOrNull()
+            tvShowApiService.getAiringTodayTVShows().body()?.results?.firstOrNull()
                 ?.let { items.add(localTvShowMapper.map(it)) }
-            movieService.getTopRatedTVShows().body()?.results?.firstOrNull()
+            tvShowApiService.getTopRatedTVShows().body()?.results?.firstOrNull()
                 ?.let { items.add(localTvShowMapper.map(it)) }
-            movieService.getPopularTVShows().body()?.results?.firstOrNull()
+            tvShowApiService.getPopularTVShows().body()?.results?.firstOrNull()
                 ?.let { items.add(localTvShowMapper.map(it)) }
-            movieService.getOnTheAirTVShows().body()?.results?.firstOrNull()
+            tvShowApiService.getOnTheAirTVShows().body()?.results?.firstOrNull()
                 ?.let { items.add(localTvShowMapper.map(it)) }
             tvShowDao.clearAllTvShow()
             tvShowDao.insertTvShow(items)
@@ -102,7 +106,7 @@ class TvShowRepositoryImpl @Inject constructor(
 
     override suspend fun refreshAiringTodayTvShows() {
         refreshWrapper(
-            apiCall = { movieService.getAiringTodayTVShows(random.nextInt(20) + 1) },
+            apiCall = { tvShowApiService.getAiringTodayTVShows(random.nextInt(20) + 1) },
             localMapper = localAiringTodayTvShowMapper::map,
             databaseSaver = tvShowDao::insertAiringTodayTvShow,
             clearOldLocalData = tvShowDao::clearAllAiringTodayTvShow
@@ -116,7 +120,7 @@ class TvShowRepositoryImpl @Inject constructor(
     override suspend fun getAiringTodayTVShowsFromRemote(): List<TVShowsEntity> {
         val page = random.nextInt(500) + 1
         val airingTodayRemoteDTOs =
-            wrapApiCall { movieService.getAiringTodayTVShows(page = page) }.results?.filterNotNull()
+            wrapApiCall { tvShowApiService.getAiringTodayTVShows(page = page) }.results?.filterNotNull()
                 ?: emptyList()
         return domainAiringTodayTvShowsMapper.map(airingTodayRemoteDTOs)
     }
@@ -150,21 +154,21 @@ class TvShowRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getSeasonDetails(seriesId: Int, seasonId: Int): SeasonDetailsEntity {
-        val result = wrapApiCall { movieService.getSeasonDetails(seriesId, seasonId) }
+        val result = wrapApiCall { tvShowApiService.getSeasonDetails(seriesId, seasonId) }
         return domainSeasonDetailsMapper.map(result)
     }
 
     override suspend fun getTvDetailsInfo(tvShowID: Int): TvDetailsInfoEntity {
-        return domainTvDetailsMapper.map(wrapApiCall { movieService.getTvDetails(tvShowID) })
+        return domainTvDetailsMapper.map(wrapApiCall { tvShowApiService.getTvDetails(tvShowID) })
     }
 
     override suspend fun getTvDetailsSeasons(tvShowID: Int): List<SeasonEntity> {
-        return domainTvDetailsSeasonMapper.map(wrapApiCall { movieService.getTvDetails(tvShowID) })
+        return domainTvDetailsSeasonMapper.map(wrapApiCall { tvShowApiService.getTvDetails(tvShowID) })
     }
 
     override suspend fun getTvDetailsCredit(tvShowID: Int): List<PeopleEntity> {
         return domainTvDetailsCreditMapper.map(wrapApiCall {
-            movieService.getTvDetailsCredit(
+            tvShowApiService.getTvDetailsCredit(
                 tvShowID
             )
         })
@@ -172,30 +176,30 @@ class TvShowRepositoryImpl @Inject constructor(
 
     override suspend fun rateTvShow(rate: Double, tvShowID: Int): StatusEntity {
         val newRate = RateRequest(value = rate)
-        return domainStatusMapper.map(wrapApiCall { movieService.rateTvShow(newRate, tvShowID) })
+        return domainStatusMapper.map(wrapApiCall { tvShowApiService.rateTvShow(newRate, tvShowID) })
     }
 
     override suspend fun getRateTvShow(): List<MyRatedTvShowEntity> {
         return domainMyRatedTvShowDetailsMapper.map(
-            wrapApiCall { movieService.getRatedTv() }.results?.filterNotNull() ?: emptyList()
+            wrapApiCall { accountApiService.getRatedTv() }.results?.filterNotNull() ?: emptyList()
         )
     }
 
     override suspend fun getTvShowReviews(tvShowID: Int): List<ReviewEntity> {
-        val call = wrapApiCall { movieService.getTvShowReviews(tvShowID) }.results?.filterNotNull()
+        val call = wrapApiCall { tvShowApiService.getTvShowReviews(tvShowID) }.results?.filterNotNull()
             ?: emptyList()
         return domainTvDetailsReviewMapper.map(call)
     }
 
     override suspend fun getTvShowRecommendations(tvShowID: Int): List<TvShowEntity> {
         val call =
-            wrapApiCall { movieService.getTvShowRecommendations(tvShowID) }.results?.filterNotNull()
+            wrapApiCall { tvShowApiService.getTvShowRecommendations(tvShowID) }.results?.filterNotNull()
                 ?: emptyList()
         return domainTvShowMapper.map(call)
     }
 
     override suspend fun getTrailerVideoForTvShow(tvShowID: Int): YoutubeVideoDetailsEntity {
-        val call = wrapApiCall { movieService.getTrailerVideoForTvShow(tvShowID) }.results?.first()
+        val call = wrapApiCall { tvShowApiService.getTrailerVideoForTvShow(tvShowID) }.results?.first()
             ?: YoutubeVideoDetailsRemoteDto()
         return domainYoutubeDetailsMapper.map(call)
     }
@@ -206,7 +210,7 @@ class TvShowRepositoryImpl @Inject constructor(
         episodeNumber: Int
     ): YoutubeVideoDetailsEntity {
         val response = wrapApiCall {
-            movieService.getEpisodeVideos(
+            tvShowApiService.getEpisodeVideos(
                 seriesId,
                 seasonNumber,
                 episodeNumber
@@ -220,7 +224,7 @@ class TvShowRepositoryImpl @Inject constructor(
         seasonNumber: Int,
         episodeNumber: Int
     ): List<PeopleEntity> {
-        val dataDto = wrapApiCall { movieService.getEpisodeCast(id, seasonNumber, episodeNumber) }
+        val dataDto = wrapApiCall { tvShowApiService.getEpisodeCast(id, seasonNumber, episodeNumber) }
         return domainCastMapper.map(dataDto)
     }
 
@@ -230,7 +234,7 @@ class TvShowRepositoryImpl @Inject constructor(
         episodeNumber: Int
     ): EpisodeDetailsEntity {
         return domainEpisodeDetailsMapper.map(wrapApiCall {
-            movieService.getEpisodeDetails(seriesId, seasonNumber, episodeNumber)
+            tvShowApiService.getEpisodeDetails(seriesId, seasonNumber, episodeNumber)
         })
     }
 
@@ -242,7 +246,7 @@ class TvShowRepositoryImpl @Inject constructor(
     ): RatingEpisodeDetailsStatusEntity {
         val rateRequest = RatingEpisodeDetailsRequest(value)
         return domainRatingEpisodeMapper.map(wrapApiCall {
-            movieService.postEpisodeRating(rateRequest, seriesId, seasonNumber, episodeNumber)
+            tvShowApiService.postEpisodeRating(rateRequest, seriesId, seasonNumber, episodeNumber)
         })
     }
 
@@ -255,7 +259,7 @@ class TvShowRepositoryImpl @Inject constructor(
 
     override suspend fun getTvShowsByPerson(personId: Int): List<TvShowEntity> {
         return tvShowsByPeopleMapper.map(wrapApiCall {
-            movieService.getTvShowsByPerson(personId)
+            peopleApiService.getTvShowsByPerson(personId)
         }.cast!!.filterNotNull())
 
     }
