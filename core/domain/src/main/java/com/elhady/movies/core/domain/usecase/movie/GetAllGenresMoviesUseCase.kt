@@ -1,14 +1,14 @@
 package com.elhady.movies.core.domain.usecase.movie
 
 import com.elhady.movies.core.domain.model.GenreEntity
-import com.elhady.movies.core.domain.repository.MovieRepository
+import com.elhady.movies.core.domain.repository.GenreRepository
 import javax.inject.Inject
 
 class GetAllGenresMoviesUseCase @Inject constructor(
-    private val movieRepository: MovieRepository
+    private val genreRepository: GenreRepository
 ) {
     suspend operator fun invoke(): List<GenreEntity> {
-        movieRepository.refreshGenres()
-        return movieRepository.getGenresMovies().sortedBy { it.genreName }
+        genreRepository.refreshGenres()
+        return genreRepository.getGenresMovies().sortedBy { it.genreName }
     }
 }
