@@ -3,30 +3,30 @@ package com.elhady.movies.core.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.elhady.movies.core.common.ApiThrowable
-import com.elhady.movies.core.data.bases.BaseRepository
-import com.elhady.movies.core.data.datasource.myrated.RatedTvShowPagingSource
-import com.elhady.movies.core.data.datasource.tvshows.AiringTodayTVShowsPagingSource
-import com.elhady.movies.core.data.datasource.tvshows.OnTheAirTVShowsPagingSource
-import com.elhady.movies.core.data.datasource.tvshows.PopularTVShowsPagingSource
-import com.elhady.movies.core.data.datasource.tvshows.TopRatedTVShowsPagingSource
-import com.elhady.movies.core.data.mapper.cache.tv.LocalAiringTodayTvShowMapper
-import com.elhady.movies.core.data.mapper.cache.tv.LocalTvShowMapper
-import com.elhady.movies.core.data.mapper.domain.DomainSeasonDetailsMapper
-import com.elhady.movies.core.data.mapper.domain.DomainStatusMapper
-import com.elhady.movies.core.data.mapper.domain.DomainTvDetailsCreditMapper
-import com.elhady.movies.core.data.mapper.domain.DomainTvDetailsMapper
-import com.elhady.movies.core.data.mapper.domain.DomainTvDetailsReviewMapper
-import com.elhady.movies.core.data.mapper.domain.DomainTvDetailsSeasonMapper
-import com.elhady.movies.core.data.mapper.domain.tv.DomainTvShowMapper
-import com.elhady.movies.core.data.mapper.domain.DomainYoutubeDetailsMapper
-import com.elhady.movies.core.data.mapper.domain.episode.DomainCastMapper
-import com.elhady.movies.core.data.mapper.domain.episode.DomainEpisodeDetailsMapper
-import com.elhady.movies.core.data.mapper.domain.episode.DomainRatingEpisodeMapper
-import com.elhady.movies.core.data.mapper.domain.tv.DomainAiringTodayTVMapper
-import com.elhady.movies.core.data.mapper.domain.tv.DomainAiringTodayTvShowsMapper
-import com.elhady.movies.core.data.mapper.domain.tv.DomainMyRatedTvShowDetailsMapper
-import com.elhady.movies.core.data.mapper.domain.DomainTvShowsByPeopleMapper
-import com.elhady.movies.core.data.mapper.domain.tv.DomainTVMapper
+import com.elhady.movies.core.data.base.BaseRepository
+import com.elhady.movies.core.data.paging.tvshow.RatedTvShowPagingSource
+import com.elhady.movies.core.data.paging.tvshow.AiringTodayTVShowsPagingSource
+import com.elhady.movies.core.data.paging.tvshow.OnTheAirTVShowsPagingSource
+import com.elhady.movies.core.data.paging.tvshow.PopularTVShowsPagingSource
+import com.elhady.movies.core.data.paging.tvshow.TopRatedTVShowsPagingSource
+import com.elhady.movies.core.data.mapper.tvshow.LocalAiringTodayTvShowMapper
+import com.elhady.movies.core.data.mapper.tvshow.LocalTvShowMapper
+import com.elhady.movies.core.data.mapper.season.DomainSeasonDetailsMapper
+import com.elhady.movies.core.data.mapper.common.DomainStatusMapper
+import com.elhady.movies.core.data.mapper.tvshow.DomainTvDetailsCreditMapper
+import com.elhady.movies.core.data.mapper.tvshow.DomainTvDetailsMapper
+import com.elhady.movies.core.data.mapper.tvshow.DomainTvDetailsReviewMapper
+import com.elhady.movies.core.data.mapper.tvshow.DomainTvDetailsSeasonMapper
+import com.elhady.movies.core.data.mapper.tvshow.DomainTvShowMapper
+import com.elhady.movies.core.data.mapper.common.DomainYoutubeDetailsMapper
+import com.elhady.movies.core.data.mapper.episode.DomainCastMapper
+import com.elhady.movies.core.data.mapper.episode.DomainEpisodeDetailsMapper
+import com.elhady.movies.core.data.mapper.episode.DomainRatingEpisodeMapper
+import com.elhady.movies.core.data.mapper.tvshow.DomainAiringTodayTVMapper
+import com.elhady.movies.core.data.mapper.tvshow.DomainAiringTodayTvShowsMapper
+import com.elhady.movies.core.data.mapper.tvshow.DomainMyRatedTvShowDetailsMapper
+import com.elhady.movies.core.data.mapper.people.DomainTvShowsByPeopleMapper
+import com.elhady.movies.core.data.mapper.tvshow.DomainTVMapper
 import com.elhady.movies.core.database.TvShowDao
 import com.elhady.movies.core.database.dto.tvshow.TvShowsLocalDto
 import com.elhady.movies.core.domain.model.EpisodeDetailsEntity
@@ -81,13 +81,13 @@ class TvShowRepositoryImpl @Inject constructor(
     override suspend fun refreshTvShows() {
         try {
             val items = mutableListOf<TvShowsLocalDto>()
-            movieService.getAiringTodayTVShows().body()?.results?.first()
+            movieService.getAiringTodayTVShows().body()?.results?.firstOrNull()
                 ?.let { items.add(localTvShowMapper.map(it)) }
-            movieService.getTopRatedTVShows().body()?.results?.first()
+            movieService.getTopRatedTVShows().body()?.results?.firstOrNull()
                 ?.let { items.add(localTvShowMapper.map(it)) }
-            movieService.getPopularTVShows().body()?.results?.first()
+            movieService.getPopularTVShows().body()?.results?.firstOrNull()
                 ?.let { items.add(localTvShowMapper.map(it)) }
-            movieService.getOnTheAirTVShows().body()?.results?.first()
+            movieService.getOnTheAirTVShows().body()?.results?.firstOrNull()
                 ?.let { items.add(localTvShowMapper.map(it)) }
             tvShowDao.clearAllTvShow()
             tvShowDao.insertTvShow(items)
@@ -256,7 +256,7 @@ class TvShowRepositoryImpl @Inject constructor(
     override suspend fun getTvShowsByPerson(personId: Int): List<TvShowEntity> {
         return tvShowsByPeopleMapper.map(wrapApiCall {
             movieService.getTvShowsByPerson(personId)
-        }.cast!!)
+        }.cast!!.filterNotNull())
 
     }
 }

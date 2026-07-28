@@ -2,11 +2,11 @@ package com.elhady.movies.core.data.repository
 
 import android.util.Log
 import com.elhady.movies.core.common.UnauthorizedThrowable
-import com.elhady.movies.core.data.mapper.domain.DomainProfileMapper
+import com.elhady.movies.core.data.mapper.auth.DomainProfileMapper
 import com.elhady.movies.core.datastore.local.PreferenceStorage
 import com.elhady.movies.core.domain.model.ProfileEntity
 import com.elhady.movies.core.domain.repository.AuthRepository
-import com.elhady.movies.core.data.bases.BaseRepository
+import com.elhady.movies.core.data.base.BaseRepository
 import com.elhady.movies.core.network.model.request.LoginRequest
 import com.elhady.movies.core.network.service.MovieService
 import javax.inject.Inject

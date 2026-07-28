@@ -1,10 +1,10 @@
-package com.elhady.movies.core.data.datasource.myrated
+package com.elhady.movies.core.data.paging.tvshow
 
 import com.elhady.movies.core.domain.model.myrated.MyRatedTvShowEntity
-import com.elhady.movies.core.data.mapper.domain.DomainGenreMapper
-import com.elhady.movies.core.data.mapper.domain.myrated.DomainMyRatedTvShowMapper
+import com.elhady.movies.core.data.mapper.movie.DomainGenreMapper
+import com.elhady.movies.core.data.mapper.account.DomainMyRatedTvShowMapper
 import com.elhady.movies.core.database.MovieDao
-import com.elhady.movies.core.data.bases.BasePagingSource
+import com.elhady.movies.core.data.base.BasePagingSource
 import com.elhady.movies.core.network.service.MovieService
 import javax.inject.Inject
 
