@@ -1,7 +1,7 @@
 package com.elhady.movies.feature.watchlist.presentation.mylist.mapper
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.domain.model.mylist.ListCreatedEntity
+import com.elhady.movies.core.domain.model.account.ListCreatedEntity
 import com.elhady.movies.feature.watchlist.presentation.mylist.ListMovieUiState
 import javax.inject.Inject
 

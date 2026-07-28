@@ -1,18 +1,18 @@
 package com.elhady.movies.core.domain.repository
 
 import androidx.paging.Pager
-import com.elhady.movies.core.domain.model.EpisodeDetailsEntity
-import com.elhady.movies.core.domain.model.PeopleEntity
-import com.elhady.movies.core.domain.model.RatingEpisodeDetailsStatusEntity
-import com.elhady.movies.core.domain.model.SeasonEntity
-import com.elhady.movies.core.domain.model.StatusEntity
-import com.elhady.movies.core.domain.model.TVShowsEntity
-import com.elhady.movies.core.domain.model.TvShowEntity
-import com.elhady.movies.core.domain.model.YoutubeVideoDetailsEntity
-import com.elhady.movies.core.domain.model.myrated.MyRatedTvShowEntity
-import com.elhady.movies.core.domain.model.ReviewEntity
-import com.elhady.movies.core.domain.model.seasondetails.SeasonDetailsEntity
-import com.elhady.movies.core.domain.model.tvdetails.TvDetailsInfoEntity
+import com.elhady.movies.core.domain.model.tvshow.EpisodeDetailsEntity
+import com.elhady.movies.core.domain.model.people.PeopleEntity
+import com.elhady.movies.core.domain.model.tvshow.RatingEpisodeDetailsStatusEntity
+import com.elhady.movies.core.domain.model.tvshow.SeasonEntity
+import com.elhady.movies.core.domain.model.common.StatusEntity
+import com.elhady.movies.core.domain.model.tvshow.TVShowsEntity
+import com.elhady.movies.core.domain.model.tvshow.TvShowEntity
+import com.elhady.movies.core.domain.model.common.YoutubeVideoDetailsEntity
+import com.elhady.movies.core.domain.model.account.MyRatedTvShowEntity
+import com.elhady.movies.core.domain.model.common.ReviewEntity
+import com.elhady.movies.core.domain.model.tvshow.SeasonDetailsEntity
+import com.elhady.movies.core.domain.model.tvshow.TvDetailsInfoEntity
 
 interface TvShowRepository {
     suspend fun refreshTvShows()

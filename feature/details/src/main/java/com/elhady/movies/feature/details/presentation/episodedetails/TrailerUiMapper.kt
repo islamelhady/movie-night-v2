@@ -1,7 +1,7 @@
 package com.elhady.movies.feature.details.presentation.episodedetails
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.domain.model.YoutubeVideoDetailsEntity
+import com.elhady.movies.core.domain.model.common.YoutubeVideoDetailsEntity
 import javax.inject.Inject
 
 class TrailerUiMapper @Inject constructor() : Mapper<YoutubeVideoDetailsEntity, TrailerUiState> {

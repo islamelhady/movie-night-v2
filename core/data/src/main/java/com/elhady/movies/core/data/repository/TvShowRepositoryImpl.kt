@@ -3,54 +3,58 @@ package com.elhady.movies.core.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.elhady.movies.core.common.ApiThrowable
-import com.elhady.movies.core.data.bases.BaseRepository
-import com.elhady.movies.core.data.datasource.myrated.RatedTvShowPagingSource
-import com.elhady.movies.core.data.datasource.tvshows.AiringTodayTVShowsPagingSource
-import com.elhady.movies.core.data.datasource.tvshows.OnTheAirTVShowsPagingSource
-import com.elhady.movies.core.data.datasource.tvshows.PopularTVShowsPagingSource
-import com.elhady.movies.core.data.datasource.tvshows.TopRatedTVShowsPagingSource
-import com.elhady.movies.core.data.mapper.cache.tv.LocalAiringTodayTvShowMapper
-import com.elhady.movies.core.data.mapper.cache.tv.LocalTvShowMapper
-import com.elhady.movies.core.data.mapper.domain.DomainSeasonDetailsMapper
-import com.elhady.movies.core.data.mapper.domain.DomainStatusMapper
-import com.elhady.movies.core.data.mapper.domain.DomainTvDetailsCreditMapper
-import com.elhady.movies.core.data.mapper.domain.DomainTvDetailsMapper
-import com.elhady.movies.core.data.mapper.domain.DomainTvDetailsReviewMapper
-import com.elhady.movies.core.data.mapper.domain.DomainTvDetailsSeasonMapper
-import com.elhady.movies.core.data.mapper.domain.tv.DomainTvShowMapper
-import com.elhady.movies.core.data.mapper.domain.DomainYoutubeDetailsMapper
-import com.elhady.movies.core.data.mapper.domain.episode.DomainCastMapper
-import com.elhady.movies.core.data.mapper.domain.episode.DomainEpisodeDetailsMapper
-import com.elhady.movies.core.data.mapper.domain.episode.DomainRatingEpisodeMapper
-import com.elhady.movies.core.data.mapper.domain.tv.DomainAiringTodayTVMapper
-import com.elhady.movies.core.data.mapper.domain.tv.DomainAiringTodayTvShowsMapper
-import com.elhady.movies.core.data.mapper.domain.tv.DomainMyRatedTvShowDetailsMapper
-import com.elhady.movies.core.data.mapper.domain.DomainTvShowsByPeopleMapper
-import com.elhady.movies.core.data.mapper.domain.tv.DomainTVMapper
+import com.elhady.movies.core.data.base.BaseRepository
+import com.elhady.movies.core.data.paging.tvshow.RatedTvShowPagingSource
+import com.elhady.movies.core.data.paging.tvshow.AiringTodayTVShowsPagingSource
+import com.elhady.movies.core.data.paging.tvshow.OnTheAirTVShowsPagingSource
+import com.elhady.movies.core.data.paging.tvshow.PopularTVShowsPagingSource
+import com.elhady.movies.core.data.paging.tvshow.TopRatedTVShowsPagingSource
+import com.elhady.movies.core.data.mapper.tvshow.LocalAiringTodayTvShowMapper
+import com.elhady.movies.core.data.mapper.tvshow.LocalTvShowMapper
+import com.elhady.movies.core.data.mapper.season.DomainSeasonDetailsMapper
+import com.elhady.movies.core.data.mapper.common.DomainStatusMapper
+import com.elhady.movies.core.data.mapper.tvshow.DomainTvDetailsCreditMapper
+import com.elhady.movies.core.data.mapper.tvshow.DomainTvDetailsMapper
+import com.elhady.movies.core.data.mapper.tvshow.DomainTvDetailsReviewMapper
+import com.elhady.movies.core.data.mapper.tvshow.DomainTvDetailsSeasonMapper
+import com.elhady.movies.core.data.mapper.tvshow.DomainTvShowMapper
+import com.elhady.movies.core.data.mapper.common.DomainYoutubeDetailsMapper
+import com.elhady.movies.core.data.mapper.episode.DomainCastMapper
+import com.elhady.movies.core.data.mapper.episode.DomainEpisodeDetailsMapper
+import com.elhady.movies.core.data.mapper.episode.DomainRatingEpisodeMapper
+import com.elhady.movies.core.data.mapper.tvshow.DomainAiringTodayTVMapper
+import com.elhady.movies.core.data.mapper.tvshow.DomainAiringTodayTvShowsMapper
+import com.elhady.movies.core.data.mapper.tvshow.DomainMyRatedTvShowDetailsMapper
+import com.elhady.movies.core.data.mapper.people.DomainTvShowsByPeopleMapper
+import com.elhady.movies.core.data.mapper.tvshow.DomainTVMapper
 import com.elhady.movies.core.database.TvShowDao
 import com.elhady.movies.core.database.dto.tvshow.TvShowsLocalDto
-import com.elhady.movies.core.domain.model.EpisodeDetailsEntity
-import com.elhady.movies.core.domain.model.PeopleEntity
-import com.elhady.movies.core.domain.model.RatingEpisodeDetailsStatusEntity
-import com.elhady.movies.core.domain.model.ReviewEntity
-import com.elhady.movies.core.domain.model.SeasonEntity
-import com.elhady.movies.core.domain.model.StatusEntity
-import com.elhady.movies.core.domain.model.TVShowsEntity
-import com.elhady.movies.core.domain.model.TvShowEntity
-import com.elhady.movies.core.domain.model.YoutubeVideoDetailsEntity
-import com.elhady.movies.core.domain.model.myrated.MyRatedTvShowEntity
-import com.elhady.movies.core.domain.model.seasondetails.SeasonDetailsEntity
-import com.elhady.movies.core.domain.model.tvdetails.TvDetailsInfoEntity
+import com.elhady.movies.core.domain.model.tvshow.EpisodeDetailsEntity
+import com.elhady.movies.core.domain.model.people.PeopleEntity
+import com.elhady.movies.core.domain.model.tvshow.RatingEpisodeDetailsStatusEntity
+import com.elhady.movies.core.domain.model.common.ReviewEntity
+import com.elhady.movies.core.domain.model.tvshow.SeasonEntity
+import com.elhady.movies.core.domain.model.common.StatusEntity
+import com.elhady.movies.core.domain.model.tvshow.TVShowsEntity
+import com.elhady.movies.core.domain.model.tvshow.TvShowEntity
+import com.elhady.movies.core.domain.model.common.YoutubeVideoDetailsEntity
+import com.elhady.movies.core.domain.model.account.MyRatedTvShowEntity
+import com.elhady.movies.core.domain.model.tvshow.SeasonDetailsEntity
+import com.elhady.movies.core.domain.model.tvshow.TvDetailsInfoEntity
 import com.elhady.movies.core.domain.repository.TvShowRepository
 import com.elhady.movies.core.network.model.request.RateRequest
 import com.elhady.movies.core.network.model.request.RatingEpisodeDetailsRequest
 import com.elhady.movies.core.network.model.response.dto.YoutubeVideoDetailsRemoteDto
-import com.elhady.movies.core.network.service.MovieService
+import com.elhady.movies.core.network.api.AccountApiService
+import com.elhady.movies.core.network.api.PeopleApiService
+import com.elhady.movies.core.network.api.TvShowApiService
 import java.util.Random
 import javax.inject.Inject
 
 class TvShowRepositoryImpl @Inject constructor(
-    private val movieService: MovieService,
+    private val tvShowApiService: TvShowApiService,
+    private val accountApiService: AccountApiService,
+    private val peopleApiService: PeopleApiService,
     private val tvShowDao: TvShowDao,
     private val airingTodayTvShowsPagingSource: AiringTodayTVShowsPagingSource,
     private val topRatedTVShowsPagingSource: TopRatedTVShowsPagingSource,
@@ -81,13 +85,13 @@ class TvShowRepositoryImpl @Inject constructor(
     override suspend fun refreshTvShows() {
         try {
             val items = mutableListOf<TvShowsLocalDto>()
-            movieService.getAiringTodayTVShows().body()?.results?.first()
+            tvShowApiService.getAiringTodayTVShows().body()?.results?.firstOrNull()
                 ?.let { items.add(localTvShowMapper.map(it)) }
-            movieService.getTopRatedTVShows().body()?.results?.first()
+            tvShowApiService.getTopRatedTVShows().body()?.results?.firstOrNull()
                 ?.let { items.add(localTvShowMapper.map(it)) }
-            movieService.getPopularTVShows().body()?.results?.first()
+            tvShowApiService.getPopularTVShows().body()?.results?.firstOrNull()
                 ?.let { items.add(localTvShowMapper.map(it)) }
-            movieService.getOnTheAirTVShows().body()?.results?.first()
+            tvShowApiService.getOnTheAirTVShows().body()?.results?.firstOrNull()
                 ?.let { items.add(localTvShowMapper.map(it)) }
             tvShowDao.clearAllTvShow()
             tvShowDao.insertTvShow(items)
@@ -102,7 +106,7 @@ class TvShowRepositoryImpl @Inject constructor(
 
     override suspend fun refreshAiringTodayTvShows() {
         refreshWrapper(
-            apiCall = { movieService.getAiringTodayTVShows(random.nextInt(20) + 1) },
+            apiCall = { tvShowApiService.getAiringTodayTVShows(random.nextInt(20) + 1) },
             localMapper = localAiringTodayTvShowMapper::map,
             databaseSaver = tvShowDao::insertAiringTodayTvShow,
             clearOldLocalData = tvShowDao::clearAllAiringTodayTvShow
@@ -116,7 +120,7 @@ class TvShowRepositoryImpl @Inject constructor(
     override suspend fun getAiringTodayTVShowsFromRemote(): List<TVShowsEntity> {
         val page = random.nextInt(500) + 1
         val airingTodayRemoteDTOs =
-            wrapApiCall { movieService.getAiringTodayTVShows(page = page) }.results?.filterNotNull()
+            wrapApiCall { tvShowApiService.getAiringTodayTVShows(page = page) }.results?.filterNotNull()
                 ?: emptyList()
         return domainAiringTodayTvShowsMapper.map(airingTodayRemoteDTOs)
     }
@@ -150,21 +154,21 @@ class TvShowRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getSeasonDetails(seriesId: Int, seasonId: Int): SeasonDetailsEntity {
-        val result = wrapApiCall { movieService.getSeasonDetails(seriesId, seasonId) }
+        val result = wrapApiCall { tvShowApiService.getSeasonDetails(seriesId, seasonId) }
         return domainSeasonDetailsMapper.map(result)
     }
 
     override suspend fun getTvDetailsInfo(tvShowID: Int): TvDetailsInfoEntity {
-        return domainTvDetailsMapper.map(wrapApiCall { movieService.getTvDetails(tvShowID) })
+        return domainTvDetailsMapper.map(wrapApiCall { tvShowApiService.getTvDetails(tvShowID) })
     }
 
     override suspend fun getTvDetailsSeasons(tvShowID: Int): List<SeasonEntity> {
-        return domainTvDetailsSeasonMapper.map(wrapApiCall { movieService.getTvDetails(tvShowID) })
+        return domainTvDetailsSeasonMapper.map(wrapApiCall { tvShowApiService.getTvDetails(tvShowID) })
     }
 
     override suspend fun getTvDetailsCredit(tvShowID: Int): List<PeopleEntity> {
         return domainTvDetailsCreditMapper.map(wrapApiCall {
-            movieService.getTvDetailsCredit(
+            tvShowApiService.getTvDetailsCredit(
                 tvShowID
             )
         })
@@ -172,30 +176,30 @@ class TvShowRepositoryImpl @Inject constructor(
 
     override suspend fun rateTvShow(rate: Double, tvShowID: Int): StatusEntity {
         val newRate = RateRequest(value = rate)
-        return domainStatusMapper.map(wrapApiCall { movieService.rateTvShow(newRate, tvShowID) })
+        return domainStatusMapper.map(wrapApiCall { tvShowApiService.rateTvShow(newRate, tvShowID) })
     }
 
     override suspend fun getRateTvShow(): List<MyRatedTvShowEntity> {
         return domainMyRatedTvShowDetailsMapper.map(
-            wrapApiCall { movieService.getRatedTv() }.results?.filterNotNull() ?: emptyList()
+            wrapApiCall { accountApiService.getRatedTv() }.results?.filterNotNull() ?: emptyList()
         )
     }
 
     override suspend fun getTvShowReviews(tvShowID: Int): List<ReviewEntity> {
-        val call = wrapApiCall { movieService.getTvShowReviews(tvShowID) }.results?.filterNotNull()
+        val call = wrapApiCall { tvShowApiService.getTvShowReviews(tvShowID) }.results?.filterNotNull()
             ?: emptyList()
         return domainTvDetailsReviewMapper.map(call)
     }
 
     override suspend fun getTvShowRecommendations(tvShowID: Int): List<TvShowEntity> {
         val call =
-            wrapApiCall { movieService.getTvShowRecommendations(tvShowID) }.results?.filterNotNull()
+            wrapApiCall { tvShowApiService.getTvShowRecommendations(tvShowID) }.results?.filterNotNull()
                 ?: emptyList()
         return domainTvShowMapper.map(call)
     }
 
     override suspend fun getTrailerVideoForTvShow(tvShowID: Int): YoutubeVideoDetailsEntity {
-        val call = wrapApiCall { movieService.getTrailerVideoForTvShow(tvShowID) }.results?.first()
+        val call = wrapApiCall { tvShowApiService.getTrailerVideoForTvShow(tvShowID) }.results?.first()
             ?: YoutubeVideoDetailsRemoteDto()
         return domainYoutubeDetailsMapper.map(call)
     }
@@ -206,7 +210,7 @@ class TvShowRepositoryImpl @Inject constructor(
         episodeNumber: Int
     ): YoutubeVideoDetailsEntity {
         val response = wrapApiCall {
-            movieService.getEpisodeVideos(
+            tvShowApiService.getEpisodeVideos(
                 seriesId,
                 seasonNumber,
                 episodeNumber
@@ -220,7 +224,7 @@ class TvShowRepositoryImpl @Inject constructor(
         seasonNumber: Int,
         episodeNumber: Int
     ): List<PeopleEntity> {
-        val dataDto = wrapApiCall { movieService.getEpisodeCast(id, seasonNumber, episodeNumber) }
+        val dataDto = wrapApiCall { tvShowApiService.getEpisodeCast(id, seasonNumber, episodeNumber) }
         return domainCastMapper.map(dataDto)
     }
 
@@ -230,7 +234,7 @@ class TvShowRepositoryImpl @Inject constructor(
         episodeNumber: Int
     ): EpisodeDetailsEntity {
         return domainEpisodeDetailsMapper.map(wrapApiCall {
-            movieService.getEpisodeDetails(seriesId, seasonNumber, episodeNumber)
+            tvShowApiService.getEpisodeDetails(seriesId, seasonNumber, episodeNumber)
         })
     }
 
@@ -242,7 +246,7 @@ class TvShowRepositoryImpl @Inject constructor(
     ): RatingEpisodeDetailsStatusEntity {
         val rateRequest = RatingEpisodeDetailsRequest(value)
         return domainRatingEpisodeMapper.map(wrapApiCall {
-            movieService.postEpisodeRating(rateRequest, seriesId, seasonNumber, episodeNumber)
+            tvShowApiService.postEpisodeRating(rateRequest, seriesId, seasonNumber, episodeNumber)
         })
     }
 
@@ -255,8 +259,8 @@ class TvShowRepositoryImpl @Inject constructor(
 
     override suspend fun getTvShowsByPerson(personId: Int): List<TvShowEntity> {
         return tvShowsByPeopleMapper.map(wrapApiCall {
-            movieService.getTvShowsByPerson(personId)
-        }.cast!!)
+            peopleApiService.getTvShowsByPerson(personId)
+        }.cast!!.filterNotNull())
 
     }
 }

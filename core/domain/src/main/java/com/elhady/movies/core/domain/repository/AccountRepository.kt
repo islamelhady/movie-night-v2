@@ -1,12 +1,12 @@
 package com.elhady.movies.core.domain.repository
 
 import androidx.paging.Pager
-import com.elhady.movies.core.domain.model.MovieEntity
-import com.elhady.movies.core.domain.model.StatusEntity
-import com.elhady.movies.core.domain.model.UserListEntity
-import com.elhady.movies.core.domain.model.mylist.ListCreatedEntity
-import com.elhady.movies.core.domain.model.myrated.MyRatedMovieEntity
-import com.elhady.movies.core.domain.model.myrated.MyRatedTvShowEntity
+import com.elhady.movies.core.domain.model.movie.MovieEntity
+import com.elhady.movies.core.domain.model.common.StatusEntity
+import com.elhady.movies.core.domain.model.account.UserListEntity
+import com.elhady.movies.core.domain.model.account.ListCreatedEntity
+import com.elhady.movies.core.domain.model.account.MyRatedMovieEntity
+import com.elhady.movies.core.domain.model.account.MyRatedTvShowEntity
 
 interface AccountRepository {
     suspend fun getUserLists(): List<UserListEntity>

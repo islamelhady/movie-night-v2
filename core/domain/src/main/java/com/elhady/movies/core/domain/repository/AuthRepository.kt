@@ -1,6 +1,6 @@
 package com.elhady.movies.core.domain.repository
 
-import com.elhady.movies.core.domain.model.ProfileEntity
+import com.elhady.movies.core.domain.model.auth.ProfileEntity
 
 interface AuthRepository {
 

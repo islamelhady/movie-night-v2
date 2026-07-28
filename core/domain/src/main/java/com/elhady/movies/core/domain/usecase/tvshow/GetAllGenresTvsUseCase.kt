@@ -1,6 +1,6 @@
 package com.elhady.movies.core.domain.usecase.tvshow
 
-import com.elhady.movies.core.domain.model.GenreEntity
+import com.elhady.movies.core.domain.model.common.GenreEntity
 import com.elhady.movies.core.domain.repository.GenreRepository
 import javax.inject.Inject
 

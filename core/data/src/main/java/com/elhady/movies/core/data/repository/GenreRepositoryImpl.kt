@@ -1,18 +1,18 @@
 package com.elhady.movies.core.data.repository
 
-import com.elhady.movies.core.data.bases.BaseRepository
-import com.elhady.movies.core.data.mapper.cache.LocalGenresMovieMapper
-import com.elhady.movies.core.data.mapper.cache.LocalGenresTvMapper
-import com.elhady.movies.core.data.mapper.domain.DomainGenreMapper
-import com.elhady.movies.core.data.mapper.domain.DomainGenreTvMapper
+import com.elhady.movies.core.data.base.BaseRepository
+import com.elhady.movies.core.data.mapper.movie.LocalGenresMovieMapper
+import com.elhady.movies.core.data.mapper.tvshow.LocalGenresTvMapper
+import com.elhady.movies.core.data.mapper.movie.DomainGenreMapper
+import com.elhady.movies.core.data.mapper.tvshow.DomainGenreTvMapper
 import com.elhady.movies.core.database.MovieDao
-import com.elhady.movies.core.domain.model.GenreEntity
+import com.elhady.movies.core.domain.model.common.GenreEntity
 import com.elhady.movies.core.domain.repository.GenreRepository
-import com.elhady.movies.core.network.service.MovieService
+import com.elhady.movies.core.network.api.GenreApiService
 import javax.inject.Inject
 
 class GenreRepositoryImpl @Inject constructor(
-    private val movieService: MovieService,
+    private val genreApiService: GenreApiService,
     private val movieDao: MovieDao,
     private val localGenresMovieMapper: LocalGenresMovieMapper,
     private val localGenresTvMapper: LocalGenresTvMapper,
@@ -25,7 +25,7 @@ class GenreRepositoryImpl @Inject constructor(
     }
 
     override suspend fun refreshGenres() {
-        wrapApiCall { movieService.getListOfGenresForMovies() }.results
+        wrapApiCall { genreApiService.getListOfGenresForMovies() }.results
             ?.let { remoteGenres ->
                 movieDao.insertGenresMovies(localGenresMovieMapper.map(remoteGenres))
             }
@@ -36,7 +36,7 @@ class GenreRepositoryImpl @Inject constructor(
     }
 
     override suspend fun refreshGenresTv() {
-        wrapApiCall { movieService.getListOfGenresForTvs() }.results
+        wrapApiCall { genreApiService.getListOfGenresForTvs() }.results
             ?.let { remoteGenres ->
                 movieDao.insertGenresTvs(localGenresTvMapper.map(remoteGenres))
             }

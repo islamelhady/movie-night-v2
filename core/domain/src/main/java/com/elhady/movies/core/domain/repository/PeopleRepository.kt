@@ -1,9 +1,9 @@
 package com.elhady.movies.core.domain.repository
 
-import com.elhady.movies.core.domain.model.MovieEntity
-import com.elhady.movies.core.domain.model.PeopleDetailsEntity
-import com.elhady.movies.core.domain.model.PeopleEntity
-import com.elhady.movies.core.domain.model.TvShowEntity
+import com.elhady.movies.core.domain.model.movie.MovieEntity
+import com.elhady.movies.core.domain.model.people.PeopleDetailsEntity
+import com.elhady.movies.core.domain.model.people.PeopleEntity
+import com.elhady.movies.core.domain.model.tvshow.TvShowEntity
 
 interface PeopleRepository {
     suspend fun getPopularPeopleFromDatabase(): List<PeopleEntity>

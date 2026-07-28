@@ -3,16 +3,16 @@ package com.elhady.movies.feature.watchlist.presentation.mylistdetails
 
 import androidx.lifecycle.SavedStateHandle
 import com.elhady.movies.core.ui.bases.BaseViewModel
-import com.elhady.movies.core.domain.model.ListName
-import com.elhady.movies.core.domain.model.ListType
+import com.elhady.movies.core.domain.model.account.ListName
+import com.elhady.movies.core.domain.model.account.ListType
 import com.elhady.movies.core.ui.bases.StringsRes
-import com.elhady.movies.core.domain.model.StatusEntity
-import com.elhady.movies.core.domain.usecase.watchlist.AddToFavouriteUseCase
-import com.elhady.movies.core.domain.usecase.watchlist.AddToWatchList
-import com.elhady.movies.core.domain.usecase.watchlist.mylist.DeleteMovieFromDetailsListUseCase
-import com.elhady.movies.core.domain.usecase.watchlist.mylist.GetMyFavoriteListUseCase
-import com.elhady.movies.core.domain.usecase.watchlist.mylist.GetMyListDetailsByListIdUseCase
-import com.elhady.movies.core.domain.usecase.watchlist.mylist.GetMyWatchlistListUseCase
+import com.elhady.movies.core.domain.model.common.StatusEntity
+import com.elhady.movies.core.domain.usecase.account.AddToFavouriteUseCase
+import com.elhady.movies.core.domain.usecase.account.AddToWatchList
+import com.elhady.movies.core.domain.usecase.account.DeleteMovieFromDetailsListUseCase
+import com.elhady.movies.core.domain.usecase.account.GetMyFavoriteListUseCase
+import com.elhady.movies.core.domain.usecase.account.GetMyListDetailsByListIdUseCase
+import com.elhady.movies.core.domain.usecase.account.GetMyWatchlistListUseCase
 import com.elhady.movies.core.common.NoNetworkThrowable
 import com.elhady.movies.feature.watchlist.presentation.mylistdetails.mapper.MyListDetailsUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
