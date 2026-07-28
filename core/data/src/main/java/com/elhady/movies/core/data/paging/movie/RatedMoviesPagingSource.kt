@@ -1,12 +1,11 @@
-package com.elhady.movies.core.data.datasource.myrated
-
+package com.elhady.movies.core.data.paging.movie
 
 import com.elhady.movies.core.database.MovieDao
 import com.elhady.movies.core.network.service.MovieService
-import com.elhady.movies.core.data.bases.BasePagingSource
+import com.elhady.movies.core.data.base.BasePagingSource
 import com.elhady.movies.core.domain.model.myrated.MyRatedMovieEntity
-import com.elhady.movies.core.data.mapper.domain.DomainGenreMapper
-import com.elhady.movies.core.data.mapper.domain.myrated.DomainMyRatedMoviesMapper
+import com.elhady.movies.core.data.mapper.movie.DomainGenreMapper
+import com.elhady.movies.core.data.mapper.account.DomainMyRatedMoviesMapper
 import javax.inject.Inject
 
 class RatedMoviesPagingSource @Inject constructor(
@@ -21,5 +20,4 @@ class RatedMoviesPagingSource @Inject constructor(
         val genreMovieMapper = domainGenreMapper.map(movieDao.getGenresMovies())
         return response?.map { mapper.map(it , genreMovieMapper) } ?: emptyList()
     }
-
 }

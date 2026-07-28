@@ -1,8 +1,8 @@
-package com.elhady.movies.core.data.datasource.tvshows
+package com.elhady.movies.core.data.paging.tvshow
 
 import com.elhady.movies.core.domain.model.TVShowsEntity
-import com.elhady.movies.core.data.mapper.domain.tv.DomainAiringTodayTvShowsMapper
-import com.elhady.movies.core.data.bases.BasePagingSource
+import com.elhady.movies.core.data.mapper.tvshow.DomainAiringTodayTvShowsMapper
+import com.elhady.movies.core.data.base.BasePagingSource
 import com.elhady.movies.core.network.service.MovieService
 import javax.inject.Inject
 
@@ -12,7 +12,6 @@ class TopRatedTVShowsPagingSource @Inject constructor(
 ) : BasePagingSource<TVShowsEntity>(service) {
 
     override suspend fun fetchData(page: Int): List<TVShowsEntity> {
-
         val response = service.getTopRatedTVShows(page).body()?.results?.filterNotNull()
         return response?.map { mapper.map(it) } ?: emptyList()
     }
