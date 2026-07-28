@@ -1,11 +1,11 @@
 package com.elhady.movies.core.domain.usecase.tvshow
 
 import com.elhady.movies.core.domain.model.GenreEntity
-import com.elhady.movies.core.domain.repository.MovieRepository
+import com.elhady.movies.core.domain.repository.GenreRepository
 import javax.inject.Inject
 
 class GetAllGenresTvsUseCase @Inject constructor(
-    private val repository: MovieRepository
+    private val repository: GenreRepository
 ) {
     suspend operator fun invoke(): List<GenreEntity>{
         repository.refreshGenresTv()

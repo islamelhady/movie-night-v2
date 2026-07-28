@@ -1,13 +1,13 @@
 package com.elhady.movies.core.domain.usecase.watchlist.mylist
 
 import com.elhady.movies.core.domain.model.StatusEntity
-import com.elhady.movies.core.domain.repository.MovieRepository
+import com.elhady.movies.core.domain.repository.AccountRepository
 import javax.inject.Inject
 
 class DeleteMovieFromDetailsListUseCase @Inject constructor(
-    private val movieRepository: MovieRepository,
+    private val accountRepository: AccountRepository,
 ) {
     suspend operator fun invoke(listId: Int,mediaId: Int ): StatusEntity {
-        return movieRepository.deleteMovieDetailsList(listId =listId , mediaId = mediaId )
+        return accountRepository.deleteMovieDetailsList(listId =listId , mediaId = mediaId )
     }
 }

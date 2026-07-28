@@ -1,13 +1,13 @@
 package com.elhady.movies.core.domain.usecase.search
 
 import com.elhady.movies.core.domain.model.PeopleEntity
-import com.elhady.movies.core.domain.repository.MovieRepository
+import com.elhady.movies.core.domain.repository.SearchRepository
 import javax.inject.Inject
 
 class SearchPeopleUseCase @Inject constructor(
-    private val movieRepository: MovieRepository
+    private val searchRepository: SearchRepository
 ) {
     suspend operator fun invoke(keyword: String): List<PeopleEntity>{
-        return movieRepository.searchForPeople(keyword)
+        return searchRepository.searchForPeople(keyword)
     }
 }
