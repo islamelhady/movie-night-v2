@@ -1,4 +1,4 @@
-package com.elhady.movies.core.network.service
+package com.elhady.movies.core.network.api
 
 import com.elhady.movies.core.common.UserDataProvider
 import com.elhady.movies.core.network.BuildConfig
