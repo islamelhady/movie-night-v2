@@ -1,10 +1,10 @@
 package com.elhady.movies.core.data.repository
 
-import com.elhady.movies.core.data.bases.BaseRepository
-import com.elhady.movies.core.data.mapper.cache.LocalGenresMovieMapper
-import com.elhady.movies.core.data.mapper.cache.LocalGenresTvMapper
-import com.elhady.movies.core.data.mapper.domain.DomainGenreMapper
-import com.elhady.movies.core.data.mapper.domain.DomainGenreTvMapper
+import com.elhady.movies.core.data.base.BaseRepository
+import com.elhady.movies.core.data.mapper.movie.LocalGenresMovieMapper
+import com.elhady.movies.core.data.mapper.tvshow.LocalGenresTvMapper
+import com.elhady.movies.core.data.mapper.movie.DomainGenreMapper
+import com.elhady.movies.core.data.mapper.tvshow.DomainGenreTvMapper
 import com.elhady.movies.core.database.MovieDao
 import com.elhady.movies.core.domain.model.GenreEntity
 import com.elhady.movies.core.domain.repository.GenreRepository
@@ -36,9 +36,12 @@ class GenreRepositoryImpl @Inject constructor(
     }
 
     override suspend fun refreshGenresTv() {
-        wrapApiCall { movieService.getListOfGenresForTvs() }.results
-            ?.let { remoteGenres ->
-                movieDao.insertGenresTvs(localGenresTvMapper.map(remoteGenres))
-            }
+        try {
+            wrapApiCall { movieService.getListOfGenresForTvs() }.results
+                ?.let { remoteGenres ->
+                    movieDao.insertGenresTvs(localGenresTvMapper.map(remoteGenres))
+                }
+        } catch (_: Throwable) {
+        }
     }
 }

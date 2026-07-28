@@ -2,15 +2,15 @@ package com.elhady.movies.core.data.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.elhady.movies.core.data.bases.BaseRepository
-import com.elhady.movies.core.data.datasource.myrated.RatedMoviesPagingSource
-import com.elhady.movies.core.data.datasource.myrated.RatedTvShowPagingSource
-import com.elhady.movies.core.data.mapper.domain.DomainStatusMapper
-import com.elhady.movies.core.data.mapper.domain.DomainUserListsMapper
-import com.elhady.movies.core.data.mapper.domain.movie.DomainMovieMapper
-import com.elhady.movies.core.data.mapper.domain.movie.DomainMyRatedMoviesDetailsMapper
-import com.elhady.movies.core.data.mapper.domain.movie.DomainTvMapper
-import com.elhady.movies.core.data.mapper.domain.tv.DomainMyRatedTvShowDetailsMapper
+import com.elhady.movies.core.data.base.BaseRepository
+import com.elhady.movies.core.data.paging.movie.RatedMoviesPagingSource
+import com.elhady.movies.core.data.paging.tvshow.RatedTvShowPagingSource
+import com.elhady.movies.core.data.mapper.common.DomainStatusMapper
+import com.elhady.movies.core.data.mapper.account.DomainUserListsMapper
+import com.elhady.movies.core.data.mapper.movie.DomainMovieMapper
+import com.elhady.movies.core.data.mapper.movie.DomainMyRatedMoviesDetailsMapper
+import com.elhady.movies.core.data.mapper.movie.DomainTvMapper
+import com.elhady.movies.core.data.mapper.tvshow.DomainMyRatedTvShowDetailsMapper
 import com.elhady.movies.core.domain.model.GenreEntity
 import com.elhady.movies.core.domain.model.MovieEntity
 import com.elhady.movies.core.domain.model.StatusEntity

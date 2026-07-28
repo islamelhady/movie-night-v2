@@ -1,12 +1,12 @@
 package com.elhady.movies.core.data.repository
 
-import com.elhady.movies.core.data.bases.BaseRepository
-import com.elhady.movies.core.data.mapper.cache.LocalPopularPeopleMapper
-import com.elhady.movies.core.data.mapper.domain.DomainMoviesByPeopleMapper
-import com.elhady.movies.core.data.mapper.domain.DomainPeopleDetailsMapper
-import com.elhady.movies.core.data.mapper.domain.DomainPeopleMapper
-import com.elhady.movies.core.data.mapper.domain.DomainPeopleRemoteMapper
-import com.elhady.movies.core.data.mapper.domain.DomainTvShowsByPeopleMapper
+import com.elhady.movies.core.data.base.BaseRepository
+import com.elhady.movies.core.data.mapper.people.LocalPopularPeopleMapper
+import com.elhady.movies.core.data.mapper.people.DomainMoviesByPeopleMapper
+import com.elhady.movies.core.data.mapper.people.DomainPeopleDetailsMapper
+import com.elhady.movies.core.data.mapper.people.DomainPeopleMapper
+import com.elhady.movies.core.data.mapper.people.DomainPeopleRemoteMapper
+import com.elhady.movies.core.data.mapper.people.DomainTvShowsByPeopleMapper
 import com.elhady.movies.core.database.MovieDao
 import com.elhady.movies.core.domain.model.MovieEntity
 import com.elhady.movies.core.domain.model.PeopleDetailsEntity
@@ -55,12 +55,12 @@ class PeopleRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getMoviesByPerson(personId: Int): List<MovieEntity> {
-        return domainMoviesByPeopleMapper.map(wrapApiCall { movieService.getMoviesByPerson(personId) }.cast!!)
+        return domainMoviesByPeopleMapper.map(wrapApiCall { movieService.getMoviesByPerson(personId) }.cast!!.filterNotNull())
     }
 
     override suspend fun getTvShowsByPerson(personId: Int): List<TvShowEntity> {
         return tvShowsByPeopleMapper.map(wrapApiCall {
             movieService.getTvShowsByPerson(personId)
-        }.cast!!)
+        }.cast!!.filterNotNull())
     }
 }

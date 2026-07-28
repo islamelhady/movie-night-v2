@@ -1,9 +1,9 @@
 package com.elhady.movies.core.data.repository
 
-import com.elhady.movies.core.data.bases.BaseRepository
-import com.elhady.movies.core.data.mapper.domain.DomainPeopleRemoteMapper
-import com.elhady.movies.core.data.mapper.domain.search.DomainMovieSearchMapper
-import com.elhady.movies.core.data.mapper.domain.search.DomainTvShowSearchMapper
+import com.elhady.movies.core.data.base.BaseRepository
+import com.elhady.movies.core.data.mapper.people.DomainPeopleRemoteMapper
+import com.elhady.movies.core.data.mapper.search.DomainMovieSearchMapper
+import com.elhady.movies.core.data.mapper.search.DomainTvShowSearchMapper
 import com.elhady.movies.core.database.MovieDao
 import com.elhady.movies.core.database.dto.SearchHistoryLocalDto
 import com.elhady.movies.core.domain.model.MovieEntity

@@ -2,24 +2,24 @@ package com.elhady.movies.core.data.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.elhady.movies.core.data.bases.BaseRepository
-import com.elhady.movies.core.data.datasource.showmore.PopularMoviesShowMorePagingSource
-import com.elhady.movies.core.data.datasource.showmore.TopRatedShowMorePagingSource
-import com.elhady.movies.core.data.datasource.showmore.TrendingShowMorePagingSource
-import com.elhady.movies.core.data.mapper.cache.movie.LocalNowPlayingMovieMapper
-import com.elhady.movies.core.data.mapper.cache.movie.LocalPopularMovieMapper
-import com.elhady.movies.core.data.mapper.cache.movie.LocalTopRatedMovieMapper
-import com.elhady.movies.core.data.mapper.cache.movie.LocalTrendingMoviesMapper
-import com.elhady.movies.core.data.mapper.cache.movie.LocalUpcomingMovieMapper
-import com.elhady.movies.core.data.mapper.domain.DomainMovieDetailsMapper
-import com.elhady.movies.core.data.mapper.domain.DomainReviewsMapper
-import com.elhady.movies.core.data.mapper.domain.DomainYoutubeDetailsMapper
-import com.elhady.movies.core.data.mapper.domain.movie.DomainMovieMapper
-import com.elhady.movies.core.data.mapper.domain.movie.DomainNowPlayingMovieMapper
-import com.elhady.movies.core.data.mapper.domain.movie.DomainPopularMovieMapper
-import com.elhady.movies.core.data.mapper.domain.movie.DomainTopRatedMovieMapper
-import com.elhady.movies.core.data.mapper.domain.movie.DomainTrendingMoviesMapper
-import com.elhady.movies.core.data.mapper.domain.movie.DomainUpcomingMovieMapper
+import com.elhady.movies.core.data.base.BaseRepository
+import com.elhady.movies.core.data.paging.movie.PopularMoviesShowMorePagingSource
+import com.elhady.movies.core.data.paging.movie.TopRatedShowMorePagingSource
+import com.elhady.movies.core.data.paging.movie.TrendingShowMorePagingSource
+import com.elhady.movies.core.data.mapper.movie.LocalNowPlayingMovieMapper
+import com.elhady.movies.core.data.mapper.movie.LocalPopularMovieMapper
+import com.elhady.movies.core.data.mapper.movie.LocalTopRatedMovieMapper
+import com.elhady.movies.core.data.mapper.movie.LocalTrendingMoviesMapper
+import com.elhady.movies.core.data.mapper.movie.LocalUpcomingMovieMapper
+import com.elhady.movies.core.data.mapper.movie.DomainMovieDetailsMapper
+import com.elhady.movies.core.data.mapper.movie.DomainReviewsMapper
+import com.elhady.movies.core.data.mapper.common.DomainYoutubeDetailsMapper
+import com.elhady.movies.core.data.mapper.movie.DomainMovieMapper
+import com.elhady.movies.core.data.mapper.movie.DomainNowPlayingMovieMapper
+import com.elhady.movies.core.data.mapper.movie.DomainPopularMovieMapper
+import com.elhady.movies.core.data.mapper.movie.DomainTopRatedMovieMapper
+import com.elhady.movies.core.data.mapper.movie.DomainTrendingMoviesMapper
+import com.elhady.movies.core.data.mapper.movie.DomainUpcomingMovieMapper
 import com.elhady.movies.core.database.MovieDao
 import com.elhady.movies.core.datastore.local.PreferenceStorage
 import com.elhady.movies.core.domain.model.MovieEntity
@@ -81,9 +81,9 @@ class MovieRepositoryImpl @Inject constructor(
             pagingSourceFactory = { trendingShowMorePagingSource }
         )
     }
-    /// endregion
+    // endregion
 
-    /// region movies
+    // region movies
     override suspend fun getPopularMoviesFromDatabase(): List<MovieEntity> {
         return domainPopularMovieMapper.map(movieDao.getPopularMovies())
     }
