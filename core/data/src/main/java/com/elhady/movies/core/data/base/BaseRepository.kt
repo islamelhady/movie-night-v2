@@ -1,4 +1,4 @@
-package com.elhady.movies.core.data.bases
+package com.elhady.movies.core.data.base
 
 import com.elhady.movies.core.network.model.response.DataWrapperResponse
 import com.elhady.movies.core.common.ApiThrowable
