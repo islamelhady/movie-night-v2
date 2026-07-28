@@ -1,6 +1,6 @@
-package com.elhady.movies.core.domain.usecase.home
+package com.elhady.movies.core.domain.usecase.tvshow
 
-import com.elhady.movies.core.domain.model.TVShowsEntity
+import com.elhady.movies.core.domain.model.tvshow.TVShowsEntity
 import com.elhady.movies.core.domain.repository.TvShowRepository
 import com.elhady.movies.core.domain.usecase.common.RefreshIfNeededUseCase
 import javax.inject.Inject
