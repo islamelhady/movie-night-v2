@@ -3,7 +3,7 @@ package com.elhady.movies.core.data.mapper.people
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.network.model.response.dto.TvShowsCastItem
-import com.elhady.movies.core.domain.model.TvShowEntity
+import com.elhady.movies.core.domain.model.tvshow.TvShowEntity
 import javax.inject.Inject
 
 class DomainTvShowsByPeopleMapper @Inject constructor() : Mapper<TvShowsCastItem, TvShowEntity> {

@@ -2,8 +2,8 @@ package com.elhady.movies.core.data.mapper.movie
 
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.network.model.response.dto.MovieRemoteDto
-import com.elhady.movies.core.domain.model.GenreEntity
-import com.elhady.movies.core.domain.model.MovieEntity
+import com.elhady.movies.core.domain.model.common.GenreEntity
+import com.elhady.movies.core.domain.model.movie.MovieEntity
 import javax.inject.Inject
 
 class DomainPopularMovieShowMoreMapper @Inject constructor() {

@@ -6,7 +6,7 @@ import com.elhady.movies.core.data.mapper.tvshow.LocalGenresTvMapper
 import com.elhady.movies.core.data.mapper.movie.DomainGenreMapper
 import com.elhady.movies.core.data.mapper.tvshow.DomainGenreTvMapper
 import com.elhady.movies.core.database.MovieDao
-import com.elhady.movies.core.domain.model.GenreEntity
+import com.elhady.movies.core.domain.model.common.GenreEntity
 import com.elhady.movies.core.domain.repository.GenreRepository
 import com.elhady.movies.core.network.service.MovieService
 import javax.inject.Inject

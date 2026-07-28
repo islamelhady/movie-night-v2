@@ -1,6 +1,6 @@
 package com.elhady.movies.core.data.paging.tvshow
 
-import com.elhady.movies.core.domain.model.TVShowsEntity
+import com.elhady.movies.core.domain.model.tvshow.TVShowsEntity
 import com.elhady.movies.core.data.mapper.tvshow.DomainAiringTodayTvShowsMapper
 import com.elhady.movies.core.data.base.BasePagingSource
 import com.elhady.movies.core.network.service.MovieService

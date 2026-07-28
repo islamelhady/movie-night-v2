@@ -1,6 +1,6 @@
 package com.elhady.movies.core.data.paging.tvshow
 
-import com.elhady.movies.core.domain.model.myrated.MyRatedTvShowEntity
+import com.elhady.movies.core.domain.model.account.MyRatedTvShowEntity
 import com.elhady.movies.core.data.mapper.movie.DomainGenreMapper
 import com.elhady.movies.core.data.mapper.account.DomainMyRatedTvShowMapper
 import com.elhady.movies.core.database.MovieDao

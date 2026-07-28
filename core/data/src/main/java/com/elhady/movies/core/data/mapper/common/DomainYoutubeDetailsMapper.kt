@@ -2,7 +2,7 @@ package com.elhady.movies.core.data.mapper.common
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.network.model.response.dto.YoutubeVideoDetailsRemoteDto
-import com.elhady.movies.core.domain.model.YoutubeVideoDetailsEntity
+import com.elhady.movies.core.domain.model.common.YoutubeVideoDetailsEntity
 import javax.inject.Inject
 
 class DomainYoutubeDetailsMapper @Inject constructor() :

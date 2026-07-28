@@ -2,8 +2,8 @@ package com.elhady.movies.core.data.mapper.account
 
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.network.model.response.dto.myrated.MyRatedTvShowDto
-import com.elhady.movies.core.domain.model.GenreEntity
-import com.elhady.movies.core.domain.model.myrated.MyRatedTvShowEntity
+import com.elhady.movies.core.domain.model.common.GenreEntity
+import com.elhady.movies.core.domain.model.account.MyRatedTvShowEntity
 import javax.inject.Inject
 
 class DomainMyRatedTvShowMapper @Inject constructor() {

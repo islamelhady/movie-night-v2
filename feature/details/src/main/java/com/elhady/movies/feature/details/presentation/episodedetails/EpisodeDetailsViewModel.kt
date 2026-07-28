@@ -1,12 +1,12 @@
 package com.elhady.movies.feature.details.presentation.episodedetails
 
 import androidx.lifecycle.SavedStateHandle
-import com.elhady.movies.core.domain.model.RatingEpisodeDetailsStatusEntity
+import com.elhady.movies.core.domain.model.tvshow.RatingEpisodeDetailsStatusEntity
 import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
-import com.elhady.movies.core.domain.usecase.details.episodedetails.GetCastForEpisodeUseCase
-import com.elhady.movies.core.domain.usecase.details.episodedetails.GetEpisodeDetailsUseCase
-import com.elhady.movies.core.domain.usecase.details.episodedetails.GetEpisodeVideoUseCase
-import com.elhady.movies.core.domain.usecase.details.episodedetails.SetEpisodeRatingUseCase
+import com.elhady.movies.core.domain.usecase.tvshow.GetCastForEpisodeUseCase
+import com.elhady.movies.core.domain.usecase.tvshow.GetEpisodeDetailsUseCase
+import com.elhady.movies.core.domain.usecase.tvshow.GetEpisodeVideoUseCase
+import com.elhady.movies.core.domain.usecase.tvshow.SetEpisodeRatingUseCase
 import com.elhady.movies.core.ui.bases.BaseViewModel
 import com.elhady.movies.core.ui.bases.StringsRes
 import com.elhady.movies.core.ui.listener.PeopleListener

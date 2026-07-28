@@ -8,10 +8,10 @@ import com.elhady.movies.core.data.mapper.people.DomainPeopleMapper
 import com.elhady.movies.core.data.mapper.people.DomainPeopleRemoteMapper
 import com.elhady.movies.core.data.mapper.people.DomainTvShowsByPeopleMapper
 import com.elhady.movies.core.database.MovieDao
-import com.elhady.movies.core.domain.model.MovieEntity
-import com.elhady.movies.core.domain.model.PeopleDetailsEntity
-import com.elhady.movies.core.domain.model.PeopleEntity
-import com.elhady.movies.core.domain.model.TvShowEntity
+import com.elhady.movies.core.domain.model.movie.MovieEntity
+import com.elhady.movies.core.domain.model.people.PeopleDetailsEntity
+import com.elhady.movies.core.domain.model.people.PeopleEntity
+import com.elhady.movies.core.domain.model.tvshow.TvShowEntity
 import com.elhady.movies.core.domain.repository.PeopleRepository
 import com.elhady.movies.core.network.service.MovieService
 import java.util.Random

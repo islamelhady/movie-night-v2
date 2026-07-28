@@ -2,7 +2,7 @@ package com.elhady.movies.core.data.mapper.movie
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.database.dto.movie.MovieInWatchHistoryLocalDto
-import com.elhady.movies.core.domain.model.MovieInWatchHistoryEntity
+import com.elhady.movies.core.domain.model.movie.MovieInWatchHistoryEntity
 import javax.inject.Inject
 
 class DomainInWatchHistoryMoviesMapper @Inject constructor()

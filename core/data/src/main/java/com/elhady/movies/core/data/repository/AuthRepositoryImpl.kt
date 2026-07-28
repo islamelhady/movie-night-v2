@@ -4,7 +4,7 @@ import android.util.Log
 import com.elhady.movies.core.common.UnauthorizedThrowable
 import com.elhady.movies.core.data.mapper.auth.DomainProfileMapper
 import com.elhady.movies.core.datastore.local.PreferenceStorage
-import com.elhady.movies.core.domain.model.ProfileEntity
+import com.elhady.movies.core.domain.model.auth.ProfileEntity
 import com.elhady.movies.core.domain.repository.AuthRepository
 import com.elhady.movies.core.data.base.BaseRepository
 import com.elhady.movies.core.network.model.request.LoginRequest
