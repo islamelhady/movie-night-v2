@@ -1,6 +1,6 @@
 package com.elhady.movies.di
 
-import com.elhady.movies.core.domain.navigation.Navigator
+import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.navigation.NavigatorImpl
 import dagger.Binds
 import dagger.Module

@@ -3,7 +3,7 @@ package com.elhady.movies.feature.showmore.presentation
 import androidx.paging.PagingData
 import com.elhady.movies.core.domain.model.ListType
 import com.elhady.movies.core.ui.bases.StringsRes
-import com.elhady.movies.core.domain.model.ShowMoreType
+import com.elhady.movies.core.common.ShowMoreType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlin.math.roundToInt

@@ -10,8 +10,8 @@ import com.elhady.movies.core.domain.usecase.details.episodedetails.SetEpisodeRa
 import com.elhady.movies.core.ui.bases.BaseViewModel
 import com.elhady.movies.core.ui.bases.StringsRes
 import com.elhady.movies.core.ui.listener.PeopleListener
-import com.elhady.movies.core.ui.mapper.PeopleUiMapper
 import com.elhady.movies.core.ui.model.PeopleUIState
+import com.elhady.movies.feature.details.presentation.tvdetails.mappers.PeopleUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject

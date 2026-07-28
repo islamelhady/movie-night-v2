@@ -1,4 +1,4 @@
-package com.elhady.movies.core.ui.mapper
+package com.elhady.movies.feature.details.presentation.moviedetails.mapper
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.model.moviedetails.CastEntity
@@ -14,5 +14,4 @@ class CastUiMapper @Inject constructor() :
             imageUrl = input.profilePath
         )
     }
-
 }

@@ -1,4 +1,4 @@
-package com.elhady.movies.core.domain.model
+package com.elhady.movies.core.common
 
 enum class ShowMoreType {
     POPULAR_MOVIES,

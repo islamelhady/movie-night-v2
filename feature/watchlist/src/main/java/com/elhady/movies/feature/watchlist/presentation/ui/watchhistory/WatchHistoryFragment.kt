@@ -16,7 +16,7 @@ import com.elhady.movies.core.ui.bases.SwipeToDeleteItem
 import com.elhady.movies.feature.watchlist.presentation.watchhistory.WatchHistoryViewModel
 import com.elhady.movies.feature.watchlist.presentation.watchhistory.WatchHistoryUiEvent
 import com.elhady.movies.feature.watchlist.presentation.watchhistory.WatchHistoryUiState
-import com.elhady.movies.core.domain.navigation.Navigator
+import com.elhady.movies.core.ui.navigation.Navigator
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint

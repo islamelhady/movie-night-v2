@@ -50,7 +50,6 @@ android {
 
 dependencies {
     implementation(project(":core:common"))
-    implementation(project(":core:datastore"))
 
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)

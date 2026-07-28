@@ -1,4 +1,4 @@
-package com.elhady.movies.core.ui.mapper
+package com.elhady.movies.feature.search.presentation.mappers
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.model.PeopleEntity
