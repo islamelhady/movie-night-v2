@@ -1,6 +1,6 @@
 package com.elhady.movies.core.data.paging.movie
 
-import com.elhady.movies.core.domain.model.MovieEntity
+import com.elhady.movies.core.domain.model.movie.MovieEntity
 import com.elhady.movies.core.data.mapper.movie.DomainGenreMapper
 import com.elhady.movies.core.data.mapper.movie.DomainTrendingMovieShowMoreMapper
 import com.elhady.movies.core.database.MovieDao

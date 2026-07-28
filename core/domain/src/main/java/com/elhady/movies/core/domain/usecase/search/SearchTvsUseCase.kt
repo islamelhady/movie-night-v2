@@ -1,6 +1,6 @@
 package com.elhady.movies.core.domain.usecase.search
 
-import com.elhady.movies.core.domain.model.TvEntity
+import com.elhady.movies.core.domain.model.tvshow.TvEntity
 import com.elhady.movies.core.domain.repository.SearchRepository
 import javax.inject.Inject
 

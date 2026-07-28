@@ -6,9 +6,9 @@ import com.elhady.movies.core.data.mapper.search.DomainMovieSearchMapper
 import com.elhady.movies.core.data.mapper.search.DomainTvShowSearchMapper
 import com.elhady.movies.core.database.MovieDao
 import com.elhady.movies.core.database.dto.SearchHistoryLocalDto
-import com.elhady.movies.core.domain.model.MovieEntity
-import com.elhady.movies.core.domain.model.PeopleEntity
-import com.elhady.movies.core.domain.model.TvEntity
+import com.elhady.movies.core.domain.model.movie.MovieEntity
+import com.elhady.movies.core.domain.model.people.PeopleEntity
+import com.elhady.movies.core.domain.model.tvshow.TvEntity
 import com.elhady.movies.core.domain.repository.GenreRepository
 import com.elhady.movies.core.domain.repository.SearchRepository
 import com.elhady.movies.core.network.service.MovieService

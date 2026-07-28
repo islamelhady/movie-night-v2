@@ -3,7 +3,7 @@ package com.elhady.movies.core.data.mapper.tvshow
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.network.model.response.dto.TvDetailsCreditRemoteDto
-import com.elhady.movies.core.domain.model.PeopleEntity
+import com.elhady.movies.core.domain.model.people.PeopleEntity
 import javax.inject.Inject
 
 class DomainTvDetailsCreditMapper @Inject constructor() :

@@ -22,10 +22,10 @@ import com.elhady.movies.core.data.mapper.movie.DomainTrendingMoviesMapper
 import com.elhady.movies.core.data.mapper.movie.DomainUpcomingMovieMapper
 import com.elhady.movies.core.database.MovieDao
 import com.elhady.movies.core.datastore.local.PreferenceStorage
-import com.elhady.movies.core.domain.model.MovieEntity
-import com.elhady.movies.core.domain.model.YoutubeVideoDetailsEntity
-import com.elhady.movies.core.domain.model.moviedetails.MovieDetailsEntity
-import com.elhady.movies.core.domain.model.moviedetails.ReviewResponseEntity
+import com.elhady.movies.core.domain.model.movie.MovieEntity
+import com.elhady.movies.core.domain.model.common.YoutubeVideoDetailsEntity
+import com.elhady.movies.core.domain.model.movie.MovieDetailsEntity
+import com.elhady.movies.core.domain.model.movie.ReviewResponseEntity
 import com.elhady.movies.core.domain.repository.GenreRepository
 import com.elhady.movies.core.domain.repository.MovieRepository
 import com.elhady.movies.core.domain.repository.PeopleRepository

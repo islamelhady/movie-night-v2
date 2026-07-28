@@ -2,7 +2,7 @@ package com.elhady.movies.core.data.mapper.tvshow
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.database.dto.GenresTvsLocalDto
-import com.elhady.movies.core.domain.model.GenreEntity
+import com.elhady.movies.core.domain.model.common.GenreEntity
 import javax.inject.Inject
 
 class DomainGenreTvMapper @Inject constructor() : Mapper<GenresTvsLocalDto, GenreEntity> {
