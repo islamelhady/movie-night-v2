@@ -1,4 +1,4 @@
-package com.elhady.movies.core.data.bases
+package com.elhady.movies.core.data.base
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
