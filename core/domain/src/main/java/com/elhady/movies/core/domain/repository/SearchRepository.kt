@@ -1,8 +1,8 @@
 package com.elhady.movies.core.domain.repository
 
-import com.elhady.movies.core.domain.model.MovieEntity
-import com.elhady.movies.core.domain.model.PeopleEntity
-import com.elhady.movies.core.domain.model.TvEntity
+import com.elhady.movies.core.domain.model.movie.MovieEntity
+import com.elhady.movies.core.domain.model.people.PeopleEntity
+import com.elhady.movies.core.domain.model.tvshow.TvEntity
 
 interface SearchRepository {
     suspend fun getSearchHistory(keyword: String): List<String>

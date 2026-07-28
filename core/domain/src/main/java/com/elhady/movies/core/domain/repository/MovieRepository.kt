@@ -1,8 +1,10 @@
 package com.elhady.movies.core.domain.repository
 
 import androidx.paging.Pager
-import com.elhady.movies.core.domain.model.*
-import com.elhady.movies.core.domain.model.moviedetails.*
+import com.elhady.movies.core.domain.model.movie.MovieEntity
+import com.elhady.movies.core.domain.model.movie.MovieDetailsEntity
+import com.elhady.movies.core.domain.model.movie.ReviewResponseEntity
+import com.elhady.movies.core.domain.model.common.YoutubeVideoDetailsEntity
 
 interface MovieRepository {
 
