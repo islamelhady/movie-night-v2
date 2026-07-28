@@ -8,11 +8,11 @@ import com.elhady.movies.core.data.mapper.tvshow.DomainGenreTvMapper
 import com.elhady.movies.core.database.MovieDao
 import com.elhady.movies.core.domain.model.common.GenreEntity
 import com.elhady.movies.core.domain.repository.GenreRepository
-import com.elhady.movies.core.network.service.MovieService
+import com.elhady.movies.core.network.api.GenreApiService
 import javax.inject.Inject
 
 class GenreRepositoryImpl @Inject constructor(
-    private val movieService: MovieService,
+    private val genreApiService: GenreApiService,
     private val movieDao: MovieDao,
     private val localGenresMovieMapper: LocalGenresMovieMapper,
     private val localGenresTvMapper: LocalGenresTvMapper,
@@ -25,7 +25,7 @@ class GenreRepositoryImpl @Inject constructor(
     }
 
     override suspend fun refreshGenres() {
-        wrapApiCall { movieService.getListOfGenresForMovies() }.results
+        wrapApiCall { genreApiService.getListOfGenresForMovies() }.results
             ?.let { remoteGenres ->
                 movieDao.insertGenresMovies(localGenresMovieMapper.map(remoteGenres))
             }
@@ -36,12 +36,9 @@ class GenreRepositoryImpl @Inject constructor(
     }
 
     override suspend fun refreshGenresTv() {
-        try {
-            wrapApiCall { movieService.getListOfGenresForTvs() }.results
-                ?.let { remoteGenres ->
-                    movieDao.insertGenresTvs(localGenresTvMapper.map(remoteGenres))
-                }
-        } catch (_: Throwable) {
-        }
+        wrapApiCall { genreApiService.getListOfGenresForTvs() }.results
+            ?.let { remoteGenres ->
+                movieDao.insertGenresTvs(localGenresTvMapper.map(remoteGenres))
+            }
     }
 }
