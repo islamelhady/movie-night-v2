@@ -5,15 +5,15 @@ import com.elhady.movies.core.data.mapper.movie.DomainGenreMapper
 import com.elhady.movies.core.data.mapper.movie.DomainTopRatedMoviesShowMoreMapper
 import com.elhady.movies.core.database.MovieDao
 import com.elhady.movies.core.data.base.BasePagingSource
-import com.elhady.movies.core.network.service.MovieService
+import com.elhady.movies.core.network.api.MovieApiService
 import javax.inject.Inject
 
 class TopRatedShowMorePagingSource @Inject constructor(
-    service: MovieService,
+    service: MovieApiService,
     private val mapper: DomainTopRatedMoviesShowMoreMapper,
     private val domainGenreMapper: DomainGenreMapper,
     private val movieDao: MovieDao,
-) : BasePagingSource<MovieEntity>(service) {
+) : BasePagingSource<MovieApiService, MovieEntity>(service) {
 
     override suspend fun fetchData(page: Int): List<MovieEntity> {
         val response = service.getTopRatedMovies(page).body()?.results?.filterNotNull()
