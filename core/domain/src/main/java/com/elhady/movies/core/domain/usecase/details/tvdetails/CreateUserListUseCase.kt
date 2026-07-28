@@ -1,13 +1,13 @@
 package com.elhady.movies.core.domain.usecase.details.tvdetails
 
 import com.elhady.movies.core.domain.model.StatusEntity
-import com.elhady.movies.core.domain.repository.MovieRepository
+import com.elhady.movies.core.domain.repository.AccountRepository
 import javax.inject.Inject
 
 class CreateUserListUseCase @Inject constructor(
-    private val movieRepository: MovieRepository
+    private val accountRepository: AccountRepository
 ) {
     suspend operator fun invoke(listName: String): StatusEntity {
-        return movieRepository.createUserList(listName)
+        return accountRepository.createUserList(listName)
     }
 }

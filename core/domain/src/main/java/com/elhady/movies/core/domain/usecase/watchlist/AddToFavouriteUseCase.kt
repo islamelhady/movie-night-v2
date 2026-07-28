@@ -1,17 +1,17 @@
 package com.elhady.movies.core.domain.usecase.watchlist
 
 import com.elhady.movies.core.domain.model.StatusEntity
-import com.elhady.movies.core.domain.repository.MovieRepository
+import com.elhady.movies.core.domain.repository.AccountRepository
 import javax.inject.Inject
 
 class AddToFavouriteUseCase @Inject constructor(
-    private val movieRepository: MovieRepository
+    private val accountRepository: AccountRepository
 ) {
     suspend operator fun invoke(
         movieId: Int,
         mediaType: String,
         isFavorite: Boolean = true
     ): StatusEntity {
-        return movieRepository.addFavouriteList(movieId, mediaType, isFavorite)
+        return accountRepository.addFavouriteList(movieId, mediaType, isFavorite)
     }
 }

@@ -1,17 +1,17 @@
 package com.elhady.movies.core.domain.usecase.details.episodedetails
 
 import com.elhady.movies.core.domain.model.YoutubeVideoDetailsEntity
-import com.elhady.movies.core.domain.repository.MovieRepository
+import com.elhady.movies.core.domain.repository.TvShowRepository
 import javax.inject.Inject
 
 class GetEpisodeVideoUseCase  @Inject constructor(
-    private val movieRepository: MovieRepository
+    private val tvShowRepository: TvShowRepository
 )  {
     suspend operator fun invoke(
         id: Int,
         seasonNumber: Int,
         episodeNumber: Int,
     ): YoutubeVideoDetailsEntity {
-        return movieRepository.getVideoEpisodeDetails(id, seasonNumber, episodeNumber)
+        return tvShowRepository.getVideoEpisodeDetails(id, seasonNumber, episodeNumber)
     }
 }

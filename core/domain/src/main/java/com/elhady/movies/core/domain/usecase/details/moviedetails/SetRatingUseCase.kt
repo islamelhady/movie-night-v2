@@ -1,13 +1,13 @@
 package com.elhady.movies.core.domain.usecase.details.moviedetails
 
 import com.elhady.movies.core.domain.model.StatusEntity
-import com.elhady.movies.core.domain.repository.MovieRepository
+import com.elhady.movies.core.domain.repository.AccountRepository
 import javax.inject.Inject
 
 class SetRatingUseCase @Inject constructor(
-    private val movieRepository: MovieRepository
+    private val accountRepository: AccountRepository
 ) {
     suspend operator fun invoke(movieId:Int , rate:Float): StatusEntity {
-        return movieRepository.setMovieRate(movieId , rate)
+        return accountRepository.setMovieRate(movieId , rate)
     }
 }

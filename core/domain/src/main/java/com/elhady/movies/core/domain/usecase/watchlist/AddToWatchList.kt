@@ -1,13 +1,13 @@
 package com.elhady.movies.core.domain.usecase.watchlist
 
 import com.elhady.movies.core.domain.model.StatusEntity
-import com.elhady.movies.core.domain.repository.MovieRepository
+import com.elhady.movies.core.domain.repository.AccountRepository
 import javax.inject.Inject
 
 class AddToWatchList @Inject constructor(
-    private val movieRepository: MovieRepository
+    private val accountRepository: AccountRepository
 ) {
     suspend operator fun invoke(movieId:Int, mediaType:String, isWatchlist: Boolean = true): StatusEntity {
-        return movieRepository.addWatchlist(movieId,mediaType,isWatchlist)
+        return accountRepository.addWatchlist(movieId,mediaType,isWatchlist)
     }
 }

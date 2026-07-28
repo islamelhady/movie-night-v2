@@ -1,11 +1,11 @@
 package com.elhady.movies.core.domain.usecase.details.episodedetails
 
 import com.elhady.movies.core.domain.model.RatingEpisodeDetailsStatusEntity
-import com.elhady.movies.core.domain.repository.MovieRepository
+import com.elhady.movies.core.domain.repository.TvShowRepository
 import javax.inject.Inject
 
 class SetEpisodeRatingUseCase @Inject constructor(
-    private val movieRepository: MovieRepository
+    private val tvShowRepository: TvShowRepository
 ) {
     suspend operator fun invoke(
         seriesId: Int,
@@ -13,6 +13,6 @@ class SetEpisodeRatingUseCase @Inject constructor(
         episodeNumber: Int,
         value: Float
     ): RatingEpisodeDetailsStatusEntity {
-        return movieRepository.setRatingForEpisode(seriesId, seasonNumber, episodeNumber, value)
+        return tvShowRepository.setRatingForEpisode(seriesId, seasonNumber, episodeNumber, value)
     }
 }

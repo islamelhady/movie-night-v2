@@ -1,13 +1,13 @@
 package com.elhady.movies.core.domain.usecase.watchlist.mylist
 
 import com.elhady.movies.core.domain.model.mylist.ListCreatedEntity
-import com.elhady.movies.core.domain.repository.MovieRepository
+import com.elhady.movies.core.domain.repository.AccountRepository
 import javax.inject.Inject
 
 class GetListsCreatedUseCase @Inject constructor(
-    private val movieRepository: MovieRepository,
+    private val accountRepository: AccountRepository,
 ) {
     suspend operator fun invoke(): List<ListCreatedEntity> {
-        return movieRepository.getListCreated()
+        return accountRepository.getListCreated()
     }
 }

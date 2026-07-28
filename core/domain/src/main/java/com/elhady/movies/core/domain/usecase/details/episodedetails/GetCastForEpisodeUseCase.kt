@@ -1,17 +1,17 @@
 package com.elhady.movies.core.domain.usecase.details.episodedetails
 
 import com.elhady.movies.core.domain.model.PeopleEntity
-import com.elhady.movies.core.domain.repository.MovieRepository
+import com.elhady.movies.core.domain.repository.TvShowRepository
 import javax.inject.Inject
 
 class GetCastForEpisodeUseCase @Inject constructor(
-    private val movieRepository: MovieRepository
+    private val tvShowRepository: TvShowRepository
 ) {
     suspend operator fun invoke(
         id: Int,
         seasonNumber: Int,
         episodeNumber: Int
     ): List<PeopleEntity> {
-        return movieRepository.getCastForEpisode(id, seasonNumber, episodeNumber)
+        return tvShowRepository.getCastForEpisode(id, seasonNumber, episodeNumber)
     }
 }
