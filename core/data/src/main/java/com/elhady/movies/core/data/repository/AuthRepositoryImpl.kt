@@ -7,7 +7,7 @@ import com.elhady.movies.core.datastore.local.PreferenceStorage
 import com.elhady.movies.core.domain.model.auth.ProfileEntity
 import com.elhady.movies.core.domain.repository.AuthRepository
 import com.elhady.movies.core.data.base.BaseRepository
-import com.elhady.movies.core.network.model.request.LoginRequest
+import com.elhady.movies.core.network.dto.auth.LoginRequest
 import com.elhady.movies.core.network.api.AccountApiService
 import com.elhady.movies.core.network.api.AuthApiService
 import javax.inject.Inject

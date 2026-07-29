@@ -42,9 +42,9 @@ import com.elhady.movies.core.domain.model.account.MyRatedTvShowEntity
 import com.elhady.movies.core.domain.model.tvshow.SeasonDetailsEntity
 import com.elhady.movies.core.domain.model.tvshow.TvDetailsInfoEntity
 import com.elhady.movies.core.domain.repository.TvShowRepository
-import com.elhady.movies.core.network.model.request.RateRequest
-import com.elhady.movies.core.network.model.request.RatingEpisodeDetailsRequest
-import com.elhady.movies.core.network.model.response.dto.YoutubeVideoDetailsRemoteDto
+import com.elhady.movies.core.network.dto.tvshow.RateRequest
+import com.elhady.movies.core.network.dto.tvshow.RatingEpisodeDetailsRequest
+import com.elhady.movies.core.network.dto.common.YoutubeVideoDetailsRemoteDto
 import com.elhady.movies.core.network.api.AccountApiService
 import com.elhady.movies.core.network.api.PeopleApiService
 import com.elhady.movies.core.network.api.TvShowApiService

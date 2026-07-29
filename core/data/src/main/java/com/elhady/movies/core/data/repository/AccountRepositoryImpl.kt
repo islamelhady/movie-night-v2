@@ -20,13 +20,13 @@ import com.elhady.movies.core.domain.model.account.MyRatedMovieEntity
 import com.elhady.movies.core.domain.model.account.MyRatedTvShowEntity
 import com.elhady.movies.core.domain.repository.AccountRepository
 import com.elhady.movies.core.domain.repository.GenreRepository
-import com.elhady.movies.core.network.model.request.AddMediaToListRequest
-import com.elhady.movies.core.network.model.request.CreateUserListRequest
-import com.elhady.movies.core.network.model.request.DeleteMovieRequest
-import com.elhady.movies.core.network.model.request.FavoriteRequest
-import com.elhady.movies.core.network.model.request.ListRequest
-import com.elhady.movies.core.network.model.request.RatingRequest
-import com.elhady.movies.core.network.model.request.WatchlistRequest
+import com.elhady.movies.core.network.dto.account.AddMediaToListRequest
+import com.elhady.movies.core.network.dto.account.CreateUserListRequest
+import com.elhady.movies.core.network.dto.account.DeleteMovieRequest
+import com.elhady.movies.core.network.dto.account.FavoriteRequest
+import com.elhady.movies.core.network.dto.account.ListRequest
+import com.elhady.movies.core.network.dto.movie.RatingRequest
+import com.elhady.movies.core.network.dto.account.WatchlistRequest
 import com.elhady.movies.core.network.api.AccountApiService
 import javax.inject.Inject
 

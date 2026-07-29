@@ -29,7 +29,7 @@ import com.elhady.movies.core.domain.model.movie.ReviewResponseEntity
 import com.elhady.movies.core.domain.repository.GenreRepository
 import com.elhady.movies.core.domain.repository.MovieRepository
 import com.elhady.movies.core.domain.repository.PeopleRepository
-import com.elhady.movies.core.network.model.response.dto.YoutubeVideoDetailsRemoteDto
+import com.elhady.movies.core.network.dto.common.YoutubeVideoDetailsRemoteDto
 import com.elhady.movies.core.network.api.MovieApiService
 import java.util.Random
 import javax.inject.Inject
