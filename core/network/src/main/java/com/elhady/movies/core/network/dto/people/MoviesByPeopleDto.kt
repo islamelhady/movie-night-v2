@@ -5,16 +5,16 @@ import com.google.gson.annotations.SerializedName
 data class MoviesByPeopleDto(
 
     @SerializedName("cast")
-    val cast: List<CastItem?>? = null,
+    val cast: List<CastDto?>? = null,
 
     @SerializedName("id")
     val id: Int? = null,
 
     @field:SerializedName("crew")
-    val crew: List<CrewItem?>? = null
+    val crew: List<CrewDto?>? = null
 )
 
-data class CrewItem(
+data class CrewDto(
 
     @SerializedName("overview")
     val overview: String? = null,
@@ -68,7 +68,7 @@ data class CrewItem(
     val voteCount: Int? = null
 )
 
-data class CastItem(
+data class CastDto(
 
     @SerializedName("overview")
     val overview: String? = null,

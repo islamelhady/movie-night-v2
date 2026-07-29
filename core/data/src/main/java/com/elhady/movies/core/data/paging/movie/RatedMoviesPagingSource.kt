@@ -4,14 +4,14 @@ import com.elhady.movies.core.database.dao.GenreDao
 import com.elhady.movies.core.network.api.AccountApiService
 import com.elhady.movies.core.data.base.BasePagingSource
 import com.elhady.movies.core.domain.model.account.MyRatedMovie
-import com.elhady.movies.core.data.mapper.movie.DomainGenreMapper
-import com.elhady.movies.core.data.mapper.account.DomainMyRatedMoviesMapper
+import com.elhady.movies.core.data.mapper.movie.GenreEntityMapper
+import com.elhady.movies.core.data.mapper.account.MyRatedMoviesDtoMapper
 import javax.inject.Inject
 
 class RatedMoviesPagingSource @Inject constructor(
     service: AccountApiService,
-    private val domainGenreMapper: DomainGenreMapper,
-    private val mapper: DomainMyRatedMoviesMapper,
+    private val domainGenreMapper: GenreEntityMapper,
+    private val mapper: MyRatedMoviesDtoMapper,
     private val genreDao: GenreDao,
 ) : BasePagingSource<AccountApiService, MyRatedMovie>(service) {
 

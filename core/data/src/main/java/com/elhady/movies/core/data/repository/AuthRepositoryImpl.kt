@@ -2,7 +2,7 @@ package com.elhady.movies.core.data.repository
 
 import android.util.Log
 import com.elhady.movies.core.common.UnauthorizedThrowable
-import com.elhady.movies.core.data.mapper.auth.DomainProfileMapper
+import com.elhady.movies.core.data.mapper.auth.ProfileDtoMapper
 import com.elhady.movies.core.datastore.local.PreferenceStorage
 import com.elhady.movies.core.domain.model.auth.Profile
 import com.elhady.movies.core.domain.repository.AuthRepository
@@ -16,7 +16,7 @@ class AuthRepositoryImpl @Inject constructor(
     private val authApiService: AuthApiService,
     private val accountApiService: AccountApiService,
     private val prefs: PreferenceStorage,
-    private val domainProfileMapper: DomainProfileMapper
+    private val domainProfileMapper: ProfileDtoMapper
 ) : BaseRepository(), AuthRepository {
 
     override suspend fun login(username: String, password: String): Boolean {
