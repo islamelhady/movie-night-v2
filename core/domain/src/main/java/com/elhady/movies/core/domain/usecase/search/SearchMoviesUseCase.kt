@@ -1,18 +1,18 @@
 package com.elhady.movies.core.domain.usecase.search
 
-import com.elhady.movies.core.domain.model.MovieEntity
-import com.elhady.movies.core.domain.repository.MovieRepository
+import com.elhady.movies.core.domain.model.movie.MovieEntity
+import com.elhady.movies.core.domain.repository.SearchRepository
 import javax.inject.Inject
 
 class SearchMoviesUseCase @Inject constructor(
-    private val movieRepository: MovieRepository
+    private val searchRepository: SearchRepository
 ) {
     suspend operator fun invoke(
         keyword: String,
         genreId: Int? = null
     ): List<MovieEntity> {
 
-        return movieRepository.searchForMovies(keyword)
+        return searchRepository.searchForMovies(keyword)
             // Filter the search results.
             .filter { movie ->
                 // If a genreId is provided, check if the movie's genre list contains it.

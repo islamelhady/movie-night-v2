@@ -14,7 +14,7 @@ import com.elhady.movies.feature.watchlist.databinding.FragmentMyRatedBinding
 import com.elhady.movies.feature.watchlist.presentation.myrated.MyRatedEvents
 import com.elhady.movies.feature.watchlist.presentation.myrated.MyRatedUiState
 import com.elhady.movies.feature.watchlist.presentation.myrated.MyRatedViewModel
-import com.elhady.movies.core.domain.navigation.Navigator
+import com.elhady.movies.core.ui.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
