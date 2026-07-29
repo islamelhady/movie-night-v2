@@ -2,13 +2,13 @@ package com.elhady.movies.core.data.mapper.search
 
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.network.dto.movie.MovieDto
-import com.elhady.movies.core.domain.model.common.GenreEntity
-import com.elhady.movies.core.domain.model.movie.MovieEntity
+import com.elhady.movies.core.domain.model.common.Genre
+import com.elhady.movies.core.domain.model.movie.Movie
 import javax.inject.Inject
 
 class DomainMovieSearchMapper @Inject constructor() {
-    fun map(input: MovieDto, genres: List<GenreEntity>): MovieEntity {
-        return MovieEntity(
+    fun map(input: MovieDto, genres: List<Genre>): Movie {
+        return Movie(
             id = input.id ?: 0,
             title = input.title ?: "",
             rate = input.voteAverage ?: 0.0,
@@ -18,7 +18,7 @@ class DomainMovieSearchMapper @Inject constructor() {
         )
     }
 
-    fun map(input: List<MovieDto>, genres: List<GenreEntity>): List<MovieEntity> {
+    fun map(input: List<MovieDto>, genres: List<Genre>): List<Movie> {
         return input.map {
             map(it, genres)
         }
@@ -26,8 +26,8 @@ class DomainMovieSearchMapper @Inject constructor() {
 
     private fun filterGenres(
         genresIds: List<Int>,
-        genresEntities: List<GenreEntity>
-    ): List<GenreEntity> {
+        genresEntities: List<Genre>
+    ): List<Genre> {
         return genresEntities.filter { it.genreID in genresIds }
     }
 }

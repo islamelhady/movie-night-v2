@@ -7,21 +7,21 @@ import com.elhady.movies.core.network.dto.movie.MovieDetailsDto
 import com.elhady.movies.core.network.dto.movie.RecommendationsDto
 import com.elhady.movies.core.network.dto.movie.ReviewsDto
 import com.elhady.movies.core.network.dto.movie.VideosDto
-import com.elhady.movies.core.domain.model.movie.CastEntity
-import com.elhady.movies.core.domain.model.movie.CreditsEntity
-import com.elhady.movies.core.domain.model.movie.CrewEntity
-import com.elhady.movies.core.domain.model.movie.MovieDetailsEntity
-import com.elhady.movies.core.domain.model.movie.MovieVideoEntity
-import com.elhady.movies.core.domain.model.movie.RecommendationsEntity
-import com.elhady.movies.core.domain.model.movie.RecommendedMovieEntity
-import com.elhady.movies.core.domain.model.common.ReviewEntity
-import com.elhady.movies.core.domain.model.movie.ReviewResponseEntity
-import com.elhady.movies.core.domain.model.movie.VideosEntity
+import com.elhady.movies.core.domain.model.movie.Cast
+import com.elhady.movies.core.domain.model.movie.Credits
+import com.elhady.movies.core.domain.model.movie.Crew
+import com.elhady.movies.core.domain.model.movie.MovieDetails
+import com.elhady.movies.core.domain.model.movie.MovieVideo
+import com.elhady.movies.core.domain.model.movie.Recommendations
+import com.elhady.movies.core.domain.model.movie.RecommendedMovie
+import com.elhady.movies.core.domain.model.common.Review
+import com.elhady.movies.core.domain.model.movie.ReviewResponse
+import com.elhady.movies.core.domain.model.movie.Videos
 import javax.inject.Inject
 
-class DomainMovieDetailsMapper @Inject constructor() : Mapper<MovieDetailsDto, MovieDetailsEntity> {
-    override fun map(input: MovieDetailsDto): MovieDetailsEntity {
-        return MovieDetailsEntity(
+class DomainMovieDetailsMapper @Inject constructor() : Mapper<MovieDetailsDto, MovieDetails> {
+    override fun map(input: MovieDetailsDto): MovieDetails {
+        return MovieDetails(
             backdropPath = BuildConfig.IMAGE_BASE_PATH + input.backdropPath,
             credits = mapCredits(input.credits),
             genres = input.genres?.map { it.name!! } ?: emptyList(),
@@ -37,10 +37,10 @@ class DomainMovieDetailsMapper @Inject constructor() : Mapper<MovieDetailsDto, M
         )
     }
 
-    private fun mapCredits(credits: CreditsDto?): CreditsEntity {
-        return CreditsEntity(
+    private fun mapCredits(credits: CreditsDto?): Credits {
+        return Credits(
             cast = credits?.cast?.map {
-                CastEntity(
+                Cast(
                     adult = it.adult ?: false,
                     castId = it.castId ?: 0,
                     character = it.character ?: "",
@@ -56,7 +56,7 @@ class DomainMovieDetailsMapper @Inject constructor() : Mapper<MovieDetailsDto, M
                 )
             } ?: emptyList(),
             crew = credits?.crew?.map {
-                CrewEntity(
+                Crew(
                     adult = it.adult ?: false,
                     creditId = it.creditId ?: "",
                     department = it.department ?: "",
@@ -73,11 +73,11 @@ class DomainMovieDetailsMapper @Inject constructor() : Mapper<MovieDetailsDto, M
         )
     }
 
-    private fun mapRecommendations(recommendations: RecommendationsDto?): RecommendationsEntity {
-        return RecommendationsEntity(
+    private fun mapRecommendations(recommendations: RecommendationsDto?): Recommendations {
+        return Recommendations(
             page = recommendations?.page ?: 0,
             recommendedMovies = recommendations?.recommendedMovies?.map {
-                RecommendedMovieEntity(
+                RecommendedMovie(
                     adult = it.adult ?: false,
                     backdropPath = BuildConfig.IMAGE_BASE_PATH + it.backdropPath,
                     genreIds = it.genreIds ?: emptyList(),
@@ -100,10 +100,10 @@ class DomainMovieDetailsMapper @Inject constructor() : Mapper<MovieDetailsDto, M
         )
     }
 
-    private fun mapVideos(videos: VideosDto?): VideosEntity {
-        return VideosEntity(
+    private fun mapVideos(videos: VideosDto?): Videos {
+        return Videos(
             results = videos?.results?.map {
-                MovieVideoEntity(
+                MovieVideo(
                     id = it.id ?: "",
                     iso31661 = it.iso31661 ?: "",
                     iso6391 = it.iso6391 ?: "",
@@ -119,10 +119,10 @@ class DomainMovieDetailsMapper @Inject constructor() : Mapper<MovieDetailsDto, M
         )
     }
 
-    private fun mapReviews(reviews: ReviewsDto?): ReviewResponseEntity {
-        return ReviewResponseEntity(
+    private fun mapReviews(reviews: ReviewsDto?): ReviewResponse {
+        return ReviewResponse(
             reviews = reviews?.results?.map {
-                ReviewEntity(
+                Review(
                     name = it.author ?: "",
                     avatarPath = it.authorDetails?.avatarPath ?: "",
                     content = it.content ?: "",

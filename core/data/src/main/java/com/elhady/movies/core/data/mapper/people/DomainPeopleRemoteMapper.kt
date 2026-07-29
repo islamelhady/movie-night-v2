@@ -3,17 +3,17 @@ package com.elhady.movies.core.data.mapper.people
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.network.dto.people.PeopleDto
-import com.elhady.movies.core.domain.model.people.PeopleEntity
+import com.elhady.movies.core.domain.model.people.People
 import javax.inject.Inject
 
-class DomainPeopleRemoteMapper @Inject constructor() : Mapper<PeopleDto, PeopleEntity> {
+class DomainPeopleRemoteMapper @Inject constructor() : Mapper<PeopleDto, People> {
 
-    override fun map(input: List<PeopleDto>): List<PeopleEntity> {
+    override fun map(input: List<PeopleDto>): List<People> {
         return input.map(::map)
     }
 
-    override fun map(input: PeopleDto): PeopleEntity {
-        return PeopleEntity(
+    override fun map(input: PeopleDto): People {
+        return People(
             id = input.id ?: 0,
             name = input.name ?: "",
             imageUrl = BuildConfig.IMAGE_BASE_PATH + input.profilePath,

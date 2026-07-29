@@ -4,15 +4,15 @@ import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.network.dto.tvshow.EpisodeDto
 import com.elhady.movies.core.network.dto.tvshow.SeasonDetailsDto
-import com.elhady.movies.core.domain.model.tvshow.EpisodeEntity
-import com.elhady.movies.core.domain.model.tvshow.SeasonDetailsEntity
+import com.elhady.movies.core.domain.model.tvshow.Episode
+import com.elhady.movies.core.domain.model.tvshow.SeasonDetails
 import javax.inject.Inject
 
 class DomainSeasonDetailsMapper @Inject constructor() :
-    Mapper<SeasonDetailsDto, SeasonDetailsEntity> {
+    Mapper<SeasonDetailsDto, SeasonDetails> {
 
-    override fun map(input: SeasonDetailsDto): SeasonDetailsEntity {
-        return SeasonDetailsEntity(
+    override fun map(input: SeasonDetailsDto): SeasonDetails {
+        return SeasonDetails(
             id = input.id ?: 0,
             name = input.name ?: "",
             overview = input.overview ?: "",
@@ -20,9 +20,9 @@ class DomainSeasonDetailsMapper @Inject constructor() :
         )
     }
 
-    private fun mapEpisodes(input: List<EpisodeDto>): List<EpisodeEntity>{
+    private fun mapEpisodes(input: List<EpisodeDto>): List<Episode>{
         return input.map {
-            EpisodeEntity(
+            Episode(
                 id = it.id ?: 0,
                 imageUrl = BuildConfig.IMAGE_BASE_PATH + it.stillPath ,
                 title = it.name ?: "",
