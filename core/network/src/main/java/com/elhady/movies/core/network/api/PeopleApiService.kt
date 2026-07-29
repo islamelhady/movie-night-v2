@@ -1,10 +1,10 @@
 package com.elhady.movies.core.network.api
 
-import com.elhady.movies.core.network.model.response.DataWrapperResponse
-import com.elhady.movies.core.network.model.response.dto.MoviesByPeopleResponse
-import com.elhady.movies.core.network.model.response.dto.PeopleDetailsResponse
-import com.elhady.movies.core.network.model.response.dto.PeopleRemoteDto
-import com.elhady.movies.core.network.model.response.dto.TvShowsByPeopleResponse
+import com.elhady.movies.core.network.dto.common.DataWrapperResponse
+import com.elhady.movies.core.network.dto.people.MoviesByPeopleResponse
+import com.elhady.movies.core.network.dto.people.PeopleDetailsResponse
+import com.elhady.movies.core.network.dto.people.PeopleRemoteDto
+import com.elhady.movies.core.network.dto.people.TvShowsByPeopleResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

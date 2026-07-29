@@ -1,8 +1,8 @@
 package com.elhady.movies.core.network.api
 
-import com.elhady.movies.core.network.model.request.LoginRequest
-import com.elhady.movies.core.network.model.response.auth.RequestTokenResponse
-import com.elhady.movies.core.network.model.response.auth.SessionResponse
+import com.elhady.movies.core.network.dto.auth.LoginRequest
+import com.elhady.movies.core.network.dto.auth.RequestTokenResponse
+import com.elhady.movies.core.network.dto.auth.SessionResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Field

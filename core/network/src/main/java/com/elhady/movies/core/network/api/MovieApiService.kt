@@ -1,12 +1,12 @@
 package com.elhady.movies.core.network.api
 
-import com.elhady.movies.core.network.model.request.RatingRequest
-import com.elhady.movies.core.network.model.response.DataWrapperResponse
-import com.elhady.movies.core.network.model.response.dto.MovieRemoteDto
-import com.elhady.movies.core.network.model.response.dto.StatusResponse
-import com.elhady.movies.core.network.model.response.dto.YoutubeVideoDetailsRemoteDto
-import com.elhady.movies.core.network.model.response.moviedetails.MovieDetailsRemoteDto
-import com.elhady.movies.core.network.model.response.moviedetails.ReviewsRemoteDto
+import com.elhady.movies.core.network.dto.movie.RatingRequest
+import com.elhady.movies.core.network.dto.common.DataWrapperResponse
+import com.elhady.movies.core.network.dto.movie.MovieRemoteDto
+import com.elhady.movies.core.network.dto.common.StatusResponse
+import com.elhady.movies.core.network.dto.common.YoutubeVideoDetailsRemoteDto
+import com.elhady.movies.core.network.dto.movie.MovieDetailsRemoteDto
+import com.elhady.movies.core.network.dto.movie.ReviewsRemoteDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

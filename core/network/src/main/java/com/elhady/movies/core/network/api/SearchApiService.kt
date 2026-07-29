@@ -1,9 +1,9 @@
 package com.elhady.movies.core.network.api
 
-import com.elhady.movies.core.network.model.response.DataWrapperResponse
-import com.elhady.movies.core.network.model.response.dto.MovieRemoteDto
-import com.elhady.movies.core.network.model.response.dto.PeopleRemoteDto
-import com.elhady.movies.core.network.model.response.dto.TvRemoteDto
+import com.elhady.movies.core.network.dto.common.DataWrapperResponse
+import com.elhady.movies.core.network.dto.movie.MovieRemoteDto
+import com.elhady.movies.core.network.dto.people.PeopleRemoteDto
+import com.elhady.movies.core.network.dto.tvshow.TvRemoteDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
