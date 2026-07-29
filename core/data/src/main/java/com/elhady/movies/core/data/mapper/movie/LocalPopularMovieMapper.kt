@@ -3,7 +3,7 @@ package com.elhady.movies.core.data.mapper.movie
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.database.dto.movie.PopularMovieLocalDto
-import com.elhady.movies.core.network.model.response.dto.MovieRemoteDto
+import com.elhady.movies.core.network.dto.movie.MovieRemoteDto
 import javax.inject.Inject
 
 class LocalPopularMovieMapper @Inject constructor() :

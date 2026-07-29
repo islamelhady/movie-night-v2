@@ -2,7 +2,7 @@ package com.elhady.movies.core.data.mapper.episode
 
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.network.model.response.dto.episode_details.EpisodeDetailsCastRemoteDto
+import com.elhady.movies.core.network.dto.tvshow.EpisodeDetailsCastRemoteDto
 import com.elhady.movies.core.domain.model.people.PeopleEntity
 import javax.inject.Inject
 

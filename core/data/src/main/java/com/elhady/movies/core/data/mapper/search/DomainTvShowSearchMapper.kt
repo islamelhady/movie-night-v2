@@ -1,7 +1,7 @@
 package com.elhady.movies.core.data.mapper.search
 
 import com.elhady.movies.core.data.BuildConfig
-import com.elhady.movies.core.network.model.response.dto.TvRemoteDto
+import com.elhady.movies.core.network.dto.tvshow.TvRemoteDto
 import com.elhady.movies.core.domain.model.common.GenreEntity
 import com.elhady.movies.core.domain.model.tvshow.TvEntity
 import javax.inject.Inject

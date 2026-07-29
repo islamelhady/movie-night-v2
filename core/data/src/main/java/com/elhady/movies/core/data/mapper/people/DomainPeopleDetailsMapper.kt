@@ -2,7 +2,7 @@ package com.elhady.movies.core.data.mapper.people
 
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.network.model.response.dto.PeopleDetailsResponse
+import com.elhady.movies.core.network.dto.people.PeopleDetailsResponse
 import com.elhady.movies.core.domain.model.people.PeopleDetailsEntity
 import javax.inject.Inject
 

@@ -1,7 +1,7 @@
 package com.elhady.movies.core.data.mapper.episode
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.network.model.response.dto.episode_details.RatingEpisodeDetailsRemoteDto
+import com.elhady.movies.core.network.dto.tvshow.RatingEpisodeDetailsRemoteDto
 import com.elhady.movies.core.domain.model.tvshow.RatingEpisodeDetailsStatusEntity
 import javax.inject.Inject
 

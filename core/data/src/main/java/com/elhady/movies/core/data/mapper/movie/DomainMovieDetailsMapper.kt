@@ -2,11 +2,11 @@ package com.elhady.movies.core.data.mapper.movie
 
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.network.model.response.moviedetails.CreditsRemoteDto
-import com.elhady.movies.core.network.model.response.moviedetails.MovieDetailsRemoteDto
-import com.elhady.movies.core.network.model.response.moviedetails.RecommendationsRemoteDto
-import com.elhady.movies.core.network.model.response.moviedetails.ReviewsRemoteDto
-import com.elhady.movies.core.network.model.response.moviedetails.VideosRemoteDto
+import com.elhady.movies.core.network.dto.movie.CreditsRemoteDto
+import com.elhady.movies.core.network.dto.movie.MovieDetailsRemoteDto
+import com.elhady.movies.core.network.dto.movie.RecommendationsRemoteDto
+import com.elhady.movies.core.network.dto.movie.ReviewsRemoteDto
+import com.elhady.movies.core.network.dto.movie.VideosRemoteDto
 import com.elhady.movies.core.domain.model.movie.CastEntity
 import com.elhady.movies.core.domain.model.movie.CreditsEntity
 import com.elhady.movies.core.domain.model.movie.CrewEntity
