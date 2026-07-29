@@ -1,13 +1,7 @@
 package com.elhady.movies.core.data.base
 
 import com.elhady.movies.core.network.dto.common.DataWrapperResponse
-import com.elhady.movies.core.common.ApiThrowable
-import com.elhady.movies.core.common.ForbiddenThrowable
-import com.elhady.movies.core.common.NoNetworkThrowable
-import com.elhady.movies.core.common.ParsingThrowable
-import com.elhady.movies.core.common.ServerErrorThrowable
-import com.elhady.movies.core.common.TimeoutThrowable
-import com.elhady.movies.core.common.UnauthorizedThrowable
+import com.elhady.movies.core.common.*
 import retrofit2.Response
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -17,21 +11,38 @@ abstract class BaseRepository {
     protected suspend fun <T> wrapApiCall(call: suspend () -> Response<T>): T {
         return try {
             val result = call()
-            when (result.code()) {
-                in 200..299 -> result.body() ?: throw ParsingThrowable()
-                401 -> throw UnauthorizedThrowable()
-                408 -> throw TimeoutThrowable()
-                500 -> throw ServerErrorThrowable()
-                403 -> throw ForbiddenThrowable()
-                // Add more status code checks as needed
-                else -> throw ApiThrowable("Unhandled status code: ${result.code()}")
+            if (result.isSuccessful) {
+                result.body() ?: throw ParsingThrowable()
+            } else {
+                throw parseError(result)
             }
         } catch (e: UnknownHostException) {
             throw NoNetworkThrowable()
         } catch (e: SocketTimeoutException) {
             throw TimeoutThrowable()
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
+            if (e is ApiThrowable
+                || e is UnauthorizedThrowable
+                || e is ForbiddenThrowable
+                || e is TimeoutThrowable
+                || e is ServerErrorThrowable
+                || e is NoNetworkThrowable
+                || e is ParsingThrowable) {
+                throw e
+            }
             throw ApiThrowable(e.message)
+        }
+    }
+
+    private fun <T> parseError(result: Response<T>): Throwable {
+        val code = result.code()
+        // Here we could parse result.errorBody() if needed, but keeping it simple for now
+        return when (code) {
+            401 -> UnauthorizedThrowable()
+            403 -> ForbiddenThrowable()
+            408 -> TimeoutThrowable()
+            500 -> ServerErrorThrowable()
+            else -> ApiThrowable("Error code: $code")
         }
     }
 
