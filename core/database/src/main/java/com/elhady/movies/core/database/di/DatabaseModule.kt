@@ -3,7 +3,6 @@ package com.elhady.movies.core.database.di
 import android.content.Context
 import androidx.room.Room
 import com.elhady.movies.core.database.converter.Converters
-import com.elhady.movies.core.database.dao.MovieDao
 import com.elhady.movies.core.database.db.MovieDatabase
 import com.elhady.movies.core.database.dao.GenreDao
 import com.elhady.movies.core.database.dao.PeopleDao
