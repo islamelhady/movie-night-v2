@@ -11,7 +11,7 @@ class GetAiringTodayTvUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(limit: Int = 6): List<TvShows> {
         refreshIfNeededUseCase()
-        return tvShowRepository.getAiringTodayTvShowsFromDatabase()
+        return tvShowRepository.getAiringTodayTVShowsFromDatabase()
             .also { if (it.isEmpty()) tvShowRepository.refreshAiringTodayTvShows() }
             .take(limit)
     }

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 data class TvShowsByPeopleDto(
 
     @SerializedName("cast")
-    val cast: List<TvShowsCastItem?>? = null,
+    val cast: List<TvShowsCastDto?>? = null,
 
     @SerializedName("id")
     val id: Int? = null,
@@ -13,7 +13,7 @@ data class TvShowsByPeopleDto(
     val crew: List<Any?>? = null
 )
 
-data class TvShowsCastItem(
+data class TvShowsCastDto(
 
     @SerializedName("first_air_date")
     val firstAirDate: String? = null,
