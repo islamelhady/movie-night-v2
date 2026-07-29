@@ -6,11 +6,11 @@ data class EpisodeDto (
     @SerializedName("air_date")
     val airDate: String? = null,
     @SerializedName("crew")
-    val crew: List<Crew?>? = null,
+    val crew: List<CrewDto?>? = null,
     @SerializedName("episode_number")
     val episodeNumber: Int? = null,
     @SerializedName("guest_stars")
-    val guestStars: List<GuestStar?>? = null,
+    val guestStars: List<GuestStarDto?>? = null,
     @SerializedName("id")
     val id: Int? = null,
     @SerializedName("name")

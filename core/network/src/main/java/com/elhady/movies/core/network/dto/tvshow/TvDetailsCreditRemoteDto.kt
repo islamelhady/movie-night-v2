@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName
 
 data class TvDetailsCreditRemoteDto(
     @SerializedName("cast")
-    val cast: List<Cast?>?,
+    val cast: List<CastDto?>?,
     @SerializedName("id")
     val tvShowId: Int?,
 ) {
-    data class Cast(
+    data class CastDto(
         @SerializedName("adult")
         val adult: Boolean?,
         @SerializedName("gender")

@@ -12,7 +12,7 @@ class DomainTvDetailsCreditMapper @Inject constructor() :
         return mapCastToEntity(input.cast)
     }
 
-    private fun mapCastToEntity(castRemoteDto: List<TvDetailsCreditRemoteDto.Cast?>?)
+    private fun mapCastToEntity(castRemoteDto: List<TvDetailsCreditRemoteDto.CastDto?>?)
             : List<PeopleEntity> {
         return castRemoteDto?.map { actor ->
             PeopleEntity(
