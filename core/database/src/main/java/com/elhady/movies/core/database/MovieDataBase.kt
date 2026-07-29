@@ -3,42 +3,42 @@ package com.elhady.movies.core.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.elhady.movies.core.database.dto.GenresMoviesLocalDto
-import com.elhady.movies.core.database.dto.GenresTvsLocalDto
-import com.elhady.movies.core.database.dto.PopularPeopleLocalDto
-import com.elhady.movies.core.database.dto.ProfileLocalDto
-import com.elhady.movies.core.database.dto.SearchHistoryLocalDto
-import com.elhady.movies.core.database.dto.UserLocalDto
-import com.elhady.movies.core.database.dto.movie.MovieInWatchHistoryLocalDto
-import com.elhady.movies.core.database.dto.movie.MovieLocalDto
-import com.elhady.movies.core.database.dto.movie.NowPlayingMovieLocalDto
-import com.elhady.movies.core.database.dto.movie.PopularMovieLocalDto
-import com.elhady.movies.core.database.dto.movie.RecommendedMovieLocalDto
-import com.elhady.movies.core.database.dto.movie.TopRatedMovieLocalDto
-import com.elhady.movies.core.database.dto.movie.TrendingMoviesLocalDto
-import com.elhady.movies.core.database.dto.movie.UpcomingMovieLocalDto
-import com.elhady.movies.core.database.dto.tvshow.AiringTodayTvShowsLocalDto
-import com.elhady.movies.core.database.dto.tvshow.TvShowsLocalDto
+import com.elhady.movies.core.database.entity.GenresMoviesEntity
+import com.elhady.movies.core.database.entity.GenresTvEntity
+import com.elhady.movies.core.database.entity.PopularPeopleEntity
+import com.elhady.movies.core.database.entity.ProfileEntity
+import com.elhady.movies.core.database.entity.SearchHistoryEntity
+import com.elhady.movies.core.database.entity.UserEntity
+import com.elhady.movies.core.database.entity.movie.MovieInWatchHistoryEntity
+import com.elhady.movies.core.database.entity.movie.MovieEntity
+import com.elhady.movies.core.database.entity.movie.NowPlayingMovieEntity
+import com.elhady.movies.core.database.entity.movie.PopularMovieEntity
+import com.elhady.movies.core.database.entity.movie.RecommendedMovieEntity
+import com.elhady.movies.core.database.entity.movie.TopRatedMovieEntity
+import com.elhady.movies.core.database.entity.movie.TrendingMoviesEntity
+import com.elhady.movies.core.database.entity.movie.UpcomingMovieEntity
+import com.elhady.movies.core.database.entity.tvshow.AiringTodayTvShowEntity
+import com.elhady.movies.core.database.entity.tvshow.TvShowEntity
 
 
 @Database(
     entities = [
-        PopularMovieLocalDto::class,
-        TopRatedMovieLocalDto::class,
-        UpcomingMovieLocalDto::class,
-        NowPlayingMovieLocalDto::class,
-        RecommendedMovieLocalDto::class,
-        TrendingMoviesLocalDto::class,
-        PopularPeopleLocalDto::class,
-        SearchHistoryLocalDto::class,
-        GenresMoviesLocalDto::class,
-        ProfileLocalDto::class,
-        GenresTvsLocalDto::class,
-        MovieLocalDto::class,
-        UserLocalDto::class,
-        TvShowsLocalDto::class,
-        MovieInWatchHistoryLocalDto::class,
-        AiringTodayTvShowsLocalDto::class
+        PopularMovieEntity::class,
+        TopRatedMovieEntity::class,
+        UpcomingMovieEntity::class,
+        NowPlayingMovieEntity::class,
+        RecommendedMovieEntity::class,
+        TrendingMoviesEntity::class,
+        PopularPeopleEntity::class,
+        SearchHistoryEntity::class,
+        GenresMoviesEntity::class,
+        ProfileEntity::class,
+        GenresTvEntity::class,
+        MovieEntity::class,
+        UserEntity::class,
+        TvShowEntity::class,
+        MovieInWatchHistoryEntity::class,
+        AiringTodayTvShowEntity::class
     ],
     version = 9,
     exportSchema = true,

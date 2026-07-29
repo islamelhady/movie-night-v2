@@ -1,14 +1,14 @@
 package com.elhady.movies.core.data.mapper.movie
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.database.dto.movie.UpcomingMovieLocalDto
+import com.elhady.movies.core.database.entity.movie.UpcomingMovieEntity
 import com.elhady.movies.core.domain.model.common.GenreEntity
 import com.elhady.movies.core.domain.model.movie.MovieEntity
 import javax.inject.Inject
 
-class DomainUpcomingMovieMapper @Inject constructor(): Mapper<UpcomingMovieLocalDto, MovieEntity> {
+class DomainUpcomingMovieMapper @Inject constructor(): Mapper<UpcomingMovieEntity, MovieEntity> {
 
-    override fun map(input: UpcomingMovieLocalDto): MovieEntity {
+    override fun map(input: UpcomingMovieEntity): MovieEntity {
         return MovieEntity(
             id = input.id,
             title = input.title,

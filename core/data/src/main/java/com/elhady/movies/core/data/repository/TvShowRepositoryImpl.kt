@@ -28,7 +28,7 @@ import com.elhady.movies.core.data.mapper.tvshow.DomainMyRatedTvShowDetailsMappe
 import com.elhady.movies.core.data.mapper.people.DomainTvShowsByPeopleMapper
 import com.elhady.movies.core.data.mapper.tvshow.DomainTVMapper
 import com.elhady.movies.core.database.TvShowDao
-import com.elhady.movies.core.database.dto.tvshow.TvShowsLocalDto
+import com.elhady.movies.core.database.entity.tvshow.TvShowEntity
 import com.elhady.movies.core.domain.model.tvshow.EpisodeDetailsEntity
 import com.elhady.movies.core.domain.model.people.PeopleEntity
 import com.elhady.movies.core.domain.model.tvshow.RatingEpisodeDetailsStatusEntity
@@ -84,7 +84,7 @@ class TvShowRepositoryImpl @Inject constructor(
 
     override suspend fun refreshTvShows() {
         try {
-            val items = mutableListOf<TvShowsLocalDto>()
+            val items = mutableListOf<TvShowEntity>()
             tvShowApiService.getAiringTodayTVShows().body()?.results?.firstOrNull()
                 ?.let { items.add(localTvShowMapper.map(it)) }
             tvShowApiService.getTopRatedTVShows().body()?.results?.firstOrNull()
