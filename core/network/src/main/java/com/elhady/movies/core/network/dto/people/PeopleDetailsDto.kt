@@ -2,7 +2,7 @@ package com.elhady.movies.core.network.dto.people
 
 import com.google.gson.annotations.SerializedName
 
-data class PeopleDetailsResponse(
+data class PeopleDetailsDto(
 
     @SerializedName("also_known_as")
     val alsoKnownAs: List<String?>? = null,

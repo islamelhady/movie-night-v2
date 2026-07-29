@@ -1,7 +1,7 @@
 package com.elhady.movies.core.network.dto.people
 import com.google.gson.annotations.SerializedName
 
-data class TvShowsByPeopleResponse(
+data class TvShowsByPeopleDto(
 
     @SerializedName("cast")
     val cast: List<TvShowsCastItem?>? = null,

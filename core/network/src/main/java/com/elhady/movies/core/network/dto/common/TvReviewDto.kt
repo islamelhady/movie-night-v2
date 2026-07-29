@@ -1,13 +1,13 @@
-package com.elhady.movies.core.network.dto.movie
+package com.elhady.movies.core.network.dto.common
 
 
 import com.google.gson.annotations.SerializedName
 
-data class ResultDto(
+data class TvReviewDto(
     @SerializedName("author")
     val author: String?,
     @SerializedName("author_details")
-    val authorDetails: AuthorDetailsDto?,
+    val authorDetails: AuthorDetails?,
     @SerializedName("content")
     val content: String?,
     @SerializedName("created_at")
@@ -18,4 +18,15 @@ data class ResultDto(
     val updatedAt: String?,
     @SerializedName("url")
     val url: String?
-)
+) {
+    data class AuthorDetails(
+        @SerializedName("name")
+        val name: String?,
+        @SerializedName("username")
+        val username: String?,
+        @SerializedName("avatar_path")
+        val avatarPath: String?,
+        @SerializedName("rating")
+        val rating: Double?
+    )
+}
