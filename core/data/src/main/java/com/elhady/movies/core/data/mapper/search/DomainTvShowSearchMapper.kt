@@ -1,13 +1,13 @@
 package com.elhady.movies.core.data.mapper.search
 
 import com.elhady.movies.core.data.BuildConfig
-import com.elhady.movies.core.network.model.response.dto.TvRemoteDto
+import com.elhady.movies.core.network.dto.tvshow.TvDto
 import com.elhady.movies.core.domain.model.common.GenreEntity
 import com.elhady.movies.core.domain.model.tvshow.TvEntity
 import javax.inject.Inject
 
 class DomainTvShowSearchMapper @Inject constructor() {
-    fun map(input: TvRemoteDto, genres: List<GenreEntity>): TvEntity {
+    fun map(input: TvDto, genres: List<GenreEntity>): TvEntity {
         return TvEntity(
             id = input.id ?: 0,
             title = input.name ?: "",
@@ -18,7 +18,7 @@ class DomainTvShowSearchMapper @Inject constructor() {
         )
     }
 
-    fun map(input: List<TvRemoteDto>, genres: List<GenreEntity>): List<TvEntity> {
+    fun map(input: List<TvDto>, genres: List<GenreEntity>): List<TvEntity> {
         return input.map {
             map(it, genres)
         }

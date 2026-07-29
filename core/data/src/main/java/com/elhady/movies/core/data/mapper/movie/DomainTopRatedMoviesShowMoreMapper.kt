@@ -1,14 +1,14 @@
 package com.elhady.movies.core.data.mapper.movie
 
 import com.elhady.movies.core.data.BuildConfig
-import com.elhady.movies.core.network.model.response.dto.MovieRemoteDto
+import com.elhady.movies.core.network.dto.movie.MovieDto
 import com.elhady.movies.core.domain.model.common.GenreEntity
 import com.elhady.movies.core.domain.model.movie.MovieEntity
 import javax.inject.Inject
 
 class DomainTopRatedMoviesShowMoreMapper @Inject constructor() {
 
-    fun map(input: MovieRemoteDto, genreEntities: List<GenreEntity>): MovieEntity {
+    fun map(input: MovieDto, genreEntities: List<GenreEntity>): MovieEntity {
         return MovieEntity(
             id = input.id ?: 0,
             title = input.title ?: "",

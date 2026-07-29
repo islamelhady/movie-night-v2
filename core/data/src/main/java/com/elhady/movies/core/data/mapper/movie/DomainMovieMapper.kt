@@ -1,13 +1,13 @@
 package com.elhady.movies.core.data.mapper.movie
 
 import com.elhady.movies.core.data.BuildConfig
-import com.elhady.movies.core.network.model.response.dto.MovieRemoteDto
+import com.elhady.movies.core.network.dto.movie.MovieDto
 import com.elhady.movies.core.domain.model.common.GenreEntity
 import com.elhady.movies.core.domain.model.movie.MovieEntity
 import javax.inject.Inject
 
 class DomainMovieMapper @Inject constructor() {
-    fun map(input: MovieRemoteDto, genres: List<GenreEntity>, mediaType:String ="movie"): MovieEntity {
+    fun map(input: MovieDto, genres: List<GenreEntity>, mediaType:String ="movie"): MovieEntity {
         return MovieEntity(
             id = input.id ?: 0,
             title = input.title ?: "",
@@ -19,7 +19,7 @@ class DomainMovieMapper @Inject constructor() {
         )
     }
 
-    fun map(input: List<MovieRemoteDto>, genres: List<GenreEntity>): List<MovieEntity> {
+    fun map(input: List<MovieDto>, genres: List<GenreEntity>): List<MovieEntity> {
         return input.map {
             map(it, genres)
         }

@@ -1,23 +1,23 @@
 package com.elhady.movies.core.network.api
 
-import com.elhady.movies.core.network.model.request.AddMediaToListRequest
-import com.elhady.movies.core.network.model.request.CreateUserListRequest
-import com.elhady.movies.core.network.model.request.DeleteMovieRequest
-import com.elhady.movies.core.network.model.request.FavoriteRequest
-import com.elhady.movies.core.network.model.request.ListRequest
-import com.elhady.movies.core.network.model.request.RatingRequest
-import com.elhady.movies.core.network.model.request.WatchlistRequest
-import com.elhady.movies.core.network.model.response.DataWrapperResponse
-import com.elhady.movies.core.network.model.response.ListDetailsWrapperResponse
-import com.elhady.movies.core.network.model.response.ListResponse
-import com.elhady.movies.core.network.model.response.dto.ListRemoteDto
-import com.elhady.movies.core.network.model.response.dto.MovieRemoteDto
-import com.elhady.movies.core.network.model.response.dto.StatusResponse
-import com.elhady.movies.core.network.model.response.dto.TvRemoteDto
-import com.elhady.movies.core.network.model.response.dto.UserListRemoteDto
-import com.elhady.movies.core.network.model.response.dto.myrated.MyRatedMovieDto
-import com.elhady.movies.core.network.model.response.dto.myrated.MyRatedTvShowDto
-import com.elhady.movies.core.network.model.response.dto.profile.ProfileRemoteDto
+import com.elhady.movies.core.network.dto.account.AddMediaToListRequest
+import com.elhady.movies.core.network.dto.account.CreateUserListRequest
+import com.elhady.movies.core.network.dto.account.DeleteMovieRequest
+import com.elhady.movies.core.network.dto.account.FavoriteRequest
+import com.elhady.movies.core.network.dto.account.ListRequest
+import com.elhady.movies.core.network.dto.movie.RatingRequest
+import com.elhady.movies.core.network.dto.account.WatchlistRequest
+import com.elhady.movies.core.network.dto.common.DataWrapperResponse
+import com.elhady.movies.core.network.dto.account.ListDetailsWrapperResponse
+import com.elhady.movies.core.network.dto.account.ListResponse
+import com.elhady.movies.core.network.dto.account.ListDto
+import com.elhady.movies.core.network.dto.movie.MovieDto
+import com.elhady.movies.core.network.dto.common.StatusResponse
+import com.elhady.movies.core.network.dto.tvshow.TvDto
+import com.elhady.movies.core.network.dto.account.UserListDto
+import com.elhady.movies.core.network.dto.account.MyRatedMovieDto
+import com.elhady.movies.core.network.dto.account.MyRatedTvShowDto
+import com.elhady.movies.core.network.dto.account.ProfileDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -32,10 +32,10 @@ interface AccountApiService {
     @GET("account")
     suspend fun getAccountDetails(
         @Query("session_id") sessionId: String = " "
-    ): Response<ProfileRemoteDto>
+    ): Response<ProfileDto>
 
     @GET("account/account_id/lists")
-    suspend fun getUserLists(): Response<DataWrapperResponse<UserListRemoteDto>>
+    suspend fun getUserLists(): Response<DataWrapperResponse<UserListDto>>
 
     @POST("list/{list_id}/add_item")
     suspend fun postUserMedia(
@@ -47,16 +47,16 @@ interface AccountApiService {
     suspend fun createUserList(@Body name: CreateUserListRequest): Response<StatusResponse>
 
     @GET("account/{account_id}/favorite/movies")
-    suspend fun getFavoriteMovies(): Response<DataWrapperResponse<MovieRemoteDto>>
+    suspend fun getFavoriteMovies(): Response<DataWrapperResponse<MovieDto>>
 
     @GET("account/{account_id}/favorite/tv")
-    suspend fun getFavoriteTv(): Response<DataWrapperResponse<TvRemoteDto>>
+    suspend fun getFavoriteTv(): Response<DataWrapperResponse<TvDto>>
 
     @GET("account/{account_id}/watchlist/movies")
-    suspend fun getWatchlist(): Response<DataWrapperResponse<MovieRemoteDto>>
+    suspend fun getWatchlist(): Response<DataWrapperResponse<MovieDto>>
 
     @GET("account/{account_id}/watchlist/tv")
-    suspend fun getWatchlistTv(): Response<DataWrapperResponse<TvRemoteDto>>
+    suspend fun getWatchlistTv(): Response<DataWrapperResponse<TvDto>>
 
     @POST("account/{account_id}/watchlist")
     suspend fun addWatchlist(
@@ -70,11 +70,11 @@ interface AccountApiService {
     suspend fun deleteList(@Path("list_id") listId: Int): Response<StatusResponse>
 
     @GET("account/{account_id}/lists")
-    suspend fun getLists(): Response<DataWrapperResponse<ListRemoteDto>>
+    suspend fun getLists(): Response<DataWrapperResponse<ListDto>>
 
     @GET("list/{list_id}")
     suspend fun getDetailsList(@Path("list_id") listId: Int)
-            : Response<ListDetailsWrapperResponse<MovieRemoteDto>>
+            : Response<ListDetailsWrapperResponse<MovieDto>>
 
     @POST("list/{list_id}/remove_item")
     suspend fun deleteMovieDetailsList(

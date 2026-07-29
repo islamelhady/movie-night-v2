@@ -2,8 +2,8 @@ package com.elhady.movies.core.data.mapper.season
 
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.network.model.response.dto.season_details.EpisodeDto
-import com.elhady.movies.core.network.model.response.dto.season_details.SeasonDetailsDto
+import com.elhady.movies.core.network.dto.tvshow.EpisodeDto
+import com.elhady.movies.core.network.dto.tvshow.SeasonDetailsDto
 import com.elhady.movies.core.domain.model.tvshow.EpisodeEntity
 import com.elhady.movies.core.domain.model.tvshow.SeasonDetailsEntity
 import javax.inject.Inject

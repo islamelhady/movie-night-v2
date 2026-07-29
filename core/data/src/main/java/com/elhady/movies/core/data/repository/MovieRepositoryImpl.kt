@@ -29,13 +29,13 @@ import com.elhady.movies.core.domain.model.movie.ReviewResponseEntity
 import com.elhady.movies.core.domain.repository.GenreRepository
 import com.elhady.movies.core.domain.repository.MovieRepository
 import com.elhady.movies.core.domain.repository.PeopleRepository
-import com.elhady.movies.core.network.model.response.dto.YoutubeVideoDetailsRemoteDto
-import com.elhady.movies.core.network.service.MovieService
+import com.elhady.movies.core.network.dto.common.YoutubeVideoDetailsDto
+import com.elhady.movies.core.network.api.MovieApiService
 import java.util.Random
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
-    private val movieService: MovieService,
+    private val movieApiService: MovieApiService,
     private val movieDao: MovieDao,
     private val preferenceStorage: PreferenceStorage,
     private val genreRepository: GenreRepository,
@@ -90,16 +90,16 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun getPopularMoviesFromRemote(): List<MovieEntity> {
         val page = random.nextInt(500) + 1
-        val moviesRemoteDTOs =
-            wrapApiCall { movieService.getPopularMovies(page = page) }.results?.filterNotNull()
+        val moviesDtos =
+            wrapApiCall { movieApiService.getPopularMovies(page = page) }.results?.filterNotNull()
                 ?: emptyList()
         val genres = genreRepository.getGenresMovies()
-        return domainMovieMapper.map(moviesRemoteDTOs, genres)
+        return domainMovieMapper.map(moviesDtos, genres)
     }
 
     override suspend fun refreshPopularMovies() {
         refreshWrapper(
-            apiCall = { movieService.getPopularMovies(random.nextInt(20) + 1) },
+            apiCall = { movieApiService.getPopularMovies(random.nextInt(20) + 1) },
             localMapper = localPopularMovieMapper::map,
             databaseSaver = movieDao::insertPopularMovies,
             clearOldLocalData = movieDao::clearAllPopularMovies
@@ -112,7 +112,7 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun refreshNowPlayingMovies() {
         refreshWrapper(
-            { movieService.getNowPlayingMovies(random.nextInt(20) + 1) },
+            { movieApiService.getNowPlayingMovies(random.nextInt(20) + 1) },
             localNowPlayingMovieMapper::map,
             movieDao::insertNowPlayingMovies,
             clearOldLocalData = movieDao::clearAllNowPlayingMovies
@@ -125,7 +125,7 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun refreshTopRatedMovies() {
         refreshWrapper(
-            { movieService.getTopRatedMovies(random.nextInt(20) + 1) },
+            { movieApiService.getTopRatedMovies(random.nextInt(20) + 1) },
             localTopRatedMovieMapper::map,
             movieDao::insertTopRatedMovies,
             clearOldLocalData = movieDao::clearAllTopRatedMovies
@@ -139,7 +139,7 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun refreshUpcomingMovies() {
         val genres = genreRepository.getGenresMovies()
         refreshWrapper(
-            apiCall = movieService::getUpcomingMovies,
+            apiCall = movieApiService::getUpcomingMovies,
             localMapper = { localUpcomingMovieMapper.map(it, genres) },
             databaseSaver = movieDao::insertUpcomingMovies,
             clearOldLocalData = movieDao::clearAllUpcomingMovies
@@ -153,7 +153,7 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun refreshTrendingMovies() {
         val genres = genreRepository.getGenresMovies()
         refreshWrapper(
-            apiCall = movieService::getTrendingMovies,
+            apiCall = movieApiService::getTrendingMovies,
             localMapper = { localTrendingMoviesMapper.map(it, genres) },
             databaseSaver = movieDao::insertTrendingMovies,
             clearOldLocalData = movieDao::clearAllTrendingMovies
@@ -184,17 +184,17 @@ class MovieRepositoryImpl @Inject constructor(
 
     // region movies details
     override suspend fun getMoviesDetails(movieId: Int): MovieDetailsEntity {
-        return domainMovieDetailsMapper.map(wrapApiCall { movieService.getMovieDetails(movieId) })
+        return domainMovieDetailsMapper.map(wrapApiCall { movieApiService.getMovieDetails(movieId) })
     }
 
     override suspend fun getMovieReviews(movieId: Int, page: Int): ReviewResponseEntity {
-        return domainReviewsMapper.map(wrapApiCall { movieService.getMovieReviews(movieId, page) })
+        return domainReviewsMapper.map(wrapApiCall { movieApiService.getMovieReviews(movieId, page) })
     }
 
     override suspend fun getTrailerVideoForMovie(movieID: Int): YoutubeVideoDetailsEntity {
         val call =
-            wrapApiCall { movieService.getTrailerVideoForMovie(movieID) }.results?.first()
-                ?: YoutubeVideoDetailsRemoteDto()
+            wrapApiCall { movieApiService.getTrailerVideoForMovie(movieID) }.results?.first()
+                ?: YoutubeVideoDetailsDto()
         return domainYoutubeDetailsMapper.map(call)
     }
     // endregion

@@ -13,12 +13,12 @@ import com.elhady.movies.core.domain.model.people.PeopleDetailsEntity
 import com.elhady.movies.core.domain.model.people.PeopleEntity
 import com.elhady.movies.core.domain.model.tvshow.TvShowEntity
 import com.elhady.movies.core.domain.repository.PeopleRepository
-import com.elhady.movies.core.network.service.MovieService
+import com.elhady.movies.core.network.api.PeopleApiService
 import java.util.Random
 import javax.inject.Inject
 
 class PeopleRepositoryImpl @Inject constructor(
-    private val movieService: MovieService,
+    private val peopleApiService: PeopleApiService,
     private val movieDao: MovieDao,
     private val domainPeopleMapper: DomainPeopleMapper,
     private val domainPeopleRemoteMapper: DomainPeopleRemoteMapper,
@@ -36,14 +36,14 @@ class PeopleRepositoryImpl @Inject constructor(
     override suspend fun getPopularPeopleFromRemote(): List<PeopleEntity> {
         val page = random.nextInt(20) + 1
         val call =
-            wrapApiCall { movieService.getPopularPeople(page = page) }.results?.filterNotNull()
+            wrapApiCall { peopleApiService.getPopularPeople(page = page) }.results?.filterNotNull()
                 ?: emptyList()
         return domainPeopleRemoteMapper.map(call)
     }
 
     override suspend fun refreshPopularPeople() {
         refreshWrapper(
-            { movieService.getPopularPeople(random.nextInt(20) + 1) },
+            { peopleApiService.getPopularPeople(random.nextInt(20) + 1) },
             localPopularPeopleMapper::map,
             movieDao::insertPopularPeople,
             clearOldLocalData = movieDao::clearAllPopularPeople
@@ -51,16 +51,16 @@ class PeopleRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getPersonDetails(personId: Int): PeopleDetailsEntity {
-        return domainPeopleDetailsMapper.map(wrapApiCall { movieService.getPerson(personId) })
+        return domainPeopleDetailsMapper.map(wrapApiCall { peopleApiService.getPerson(personId) })
     }
 
     override suspend fun getMoviesByPerson(personId: Int): List<MovieEntity> {
-        return domainMoviesByPeopleMapper.map(wrapApiCall { movieService.getMoviesByPerson(personId) }.cast!!.filterNotNull())
+        return domainMoviesByPeopleMapper.map(wrapApiCall { peopleApiService.getMoviesByPerson(personId) }.cast!!.filterNotNull())
     }
 
     override suspend fun getTvShowsByPerson(personId: Int): List<TvShowEntity> {
         return tvShowsByPeopleMapper.map(wrapApiCall {
-            movieService.getTvShowsByPerson(personId)
+            peopleApiService.getTvShowsByPerson(personId)
         }.cast!!.filterNotNull())
     }
 }

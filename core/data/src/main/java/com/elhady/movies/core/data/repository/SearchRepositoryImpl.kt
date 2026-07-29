@@ -11,11 +11,11 @@ import com.elhady.movies.core.domain.model.people.PeopleEntity
 import com.elhady.movies.core.domain.model.tvshow.TvEntity
 import com.elhady.movies.core.domain.repository.GenreRepository
 import com.elhady.movies.core.domain.repository.SearchRepository
-import com.elhady.movies.core.network.service.MovieService
+import com.elhady.movies.core.network.api.SearchApiService
 import javax.inject.Inject
 
 class SearchRepositoryImpl @Inject constructor(
-    private val movieService: MovieService,
+    private val searchApiService: SearchApiService,
     private val movieDao: MovieDao,
     private val genreRepository: GenreRepository,
     private val domainMovieSearchMapper: DomainMovieSearchMapper,
@@ -44,23 +44,23 @@ class SearchRepositoryImpl @Inject constructor(
     }
 
     override suspend fun searchForMovies(keyword: String): List<MovieEntity> {
-        val movieRemoteDto =
-            wrapApiCall { movieService.searchForMovies(keyword) }.results?.filterNotNull()
+        val movieDto =
+            wrapApiCall { searchApiService.searchForMovies(keyword) }.results?.filterNotNull()
                 ?: emptyList()
         val genresEntities = genreRepository.getGenresMovies()
-        return domainMovieSearchMapper.map(movieRemoteDto, genresEntities)
+        return domainMovieSearchMapper.map(movieDto, genresEntities)
     }
 
     override suspend fun searchForTv(keyword: String): List<TvEntity> {
-        val tvRemoteDto = wrapApiCall { movieService.searchForTv(keyword) }.results?.filterNotNull()
+        val tvDto = wrapApiCall { searchApiService.searchForTv(keyword) }.results?.filterNotNull()
             ?: emptyList()
         val genresTvEntities = genreRepository.getGenresTvs()
-        return domainTvShowSearchMapper.map(tvRemoteDto, genresTvEntities)
+        return domainTvShowSearchMapper.map(tvDto, genresTvEntities)
     }
 
     override suspend fun searchForPeople(keyword: String): List<PeopleEntity> {
         return domainPeopleRemoteMapper.map(
-            wrapApiCall { movieService.searchForPeople(keyword) }.results?.filterNotNull()
+            wrapApiCall { searchApiService.searchForPeople(keyword) }.results?.filterNotNull()
                 ?: emptyList()
         )
     }

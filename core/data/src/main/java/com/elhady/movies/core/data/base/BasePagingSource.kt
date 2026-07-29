@@ -2,11 +2,10 @@ package com.elhady.movies.core.data.base
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.elhady.movies.core.network.service.MovieService
 import java.io.IOException
 
-abstract class BasePagingSource<Value : Any>(
-    val service: MovieService
+abstract class BasePagingSource<Service, Value : Any>(
+    val service: Service
 ) : PagingSource<Int, Value>() {
 
     protected abstract suspend fun fetchData(page: Int): List<Value>
