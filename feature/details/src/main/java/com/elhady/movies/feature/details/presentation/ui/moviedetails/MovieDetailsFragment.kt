@@ -18,7 +18,7 @@ import com.elhady.movies.feature.details.presentation.ui.tvdetails.BottomSheetDi
 import com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsUiEvent
 import com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsUiState
 import com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsViewModel
-import com.elhady.movies.core.domain.navigation.Navigator
+import com.elhady.movies.core.ui.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject

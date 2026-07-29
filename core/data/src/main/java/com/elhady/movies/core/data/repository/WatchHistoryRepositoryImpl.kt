@@ -1,11 +1,11 @@
 package com.elhady.movies.core.data.repository
 
-import com.elhady.movies.core.domain.model.MovieInWatchHistoryEntity
+import com.elhady.movies.core.domain.model.movie.MovieInWatchHistoryEntity
 import com.elhady.movies.core.domain.repository.WatchHistoryRepository
-import com.elhady.movies.core.data.mapper.cache.movie.LocalInWatchHistoryMoviesMapper
-import com.elhady.movies.core.data.mapper.domain.movie.DomainInWatchHistoryMoviesMapper
+import com.elhady.movies.core.data.mapper.movie.LocalInWatchHistoryMoviesMapper
+import com.elhady.movies.core.data.mapper.movie.DomainInWatchHistoryMoviesMapper
 import com.elhady.movies.core.database.MovieDao
-import com.elhady.movies.core.data.bases.BaseRepository
+import com.elhady.movies.core.data.base.BaseRepository
 import javax.inject.Inject
 
 

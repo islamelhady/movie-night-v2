@@ -7,8 +7,8 @@ import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.findNavController
 import androidx.navigation.navOptions
 import com.elhady.movies.R
-import com.elhady.movies.core.domain.navigation.Navigator
-import com.elhady.movies.core.domain.model.ShowMoreType
+import com.elhady.movies.core.common.ShowMoreType
+import com.elhady.movies.core.ui.navigation.Navigator
 import javax.inject.Inject
 
 class NavigatorImpl @Inject constructor(

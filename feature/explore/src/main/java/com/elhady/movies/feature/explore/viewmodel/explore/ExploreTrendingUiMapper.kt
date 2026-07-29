@@ -1,6 +1,6 @@
 package com.elhady.movies.feature.explore.viewmodel.explore
 
-import com.elhady.movies.core.domain.model.MovieEntity
+import com.elhady.movies.core.domain.model.movie.MovieEntity
 import com.elhady.movies.core.common.mapper.Mapper
 import javax.inject.Inject
 

@@ -1,7 +1,7 @@
 package com.elhady.movies.feature.details.presentation.tvdetails.mappers
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.domain.model.TvShowEntity
+import com.elhady.movies.core.domain.model.tvshow.TvShowEntity
 import com.elhady.movies.core.ui.model.MediaVerticalUIState
 import com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsUiState
 import javax.inject.Inject

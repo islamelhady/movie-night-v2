@@ -63,7 +63,7 @@
         tools:layout="@layout/fragment_show_more">
         <argument
             android:name="showMoreType"
-            app:argType="com.elhady.movies.core.domain.model.ShowMoreType" />
+            app:argType="com.elhady.movies.core.common.ShowMoreType" />
         <deepLink app:uri="movie://show_more/{showMoreType}" />
     </fragment>
 

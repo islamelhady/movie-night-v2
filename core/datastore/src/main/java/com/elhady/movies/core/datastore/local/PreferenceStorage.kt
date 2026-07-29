@@ -1,7 +1,9 @@
 package com.elhady.movies.core.datastore.local
 
-interface PreferenceStorage {
-    val sessionId: String?
+import com.elhady.movies.core.common.UserDataProvider
+
+interface PreferenceStorage : UserDataProvider {
+    override val sessionId: String?
     val currentUserName: String?
     val lastRefreshTime: Long?
     suspend fun setSessionId(sessionId: String)
