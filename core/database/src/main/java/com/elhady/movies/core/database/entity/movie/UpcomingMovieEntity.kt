@@ -1,16 +1,14 @@
-package com.elhady.movies.core.database.dto.movie
+package com.elhady.movies.core.database.entity.movie
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.elhady.movies.core.database.dto.GenresMoviesLocalDto
 
-@Entity(tableName = "TRENDING_MOVIES_TABLE")
-data class TrendingMoviesLocalDto(
+@Entity(tableName = "UPCOMING_MOVIE_TABLE")
+data class UpcomingMovieEntity(
     @PrimaryKey(autoGenerate = false)
     val id: Int,
     val imageUrl: String,
     val rate: Double,
     val title: String,
-    val year: String,
     val genres: List<String>
 )

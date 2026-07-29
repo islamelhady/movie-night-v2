@@ -1,10 +1,10 @@
-package com.elhady.movies.core.database.dto.movie
+package com.elhady.movies.core.database.entity.movie
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "MOVIE_TABLE")
-data class MovieLocalDto(
+data class MovieEntity(
     @PrimaryKey(autoGenerate = false)
     val id: Int,
     val imageUrl: String,

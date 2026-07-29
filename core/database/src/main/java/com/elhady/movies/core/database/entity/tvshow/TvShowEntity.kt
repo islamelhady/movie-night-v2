@@ -1,15 +1,13 @@
-package com.elhady.movies.core.database.dto.movie
+package com.elhady.movies.core.database.entity.tvshow
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "UPCOMING_MOVIE_TABLE")
-data class UpcomingMovieLocalDto(
+@Entity(tableName = "TV_SHOWS_TABLE")
+data class TvShowEntity(
     @PrimaryKey(autoGenerate = false)
     val id: Int,
     val imageUrl: String,
     val rate: Double,
     val title: String,
-    val genres: List<String>
 )
-

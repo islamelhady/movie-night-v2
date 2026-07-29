@@ -1,10 +1,10 @@
-package com.elhady.movies.core.database.dto
+package com.elhady.movies.core.database.entity.user
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "USER_TABLE")
-data class UserLocalDto(
+data class UserEntity(
     @PrimaryKey(autoGenerate = false)
     val username: String,
     val peopleGameLevel: Int = 1,

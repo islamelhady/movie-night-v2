@@ -1,10 +1,10 @@
-package com.elhady.movies.core.database.dto.movie
+package com.elhady.movies.core.database.entity.movie
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "WATCHLIST_TABLE")
-data class WatchlistLocalDto(
+data class WatchlistEntity(
     @PrimaryKey(autoGenerate = false)
     val id: Int,
     val imageUrl: String,
