@@ -9,6 +9,7 @@ import com.elhady.movies.core.network.api.MovieApiService
 import com.elhady.movies.core.network.api.PeopleApiService
 import com.elhady.movies.core.network.api.SearchApiService
 import com.elhady.movies.core.network.api.TvShowApiService
+import com.elhady.movies.core.network.interceptor.LanguageInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -80,12 +81,14 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideClient(
+    fun provideOkHttpClient(
         authInterceptor: AuthInterceptor,
+        languageInterceptor: LanguageInterceptor,
         loggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
+            .addInterceptor(languageInterceptor)
             .addInterceptor(loggingInterceptor)
             .build()
     }
