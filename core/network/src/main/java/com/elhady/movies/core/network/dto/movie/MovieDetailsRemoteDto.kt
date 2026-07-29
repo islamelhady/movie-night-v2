@@ -32,9 +32,9 @@ data class MovieDetailsRemoteDto(
     @SerializedName("poster_path")
     val posterPath: String?,
     @SerializedName("production_companies")
-    val productionCompanies: List<ProductionCompany>?,
+    val productionCompanies: List<ProductionCompanyDto>?,
     @SerializedName("production_countries")
-    val productionCountries: List<ProductionCountry>?,
+    val productionCountries: List<ProductionCountryDto>?,
     @SerializedName("recommendations")
     val recommendations: RecommendationsRemoteDto?,
     @SerializedName("release_date")
@@ -44,7 +44,7 @@ data class MovieDetailsRemoteDto(
     @SerializedName("runtime")
     val runtime: Int?,
     @SerializedName("spoken_languages")
-    val spokenLanguages: List<SpokenLanguage>?,
+    val spokenLanguages: List<SpokenLanguageDto>?,
     @SerializedName("status")
     val status: String?,
     @SerializedName("tagline")

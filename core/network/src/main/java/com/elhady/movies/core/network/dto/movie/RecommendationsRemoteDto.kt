@@ -6,7 +6,7 @@ data class RecommendationsRemoteDto(
     @SerializedName("page")
     val page: Int?,
     @SerializedName("results")
-    val recommendedMovies: List<RecommendedMovie>?,
+    val recommendedMovies: List<RecommendedMovieDto>?,
     @SerializedName("total_pages")
     val totalPages: Int?,
     @SerializedName("total_results")

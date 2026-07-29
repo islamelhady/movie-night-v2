@@ -2,7 +2,7 @@ package com.elhady.movies.core.network.dto.movie
 
 import com.google.gson.annotations.SerializedName
 
-data class RecommendedMovie(
+data class RecommendedMovieDto(
     @SerializedName("adult")
     val adult: Boolean?,
     @SerializedName("backdrop_path")
