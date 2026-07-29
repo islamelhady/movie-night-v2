@@ -1,7 +1,7 @@
 package com.elhady.movies.core.data.mapper.people
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.database.entity.PopularPeopleEntity
+import com.elhady.movies.core.database.entity.people.PopularPeopleEntity
 import com.elhady.movies.core.domain.model.people.PeopleEntity
 import javax.inject.Inject
 

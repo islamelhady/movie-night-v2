@@ -5,10 +5,10 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.elhady.movies.core.database.entity.GenresMoviesEntity
-import com.elhady.movies.core.database.entity.GenresTvEntity
-import com.elhady.movies.core.database.entity.PopularPeopleEntity
-import com.elhady.movies.core.database.entity.SearchHistoryEntity
+import com.elhady.movies.core.database.entity.genre.GenresMoviesEntity
+import com.elhady.movies.core.database.entity.genre.GenresTvEntity
+import com.elhady.movies.core.database.entity.people.PopularPeopleEntity
+import com.elhady.movies.core.database.entity.search.SearchHistoryEntity
 import com.elhady.movies.core.database.entity.movie.MovieInWatchHistoryEntity
 import com.elhady.movies.core.database.entity.movie.MovieEntity
 import com.elhady.movies.core.database.entity.movie.NowPlayingMovieEntity

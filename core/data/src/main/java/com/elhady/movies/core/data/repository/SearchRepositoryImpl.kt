@@ -5,7 +5,7 @@ import com.elhady.movies.core.data.mapper.people.DomainPeopleRemoteMapper
 import com.elhady.movies.core.data.mapper.search.DomainMovieSearchMapper
 import com.elhady.movies.core.data.mapper.search.DomainTvShowSearchMapper
 import com.elhady.movies.core.database.MovieDao
-import com.elhady.movies.core.database.entity.SearchHistoryEntity
+import com.elhady.movies.core.database.entity.search.SearchHistoryEntity
 import com.elhady.movies.core.domain.model.movie.MovieEntity
 import com.elhady.movies.core.domain.model.people.PeopleEntity
 import com.elhady.movies.core.domain.model.tvshow.TvEntity
