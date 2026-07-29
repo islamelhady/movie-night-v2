@@ -3,7 +3,7 @@ package com.elhady.movies.core.network.di
 import com.elhady.movies.core.network.BuildConfig
 import com.elhady.movies.core.network.api.AccountApiService
 import com.elhady.movies.core.network.api.AuthApiService
-import com.elhady.movies.core.network.api.AuthInterceptor
+import com.elhady.movies.core.network.interceptor.AuthInterceptor
 import com.elhady.movies.core.network.api.GenreApiService
 import com.elhady.movies.core.network.api.MovieApiService
 import com.elhady.movies.core.network.api.PeopleApiService
