@@ -3,7 +3,7 @@ package com.elhady.movies.core.network.dto.movie
 
 import com.google.gson.annotations.SerializedName
 
-data class Result(
+data class ResultDto(
     @SerializedName("author")
     val author: String?,
     @SerializedName("author_details")
