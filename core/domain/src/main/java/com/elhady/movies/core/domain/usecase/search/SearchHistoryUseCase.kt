@@ -1,12 +1,12 @@
 package com.elhady.movies.core.domain.usecase.search
 
-import com.elhady.movies.core.domain.repository.SearchRepository
+import com.elhady.movies.core.domain.repository.MovieRepository
 import javax.inject.Inject
 
 class SearchHistoryUseCase @Inject constructor(
-    private val searchRepository: SearchRepository,
+    private val movieRepository: MovieRepository,
 ) {
     suspend operator fun invoke(keyword: String): List<String> {
-        return searchRepository.getSearchHistory(keyword = keyword).sorted()
+        return movieRepository.getSearchHistory(keyword = keyword).sorted()
     }
 }

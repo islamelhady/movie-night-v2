@@ -1,6 +1,6 @@
 package com.elhady.movies.core.domain.usecase.movie
 
-import com.elhady.movies.core.domain.model.movie.MovieEntity
+import com.elhady.movies.core.domain.model.MovieEntity
 import com.elhady.movies.core.domain.repository.MovieRepository
 import com.elhady.movies.core.domain.usecase.common.RefreshIfNeededUseCase
 import javax.inject.Inject

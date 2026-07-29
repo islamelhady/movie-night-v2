@@ -2,19 +2,17 @@ package com.elhady.movies.core.data.repository
 
 import android.util.Log
 import com.elhady.movies.core.common.UnauthorizedThrowable
-import com.elhady.movies.core.data.mapper.auth.DomainProfileMapper
+import com.elhady.movies.core.data.mapper.domain.DomainProfileMapper
 import com.elhady.movies.core.datastore.local.PreferenceStorage
-import com.elhady.movies.core.domain.model.auth.ProfileEntity
+import com.elhady.movies.core.domain.model.ProfileEntity
 import com.elhady.movies.core.domain.repository.AuthRepository
-import com.elhady.movies.core.data.base.BaseRepository
-import com.elhady.movies.core.network.dto.auth.LoginRequest
-import com.elhady.movies.core.network.api.AccountApiService
-import com.elhady.movies.core.network.api.AuthApiService
+import com.elhady.movies.core.data.bases.BaseRepository
+import com.elhady.movies.core.network.model.request.LoginRequest
+import com.elhady.movies.core.network.service.MovieService
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val authApiService: AuthApiService,
-    private val accountApiService: AccountApiService,
+    private val movieService: MovieService,
     private val prefs: PreferenceStorage,
     private val domainProfileMapper: DomainProfileMapper
 ) : BaseRepository(), AuthRepository {
@@ -23,7 +21,7 @@ class AuthRepositoryImpl @Inject constructor(
         val token = getRequestToken()
         val body = LoginRequest(username, password, token)
 
-        return wrapApiCall { authApiService.login(body) }
+        return wrapApiCall { movieService.login(body) }
             .requestToken?.let { createSession(it); saveUsername(username); true } ?: false
     }
 
@@ -32,13 +30,13 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     private suspend fun createSession(requestToken: String) {
-        wrapApiCall { authApiService.createSession(requestToken) }
+        wrapApiCall { movieService.createSession(requestToken) }
             .takeIf { it.isSuccess == true }
             ?.sessionId?.let { prefs.setSessionId(it) }
     }
 
     private suspend fun getRequestToken(): String {
-        return wrapApiCall { authApiService.createRequestToken() }
+        return wrapApiCall { movieService.createRequestToken() }
             .requestToken ?: throw UnauthorizedThrowable()
     }
 
@@ -52,7 +50,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun getAccountDetails(): ProfileEntity {
         val sessionId = prefs.sessionId
-        val profileData = wrapApiCall { accountApiService.getAccountDetails(sessionId ?: "") }
+        val profileData = wrapApiCall { movieService.getAccountDetails() }
         return domainProfileMapper.map(profileData)
     }
 

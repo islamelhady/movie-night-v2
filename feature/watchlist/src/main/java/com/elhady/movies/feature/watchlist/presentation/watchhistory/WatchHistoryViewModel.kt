@@ -3,9 +3,9 @@ package com.elhady.movies.feature.watchlist.presentation.watchhistory
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.ui.bases.BaseViewModel
 import com.elhady.movies.core.ui.bases.StringsRes
-import com.elhady.movies.core.domain.usecase.movie.DeleteMovieFromWatchHistoryUseCase
-import com.elhady.movies.core.domain.usecase.movie.GetAllWatchHistoryMoviesUseCase
-import com.elhady.movies.core.domain.usecase.movie.SearchWatchHistoryUseCase
+import com.elhady.movies.core.domain.usecase.watchlist.watchhistory.DeleteMovieFromWatchHistoryUseCase
+import com.elhady.movies.core.domain.usecase.watchlist.watchhistory.GetAllWatchHistoryMoviesUseCase
+import com.elhady.movies.core.domain.usecase.watchlist.watchhistory.SearchWatchHistoryUseCase
 import com.elhady.movies.feature.watchlist.presentation.ui.watchhistory.WatchHistoryRecyclerItem
 import com.elhady.movies.feature.watchlist.presentation.ui.watchhistory.WatchHistoryRecyclerItemsCreator
 import com.elhady.movies.core.ui.listener.MediaListener

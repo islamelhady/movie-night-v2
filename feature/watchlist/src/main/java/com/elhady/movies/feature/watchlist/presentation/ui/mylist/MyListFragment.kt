@@ -11,7 +11,7 @@ import com.elhady.movies.feature.watchlist.databinding.FragmentMyListBinding
 import com.elhady.movies.feature.watchlist.presentation.mylist.MyListUiEvent
 import com.elhady.movies.feature.watchlist.presentation.mylist.MyListUiState
 import com.elhady.movies.feature.watchlist.presentation.mylist.MyListViewModel
-import com.elhady.movies.core.ui.navigation.Navigator
+import com.elhady.movies.core.domain.navigation.Navigator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

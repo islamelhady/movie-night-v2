@@ -1,7 +1,7 @@
 package com.elhady.movies.feature.details.presentation.peopledetails.mapper
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.domain.model.tvshow.TvShowEntity
+import com.elhady.movies.core.domain.model.TvShowEntity
 import com.elhady.movies.feature.details.presentation.peopledetails.PersonDetailsUiState
 import javax.inject.Inject
 

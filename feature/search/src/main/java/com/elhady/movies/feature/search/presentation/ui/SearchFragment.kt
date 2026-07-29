@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.elhady.movies.feature.search.BR
 import com.elhady.movies.feature.search.R
 import com.elhady.movies.core.ui.bases.BaseFragment
-import com.elhady.movies.core.ui.navigation.Navigator
+import com.elhady.movies.core.domain.navigation.Navigator
 import com.elhady.movies.feature.search.databinding.FragmentSearchBinding
 import com.elhady.movies.feature.search.presentation.SearchItem
 import com.elhady.movies.feature.search.presentation.SearchUiEvent

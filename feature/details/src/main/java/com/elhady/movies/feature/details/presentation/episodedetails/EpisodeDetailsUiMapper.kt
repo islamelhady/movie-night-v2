@@ -1,7 +1,7 @@
 package com.elhady.movies.feature.details.presentation.episodedetails
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.domain.model.tvshow.EpisodeDetailsEntity
+import com.elhady.movies.core.domain.model.EpisodeDetailsEntity
 import javax.inject.Inject
 
 class EpisodeDetailsUiMapper  @Inject constructor() :
