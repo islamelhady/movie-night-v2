@@ -3,11 +3,11 @@ package com.elhady.movies.core.data.mapper.movie
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.database.entity.movie.UpcomingMovieEntity
 import com.elhady.movies.core.network.dto.movie.MovieDto
-import com.elhady.movies.core.domain.model.common.GenreEntity
+import com.elhady.movies.core.domain.model.common.Genre
 import javax.inject.Inject
 
 class LocalUpcomingMovieMapper @Inject constructor() {
-    fun map(input: MovieDto, genres: List<GenreEntity>): UpcomingMovieEntity {
+    fun map(input: MovieDto, genres: List<Genre>): UpcomingMovieEntity {
 
         val genreIds = input.genreIds ?: emptyList()
         val genreNames = genreIds.mapNotNull { genreId ->

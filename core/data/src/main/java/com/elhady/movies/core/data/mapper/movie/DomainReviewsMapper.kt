@@ -2,15 +2,15 @@ package com.elhady.movies.core.data.mapper.movie
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.network.dto.movie.ReviewsDto
-import com.elhady.movies.core.domain.model.common.ReviewEntity
-import com.elhady.movies.core.domain.model.movie.ReviewResponseEntity
+import com.elhady.movies.core.domain.model.common.Review
+import com.elhady.movies.core.domain.model.movie.ReviewResponse
 import javax.inject.Inject
 
-class DomainReviewsMapper @Inject constructor() : Mapper<ReviewsDto, ReviewResponseEntity> {
-    override fun map(input: ReviewsDto): ReviewResponseEntity {
-        return ReviewResponseEntity(
+class DomainReviewsMapper @Inject constructor() : Mapper<ReviewsDto, ReviewResponse> {
+    override fun map(input: ReviewsDto): ReviewResponse {
+        return ReviewResponse(
             reviews = input.results?.map {
-                ReviewEntity(
+                Review(
                     name = it.author ?: "",
                     avatarPath = it.authorDetails?.avatarPath ?: "",
                     content = it.content ?: "",

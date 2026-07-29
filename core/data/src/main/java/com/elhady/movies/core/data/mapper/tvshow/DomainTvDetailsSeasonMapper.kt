@@ -3,14 +3,14 @@ package com.elhady.movies.core.data.mapper.tvshow
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.network.dto.tvshow.TvDetailsDto
-import com.elhady.movies.core.domain.model.tvshow.SeasonEntity
+import com.elhady.movies.core.domain.model.tvshow.Season
 import javax.inject.Inject
 
 class DomainTvDetailsSeasonMapper @Inject constructor() :
-    Mapper<TvDetailsDto, List<SeasonEntity>> {
-    override fun map(input: TvDetailsDto): List<SeasonEntity> {
+    Mapper<TvDetailsDto, List<Season>> {
+    override fun map(input: TvDetailsDto): List<Season> {
         return input.seasons?.map { season ->
-             SeasonEntity(
+             Season(
                  id = season?.id ?: 0,
                  imageUrl = BuildConfig.IMAGE_BASE_PATH + season?.posterPath,
                  title = season?.name ?: "",

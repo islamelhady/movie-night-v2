@@ -2,13 +2,13 @@ package com.elhady.movies.core.data.mapper.movie
 
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.network.dto.tvshow.TvDto
-import com.elhady.movies.core.domain.model.common.GenreEntity
-import com.elhady.movies.core.domain.model.movie.MovieEntity
+import com.elhady.movies.core.domain.model.common.Genre
+import com.elhady.movies.core.domain.model.movie.Movie
 import javax.inject.Inject
 
 class DomainTvMapper @Inject constructor() {
-    fun map(input: TvDto, genres: List<GenreEntity>, mediaType:String="tv"): MovieEntity {
-        return MovieEntity(
+    fun map(input: TvDto, genres: List<Genre>, mediaType:String="tv"): Movie {
+        return Movie(
             id = input.id ?: 0,
             title = input.name ?: "",
             rate = input.voteAverage ?: 0.0,

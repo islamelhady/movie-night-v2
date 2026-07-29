@@ -2,13 +2,13 @@ package com.elhady.movies.core.data.mapper.movie
 
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.network.dto.account.MyRatedMovieDto
-import com.elhady.movies.core.domain.model.account.MyRatedMovieEntity
+import com.elhady.movies.core.domain.model.account.MyRatedMovie
 import com.elhady.movies.core.common.mapper.Mapper
 import javax.inject.Inject
 
-class DomainMyRatedMoviesDetailsMapper @Inject constructor() : Mapper<MyRatedMovieDto, MyRatedMovieEntity>{
-    override fun map(input: MyRatedMovieDto): MyRatedMovieEntity {
-        return MyRatedMovieEntity(
+class DomainMyRatedMoviesDetailsMapper @Inject constructor() : Mapper<MyRatedMovieDto, MyRatedMovie>{
+    override fun map(input: MyRatedMovieDto): MyRatedMovie {
+        return MyRatedMovie(
             id = input.id ?: 0,
             title = input.title ?: "",
             imageUrl = BuildConfig.IMAGE_BASE_PATH + input.posterPath,
