@@ -5,12 +5,12 @@ import androidx.paging.PagingConfig
 import com.elhady.movies.core.data.base.BaseRepository
 import com.elhady.movies.core.data.paging.movie.RatedMoviesPagingSource
 import com.elhady.movies.core.data.paging.tvshow.RatedTvShowPagingSource
-import com.elhady.movies.core.data.mapper.common.DomainStatusMapper
-import com.elhady.movies.core.data.mapper.account.DomainUserListsMapper
-import com.elhady.movies.core.data.mapper.movie.DomainMovieMapper
-import com.elhady.movies.core.data.mapper.movie.DomainMyRatedMoviesDetailsMapper
-import com.elhady.movies.core.data.mapper.movie.DomainTvMapper
-import com.elhady.movies.core.data.mapper.tvshow.DomainMyRatedTvShowDetailsMapper
+import com.elhady.movies.core.data.mapper.common.StatusDtoMapper
+import com.elhady.movies.core.data.mapper.account.UserListsDtoMapper
+import com.elhady.movies.core.data.mapper.movie.MovieDtoMapper
+import com.elhady.movies.core.data.mapper.movie.MyRatedMoviesDetailsDtoMapper
+import com.elhady.movies.core.data.mapper.movie.TvDtoMapper
+import com.elhady.movies.core.data.mapper.tvshow.MyRatedTvShowDtoMapper
 import com.elhady.movies.core.domain.model.common.Genre
 import com.elhady.movies.core.domain.model.movie.Movie
 import com.elhady.movies.core.domain.model.common.Status
@@ -33,14 +33,14 @@ import javax.inject.Inject
 class AccountRepositoryImpl @Inject constructor(
     private val accountApiService: AccountApiService,
     private val genreRepository: GenreRepository,
-    private val domainMovieMapper: DomainMovieMapper,
-    private val domainTvMapper: DomainTvMapper,
-    private val domainStatusMapper: DomainStatusMapper,
-    private val domainMyRatedMoviesDetailsMapper: DomainMyRatedMoviesDetailsMapper,
-    private val domainUserListsMapper: DomainUserListsMapper,
+    private val movieDtoMapper: MovieDtoMapper,
+    private val tvDtoMapper: TvDtoMapper,
+    private val domainStatusMapper: StatusDtoMapper,
+    private val myRatedMoviesDetailsDtoMapper: MyRatedMoviesDetailsDtoMapper,
+    private val domainUserListsMapper: UserListsDtoMapper,
     private val ratedMoviesPagingSource: RatedMoviesPagingSource,
     private val ratedTvShowPagingSource: RatedTvShowPagingSource,
-    private val domainMyRatedTvShowDetailsMapper: DomainMyRatedTvShowDetailsMapper
+    private val myRatedTvShowDtoMapper: MyRatedTvShowDtoMapper
 ) : BaseRepository(), AccountRepository {
 
     override suspend fun getUserLists(): List<UserList> {
@@ -64,7 +64,7 @@ class AccountRepositoryImpl @Inject constructor(
         val genresEntities = genreRepository.getGenresMovies()
         val result = wrapApiCall { accountApiService.getFavoriteMovies() }.results
         return result?.map { item ->
-            domainMovieMapper.map(
+            movieDtoMapper.map(
                 input = item!!,
                 genres = filterGenres(
                     item.genreIds?.filterNotNull() ?: emptyList(),
@@ -79,7 +79,7 @@ class AccountRepositoryImpl @Inject constructor(
         val genresEntities = genreRepository.getGenresMovies()
         val result = wrapApiCall { accountApiService.getFavoriteTv() }.results
         return result?.map { item ->
-            domainTvMapper.map(
+            tvDtoMapper.map(
                 input = item!!,
                 genres = filterGenres(
                     item.genreIds?.filterNotNull() ?: emptyList(),
@@ -94,7 +94,7 @@ class AccountRepositoryImpl @Inject constructor(
         val genresEntities = genreRepository.getGenresMovies()
         val result = wrapApiCall { accountApiService.getWatchlist() }.results
         return result?.map { item ->
-            domainMovieMapper.map(
+            movieDtoMapper.map(
                 input = item!!,
                 genres = filterGenres(
                     item.genreIds?.filterNotNull() ?: emptyList(),
@@ -109,7 +109,7 @@ class AccountRepositoryImpl @Inject constructor(
         val genresEntities = genreRepository.getGenresMovies()
         val result = wrapApiCall { accountApiService.getWatchlistTv() }.results
         return result?.map { item ->
-            domainTvMapper.map(
+            tvDtoMapper.map(
                 input = item!!,
                 genres = filterGenres(
                     item.genreIds?.filterNotNull() ?: emptyList(),
@@ -128,7 +128,7 @@ class AccountRepositoryImpl @Inject constructor(
         val genresEntities = genreRepository.getGenresMovies()
         val result = wrapApiCall { accountApiService.getDetailsList(listId) }.items
         return result?.map { item ->
-            domainMovieMapper.map(
+            movieDtoMapper.map(
                 input = item,
                 genres = filterGenres(
                     item.genreIds?.filterNotNull() ?: emptyList(),
@@ -205,7 +205,7 @@ class AccountRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getMovieRate(): List<MyRatedMovie> {
-        return domainMyRatedMoviesDetailsMapper.map(
+        return myRatedMoviesDetailsDtoMapper.map(
             wrapApiCall { accountApiService.getRatedMovies() }.results?.filterNotNull() ?: emptyList()
         )
     }

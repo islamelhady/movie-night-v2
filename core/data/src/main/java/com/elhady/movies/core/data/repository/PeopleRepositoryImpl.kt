@@ -1,12 +1,12 @@
 package com.elhady.movies.core.data.repository
 
 import com.elhady.movies.core.data.base.BaseRepository
-import com.elhady.movies.core.data.mapper.people.LocalPopularPeopleMapper
-import com.elhady.movies.core.data.mapper.people.DomainMoviesByPeopleMapper
-import com.elhady.movies.core.data.mapper.people.DomainPeopleDetailsMapper
-import com.elhady.movies.core.data.mapper.people.DomainPeopleMapper
-import com.elhady.movies.core.data.mapper.people.DomainPeopleRemoteMapper
-import com.elhady.movies.core.data.mapper.people.DomainTvShowsByPeopleMapper
+import com.elhady.movies.core.data.mapper.people.PopularPeopleDtoToEntityMapper
+import com.elhady.movies.core.data.mapper.people.MoviesByPeopleDtoMapper
+import com.elhady.movies.core.data.mapper.people.PeopleDetailsDtoMapper
+import com.elhady.movies.core.data.mapper.people.PopularPeopleEntityMapper
+import com.elhady.movies.core.data.mapper.people.PeopleDtoMapper
+import com.elhady.movies.core.data.mapper.people.TvShowsCastDtoMapper
 import com.elhady.movies.core.database.dao.PeopleDao
 import com.elhady.movies.core.domain.model.movie.Movie
 import com.elhady.movies.core.domain.model.people.PeopleDetails
@@ -20,17 +20,17 @@ import javax.inject.Inject
 class PeopleRepositoryImpl @Inject constructor(
     private val peopleApiService: PeopleApiService,
     private val peopleDao: PeopleDao,
-    private val domainPeopleMapper: DomainPeopleMapper,
-    private val domainPeopleRemoteMapper: DomainPeopleRemoteMapper,
-    private val localPopularPeopleMapper: LocalPopularPeopleMapper,
-    private val domainPeopleDetailsMapper: DomainPeopleDetailsMapper,
-    private val domainMoviesByPeopleMapper: DomainMoviesByPeopleMapper,
-    private val tvShowsByPeopleMapper: DomainTvShowsByPeopleMapper,
+    private val popularPeopleEntityMapper: PopularPeopleEntityMapper,
+    private val peopleDtoMapper: PeopleDtoMapper,
+    private val popularPeopleDtoToEntityMapper: PopularPeopleDtoToEntityMapper,
+    private val peopleDetailsDtoMapper: PeopleDetailsDtoMapper,
+    private val moviesByPeopleDtoMapper: MoviesByPeopleDtoMapper,
+    private val tvShowsByPeopleMapper: TvShowsCastDtoMapper,
     private val random: Random
 ) : BaseRepository(), PeopleRepository {
 
     override suspend fun getPopularPeopleFromDatabase(): List<People> {
-        return domainPeopleMapper.map(peopleDao.getPopularPeople())
+        return popularPeopleEntityMapper.map(peopleDao.getPopularPeople())
     }
 
     override suspend fun getPopularPeopleFromRemote(): List<People> {
@@ -38,24 +38,24 @@ class PeopleRepositoryImpl @Inject constructor(
         val call =
             wrapApiCall { peopleApiService.getPopularPeople(page = page) }.results?.filterNotNull()
                 ?: emptyList()
-        return domainPeopleRemoteMapper.map(call)
+        return peopleDtoMapper.map(call)
     }
 
     override suspend fun refreshPopularPeople() {
         refreshWrapper(
             { peopleApiService.getPopularPeople(random.nextInt(20) + 1) },
-            localPopularPeopleMapper::map,
+            popularPeopleDtoToEntityMapper::map,
             peopleDao::insertPopularPeople,
             clearOldLocalData = peopleDao::clearAllPopularPeople
         )
     }
 
     override suspend fun getPersonDetails(personId: Int): PeopleDetails {
-        return domainPeopleDetailsMapper.map(wrapApiCall { peopleApiService.getPerson(personId) })
+        return peopleDetailsDtoMapper.map(wrapApiCall { peopleApiService.getPerson(personId) })
     }
 
     override suspend fun getMoviesByPerson(personId: Int): List<Movie> {
-        return domainMoviesByPeopleMapper.map(wrapApiCall { peopleApiService.getMoviesByPerson(personId) }.cast!!.filterNotNull())
+        return moviesByPeopleDtoMapper.map(wrapApiCall { peopleApiService.getMoviesByPerson(personId) }.cast!!.filterNotNull())
     }
 
     override suspend fun getTvShowsByPerson(personId: Int): List<TvShow> {

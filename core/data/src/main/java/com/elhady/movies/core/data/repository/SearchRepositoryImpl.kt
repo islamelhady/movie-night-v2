@@ -1,9 +1,9 @@
 package com.elhady.movies.core.data.repository
 
 import com.elhady.movies.core.data.base.BaseRepository
-import com.elhady.movies.core.data.mapper.people.DomainPeopleRemoteMapper
-import com.elhady.movies.core.data.mapper.search.DomainMovieSearchMapper
-import com.elhady.movies.core.data.mapper.search.DomainTvShowSearchMapper
+import com.elhady.movies.core.data.mapper.people.PeopleDtoMapper
+import com.elhady.movies.core.data.mapper.search.MovieSearchDtoMapper
+import com.elhady.movies.core.data.mapper.search.TvSearchDtoMapper
 import com.elhady.movies.core.database.dao.SearchDao
 import com.elhady.movies.core.database.entity.search.SearchHistoryEntity
 import com.elhady.movies.core.domain.model.movie.Movie
@@ -18,9 +18,9 @@ class SearchRepositoryImpl @Inject constructor(
     private val searchApiService: SearchApiService,
     private val searchDao: SearchDao,
     private val genreRepository: GenreRepository,
-    private val domainMovieSearchMapper: DomainMovieSearchMapper,
-    private val domainTvShowSearchMapper: DomainTvShowSearchMapper,
-    private val domainPeopleRemoteMapper: DomainPeopleRemoteMapper
+    private val movieSearchDtoMapper: MovieSearchDtoMapper,
+    private val tvSearchDtoMapper: TvSearchDtoMapper,
+    private val peopleDtoMapper: PeopleDtoMapper
 ) : BaseRepository(), SearchRepository {
 
     override suspend fun getSearchHistory(keyword: String): List<String> {
@@ -48,18 +48,18 @@ class SearchRepositoryImpl @Inject constructor(
             wrapApiCall { searchApiService.searchForMovies(keyword) }.results?.filterNotNull()
                 ?: emptyList()
         val genresEntities = genreRepository.getGenresMovies()
-        return domainMovieSearchMapper.map(movieDto, genresEntities)
+        return movieSearchDtoMapper.map(movieDto, genresEntities)
     }
 
     override suspend fun searchForTv(keyword: String): List<Tv> {
         val tvDto = wrapApiCall { searchApiService.searchForTv(keyword) }.results?.filterNotNull()
             ?: emptyList()
         val genresTvEntities = genreRepository.getGenresTvs()
-        return domainTvShowSearchMapper.map(tvDto, genresTvEntities)
+        return tvSearchDtoMapper.map(tvDto, genresTvEntities)
     }
 
     override suspend fun searchForPeople(keyword: String): List<People> {
-        return domainPeopleRemoteMapper.map(
+        return peopleDtoMapper.map(
             wrapApiCall { searchApiService.searchForPeople(keyword) }.results?.filterNotNull()
                 ?: emptyList()
         )
