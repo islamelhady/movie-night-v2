@@ -1,12 +1,11 @@
 package com.elhady.movies.core.network.interceptor
 
+import com.elhady.movies.core.network.util.NetworkConstants
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
-
-private const val LANGUAGE = "language"
 
 @Singleton
 class LanguageInterceptor @Inject constructor() : Interceptor {
@@ -17,7 +16,7 @@ class LanguageInterceptor @Inject constructor() : Interceptor {
         val originalRequest = chain.request()
 
         val urlWithLanguage = originalRequest.url.newBuilder()
-            .addQueryParameter(LANGUAGE, currentLanguage)
+            .addQueryParameter(NetworkConstants.LANGUAGE_QUERY, currentLanguage)
             .build()
 
         val newRequest = originalRequest.newBuilder().url(urlWithLanguage).build()
