@@ -1,7 +1,7 @@
 package com.elhady.movies.feature.watchlist.presentation.myrated.mappers
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.domain.model.account.MyRatedTvShowEntity
+import com.elhady.movies.core.domain.model.myrated.MyRatedTvShowEntity
 import com.elhady.movies.core.ui.model.MovieHorizontalUIState
 import javax.inject.Inject
 

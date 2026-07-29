@@ -13,7 +13,7 @@
             name="listener"
             type="com.elhady.movies.feature.home.presentation.HomeListener" />
 
-        <import type="com.elhady.movies.core.common.ShowMoreType"/>
+        <import type="com.elhady.movies.core.domain.model.ShowMoreType"/>
 
     </data>
 

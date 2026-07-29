@@ -13,7 +13,7 @@ import com.elhady.movies.core.ui.bases.SwipeToDeleteItem
 import com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDetailsUiEvent
 import com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDetailsUiState
 import com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDetailsViewModel
-import com.elhady.movies.core.ui.navigation.Navigator
+import com.elhady.movies.core.domain.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

@@ -1,14 +1,8 @@
 package com.elhady.movies.core.network.di
 
 import com.elhady.movies.core.network.BuildConfig
-import com.elhady.movies.core.network.api.AccountApiService
-import com.elhady.movies.core.network.api.AuthApiService
-import com.elhady.movies.core.network.api.AuthInterceptor
-import com.elhady.movies.core.network.api.GenreApiService
-import com.elhady.movies.core.network.api.MovieApiService
-import com.elhady.movies.core.network.api.PeopleApiService
-import com.elhady.movies.core.network.api.SearchApiService
-import com.elhady.movies.core.network.api.TvShowApiService
+import com.elhady.movies.core.network.service.AuthInterceptor
+import com.elhady.movies.core.network.service.MovieService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,55 +19,19 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideAuthApiService(retrofit: Retrofit): AuthApiService {
-        return retrofit.create(AuthApiService::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideMovieApiService(retrofit: Retrofit): MovieApiService {
-        return retrofit.create(MovieApiService::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideTvShowApiService(retrofit: Retrofit): TvShowApiService {
-        return retrofit.create(TvShowApiService::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideSearchApiService(retrofit: Retrofit): SearchApiService {
-        return retrofit.create(SearchApiService::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideAccountApiService(retrofit: Retrofit): AccountApiService {
-        return retrofit.create(AccountApiService::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun providePeopleApiService(retrofit: Retrofit): PeopleApiService {
-        return retrofit.create(PeopleApiService::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideGenreApiService(retrofit: Retrofit): GenreApiService {
-        return retrofit.create(GenreApiService::class.java)
+    fun provideMovieService(retrofit: Retrofit): MovieService {
+        return retrofit.create(MovieService::class.java)
     }
 
     @Provides
     @Singleton
     fun provideRetrofit(
         client: OkHttpClient,
-        gsonConverterFactory: GsonConverterFactory
-    ): Retrofit {
+        gsonConverter: GsonConverterFactory
+    ): Retrofit{
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(gsonConverterFactory)
+            .addConverterFactory(gsonConverter)
             .client(client)
             .build()
     }
@@ -83,8 +41,8 @@ object NetworkModule {
     fun provideClient(
         authInterceptor: AuthInterceptor,
         loggingInterceptor: HttpLoggingInterceptor
-    ): OkHttpClient {
-        return OkHttpClient.Builder()
+    ): OkHttpClient{
+       return OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
             .addInterceptor(loggingInterceptor)
             .build()
@@ -92,13 +50,13 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor{
         return HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
     }
 
     @Provides
     @Singleton
-    fun provideGsonConverterFactory(): GsonConverterFactory {
+    fun provideGsonConverterFactory(): GsonConverterFactory{
         return GsonConverterFactory.create()
     }
 }

@@ -9,7 +9,7 @@ import com.elhady.movies.core.ui.bases.BaseViewModel
 import com.elhady.movies.core.ui.listener.NavigationRes
 import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
 import com.elhady.movies.core.domain.usecase.auth.LogoutUseCase
-import com.elhady.movies.core.domain.usecase.auth.GetAccountDetailsUseCase
+import com.elhady.movies.core.domain.usecase.profile.GetAccountDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch

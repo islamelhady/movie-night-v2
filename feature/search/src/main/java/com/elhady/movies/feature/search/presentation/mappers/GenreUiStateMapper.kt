@@ -1,6 +1,6 @@
 package com.elhady.movies.feature.search.presentation.mappers
 
-import com.elhady.movies.core.domain.model.common.GenreEntity
+import com.elhady.movies.core.domain.model.GenreEntity
 import com.elhady.movies.feature.search.presentation.SearchUiState
 import javax.inject.Inject
 

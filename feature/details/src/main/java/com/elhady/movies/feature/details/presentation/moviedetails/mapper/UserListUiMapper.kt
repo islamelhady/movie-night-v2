@@ -1,6 +1,6 @@
 package com.elhady.movies.feature.details.presentation.moviedetails.mapper
 
-import com.elhady.movies.core.domain.model.account.UserListEntity
+import com.elhady.movies.core.domain.model.UserListEntity
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.ui.model.UserListUi
 import javax.inject.Inject
