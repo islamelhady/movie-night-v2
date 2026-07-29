@@ -44,18 +44,18 @@ class SearchRepositoryImpl @Inject constructor(
     }
 
     override suspend fun searchForMovies(keyword: String): List<MovieEntity> {
-        val movieRemoteDto =
+        val movieDto =
             wrapApiCall { searchApiService.searchForMovies(keyword) }.results?.filterNotNull()
                 ?: emptyList()
         val genresEntities = genreRepository.getGenresMovies()
-        return domainMovieSearchMapper.map(movieRemoteDto, genresEntities)
+        return domainMovieSearchMapper.map(movieDto, genresEntities)
     }
 
     override suspend fun searchForTv(keyword: String): List<TvEntity> {
-        val tvRemoteDto = wrapApiCall { searchApiService.searchForTv(keyword) }.results?.filterNotNull()
+        val tvDto = wrapApiCall { searchApiService.searchForTv(keyword) }.results?.filterNotNull()
             ?: emptyList()
         val genresTvEntities = genreRepository.getGenresTvs()
-        return domainTvShowSearchMapper.map(tvRemoteDto, genresTvEntities)
+        return domainTvShowSearchMapper.map(tvDto, genresTvEntities)
     }
 
     override suspend fun searchForPeople(keyword: String): List<PeopleEntity> {

@@ -44,7 +44,7 @@ import com.elhady.movies.core.domain.model.tvshow.TvDetailsInfoEntity
 import com.elhady.movies.core.domain.repository.TvShowRepository
 import com.elhady.movies.core.network.dto.tvshow.RateRequest
 import com.elhady.movies.core.network.dto.tvshow.RatingEpisodeDetailsRequest
-import com.elhady.movies.core.network.dto.common.YoutubeVideoDetailsRemoteDto
+import com.elhady.movies.core.network.dto.common.YoutubeVideoDetailsDto
 import com.elhady.movies.core.network.api.AccountApiService
 import com.elhady.movies.core.network.api.PeopleApiService
 import com.elhady.movies.core.network.api.TvShowApiService
@@ -119,10 +119,10 @@ class TvShowRepositoryImpl @Inject constructor(
 
     override suspend fun getAiringTodayTVShowsFromRemote(): List<TVShowsEntity> {
         val page = random.nextInt(500) + 1
-        val airingTodayRemoteDTOs =
+        val airingTodayDtos =
             wrapApiCall { tvShowApiService.getAiringTodayTVShows(page = page) }.results?.filterNotNull()
                 ?: emptyList()
-        return domainAiringTodayTvShowsMapper.map(airingTodayRemoteDTOs)
+        return domainAiringTodayTvShowsMapper.map(airingTodayDtos)
     }
 
     override suspend fun getAiringTodayTVShowsPager(): Pager<Int, TVShowsEntity> {
@@ -200,7 +200,7 @@ class TvShowRepositoryImpl @Inject constructor(
 
     override suspend fun getTrailerVideoForTvShow(tvShowID: Int): YoutubeVideoDetailsEntity {
         val call = wrapApiCall { tvShowApiService.getTrailerVideoForTvShow(tvShowID) }.results?.first()
-            ?: YoutubeVideoDetailsRemoteDto()
+            ?: YoutubeVideoDetailsDto()
         return domainYoutubeDetailsMapper.map(call)
     }
 
@@ -215,7 +215,7 @@ class TvShowRepositoryImpl @Inject constructor(
                 seasonNumber,
                 episodeNumber
             )
-        }.results?.first() ?: YoutubeVideoDetailsRemoteDto()
+        }.results?.first() ?: YoutubeVideoDetailsDto()
         return domainYoutubeDetailsMapper.map(response)
     }
 

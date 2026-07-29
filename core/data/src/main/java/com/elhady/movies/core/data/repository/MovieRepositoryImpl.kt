@@ -29,7 +29,7 @@ import com.elhady.movies.core.domain.model.movie.ReviewResponseEntity
 import com.elhady.movies.core.domain.repository.GenreRepository
 import com.elhady.movies.core.domain.repository.MovieRepository
 import com.elhady.movies.core.domain.repository.PeopleRepository
-import com.elhady.movies.core.network.dto.common.YoutubeVideoDetailsRemoteDto
+import com.elhady.movies.core.network.dto.common.YoutubeVideoDetailsDto
 import com.elhady.movies.core.network.api.MovieApiService
 import java.util.Random
 import javax.inject.Inject
@@ -90,11 +90,11 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun getPopularMoviesFromRemote(): List<MovieEntity> {
         val page = random.nextInt(500) + 1
-        val moviesRemoteDTOs =
+        val moviesDtos =
             wrapApiCall { movieApiService.getPopularMovies(page = page) }.results?.filterNotNull()
                 ?: emptyList()
         val genres = genreRepository.getGenresMovies()
-        return domainMovieMapper.map(moviesRemoteDTOs, genres)
+        return domainMovieMapper.map(moviesDtos, genres)
     }
 
     override suspend fun refreshPopularMovies() {
@@ -194,7 +194,7 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun getTrailerVideoForMovie(movieID: Int): YoutubeVideoDetailsEntity {
         val call =
             wrapApiCall { movieApiService.getTrailerVideoForMovie(movieID) }.results?.first()
-                ?: YoutubeVideoDetailsRemoteDto()
+                ?: YoutubeVideoDetailsDto()
         return domainYoutubeDetailsMapper.map(call)
     }
     // endregion

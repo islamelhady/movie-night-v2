@@ -2,13 +2,13 @@ package com.elhady.movies.core.data.mapper.people
 
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.network.dto.people.PeopleDetailsResponse
+import com.elhady.movies.core.network.dto.people.PeopleDetailsDto
 import com.elhady.movies.core.domain.model.people.PeopleDetailsEntity
 import javax.inject.Inject
 
 class DomainPeopleDetailsMapper @Inject constructor() :
-    Mapper<PeopleDetailsResponse, PeopleDetailsEntity> {
-    override fun map(input: PeopleDetailsResponse): PeopleDetailsEntity {
+    Mapper<PeopleDetailsDto, PeopleDetailsEntity> {
+    override fun map(input: PeopleDetailsDto): PeopleDetailsEntity {
         return PeopleDetailsEntity(
             id = input.id ?: 0,
             name = input.name ?: "",

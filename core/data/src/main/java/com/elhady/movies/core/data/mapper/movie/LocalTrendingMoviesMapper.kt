@@ -2,12 +2,12 @@ package com.elhady.movies.core.data.mapper.movie
 
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.database.dto.movie.TrendingMoviesLocalDto
-import com.elhady.movies.core.network.dto.movie.MovieRemoteDto
+import com.elhady.movies.core.network.dto.movie.MovieDto
 import com.elhady.movies.core.domain.model.common.GenreEntity
 import javax.inject.Inject
 
 class LocalTrendingMoviesMapper @Inject constructor() {
-    fun map(input: MovieRemoteDto, genres: List<GenreEntity>): TrendingMoviesLocalDto {
+    fun map(input: MovieDto, genres: List<GenreEntity>): TrendingMoviesLocalDto {
         val genreIds = input.genreIds ?: emptyList()
         val genreNames = genreIds.mapNotNull { genreId ->
             genres.find { it.genreID == genreId }?.genreName ?: ""
