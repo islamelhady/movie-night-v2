@@ -1,15 +1,15 @@
 package com.elhady.movies.feature.details.presentation.seasondetails
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.domain.model.tvshow.EpisodeEntity
-import com.elhady.movies.core.domain.model.tvshow.SeasonDetailsEntity
+import com.elhady.movies.core.domain.model.tvshow.Episode
+import com.elhady.movies.core.domain.model.tvshow.SeasonDetails
 import com.elhady.movies.feature.details.presentation.episodedetails.EpisodeHorizontalUIState
 import javax.inject.Inject
 
 class SeasonDetailsUiMapper @Inject constructor():
-    Mapper<SeasonDetailsEntity, SeasonDetailsUiState> {
+    Mapper<SeasonDetails, SeasonDetailsUiState> {
 
-    override fun map(input: SeasonDetailsEntity): SeasonDetailsUiState {
+    override fun map(input: SeasonDetails): SeasonDetailsUiState {
         return SeasonDetailsUiState(
             name = input.name,
             overview = input.overview,
@@ -20,7 +20,7 @@ class SeasonDetailsUiMapper @Inject constructor():
         )
     }
 
-    private fun mapEpisodes(input: List<EpisodeEntity>): List<EpisodeHorizontalUIState>{
+    private fun mapEpisodes(input: List<Episode>): List<EpisodeHorizontalUIState>{
         return input.map {
             EpisodeHorizontalUIState(
                 id = it.id,

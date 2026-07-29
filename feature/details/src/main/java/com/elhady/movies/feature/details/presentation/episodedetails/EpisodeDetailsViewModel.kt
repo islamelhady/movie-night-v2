@@ -1,7 +1,7 @@
 package com.elhady.movies.feature.details.presentation.episodedetails
 
 import androidx.lifecycle.SavedStateHandle
-import com.elhady.movies.core.domain.model.tvshow.RatingEpisodeDetailsStatusEntity
+import com.elhady.movies.core.domain.model.tvshow.RatingEpisodeDetailsStatus
 import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetCastForEpisodeUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetEpisodeDetailsUseCase
@@ -119,7 +119,7 @@ class EpisodeDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun onRatingSuccess(episodeRateStatusEntity: RatingEpisodeDetailsStatusEntity) {
+    private fun onRatingSuccess(episodeRateStatusEntity: RatingEpisodeDetailsStatus) {
         sendEvent(EpisodeDetailsUiEvent.SubmitRating(stringsRes.ratingAddSuccessFully))
     }
 

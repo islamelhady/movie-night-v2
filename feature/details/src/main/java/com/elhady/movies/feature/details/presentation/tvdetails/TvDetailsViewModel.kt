@@ -2,14 +2,14 @@ package com.elhady.movies.feature.details.presentation.tvdetails
 
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
-import com.elhady.movies.core.domain.model.people.PeopleEntity
-import com.elhady.movies.core.domain.model.common.ReviewEntity
-import com.elhady.movies.core.domain.model.tvshow.SeasonEntity
-import com.elhady.movies.core.domain.model.common.StatusEntity
-import com.elhady.movies.core.domain.model.tvshow.TvShowEntity
-import com.elhady.movies.core.domain.model.account.UserListEntity
-import com.elhady.movies.core.domain.model.common.YoutubeVideoDetailsEntity
-import com.elhady.movies.core.domain.model.tvshow.TvDetailsInfoEntity
+import com.elhady.movies.core.domain.model.people.People
+import com.elhady.movies.core.domain.model.common.Review
+import com.elhady.movies.core.domain.model.tvshow.Season
+import com.elhady.movies.core.domain.model.common.Status
+import com.elhady.movies.core.domain.model.tvshow.TvShow
+import com.elhady.movies.core.domain.model.account.UserList
+import com.elhady.movies.core.domain.model.common.YoutubeVideoDetails
+import com.elhady.movies.core.domain.model.tvshow.TvDetailsInfo
 import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
 import com.elhady.movies.core.domain.usecase.account.AddToFavouriteUseCase
 import com.elhady.movies.core.domain.usecase.account.AddToWatchList
@@ -95,7 +95,7 @@ class TvDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessTvShowInfo(tvShowInfoEntity: TvDetailsInfoEntity) {
+    private fun onSuccessTvShowInfo(tvShowInfoEntity: TvDetailsInfo) {
         updateLoading(false)
         val item = tvDetailsInfoUiMapper.map(tvShowInfoEntity)
         _state.update {
@@ -123,7 +123,7 @@ class TvDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun onYoutubeDetailsSuccess(youtubeVideoEntity: YoutubeVideoDetailsEntity) {
+    private fun onYoutubeDetailsSuccess(youtubeVideoEntity: YoutubeVideoDetails) {
         val item = TvShowYoutubeVideoDetailsUiMapper().map(youtubeVideoEntity)
         _state.update {
             it.copy(
@@ -143,7 +143,7 @@ class TvDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun onTvDetailsCastSuccess(castEntity: List<PeopleEntity>) {
+    private fun onTvDetailsCastSuccess(castEntity: List<People>) {
         updateLoading(false)
         val item = peopleUiMapper.map(castEntity)
         _state.update {
@@ -191,7 +191,7 @@ class TvDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun onTvDetailsSeasonSuccess(seasons: List<SeasonEntity>) {
+    private fun onTvDetailsSeasonSuccess(seasons: List<Season>) {
         updateLoading(false)
         val item = TvDetailsSeasonUiMapper().map(seasons)
         _state.update { it.copy(seasons = item.seasons) }
@@ -209,7 +209,7 @@ class TvDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun onTvShowRecommendationsSuccess(recommendations: List<TvShowEntity>) {
+    private fun onTvShowRecommendationsSuccess(recommendations: List<TvShow>) {
         updateLoading(false)
         val item = tvShowUiMapper.map(recommendations)
         _state.update {
@@ -239,7 +239,7 @@ class TvDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun onRatingSuccess(statusEntity: StatusEntity) {
+    private fun onRatingSuccess(statusEntity: Status) {
         sendEvent(TvDetailsUiEvent.ApplyRating(stringsRes.ratingAddSuccessFully))
 
         Log.d("RateTVSuccess", "${state.value.userRating}  TV Show Id $tvShowId")
@@ -272,7 +272,7 @@ class TvDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun onTvDetailsReviewsSuccess(seasons: List<ReviewEntity>) {
+    private fun onTvDetailsReviewsSuccess(seasons: List<Review>) {
         updateLoading(false)
         val item = TvDetailsReviewUiMapper().map(seasons)
         _state.update {
@@ -294,7 +294,7 @@ class TvDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun onGetUserListsUseCase(userListsEntity: List<UserListEntity>) {
+    private fun onGetUserListsUseCase(userListsEntity: List<UserList>) {
         val item = UserListsUiMapper().map(userListsEntity)
         _state.update {
             it.copy(
@@ -316,7 +316,7 @@ class TvDetailsViewModel @Inject constructor(
 
     }
 
-    private fun onDoneSuccess(statusEntity: StatusEntity) {
+    private fun onDoneSuccess(statusEntity: Status) {
         sendEvent(TvDetailsUiEvent.OnDoneAdding("adding was successful"))
     }
 
@@ -330,7 +330,7 @@ class TvDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun onCreateUserNewList(statusEntity: StatusEntity) {
+    private fun onCreateUserNewList(statusEntity: Status) {
         sendEvent(TvDetailsUiEvent.OnCreateNewList(stringsRes.newListAddSuccessFully))
         getUserLists()
     }

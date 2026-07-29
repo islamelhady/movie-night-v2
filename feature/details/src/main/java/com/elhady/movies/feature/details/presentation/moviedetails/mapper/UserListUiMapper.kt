@@ -1,12 +1,12 @@
 package com.elhady.movies.feature.details.presentation.moviedetails.mapper
 
-import com.elhady.movies.core.domain.model.account.UserListEntity
+import com.elhady.movies.core.domain.model.account.UserList
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.ui.model.UserListUi
 import javax.inject.Inject
 
-class UserListUiMapper @Inject constructor(): Mapper<UserListEntity, UserListUi> {
-    override fun map(input: UserListEntity): UserListUi {
+class UserListUiMapper @Inject constructor(): Mapper<UserList, UserListUi> {
+    override fun map(input: UserList): UserListUi {
         return UserListUi(
             id = input.id,
             name = input.name

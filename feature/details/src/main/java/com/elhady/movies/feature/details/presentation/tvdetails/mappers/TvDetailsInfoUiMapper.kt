@@ -1,13 +1,13 @@
 package com.elhady.movies.feature.details.presentation.tvdetails.mappers
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.domain.model.common.GenreEntity
-import com.elhady.movies.core.domain.model.tvshow.TvDetailsInfoEntity
+import com.elhady.movies.core.domain.model.common.Genre
+import com.elhady.movies.core.domain.model.tvshow.TvDetailsInfo
 import com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsUiState
 import javax.inject.Inject
 
-class TvDetailsInfoUiMapper @Inject constructor() : Mapper<TvDetailsInfoEntity, TvDetailsUiState> {
-    override fun map(input: TvDetailsInfoEntity): TvDetailsUiState {
+class TvDetailsInfoUiMapper @Inject constructor() : Mapper<TvDetailsInfo, TvDetailsUiState> {
+    override fun map(input: TvDetailsInfo): TvDetailsUiState {
         return TvDetailsUiState(
             info = TvDetailsUiState.Info(
                 backdropImageUrl = input.backdropImageUrl,
@@ -20,7 +20,7 @@ class TvDetailsInfoUiMapper @Inject constructor() : Mapper<TvDetailsInfoEntity, 
     }
 
 
-    private fun mapGenereToUi(genereEntities: List<GenreEntity>): List<String> {
+    private fun mapGenereToUi(genereEntities: List<Genre>): List<String> {
         return genereEntities.map {
             it.genreName
         }

@@ -1,12 +1,12 @@
 package com.elhady.movies.feature.details.presentation.episodedetails
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.domain.model.tvshow.EpisodeDetailsEntity
+import com.elhady.movies.core.domain.model.tvshow.EpisodeDetails
 import javax.inject.Inject
 
 class EpisodeDetailsUiMapper  @Inject constructor() :
-    Mapper<EpisodeDetailsEntity, EpisodeDetailsUiState> {
-    override fun map(input: EpisodeDetailsEntity): EpisodeDetailsUiState {
+    Mapper<EpisodeDetails, EpisodeDetailsUiState> {
+    override fun map(input: EpisodeDetails): EpisodeDetailsUiState {
         return EpisodeDetailsUiState(
             imageUrl = input.imageUrl,
             episodeNumber = input.episodeNumber,

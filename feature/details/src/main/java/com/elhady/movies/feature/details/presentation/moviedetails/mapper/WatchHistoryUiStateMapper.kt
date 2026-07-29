@@ -1,15 +1,15 @@
 package com.elhady.movies.feature.details.presentation.moviedetails.mapper
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.domain.model.movie.MovieInWatchHistoryEntity
-import com.elhady.movies.core.domain.model.movie.MovieDetailsEntity
+import com.elhady.movies.core.domain.model.movie.MovieInWatchHistory
+import com.elhady.movies.core.domain.model.movie.MovieDetails
 import java.util.Date
 import javax.inject.Inject
 
 class WatchHistoryUiStateMapper @Inject constructor() :
-    Mapper<MovieDetailsEntity, MovieInWatchHistoryEntity> {
-    override fun map(input: MovieDetailsEntity): MovieInWatchHistoryEntity {
-        return MovieInWatchHistoryEntity(
+    Mapper<MovieDetails, MovieInWatchHistory> {
+    override fun map(input: MovieDetails): MovieInWatchHistory {
+        return MovieInWatchHistory(
             id = input.id,
             posterPath = input.backdropPath,
             title = input.title,

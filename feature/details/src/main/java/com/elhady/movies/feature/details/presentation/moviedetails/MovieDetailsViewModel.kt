@@ -5,8 +5,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.ui.bases.BaseViewModel
 import com.elhady.movies.core.ui.bases.StringsRes
-import com.elhady.movies.core.domain.model.common.StatusEntity
-import com.elhady.movies.core.domain.model.movie.MovieDetailsEntity
+import com.elhady.movies.core.domain.model.common.Status
+import com.elhady.movies.core.domain.model.movie.MovieDetails
 import com.elhady.movies.core.common.ForbiddenThrowable
 import com.elhady.movies.core.domain.usecase.account.AddToUserListUseCase
 import com.elhady.movies.core.domain.usecase.account.CreateUserListUseCase
@@ -90,7 +90,7 @@ class MovieDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessMovieDetails(movieDetails: MovieDetailsEntity) {
+    private fun onSuccessMovieDetails(movieDetails: MovieDetails) {
         _state.update {
             it.copy(
 //                id = movieDetails.id,
@@ -122,7 +122,7 @@ class MovieDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun onRatingSuccess(statusEntity: StatusEntity) {
+    private fun onRatingSuccess(statusEntity: Status) {
         sendEvent(MovieDetailsUiEvent.ApplyRatingEvent(stringsRes.ratingAddSuccessFully))
         val item = TvRatingUiMapper().map(statusEntity)
 
@@ -190,7 +190,7 @@ class MovieDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessCreateUserNewList(statusEntity: StatusEntity) {
+    private fun onSuccessCreateUserNewList(statusEntity: Status) {
         showMessageWithSnackBar(messages = "${statusEntity.success} :" + stringsRes.newListAddSuccessFully)
         getUserLists()
     }
