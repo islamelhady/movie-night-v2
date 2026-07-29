@@ -1,6 +1,6 @@
 package com.elhady.movies.core.domain.usecase.search
 
-import com.elhady.movies.core.domain.model.movie.MovieEntity
+import com.elhady.movies.core.domain.model.movie.Movie
 import com.elhady.movies.core.domain.repository.SearchRepository
 import javax.inject.Inject
 
@@ -10,7 +10,7 @@ class SearchMoviesUseCase @Inject constructor(
     suspend operator fun invoke(
         keyword: String,
         genreId: Int? = null
-    ): List<MovieEntity> {
+    ): List<Movie> {
 
         return searchRepository.searchForMovies(keyword)
             // Filter the search results.
