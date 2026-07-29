@@ -1,6 +1,6 @@
 package com.elhady.movies.core.domain.repository
 
-import com.elhady.movies.core.domain.model.auth.ProfileEntity
+import com.elhady.movies.core.domain.model.auth.Profile
 
 interface AuthRepository {
 
@@ -9,6 +9,6 @@ interface AuthRepository {
     suspend fun logout()
     suspend fun getCurrentUsername(): String?
 
-    suspend fun getAccountDetails(): ProfileEntity
+    suspend fun getAccountDetails(): Profile
     fun isUserLoggedIn():Boolean
 }

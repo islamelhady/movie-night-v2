@@ -2,7 +2,7 @@ package com.elhady.movies.feature.search.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.ui.bases.BaseViewModel
-import com.elhady.movies.core.domain.model.common.GenreEntity
+import com.elhady.movies.core.domain.model.common.Genre
 import com.elhady.movies.core.common.NoNetworkThrowable
 import com.elhady.movies.core.domain.usecase.search.SearchMoviesUseCase
 import com.elhady.movies.core.domain.usecase.search.SearchPeopleUseCase
@@ -197,7 +197,7 @@ class SearchViewModel @Inject constructor(
     }
 
 
-    private fun onSuccessGenres(genreEntities: List<GenreEntity>) {
+    private fun onSuccessGenres(genreEntities: List<Genre>) {
         _state.update {
             val updatedGenres =
                 genreEntities.map { genre ->

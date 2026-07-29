@@ -11,13 +11,13 @@ import com.elhady.movies.core.data.mapper.movie.DomainMovieMapper
 import com.elhady.movies.core.data.mapper.movie.DomainMyRatedMoviesDetailsMapper
 import com.elhady.movies.core.data.mapper.movie.DomainTvMapper
 import com.elhady.movies.core.data.mapper.tvshow.DomainMyRatedTvShowDetailsMapper
-import com.elhady.movies.core.domain.model.common.GenreEntity
-import com.elhady.movies.core.domain.model.movie.MovieEntity
-import com.elhady.movies.core.domain.model.common.StatusEntity
-import com.elhady.movies.core.domain.model.account.UserListEntity
-import com.elhady.movies.core.domain.model.account.ListCreatedEntity
-import com.elhady.movies.core.domain.model.account.MyRatedMovieEntity
-import com.elhady.movies.core.domain.model.account.MyRatedTvShowEntity
+import com.elhady.movies.core.domain.model.common.Genre
+import com.elhady.movies.core.domain.model.movie.Movie
+import com.elhady.movies.core.domain.model.common.Status
+import com.elhady.movies.core.domain.model.account.UserList
+import com.elhady.movies.core.domain.model.account.ListCreated
+import com.elhady.movies.core.domain.model.account.MyRatedMovie
+import com.elhady.movies.core.domain.model.account.MyRatedTvShow
 import com.elhady.movies.core.domain.repository.AccountRepository
 import com.elhady.movies.core.domain.repository.GenreRepository
 import com.elhady.movies.core.network.dto.account.AddMediaToListRequest
@@ -43,24 +43,24 @@ class AccountRepositoryImpl @Inject constructor(
     private val domainMyRatedTvShowDetailsMapper: DomainMyRatedTvShowDetailsMapper
 ) : BaseRepository(), AccountRepository {
 
-    override suspend fun getUserLists(): List<UserListEntity> {
+    override suspend fun getUserLists(): List<UserList> {
         val call = wrapApiCall { accountApiService.getUserLists() }.results?.filterNotNull() ?: emptyList()
         return domainUserListsMapper.map(call)
     }
 
-    override suspend fun postUserLists(listId: Int, mediaId: Int): StatusEntity {
+    override suspend fun postUserLists(listId: Int, mediaId: Int): Status {
         val addMediaRequest = AddMediaToListRequest(mediaId)
         val call = wrapApiCall { accountApiService.postUserMedia(listId, addMediaRequest) }
         return domainStatusMapper.map(call)
     }
 
-    override suspend fun createUserList(listName: String): StatusEntity {
+    override suspend fun createUserList(listName: String): Status {
         val newList = CreateUserListRequest(listName)
         val call = wrapApiCall { accountApiService.createUserList(newList) }
         return domainStatusMapper.map(call)
     }
 
-    override suspend fun getFavoriteMovies(): List<MovieEntity> {
+    override suspend fun getFavoriteMovies(): List<Movie> {
         val genresEntities = genreRepository.getGenresMovies()
         val result = wrapApiCall { accountApiService.getFavoriteMovies() }.results
         return result?.map { item ->
@@ -75,7 +75,7 @@ class AccountRepositoryImpl @Inject constructor(
         } ?: emptyList()
     }
 
-    override suspend fun getFavoriteTv(): List<MovieEntity> {
+    override suspend fun getFavoriteTv(): List<Movie> {
         val genresEntities = genreRepository.getGenresMovies()
         val result = wrapApiCall { accountApiService.getFavoriteTv() }.results
         return result?.map { item ->
@@ -90,7 +90,7 @@ class AccountRepositoryImpl @Inject constructor(
         } ?: emptyList()
     }
 
-    override suspend fun getWatchlistMovies(): List<MovieEntity> {
+    override suspend fun getWatchlistMovies(): List<Movie> {
         val genresEntities = genreRepository.getGenresMovies()
         val result = wrapApiCall { accountApiService.getWatchlist() }.results
         return result?.map { item ->
@@ -105,7 +105,7 @@ class AccountRepositoryImpl @Inject constructor(
         } ?: emptyList()
     }
 
-    override suspend fun getWatchlistTv(): List<MovieEntity> {
+    override suspend fun getWatchlistTv(): List<Movie> {
         val genresEntities = genreRepository.getGenresMovies()
         val result = wrapApiCall { accountApiService.getWatchlistTv() }.results
         return result?.map { item ->
@@ -124,7 +124,7 @@ class AccountRepositoryImpl @Inject constructor(
         return accountApiService.addList(ListRequest(name = name)).isSuccessful
     }
 
-    override suspend fun getDetailsList(listId: Int): List<MovieEntity> {
+    override suspend fun getDetailsList(listId: Int): List<Movie> {
         val genresEntities = genreRepository.getGenresMovies()
         val result = wrapApiCall { accountApiService.getDetailsList(listId) }.items
         return result?.map { item ->
@@ -138,7 +138,7 @@ class AccountRepositoryImpl @Inject constructor(
         } ?: emptyList()
     }
 
-    override suspend fun deleteMovieDetailsList(listId: Int, mediaId: Int): StatusEntity {
+    override suspend fun deleteMovieDetailsList(listId: Int, mediaId: Int): Status {
         val call = wrapApiCall {
             accountApiService.deleteMovieDetailsList(
                 listId = listId,
@@ -148,15 +148,15 @@ class AccountRepositoryImpl @Inject constructor(
         return domainStatusMapper.map(call)
     }
 
-    override suspend fun deleteList(listId: Int): StatusEntity {
+    override suspend fun deleteList(listId: Int): Status {
         return domainStatusMapper.map(wrapApiCall { accountApiService.deleteList(listId = listId) })
     }
 
-    override suspend fun getListCreated(): List<ListCreatedEntity> {
+    override suspend fun getListCreated(): List<ListCreated> {
         return wrapApiCall { accountApiService.getLists() }.results
             ?.filterNotNull()?.let { lists ->
                 lists.map { input ->
-                    ListCreatedEntity(
+                    ListCreated(
                         id = input.id,
                         itemCount = input.itemCount,
                         listType = input.listType,
@@ -174,7 +174,7 @@ class AccountRepositoryImpl @Inject constructor(
         mediaId: Int,
         mediaType: String,
         isWatchList: Boolean
-    ): StatusEntity {
+    ): Status {
         val watchlistRequest = WatchlistRequest(
             mediaId = mediaId,
             mediaType = mediaType,
@@ -188,7 +188,7 @@ class AccountRepositoryImpl @Inject constructor(
         mediaId: Int,
         mediaType: String,
         isFavourite: Boolean
-    ): StatusEntity {
+    ): Status {
         val favoriteRequest = FavoriteRequest(
             mediaId = mediaId,
             mediaType = mediaType,
@@ -198,26 +198,26 @@ class AccountRepositoryImpl @Inject constructor(
         return domainStatusMapper.map(call)
     }
 
-    override suspend fun setMovieRate(movieId: Int, rate: Float): StatusEntity {
+    override suspend fun setMovieRate(movieId: Int, rate: Float): Status {
         return domainStatusMapper.map(wrapApiCall {
             accountApiService.setMovieRate(ratingRequest = RatingRequest(rate), movieId = movieId)
         })
     }
 
-    override suspend fun getMovieRate(): List<MyRatedMovieEntity> {
+    override suspend fun getMovieRate(): List<MyRatedMovie> {
         return domainMyRatedMoviesDetailsMapper.map(
             wrapApiCall { accountApiService.getRatedMovies() }.results?.filterNotNull() ?: emptyList()
         )
     }
 
-    override suspend fun getRatedMovies(): Pager<Int, MyRatedMovieEntity> {
+    override suspend fun getRatedMovies(): Pager<Int, MyRatedMovie> {
         return Pager(
             config = PagingConfig(pageSize = 20),
             pagingSourceFactory = { ratedMoviesPagingSource }
         )
     }
 
-    override suspend fun getRatedTvShows(): Pager<Int, MyRatedTvShowEntity> {
+    override suspend fun getRatedTvShows(): Pager<Int, MyRatedTvShow> {
         return Pager(
             config = PagingConfig(pageSize = 20),
             pagingSourceFactory = { ratedTvShowPagingSource }
@@ -226,8 +226,8 @@ class AccountRepositoryImpl @Inject constructor(
 
     private fun filterGenres(
         genresIds: List<Int>,
-        genresEntities: List<GenreEntity>
-    ): List<GenreEntity> {
+        genresEntities: List<Genre>
+    ): List<Genre> {
         return genresEntities.filter { it.genreID in genresIds }
     }
 }

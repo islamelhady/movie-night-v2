@@ -2,13 +2,13 @@ package com.elhady.movies.feature.showmore.presentation
 
 import com.elhady.movies.core.domain.model.account.ListType
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.domain.model.common.GenreEntity
-import com.elhady.movies.core.domain.model.tvshow.TVShowsEntity
+import com.elhady.movies.core.domain.model.common.Genre
+import com.elhady.movies.core.domain.model.tvshow.TvShows
 import javax.inject.Inject
 
 class ShowMoreTvShowUiMapper @Inject constructor() :
-    Mapper<TVShowsEntity, ShowMoreUi> {
-    override fun map(input: TVShowsEntity): ShowMoreUi {
+    Mapper<TvShows, ShowMoreUi> {
+    override fun map(input: TvShows): ShowMoreUi {
         return ShowMoreUi(
             id = input.id,
             name = input.title,
@@ -20,7 +20,7 @@ class ShowMoreTvShowUiMapper @Inject constructor() :
         )
     }
 
-    private fun convertGenreListToString(input: List<GenreEntity>): String {
+    private fun convertGenreListToString(input: List<Genre>): String {
         return input.joinToString(" | ") { it.genreName }
     }
 

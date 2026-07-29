@@ -4,7 +4,7 @@ import android.util.Log
 import com.elhady.movies.core.common.UnauthorizedThrowable
 import com.elhady.movies.core.data.mapper.auth.DomainProfileMapper
 import com.elhady.movies.core.datastore.local.PreferenceStorage
-import com.elhady.movies.core.domain.model.auth.ProfileEntity
+import com.elhady.movies.core.domain.model.auth.Profile
 import com.elhady.movies.core.domain.repository.AuthRepository
 import com.elhady.movies.core.data.base.BaseRepository
 import com.elhady.movies.core.network.dto.auth.LoginRequest
@@ -50,7 +50,7 @@ class AuthRepositoryImpl @Inject constructor(
         return prefs.currentUserName
     }
 
-    override suspend fun getAccountDetails(): ProfileEntity {
+    override suspend fun getAccountDetails(): Profile {
         val sessionId = prefs.sessionId
         val profileData = wrapApiCall { accountApiService.getAccountDetails(sessionId ?: "") }
         return domainProfileMapper.map(profileData)

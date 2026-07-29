@@ -1,13 +1,13 @@
 package com.elhady.movies.feature.search.presentation.mappers
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.domain.model.common.GenreEntity
-import com.elhady.movies.core.domain.model.movie.MovieEntity
+import com.elhady.movies.core.domain.model.common.Genre
+import com.elhady.movies.core.domain.model.movie.Movie
 import com.elhady.movies.core.ui.model.MovieHorizontalUIState
 import javax.inject.Inject
 
-class MovieUiMapper @Inject constructor()  : Mapper<MovieEntity, MovieHorizontalUIState> {
-    override fun map(input: MovieEntity): MovieHorizontalUIState {
+class MovieUiMapper @Inject constructor()  : Mapper<Movie, MovieHorizontalUIState> {
+    override fun map(input: Movie): MovieHorizontalUIState {
         return MovieHorizontalUIState(
             id = input.id,
             rate = input.rate,
@@ -18,7 +18,7 @@ class MovieUiMapper @Inject constructor()  : Mapper<MovieEntity, MovieHorizontal
         )
     }
 
-    private fun convertGenreListToString(list: List<GenreEntity>): String {
+    private fun convertGenreListToString(list: List<Genre>): String {
         return list.joinToString(" | ") { it.genreName }
     }
 

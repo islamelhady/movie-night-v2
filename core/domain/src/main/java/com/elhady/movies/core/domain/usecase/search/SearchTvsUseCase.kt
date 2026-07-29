@@ -1,6 +1,6 @@
 package com.elhady.movies.core.domain.usecase.search
 
-import com.elhady.movies.core.domain.model.tvshow.TvEntity
+import com.elhady.movies.core.domain.model.tvshow.Tv
 import com.elhady.movies.core.domain.repository.SearchRepository
 import javax.inject.Inject
 
@@ -11,7 +11,7 @@ class SearchTvsUseCase @Inject constructor(
     suspend operator fun invoke(
         keyword: String,
         genreId: Int? = null
-    ): List<TvEntity> {
+    ): List<Tv> {
         return searchRepository.searchForTv(keyword).filter { tv ->
             tv.genreEntities.takeIf { genreId != null }
                 ?.map { it.genreID }

@@ -1,6 +1,6 @@
 package com.elhady.movies.core.domain.usecase.tvshow
 
-import com.elhady.movies.core.domain.model.tvshow.EpisodeDetailsEntity
+import com.elhady.movies.core.domain.model.tvshow.EpisodeDetails
 import com.elhady.movies.core.domain.repository.TvShowRepository
 import javax.inject.Inject
 
@@ -11,7 +11,7 @@ class GetEpisodeDetailsUseCase @Inject constructor(
         seriesId: Int,
         seasonNumber: Int,
         episodeNumber: Int
-    ): EpisodeDetailsEntity {
+    ): EpisodeDetails {
         return tvShowRepository.getEpisodeDetails(seriesId, seasonNumber, episodeNumber)
     }
 }

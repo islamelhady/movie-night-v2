@@ -1,6 +1,6 @@
 package com.elhady.movies.core.domain.usecase.tvshow
 
-import com.elhady.movies.core.domain.model.tvshow.RatingEpisodeDetailsStatusEntity
+import com.elhady.movies.core.domain.model.tvshow.RatingEpisodeDetailsStatus
 import com.elhady.movies.core.domain.repository.TvShowRepository
 import javax.inject.Inject
 
@@ -12,7 +12,7 @@ class SetEpisodeRatingUseCase @Inject constructor(
         seasonNumber: Int,
         episodeNumber: Int,
         value: Float
-    ): RatingEpisodeDetailsStatusEntity {
+    ): RatingEpisodeDetailsStatus {
         return tvShowRepository.setRatingForEpisode(seriesId, seasonNumber, episodeNumber, value)
     }
 }

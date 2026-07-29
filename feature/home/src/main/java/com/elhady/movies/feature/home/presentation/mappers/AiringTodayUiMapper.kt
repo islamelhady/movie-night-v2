@@ -1,12 +1,12 @@
 package com.elhady.movies.feature.home.presentation.mappers
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.domain.model.tvshow.TVShowsEntity
+import com.elhady.movies.core.domain.model.tvshow.TvShows
 import com.elhady.movies.feature.home.presentation.AiringTodayTvShowUiState
 import javax.inject.Inject
 
-class AiringTodayUiMapper @Inject constructor()  : Mapper<TVShowsEntity, AiringTodayTvShowUiState> {
-    override fun map(input: TVShowsEntity): AiringTodayTvShowUiState {
+class AiringTodayUiMapper @Inject constructor()  : Mapper<TvShows, AiringTodayTvShowUiState> {
+    override fun map(input: TvShows): AiringTodayTvShowUiState {
         return AiringTodayTvShowUiState(
             input.id,
             input.imageUrl,

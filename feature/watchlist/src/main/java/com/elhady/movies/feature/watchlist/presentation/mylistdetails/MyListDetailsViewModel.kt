@@ -6,7 +6,7 @@ import com.elhady.movies.core.ui.bases.BaseViewModel
 import com.elhady.movies.core.domain.model.account.ListName
 import com.elhady.movies.core.domain.model.account.ListType
 import com.elhady.movies.core.ui.bases.StringsRes
-import com.elhady.movies.core.domain.model.common.StatusEntity
+import com.elhady.movies.core.domain.model.common.Status
 import com.elhady.movies.core.domain.usecase.account.AddToFavouriteUseCase
 import com.elhady.movies.core.domain.usecase.account.AddToWatchList
 import com.elhady.movies.core.domain.usecase.account.DeleteMovieFromDetailsListUseCase
@@ -152,7 +152,7 @@ class MyListDetailsViewModel @Inject constructor(
     }
 
 
-    private fun onDeleteMediaSuccess(isDelete: StatusEntity) {
+    private fun onDeleteMediaSuccess(isDelete: Status) {
         _state.update { it.copy(isLoading = false) }
         when (_listName) {
             ListName.FAVORITE.name -> {

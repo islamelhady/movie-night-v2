@@ -5,7 +5,7 @@ import android.os.Parcelable
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.ui.bases.BaseViewModel
 import com.elhady.movies.core.ui.bases.StringsRes
-import com.elhady.movies.core.domain.model.common.StatusEntity
+import com.elhady.movies.core.domain.model.common.Status
 import com.elhady.movies.core.domain.usecase.account.CreateListUseCase
 import com.elhady.movies.core.domain.usecase.account.DeleteListUseCase
 import com.elhady.movies.core.domain.usecase.account.GetListsCreatedUseCase
@@ -112,7 +112,7 @@ class MyListViewModel @Inject constructor(
         )
     }
 
-    private fun onDeleteListSuccess(isDelete: StatusEntity) {
+    private fun onDeleteListSuccess(isDelete: Status) {
         _state.update { it.copy( isShowDelete = false) }
         getData()
     }
