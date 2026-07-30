@@ -11,7 +11,7 @@ import com.elhady.movies.feature.details.databinding.ItemSeasonHorizontalBinding
 import com.elhady.movies.feature.details.databinding.TvDetailsItemPeopleRvBinding
 import com.elhady.movies.feature.details.databinding.TvDetailsItemRecommendedRvBinding
 import com.elhady.movies.feature.details.databinding.TvDetailsItemUpperBinding
-import com.elhady.movies.core.ui.adapters.PeopleAdapter
+import com.elhady.movies.core.ui.adapter.PeopleAdapter
 import com.elhady.movies.feature.details.presentation.ui.tvdetails.TvDetailsItem
 import com.elhady.movies.feature.details.presentation.ui.tvdetails.TvDetailsType
 import com.elhady.movies.feature.details.presentation.tvdetails.listener.TvDetailsListeners

@@ -8,7 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.elhady.movies.feature.watchlist.BR
 import com.elhady.movies.feature.watchlist.R
-import com.elhady.movies.core.ui.adapters.BaseFooterAdapter
+import com.elhady.movies.core.ui.adapter.BaseFooterAdapter
 import com.elhady.movies.core.ui.bases.BaseFragment
 import com.elhady.movies.feature.watchlist.databinding.FragmentMyRatedBinding
 import com.elhady.movies.feature.watchlist.presentation.myrated.MyRatedEvents
