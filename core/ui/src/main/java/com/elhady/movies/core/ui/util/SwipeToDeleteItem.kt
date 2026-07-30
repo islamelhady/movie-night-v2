@@ -1,4 +1,4 @@
-package com.elhady.movies.core.ui.base
+package com.elhady.movies.core.ui.util
 
 import android.graphics.Canvas
 import android.os.Build
@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.core.ui.R
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
-
 
 abstract class SwipeToDeleteItem : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
