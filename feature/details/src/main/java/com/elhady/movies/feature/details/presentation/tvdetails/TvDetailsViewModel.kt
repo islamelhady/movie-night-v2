@@ -57,6 +57,7 @@ class TvDetailsViewModel @Inject constructor(
     private val addToWatchList: AddToWatchList,
     private val checkIsUserLoggedInUseCase: CheckIsUserLoggedInUseCase,
     private val getRatingTvUseCase: GetRatingTvUseCase,
+    private val tvShowYoutubeVideoDetailsUiMapper: TvShowYoutubeVideoDetailsUiMapper,
     private val stringsRes: StringsRes,
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<TvDetailsUiState, TvDetailsUiEvent>(TvDetailsUiState()), TvDetailsListeners {
@@ -295,7 +296,7 @@ class TvDetailsViewModel @Inject constructor(
     }
 
     private fun onGetUserListsUseCase(userListsEntity: List<UserList>) {
-        val item = UserListsUiMapper().map(userListsEntity)
+        val item = userListsUiMapper.map(userListsEntity)
         _state.update {
             it.copy(
                 userLists = item.userLists
