@@ -31,22 +31,14 @@ class SaveMovieToListBottomSheet() :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        collectLatest {
-            viewModel.event.collectLatest { onEvent(it) }
-        }
+        collectFlow(viewModel.event) { onEvent(it) }
 
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.map {
-                it.userLists + it.id }.distinctUntilChanged().collectLatest {
-                Log.i("list", "new list => ${viewModel.state.value.userLists}")
-                binding.chipGroupGenre.setGenreChips(viewModel.state.value.userLists, viewModel)
+        collectFlow(viewModel.state.map { it.userLists + it.id }.distinctUntilChanged()) {
+            Log.i("list", "new list => ${viewModel.state.value.userLists}")
+            binding.chipGroupGenre.setGenreChips(viewModel.state.value.userLists, viewModel)
 //                viewModel.emptyUserLists()
-                viewModel.getUserLists()
-
-            }
+            viewModel.getUserLists()
         }
-
     }
 
     fun onEvent(event: MovieDetailsUiEvent) {

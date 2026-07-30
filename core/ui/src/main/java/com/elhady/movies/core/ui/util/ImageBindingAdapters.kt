@@ -39,7 +39,7 @@ fun ImageView.loadImageWithPlaceholderColor(imageUri: String?) {
 @BindingAdapter(value = ["app:profileUrl"])
 fun ImageView.loadProfileImage(profileUrl: String?) {
     val imageLink = if (profileUrl == null || profileUrl.contains("null"))
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" else profileUrl
+        DEFAULT_PROFILE_IMAGE else profileUrl
 
     Glide.with(context)
         .load(imageLink)
@@ -47,3 +47,5 @@ fun ImageView.loadProfileImage(profileUrl: String?) {
         .error(android.R.drawable.stat_notify_error)
         .into(this)
 }
+
+private const val DEFAULT_PROFILE_IMAGE = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
