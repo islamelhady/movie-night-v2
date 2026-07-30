@@ -33,7 +33,7 @@ import com.elhady.movies.feature.details.presentation.moviedetails.mapper.UserLi
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.WatchHistoryUiStateMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.rate.BottomSheetListener
 import com.elhady.movies.feature.details.presentation.moviedetails.save.SaveToListListener
-import com.elhady.movies.feature.details.presentation.tvdetails.mappers.TvRatingUiMapper
+import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvRatingUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
@@ -60,6 +60,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val watchHistoryUiStateMapper: WatchHistoryUiStateMapper,
     private val userListsUiMapper: UserListUiMapper,
     private val getRatingMovieUseCase: GetRatingMovieUseCase,
+    private val tvRatingUiMapper: TvRatingUiMapper,
     private val stringsRes: StringsRes,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel<MovieDetailsUiState, MovieDetailsUiEvent>(MovieDetailsUiState()),
@@ -124,7 +125,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun onRatingSuccess(statusEntity: Status) {
         sendEvent(MovieDetailsUiEvent.ApplyRatingEvent(stringsRes.ratingAddSuccessFully))
-        val item = TvRatingUiMapper().map(statusEntity)
+        val item = tvRatingUiMapper.map(statusEntity)
 
         Log.d("Rate Success", "${state.value.userRating} ${item.ratingSuccess}")
     }

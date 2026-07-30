@@ -27,13 +27,13 @@ import com.elhady.movies.core.domain.usecase.tvshow.RateTvShowUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.details.presentation.tvdetails.listener.TvDetailsListeners
-import com.elhady.movies.feature.details.presentation.tvdetails.mappers.PeopleUiMapper
-import com.elhady.movies.feature.details.presentation.tvdetails.mappers.TvDetailsInfoUiMapper
-import com.elhady.movies.feature.details.presentation.tvdetails.mappers.TvDetailsReviewUiMapper
-import com.elhady.movies.feature.details.presentation.tvdetails.mappers.TvDetailsSeasonUiMapper
-import com.elhady.movies.feature.details.presentation.tvdetails.mappers.TvShowUiMapper
-import com.elhady.movies.feature.details.presentation.tvdetails.mappers.TvShowYoutubeVideoDetailsUiMapper
-import com.elhady.movies.feature.details.presentation.tvdetails.mappers.UserListsUiMapper
+import com.elhady.movies.feature.details.presentation.tvdetails.mapper.PeopleUiMapper
+import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvDetailsInfoUiMapper
+import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvDetailsReviewUiMapper
+import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvDetailsSeasonUiMapper
+import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvShowUiMapper
+import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvShowYoutubeVideoDetailsUiMapper
+import com.elhady.movies.feature.details.presentation.tvdetails.mapper.UserListsUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -57,6 +57,8 @@ class TvDetailsViewModel @Inject constructor(
     private val addToWatchList: AddToWatchList,
     private val checkIsUserLoggedInUseCase: CheckIsUserLoggedInUseCase,
     private val getRatingTvUseCase: GetRatingTvUseCase,
+    private val tvShowYoutubeVideoDetailsUiMapper: TvShowYoutubeVideoDetailsUiMapper,
+    private val userListsUiMapper: UserListsUiMapper,
     private val stringsRes: StringsRes,
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<TvDetailsUiState, TvDetailsUiEvent>(TvDetailsUiState()), TvDetailsListeners {
@@ -124,7 +126,7 @@ class TvDetailsViewModel @Inject constructor(
     }
 
     private fun onYoutubeDetailsSuccess(youtubeVideoEntity: YoutubeVideoDetails) {
-        val item = TvShowYoutubeVideoDetailsUiMapper().map(youtubeVideoEntity)
+        val item = tvShowYoutubeVideoDetailsUiMapper.map(youtubeVideoEntity)
         _state.update {
             it.copy(
                 youtubeKeyId = item.youtubeKeyId
@@ -295,7 +297,7 @@ class TvDetailsViewModel @Inject constructor(
     }
 
     private fun onGetUserListsUseCase(userListsEntity: List<UserList>) {
-        val item = UserListsUiMapper().map(userListsEntity)
+        val item = userListsUiMapper.map(userListsEntity)
         _state.update {
             it.copy(
                 userLists = item.userLists

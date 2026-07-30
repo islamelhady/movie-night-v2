@@ -3,7 +3,7 @@ package com.elhady.movies.feature.details.presentation.seasondetails
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.model.tvshow.Episode
 import com.elhady.movies.core.domain.model.tvshow.SeasonDetails
-import com.elhady.movies.feature.details.presentation.episodedetails.EpisodeHorizontalUIState
+import com.elhady.movies.feature.details.presentation.episodedetails.EpisodeHorizontalUiState
 import javax.inject.Inject
 
 class SeasonDetailsUiMapper @Inject constructor():
@@ -20,15 +20,15 @@ class SeasonDetailsUiMapper @Inject constructor():
         )
     }
 
-    private fun mapEpisodes(input: List<Episode>): List<EpisodeHorizontalUIState>{
+    private fun mapEpisodes(input: List<Episode>): List<EpisodeHorizontalUiState>{
         return input.map {
-            EpisodeHorizontalUIState(
+            EpisodeHorizontalUiState(
                 id = it.id,
                 imageUrl = it.imageUrl,
                 title = it.title,
                 timeEpisode = it.timeEpisode,
                 rate = it.rate,
-                Description = it.overview,
+                description = it.overview,
                 numberEpisode = it.episodeNumber
             )
         }
