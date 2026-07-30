@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.elhady.movies.feature.showmore.BR
 import com.elhady.movies.feature.showmore.R
-import com.elhady.movies.core.ui.bases.BaseFragment
+import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.feature.showmore.databinding.FragmentShowMoreBinding
 import com.elhady.movies.core.common.ShowMoreType
 import com.elhady.movies.core.ui.navigation.Navigator

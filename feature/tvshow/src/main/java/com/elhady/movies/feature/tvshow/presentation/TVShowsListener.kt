@@ -1,6 +1,6 @@
 package com.elhady.movies.feature.tvshow.presentation
 
-import com.elhady.movies.core.ui.bases.BaseInteractionListener
+import com.elhady.movies.core.ui.base.BaseInteractionListener
 
 
 interface TVShowsListener : BaseInteractionListener {

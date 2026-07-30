@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import com.elhady.movies.feature.watchlist.BR
 import com.elhady.movies.feature.watchlist.R
 import com.elhady.movies.core.ui.R as CoreUiR
-import com.elhady.movies.core.ui.bases.BaseFragment
+import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.feature.watchlist.databinding.FragmentMyListBinding
 import com.elhady.movies.feature.watchlist.presentation.mylist.MyListUiEvent
 import com.elhady.movies.feature.watchlist.presentation.mylist.MyListUiState

@@ -12,7 +12,7 @@ import androidx.fragment.app.viewModels
 import com.elhady.movies.feature.auth.BuildConfig
 import com.elhady.movies.feature.auth.BR
 import com.elhady.movies.feature.auth.R
-import com.elhady.movies.core.ui.bases.BaseFragment
+import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.feature.auth.databinding.FragmentLoginBinding
 import com.elhady.movies.core.ui.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint

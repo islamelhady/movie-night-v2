@@ -3,7 +3,7 @@ package com.elhady.movies.feature.search.presentation.mappers
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.model.common.Genre
 import com.elhady.movies.core.domain.model.movie.Movie
-import com.elhady.movies.core.ui.model.MovieHorizontalUIState
+import com.elhady.movies.core.ui.state.MovieHorizontalUIState
 import javax.inject.Inject
 
 class MovieUiMapper @Inject constructor()  : Mapper<Movie, MovieHorizontalUIState> {

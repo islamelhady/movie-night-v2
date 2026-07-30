@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.viewModels
-import com.elhady.movies.core.ui.bases.BaseFragment
+import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.feature.player.BR
 import com.elhady.movies.feature.player.R
 import com.elhady.movies.feature.player.databinding.FragmentPlayerBinding

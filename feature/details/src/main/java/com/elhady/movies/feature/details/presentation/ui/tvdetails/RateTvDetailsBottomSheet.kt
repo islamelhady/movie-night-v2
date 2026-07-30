@@ -6,7 +6,7 @@ import androidx.fragment.app.activityViewModels
 import com.elhady.movies.feature.details.BR
 import com.elhady.movies.feature.details.R
 import com.elhady.movies.core.ui.R as CoreUiR
-import com.elhady.movies.core.ui.bases.BaseBottomSheet
+import com.elhady.movies.core.ui.base.BaseBottomSheet
 import com.elhady.movies.feature.details.databinding.TvDetailsItemBotomSheetBinding
 import com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsViewModel
 import com.google.android.material.snackbar.Snackbar

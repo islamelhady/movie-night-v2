@@ -7,7 +7,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.elhady.movies.feature.details.BR
 import com.elhady.movies.feature.details.R
-import com.elhady.movies.core.ui.bases.BaseBottomSheet
+import com.elhady.movies.core.ui.base.BaseBottomSheet
 import com.elhady.movies.feature.details.databinding.SaveMovieToCreateListBottomSheetBinding
 import com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsUiEvent
 import com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsViewModel
@@ -40,7 +40,7 @@ class SaveMovieToListBottomSheet() :
             viewModel.state.map {
                 it.userLists + it.id }.distinctUntilChanged().collectLatest {
                 Log.i("list", "new list => ${viewModel.state.value.userLists}")
-                binding.chipGroupGenere.setGenreChips(viewModel.state.value.userLists, viewModel)
+                binding.chipGroupGenre.setGenreChips(viewModel.state.value.userLists, viewModel)
 //                viewModel.emptyUserLists()
                 viewModel.getUserLists()
 
@@ -75,9 +75,9 @@ class SaveMovieToListBottomSheet() :
 //            MovieDetailsUiEvent.CreateListEvent -> {
 //                binding.materialButtonCreate.setOnClickListener {
 //                    viewModel.createUserNewList(binding.textInputEditTextListName.text.toString())
-//                    binding.chipGroupGenere.removeViewsInLayout(
+//                    binding.chipGroupGenre.removeViewsInLayout(
 //                        0,
-//                        binding.chipGroupGenere.childCount - 3
+//                        binding.chipGroupGenre.childCount - 3
 //                    )
 //                    binding.groupCreateList.visibility = View.GONE
 //                    binding.chipAddNewList.isChecked = false

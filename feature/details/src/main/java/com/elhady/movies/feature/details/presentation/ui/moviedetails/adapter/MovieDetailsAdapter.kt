@@ -5,15 +5,15 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.elhady.movies.feature.details.BR
 import com.elhady.movies.feature.details.R
-import com.elhady.movies.core.ui.bases.BaseAdapter
+import com.elhady.movies.core.ui.base.BaseAdapter
 import com.elhady.movies.feature.details.databinding.ItemReviewBinding
 import com.elhady.movies.feature.details.databinding.MovieDetailsItemPopularPeopleBinding
 import com.elhady.movies.feature.details.databinding.MovieDetailsItemRecommendedBinding
 import com.elhady.movies.feature.details.databinding.MovieDetailsItemUpperBinding
-import com.elhady.movies.core.ui.adapters.MediaVerticalAdapter
-import com.elhady.movies.core.ui.adapters.PeopleAdapter
-import com.elhady.movies.core.ui.listener.MediaListener
-import com.elhady.movies.core.ui.listener.PeopleListener
+import com.elhady.movies.core.ui.adapter.MediaVerticalAdapter
+import com.elhady.movies.core.ui.adapter.PeopleAdapter
+import com.elhady.movies.core.ui.interaction.MediaListener
+import com.elhady.movies.core.ui.interaction.PeopleListener
 import com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsListener
 
 class MovieDetailsAdapter(

@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.feature.watchlist.BR
 import com.elhady.movies.feature.watchlist.R
-import com.elhady.movies.core.ui.bases.BaseFragment
+import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.feature.watchlist.databinding.FragmentMyListDetailsBinding
-import com.elhady.movies.core.ui.bases.SwipeToDeleteItem
+import com.elhady.movies.core.ui.util.SwipeToDeleteItem
 import com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDetailsUiEvent
 import com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDetailsUiState
 import com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDetailsViewModel

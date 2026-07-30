@@ -1,14 +1,14 @@
 package com.elhady.movies.feature.watchlist.presentation.watchhistory
 
 import androidx.lifecycle.viewModelScope
-import com.elhady.movies.core.ui.bases.BaseViewModel
-import com.elhady.movies.core.ui.bases.StringsRes
+import com.elhady.movies.core.ui.base.BaseViewModel
+import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.core.domain.usecase.movie.DeleteMovieFromWatchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetAllWatchHistoryMoviesUseCase
 import com.elhady.movies.core.domain.usecase.movie.SearchWatchHistoryUseCase
 import com.elhady.movies.feature.watchlist.presentation.ui.watchhistory.WatchHistoryRecyclerItem
 import com.elhady.movies.feature.watchlist.presentation.ui.watchhistory.WatchHistoryRecyclerItemsCreator
-import com.elhady.movies.core.ui.listener.MediaListener
+import com.elhady.movies.core.ui.interaction.MediaListener
 import com.elhady.movies.feature.watchlist.presentation.watchhistory.mappers.MovieDomainMapper
 import com.elhady.movies.feature.watchlist.presentation.watchhistory.mappers.MovieUiStateMapper
 import dagger.hilt.android.lifecycle.HiltViewModel

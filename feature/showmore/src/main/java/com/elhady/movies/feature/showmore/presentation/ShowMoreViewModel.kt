@@ -4,10 +4,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.PagingData
-import com.elhady.movies.core.ui.bases.BaseViewModel
+import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.domain.model.account.ListType
 import com.elhady.movies.core.common.ShowMoreType
-import com.elhady.movies.core.ui.bases.StringsRes
+import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.core.domain.usecase.movie.GetMorePopularMoviesByTypeUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetMoreTopRatedByTypeUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetMoreTrendingByTypeUseCase
