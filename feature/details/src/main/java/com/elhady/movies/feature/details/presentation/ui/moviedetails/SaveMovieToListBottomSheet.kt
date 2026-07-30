@@ -7,7 +7,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.elhady.movies.feature.details.BR
 import com.elhady.movies.feature.details.R
-import com.elhady.movies.core.ui.bases.BaseBottomSheet
+import com.elhady.movies.core.ui.base.BaseBottomSheet
 import com.elhady.movies.feature.details.databinding.SaveMovieToCreateListBottomSheetBinding
 import com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsUiEvent
 import com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsViewModel

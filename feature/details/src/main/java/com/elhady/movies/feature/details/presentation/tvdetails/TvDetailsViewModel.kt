@@ -24,8 +24,8 @@ import com.elhady.movies.core.domain.usecase.tvshow.GetTvShowRecommendationsUseC
 import com.elhady.movies.core.domain.usecase.tvshow.GetTvShowYoutubeDetailsUseCase
 import com.elhady.movies.core.domain.usecase.account.GetUserListsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.RateTvShowUseCase
-import com.elhady.movies.core.ui.bases.BaseViewModel
-import com.elhady.movies.core.ui.bases.StringsRes
+import com.elhady.movies.core.ui.base.BaseViewModel
+import com.elhady.movies.core.ui.base.StringsRes
 import com.elhady.movies.feature.details.presentation.tvdetails.listener.TvDetailsListeners
 import com.elhady.movies.feature.details.presentation.tvdetails.mappers.PeopleUiMapper
 import com.elhady.movies.feature.details.presentation.tvdetails.mappers.TvDetailsInfoUiMapper

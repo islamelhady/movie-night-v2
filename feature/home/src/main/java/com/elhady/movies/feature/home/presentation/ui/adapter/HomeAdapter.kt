@@ -11,7 +11,7 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.elhady.movies.feature.home.BR
 import com.elhady.movies.feature.home.R
-import com.elhady.movies.core.ui.bases.BaseAdapter
+import com.elhady.movies.core.ui.base.BaseAdapter
 import com.elhady.movies.feature.home.databinding.HomeRecyclerviewAiringTodayTvBinding
 import com.elhady.movies.feature.home.databinding.HomeRecyclerviewNowPlayingBinding
 import com.elhady.movies.feature.home.databinding.HomeRecyclerviewPopularMoviesBinding

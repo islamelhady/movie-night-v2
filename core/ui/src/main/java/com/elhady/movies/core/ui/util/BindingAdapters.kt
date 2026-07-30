@@ -13,7 +13,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.elhady.movies.core.ui.bases.BaseAdapter
+import com.elhady.movies.core.ui.base.BaseAdapter
 import com.elhady.movies.core.ui.R
 import com.google.android.material.progressindicator.LinearProgressIndicator
 

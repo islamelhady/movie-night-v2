@@ -2,7 +2,7 @@ package com.elhady.movies.feature.watchlist.presentation.ui.myrated
 
 import androidx.recyclerview.widget.DiffUtil
 import com.elhady.movies.feature.watchlist.BR
-import com.elhady.movies.core.ui.bases.BasePagingAdapter
+import com.elhady.movies.core.ui.base.BasePagingAdapter
 import com.elhady.movies.core.ui.databinding.ItemMovieHorizontalBinding
 import com.elhady.movies.core.ui.model.MovieHorizontalUIState
 import com.elhady.movies.feature.watchlist.presentation.myrated.MyRatedListner

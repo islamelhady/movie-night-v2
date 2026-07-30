@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.elhady.movies.feature.tvshow.BR
 import com.elhady.movies.feature.tvshow.R
 import com.elhady.movies.core.ui.adapter.BaseFooterAdapter
-import com.elhady.movies.core.ui.bases.BaseFragment
+import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.feature.tvshow.databinding.FragmentTvShowsBinding
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.google.android.material.chip.Chip

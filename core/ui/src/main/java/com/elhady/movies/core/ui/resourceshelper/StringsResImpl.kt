@@ -3,7 +3,7 @@ package com.elhady.movies.core.ui.resourceshelper
 import android.content.Context
 import androidx.annotation.StringRes
 import com.elhady.movies.core.ui.R
-import com.elhady.movies.core.ui.bases.StringsRes
+import com.elhady.movies.core.ui.base.StringsRes
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton

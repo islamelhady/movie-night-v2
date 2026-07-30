@@ -1,4 +1,4 @@
-package com.elhady.movies.core.ui.bases
+package com.elhady.movies.core.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

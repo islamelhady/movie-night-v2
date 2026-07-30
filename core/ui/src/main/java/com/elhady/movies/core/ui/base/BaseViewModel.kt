@@ -1,4 +1,4 @@
-package com.elhady.movies.core.ui.bases
+package com.elhady.movies.core.ui.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

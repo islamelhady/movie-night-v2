@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.elhady.movies.feature.details.BR
 import com.elhady.movies.feature.details.R
-import com.elhady.movies.core.ui.bases.BaseFragment
+import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.feature.details.databinding.FragmentPeopleDetailsBinding
 import com.elhady.movies.feature.details.presentation.peopledetails.PeopleDetailsUiEvent
 import com.elhady.movies.feature.details.presentation.peopledetails.PeopleDetailsViewModel

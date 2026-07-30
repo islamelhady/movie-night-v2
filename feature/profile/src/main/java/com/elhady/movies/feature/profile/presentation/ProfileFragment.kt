@@ -9,7 +9,7 @@ import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.profile.BR
 import com.elhady.movies.feature.profile.R
 import com.elhady.movies.core.ui.R as CoreUiR
-import com.elhady.movies.core.ui.bases.BaseFragment
+import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.core.domain.model.account.ListName
 import com.elhady.movies.core.domain.model.account.ListType
 import com.elhady.movies.feature.profile.databinding.FragmentProfileBinding

@@ -1,6 +1,6 @@
 package com.elhady.movies.core.ui.di
 
-import com.elhady.movies.core.ui.bases.StringsRes
+import com.elhady.movies.core.ui.base.StringsRes
 import com.elhady.movies.core.ui.resourceshelper.StringsResImpl
 import dagger.Binds
 import dagger.Module
