@@ -39,10 +39,11 @@ abstract class BaseViewModel<STATE, EVENT>(initialState: STATE) : ViewModel() {
         }
     }
 
+    @JvmName("tryToExecuteList")
     protected fun <INPUT, OUTPUT> tryToExecute(
         call: suspend () -> List<INPUT>,
-        onSuccess: (List<OUTPUT>) -> Unit,
         mapper: Mapper<INPUT, OUTPUT>,
+        onSuccess: (List<OUTPUT>) -> Unit,
         onError: (Throwable) -> Unit,
         dispatcher: CoroutineDispatcher = Dispatchers.IO
     ) {
@@ -56,6 +57,7 @@ abstract class BaseViewModel<STATE, EVENT>(initialState: STATE) : ViewModel() {
     }
 
 
+    @JvmName("tryToExecuteSingle")
     protected fun <INPUT, OUTPUT> tryToExecute(
         call: suspend () -> INPUT,
         mapper: Mapper<INPUT, OUTPUT>,

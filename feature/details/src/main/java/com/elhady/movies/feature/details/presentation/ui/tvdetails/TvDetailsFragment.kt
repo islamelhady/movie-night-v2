@@ -6,19 +6,19 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.elhady.movies.core.ui.base.BaseFragment
+import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.details.BR
 import com.elhady.movies.feature.details.R
-import com.elhady.movies.core.ui.R as CoreUiR
-import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.feature.details.databinding.FragmentTvDetailsBinding
-import com.elhady.movies.feature.details.presentation.ui.tvdetails.adapter.TvDetailsAdapter
 import com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsUiEvent
 import com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsUiState
 import com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsViewModel
-import com.elhady.movies.core.ui.navigation.Navigator
+import com.elhady.movies.feature.details.presentation.ui.tvdetails.adapter.TvDetailsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.math.abs
+import com.elhady.movies.core.ui.R as CoreUiR
 
 @AndroidEntryPoint
 class TvDetailsFragment :
@@ -95,8 +95,7 @@ class TvDetailsFragment :
     //endregion
 
     private fun collectChange() {
-        collectLatest {
-            viewModel.state.collect { state ->
+        collectFlow(flow = viewModel.state) { state ->
                 val tvDetailsItems = mutableListOf(
                     TvDetailsItem.Upper(state.info),
                     TvDetailsItem.People(state.cast, state.seasons.isNotEmpty()),
@@ -112,7 +111,7 @@ class TvDetailsFragment :
                 binding.appBarLayout.setExpanded(true,true)
             }
         }
-    }
+
     //region rating bottom sheet
     private fun showRateBottomSheet() {
         rateBottomSheet = RateTvDetailsBottomSheet()

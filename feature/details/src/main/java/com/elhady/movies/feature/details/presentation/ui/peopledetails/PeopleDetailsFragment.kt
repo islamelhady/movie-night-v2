@@ -41,8 +41,7 @@ class PeopleDetailsFragment :
     }
 
     private fun getData() {
-        collectLatest {
-            viewModel.state.collect { state ->
+        collectFlow(flow = viewModel.state) { state ->
                 peopleMoviesAdapter.setItems(state.movies)
                 peopleTvShowsAdapter.setItems(state.tvShows)
                 if (state.onErrors.isNotEmpty()) {
@@ -52,7 +51,7 @@ class PeopleDetailsFragment :
                 }
             }
         }
-    }
+
 
     override fun onEvent(event: PeopleDetailsUiEvent) {
         when (event) {

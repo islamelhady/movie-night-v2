@@ -78,7 +78,7 @@ class EpisodeDetailsFragment :
     }
 
     private fun setAdapter() {
-        collectLatest { peopleAdapter.setItems(viewModel.state.value.cast) }
+        collectFlow(viewModel.state) { peopleAdapter.setItems(viewModel.state.value.cast) }
         binding.recyclerViewPeople.adapter = peopleAdapter
     }
 

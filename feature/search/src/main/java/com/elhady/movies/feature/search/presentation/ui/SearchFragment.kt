@@ -6,10 +6,10 @@ import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import com.elhady.movies.feature.search.BR
-import com.elhady.movies.feature.search.R
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.core.ui.navigation.Navigator
+import com.elhady.movies.feature.search.BR
+import com.elhady.movies.feature.search.R
 import com.elhady.movies.feature.search.databinding.FragmentSearchBinding
 import com.elhady.movies.feature.search.presentation.SearchItem
 import com.elhady.movies.feature.search.presentation.SearchUiEvent
@@ -17,8 +17,8 @@ import com.elhady.movies.feature.search.presentation.SearchUiState
 import com.elhady.movies.feature.search.presentation.SearchViewModel
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, SearchUiEvent>() {
@@ -50,8 +50,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
     }
 
     private fun collectChange() {
-        collectLatest {
-            viewModel.state.collect { state ->
+        collectFlow(flow = viewModel.state) { state ->
                 setupSearchHistoryAdapter(state)
 
                 val searchItems = when (state.mediaType) {
@@ -66,7 +65,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
                 searchAdapter.setItems(searchItems)
                 state.error?.last()?.let { showSnackBar(it) }
             }
-        }
+
     }
 
     private fun setupSearchHistoryAdapter(state: SearchUiState) {

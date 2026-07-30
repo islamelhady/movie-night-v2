@@ -3,6 +3,8 @@
     <style name="Theme.Movies" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
          <item name="colorPrimary">@color/primary</item>
+        <item name="colorSurface">@color/background</item>
+        <item name="colorSurfaceContainer">@color/card</item>
         <item name="background">@color/background</item>
         <item name="android:windowBackground">@color/background</item>
         <item name="android:statusBarColor">@color/background</item>

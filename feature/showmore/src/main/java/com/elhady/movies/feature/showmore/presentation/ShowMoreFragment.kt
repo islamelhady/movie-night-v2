@@ -39,8 +39,7 @@ class ShowMoreFragment : BaseFragment<FragmentShowMoreBinding, ShowMoreUiState, 
 
         binding.recyclerMedia.adapter = showMoreAdapter
 
-        collectLatest {
-            viewModel.state.collectLatest { state ->
+        collectFlow(flow = viewModel.state) { state ->
                 val flow = when (state.showMoreType) {
                     ShowMoreType.POPULAR_MOVIES -> state.showMorePopularMovies
                     ShowMoreType.TOP_RATED_MOVIES -> state.showMoreTopRatedMovies
@@ -56,7 +55,7 @@ class ShowMoreFragment : BaseFragment<FragmentShowMoreBinding, ShowMoreUiState, 
                 collectLast(showMoreAdapter.loadStateFlow) { viewModel.setErrorUiState(it) }
 
             }
-        }
+
     }
 
     private fun <T> LifecycleOwner.collectLast(flow: Flow<T>, action: suspend (T) -> Unit) {

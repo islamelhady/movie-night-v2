@@ -11,6 +11,7 @@ import com.elhady.movies.feature.details.databinding.SaveTvShowToListBottomSheet
 import com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 
 @AndroidEntryPoint
 class SaveTvShowToListBottomSheet(private val watchlistFavouriteBottomSheet: WatchlistFavouriteListener,) :
@@ -22,10 +23,8 @@ class SaveTvShowToListBottomSheet(private val watchlistFavouriteBottomSheet: Wat
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        collectLatest {
-            viewModel.event.collectLatest {
+        collectFlow(viewModel.event) {
 //                onEvent(it)
-            }
         }
 
         binding.chipAddNewList.visibility = View.GONE

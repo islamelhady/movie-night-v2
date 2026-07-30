@@ -3,16 +3,15 @@ package com.elhady.movies.feature.details.presentation.ui.seasondetails
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import com.elhady.movies.core.ui.base.BaseFragment
+import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.details.BR
 import com.elhady.movies.feature.details.R
-import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.feature.details.databinding.FragmentSeasonDetailsBinding
 import com.elhady.movies.feature.details.presentation.seasondetails.SeasonDetailsUiEvent
 import com.elhady.movies.feature.details.presentation.seasondetails.SeasonDetailsUiState
 import com.elhady.movies.feature.details.presentation.seasondetails.SeasonDetailsViewModel
-import com.elhady.movies.core.ui.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -37,15 +36,14 @@ class SeasonDetailsFragment
     }
 
     private fun collectChange() {
-        collectLatest {
-            viewModel.state.collectLatest { state ->
+        collectFlow(flow = viewModel.state) { state ->
                 val seasonDetailsItems = mutableListOf(
                     SeasonDetailsItem.OverviewItem(state.overview, state.episodes.isEmpty())
                 ) + state.episodes.map { SeasonDetailsItem.EpisodeItem(it) }
                 seasonDetailsAdapter.setItems(seasonDetailsItems)
             }
         }
-    }
+
 
     override fun onEvent(event: SeasonDetailsUiEvent) {
         when (event) {

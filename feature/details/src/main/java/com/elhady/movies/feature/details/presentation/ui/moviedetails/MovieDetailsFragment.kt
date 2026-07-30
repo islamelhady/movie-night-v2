@@ -55,8 +55,7 @@ class MovieDetailsFragment :
     }
 
     private fun collectChange() {
-        collectLatest {
-            viewModel.state.collect { state ->
+        collectFlow(flow = viewModel.state) { state ->
                 movieDetailsAdapter.setItems(
                     mutableListOf(
                         MovieDetailsItem.Upper(state.movieUiState),
@@ -75,7 +74,6 @@ class MovieDetailsFragment :
                 binding.appBarLayout.setExpanded(true, true)
             }
         }
-    }
 
     override fun onEvent(event: MovieDetailsUiEvent) {
         when (event) {
@@ -126,12 +124,11 @@ class MovieDetailsFragment :
 
 
     private fun collapseState() {
-        collectLatest {
-            viewModel.state.collectLatest { state ->
+        collectFlow(flow = viewModel.state) { state ->
                 binding.nestedRecycler.isNestedScrollingEnabled =
                     !(state.reviewUiState.isEmpty() && state.recommendedUiState.isEmpty())
-            }
         }
+
         var pos = 0
         findNavController().addOnDestinationChangedListener { _, _, _ ->
             binding.nestedRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
