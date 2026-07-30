@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.details.presentation.seasondetails.SeasonHorizontalUIState" />
+            type="com.elhady.movies.feature.details.presentation.seasondetails.SeasonHorizontalUiState" />
 
         <variable
             name="listener"

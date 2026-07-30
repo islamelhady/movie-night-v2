@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.details.presentation.ui.tvdetails.TvDetailsItem.Upper" />
+            type="com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsItem.Upper" />
 
         <variable
             name="rateListener"
