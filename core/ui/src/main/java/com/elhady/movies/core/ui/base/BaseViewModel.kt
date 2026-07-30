@@ -16,6 +16,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
+/**
+ * A base class for all ViewModels in the project.
+ *
+ * @param STATE The type of the UI state.
+ * @param EVENT The type of the UI event.
+ * @param initialState The initial state of the ViewModel.
+ */
 abstract class BaseViewModel<STATE, EVENT>(initialState: STATE) : ViewModel() {
 
     protected val _state: MutableStateFlow<STATE> by lazy { MutableStateFlow(initialState) }
@@ -24,6 +31,15 @@ abstract class BaseViewModel<STATE, EVENT>(initialState: STATE) : ViewModel() {
     protected val _event = MutableSharedFlow<EVENT>()
     val event = _event.asSharedFlow()
 
+    /**
+     * Executes a suspending call and handles the result.
+     *
+     * @param T The type of the result.
+     * @param call The suspending function to execute.
+     * @param onSuccess The callback to execute on success.
+     * @param onError The callback to execute on error.
+     * @param dispatcher The dispatcher on which to execute the call.
+     */
     protected fun <T> tryToExecute(
         call: suspend () -> T,
         onSuccess: (T) -> Unit,

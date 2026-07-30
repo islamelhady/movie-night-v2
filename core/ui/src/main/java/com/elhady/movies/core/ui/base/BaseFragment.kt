@@ -16,6 +16,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+/**
+ * A base class for all fragments in the project that use Data Binding.
+ *
+ * @param VDB The type of the ViewDataBinding associated with the fragment's layout.
+ * @param STATE The type of the UI state associated with the fragment's ViewModel.
+ * @param EVENT The type of the UI event associated with the fragment's ViewModel.
+ */
 abstract class BaseFragment<VDB : ViewDataBinding, STATE, EVENT> : Fragment() {
     @get:LayoutRes
     abstract val layoutIdFragment: Int
@@ -46,6 +53,13 @@ abstract class BaseFragment<VDB : ViewDataBinding, STATE, EVENT> : Fragment() {
         collectFlow(viewModel.event) { onEvent(it) }
     }
 
+    /**
+     * Collects a [Flow] in a lifecycle-aware manner.
+     *
+     * @param T The type of data in the flow.
+     * @param flow The flow to be collected.
+     * @param collect The action to perform when a new value is emitted.
+     */
     protected fun <T> collectFlow(flow: Flow<T>, collect: suspend (T) -> Unit) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -53,6 +67,11 @@ abstract class BaseFragment<VDB : ViewDataBinding, STATE, EVENT> : Fragment() {
             }
         }
     }
+    /**
+     * Called when a UI event is emitted by the [viewModel].
+     *
+     * @param event The emitted UI event.
+     */
     abstract fun onEvent(event: EVENT)
 
     protected fun showSnackBar(messages: String) {

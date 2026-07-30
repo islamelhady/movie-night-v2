@@ -9,6 +9,14 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
+/**
+ * A base class for all PagingDataAdapter instances in the project that use Data Binding.
+ *
+ * @param T The type of items in the adapter.
+ * @param VB The type of the ViewDataBinding associated with the item's layout.
+ * @param diffCallback The callback to determine item differences.
+ * @param listener The interaction listener for the items.
+ */
 abstract class BasePagingAdapter<T : Any, VB : ViewDataBinding>(
     diffCallback: DiffUtil.ItemCallback<T>,
     private val listener: BaseInteractionListener
