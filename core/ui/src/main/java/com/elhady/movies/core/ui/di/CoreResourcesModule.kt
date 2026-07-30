@@ -1,7 +1,7 @@
 package com.elhady.movies.core.ui.di
 
 import com.elhady.movies.core.ui.base.StringsRes
-import com.elhady.movies.core.ui.resourceshelper.StringsResImpl
+import com.elhady.movies.core.ui.resource.StringsResImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.elhady.movies.core.ui.resourceshelper
+package com.elhady.movies.core.ui.resource
 
 import android.content.Context
 import androidx.annotation.StringRes
