@@ -1,4 +1,4 @@
-package com.elhady.movies.core.ui.base
+package com.elhady.movies.core.ui.resource
 
 interface StringsRes {
     val theRequestFailed: String
