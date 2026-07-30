@@ -14,14 +14,14 @@ class TvDetailsInfoUiMapper @Inject constructor() : Mapper<TvDetailsInfo, TvDeta
                 name = input.name,
                 rating = input.rating,
                 description = input.description,
-                genres = mapGenereToUi(input.genres)
+                genres = mapGenreToUi(input.genres)
             ),
         )
     }
 
 
-    private fun mapGenereToUi(genereEntities: List<Genre>): List<String> {
-        return genereEntities.map {
+    private fun mapGenreToUi(genreEntities: List<Genre>): List<String> {
+        return genreEntities.map {
             it.genreName
         }
     }

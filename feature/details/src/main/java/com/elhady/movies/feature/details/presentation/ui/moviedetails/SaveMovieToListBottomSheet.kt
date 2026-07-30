@@ -40,7 +40,7 @@ class SaveMovieToListBottomSheet() :
             viewModel.state.map {
                 it.userLists + it.id }.distinctUntilChanged().collectLatest {
                 Log.i("list", "new list => ${viewModel.state.value.userLists}")
-                binding.chipGroupGenere.setGenreChips(viewModel.state.value.userLists, viewModel)
+                binding.chipGroupGenre.setGenreChips(viewModel.state.value.userLists, viewModel)
 //                viewModel.emptyUserLists()
                 viewModel.getUserLists()
 
@@ -75,9 +75,9 @@ class SaveMovieToListBottomSheet() :
 //            MovieDetailsUiEvent.CreateListEvent -> {
 //                binding.materialButtonCreate.setOnClickListener {
 //                    viewModel.createUserNewList(binding.textInputEditTextListName.text.toString())
-//                    binding.chipGroupGenere.removeViewsInLayout(
+//                    binding.chipGroupGenre.removeViewsInLayout(
 //                        0,
-//                        binding.chipGroupGenere.childCount - 3
+//                        binding.chipGroupGenre.childCount - 3
 //                    )
 //                    binding.groupCreateList.visibility = View.GONE
 //                    binding.chipAddNewList.isChecked = false

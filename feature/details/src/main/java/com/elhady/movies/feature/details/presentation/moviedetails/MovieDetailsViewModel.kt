@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.ui.base.BaseViewModel
-import com.elhady.movies.core.ui.base.StringsRes
+import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.core.domain.model.common.Status
 import com.elhady.movies.core.domain.model.movie.MovieDetails
 import com.elhady.movies.core.common.ForbiddenThrowable

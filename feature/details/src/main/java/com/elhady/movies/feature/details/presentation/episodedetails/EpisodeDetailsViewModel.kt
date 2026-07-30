@@ -8,7 +8,7 @@ import com.elhady.movies.core.domain.usecase.tvshow.GetEpisodeDetailsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetEpisodeVideoUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.SetEpisodeRatingUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
-import com.elhady.movies.core.ui.base.StringsRes
+import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.core.ui.interaction.PeopleListener
 import com.elhady.movies.core.ui.state.PeopleUIState
 import com.elhady.movies.feature.details.presentation.tvdetails.mappers.PeopleUiMapper

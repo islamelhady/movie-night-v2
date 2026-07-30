@@ -5,7 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.domain.model.account.ListName
 import com.elhady.movies.core.domain.model.account.ListType
-import com.elhady.movies.core.ui.base.StringsRes
+import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.core.domain.model.common.Status
 import com.elhady.movies.core.domain.usecase.account.AddToFavouriteUseCase
 import com.elhady.movies.core.domain.usecase.account.AddToWatchList

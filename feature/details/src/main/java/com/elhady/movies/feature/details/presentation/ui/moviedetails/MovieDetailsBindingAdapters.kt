@@ -7,7 +7,7 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.elhady.movies.core.ui.R as CoreUiR
-import com.elhady.movies.core.ui.databinding.GenereChipBinding
+import com.elhady.movies.core.ui.databinding.GenreChipBinding
 import com.elhady.movies.core.ui.interaction.ChipListener
 import com.elhady.movies.core.ui.state.UserListUi
 import com.google.android.material.chip.Chip
@@ -66,9 +66,9 @@ fun ChipGroup.setGenreChips(
 ) {
     val inflater = LayoutInflater.from(context)
     for (chipUiState in chips) {
-        val binding = DataBindingUtil.inflate<GenereChipBinding>(
+        val binding = DataBindingUtil.inflate<GenreChipBinding>(
             inflater,
-            com.elhady.movies.core.ui.R.layout.genere_chip,
+            com.elhady.movies.core.ui.R.layout.genre_chip,
             this,
             false
         )
