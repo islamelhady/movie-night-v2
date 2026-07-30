@@ -1,33 +1,13 @@
 package com.elhady.movies.core.ui.util
 
-import android.annotation.SuppressLint
 import android.app.UiModeManager
-import android.os.Build
 import android.view.View
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SwitchCompat
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.PagerSnapHelper
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.elhady.movies.core.ui.base.BaseAdapter
 import com.elhady.movies.core.ui.R
 import com.google.android.material.progressindicator.LinearProgressIndicator
-
-@BindingAdapter(value = ["app:items"])
-fun <T> RecyclerView.setRecyclerItems(items: List<T>?) {
-    (adapter as? BaseAdapter<T>)?.setItems(items ?: emptyList())
-    smoothScrollToPosition(0)
-}
-
-@BindingAdapter(value = ["app:usePagerSnapHelper"])
-fun usePagerSnapHelperWithRecycler(recycler: RecyclerView, useSnapHelper: Boolean = false) {
-    if (useSnapHelper)
-        PagerSnapHelper().attachToRecyclerView(recycler)
-}
 
 @BindingAdapter(value = ["app:genres"])
 fun setGenres(textView: TextView, genres: List<String>?){
@@ -35,6 +15,7 @@ fun setGenres(textView: TextView, genres: List<String>?){
         textView.text = genres.joinToString(" • ") { it }
     }
 }
+
 @BindingAdapter(value = ["app:isVisible"])
 fun View.isVisible(isVisible: Boolean) {
     if (isVisible) {
@@ -43,7 +24,6 @@ fun View.isVisible(isVisible: Boolean) {
         this.visibility = View.INVISIBLE
     }
 }
-
 
 @BindingAdapter(value = ["app:isVisibleOrGone"])
 fun View.isVisibleOrGone(isVisible: Boolean?) {
@@ -63,54 +43,11 @@ fun View.hideWhenNotLoggedIn(hideWhenNotLoggedIn: Boolean?) {
     }
 }
 
-
 @BindingAdapter("app:setTipError")
 fun EditText.setTipError(errorMessage: String?) {
     if (errorMessage == null) return
     else error = errorMessage
 }
-
-/// region image glide
-@BindingAdapter(value = ["app:imageUrl"])
-fun ImageView.loadImage(imageUrl: String?) {
-    // Placeholder for movie_image and dots_loading
-    val imageLink = if (imageUrl == null || imageUrl.contains("null"))
-        android.R.drawable.ic_menu_gallery  else imageUrl
-
-    Glide.with(context)
-        .load(imageLink)
-        .centerCrop()
-        .error(android.R.drawable.stat_notify_error)
-        .into(this)
-}
-
-@RequiresApi(Build.VERSION_CODES.M)
-@SuppressLint("ResourceAsColor")
-@BindingAdapter(value = ["app:imageUri"], requireAll = false)
-fun ImageView.loadImageWithPlaceholderColor(imageUri: String?) {
-    if (imageUri != null) {
-        Glide.with(context)
-            .load(imageUri)
-            .into(this)
-    } else {
-        this.let {
-            this.setBackgroundColor(context.getColor(R.color.background))
-        }
-    }
-}
-
-@BindingAdapter(value = ["app:profileUrl"])
-fun ImageView.loadProfileImage(profileUrl: String?) {
-    val imageLink = if (profileUrl == null || profileUrl.contains("null"))
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" else profileUrl
-
-    Glide.with(context)
-        .load(imageLink)
-        .centerCrop()
-        .error(android.R.drawable.stat_notify_error)
-        .into(this)
-}
-/// endregion
 
 @BindingAdapter(value = ["app:hideWhenNoList"])
 fun <T> View.hideWhenNoList(list: List<T>?) {
@@ -157,12 +94,10 @@ fun <T> View.showWhenNoResult(list: List<T>?) {
     }
 }
 
-
 @BindingAdapter("app:showWhenError")
 fun <T> View.showWhenError(list: List<T>?) {
     if (list?.isEmpty() == true) {
         this.visibility = View.GONE
-
     } else {
         this.visibility = View.VISIBLE
     }
@@ -208,7 +143,6 @@ fun <T> View.hideWhenLoading(isLoading: Boolean?) {
 fun androidx.appcompat.widget.Toolbar.addNavigationListener(onClick: () -> Unit) {
     this.setNavigationOnClickListener {
         onClick()
-
     }
 }
 
@@ -219,5 +153,4 @@ fun TextView.convertGenderText(gender: String?) {
         "2" -> context.getString(R.string.male)
         else -> ""
     }.takeIf { gender != null } ?: ""
-
 }
