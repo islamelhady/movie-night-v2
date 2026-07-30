@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.auth.presentation
+package com.elhady.movies.feature.auth.presentation.login
 
 sealed interface LoginUiEvent {
 

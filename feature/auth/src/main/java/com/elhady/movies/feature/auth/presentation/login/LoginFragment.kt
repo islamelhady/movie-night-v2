@@ -1,13 +1,11 @@
-package com.elhady.movies.feature.auth.presentation
+package com.elhady.movies.feature.auth.presentation.login
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
-import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
 import com.elhady.movies.feature.auth.BuildConfig
 import com.elhady.movies.feature.auth.BR
@@ -15,6 +13,7 @@ import com.elhady.movies.feature.auth.R
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.feature.auth.databinding.FragmentLoginBinding
 import com.elhady.movies.core.ui.navigation.Navigator
+import com.elhady.movies.core.ui.util.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -78,8 +77,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginUiState, LoginUiEv
             }
 
             is LoginUiEvent.ShowSnackBar -> {
-                val keyboard = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                keyboard.hideSoftInputFromWindow(view?.windowToken, 0)
+                binding.root.hideKeyboard()
                 showSnackBar(event.message)
             }
 

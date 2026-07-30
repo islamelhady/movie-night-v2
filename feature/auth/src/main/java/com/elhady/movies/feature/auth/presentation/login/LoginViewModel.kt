@@ -1,6 +1,5 @@
-package com.elhady.movies.feature.auth.presentation
+package com.elhady.movies.feature.auth.presentation.login
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.resource.NavigationRes
@@ -8,7 +7,6 @@ import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.core.domain.usecase.auth.LoginError
 import com.elhady.movies.core.domain.usecase.auth.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,10 +17,6 @@ class LoginViewModel @Inject constructor(
     private val stringsRes: StringsRes,
     private val navigationRes: NavigationRes,
 ) : BaseViewModel<LoginUiState, LoginUiEvent>(LoginUiState()) {
-
-    init {
-        viewModelScope.launch { state.collectLatest { it.log() } }
-    }
 
     fun onClickSignUp() {
         sendEvent(LoginUiEvent.SignUpEvent)
@@ -66,11 +60,6 @@ class LoginViewModel @Inject constructor(
 
     private fun updateStateToSuccessLogin() {
         _state.update { it.copy(userNameError = null, passwordError = null, isLoading = false) }
-        navigationRes.homeFeatureLink.log()
         sendEvent(LoginUiEvent.NavigateToHomeScreen(navigationRes.profileFeatureLink))
     }
-}
-
-fun Any.log() {
-    Log.e("LOGIN VIEWMODEL", "log(${this::class.java.simpleName}) : $this")
 }

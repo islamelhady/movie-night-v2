@@ -8,6 +8,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 
+/**
+ * A base class for all RecyclerView adapters in the project.
+ *
+ * @param T The type of items in the adapter.
+ * @property items The list of items to be displayed.
+ * @property listener The interaction listener for the items.
+ */
 abstract class BaseAdapter<T>(
     private var items: List<T>,
     private val listener: BaseInteractionListener,

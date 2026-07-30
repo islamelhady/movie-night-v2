@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.airbnb.lottie.LottieAnimationView android:id="@+id/lottie_animation_view_no_network"
+<com.airbnb.lottie.LottieAnimationView android:id="@+id/lottie_animation"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/lottie_error_size"

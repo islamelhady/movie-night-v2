@@ -94,7 +94,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.elhady.movies.feature.auth.presentation.LoginFragment"
+        android:name="com.elhady.movies.feature.auth.presentation.login.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <deepLink app:uri="movie://login" />

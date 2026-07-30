@@ -16,6 +16,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+/**
+ * A base class for all BottomSheetDialog fragments in the project that use Data Binding.
+ *
+ * @param VDB The type of the ViewDataBinding associated with the fragment's layout.
+ */
 abstract class BaseBottomSheet<VDB : ViewDataBinding>
     : BottomSheetDialogFragment() {
 

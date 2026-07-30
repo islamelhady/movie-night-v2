@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.elhady.movies.feature.auth.presentation.LoginViewModel" />
+            type="com.elhady.movies.feature.auth.presentation.login.LoginViewModel" />
     </data>
 
     <androidx.constraintlayout.motion.widget.MotionLayout
