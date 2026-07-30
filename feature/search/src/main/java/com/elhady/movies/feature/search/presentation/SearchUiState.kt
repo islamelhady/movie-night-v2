@@ -1,12 +1,12 @@
 package com.elhady.movies.feature.search.presentation
 
-import com.elhady.movies.core.ui.state.MovieHorizontalUIState
-import com.elhady.movies.core.ui.state.PeopleUIState
+import com.elhady.movies.core.ui.state.MovieHorizontalUiState
+import com.elhady.movies.core.ui.state.PeopleUiState
 
 data class SearchUiState(
     val mediaType: SearchMedia = SearchMedia.MOVIE,
-    val searchMediaResult: List<MovieHorizontalUIState> = emptyList(),
-    val searchPeopleResult: List<PeopleUIState> = emptyList(),
+    val searchMediaResult: List<MovieHorizontalUiState> = emptyList(),
+    val searchPeopleResult: List<PeopleUiState> = emptyList(),
     val genres: List<GenresUiState> = emptyList(),
     val selectedGenresId: Int? = null,
     val searchHistory: List<String> = emptyList(),

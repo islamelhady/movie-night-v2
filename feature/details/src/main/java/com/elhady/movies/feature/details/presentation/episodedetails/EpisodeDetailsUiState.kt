@@ -1,6 +1,6 @@
 package com.elhady.movies.feature.details.presentation.episodedetails
 
-import com.elhady.movies.core.ui.state.PeopleUIState
+import com.elhady.movies.core.ui.state.PeopleUiState
 
 data class EpisodeDetailsUiState(
     val imageUrl: String = "",
@@ -12,7 +12,7 @@ data class EpisodeDetailsUiState(
     val voteAverage: Float = 0f,
     val seasonNumber: Int = 0,
     val refreshing: Boolean = false,
-    val cast: List<PeopleUIState> = emptyList(),
+    val cast: List<PeopleUiState> = emptyList(),
     val trailerKey: String = "",
     val onErrors: List<String> = emptyList(),
     val isLoading: Boolean = false,

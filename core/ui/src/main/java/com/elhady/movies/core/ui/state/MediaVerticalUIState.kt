@@ -2,7 +2,7 @@ package com.elhady.movies.core.ui.state
 
 import kotlin.math.roundToInt
 
-data class MediaVerticalUIState(
+data class MediaVerticalUiState(
     val id: Int,
     val imageUrl: String,
     val rate: Double

@@ -1,16 +1,16 @@
 package com.elhady.movies.feature.details.presentation.tvdetails
 
 import com.elhady.movies.feature.details.presentation.episodedetails.CommentUIState
-import com.elhady.movies.core.ui.state.MediaVerticalUIState
-import com.elhady.movies.core.ui.state.PeopleUIState
+import com.elhady.movies.core.ui.state.MediaVerticalUiState
+import com.elhady.movies.core.ui.state.PeopleUiState
 import com.elhady.movies.feature.details.presentation.seasondetails.SeasonHorizontalUIState
-import com.elhady.movies.core.ui.state.UserListUi
+import com.elhady.movies.core.ui.state.UserListUiState
 
 data class TvDetailsUiState(
     val id: Int = 0,
     val info: Info = Info(),
-    val cast: List<PeopleUIState> = emptyList(),
-    val recommended: List<MediaVerticalUIState> = emptyList(),
+    val cast: List<PeopleUiState> = emptyList(),
+    val recommended: List<MediaVerticalUiState> = emptyList(),
     val seasons: List<SeasonHorizontalUIState> = emptyList(),
     val onErrors: List<String> = emptyList(),
     val isLoading: Boolean = true,
@@ -18,7 +18,7 @@ data class TvDetailsUiState(
     val ratingSuccess: String = "",
     val userRating: Float = 0.0f,
     val youtubeKeyId: String = "",
-    val userLists: List<UserListUi> = emptyList(),
+    val userLists: List<UserListUiState> = emptyList(),
     val userSelectedLists: List<Int> = emptyList(),
     val isLogin: Boolean = false,
 ) {

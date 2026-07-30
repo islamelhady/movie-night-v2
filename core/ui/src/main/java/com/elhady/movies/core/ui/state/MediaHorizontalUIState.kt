@@ -1,6 +1,6 @@
 package com.elhady.movies.core.ui.state
 
-data class MediaHorizontalUIState(
+data class MediaHorizontalUiState(
     val id: Int,
     val imageUrl: String
 )
