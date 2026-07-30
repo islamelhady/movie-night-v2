@@ -21,7 +21,7 @@ class PeopleDetailsViewModel @Inject constructor(
     private val moviesByPeopleUiMapper: MoviesByPeopleUiMapper,
     private val tvShowsByPeopleUiMapper: TvShowsByPeopleUiMapper,
     savedStateHandle: SavedStateHandle
-) : BaseViewModel<PersonDetailsUiState, PeopleDetailsUiEvent>(PersonDetailsUiState()),
+) : BaseViewModel<PeopleDetailsUiState, PeopleDetailsUiEvent>(PeopleDetailsUiState()),
     PeopleDetailsListener {
 
     private val personId = savedStateHandle.get<Int>("personId") ?: 3
@@ -40,13 +40,13 @@ class PeopleDetailsViewModel @Inject constructor(
     private fun getPersonData() {
         tryToExecute(
             call = { getPeopleDetailsUseCase(personId) },
-            onSuccess = ::onSuccessGetPersonData,
             mapper = peopleDataUiMapper,
+            onSuccess = ::onSuccessGetPersonData,
             onError = ::onError
         )
     }
 
-    private fun onSuccessGetPersonData(personInfoUiState: PersonDetailsUiState.PersonInfoUiState) {
+    private fun onSuccessGetPersonData(personInfoUiState: PeopleDetailsUiState.PersonInfoUiState) {
         _state.update {
             it.copy(
                 peopleData = personInfoUiState,
@@ -59,14 +59,14 @@ class PeopleDetailsViewModel @Inject constructor(
     private fun getMoviesByPeople() {
         tryToExecute(
             call = { getMoviesByPersonUseCase.invoke(personId) },
+            mapper = moviesByPeopleUiMapper,
             onSuccess = ::onSuccessGetMoviesByPeople,
-            onError = ::onError,
-            mapper = moviesByPeopleUiMapper
+            onError = ::onError
         )
     }
 
 
-    private fun onSuccessGetMoviesByPeople(list: List<PersonDetailsUiState.PeopleMediaUiState>) {
+    private fun onSuccessGetMoviesByPeople(list: List<PeopleDetailsUiState.PeopleMediaUiState>) {
         _state.update {
             it.copy(
                 movies = list,
@@ -79,14 +79,14 @@ class PeopleDetailsViewModel @Inject constructor(
     private fun getTvShowsByPeople() {
         tryToExecute(
             call = { getTvShowsByPersonUseCase(personId) },
+            mapper = tvShowsByPeopleUiMapper,
             onSuccess = ::onSuccessGetTvShowsByPeople,
-            onError = ::onError,
-            mapper = tvShowsByPeopleUiMapper
+            onError = ::onError
         )
     }
 
 
-    private fun onSuccessGetTvShowsByPeople(list: List<PersonDetailsUiState.PeopleMediaUiState>) {
+    private fun onSuccessGetTvShowsByPeople(list: List<PeopleDetailsUiState.PeopleMediaUiState>) {
         _state.update {
             it.copy(
                 tvShows = list,

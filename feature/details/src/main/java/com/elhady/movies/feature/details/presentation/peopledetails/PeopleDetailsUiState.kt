@@ -1,6 +1,6 @@
 package com.elhady.movies.feature.details.presentation.peopledetails
 
-data class PersonDetailsUiState(
+data class PeopleDetailsUiState(
     val peopleData: PersonInfoUiState = PersonInfoUiState(),
     val movies: List<PeopleMediaUiState> = emptyList(),
     val tvShows: List<PeopleMediaUiState> = emptyList(),
