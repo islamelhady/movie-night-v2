@@ -85,7 +85,7 @@ class TvDetailsAdapter(
 
     private fun bindUpper(holder: UpperViewHolder, position: Int) {
         val upper = tvDetailsItems[position] as TvDetailsItem.Upper
-        holder.binding.item = upper.upperUiState
+        holder.binding.item = upper
         holder.binding.playButtonListener = listener
         holder.binding.rateListener = listener
     }
@@ -109,7 +109,7 @@ class TvDetailsAdapter(
         val adapter = RecommendedAdapter(recommendedItems.recommended, listener)
         holder.binding.listener = listener
         holder.binding.recyclerViewRecommended.adapter = adapter
-        holder.binding.items = recommendedItems
+        holder.binding.item = recommendedItems
     }
 
     private fun bindReview(holder: ReviewViewHolder, position: Int) {

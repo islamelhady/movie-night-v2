@@ -92,7 +92,7 @@ class MovieDetailsAdapter(
 
     private fun bindUpper(holder: UpperViewHolder, position: Int) {
         val upper = itemsMovie[position] as MovieDetailsItem.Upper
-        holder.binding.item = upper.upperUiState
+        holder.binding.item = upper
         holder.binding.listener = listener
     }
     private fun bindPeople(holder: PeopleViewHolder, position: Int) {

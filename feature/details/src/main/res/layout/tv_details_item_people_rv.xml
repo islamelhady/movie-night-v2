@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.elhady.movies.feature.details.presentation.ui.tvdetails.TvDetailsItem.People" />
+            type="com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsItem.People" />
         <variable
             name="listener"
             type="com.elhady.movies.feature.details.presentation.tvdetails.listener.ShowMoreCast" />
