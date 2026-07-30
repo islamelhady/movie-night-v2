@@ -20,9 +20,9 @@ import com.elhady.movies.core.common.UnauthorizedThrowable
 import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
 import com.elhady.movies.core.domain.usecase.movie.InsertMovieToWatchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetRatingMovieUseCase
-import com.elhady.movies.core.ui.listener.ChipListener
-import com.elhady.movies.core.ui.listener.MediaListener
-import com.elhady.movies.core.ui.listener.PeopleListener
+import com.elhady.movies.core.ui.interaction.ChipListener
+import com.elhady.movies.core.ui.interaction.MediaListener
+import com.elhady.movies.core.ui.interaction.PeopleListener
 import com.elhady.movies.core.ui.state.UserListUi
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.CastUiMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.RecommendedUiStateMapper

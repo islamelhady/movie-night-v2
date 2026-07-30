@@ -11,7 +11,7 @@
 
         <variable
             name="listener"
-            type="com.elhady.movies.core.ui.listener.MovieListener" />
+            type="com.elhady.movies.core.ui.interaction.MovieListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

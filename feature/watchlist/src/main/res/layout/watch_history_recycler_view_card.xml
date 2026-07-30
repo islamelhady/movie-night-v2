@@ -10,7 +10,7 @@
 
         <variable
             name="listener"
-            type="com.elhady.movies.core.ui.listener.MediaListener" />
+            type="com.elhady.movies.core.ui.interaction.MediaListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

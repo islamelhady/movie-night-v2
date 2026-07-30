@@ -6,7 +6,7 @@ import androidx.paging.PagingData
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.domain.usecase.account.GetMyRatedMoviesUseCase
 import com.elhady.movies.core.domain.usecase.account.GetMyRatedTVShowsUseCase
-import com.elhady.movies.core.ui.listener.MovieListener
+import com.elhady.movies.core.ui.interaction.MovieListener
 import com.elhady.movies.core.ui.state.MovieHorizontalUIState
 import com.elhady.movies.feature.watchlist.presentation.myrated.mappers.MyRatedMovieToMovieHorizontalUiMapper
 import com.elhady.movies.feature.watchlist.presentation.myrated.mappers.MyRatedTvShowToMovieHorizontalUiMapper

@@ -1,4 +1,4 @@
-package com.elhady.movies.core.ui.listener
+package com.elhady.movies.core.ui.interaction
 
 interface NavigationRes {
     val homeFeatureLink: Int

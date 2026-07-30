@@ -3,7 +3,7 @@ package com.elhady.movies.feature.auth.presentation
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.ui.base.BaseViewModel
-import com.elhady.movies.core.ui.listener.NavigationRes
+import com.elhady.movies.core.ui.interaction.NavigationRes
 import com.elhady.movies.core.ui.base.StringsRes
 import com.elhady.movies.core.domain.usecase.auth.LoginError
 import com.elhady.movies.core.domain.usecase.auth.LoginUseCase
