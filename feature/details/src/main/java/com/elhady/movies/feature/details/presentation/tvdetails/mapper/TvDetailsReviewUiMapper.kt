@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.details.presentation.tvdetails.mappers
+package com.elhady.movies.feature.details.presentation.tvdetails.mapper
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.model.common.Review

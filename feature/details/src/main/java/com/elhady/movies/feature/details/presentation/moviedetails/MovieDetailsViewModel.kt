@@ -33,7 +33,7 @@ import com.elhady.movies.feature.details.presentation.moviedetails.mapper.UserLi
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.WatchHistoryUiStateMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.rate.BottomSheetListener
 import com.elhady.movies.feature.details.presentation.moviedetails.save.SaveToListListener
-import com.elhady.movies.feature.details.presentation.tvdetails.mappers.TvRatingUiMapper
+import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvRatingUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
