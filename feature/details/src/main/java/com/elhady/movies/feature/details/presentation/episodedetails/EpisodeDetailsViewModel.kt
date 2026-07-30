@@ -10,7 +10,7 @@ import com.elhady.movies.core.domain.usecase.tvshow.SetEpisodeRatingUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.core.ui.interaction.PeopleListener
-import com.elhady.movies.core.ui.state.PeopleUIState
+import com.elhady.movies.core.ui.state.PeopleUiState
 import com.elhady.movies.feature.details.presentation.tvdetails.mappers.PeopleUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
@@ -143,7 +143,7 @@ class EpisodeDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessCast(cast: List<PeopleUIState>) {
+    private fun onSuccessCast(cast: List<PeopleUiState>) {
         _state.update { it.copy(cast = cast, refreshing = false, onErrors = emptyList()) }
     }
 

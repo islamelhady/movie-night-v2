@@ -11,8 +11,8 @@ import com.elhady.movies.core.domain.usecase.search.InsertSearchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.search.SearchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetAllGenresMoviesUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetAllGenresTvsUseCase
-import com.elhady.movies.core.ui.state.MovieHorizontalUIState
-import com.elhady.movies.core.ui.state.PeopleUIState
+import com.elhady.movies.core.ui.state.MovieHorizontalUiState
+import com.elhady.movies.core.ui.state.PeopleUiState
 import com.elhady.movies.feature.search.presentation.mappers.GenreUiStateMapper
 import com.elhady.movies.feature.search.presentation.mappers.MovieUiMapper
 import com.elhady.movies.feature.search.presentation.mappers.PeopleUiMapper
@@ -102,11 +102,11 @@ class SearchViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessMovies(mediaUIState: List<MovieHorizontalUIState>) {
+    private fun onSuccessMovies(mediaUiState: List<MovieHorizontalUiState>) {
         _state.update {
             it.copy(
                 mediaType = SearchUiState.SearchMedia.MOVIE,
-                searchMediaResult = mediaUIState,
+                searchMediaResult = mediaUiState,
                 isSelectedPeople = false,
                 isLoading = false,
                 error = null,
@@ -130,7 +130,7 @@ class SearchViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessTv(tv: List<MovieHorizontalUIState>) {
+    private fun onSuccessTv(tv: List<MovieHorizontalUiState>) {
         _state.update {
             it.copy(
                 mediaType = SearchUiState.SearchMedia.TV,
@@ -153,7 +153,7 @@ class SearchViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessPeople(people: List<PeopleUIState>) {
+    private fun onSuccessPeople(people: List<PeopleUiState>) {
         _state.update {
             it.copy(
                 mediaType = SearchUiState.SearchMedia.PEOPLE,

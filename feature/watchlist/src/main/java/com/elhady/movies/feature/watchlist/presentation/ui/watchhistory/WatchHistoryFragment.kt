@@ -101,7 +101,7 @@ class WatchHistoryFragment
             .setActionTextColor(
                 ContextCompat.getColor(
                     requireContext(),
-                    CoreUiR.color.orangeRed
+                    CoreUiR.color.orange_red
                 )
             )
             .addCallback(setupSnackBarCallback())
