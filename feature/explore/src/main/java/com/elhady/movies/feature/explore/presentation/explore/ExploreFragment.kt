@@ -8,6 +8,7 @@ import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.elhady.movies.core.ui.base.BaseFragment
+import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.explore.BR
 import com.elhady.movies.feature.explore.R
 import com.elhady.movies.feature.explore.databinding.FragmentExploreBinding
@@ -15,7 +16,6 @@ import com.elhady.movies.feature.explore.viewmodel.explore.ExploreItem
 import com.elhady.movies.feature.explore.viewmodel.explore.ExploreUiEvent
 import com.elhady.movies.feature.explore.viewmodel.explore.ExploreUiState
 import com.elhady.movies.feature.explore.viewmodel.explore.ExploreViewModel
-import com.elhady.movies.core.ui.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -43,8 +43,7 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
     }
 
     private fun collectData() {
-        collectLatest {
-            viewModel.state.collect { state ->
+        collectFlow(flow = viewModel.state) { state ->
                 val exploreItem = if (state.layoutManager) {
                     state.trendingMoviesToday.map { ExploreItem.GridItem(it) }
                 } else {
@@ -52,7 +51,7 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
                 }
                 adapter.setItems(exploreItem)
             }
-        }
+
     }
 
     override fun onEvent(event: ExploreUiEvent) {

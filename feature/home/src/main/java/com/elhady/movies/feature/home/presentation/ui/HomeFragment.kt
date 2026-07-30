@@ -39,8 +39,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>
     }
 
     private fun collectChange() {
-        collectLatest {
-            viewModel.state.collect { state ->
+        collectFlow(flow = viewModel.state) { state ->
                 homeAdapter.setItems(
                     mutableListOf(
                         HomeItem.Slider(state.upComingMovies),
@@ -56,7 +55,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>
                 binding.recyclerViewHome.smoothScrollToPosition(0)
             }
         }
-    }
+
 
     override fun onEvent(event: HomeUiEvent) {
         when (event) {
