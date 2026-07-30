@@ -47,7 +47,7 @@
 
     <fragment
         android:id="@+id/movieDetailsFragment"
-        android:name="com.elhady.movies.feature.details.presentation.ui.moviedetails.MovieDetailsFragment"
+        android:name="com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsFragment"
         android:label="MovieDetailsFragment"
         tools:layout="@layout/fragment_movie_details">
         <argument
@@ -69,7 +69,7 @@
 
     <fragment
         android:id="@+id/seasonDetailsFragment"
-        android:name="com.elhady.movies.feature.details.presentation.ui.seasondetails.SeasonDetailsFragment"
+        android:name="com.elhady.movies.feature.details.presentation.seasondetails.SeasonDetailsFragment"
         android:label="SeasonDetailsFragment"
         tools:layout="@layout/fragment_season_details">
         <argument
@@ -83,7 +83,7 @@
 
     <fragment
         android:id="@+id/tvDetailsFragment"
-        android:name="com.elhady.movies.feature.details.presentation.ui.tvdetails.TvDetailsFragment"
+        android:name="com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsFragment"
         android:label="TvDetailsFragment"
         tools:layout="@layout/fragment_tv_details">
         <argument
@@ -125,7 +125,7 @@
 
     <fragment
         android:id="@+id/episodeDetailsFragment"
-        android:name="com.elhady.movies.feature.details.presentation.ui.episodedetails.EpisodeDetailsFragment"
+        android:name="com.elhady.movies.feature.details.presentation.episodedetails.EpisodeDetailsFragment"
         android:label="EpisodeDetailsFragment"
         tools:layout="@layout/fragment_episode_details">
         <argument
@@ -160,7 +160,7 @@
 
     <fragment
         android:id="@+id/peopleDetailsFragment"
-        android:name="com.elhady.movies.feature.details.presentation.ui.peopledetails.PeopleDetailsFragment"
+        android:name="com.elhady.movies.feature.details.presentation.peopledetails.PeopleDetailsFragment"
         android:label="PeopleDetailsFragment"
         tools:layout="@layout/fragment_people_details">
         <argument
@@ -171,7 +171,7 @@
 
     <dialog
         android:id="@+id/saveToListBottomSheet"
-        android:name="com.elhady.movies.feature.details.presentation.ui.moviedetails.SaveMovieToListBottomSheet"
+        android:name="com.elhady.movies.feature.details.presentation.moviedetails.SaveMovieToListBottomSheet"
         android:label="SaveToListBottomSheet"
         tools:layout="@layout/save_movie_to_create_list_bottom_sheet">
         <deepLink app:uri="movie://save_to_list" />
