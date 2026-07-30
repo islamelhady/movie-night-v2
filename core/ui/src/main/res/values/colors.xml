@@ -21,7 +21,7 @@
     <color name="ic_launcher_background">@color/primary</color>
     <color name="star">#F6B91E</color>
     <color name="red">#8F0E04</color>
-    <color name="orangeRed">#FF3D00</color>
+    <color name="orange_red">#FF3D00</color>
     <color name="gradient1">#B3FFFFFF</color>
     <color name="gradient2">#00FFFFFF</color>
     <color name="gradient3">#00FFFFFF</color>

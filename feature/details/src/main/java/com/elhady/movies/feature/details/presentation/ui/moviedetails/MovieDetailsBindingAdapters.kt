@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.core.ui.databinding.GenreChipBinding
 import com.elhady.movies.core.ui.interaction.ChipListener
-import com.elhady.movies.core.ui.state.UserListUi
+import com.elhady.movies.core.ui.state.UserListUiState
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
@@ -61,7 +61,7 @@ fun ImageView.loadImageForReviews(backDropPath: String?, autherName: String) {
 
 @BindingAdapter(value = ["app:genreChips", "app:listener"])
 fun ChipGroup.setGenreChips(
-    chips: List<UserListUi>,
+    chips: List<UserListUiState>,
     chipListener: ChipListener
 ) {
     val inflater = LayoutInflater.from(context)

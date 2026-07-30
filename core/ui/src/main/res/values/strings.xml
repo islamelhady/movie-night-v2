@@ -25,7 +25,7 @@
     <string name="collection">Collection</string>
     <string name="company">Company</string>
     <string name="apply">Apply</string>
-    <string name="Popular_Movies">Popular Movies</string>
+    <string name="popular_movies">Popular Movies</string>
     <string name="movies">Movies</string>
     <string name="retry">retry</string>
     <string name="item_deleted">Item Deleted</string>
@@ -49,7 +49,7 @@
     <string name="items">%s items</string>
     <string name="search">Search</string>
     <string name="favorite">Favorite</string>
-    <string name="your_not_loged_in_to_rate">You are not logged in 😢, please login to rate this Movie</string>
+    <string name="you_re_not_logged_in_to_rate">You are not logged in 😢, please login to rate this Movie</string>
     <string name="watchlist">Watchlist</string>
     <string name="watch_history">Watch History</string>
     <string name="my_lists">My Lists</string>

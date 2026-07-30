@@ -23,7 +23,7 @@ import com.elhady.movies.core.domain.usecase.movie.GetRatingMovieUseCase
 import com.elhady.movies.core.ui.interaction.ChipListener
 import com.elhady.movies.core.ui.interaction.MediaListener
 import com.elhady.movies.core.ui.interaction.PeopleListener
-import com.elhady.movies.core.ui.state.UserListUi
+import com.elhady.movies.core.ui.state.UserListUiState
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.CastUiMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.RecommendedUiStateMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.ReviewDetailsUiStateMapper
@@ -164,7 +164,7 @@ class MovieDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessUserLists(userListsEntity: List<UserListUi>) {
+    private fun onSuccessUserLists(userListsEntity: List<UserListUiState>) {
         _state.update { it.copy(userLists = userListsEntity) }
     }
 

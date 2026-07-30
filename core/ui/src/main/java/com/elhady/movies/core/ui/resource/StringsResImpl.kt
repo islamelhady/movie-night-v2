@@ -21,7 +21,7 @@ class StringsResImpl @Inject constructor(
     override val addSuccessfully: String = getString(R.string.added_successfully)
     override val newListAddSuccessFully: String = getString(R.string.new_list_was_added_successfully)
     override val ratingAddSuccessFully: String = getString(R.string.rating_was_added_successfully)
-    override val notLoggedInToRate: String = getString(R.string.your_not_loged_in_to_rate)
+    override val notLoggedInToRate: String = getString(R.string.you_re_not_logged_in_to_rate)
     override val someThingErrorWhenAddRating: String = getString(R.string.something_went_wrong_please_try_again_later)
     override val watchlist: String = getString(R.string.watchlist)
     override val favourite: String = getString(R.string.favorite)

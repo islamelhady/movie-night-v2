@@ -8,7 +8,7 @@ import com.elhady.movies.feature.details.R
 import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.core.ui.databinding.GenreChipBinding
 import com.elhady.movies.core.ui.interaction.ChipListener
-import com.elhady.movies.core.ui.state.UserListUi
+import com.elhady.movies.core.ui.state.UserListUiState
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
@@ -34,7 +34,7 @@ fun ChipGroup.setChips(chips: List<String>) {
 }
 
 @BindingAdapter(value = ["app:genreChips","app:listener"])
-fun ChipGroup.setGenreChips(chips: List<UserListUi>, chipListener: ChipListener) {
+fun ChipGroup.setGenreChips(chips: List<UserListUiState>, chipListener: ChipListener) {
     val inflater = LayoutInflater.from(context)
     for (chipUiState in chips) {
         val binding = DataBindingUtil.inflate<GenreChipBinding>(

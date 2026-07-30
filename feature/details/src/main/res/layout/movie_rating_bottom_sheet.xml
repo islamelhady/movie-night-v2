@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/background"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_bottom_sheet">
+        app:shapeAppearanceOverlay="@style/shape_appearance_overlay_bottom_sheet">
 
         <LinearLayout
             android:layout_width="match_parent"

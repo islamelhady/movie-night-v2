@@ -53,7 +53,7 @@ class SearchAdapter(
 
     private fun bindMedia(holder: MediaViewHolder, position: Int) {
         val media = list[position] as SearchItem.MediaItem
-        holder.binding.item = media.movieHorizontalUIState
+        holder.binding.item = media.movieHorizontalUiState
         holder.binding.listener = listener
 
     }

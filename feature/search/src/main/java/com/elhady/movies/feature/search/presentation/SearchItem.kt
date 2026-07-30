@@ -1,11 +1,11 @@
 package com.elhady.movies.feature.search.presentation
 
-import com.elhady.movies.core.ui.state.MovieHorizontalUIState
-import com.elhady.movies.core.ui.state.PeopleUIState
+import com.elhady.movies.core.ui.state.MovieHorizontalUiState
+import com.elhady.movies.core.ui.state.PeopleUiState
 
 sealed class SearchItem(val type: SearchItemType){
-    data class MediaItem(val movieHorizontalUIState: MovieHorizontalUIState): SearchItem(SearchItemType.MEDIA)
-    data class PeopleItem(val peopleItem: PeopleUIState): SearchItem(SearchItemType.PEOPLE)
+    data class MediaItem(val movieHorizontalUiState: MovieHorizontalUiState): SearchItem(SearchItemType.MEDIA)
+    data class PeopleItem(val peopleItem: PeopleUiState): SearchItem(SearchItemType.PEOPLE)
 }
 enum class SearchItemType{
     MEDIA,

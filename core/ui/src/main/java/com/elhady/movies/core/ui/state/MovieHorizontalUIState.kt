@@ -2,7 +2,7 @@ package com.elhady.movies.core.ui.state
 
 import kotlin.math.roundToInt
 
-data class MovieHorizontalUIState(
+data class MovieHorizontalUiState(
     val id: Int,
     val imageUrl: String,
     val title: String,

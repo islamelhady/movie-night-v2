@@ -6,7 +6,7 @@ import com.elhady.movies.core.common.ForbiddenThrowable
 import com.elhady.movies.core.common.NoNetworkThrowable
 import com.elhady.movies.core.common.UnauthorizedThrowable
 import com.elhady.movies.core.ui.base.BaseViewModel
-import com.elhady.movies.core.ui.interaction.NavigationRes
+import com.elhady.movies.core.ui.resource.NavigationRes
 import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
 import com.elhady.movies.core.domain.usecase.auth.LogoutUseCase
 import com.elhady.movies.core.domain.usecase.auth.GetAccountDetailsUseCase

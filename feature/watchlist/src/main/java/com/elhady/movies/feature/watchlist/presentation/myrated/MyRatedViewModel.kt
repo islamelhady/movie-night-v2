@@ -7,7 +7,7 @@ import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.domain.usecase.account.GetMyRatedMoviesUseCase
 import com.elhady.movies.core.domain.usecase.account.GetMyRatedTVShowsUseCase
 import com.elhady.movies.core.ui.interaction.MovieListener
-import com.elhady.movies.core.ui.state.MovieHorizontalUIState
+import com.elhady.movies.core.ui.state.MovieHorizontalUiState
 import com.elhady.movies.feature.watchlist.presentation.myrated.mappers.MyRatedMovieToMovieHorizontalUiMapper
 import com.elhady.movies.feature.watchlist.presentation.myrated.mappers.MyRatedTvShowToMovieHorizontalUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,7 +46,7 @@ class MyRatedViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessRatedMovie(myRatedMovieEntity: Flow<PagingData<MovieHorizontalUIState>>) {
+    private fun onSuccessRatedMovie(myRatedMovieEntity: Flow<PagingData<MovieHorizontalUiState>>) {
         _state.update {
             it.copy(
                 myRateType = RateType.Movies,
@@ -67,7 +67,7 @@ class MyRatedViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessRatedTvShow(myRatedTvShowEntity: Flow<PagingData<MovieHorizontalUIState>>) {
+    private fun onSuccessRatedTvShow(myRatedTvShowEntity: Flow<PagingData<MovieHorizontalUiState>>) {
         _state.update {
             it.copy(
                 myRateType = RateType.TVShows,
