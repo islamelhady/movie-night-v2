@@ -38,7 +38,7 @@
             tools:text="@tools:sample/lorem/random" />
 
         <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group_genere"
+            android:id="@+id/chip_group_genre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
@@ -60,7 +60,7 @@
             android:rating="@{item.upperUiState.rating}"
             android:stepSize="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chip_group_genere" />
+            app:layout_constraintTop_toBottomOf="@+id/chip_group_genre" />
 
         <TextView
             android:id="@+id/text_view_rate_this_movie"
