@@ -8,7 +8,7 @@ import com.elhady.movies.feature.details.R
 import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.core.ui.databinding.GenereChipBinding
 import com.elhady.movies.core.ui.listener.ChipListener
-import com.elhady.movies.core.ui.model.UserListUi
+import com.elhady.movies.core.ui.state.UserListUi
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup

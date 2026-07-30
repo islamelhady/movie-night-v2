@@ -1,7 +1,7 @@
 package com.elhady.movies.feature.search.presentation
 
-import com.elhady.movies.core.ui.model.MovieHorizontalUIState
-import com.elhady.movies.core.ui.model.PeopleUIState
+import com.elhady.movies.core.ui.state.MovieHorizontalUIState
+import com.elhady.movies.core.ui.state.PeopleUIState
 
 data class SearchUiState(
     val mediaType: SearchMedia = SearchMedia.MOVIE,

@@ -10,7 +10,7 @@ import com.elhady.movies.core.domain.usecase.tvshow.SetEpisodeRatingUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.base.StringsRes
 import com.elhady.movies.core.ui.listener.PeopleListener
-import com.elhady.movies.core.ui.model.PeopleUIState
+import com.elhady.movies.core.ui.state.PeopleUIState
 import com.elhady.movies.feature.details.presentation.tvdetails.mappers.PeopleUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update

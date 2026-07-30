@@ -3,7 +3,7 @@ package com.elhady.movies.core.ui.adapter
 import com.elhady.movies.core.ui.BR
 import com.elhady.movies.core.ui.base.BaseAdapter
 import com.elhady.movies.core.ui.listener.PeopleListener
-import com.elhady.movies.core.ui.model.PeopleUIState
+import com.elhady.movies.core.ui.state.PeopleUIState
 
 class PeopleAdapter(
     list: List<PeopleUIState>,

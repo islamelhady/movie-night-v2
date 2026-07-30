@@ -2,7 +2,7 @@ package com.elhady.movies.feature.search.presentation.mappers
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.model.people.People
-import com.elhady.movies.core.ui.model.PeopleUIState
+import com.elhady.movies.core.ui.state.PeopleUIState
 import javax.inject.Inject
 
 class PeopleUiMapper @Inject constructor() :

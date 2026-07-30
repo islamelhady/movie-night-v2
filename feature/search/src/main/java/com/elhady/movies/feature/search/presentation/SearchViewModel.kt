@@ -11,8 +11,8 @@ import com.elhady.movies.core.domain.usecase.search.InsertSearchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.search.SearchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetAllGenresMoviesUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetAllGenresTvsUseCase
-import com.elhady.movies.core.ui.model.MovieHorizontalUIState
-import com.elhady.movies.core.ui.model.PeopleUIState
+import com.elhady.movies.core.ui.state.MovieHorizontalUIState
+import com.elhady.movies.core.ui.state.PeopleUIState
 import com.elhady.movies.feature.search.presentation.mappers.GenreUiStateMapper
 import com.elhady.movies.feature.search.presentation.mappers.MovieUiMapper
 import com.elhady.movies.feature.search.presentation.mappers.PeopleUiMapper

@@ -1,4 +1,4 @@
-package com.elhady.movies.core.ui.model
+package com.elhady.movies.core.ui.state
 
 import kotlin.math.roundToInt
 
