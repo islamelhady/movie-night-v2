@@ -1,6 +1,6 @@
 package com.elhady.movies.resourceshelper
 
-import com.elhady.movies.core.ui.interaction.NavigationRes
+import com.elhady.movies.core.ui.resource.NavigationRes
 import com.elhady.movies.R
 import javax.inject.Inject
 import javax.inject.Singleton

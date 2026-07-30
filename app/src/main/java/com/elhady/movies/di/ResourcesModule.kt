@@ -1,6 +1,6 @@
 package com.elhady.movies.di
 
-import com.elhady.movies.core.ui.interaction.NavigationRes
+import com.elhady.movies.core.ui.resource.NavigationRes
 import com.elhady.movies.resourceshelper.NavigationResImpl
 import dagger.Binds
 import dagger.Module
