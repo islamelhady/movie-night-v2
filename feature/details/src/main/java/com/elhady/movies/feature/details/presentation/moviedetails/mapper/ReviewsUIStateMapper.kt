@@ -5,7 +5,7 @@ import com.elhady.movies.core.domain.model.common.Review
 import com.elhady.movies.feature.details.presentation.moviedetails.ReviewUiState
 import javax.inject.Inject
 
-class ReviewsUiStateMapper@Inject constructor() :
+class ReviewsUiStateMapper @Inject constructor() :
     Mapper<Review, ReviewUiState> {
     override fun map(input: Review): ReviewUiState {
         return ReviewUiState(

@@ -60,6 +60,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val watchHistoryUiStateMapper: WatchHistoryUiStateMapper,
     private val userListsUiMapper: UserListUiMapper,
     private val getRatingMovieUseCase: GetRatingMovieUseCase,
+    private val tvRatingUiMapper: TvRatingUiMapper,
     private val stringsRes: StringsRes,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel<MovieDetailsUiState, MovieDetailsUiEvent>(MovieDetailsUiState()),
@@ -124,7 +125,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun onRatingSuccess(statusEntity: Status) {
         sendEvent(MovieDetailsUiEvent.ApplyRatingEvent(stringsRes.ratingAddSuccessFully))
-        val item = TvRatingUiMapper().map(statusEntity)
+        val item = tvRatingUiMapper.map(statusEntity)
 
         Log.d("Rate Success", "${state.value.userRating} ${item.ratingSuccess}")
     }
