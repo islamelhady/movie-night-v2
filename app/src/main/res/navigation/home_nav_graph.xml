@@ -58,7 +58,7 @@
 
     <fragment
         android:id="@+id/showMoreFragment"
-        android:name="com.elhady.movies.feature.showmore.presentation.ShowMoreFragment"
+        android:name="com.elhady.movies.feature.showmore.presentation.showmore.ShowMoreFragment"
         android:label="ShowMoreFragment"
         tools:layout="@layout/fragment_show_more">
         <argument
