@@ -1,8 +1,5 @@
 package com.elhady.movies.feature.watchlist.presentation.watchhistory
 
-import com.elhady.movies.feature.watchlist.presentation.ui.watchhistory.WatchHistoryRecyclerItem
-
-
 data class WatchHistoryUiState(
     val searchInput: String = "",
     val movies: List<WatchHistoryRecyclerItem> = emptyList(),

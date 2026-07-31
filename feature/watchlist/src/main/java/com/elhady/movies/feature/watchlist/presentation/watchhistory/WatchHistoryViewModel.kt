@@ -6,11 +6,11 @@ import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.core.domain.usecase.movie.DeleteMovieFromWatchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetAllWatchHistoryMoviesUseCase
 import com.elhady.movies.core.domain.usecase.movie.SearchWatchHistoryUseCase
-import com.elhady.movies.feature.watchlist.presentation.ui.watchhistory.WatchHistoryRecyclerItem
-import com.elhady.movies.feature.watchlist.presentation.ui.watchhistory.WatchHistoryRecyclerItemsCreator
+import com.elhady.movies.feature.watchlist.presentation.watchhistory.WatchHistoryRecyclerItem
+import com.elhady.movies.feature.watchlist.presentation.watchhistory.WatchHistoryRecyclerItemsCreator
 import com.elhady.movies.core.ui.interaction.MediaListener
-import com.elhady.movies.feature.watchlist.presentation.watchhistory.mappers.MovieDomainMapper
-import com.elhady.movies.feature.watchlist.presentation.watchhistory.mappers.MovieUiStateMapper
+import com.elhady.movies.feature.watchlist.presentation.watchhistory.mapper.MovieDomainMapper
+import com.elhady.movies.feature.watchlist.presentation.watchhistory.mapper.MovieUiStateMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.MainScope

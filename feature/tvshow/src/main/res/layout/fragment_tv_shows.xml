@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.elhady.movies.feature.tvshow.presentation.TVShowsViewModel" />
+            type="com.elhady.movies.feature.tvshow.presentation.tvshow.TvShowViewModel" />
     </data>
 
 
@@ -44,17 +44,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView">
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroup"
-                style="@style/Widget.Material3.ChipGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:includeFontPadding="false"
-                android:lineSpacingExtra="0dp"
-                app:selectedTVShowType="@{viewModel.state.tvShowsType}"
-                app:selectionRequired="true"
-                app:singleSelection="true">
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroup"
+                    style="@style/Widget.Material3.ChipGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:includeFontPadding="false"
+                    android:lineSpacingExtra="0dp"
+                    app:selectedTvShowType="@{viewModel.state.tvShowType}"
+                    app:selectionRequired="true"
+                    app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_airing_today"
@@ -62,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:onClick="@{()-> viewModel.onClickAiringTodayTVShowsResult()}"
+                    android:onClick="@{()-> viewModel.onClickAiringTodayTvShowsResult()}"
                     android:text="@string/airing_today" />
 
                 <com.google.android.material.chip.Chip
@@ -70,7 +70,7 @@
                     style="@style/TextStyle.BodySmall.ChipStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{()-> viewModel.onClickPopularTVShowsResult()}"
+                    android:onClick="@{()-> viewModel.onClickPopularTvShowsResult()}"
                     android:text="@string/popular" />
 
                 <com.google.android.material.chip.Chip
@@ -78,7 +78,7 @@
                     style="@style/TextStyle.BodySmall.ChipStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{()-> viewModel.onClickTopRatedTVShowsResult()}"
+                    android:onClick="@{()-> viewModel.onClickTopRatedTvShowsResult()}"
                     android:text="@string/top_rated" />
 
                 <com.google.android.material.chip.Chip
@@ -86,7 +86,7 @@
                     style="@style/TextStyle.BodySmall.ChipStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{()-> viewModel.onClickOnTheAiringTVShowsResult()}"
+                    android:onClick="@{()-> viewModel.onClickOnTheAirTvShowsResult()}"
                     android:text="@string/on_the_air" />
 
             </com.google.android.material.chip.ChipGroup>
@@ -102,7 +102,7 @@
             android:layout_marginEnd="@dimen/spacing_small_8dp"
             android:orientation="vertical"
             app:hideWhenError="@{viewModel.state.errorList}"
-            app:hideWhenLoading="@{viewModel.state.loading}"
+            app:hideWhenLoading="@{viewModel.state.isLoading}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

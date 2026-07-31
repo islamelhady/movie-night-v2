@@ -6,11 +6,11 @@
     <data>
         <variable
             name="item"
-            type="com.elhady.movies.feature.home.presentation.NowPlayingUiState" />
+            type="com.elhady.movies.feature.home.presentation.home.NowPlayingUiState" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.home.presentation.HomeListener" />
+            type="com.elhady.movies.feature.home.presentation.home.HomeListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

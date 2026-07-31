@@ -10,11 +10,11 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.home.presentation.ui.HomeItem.AiringTodayTvShow" />
+            type="com.elhady.movies.feature.home.presentation.home.HomeItem.AiringTodayTvShow" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.home.presentation.HomeListener" />
+            type="com.elhady.movies.feature.home.presentation.home.HomeListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

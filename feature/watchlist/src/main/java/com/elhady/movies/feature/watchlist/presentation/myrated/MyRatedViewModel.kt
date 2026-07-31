@@ -8,8 +8,8 @@ import com.elhady.movies.core.domain.usecase.account.GetMyRatedMoviesUseCase
 import com.elhady.movies.core.domain.usecase.account.GetMyRatedTVShowsUseCase
 import com.elhady.movies.core.ui.interaction.MovieListener
 import com.elhady.movies.core.ui.state.MovieHorizontalUiState
-import com.elhady.movies.feature.watchlist.presentation.myrated.mappers.MyRatedMovieToMovieHorizontalUiMapper
-import com.elhady.movies.feature.watchlist.presentation.myrated.mappers.MyRatedTvShowToMovieHorizontalUiMapper
+import com.elhady.movies.feature.watchlist.presentation.myrated.mapper.MyRatedMovieToMovieHorizontalUiMapper
+import com.elhady.movies.feature.watchlist.presentation.myrated.mapper.MyRatedTvShowToMovieHorizontalUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.update
@@ -21,7 +21,7 @@ class MyRatedViewModel @Inject constructor(
     private val getRatedMoviesUseCase: GetMyRatedMoviesUseCase,
     private val myRatedMovieToMovieHorizontalUiMapper: MyRatedMovieToMovieHorizontalUiMapper,
     private val myRatedTvShowToMovieHorizontalUiMapper: MyRatedTvShowToMovieHorizontalUiMapper,
-) : BaseViewModel<MyRatedUiState, MyRatedEvents>(MyRatedUiState()), MyRatedListner,
+) : BaseViewModel<MyRatedUiState, MyRatedUiEvent>(MyRatedUiState()), MyRatedListener,
     MovieListener {
 
 
@@ -50,7 +50,7 @@ class MyRatedViewModel @Inject constructor(
         _state.update {
             it.copy(
                 myRateType = RateType.Movies,
-                myRatedMedia = myRatedMovieEntity,
+                movies = myRatedMovieEntity,
                 isLoading = false,
                 errorList = emptyList()
             )
@@ -71,7 +71,7 @@ class MyRatedViewModel @Inject constructor(
         _state.update {
             it.copy(
                 myRateType = RateType.TVShows,
-                myRatedMedia = myRatedTvShowEntity,
+                movies = myRatedTvShowEntity,
                 isLoading = false,
                 errorList = emptyList()
             )
@@ -111,21 +111,21 @@ class MyRatedViewModel @Inject constructor(
     }
 
     override fun onBackPressed() {
-        sendEvent(MyRatedEvents.NavigateBack)
+        sendEvent(MyRatedUiEvent.NavigateBack)
     }
 
     override fun onClickMovieChip() {
-        sendEvent(MyRatedEvents.ShowMyRatedMoviesPressed)
+        sendEvent(MyRatedUiEvent.ShowMyRatedMoviesPressed)
     }
 
     override fun onClickTvShowChip() {
-        sendEvent(MyRatedEvents.ShowMyRatedTvShowPressed)
+        sendEvent(MyRatedUiEvent.ShowMyRatedTvShowPressed)
     }
 
     override fun onClickMedia(id: Int) {
         when (_state.value.myRateType) {
-            RateType.Movies -> sendEvent(MyRatedEvents.NavigateToMovieDetails(id))
-            RateType.TVShows -> sendEvent(MyRatedEvents.NavigateToTVShowDetails(id))
+            RateType.Movies -> sendEvent(MyRatedUiEvent.NavigateToMovieDetails(id))
+            RateType.TVShows -> sendEvent(MyRatedUiEvent.NavigateToTVShowDetails(id))
         }
     }
 }

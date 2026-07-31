@@ -7,11 +7,11 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.home.presentation.ui.HomeItem.Trending" />
+            type="com.elhady.movies.feature.home.presentation.home.HomeItem.Trending" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.home.presentation.HomeListener" />
+            type="com.elhady.movies.feature.home.presentation.home.HomeListener" />
 
         <import type="com.elhady.movies.core.common.ShowMoreType"/>
 
