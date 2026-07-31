@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.explore.viewmodel.explore
+package com.elhady.movies.feature.explore.presentation.explore
 
 sealed interface ExploreUiEvent {
     object NavigateToSearchEvent: ExploreUiEvent

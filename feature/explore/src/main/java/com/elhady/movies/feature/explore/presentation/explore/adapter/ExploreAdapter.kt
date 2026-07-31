@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.explore.presentation.explore
+package com.elhady.movies.feature.explore.presentation.explore.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,9 +8,9 @@ import com.elhady.movies.core.ui.base.BaseAdapter
 import com.elhady.movies.feature.explore.R
 import com.elhady.movies.feature.explore.databinding.ExploreItemTrendingMovieGridBinding
 import com.elhady.movies.feature.explore.databinding.ExploreItemTrendingMovieHorizontalBinding
-import com.elhady.movies.feature.explore.viewmodel.explore.ExploreItem
-import com.elhady.movies.feature.explore.viewmodel.explore.ExploreListener
-import com.elhady.movies.feature.explore.viewmodel.explore.LayoutItemType
+import com.elhady.movies.feature.explore.presentation.explore.ExploreItem
+import com.elhady.movies.feature.explore.presentation.explore.ExploreListener
+import com.elhady.movies.feature.explore.presentation.explore.LayoutItemType
 
 class ExploreAdapter(
     private var list: MutableList<ExploreItem>,

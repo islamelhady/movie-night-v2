@@ -12,10 +12,7 @@ import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.explore.BR
 import com.elhady.movies.feature.explore.R
 import com.elhady.movies.feature.explore.databinding.FragmentExploreBinding
-import com.elhady.movies.feature.explore.viewmodel.explore.ExploreItem
-import com.elhady.movies.feature.explore.viewmodel.explore.ExploreUiEvent
-import com.elhady.movies.feature.explore.viewmodel.explore.ExploreUiState
-import com.elhady.movies.feature.explore.viewmodel.explore.ExploreViewModel
+import com.elhady.movies.feature.explore.presentation.explore.adapter.ExploreAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
