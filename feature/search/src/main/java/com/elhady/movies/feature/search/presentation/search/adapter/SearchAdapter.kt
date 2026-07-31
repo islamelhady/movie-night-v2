@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.search.presentation.ui
+package com.elhady.movies.feature.search.presentation.search.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,9 +8,9 @@ import com.elhady.movies.feature.search.R
 import com.elhady.movies.core.ui.base.BaseAdapter
 import com.elhady.movies.core.ui.databinding.ItemMovieHorizontalBinding
 import com.elhady.movies.feature.search.databinding.SearchItemPeopleBinding
-import com.elhady.movies.feature.search.presentation.SearchItem
-import com.elhady.movies.feature.search.presentation.SearchItemType
-import com.elhady.movies.feature.search.presentation.SearchListener
+import com.elhady.movies.feature.search.presentation.search.SearchItem
+import com.elhady.movies.feature.search.presentation.search.SearchItemType
+import com.elhady.movies.feature.search.presentation.search.SearchListener
 
 class SearchAdapter(
     private var list: MutableList<SearchItem>,

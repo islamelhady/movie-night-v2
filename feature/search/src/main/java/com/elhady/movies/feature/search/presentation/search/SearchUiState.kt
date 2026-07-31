@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.search.presentation
+package com.elhady.movies.feature.search.presentation.search
 
 import com.elhady.movies.core.ui.state.MovieHorizontalUiState
 import com.elhady.movies.core.ui.state.PeopleUiState

@@ -1,16 +1,13 @@
-package com.elhady.movies.feature.search.presentation.ui.utils
+package com.elhady.movies.feature.search.presentation.search
 
 import android.content.res.Configuration
 import android.view.View
 import android.widget.ImageButton
-import android.widget.ToggleButton
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.feature.search.R
-import com.elhady.movies.feature.search.presentation.SearchListener
-import com.elhady.movies.feature.search.presentation.SearchUiState
 import com.google.android.material.chip.ChipGroup
 
 @BindingAdapter(value = ["app:setGenres", "app:listener", "app:chipSelected"])

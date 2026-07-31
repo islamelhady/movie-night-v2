@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.search.presentation.ui
+package com.elhady.movies.feature.search.presentation.search
 
 import android.view.View
 import androidx.databinding.BindingAdapter

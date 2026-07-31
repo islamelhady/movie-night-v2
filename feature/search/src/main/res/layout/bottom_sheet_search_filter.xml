@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.elhady.movies.feature.search.presentation.SearchViewModel" />
+            type="com.elhady.movies.feature.search.presentation.search.SearchViewModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

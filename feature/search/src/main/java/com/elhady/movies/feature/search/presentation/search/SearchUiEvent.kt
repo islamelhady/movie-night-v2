@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.search.presentation
+package com.elhady.movies.feature.search.presentation.search
 
 sealed interface SearchUiEvent{
     object OpenFilterBottomSheet: SearchUiEvent

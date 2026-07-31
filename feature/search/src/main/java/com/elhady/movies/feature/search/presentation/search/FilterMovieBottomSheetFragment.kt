@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.search.presentation.ui
+package com.elhady.movies.feature.search.presentation.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import com.elhady.movies.feature.search.BR
 import com.elhady.movies.feature.search.R
 import com.elhady.movies.feature.search.databinding.BottomSheetSearchFilterBinding
-import com.elhady.movies.feature.search.presentation.ui.utils.setGenres
-import com.elhady.movies.feature.search.presentation.SearchViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest

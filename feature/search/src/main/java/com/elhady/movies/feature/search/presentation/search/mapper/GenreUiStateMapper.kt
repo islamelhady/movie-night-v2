@@ -1,7 +1,7 @@
-package com.elhady.movies.feature.search.presentation.mappers
+package com.elhady.movies.feature.search.presentation.search.mapper
 
 import com.elhady.movies.core.domain.model.common.Genre
-import com.elhady.movies.feature.search.presentation.SearchUiState
+import com.elhady.movies.feature.search.presentation.search.SearchUiState
 import javax.inject.Inject
 
 class GenreUiStateMapper @Inject constructor() {

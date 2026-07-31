@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.search.presentation
+package com.elhady.movies.feature.search.presentation.search
 
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.ui.base.BaseViewModel
@@ -13,10 +13,10 @@ import com.elhady.movies.core.domain.usecase.movie.GetAllGenresMoviesUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetAllGenresTvsUseCase
 import com.elhady.movies.core.ui.state.MovieHorizontalUiState
 import com.elhady.movies.core.ui.state.PeopleUiState
-import com.elhady.movies.feature.search.presentation.mappers.GenreUiStateMapper
-import com.elhady.movies.feature.search.presentation.mappers.MovieUiMapper
-import com.elhady.movies.feature.search.presentation.mappers.PeopleUiMapper
-import com.elhady.movies.feature.search.presentation.mappers.TvUiMapper
+import com.elhady.movies.feature.search.presentation.search.mapper.GenreUiStateMapper
+import com.elhady.movies.feature.search.presentation.search.mapper.MovieUiMapper
+import com.elhady.movies.feature.search.presentation.search.mapper.PeopleUiMapper
+import com.elhady.movies.feature.search.presentation.search.mapper.TvUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
