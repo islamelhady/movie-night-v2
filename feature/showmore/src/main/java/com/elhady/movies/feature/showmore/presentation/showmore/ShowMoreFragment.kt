@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.showmore.presentation
+package com.elhady.movies.feature.showmore.presentation.showmore
 
 import android.os.Bundle
 import android.view.View
@@ -13,6 +13,7 @@ import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.feature.showmore.databinding.FragmentShowMoreBinding
 import com.elhady.movies.core.common.ShowMoreType
 import com.elhady.movies.core.ui.navigation.Navigator
+import com.elhady.movies.feature.showmore.presentation.showmore.adapter.ShowMoreAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest

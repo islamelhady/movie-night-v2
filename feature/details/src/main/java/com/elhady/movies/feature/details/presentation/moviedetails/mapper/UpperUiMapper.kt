@@ -6,7 +6,7 @@ import com.elhady.movies.core.domain.model.movie.MovieVideo
 import com.elhady.movies.feature.details.presentation.moviedetails.UpperUiState
 import javax.inject.Inject
 
-class UpperUiStateMapper @Inject constructor() :
+class UpperUiMapper @Inject constructor() :
     Mapper<MovieDetails, UpperUiState> {
     override fun map(input: MovieDetails): UpperUiState {
         return UpperUiState(

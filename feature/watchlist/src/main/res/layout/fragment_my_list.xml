@@ -129,7 +129,7 @@
 
 
             <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/lottie_animation_view_no_network"
+                android:id="@+id/lottie_animation"
                 android:layout_width="@dimen/lottie_error_size"
                 android:layout_height="@dimen/lottie_error_size"
                 app:isVisibleOrGone="@{viewModel.state.isFailure &amp;&amp; (!viewModel.state.loading) }"
@@ -154,9 +154,9 @@
                 android:text="@string/try_again"
                 android:textColor="@color/on_background_60"
                 app:isVisibleOrGone="@{viewModel.state.isFailure &amp;&amp; (!viewModel.state.loading) }"
-                app:layout_constraintEnd_toEndOf="@id/lottie_animation_view_no_network"
-                app:layout_constraintStart_toStartOf="@id/lottie_animation_view_no_network"
-                app:layout_constraintTop_toBottomOf="@id/lottie_animation_view_no_network" />
+                app:layout_constraintEnd_toEndOf="@id/lottie_animation"
+                app:layout_constraintStart_toStartOf="@id/lottie_animation"
+                app:layout_constraintTop_toBottomOf="@id/lottie_animation" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

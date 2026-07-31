@@ -1,9 +1,10 @@
-package com.elhady.movies.feature.showmore.presentation
+package com.elhady.movies.feature.showmore.presentation.showmore.mapper
 
 import com.elhady.movies.core.domain.model.account.ListType
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.model.common.Genre
 import com.elhady.movies.core.domain.model.tvshow.TvShows
+import com.elhady.movies.feature.showmore.presentation.showmore.ShowMoreUi
 import javax.inject.Inject
 
 class ShowMoreTvShowUiMapper @Inject constructor() :

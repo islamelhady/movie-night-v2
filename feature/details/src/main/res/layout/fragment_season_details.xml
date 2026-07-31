@@ -60,7 +60,7 @@
 
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottie_animation_view_no_network"
+            android:id="@+id/lottie_animation"
             android:layout_width="@dimen/lottie_error_size"
             android:layout_height="@dimen/lottie_error_size"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -81,12 +81,12 @@
             android:text="@string/try_again"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lottie_animation_view_no_network" />
+            app:layout_constraintTop_toBottomOf="@id/lottie_animation" />
 
         <androidx.constraintlayout.widget.Group
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="lottie_animation_view_no_network,no_network_try_again"
+            app:constraint_referenced_ids="lottie_animation,no_network_try_again"
             app:isVisible="@{!viewModel.state.loading &amp;&amp; viewModel.state.onErrors.contains(`No Network Connection`)}" />
 
         <include

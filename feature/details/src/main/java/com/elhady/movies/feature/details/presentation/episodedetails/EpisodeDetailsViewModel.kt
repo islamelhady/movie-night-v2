@@ -11,6 +11,8 @@ import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.core.ui.interaction.PeopleListener
 import com.elhady.movies.core.ui.state.PeopleUiState
+import com.elhady.movies.feature.details.presentation.episodedetails.mapper.EpisodeDetailsUiMapper
+import com.elhady.movies.feature.details.presentation.episodedetails.mapper.TrailerUiMapper
 import com.elhady.movies.feature.details.presentation.tvdetails.mapper.PeopleUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update

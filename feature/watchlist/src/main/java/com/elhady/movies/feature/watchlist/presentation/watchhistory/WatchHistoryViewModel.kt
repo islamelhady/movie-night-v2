@@ -10,7 +10,7 @@ import com.elhady.movies.feature.watchlist.presentation.watchhistory.WatchHistor
 import com.elhady.movies.feature.watchlist.presentation.watchhistory.WatchHistoryRecyclerItemsCreator
 import com.elhady.movies.core.ui.interaction.MediaListener
 import com.elhady.movies.feature.watchlist.presentation.watchhistory.mapper.MovieDomainMapper
-import com.elhady.movies.feature.watchlist.presentation.watchhistory.mapper.MovieUiStateMapper
+import com.elhady.movies.feature.watchlist.presentation.watchhistory.mapper.MovieUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.MainScope
@@ -27,7 +27,7 @@ class WatchHistoryViewModel @Inject constructor(
     private val deleteMovieFromWatchHistoryUseCase: DeleteMovieFromWatchHistoryUseCase,
     private val searchWatchHistoryUseCase: SearchWatchHistoryUseCase,
     private val movieDomainMapper: MovieDomainMapper,
-    private val movieUiStateMapper: MovieUiStateMapper,
+    private val movieUiStateMapper: MovieUiMapper,
     private val stringsRes: StringsRes
 ) : BaseViewModel<WatchHistoryUiState, WatchHistoryUiEvent>(WatchHistoryUiState()), MediaListener {
 

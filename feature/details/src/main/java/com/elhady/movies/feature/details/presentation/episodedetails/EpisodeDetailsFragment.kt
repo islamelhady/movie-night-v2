@@ -12,6 +12,7 @@ import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.details.databinding.FragmentEpisodeDetailsBinding
 import com.elhady.movies.core.ui.adapter.PeopleAdapter
+import com.elhady.movies.feature.details.presentation.episodedetails.adapter.EpisodeAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

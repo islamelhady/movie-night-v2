@@ -266,11 +266,11 @@
                     android:textColor="@color/background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lottie_animation_view_no_network"
+                    app:layout_constraintTop_toBottomOf="@+id/lottie_animation"
                     app:showWhenError="@{viewModel.state.onErrors}" />
 
 <!--                <include-->
-<!--                    android:id="@+id/lottie_animation_view_no_network"-->
+<!--                    android:id="@+id/lottie_animation"-->
 <!--                    layout="@layout/layout_no_connection"-->
 <!--                    android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content"-->
@@ -281,7 +281,7 @@
 <!--                    app:showWhenError="@{viewModel.state.onErrors}" />-->
 
                 <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/lottie_animation_view_no_network"
+                    android:id="@+id/lottie_animation"
                     android:layout_width="@dimen/lottie_error_size"
                     android:layout_height="@dimen/lottie_error_size"
                     app:showWhenError="@{viewModel.state.onErrors}"
