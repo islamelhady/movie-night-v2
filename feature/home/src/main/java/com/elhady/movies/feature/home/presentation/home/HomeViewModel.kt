@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.home.presentation
+package com.elhady.movies.feature.home.presentation.home
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
@@ -11,14 +11,14 @@ import com.elhady.movies.core.domain.usecase.movie.GetTopRatedUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetTrendingMoviesUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetTvShowUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetUpcomingMoviesUseCase
-import com.elhady.movies.feature.home.presentation.mappers.AiringTodayUiMapper
-import com.elhady.movies.feature.home.presentation.mappers.NowPlayingUiMapper
-import com.elhady.movies.feature.home.presentation.mappers.PopularMoviesUiMapper
-import com.elhady.movies.feature.home.presentation.mappers.PopularPeopleUiMapper
-import com.elhady.movies.feature.home.presentation.mappers.TopRatedUiMapper
-import com.elhady.movies.feature.home.presentation.mappers.TrendingUiMapper
-import com.elhady.movies.feature.home.presentation.mappers.TvShowUiMapper
-import com.elhady.movies.feature.home.presentation.mappers.UpComingUiMapper
+import com.elhady.movies.feature.home.presentation.home.mapper.AiringTodayUiMapper
+import com.elhady.movies.feature.home.presentation.home.mapper.NowPlayingUiMapper
+import com.elhady.movies.feature.home.presentation.home.mapper.PopularMoviesUiMapper
+import com.elhady.movies.feature.home.presentation.home.mapper.PopularPeopleUiMapper
+import com.elhady.movies.feature.home.presentation.home.mapper.TopRatedUiMapper
+import com.elhady.movies.feature.home.presentation.home.mapper.TrendingUiMapper
+import com.elhady.movies.feature.home.presentation.home.mapper.TvShowUiMapper
+import com.elhady.movies.feature.home.presentation.home.mapper.UpComingUiMapper
 import com.elhady.movies.core.common.ShowMoreType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest

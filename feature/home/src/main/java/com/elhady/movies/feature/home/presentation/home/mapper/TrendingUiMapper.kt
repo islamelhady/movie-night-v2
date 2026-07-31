@@ -1,8 +1,8 @@
-package com.elhady.movies.feature.home.presentation.mappers
+package com.elhady.movies.feature.home.presentation.home.mapper
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.model.movie.Movie
-import com.elhady.movies.feature.home.presentation.TrendingMoviesUiState
+import com.elhady.movies.feature.home.presentation.home.TrendingMoviesUiState
 import javax.inject.Inject
 
 class TrendingUiMapper @Inject constructor()  : Mapper<Movie, TrendingMoviesUiState> {

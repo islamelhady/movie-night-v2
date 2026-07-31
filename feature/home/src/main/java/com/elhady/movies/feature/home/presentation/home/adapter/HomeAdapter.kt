@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.home.presentation.ui.adapter
+package com.elhady.movies.feature.home.presentation.home.adapter
 
 import android.os.Handler
 import android.os.Looper
@@ -20,9 +20,9 @@ import com.elhady.movies.feature.home.databinding.HomeRecyclerviewSliderBinding
 import com.elhady.movies.feature.home.databinding.HomeRecyclerviewTopRatedBinding
 import com.elhady.movies.feature.home.databinding.HomeRecyclerviewTrendingBinding
 import com.elhady.movies.feature.home.databinding.HomeRecyclerviewTvShowsBinding
-import com.elhady.movies.feature.home.presentation.ui.HomeItem
-import com.elhady.movies.feature.home.presentation.ui.HomeItemType
-import com.elhady.movies.feature.home.presentation.HomeListener
+import com.elhady.movies.feature.home.presentation.home.HomeItem
+import com.elhady.movies.feature.home.presentation.home.HomeItemType
+import com.elhady.movies.feature.home.presentation.home.HomeListener
 import java.lang.Math.abs
 
 class HomeAdapter(

@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.home.presentation.ui
+package com.elhady.movies.feature.home.presentation.home
 
 import android.os.Bundle
 import android.view.View
@@ -6,12 +6,9 @@ import androidx.fragment.app.viewModels
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.home.BR
 import com.elhady.movies.feature.home.R
-import com.elhady.movies.feature.home.presentation.ui.adapter.HomeAdapter
+import com.elhady.movies.feature.home.presentation.home.adapter.HomeAdapter
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.feature.home.databinding.FragmentHomeBinding
-import com.elhady.movies.feature.home.presentation.HomeUiEvent
-import com.elhady.movies.feature.home.presentation.HomeUiState
-import com.elhady.movies.feature.home.presentation.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

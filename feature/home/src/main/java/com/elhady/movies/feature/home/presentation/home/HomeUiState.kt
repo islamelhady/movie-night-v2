@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.home.presentation
+package com.elhady.movies.feature.home.presentation.home
 
 import kotlin.math.roundToInt
 

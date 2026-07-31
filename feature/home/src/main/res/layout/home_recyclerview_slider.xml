@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.home.presentation.ui.HomeItem" />
+            type="com.elhady.movies.feature.home.presentation.home.HomeItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

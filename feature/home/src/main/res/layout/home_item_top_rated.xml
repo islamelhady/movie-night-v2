@@ -7,11 +7,11 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.home.presentation.TopRatedUiState" />
+            type="com.elhady.movies.feature.home.presentation.home.TopRatedUiState" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.home.presentation.HomeListener" />
+            type="com.elhady.movies.feature.home.presentation.home.HomeListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

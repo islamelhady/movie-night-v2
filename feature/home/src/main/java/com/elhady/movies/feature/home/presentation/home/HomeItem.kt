@@ -1,13 +1,4 @@
-package com.elhady.movies.feature.home.presentation.ui
-
-import com.elhady.movies.feature.home.presentation.AiringTodayTvShowUiState
-import com.elhady.movies.feature.home.presentation.NowPlayingUiState
-import com.elhady.movies.feature.home.presentation.PopularMoviesUiState
-import com.elhady.movies.feature.home.presentation.PopularPeopleUiState
-import com.elhady.movies.feature.home.presentation.TopRatedUiState
-import com.elhady.movies.feature.home.presentation.TrendingMoviesUiState
-import com.elhady.movies.feature.home.presentation.TvShowUiState
-import com.elhady.movies.feature.home.presentation.UpComingMoviesUiState
+package com.elhady.movies.feature.home.presentation.home
 
 sealed class HomeItem(val type: HomeItemType) {
 

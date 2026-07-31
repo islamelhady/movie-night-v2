@@ -1,10 +1,10 @@
-package com.elhady.movies.feature.home.presentation.ui.adapter
+package com.elhady.movies.feature.home.presentation.home.adapter
 
 import com.elhady.movies.feature.home.BR
 import com.elhady.movies.feature.home.R
 import com.elhady.movies.core.ui.base.BaseAdapter
-import com.elhady.movies.feature.home.presentation.HomeListener
-import com.elhady.movies.feature.home.presentation.TopRatedUiState
+import com.elhady.movies.feature.home.presentation.home.HomeListener
+import com.elhady.movies.feature.home.presentation.home.TopRatedUiState
 
 class TopRatedAdapter(
     itemsTopRated: List<TopRatedUiState>,

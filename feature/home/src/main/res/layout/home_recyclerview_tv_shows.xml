@@ -9,28 +9,28 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.home.presentation.ui.HomeItem.TvShow" />
+            type="com.elhady.movies.feature.home.presentation.home.HomeItem.TvShow" />
 
         <variable
             name="airingTodayTv"
-            type="com.elhady.movies.feature.home.presentation.TvShowUiState" />
+            type="com.elhady.movies.feature.home.presentation.home.TvShowUiState" />
 
         <variable
             name="topRatedTv"
-            type="com.elhady.movies.feature.home.presentation.TvShowUiState" />
+            type="com.elhady.movies.feature.home.presentation.home.TvShowUiState" />
 
         <variable
             name="popularTv"
-            type="com.elhady.movies.feature.home.presentation.TvShowUiState" />
+            type="com.elhady.movies.feature.home.presentation.home.TvShowUiState" />
 
         <variable
             name="onTheAirTv"
-            type="com.elhady.movies.feature.home.presentation.TvShowUiState" />
+            type="com.elhady.movies.feature.home.presentation.home.TvShowUiState" />
 
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.home.presentation.HomeListener" />
+            type="com.elhady.movies.feature.home.presentation.home.HomeListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
