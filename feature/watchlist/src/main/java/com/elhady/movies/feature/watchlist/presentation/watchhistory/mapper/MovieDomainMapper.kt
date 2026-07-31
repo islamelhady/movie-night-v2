@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.watchlist.presentation.watchhistory.mappers
+package com.elhady.movies.feature.watchlist.presentation.watchhistory.mapper
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.model.movie.MovieInWatchHistory

@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.watchlist.presentation.ui.watchhistory
+package com.elhady.movies.feature.watchlist.presentation.watchhistory
 
 import android.os.Bundle
 import android.view.View
@@ -13,9 +13,7 @@ import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.feature.watchlist.databinding.FragmentWatchHistoryBinding
 import com.elhady.movies.core.ui.util.SwipeToDeleteItem
-import com.elhady.movies.feature.watchlist.presentation.watchhistory.WatchHistoryViewModel
-import com.elhady.movies.feature.watchlist.presentation.watchhistory.WatchHistoryUiEvent
-import com.elhady.movies.feature.watchlist.presentation.watchhistory.WatchHistoryUiState
+import com.elhady.movies.feature.watchlist.presentation.watchhistory.adapter.WatchHistoryAdapter
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
@@ -41,6 +39,13 @@ class WatchHistoryFragment
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerAdapter()
         swipeToDeleteItemSetup(binding.watchHistoryRecyclerView)
+        collectChange()
+    }
+
+    private fun collectChange() {
+        collectFlow(viewModel.state) { state ->
+            adapter.setItems(state.movies)
+        }
     }
 
     private fun setupRecyclerAdapter() {
@@ -69,7 +74,9 @@ class WatchHistoryFragment
             try {
                 finishNotCompletedDeletion()
                 handleSwipes(direction, viewHolder.absoluteAdapterPosition)
-            } catch (e: Exception) { }
+            } catch (e: Exception) {
+                // Ignore
+            }
         }
     }
 
@@ -125,9 +132,7 @@ class WatchHistoryFragment
         }
     }
 
-    private fun createToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-    }
+
 
 
     private fun onBackButtonPressed() {

@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.watchlist.presentation.ui.watchhistory
+package com.elhady.movies.feature.watchlist.presentation.watchhistory
 
 import com.elhady.movies.feature.watchlist.presentation.watchhistory.MovieUiState
 

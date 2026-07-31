@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.watchlist.presentation.ui.watchhistory
+package com.elhady.movies.feature.watchlist.presentation.watchhistory.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,6 +9,7 @@ import com.elhady.movies.core.ui.base.BaseAdapter
 import com.elhady.movies.feature.watchlist.databinding.WatchHistoryRecyclerViewCardBinding
 import com.elhady.movies.feature.watchlist.databinding.WatchHistoryRecyclerViewTitleBinding
 import com.elhady.movies.core.ui.interaction.MediaListener
+import com.elhady.movies.feature.watchlist.presentation.watchhistory.WatchHistoryRecyclerItem
 
 class WatchHistoryAdapter(
     private var items: List<WatchHistoryRecyclerItem>,

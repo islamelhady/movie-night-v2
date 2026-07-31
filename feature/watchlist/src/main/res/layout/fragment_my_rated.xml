@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutDescription="@xml/fragment_my_rated_scene"
-        tools:context="com.elhady.movies.feature.watchlist.presentation.ui.myrated.MyRatedFragment">
+        tools:context="com.elhady.movies.feature.watchlist.presentation.myrated.MyRatedFragment">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"

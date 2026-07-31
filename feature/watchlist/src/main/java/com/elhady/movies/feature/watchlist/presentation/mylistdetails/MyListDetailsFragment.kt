@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.watchlist.presentation.ui.mylistdetails
+package com.elhady.movies.feature.watchlist.presentation.mylistdetails
 
 import android.os.Bundle
 import android.view.View
@@ -10,9 +10,7 @@ import com.elhady.movies.feature.watchlist.R
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.feature.watchlist.databinding.FragmentMyListDetailsBinding
 import com.elhady.movies.core.ui.util.SwipeToDeleteItem
-import com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDetailsUiEvent
-import com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDetailsUiState
-import com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDetailsViewModel
+import com.elhady.movies.feature.watchlist.presentation.mylistdetails.adapter.MyListDetailsAdapter
 import com.elhady.movies.core.ui.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -35,6 +33,13 @@ class MyListDetailsFragment :
         super.onViewCreated(view, savedInstanceState)
         setAdapter()
         swipeToDeleteMediaSetup()
+        collectChange()
+    }
+
+    private fun collectChange() {
+        collectFlow(viewModel.state) { state ->
+            myListDetailsAdapter.setItems(state.movies)
+        }
     }
 
     private fun swipeToDeleteMediaSetup() {
