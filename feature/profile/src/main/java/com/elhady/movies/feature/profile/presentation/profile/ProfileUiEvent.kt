@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.profile.presentation
+package com.elhady.movies.feature.profile.presentation.profile
 
 sealed interface ProfileUiEvent {
     object NavigateToFavoriteScreen : ProfileUiEvent

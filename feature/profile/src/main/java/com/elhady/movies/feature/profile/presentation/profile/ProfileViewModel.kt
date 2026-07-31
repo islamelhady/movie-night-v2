@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.profile.presentation
+package com.elhady.movies.feature.profile.presentation.profile
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
@@ -10,6 +10,7 @@ import com.elhady.movies.core.ui.resource.NavigationRes
 import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
 import com.elhady.movies.core.domain.usecase.auth.LogoutUseCase
 import com.elhady.movies.core.domain.usecase.auth.GetAccountDetailsUseCase
+import com.elhady.movies.feature.profile.presentation.profile.mapper.ProfileUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -22,7 +23,7 @@ class ProfileViewModel @Inject constructor(
     private val profileUiMapper: ProfileUiMapper,
     private val checkIsUserLoggedInUseCase: CheckIsUserLoggedInUseCase,
     private val navigationRes: NavigationRes
-) : BaseViewModel<ProfileUIState, ProfileUiEvent>(ProfileUIState()), ProfileListener {
+) : BaseViewModel<ProfileUiState, ProfileUiEvent>(ProfileUiState()), ProfileListener {
 
     init {
         checkUserLoggedIn()
@@ -49,7 +50,7 @@ class ProfileViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessGetAccountDetails(profileEntity: ProfileUIState){
+    private fun onSuccessGetAccountDetails(profileEntity: ProfileUiState){
         _state.update {
             it.copy(
                 username = profileEntity.username,

@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.profile.presentation
+package com.elhady.movies.feature.profile.presentation.profile
 
 import android.content.Context
 import android.os.Bundle
@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUIState, ProfileUiEvent>() {
+class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, ProfileUiEvent>() {
 
     @Inject
     lateinit var navigator: Navigator

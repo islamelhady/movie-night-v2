@@ -1,6 +1,6 @@
-package com.elhady.movies.feature.profile.presentation
+package com.elhady.movies.feature.profile.presentation.profile
 
-data class ProfileUIState(
+data class ProfileUiState(
     val username: String = "",
     val avatarUrl: String = "",
     val error: List<String>? = null,
