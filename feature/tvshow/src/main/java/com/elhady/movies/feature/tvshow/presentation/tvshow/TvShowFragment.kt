@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.tvshow.presentation
+package com.elhady.movies.feature.tvshow.presentation.tvshow
 
 import android.os.Bundle
 import android.view.View
@@ -12,6 +12,7 @@ import com.elhady.movies.core.ui.adapter.BaseFooterAdapter
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.feature.tvshow.databinding.FragmentTvShowsBinding
 import com.elhady.movies.core.ui.navigation.Navigator
+import com.elhady.movies.feature.tvshow.presentation.tvshow.adapter.TvShowAdapter
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -19,15 +20,15 @@ import javax.inject.Inject
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class TvShowsFragment : BaseFragment<FragmentTvShowsBinding, TVShowUIState, TVShowsUiEvent>() {
+class TvShowFragment : BaseFragment<FragmentTvShowsBinding, TvShowUiState, TvShowUiEvent>() {
 
     @Inject
     lateinit var navigator: Navigator
 
     override val layoutIdFragment = R.layout.fragment_tv_shows
-    override val viewModel: TVShowsViewModel by viewModels()
+    override val viewModel: TvShowViewModel by viewModels()
     override val viewModelVariableId: Int = BR.viewModel
-    private val tvShowsAdapter by lazy { TVShowsAdapter(viewModel) }
+    private val tvShowsAdapter by lazy { TvShowAdapter(viewModel) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,11 +45,11 @@ class TvShowsFragment : BaseFragment<FragmentTvShowsBinding, TVShowUIState, TVSh
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collectLatest { state ->
-                val flow = when (state.tvShowsType) {
-                    TVShowsType.AIRING_TODAY -> state.tvShowAiringToday
-                    TVShowsType.ON_THE_AIR -> state.tvShowOnTheAir
-                    TVShowsType.TOP_RATED -> state.tvShowTopRated
-                    TVShowsType.POPULAR -> state.tvShowPopular
+                val flow = when (state.tvShowType) {
+                    TvShowType.AIRING_TODAY -> state.tvShowAiringToday
+                    TvShowType.ON_THE_AIR -> state.tvShowOnTheAir
+                    TvShowType.TOP_RATED -> state.tvShowTopRated
+                    TvShowType.POPULAR -> state.tvShowPopular
                 }
                 collectLast(flow) { itemsPagingData ->
                     viewLifecycleOwner.lifecycleScope.launch {
@@ -60,15 +61,15 @@ class TvShowsFragment : BaseFragment<FragmentTvShowsBinding, TVShowUIState, TVSh
         }
     }
 
-    override fun onEvent(event: TVShowsUiEvent) {
+    override fun onEvent(event: TvShowUiEvent) {
         when (event) {
-            is TVShowsUiEvent.ShowOnTheAirTVShowsResult -> viewModel.getOnTheAirTVShows()
-            is TVShowsUiEvent.ShowAiringTodayTVShowsResult -> viewModel.getAiringTodayTVShows()
-            is TVShowsUiEvent.ShowTopRatedTVShowsResult -> viewModel.getTopRatedTVShows()
-            is TVShowsUiEvent.ShowPopularTVShowsResult -> viewModel.getPopularTVShows()
-            is TVShowsUiEvent.NavigateToTVShowDetails -> navigate(event.tvId)
-            is TVShowsUiEvent.ShowSnackBar -> showSnackBar(event.messages)
-            is TVShowsUiEvent.ScrollToTopRecycler -> binding.recyclerViewTvShows.scrollToPosition(0)
+            is TvShowUiEvent.ShowOnTheAirTvShowsResult -> viewModel.getOnTheAirTvShows()
+            is TvShowUiEvent.ShowAiringTodayTvShowsResult -> viewModel.getAiringTodayTvShows()
+            is TvShowUiEvent.ShowTopRatedTvShowsResult -> viewModel.getTopRatedTvShows()
+            is TvShowUiEvent.ShowPopularTvShowsResult -> viewModel.getPopularTvShows()
+            is TvShowUiEvent.NavigateToTvShowDetails -> navigate(event.tvId)
+            is TvShowUiEvent.ShowSnackBar -> showSnackBar(event.messages)
+            is TvShowUiEvent.ScrollToTopRecycler -> binding.recyclerViewTvShows.scrollToPosition(0)
         }
     }
 
@@ -79,10 +80,12 @@ class TvShowsFragment : BaseFragment<FragmentTvShowsBinding, TVShowUIState, TVSh
 
     private fun doNothingWhenTheSameChipIsReselected() {
         binding.chipGroup.setOnCheckedStateChangeListener { group, checkedId ->
-            val chip = group.findViewById<Chip>(checkedId.first())
-            chip.let {
-                group.forEach { itemChip -> itemChip.isClickable = true }
-                chip.isClickable = false
+            if (checkedId.isNotEmpty()) {
+                val chip = group.findViewById<Chip>(checkedId.first())
+                chip.let {
+                    group.forEach { itemChip -> itemChip.isClickable = true }
+                    chip.isClickable = false
+                }
             }
         }
     }
