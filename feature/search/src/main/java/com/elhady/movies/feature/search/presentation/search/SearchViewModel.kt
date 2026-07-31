@@ -13,7 +13,7 @@ import com.elhady.movies.core.domain.usecase.movie.GetAllGenresMoviesUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetAllGenresTvsUseCase
 import com.elhady.movies.core.ui.state.MovieHorizontalUiState
 import com.elhady.movies.core.ui.state.PeopleUiState
-import com.elhady.movies.feature.search.presentation.search.mapper.GenreUiStateMapper
+import com.elhady.movies.feature.search.presentation.search.mapper.GenreUiMapper
 import com.elhady.movies.feature.search.presentation.search.mapper.MovieUiMapper
 import com.elhady.movies.feature.search.presentation.search.mapper.PeopleUiMapper
 import com.elhady.movies.feature.search.presentation.search.mapper.TvUiMapper
@@ -36,7 +36,7 @@ class SearchViewModel @Inject constructor(
     private val searchPeopleUseCase: SearchPeopleUseCase,
     private val insertSearchHistoryUseCase: InsertSearchHistoryUseCase,
     private val searchHistoryUseCase: SearchHistoryUseCase,
-    private val genreUiStateMapper: GenreUiStateMapper,
+    private val genreUiStateMapper: GenreUiMapper,
     private val movieUiMapper: MovieUiMapper,
     private val tvUiMapper: TvUiMapper,
     private val peopleUiMapper: PeopleUiMapper

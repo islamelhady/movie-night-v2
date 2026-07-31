@@ -1,9 +1,10 @@
-package com.elhady.movies.feature.details.presentation.seasondetails
+package com.elhady.movies.feature.details.presentation.seasondetails.mapper
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.model.tvshow.Episode
 import com.elhady.movies.core.domain.model.tvshow.SeasonDetails
 import com.elhady.movies.feature.details.presentation.episodedetails.EpisodeHorizontalUiState
+import com.elhady.movies.feature.details.presentation.seasondetails.SeasonDetailsUiState
 import javax.inject.Inject
 
 class SeasonDetailsUiMapper @Inject constructor():

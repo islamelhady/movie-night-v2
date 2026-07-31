@@ -227,7 +227,7 @@
 
 
             <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/lottie_animation_view_no_network"
+                android:id="@+id/lottie_animation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -246,11 +246,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:genres="@{viewModel.state.error}"
-                app:layout_constraintTop_toBottomOf="@id/lottie_animation_view_no_network"
+                app:layout_constraintTop_toBottomOf="@id/lottie_animation"
                 android:layout_marginTop="@dimen/spacing_small_8dp"
                 tools:text="@string/error_occured"
-                app:layout_constraintEnd_toEndOf="@+id/lottie_animation_view_no_network"
-                app:layout_constraintStart_toStartOf="@+id/lottie_animation_view_no_network" />
+                app:layout_constraintEnd_toEndOf="@+id/lottie_animation"
+                app:layout_constraintStart_toStartOf="@+id/lottie_animation" />
 
 
             <com.airbnb.lottie.LottieAnimationView
@@ -272,7 +272,7 @@
             <androidx.constraintlayout.widget.Group
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="textview_error_occurred,lottie_animation_view_no_network"
+                app:constraint_referenced_ids="textview_error_occurred,lottie_animation"
                 app:isVisibleOrGone="@{viewModel.state.error.contains(`noNetwork`)}" />
 
             <androidx.constraintlayout.widget.Group

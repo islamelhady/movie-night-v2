@@ -25,12 +25,12 @@ import com.elhady.movies.core.ui.interaction.MediaListener
 import com.elhady.movies.core.ui.interaction.PeopleListener
 import com.elhady.movies.core.ui.state.UserListUiState
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.CastUiMapper
-import com.elhady.movies.feature.details.presentation.moviedetails.mapper.RecommendedUiStateMapper
-import com.elhady.movies.feature.details.presentation.moviedetails.mapper.ReviewDetailsUiStateMapper
-import com.elhady.movies.feature.details.presentation.moviedetails.mapper.ReviewsUiStateMapper
-import com.elhady.movies.feature.details.presentation.moviedetails.mapper.UpperUiStateMapper
+import com.elhady.movies.feature.details.presentation.moviedetails.mapper.RecommendedUiMapper
+import com.elhady.movies.feature.details.presentation.moviedetails.mapper.ReviewDetailsUiMapper
+import com.elhady.movies.feature.details.presentation.moviedetails.mapper.ReviewsUiMapper
+import com.elhady.movies.feature.details.presentation.moviedetails.mapper.UpperUiMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.UserListUiMapper
-import com.elhady.movies.feature.details.presentation.moviedetails.mapper.WatchHistoryUiStateMapper
+import com.elhady.movies.feature.details.presentation.moviedetails.mapper.WatchHistoryUiMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.rate.BottomSheetListener
 import com.elhady.movies.feature.details.presentation.moviedetails.save.SaveToListListener
 import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvRatingUiMapper
@@ -52,12 +52,12 @@ class MovieDetailsViewModel @Inject constructor(
     private val addToWatchList: AddToWatchList,
     private val insertMovieToWatchHistoryUseCase: InsertMovieToWatchHistoryUseCase,
     private val checkIsUserLoggedInUseCase: CheckIsUserLoggedInUseCase,
-    private val recommendedUiStateMapper: RecommendedUiStateMapper,
-    private val upperUiStateMapper: UpperUiStateMapper,
-    private val reviewsUiStateMapper: ReviewsUiStateMapper,
+    private val recommendedUiStateMapper: RecommendedUiMapper,
+    private val upperUiStateMapper: UpperUiMapper,
+    private val reviewsUiStateMapper: ReviewsUiMapper,
     private val castUiMapper: CastUiMapper,
-    private val reviewDetailsUiStateMapper: ReviewDetailsUiStateMapper,
-    private val watchHistoryUiStateMapper: WatchHistoryUiStateMapper,
+    private val reviewDetailsUiStateMapper: ReviewDetailsUiMapper,
+    private val watchHistoryUiStateMapper: WatchHistoryUiMapper,
     private val userListsUiMapper: UserListUiMapper,
     private val getRatingMovieUseCase: GetRatingMovieUseCase,
     private val tvRatingUiMapper: TvRatingUiMapper,

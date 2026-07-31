@@ -1,10 +1,12 @@
-package com.elhady.movies.feature.showmore.presentation
+package com.elhady.movies.feature.showmore.presentation.showmore.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.elhady.movies.feature.showmore.BR
 import com.elhady.movies.feature.showmore.R
 import com.elhady.movies.core.ui.base.BasePagingAdapter
 import com.elhady.movies.core.ui.databinding.ItemMovieHorizontalBinding
+import com.elhady.movies.feature.showmore.presentation.showmore.ShowMoreUi
+import com.elhady.movies.feature.showmore.presentation.showmore.ShowMoreListener
 
 class ShowMoreAdapter(
     listener: ShowMoreListener

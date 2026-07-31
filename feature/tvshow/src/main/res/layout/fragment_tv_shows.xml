@@ -137,7 +137,7 @@
 
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottie_animation_view_no_network"
+            android:id="@+id/lottie_animation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:isVisible="@{viewModel.state.isError}"

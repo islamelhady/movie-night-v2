@@ -5,7 +5,7 @@ import com.elhady.movies.core.domain.model.movie.RecommendedMovie
 import com.elhady.movies.core.ui.state.MediaVerticalUiState
 import javax.inject.Inject
 
-class RecommendedUiStateMapper @Inject constructor() :
+class RecommendedUiMapper @Inject constructor() :
     Mapper<RecommendedMovie, MediaVerticalUiState> {
     override fun map(input: RecommendedMovie): MediaVerticalUiState {
         return MediaVerticalUiState(

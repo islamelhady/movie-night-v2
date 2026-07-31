@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.showmore.presentation
+package com.elhady.movies.feature.showmore.presentation.showmore
 
 sealed interface ShowMoreUiEvent {
     data class NavigateToMovieDetailsEvent(val itemId: Int) : ShowMoreUiEvent

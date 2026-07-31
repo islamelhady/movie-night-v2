@@ -112,7 +112,7 @@
 
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottie_animation_view_no_network"
+            android:id="@+id/lottie_animation"
             android:layout_width="@dimen/lottie_error_size"
             android:layout_height="@dimen/lottie_error_size"
             app:isVisible="@{!viewModel.state.errorList.empty}"

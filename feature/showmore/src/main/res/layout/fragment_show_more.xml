@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.elhady.movies.feature.showmore.presentation.ShowMoreViewModel" />
+            type="com.elhady.movies.feature.showmore.presentation.showmore.ShowMoreViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -64,7 +64,7 @@
             app:lottie_rawRes="@raw/anim_loading" />
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottie_animation_view_no_network"
+            android:id="@+id/lottie_animation"
             android:layout_width="@dimen/lottie_error_size"
             android:layout_height="@dimen/lottie_error_size"
             app:isVisible="@{viewModel.state.isError}"
@@ -87,7 +87,7 @@
             app:isVisible="@{viewModel.state.isError}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lottie_animation_view_no_network" />
+            app:layout_constraintTop_toBottomOf="@+id/lottie_animation" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,7 +1,5 @@
 package com.elhady.movies.feature.watchlist.presentation.mylist
 
-import android.os.Parcel
-import android.os.Parcelable
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.resource.StringsRes
@@ -24,19 +22,11 @@ class MyListViewModel @Inject constructor(
     private val myListUiMapper: MyListUiMapper,
     private val createList: CreateListUseCase,
     private val stringsRes: StringsRes
-) : BaseViewModel<MyListUiState, MyListUiEvent>(MyListUiState()), MyListListener, Parcelable {
+) : BaseViewModel<MyListUiState, MyListUiEvent>(MyListUiState()), MyListListener {
 
     init {
         getData()
     }
-
-    constructor(parcel: Parcel) : this(
-        TODO("getMoviesUseCase"),
-        TODO("deleteListUseCase"),
-        TODO("myListUiMapper"),
-        TODO("createList"),
-        TODO("stringsRes")
-    )
 
     fun getData() {
         _state.update { it.copy(isLoading = true ,) }
@@ -151,24 +141,6 @@ class MyListViewModel @Inject constructor(
 
     override fun onClickBackButton() {
         sendEvent(MyListUiEvent.OnClickBack)
-    }
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<MyListViewModel> {
-        override fun createFromParcel(parcel: Parcel): MyListViewModel {
-            return MyListViewModel(parcel)
-        }
-
-        override fun newArray(size: Int): Array<MyListViewModel?> {
-            return arrayOfNulls(size)
-        }
     }
 
 }

@@ -5,7 +5,7 @@ import com.elhady.movies.core.domain.model.movie.MovieInWatchHistory
 import com.elhady.movies.feature.watchlist.presentation.watchhistory.MovieUiState
 import javax.inject.Inject
 
-class MovieUiStateMapper @Inject constructor() : Mapper<MovieInWatchHistory, MovieUiState> {
+class MovieUiMapper @Inject constructor() : Mapper<MovieInWatchHistory, MovieUiState> {
     override fun map(input: MovieInWatchHistory): MovieUiState {
         return MovieUiState(
             id = input.id,

@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.showmore.presentation
+package com.elhady.movies.feature.showmore.presentation.showmore
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.paging.CombinedLoadStates
@@ -15,6 +15,8 @@ import com.elhady.movies.core.domain.usecase.tvshow.GetAiringTodayTVShowsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetOnTheAirTVShowsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetPopularTVShowsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetTopRatedTVShowsUseCase
+import com.elhady.movies.feature.showmore.presentation.showmore.mapper.ShowMoreMovieUiMapper
+import com.elhady.movies.feature.showmore.presentation.showmore.mapper.ShowMoreTvShowUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.update
