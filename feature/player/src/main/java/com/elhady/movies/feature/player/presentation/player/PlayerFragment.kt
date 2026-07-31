@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.player.presentation.ui
+package com.elhady.movies.feature.player.presentation.player
 
 import android.content.pm.ActivityInfo
 import android.graphics.Color
@@ -11,9 +11,6 @@ import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.feature.player.BR
 import com.elhady.movies.feature.player.R
 import com.elhady.movies.feature.player.databinding.FragmentPlayerBinding
-import com.elhady.movies.feature.player.presentation.player.PlayerInteraction
-import com.elhady.movies.feature.player.presentation.player.PlayerUiState
-import com.elhady.movies.feature.player.presentation.player.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

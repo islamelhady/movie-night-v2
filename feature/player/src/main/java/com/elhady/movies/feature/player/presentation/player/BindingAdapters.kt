@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.player.presentation.ui
+package com.elhady.movies.feature.player.presentation.player
 
 import androidx.databinding.BindingAdapter
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
