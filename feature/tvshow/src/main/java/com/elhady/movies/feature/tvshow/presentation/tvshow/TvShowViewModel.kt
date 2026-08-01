@@ -5,10 +5,10 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.elhady.movies.core.ui.base.BaseViewModel
-import com.elhady.movies.core.domain.usecase.tvshow.GetAiringTodayTVShowsUseCase
-import com.elhady.movies.core.domain.usecase.tvshow.GetOnTheAirTVShowsUseCase
-import com.elhady.movies.core.domain.usecase.tvshow.GetPopularTVShowsUseCase
-import com.elhady.movies.core.domain.usecase.tvshow.GetTopRatedTVShowsUseCase
+import com.elhady.movies.core.domain.usecase.tvshow.GetAiringTodayTvShowsUseCase
+import com.elhady.movies.core.domain.usecase.tvshow.GetOnTheAirTvShowsUseCase
+import com.elhady.movies.core.domain.usecase.tvshow.GetPopularTvShowsUseCase
+import com.elhady.movies.core.domain.usecase.tvshow.GetTopRatedTvShowsUseCase
 import com.elhady.movies.feature.tvshow.presentation.tvshow.mapper.TvShowUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -18,10 +18,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TvShowViewModel @Inject constructor(
-    private val getAiringTodayTVShowsUseCase: GetAiringTodayTVShowsUseCase,
-    private val getOnTheAirTVShowsUseCase: GetOnTheAirTVShowsUseCase,
-    private val getPopularTVShowsUseCase: GetPopularTVShowsUseCase,
-    private val getGetTopRatedTVShowsUseCase: GetTopRatedTVShowsUseCase,
+    private val getAiringTodayTvShowsUseCase: GetAiringTodayTvShowsUseCase,
+    private val getOnTheAirTvShowsUseCase: GetOnTheAirTvShowsUseCase,
+    private val getPopularTvShowsUseCase: GetPopularTvShowsUseCase,
+    private val getTopRatedTvShowsUseCase: GetTopRatedTvShowsUseCase,
     private val tvShowUiMapper: TvShowUiMapper
 ) : BaseViewModel<TvShowUiState, TvShowUiEvent>(TvShowUiState()), TvShowListener {
 
@@ -48,7 +48,7 @@ class TvShowViewModel @Inject constructor(
 
     fun getAiringTodayTvShows() {
         wrapperPager(
-            data = { getAiringTodayTVShowsUseCase() },
+            data = { getAiringTodayTvShowsUseCase() },
             mapper = tvShowUiMapper,
             onSuccess = ::onSuccessAiringTodayTvShows,
             onError = ::onError
@@ -67,7 +67,7 @@ class TvShowViewModel @Inject constructor(
 
     fun getOnTheAirTvShows() {
         wrapperPager(
-            data = { getOnTheAirTVShowsUseCase() },
+            data = { getOnTheAirTvShowsUseCase() },
             mapper = tvShowUiMapper,
             onSuccess = ::onSuccessOnTheAirTvShows,
             onError = ::onError
@@ -86,7 +86,7 @@ class TvShowViewModel @Inject constructor(
 
     fun getPopularTvShows() {
         wrapperPager(
-            data = { getPopularTVShowsUseCase() },
+            data = { getPopularTvShowsUseCase() },
             mapper = tvShowUiMapper,
             onSuccess = ::onSuccessPopularTvShows,
             onError = ::onError
@@ -106,7 +106,7 @@ class TvShowViewModel @Inject constructor(
 
     fun getTopRatedTvShows() {
         wrapperPager(
-            data = { getGetTopRatedTVShowsUseCase() },
+            data = { getTopRatedTvShowsUseCase() },
             mapper = tvShowUiMapper,
             onSuccess = ::onSuccessTopRatedTvShows,
             onError = ::onError

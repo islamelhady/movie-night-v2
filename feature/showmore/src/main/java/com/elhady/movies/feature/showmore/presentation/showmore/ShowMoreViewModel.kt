@@ -11,10 +11,10 @@ import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.core.domain.usecase.movie.GetMorePopularMoviesByTypeUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetMoreTopRatedByTypeUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetMoreTrendingByTypeUseCase
-import com.elhady.movies.core.domain.usecase.tvshow.GetAiringTodayTVShowsUseCase
-import com.elhady.movies.core.domain.usecase.tvshow.GetOnTheAirTVShowsUseCase
-import com.elhady.movies.core.domain.usecase.tvshow.GetPopularTVShowsUseCase
-import com.elhady.movies.core.domain.usecase.tvshow.GetTopRatedTVShowsUseCase
+import com.elhady.movies.core.domain.usecase.tvshow.GetAiringTodayTvShowsUseCase
+import com.elhady.movies.core.domain.usecase.tvshow.GetOnTheAirTvShowsUseCase
+import com.elhady.movies.core.domain.usecase.tvshow.GetPopularTvShowsUseCase
+import com.elhady.movies.core.domain.usecase.tvshow.GetTopRatedTvShowsUseCase
 import com.elhady.movies.feature.showmore.presentation.showmore.mapper.ShowMoreMovieUiMapper
 import com.elhady.movies.feature.showmore.presentation.showmore.mapper.ShowMoreTvShowUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,10 +27,10 @@ class ShowMoreViewModel @Inject constructor(
     private val getShowMorePopularMoviesByTypeUseCase: GetMorePopularMoviesByTypeUseCase,
     private val getShowMoreTopRatedByTypeUseCase: GetMoreTopRatedByTypeUseCase,
     private val getShowMoreTrendingByTypeUseCase: GetMoreTrendingByTypeUseCase,
-    private val getTopRatedTVShowsUseCase: GetTopRatedTVShowsUseCase,
-    private val getAiringTodayTVShowsUseCase: GetAiringTodayTVShowsUseCase,
-    private val getPopularTVShowsUseCase: GetPopularTVShowsUseCase,
-    private val getOnTheAirTVShowsUseCase: GetOnTheAirTVShowsUseCase,
+    private val getTopRatedTvShowsUseCase: GetTopRatedTvShowsUseCase,
+    private val getAiringTodayTvShowsUseCase: GetAiringTodayTvShowsUseCase,
+    private val getPopularTvShowsUseCase: GetPopularTvShowsUseCase,
+    private val getOnTheAirTvShowsUseCase: GetOnTheAirTvShowsUseCase,
     private val moviesMapper: ShowMoreMovieUiMapper,
     private val tvShowsMapper: ShowMoreTvShowUiMapper,
     savedStateHandle: SavedStateHandle,
@@ -65,7 +65,7 @@ class ShowMoreViewModel @Inject constructor(
 
     private fun getTopRatedTvShow() {
         wrapperPager(
-            data = { getTopRatedTVShowsUseCase() },
+            data = { getTopRatedTvShowsUseCase() },
             mapper = tvShowsMapper,
             onSuccess = ::onSuccessTopRatedTvShows,
             onError = ::onError
@@ -85,7 +85,7 @@ class ShowMoreViewModel @Inject constructor(
 
     private fun getAiringTodayTvShow() {
         wrapperPager(
-            data = { getAiringTodayTVShowsUseCase() },
+            data = { getAiringTodayTvShowsUseCase() },
             mapper = tvShowsMapper,
             onSuccess = ::onSuccessAiringTodayTvShows,
             onError = ::onError
@@ -105,7 +105,7 @@ class ShowMoreViewModel @Inject constructor(
 
     private fun getPopularTvShow() {
         wrapperPager(
-            data = { getPopularTVShowsUseCase() },
+            data = { getPopularTvShowsUseCase() },
             mapper = tvShowsMapper,
             onSuccess = ::onSuccessPopularTvShows,
             onError = ::onError
@@ -125,7 +125,7 @@ class ShowMoreViewModel @Inject constructor(
 
     private fun getOnTheAirTvShow() {
         wrapperPager(
-            data = { getOnTheAirTVShowsUseCase() },
+            data = { getOnTheAirTvShowsUseCase() },
             mapper = tvShowsMapper,
             onSuccess = ::onSuccessOnTheAirTvShows,
             onError = ::onError
