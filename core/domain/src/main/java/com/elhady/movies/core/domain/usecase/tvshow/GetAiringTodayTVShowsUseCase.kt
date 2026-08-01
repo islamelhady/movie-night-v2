@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
-class GetAiringTodayTVShowsUseCase @Inject constructor(
+class GetAiringTodayTvShowsUseCase @Inject constructor(
     private val tvShowRepository: TvShowRepository
 ) {
     suspend operator fun invoke(): Flow<PagingData<TvShows>> {
-        return tvShowRepository.getAiringTodayTVShowsPager().flow
+        return tvShowRepository.getAiringTodayTvShowsPager().flow
     }
 }

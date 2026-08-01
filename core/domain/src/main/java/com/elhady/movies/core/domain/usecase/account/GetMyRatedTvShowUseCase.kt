@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
-class GetMyRatedTVShowsUseCase @Inject constructor(
+class GetMyRatedTvShowUseCase @Inject constructor(
     private val accountRepository: AccountRepository
 ) {
     suspend operator fun invoke(): Flow<PagingData<MyRatedTvShow>> {
