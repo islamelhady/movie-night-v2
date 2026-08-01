@@ -1,122 +1,146 @@
-<h1 align="center">Movie Night - Clean Architecture & MVI</h1>
+<h1 align="center">🎬 Movie Night | Modern Android Application</h1>
+<p align="center">
+A production-inspired Android movie discovery application built with Kotlin using
+<b>Multi-Module Clean Architecture</b>, <b>MVI</b>, and modern Android development practices.
+</p>
 
-**Movie Night** is an Android application developed using **Kotlin** and follows the **MVI (Model-View-Intent)** architectural pattern. This app offers a variety of features for movie enthusiasts, including movie search, ratings, reviews, trailer viewing, and user authentication, providing a seamless user experience. The app makes use of powerful libraries and tools such as **Room**, **Retrofit**, **Dagger Hilt**, **Kotlin Coroutines**, and **Flow**.
-
-This repository contains the source code for the app and its various components, which follow modern Android development practices.
-
-## Features
-
-- **User Authentication**: Handles user sign-in and account-related functionalities.
-- **Browse Movies and Series**: Users can explore movies and series categorized by genre, rating, release date, and more.
-- **Actor Profiles**: Users can browse actors' profiles and view their past works.
-- **Search for Movies, Series, or Actors**: Allows users to search for specific movies, series, or actors with predictive search suggestions.
-- **Reviews and Comments**: Users can add and view reviews and comments on movies and series.
-- **Create Custom Lists**: Users can create custom lists like "Watch Later" or "Favorites".
-- **Watch Trailers**: Users can watch trailers of movies and series before deciding to watch them.
-- **Light/Dark Theme**: The app supports both light and dark themes to match user preferences.
-
-## Architecture
-
-The app is based on the recommended architecture and the **Repository pattern**, with **dependency inversion** following **[Google's official architecture guidance](https://developer.android.com/topic/architecture)**. It follows a **Clean Architecture** approach, which separates the app into different layers:
-
-### Architecture Diagram:
-
-![architecture](figure/figure0.gif)
-
-### UI (Presentation)
-
-The **UI layer** handles the app's user interface and interactions. It includes activities, fragments, and XML layouts responsible for displaying information to the user and receiving user input.
-
-### View Model (Presentation)
-
-The **ViewModel layer** connects the UI with the domain layer. It holds the app's UI-related data using **StateFlow** or **SharedFlow** and exposes methods for the UI to interact with. This allows the UI to respond to state changes while maintaining a clean separation between the UI and business logic.
-
-### Use Cases (Domain)
-
-The **Domain layer** contains the business logic of the app. It defines the use cases and operations that the app can perform, such as searching for movies, getting movie details, managing the watchlist, and handling user reviews.
-
-### Repository (Data)
-
-The **Repository layer** acts as an intermediary between the domain layer and the data sources. It fetches data from remote and local sources, such as APIs or databases, and provides the data to the domain layer. This layer abstracts the data sources and ensures that the domain layer doesn't need to know about how the data is retrieved.
-
-### Remote (Data)
-
-The **Remote data source** handles data retrieval from remote servers or APIs. For example, the app fetches movie details, trailers, and reviews from the [TMDB API](https://developers.themoviedb.org/3/getting-started/introduction). It is responsible for making network requests and parsing responses from the server.
-
-### Local (Data)
-
-The **Local data source** manages data storage and retrieval from local databases, such as **Room**. It handles tasks like saving user ratings, caching movie details, storing watch history, and managing favorites. This ensures offline functionality and improves app performance by reducing the number of network requests.
-
-## StateFlow and SharedFlow
-
-In the **Presentation Layer**, **StateFlow** and **SharedFlow** are used to manage the app's state and event flows efficiently. 
-
-- **StateFlow** is used to represent the current state of the UI. It allows us to observe changes in the UI state in a lifecycle-safe manner, ensuring that the UI reflects the most recent data.
-- **SharedFlow** is used for one-off events or actions that don't represent the app’s state but are still important, such as navigation events or showing error messages.
-
-### MVI Architecture Diagram
-
-The following diagram illustrates the flow of data in the **MVI** architecture:
-
-![MVI Architecture](https://user-images.githubusercontent.com/60369343/107117861-049d4000-6832-11eb-852d-a2f16f9ab31b.png)
-
-## Tech Stack
-
-- **[Kotlin](https://developer.android.com/kotlin)** The primary programming language used for Android development.
-- **[Material 3](https://m3.material.io/foundations/accessible-design/overview)** Used for the latest UI components based on Google’s Material Design guidelines.
-- **Jetpack Libraries**
-  - **[ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)** Manages UI-related data lifecycle-consciously.
-  - **[Lifecycle](https://developer.android.com/topic/libraries/architecture/lifecycle)** - "Lifecycle-aware components react to lifecycle changes in activities and fragments, helping create cleaner, more maintainable, and efficient code.
-  - **[Room](https://developer.android.com/jetpack/androidx/releases/room?gclid=CjwKCAjww8mWBhABEiwAl6-2RXqgw6-tYMdlLGJiAhLnEl9PNim-Sz8lx9P6JCaOD9qfQQojs-4DoRoCPkAQAvD_BwE&gclsrc=aw.ds)** A local database for storing user ratings, movie details, watch history, etc.
-  - **[Data Store](https://developer.android.com/jetpack/androidx/releases/datastore)** A key-value store for storing user preferences and settings.
-  - **[DataBinding](https://developer.android.com/topic/libraries/data-binding)** -Binds UI components in your layouts to data sources in your app using a declarative format rather than programmatically.
-  - **[Navigation](https://developer.android.com/jetpack/androidx/releases/navigation)** Manages navigation between screens within the app.
-  - **[Paging 3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)**: Efficiently loads and displays large datasets.
-- **[Kotlin Coroutines](https://developer.android.com/kotlin/coroutines)** Simplifies background operations and asynchronous tasks.
-- **[Kotlin Flow](https://developer.android.com/kotlin/flow)** A reactive stream library to handle data and states in the app.
-- **[Retrofit](https://square.github.io/retrofit)** Fetches data from the network and interacts with the [TMDB API](https://developers.themoviedb.org/3/getting-started/introduction).
-- **[Dagger Hilt](https://developer.android.com/training/dependency-injection/hilt-android)** A dependency injection library for managing dependencies in the app.
-- **[Logging Interceptor](https://github.com/square/okhttp/blob/master/okhttp-logging-interceptor/README.md)** -  logs HTTP request and response data.
-- **[Coil](https://coil-kt.github.io/coil/compose/)** - An image-loading library for Android backed by Kotlin Coroutines.
-
-
-## Getting Started
-
-Follow these steps to set up and run the **Movie Night V2** app locally in your Android development environment.
-
-### Prerequisites
-
-Before running the app, make sure you have the following installed:
-
-- **Android Studio**: The official IDE for Android development.
-- **Kotlin**: The app is built using Kotlin.
-- **Gradle**: To manage dependencies.
-
-### Installation
-
-1. Clone the repository to your local machine:
-
-    ```bash
-    git clone https://github.com/islamelhady/movie-night-v2.git
-    ```
-
-2. Open the project in **Android Studio**.
-
-3. Sync the project with Gradle by clicking **Sync Now** in Android Studio.
-
-4. Configure your **TMDB API Key**:
-   - Create an account on [TMDB](https://www.themoviedb.org/) and get an API key.
-   - Add the key to your project’s `local.properties` file or as an environment variable.
-
-5. Build and run the app on an emulator or physical device.
-
-### Running the App
-
-Once the project is set up, you can run it directly from Android Studio. Select your target device or emulator and click **Run**.
+<p align="center">
+  <img src="https://img.shields.io/badge/Platform-Android-green.svg?style=for-the-badge&logo=android" />
+  <img src="https://img.shields.io/badge/Kotlin-0095D5?&style=for-the-badge&logo=kotlin&logoColor=white" />
+  <img src="https://img.shields.io/badge/Architecture-Clean%20Architecture-orange?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Pattern-MVI-red?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/DI-Hilt-yellow?style=for-the-badge&logo=dagger" />
+</p>
 
 ---
 
-## Light and Dark Theme
+# Overview
+
+**Movie Night** is a modern Android application that allows users to discover, search, and explore movies and TV shows using **The Movie Database (TMDB)** API.
+
+The application follows **Google's recommended Android architecture** using **Clean Architecture**, **MVI**, **Repository Pattern**, and **Multi-Module Architecture** to achieve scalability, maintainability, and testability.
+
+# Architecture
+
+- **Multi-Module Architecture** — separates features and shared components into independent Gradle modules.
+- **Clean Architecture** — organizes the project into Presentation, Domain, and Data layers.
+- **MVI (Model-View-Intent)** — provides predictable UI state management with unidirectional data flow.
+- **Repository Pattern** — abstracts data sources behind a single access point.
+- **Dependency Injection (Hilt)** — manages dependencies across modules.
+- **Offline-first caching** — uses Room to cache data and improve the offline experience.
+
+---
+
+#  Features
+
+###  Movies & TV Shows
+- Browse Trending, Popular, Top Rated, and Upcoming content.
+- Discover Movies by Category and Genres.
+- Integrated YouTube player for trailers.
+
+###  Search
+- Predictive search for Movies, TV Shows, and Actors.
+- Search suggestions and history.
+
+###  Movie Details
+- Comprehensive information: Ratings, Cast, Crew, and Reviews.
+- Similar movies and personalized recommendations.
+
+###  User Features
+- Secure Authentication and Profile management.
+- Personalized Watchlist and Favorites.
+- Detailed Watch History.
+
+###  UI & UX
+- **Material Design 3** implementation.
+- Full support for **Light and Dark themes**.
+- Smooth animations and responsive layouts.
+
+---
+
+#  Project Structure
+
+```text
+movie-night
+│
+├── app                 # Application entry point
+│
+├── core
+│   ├── common          # Shared utilities and extensions
+│   ├── data            # Repository implementations
+│   ├── database        # Room database
+│   ├── datastore       # DataStore preferences
+│   ├── domain          # UseCases & repository interfaces
+│   ├── network         # Retrofit & API services
+│   └── ui              # Shared UI components
+│
+├── feature
+│   ├── auth            # Authentication
+│   ├── home            # Home screen
+│   ├── search          # Search
+│   ├── details         # Movie details
+│   ├── explore         # Discover content
+│   ├── watchlist       # Watchlist
+│   ├── player          # Trailer player
+│   ├── profile         # User profile
+│   ├── tvshow          # TV Shows
+│   └── showmore        # Show more content
+│
+└── build-logic         # Convention plugins & Gradle configuration
+
+```
+
+## MVI (Model-View-Intent)
+
+MVI ensures a unidirectional data flow, making the UI state predictable and easier to debug.
+
+```mermaid
+flowchart TD
+
+User([User])
+
+Intent[Intent]
+
+VM[ViewModel]
+
+Reducer[Reducer]
+
+State[UI State]
+
+UI[UI]
+
+User --> Intent
+Intent --> VM
+VM --> Reducer
+Reducer --> State
+State --> UI
+UI --> User
+```
+
+---
+
+# Tech Stack
+
+- Kotlin
+- XML
+- Clean Architecture
+- Multi-Module
+- MVI
+- Coroutines
+- Flow
+- StateFlow
+- Paging 3
+- Room
+- Retrofit
+- OkHttp
+- Hilt
+- Navigation Component
+- DataStore
+- Coil
+
+---
+
+# Light and Dark Theme
 
 The app supports both **Light** and **Dark** themes, which can be toggled based on system preferences.
 
@@ -137,4 +161,44 @@ The app supports both **Light** and **Dark** themes, which can be toggled based 
 | <img src="https://imgur.com/hhVs90b.jpg" width="250">  | <img src="https://imgur.com/mVhEejx.jpg" width="250"> | <img src="https://imgur.com/Kbm2rDX.jpg" width="250">
 | <img src="https://imgur.com/3RO4LOQ.jpg" width="250">  | <img src="https://imgur.com/FY923cv.jpg" width="250"> | <img src="https://imgur.com/q9HpB50.jpg" width="250"> 
 ---
+
+#  Getting Started
+
+## Prerequisites
+- Android Studio Koala+
+- JDK 17+
+
+## Setup
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/islamelhady/movie-night-v2.git
+   ```
+
+2. **Configure TMDB API**:
+   Create a `local.properties` file in the root directory and add:
+   ```properties
+   API_KEY=YOUR_API_KEY
+   BASE_URL=https://api.themoviedb.org/3/
+   IMAGE_BASE_PATH=https://image.tmdb.org/t/p/
+   TMDB_SIGNUP_URL=https://www.themoviedb.org/signup
+   ```
+   *Obtain your key at [developer.themoviedb.org](https://developer.themoviedb.org/)*
+
+3. **Build & Run**:
+   Open in Android Studio, sync Gradle, and press **Run**.
+
+---
+
+#  Author
+
+**Islam Elhady**
+Android Developer
+
+- **GitHub**: [islamelhady](https://github.com/islamelhady)
+- **LinkedIn**: [islam-elhady](https://www.linkedin.com/in/islam-elhady/)
+
+---
+
+#  Support
+If you found this project helpful, consider giving it a ⭐ on GitHub!
 
