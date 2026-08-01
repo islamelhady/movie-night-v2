@@ -16,7 +16,7 @@ import com.elhady.movies.core.domain.usecase.account.AddToWatchList
 import com.elhady.movies.core.domain.usecase.account.AddToUserListUseCase
 import com.elhady.movies.core.domain.usecase.account.CreateUserListUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetRatingTvUseCase
-import com.elhady.movies.core.domain.usecase.tvshow.GetTVDetailsInfoUseCase
+import com.elhady.movies.core.domain.usecase.tvshow.GetTvDetailsInfoUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetTvDetailsCreditUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetTvDetailsReviewsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetTvDetailsSeasonsUseCase
@@ -43,7 +43,9 @@ class TvDetailsViewModel @Inject constructor(
     private val tvDetailsInfoUiMapper: TvDetailsInfoUiMapper,
     private val tvShowUiMapper: TvShowUiMapper,
     private val peopleUiMapper: PeopleUiMapper,
-    private val tvDetailsInfoUseCase: GetTVDetailsInfoUseCase,
+    private val tvDetailsSeasonUiMapper: TvDetailsSeasonUiMapper,
+    private val tvDetailsReviewUiMapper: TvDetailsReviewUiMapper,
+    private val tvDetailsInfoUseCase: GetTvDetailsInfoUseCase,
     private val getTvDetailsCreditUseCase: GetTvDetailsCreditUseCase,
     private val getTvDetailsSeasonsUseCase: GetTvDetailsSeasonsUseCase,
     private val tvShowUseCase: RateTvShowUseCase,
@@ -72,13 +74,13 @@ class TvDetailsViewModel @Inject constructor(
 
     private fun getData() {
         _state.update { it.copy(isLogin = checkIsUserLoggedInUseCase()) }
-        getTvRecommendations()
+        getTvShowRecommendations()
         getYoutubeDetails()
         getTvShowInfo()
         getTvShowCast()
-        getTvSeasons()
-        getTvReviews()
-        getRatingTv()
+        getTvShowSeasons()
+        getTvShowReviews()
+        getTvShowRating()
     }
 
     fun emptyUserLists() {
@@ -166,7 +168,7 @@ class TvDetailsViewModel @Inject constructor(
                 sendEvent(TvDetailsUiEvent.OnFavourite(stringsRes.someThingError))
             }
         )
-        Log.d("FAV TV", "$tvShowId")
+        Log.d("FAV TV SHOW", "$tvShowId")
     }
 
     fun addToWatchlist() {
@@ -179,12 +181,12 @@ class TvDetailsViewModel @Inject constructor(
                 sendEvent(TvDetailsUiEvent.OnWatchList(stringsRes.someThingError))
             }
         )
-        Log.d("WAT TV", "$tvShowId")
+        Log.d("WAT TV SHOW", "$tvShowId")
 
     }
 
     //region seasons
-    private fun getTvSeasons() {
+    private fun getTvShowSeasons() {
         updateLoading(true)
         tryToExecute(
             call = { getTvDetailsSeasonsUseCase(tvShowId) },
@@ -195,14 +197,14 @@ class TvDetailsViewModel @Inject constructor(
 
     private fun onTvDetailsSeasonSuccess(seasons: List<Season>) {
         updateLoading(false)
-        val item = TvDetailsSeasonUiMapper().map(seasons)
+        val item = tvDetailsSeasonUiMapper.map(seasons)
         _state.update { it.copy(seasons = item.seasons) }
     }
 
     //endregion
 
     //region recommendations
-    private fun getTvRecommendations() {
+    private fun getTvShowRecommendations() {
         updateLoading(true)
         tryToExecute(
             call = { getTvShowRecommendationsUseCase(tvShowId) },
@@ -244,20 +246,19 @@ class TvDetailsViewModel @Inject constructor(
     private fun onRatingSuccess(statusEntity: Status) {
         sendEvent(TvDetailsUiEvent.ApplyRating(stringsRes.ratingAddSuccessFully))
 
-        Log.d("RateTVSuccess", "${state.value.userRating}  TV Show Id $tvShowId")
+        Log.d("RateTvShowSuccess", "${state.value.userRating}  TV Show Id $tvShowId")
     }
 
-    private fun getRatingTv() {
+    private fun getTvShowRating() {
         tryToExecute(
             call = { getRatingTvUseCase(tvShowId) },
-            onSuccess = ::onSuccessGetRating,
+            onSuccess = ::onSuccessGetTvShowRating,
             onError = ::onError
         )
-        Log.d("GETRATETV", "${state.value.userRating}  TV Show Id $tvShowId")
+        Log.d("GET_TV_SHOW_RATING", "${state.value.userRating}  TV Show Id $tvShowId")
     }
 
-    private fun onSuccessGetRating(rate: Float){
-        val rate =
+    private fun onSuccessGetTvShowRating(rate: Float){
         _state.update { it.copy(userRating = rate) }
         Log.d("OnSuccessRATE", "${state.value.userRating }")
 
@@ -265,7 +266,7 @@ class TvDetailsViewModel @Inject constructor(
     //endregion
 
     //region reviews
-    private fun getTvReviews() {
+    private fun getTvShowReviews() {
         updateLoading(true)
         tryToExecute(
             call = { getTvDetailsReviewsUseCase(tvShowId) },
@@ -276,7 +277,7 @@ class TvDetailsViewModel @Inject constructor(
 
     private fun onTvDetailsReviewsSuccess(seasons: List<Review>) {
         updateLoading(false)
-        val item = TvDetailsReviewUiMapper().map(seasons)
+        val item = tvDetailsReviewUiMapper.map(seasons)
         _state.update {
             it.copy(
                 reviews = item
