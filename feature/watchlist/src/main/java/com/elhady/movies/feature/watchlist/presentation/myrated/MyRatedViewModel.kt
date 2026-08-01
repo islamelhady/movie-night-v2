@@ -5,7 +5,7 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.domain.usecase.account.GetMyRatedMoviesUseCase
-import com.elhady.movies.core.domain.usecase.account.GetMyRatedTVShowsUseCase
+import com.elhady.movies.core.domain.usecase.account.GetMyRatedTvShowUseCase
 import com.elhady.movies.core.ui.interaction.MovieListener
 import com.elhady.movies.core.ui.state.MovieHorizontalUiState
 import com.elhady.movies.feature.watchlist.presentation.myrated.mapper.MyRatedMovieToMovieHorizontalUiMapper
@@ -17,8 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MyRatedViewModel @Inject constructor(
-    private val getRatedTVShowsUseCase: GetMyRatedTVShowsUseCase,
-    private val getRatedMoviesUseCase: GetMyRatedMoviesUseCase,
+    private val getMyRatedTvShowUseCase: GetMyRatedTvShowUseCase,
+    private val getMyRatedMoviesUseCase: GetMyRatedMoviesUseCase,
     private val myRatedMovieToMovieHorizontalUiMapper: MyRatedMovieToMovieHorizontalUiMapper,
     private val myRatedTvShowToMovieHorizontalUiMapper: MyRatedTvShowToMovieHorizontalUiMapper,
 ) : BaseViewModel<MyRatedUiState, MyRatedUiEvent>(MyRatedUiState()), MyRatedListener,
@@ -32,14 +32,14 @@ class MyRatedViewModel @Inject constructor(
     private fun getData() {
         when (_state.value.myRateType) {
             RateType.Movies -> fetchMyRatedMovies()
-            RateType.TVShows -> fetchMyRatedTvShow()
+            RateType.TvShows -> fetchMyRatedTvShow()
         }
     }
 
     fun fetchMyRatedMovies() {
         _state.update { it.copy(isLoading = true) }
         wrapperPager(
-            data = { getRatedMoviesUseCase() },
+            data = { getMyRatedMoviesUseCase() },
             onSuccess = ::onSuccessRatedMovie,
             mapper = myRatedMovieToMovieHorizontalUiMapper,
             onError = ::onError
@@ -60,7 +60,7 @@ class MyRatedViewModel @Inject constructor(
     fun fetchMyRatedTvShow() {
         _state.update { it.copy(isLoading = true) }
         wrapperPager(
-            data = { getRatedTVShowsUseCase() },
+            data = { getMyRatedTvShowUseCase() },
             onSuccess = ::onSuccessRatedTvShow,
             mapper = myRatedTvShowToMovieHorizontalUiMapper,
             onError = ::onError
@@ -70,7 +70,7 @@ class MyRatedViewModel @Inject constructor(
     private fun onSuccessRatedTvShow(myRatedTvShowEntity: Flow<PagingData<MovieHorizontalUiState>>) {
         _state.update {
             it.copy(
-                myRateType = RateType.TVShows,
+                myRateType = RateType.TvShows,
                 movies = myRatedTvShowEntity,
                 isLoading = false,
                 errorList = emptyList()
@@ -125,7 +125,7 @@ class MyRatedViewModel @Inject constructor(
     override fun onClickMedia(id: Int) {
         when (_state.value.myRateType) {
             RateType.Movies -> sendEvent(MyRatedUiEvent.NavigateToMovieDetails(id))
-            RateType.TVShows -> sendEvent(MyRatedUiEvent.NavigateToTVShowDetails(id))
+            RateType.TvShows -> sendEvent(MyRatedUiEvent.NavigateToTvShowDetails(id))
         }
     }
 }
