@@ -2,11 +2,11 @@ package com.elhady.movies.core.data.repository
 
 import com.elhady.movies.core.data.base.BaseRepository
 import com.elhady.movies.core.data.mapper.people.PopularPeopleDtoToEntityMapper
-import com.elhady.movies.core.data.mapper.people.MoviesByPeopleDtoMapper
+import com.elhady.movies.core.data.mapper.people.MovieByPeopleDtoMapper
 import com.elhady.movies.core.data.mapper.people.PeopleDetailsDtoMapper
 import com.elhady.movies.core.data.mapper.people.PopularPeopleEntityMapper
 import com.elhady.movies.core.data.mapper.people.PeopleDtoMapper
-import com.elhady.movies.core.data.mapper.people.TvShowsCastDtoMapper
+import com.elhady.movies.core.data.mapper.people.TvShowCastDtoMapper
 import com.elhady.movies.core.database.dao.PeopleDao
 import com.elhady.movies.core.domain.model.movie.Movie
 import com.elhady.movies.core.domain.model.people.PeopleDetails
@@ -24,8 +24,8 @@ class PeopleRepositoryImpl @Inject constructor(
     private val peopleDtoMapper: PeopleDtoMapper,
     private val popularPeopleDtoToEntityMapper: PopularPeopleDtoToEntityMapper,
     private val peopleDetailsDtoMapper: PeopleDetailsDtoMapper,
-    private val moviesByPeopleDtoMapper: MoviesByPeopleDtoMapper,
-    private val tvShowsByPeopleMapper: TvShowsCastDtoMapper,
+    private val movieByPeopleDtoMapper: MovieByPeopleDtoMapper,
+    private val tvShowCastDtoMapper: TvShowCastDtoMapper,
     private val random: Random
 ) : BaseRepository(), PeopleRepository {
 
@@ -55,11 +55,11 @@ class PeopleRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getMoviesByPerson(personId: Int): List<Movie> {
-        return moviesByPeopleDtoMapper.map(wrapApiCall { peopleApiService.getMoviesByPerson(personId) }.cast!!.filterNotNull())
+        return movieByPeopleDtoMapper.map(wrapApiCall { peopleApiService.getMoviesByPerson(personId) }.cast!!.filterNotNull())
     }
 
     override suspend fun getTvShowsByPerson(personId: Int): List<TvShow> {
-        return tvShowsByPeopleMapper.map(wrapApiCall {
+        return tvShowCastDtoMapper.map(wrapApiCall {
             peopleApiService.getTvShowsByPerson(personId)
         }.cast!!.filterNotNull())
     }

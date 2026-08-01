@@ -9,10 +9,10 @@ import com.elhady.movies.core.data.mapper.common.YoutubeDetailsDtoMapper
 import com.elhady.movies.core.data.mapper.episode.CastDtoMapper
 import com.elhady.movies.core.data.mapper.episode.EpisodeDetailsDtoMapper
 import com.elhady.movies.core.data.mapper.episode.RatingEpisodeDtoMapper
-import com.elhady.movies.core.data.mapper.people.TvShowsCastDtoMapper
+import com.elhady.movies.core.data.mapper.people.TvShowCastDtoMapper
 import com.elhady.movies.core.data.mapper.season.SeasonDetailsDtoMapper
 import com.elhady.movies.core.data.mapper.tvshow.AiringTodayTvEntityMapper
-import com.elhady.movies.core.data.mapper.tvshow.AiringTodayTvShowsDtoMapper
+import com.elhady.movies.core.data.mapper.tvshow.AiringTodayTvShowDtoMapper
 import com.elhady.movies.core.data.mapper.tvshow.MyRatedTvShowDtoMapper
 import com.elhady.movies.core.data.mapper.tvshow.TvEntityMapper
 import com.elhady.movies.core.data.mapper.tvshow.TvDetailsCreditDtoMapper
@@ -22,11 +22,11 @@ import com.elhady.movies.core.data.mapper.tvshow.TvDetailsSeasonDtoMapper
 import com.elhady.movies.core.data.mapper.tvshow.TvShowEntityMapper
 import com.elhady.movies.core.data.mapper.tvshow.AiringTodayTvShowDtoToEntityMapper
 import com.elhady.movies.core.data.mapper.tvshow.TvShowDtoToEntityMapper
-import com.elhady.movies.core.data.paging.tvshow.AiringTodayTVShowsPagingSource
-import com.elhady.movies.core.data.paging.tvshow.OnTheAirTVShowsPagingSource
-import com.elhady.movies.core.data.paging.tvshow.PopularTVShowsPagingSource
+import com.elhady.movies.core.data.paging.tvshow.AiringTodayTvShowPagingSource
+import com.elhady.movies.core.data.paging.tvshow.OnTheAirTvShowPagingSource
+import com.elhady.movies.core.data.paging.tvshow.PopularTvShowPagingSource
 import com.elhady.movies.core.data.paging.tvshow.RatedTvShowPagingSource
-import com.elhady.movies.core.data.paging.tvshow.TopRatedTVShowsPagingSource
+import com.elhady.movies.core.data.paging.tvshow.TopRatedTvShowPagingSource
 import com.elhady.movies.core.database.dao.tv.AiringTodayTvShowDao
 import com.elhady.movies.core.database.dao.tv.TvShowDao
 import com.elhady.movies.core.database.entity.tvshow.TvShowEntity
@@ -58,10 +58,10 @@ class TvShowRepositoryImpl @Inject constructor(
     private val peopleApiService: PeopleApiService,
     private val tvShowDao: TvShowDao,
     private val airingTodayTvShowDao: AiringTodayTvShowDao,
-    private val airingTodayTvShowsPagingSource: AiringTodayTVShowsPagingSource,
-    private val topRatedTVShowsPagingSource: TopRatedTVShowsPagingSource,
-    private val onTheAirTVShowsPagingSource: OnTheAirTVShowsPagingSource,
-    private val popularTVShowsPagingSource: PopularTVShowsPagingSource,
+    private val airingTodayTvShowPagingSource: AiringTodayTvShowPagingSource,
+    private val topRatedTvShowPagingSource: TopRatedTvShowPagingSource,
+    private val onTheAirTvShowPagingSource: OnTheAirTvShowPagingSource,
+    private val popularTvShowPagingSource: PopularTvShowPagingSource,
     private val tvDetailsDtoMapper: TvDetailsDtoMapper,
     private val domainYoutubeDetailsMapper: YoutubeDetailsDtoMapper,
     private val tvDetailsCreditDtoMapper: TvDetailsCreditDtoMapper,
@@ -70,7 +70,7 @@ class TvShowRepositoryImpl @Inject constructor(
     private val tvEntityMapper: TvEntityMapper,
     private val tvDetailsSeasonDtoMapper: TvDetailsSeasonDtoMapper,
     private val tvShowDtoToEntityMapper: TvShowDtoToEntityMapper,
-    private val airingTodayTvShowsDtoMapper: AiringTodayTvShowsDtoMapper,
+    private val airingTodayTvShowDtoMapper: AiringTodayTvShowDtoMapper,
     private val airingTodayTvShowDtoToEntityMapper: AiringTodayTvShowDtoToEntityMapper,
     private val airingTodayTvEntityMapper: AiringTodayTvEntityMapper,
     private val seasonDetailsDtoMapper: SeasonDetailsDtoMapper,
@@ -79,7 +79,7 @@ class TvShowRepositoryImpl @Inject constructor(
     private val domainRatingEpisodeMapper: RatingEpisodeDtoMapper,
     private val domainStatusMapper: StatusDtoMapper,
     private val myRatedTvShowDtoMapper: MyRatedTvShowDtoMapper,
-    private val tvShowsByPeopleMapper: TvShowsCastDtoMapper,
+    private val tvShowCastDtoMapper: TvShowCastDtoMapper,
     private val ratedTvShowPagingSource: RatedTvShowPagingSource,
     private val random: Random
 ) : BaseRepository(), TvShowRepository {
@@ -87,13 +87,13 @@ class TvShowRepositoryImpl @Inject constructor(
     override suspend fun refreshTvShows() {
         try {
             val items = mutableListOf<TvShowEntity>()
-            tvShowApiService.getAiringTodayTVShows().body()?.results?.firstOrNull()
+            tvShowApiService.getAiringTodayTvShows().body()?.results?.firstOrNull()
                 ?.let { items.add(tvShowDtoToEntityMapper.map(it)) }
-            tvShowApiService.getTopRatedTVShows().body()?.results?.firstOrNull()
+            tvShowApiService.getTopRatedTvShows().body()?.results?.firstOrNull()
                 ?.let { items.add(tvShowDtoToEntityMapper.map(it)) }
-            tvShowApiService.getPopularTVShows().body()?.results?.firstOrNull()
+            tvShowApiService.getPopularTvShows().body()?.results?.firstOrNull()
                 ?.let { items.add(tvShowDtoToEntityMapper.map(it)) }
-            tvShowApiService.getOnTheAirTVShows().body()?.results?.firstOrNull()
+            tvShowApiService.getOnTheAirTvShows().body()?.results?.firstOrNull()
                 ?.let { items.add(tvShowDtoToEntityMapper.map(it)) }
             tvShowDao.clearAllTvShow()
             tvShowDao.insertTvShow(items)
@@ -108,50 +108,50 @@ class TvShowRepositoryImpl @Inject constructor(
 
     override suspend fun refreshAiringTodayTvShows() {
         refreshWrapper(
-            apiCall = { tvShowApiService.getAiringTodayTVShows(random.nextInt(20) + 1) },
+            apiCall = { tvShowApiService.getAiringTodayTvShows(random.nextInt(20) + 1) },
             localMapper = airingTodayTvShowDtoToEntityMapper::map,
             databaseSaver = airingTodayTvShowDao::insertAiringTodayTvShow,
             clearOldLocalData = airingTodayTvShowDao::clearAllAiringTodayTvShow
         )
     }
 
-    override suspend fun getAiringTodayTVShowsFromDatabase(): List<TvShows> {
+    override suspend fun getAiringTodayTvShowsFromDatabase(): List<TvShows> {
         return airingTodayTvEntityMapper.map(airingTodayTvShowDao.getAllAiringTodayTvShow())
     }
 
-    override suspend fun getAiringTodayTVShowsFromRemote(): List<TvShows> {
+    override suspend fun getAiringTodayTvShowsFromRemote(): List<TvShows> {
         val page = random.nextInt(500) + 1
         val airingTodayDtos =
-            wrapApiCall { tvShowApiService.getAiringTodayTVShows(page = page) }.results?.filterNotNull()
+            wrapApiCall { tvShowApiService.getAiringTodayTvShows(page = page) }.results?.filterNotNull()
                 ?: emptyList()
-        return airingTodayTvShowsDtoMapper.map(airingTodayDtos)
+        return airingTodayTvShowDtoMapper.map(airingTodayDtos)
     }
 
-    override suspend fun getAiringTodayTVShowsPager(): Pager<Int, TvShows> {
+    override suspend fun getAiringTodayTvShowsPager(): Pager<Int, TvShows> {
         return Pager(
             config = PagingConfig(pageSize = 20),
-            pagingSourceFactory = { airingTodayTvShowsPagingSource }
+            pagingSourceFactory = { airingTodayTvShowPagingSource }
         )
     }
 
-    override suspend fun getTopRatedTVShowsPager(): Pager<Int, TvShows> {
+    override suspend fun getTopRatedTvShowsPager(): Pager<Int, TvShows> {
         return Pager(
             config = PagingConfig(pageSize = 20),
-            pagingSourceFactory = { topRatedTVShowsPagingSource }
+            pagingSourceFactory = { topRatedTvShowPagingSource }
         )
     }
 
-    override suspend fun getPopularTVShowsPager(): Pager<Int, TvShows> {
+    override suspend fun getPopularTvShowsPager(): Pager<Int, TvShows> {
         return Pager(
             config = PagingConfig(pageSize = 20),
-            pagingSourceFactory = { popularTVShowsPagingSource }
+            pagingSourceFactory = { popularTvShowPagingSource }
         )
     }
 
-    override suspend fun getOnTheAirTVShowsPager(): Pager<Int, TvShows> {
+    override suspend fun getOnTheAirTvShowsPager(): Pager<Int, TvShows> {
         return Pager(
             config = PagingConfig(pageSize = 20),
-            pagingSourceFactory = { onTheAirTVShowsPagingSource }
+            pagingSourceFactory = { onTheAirTvShowPagingSource }
         )
     }
 
@@ -260,7 +260,7 @@ class TvShowRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getTvShowsByPerson(personId: Int): List<DomainTvShowEntity> {
-        return tvShowsByPeopleMapper.map(wrapApiCall {
+        return tvShowCastDtoMapper.map(wrapApiCall {
             peopleApiService.getTvShowsByPerson(personId)
         }.cast!!.filterNotNull())
 

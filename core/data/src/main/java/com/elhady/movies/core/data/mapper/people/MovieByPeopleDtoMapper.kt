@@ -6,7 +6,7 @@ import com.elhady.movies.core.network.dto.people.CastDto
 import com.elhady.movies.core.domain.model.movie.Movie
 import javax.inject.Inject
 
-class MoviesByPeopleDtoMapper @Inject constructor() : Mapper<CastDto, Movie> {
+class MovieByPeopleDtoMapper @Inject constructor() : Mapper<CastDto, Movie> {
 
     override fun map(input: CastDto): Movie {
         return Movie(
