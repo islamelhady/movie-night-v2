@@ -6,10 +6,10 @@ import com.elhady.movies.core.domain.repository.TvShowRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetTopRatedTVShowsUseCase @Inject constructor(
+class GetTopRatedTvShowsUseCase @Inject constructor(
     private val tvShowRepository: TvShowRepository
 ) {
     suspend operator fun invoke(): Flow<PagingData<TvShows>> {
-        return tvShowRepository.getTopRatedTVShowsPager().flow
+        return tvShowRepository.getTopRatedTvShowsPager().flow
     }
 }

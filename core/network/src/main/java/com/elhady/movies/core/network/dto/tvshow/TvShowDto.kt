@@ -2,7 +2,7 @@ package com.elhady.movies.core.network.dto.tvshow
 
 import com.google.gson.annotations.SerializedName
 
-data class TVShowsDto(
+data class TvShowDto(
     @SerializedName("backdrop_path")
     val backdropPath: String?,
     @SerializedName("first_air_date")

@@ -50,7 +50,7 @@ class MyRatedFragment : BaseFragment<FragmentMyRatedBinding, MyRatedUiState, MyR
             is MyRatedUiEvent.NavigateToMovieDetails -> {
                 navigator.navigateToMovieDetails(event.movieId)
             }
-            is MyRatedUiEvent.NavigateToTVShowDetails -> {
+            is MyRatedUiEvent.NavigateToTvShowDetails -> {
                 navigator.navigateToTvDetails(event.tvId)
             }
             is MyRatedUiEvent.NavigateBack -> navigator.navigateBack()

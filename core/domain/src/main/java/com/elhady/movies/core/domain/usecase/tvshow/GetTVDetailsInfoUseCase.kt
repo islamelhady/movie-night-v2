@@ -4,7 +4,7 @@ import com.elhady.movies.core.domain.model.tvshow.TvDetailsInfo
 import com.elhady.movies.core.domain.repository.TvShowRepository
 import javax.inject.Inject
 
-class GetTVDetailsInfoUseCase @Inject constructor(
+class GetTvDetailsInfoUseCase @Inject constructor(
     private val tvShowRepository: TvShowRepository,
 ) {
     suspend operator fun invoke(tvShowId:Int): TvDetailsInfo {

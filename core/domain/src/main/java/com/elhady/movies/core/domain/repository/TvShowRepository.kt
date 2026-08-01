@@ -18,12 +18,12 @@ interface TvShowRepository {
     suspend fun refreshTvShows()
     suspend fun getTvShowsFromDatabase(): List<TvShows>
     suspend fun refreshAiringTodayTvShows()
-    suspend fun getAiringTodayTVShowsFromDatabase(): List<TvShows>
-    suspend fun getAiringTodayTVShowsFromRemote(): List<TvShows>
-    suspend fun getAiringTodayTVShowsPager(): Pager<Int, TvShows>
-    suspend fun getTopRatedTVShowsPager(): Pager<Int, TvShows>
-    suspend fun getPopularTVShowsPager(): Pager<Int, TvShows>
-    suspend fun getOnTheAirTVShowsPager(): Pager<Int, TvShows>
+    suspend fun getAiringTodayTvShowsFromDatabase(): List<TvShows>
+    suspend fun getAiringTodayTvShowsFromRemote(): List<TvShows>
+    suspend fun getAiringTodayTvShowsPager(): Pager<Int, TvShows>
+    suspend fun getTopRatedTvShowsPager(): Pager<Int, TvShows>
+    suspend fun getPopularTvShowsPager(): Pager<Int, TvShows>
+    suspend fun getOnTheAirTvShowsPager(): Pager<Int, TvShows>
 
     suspend fun getSeasonDetails(seriesId: Int, seasonId: Int): SeasonDetails
 

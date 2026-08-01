@@ -4,7 +4,7 @@ import com.elhady.movies.core.network.dto.tvshow.RateRequest
 import com.elhady.movies.core.network.dto.tvshow.RatingEpisodeDetailsRequest
 import com.elhady.movies.core.network.dto.common.DataWrapperResponse
 import com.elhady.movies.core.network.dto.common.StatusResponse
-import com.elhady.movies.core.network.dto.tvshow.TVShowsDto
+import com.elhady.movies.core.network.dto.tvshow.TvShowDto
 import com.elhady.movies.core.network.dto.common.TvReviewDto
 import com.elhady.movies.core.network.dto.common.YoutubeVideoDetailsDto
 import com.elhady.movies.core.network.dto.tvshow.EpisodeDetailsCastDto
@@ -24,16 +24,16 @@ import retrofit2.http.Query
 interface TvShowApiService {
 
     @GET("tv/airing_today")
-    suspend fun getAiringTodayTVShows(@Query("page") page: Int = 1): Response<DataWrapperResponse<TVShowsDto>>
+    suspend fun getAiringTodayTvShows(@Query("page") page: Int = 1): Response<DataWrapperResponse<TvShowDto>>
 
     @GET("tv/top_rated")
-    suspend fun getTopRatedTVShows(@Query("page") page: Int = 1): Response<DataWrapperResponse<TVShowsDto>>
+    suspend fun getTopRatedTvShows(@Query("page") page: Int = 1): Response<DataWrapperResponse<TvShowDto>>
 
     @GET("tv/on_the_air")
-    suspend fun getOnTheAirTVShows(@Query("page") page: Int = 1): Response<DataWrapperResponse<TVShowsDto>>
+    suspend fun getOnTheAirTvShows(@Query("page") page: Int = 1): Response<DataWrapperResponse<TvShowDto>>
 
     @GET("tv/popular")
-    suspend fun getPopularTVShows(@Query("page") page: Int = 1): Response<DataWrapperResponse<TVShowsDto>>
+    suspend fun getPopularTvShows(@Query("page") page: Int = 1): Response<DataWrapperResponse<TvShowDto>>
 
     @GET("tv/{tv_id}/videos")
     suspend fun getTrailerVideoForTvShow(
@@ -76,7 +76,7 @@ interface TvShowApiService {
     @GET("tv/{tv_id}/recommendations")
     suspend fun getTvShowRecommendations(
         @Path("tv_id") tvShowId: Int
-    ): Response<DataWrapperResponse<TVShowsDto>>
+    ): Response<DataWrapperResponse<TvShowDto>>
 
     @GET("tv/{series_id}/season/{season_number}/episode/{episode_number}")
     suspend fun getEpisodeDetails(

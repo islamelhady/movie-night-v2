@@ -12,7 +12,6 @@ import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.details.databinding.FragmentEpisodeDetailsBinding
 import com.elhady.movies.core.ui.adapter.PeopleAdapter
-import com.elhady.movies.feature.details.presentation.episodedetails.adapter.EpisodeAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -52,7 +51,7 @@ class EpisodeDetailsFragment :
         if (isLoggedIn) {
             showBottomSheet()
         } else {
-            showSnackBar("You are not logged in \uD83D\uDE22, please log in to rate this episode");
+            showSnackBar(getString(com.elhady.movies.core.ui.R.string.you_re_not_logged_in_to_rate))
         }
     }
 

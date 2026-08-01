@@ -6,6 +6,7 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
+import com.elhady.movies.feature.details.BuildConfig
 import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.core.ui.databinding.GenreChipBinding
 import com.elhady.movies.core.ui.interaction.ChipListener
@@ -41,7 +42,7 @@ fun ChipGroup.setGenresMovieDetails(
 fun ImageView.loadImageForReviews(backDropPath: String?, autherName: String) {
     if (!backDropPath.isNullOrEmpty())
         Glide.with(context)
-            .load("https://image.tmdb.org/t/p/w500" + backDropPath)
+            .load(BuildConfig.IMAGE_BASE_PATH + backDropPath)
             .fitCenter()
             .centerCrop()
             .into(this)

@@ -1,10 +1,10 @@
 package com.elhady.movies.core.network.dto.people
 import com.google.gson.annotations.SerializedName
 
-data class TvShowsByPeopleDto(
+data class TvShowByPeopleDto(
 
     @SerializedName("cast")
-    val cast: List<TvShowsCastDto?>? = null,
+    val cast: List<TvShowCastDto?>? = null,
 
     @SerializedName("id")
     val id: Int? = null,
@@ -13,7 +13,7 @@ data class TvShowsByPeopleDto(
     val crew: List<Any?>? = null
 )
 
-data class TvShowsCastDto(
+data class TvShowCastDto(
 
     @SerializedName("first_air_date")
     val firstAirDate: String? = null,
