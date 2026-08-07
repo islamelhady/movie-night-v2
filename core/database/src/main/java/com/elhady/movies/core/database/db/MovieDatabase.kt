@@ -4,9 +4,11 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.elhady.movies.core.database.converter.Converters
-import com.elhady.movies.core.database.dao.GenreDao
+import com.elhady.movies.core.database.dao.genre.GenreMovieDao
+import com.elhady.movies.core.database.dao.genre.GenreTvDao
 import com.elhady.movies.core.database.dao.PeopleDao
-import com.elhady.movies.core.database.dao.SearchDao
+import com.elhady.movies.core.database.dao.search.SearchHistoryDao
+import com.elhady.movies.core.database.dao.search.SearchMovieDao
 import com.elhady.movies.core.database.dao.WatchHistoryDao
 import com.elhady.movies.core.database.dao.movie.NowPlayingMovieDao
 import com.elhady.movies.core.database.dao.movie.PopularMovieDao
@@ -61,10 +63,14 @@ abstract class MovieDatabase : RoomDatabase() {
     abstract val tvShowDao: TvShowDao
     abstract val airingTodayTvShowDao: AiringTodayTvShowDao
 
-    abstract val searchDao: SearchDao
+    abstract val searchMovieDao: SearchMovieDao
+    abstract val searchHistoryDao: SearchHistoryDao
+
     abstract val peopleDao: PeopleDao
 
-    abstract val genreDao: GenreDao
+    abstract val genreMovieDao: GenreMovieDao
+    abstract val genreTvDao: GenreTvDao
+
     abstract val watchHistoryDao: WatchHistoryDao
     abstract val nowPlayingMovieDao: NowPlayingMovieDao
     abstract val popularMovieDao: PopularMovieDao

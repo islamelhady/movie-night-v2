@@ -4,9 +4,11 @@ import android.content.Context
 import androidx.room.Room
 import com.elhady.movies.core.database.converter.Converters
 import com.elhady.movies.core.database.db.MovieDatabase
-import com.elhady.movies.core.database.dao.GenreDao
+import com.elhady.movies.core.database.dao.genre.GenreMovieDao
+import com.elhady.movies.core.database.dao.genre.GenreTvDao
 import com.elhady.movies.core.database.dao.PeopleDao
-import com.elhady.movies.core.database.dao.SearchDao
+import com.elhady.movies.core.database.dao.search.SearchHistoryDao
+import com.elhady.movies.core.database.dao.search.SearchMovieDao
 import com.elhady.movies.core.database.dao.WatchHistoryDao
 import com.elhady.movies.core.database.dao.movie.NowPlayingMovieDao
 import com.elhady.movies.core.database.dao.movie.PopularMovieDao
@@ -81,7 +83,6 @@ object DataBaseModule {
 
     // endregion
 
-    // region tv show
     @Singleton
     @Provides
     fun provideTvShowDao(movieDataBase: MovieDatabase): TvShowDao {
@@ -93,14 +94,21 @@ object DataBaseModule {
     fun provideAiringTodayTvShowDao(movieDataBase: MovieDatabase): AiringTodayTvShowDao {
         return movieDataBase.airingTodayTvShowDao
     }
-
     // endregion
+
+    // region Genre
+    @Singleton
+    @Provides
+    fun provideGenreMovieDao(movieDataBase: MovieDatabase): GenreMovieDao {
+        return movieDataBase.genreMovieDao
+    }
 
     @Singleton
     @Provides
-    fun provideGenreDao(movieDataBase: MovieDatabase): GenreDao {
-        return movieDataBase.genreDao
+    fun provideGenreTvDao(movieDataBase: MovieDatabase): GenreTvDao {
+        return movieDataBase.genreTvDao
     }
+    // endregion
 
     @Singleton
     @Provides
@@ -108,11 +116,19 @@ object DataBaseModule {
         return movieDataBase.peopleDao
     }
 
+    // region Search
     @Singleton
     @Provides
-    fun provideSearchDao(movieDataBase: MovieDatabase): SearchDao {
-        return movieDataBase.searchDao
+    fun provideSearchMovieDao(movieDataBase: MovieDatabase): SearchMovieDao {
+        return movieDataBase.searchMovieDao
     }
+
+    @Singleton
+    @Provides
+    fun provideSearchHistoryDao(movieDataBase: MovieDatabase): SearchHistoryDao {
+        return movieDataBase.searchHistoryDao
+    }
+    // endregion
 
     @Singleton
     @Provides

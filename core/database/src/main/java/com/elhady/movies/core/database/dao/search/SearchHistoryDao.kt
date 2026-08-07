@@ -1,14 +1,13 @@
-package com.elhady.movies.core.database.dao
+package com.elhady.movies.core.database.dao.search
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.elhady.movies.core.database.entity.movie.MovieEntity
 import com.elhady.movies.core.database.entity.search.SearchHistoryEntity
 
 @Dao
-interface SearchDao {
+interface SearchHistoryDao {
 
     @Query("select * from SEARCH_HISTORY_TABLE WHERE keyword LIKE :keyword")
     suspend fun getSearchHistory(keyword: String): List<SearchHistoryEntity>
@@ -24,10 +23,4 @@ interface SearchDao {
 
     @Query("delete from SEARCH_HISTORY_TABLE where keyword like :keyword")
     suspend fun deleteSearchHistory(keyword: String)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSearchMovies(movies: List<MovieEntity>)
-
-    @Query("select * from MOVIE_TABLE ORDER BY RANDOM()")
-    suspend fun getSearchMovie(): List<MovieEntity>
 }
