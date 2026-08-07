@@ -6,7 +6,7 @@ import retrofit2.Response
 
 class SafeApiCaller(private val exceptionMapper: AppExceptionMapper) {
 
-    suspend fun <T> apiCall(call: suspend () -> Response<T>): T {
+    suspend fun <T> execute(call: suspend () -> Response<T>): T {
         return try {
             val response = call()
             if (response.isSuccessful) {
