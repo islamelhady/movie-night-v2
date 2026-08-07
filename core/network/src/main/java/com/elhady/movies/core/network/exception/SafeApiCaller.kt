@@ -10,13 +10,11 @@ class SafeApiCaller(private val exceptionMapper: AppExceptionMapper) {
         return try {
             val response = call()
             if (response.isSuccessful) {
-                response.body() ?: throw AppException.Unknown("Response body is null")
+                response.body() ?: throw AppException.Unknown(errorMessage = "Response body is null")
             } else {
                 throw exceptionMapper.map(code = response.code(), message = response.message())
             }
         } catch (e: CancellationException) {
-            throw e
-        } catch (e: AppException) {
             throw e
         } catch (e: Exception) {
             throw exceptionMapper.map(input = e)

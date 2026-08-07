@@ -20,10 +20,9 @@ class ExceptionMapper : AppExceptionMapper {
             is UnknownHostException,
             is ConnectException -> AppException.NoNetwork
 
-            is IOException -> AppException.Unknown(exception.message ?: "IO Error")
+            is IOException -> AppException.Unknown(errorMessage = exception.message ?: "IO Error")
 
-            is HttpException -> map(exception.code(), exception.message())
-            is AppException -> exception
+            is HttpException -> map(code = exception.code(), message = exception.message())
             else -> AppException.Unknown(errorMessage = exception.message ?: "Unknown error")
         }
     }
