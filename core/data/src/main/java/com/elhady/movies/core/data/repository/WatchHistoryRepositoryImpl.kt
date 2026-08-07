@@ -1,6 +1,5 @@
 package com.elhady.movies.core.data.repository
 
-import com.elhady.movies.core.data.base.BaseRepository
 import com.elhady.movies.core.data.mapper.movie.WatchHistoryMoviesEntityMapper
 import com.elhady.movies.core.data.mapper.movie.WatchHistoryMoviesToEntityMapper
 import com.elhady.movies.core.database.dao.WatchHistoryDao
@@ -13,7 +12,7 @@ class WatchHistoryRepositoryImpl @Inject constructor(
     private val watchHistoryDao: WatchHistoryDao,
     private val domainInWatchHistoryMoviesMapper: WatchHistoryMoviesEntityMapper,
     private val watchHistoryMoviesToEntityMapper: WatchHistoryMoviesToEntityMapper
-) : BaseRepository(), WatchHistoryRepository {
+) : WatchHistoryRepository {
 
     override suspend fun insertMovieToWatchHistory(movieInWatchHistory: MovieInWatchHistory) {
         watchHistoryDao.insertMovieToWatchHistory(

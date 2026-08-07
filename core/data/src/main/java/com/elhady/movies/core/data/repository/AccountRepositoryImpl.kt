@@ -2,32 +2,32 @@ package com.elhady.movies.core.data.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.elhady.movies.core.data.base.BaseRepository
-import com.elhady.movies.core.data.paging.movie.RatedMoviesPagingSource
-import com.elhady.movies.core.data.paging.tvshow.RatedTvShowPagingSource
-import com.elhady.movies.core.data.mapper.common.StatusDtoMapper
 import com.elhady.movies.core.data.mapper.account.UserListsDtoMapper
+import com.elhady.movies.core.data.mapper.common.StatusDtoMapper
 import com.elhady.movies.core.data.mapper.movie.MovieDtoMapper
 import com.elhady.movies.core.data.mapper.movie.MyRatedMoviesDetailsDtoMapper
 import com.elhady.movies.core.data.mapper.movie.TvDtoMapper
 import com.elhady.movies.core.data.mapper.tvshow.MyRatedTvShowDtoMapper
-import com.elhady.movies.core.domain.model.common.Genre
-import com.elhady.movies.core.domain.model.movie.Movie
-import com.elhady.movies.core.domain.model.common.Status
-import com.elhady.movies.core.domain.model.account.UserList
+import com.elhady.movies.core.data.paging.movie.RatedMoviesPagingSource
+import com.elhady.movies.core.data.paging.tvshow.RatedTvShowPagingSource
 import com.elhady.movies.core.domain.model.account.ListCreated
 import com.elhady.movies.core.domain.model.account.MyRatedMovie
 import com.elhady.movies.core.domain.model.account.MyRatedTvShow
+import com.elhady.movies.core.domain.model.account.UserList
+import com.elhady.movies.core.domain.model.common.Genre
+import com.elhady.movies.core.domain.model.common.Status
+import com.elhady.movies.core.domain.model.movie.Movie
 import com.elhady.movies.core.domain.repository.AccountRepository
 import com.elhady.movies.core.domain.repository.GenreRepository
+import com.elhady.movies.core.network.api.AccountApiService
 import com.elhady.movies.core.network.dto.account.AddMediaToListRequest
 import com.elhady.movies.core.network.dto.account.CreateUserListRequest
 import com.elhady.movies.core.network.dto.account.DeleteMovieRequest
 import com.elhady.movies.core.network.dto.account.FavoriteRequest
 import com.elhady.movies.core.network.dto.account.ListRequest
-import com.elhady.movies.core.network.dto.movie.RatingRequest
 import com.elhady.movies.core.network.dto.account.WatchlistRequest
-import com.elhady.movies.core.network.api.AccountApiService
+import com.elhady.movies.core.network.dto.movie.RatingRequest
+import com.elhady.movies.core.network.exception.SafeApiCaller
 import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(
@@ -40,29 +40,30 @@ class AccountRepositoryImpl @Inject constructor(
     private val domainUserListsMapper: UserListsDtoMapper,
     private val ratedMoviesPagingSource: RatedMoviesPagingSource,
     private val ratedTvShowPagingSource: RatedTvShowPagingSource,
-    private val myRatedTvShowDtoMapper: MyRatedTvShowDtoMapper
-) : BaseRepository(), AccountRepository {
+    private val myRatedTvShowDtoMapper: MyRatedTvShowDtoMapper,
+    private val safeApiCaller: SafeApiCaller
+) : AccountRepository {
 
     override suspend fun getUserLists(): List<UserList> {
-        val call = wrapApiCall { accountApiService.getUserLists() }.results?.filterNotNull() ?: emptyList()
+        val call = safeApiCaller.execute { accountApiService.getUserLists() }.results?.filterNotNull() ?: emptyList()
         return domainUserListsMapper.map(call)
     }
 
     override suspend fun postUserLists(listId: Int, mediaId: Int): Status {
         val addMediaRequest = AddMediaToListRequest(mediaId)
-        val call = wrapApiCall { accountApiService.postUserMedia(listId, addMediaRequest) }
+        val call = safeApiCaller.execute { accountApiService.postUserMedia(listId, addMediaRequest) }
         return domainStatusMapper.map(call)
     }
 
     override suspend fun createUserList(listName: String): Status {
         val newList = CreateUserListRequest(listName)
-        val call = wrapApiCall { accountApiService.createUserList(newList) }
+        val call = safeApiCaller.execute { accountApiService.createUserList(newList) }
         return domainStatusMapper.map(call)
     }
 
     override suspend fun getFavoriteMovies(): List<Movie> {
         val genresEntities = genreRepository.getGenresMovies()
-        val result = wrapApiCall { accountApiService.getFavoriteMovies() }.results
+        val result = safeApiCaller.execute { accountApiService.getFavoriteMovies() }.results
         return result?.map { item ->
             movieDtoMapper.map(
                 input = item!!,
@@ -77,7 +78,7 @@ class AccountRepositoryImpl @Inject constructor(
 
     override suspend fun getFavoriteTv(): List<Movie> {
         val genresEntities = genreRepository.getGenresMovies()
-        val result = wrapApiCall { accountApiService.getFavoriteTv() }.results
+        val result = safeApiCaller.execute { accountApiService.getFavoriteTv() }.results
         return result?.map { item ->
             tvDtoMapper.map(
                 input = item!!,
@@ -92,7 +93,7 @@ class AccountRepositoryImpl @Inject constructor(
 
     override suspend fun getWatchlistMovies(): List<Movie> {
         val genresEntities = genreRepository.getGenresMovies()
-        val result = wrapApiCall { accountApiService.getWatchlist() }.results
+        val result = safeApiCaller.execute { accountApiService.getWatchlist() }.results
         return result?.map { item ->
             movieDtoMapper.map(
                 input = item!!,
@@ -107,7 +108,7 @@ class AccountRepositoryImpl @Inject constructor(
 
     override suspend fun getWatchlistTv(): List<Movie> {
         val genresEntities = genreRepository.getGenresMovies()
-        val result = wrapApiCall { accountApiService.getWatchlistTv() }.results
+        val result = safeApiCaller.execute { accountApiService.getWatchlistTv() }.results
         return result?.map { item ->
             tvDtoMapper.map(
                 input = item!!,
@@ -126,7 +127,7 @@ class AccountRepositoryImpl @Inject constructor(
 
     override suspend fun getDetailsList(listId: Int): List<Movie> {
         val genresEntities = genreRepository.getGenresMovies()
-        val result = wrapApiCall { accountApiService.getDetailsList(listId) }.items
+        val result = safeApiCaller.execute { accountApiService.getDetailsList(listId) }.items
         return result?.map { item ->
             movieDtoMapper.map(
                 input = item,
@@ -139,7 +140,7 @@ class AccountRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteMovieDetailsList(listId: Int, mediaId: Int): Status {
-        val call = wrapApiCall {
+        val call = safeApiCaller.execute {
             accountApiService.deleteMovieDetailsList(
                 listId = listId,
                 DeleteMovieRequest(mediaId = mediaId)
@@ -149,11 +150,11 @@ class AccountRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteList(listId: Int): Status {
-        return domainStatusMapper.map(wrapApiCall { accountApiService.deleteList(listId = listId) })
+        return domainStatusMapper.map(safeApiCaller.execute { accountApiService.deleteList(listId = listId) })
     }
 
     override suspend fun getListCreated(): List<ListCreated> {
-        return wrapApiCall { accountApiService.getLists() }.results
+        return safeApiCaller.execute { accountApiService.getLists() }.results
             ?.filterNotNull()?.let { lists ->
                 lists.map { input ->
                     ListCreated(
@@ -180,7 +181,7 @@ class AccountRepositoryImpl @Inject constructor(
             mediaType = mediaType,
             watchlist = isWatchList
         )
-        val call = wrapApiCall { accountApiService.addWatchlist(watchlistRequest) }
+        val call = safeApiCaller.execute { accountApiService.addWatchlist(watchlistRequest) }
         return domainStatusMapper.map(call)
     }
 
@@ -194,19 +195,19 @@ class AccountRepositoryImpl @Inject constructor(
             mediaType = mediaType,
             favorite = isFavourite
         )
-        val call = wrapApiCall { accountApiService.addFavorite(favoriteRequest) }
+        val call = safeApiCaller.execute { accountApiService.addFavorite(favoriteRequest) }
         return domainStatusMapper.map(call)
     }
 
     override suspend fun setMovieRate(movieId: Int, rate: Float): Status {
-        return domainStatusMapper.map(wrapApiCall {
+        return domainStatusMapper.map(safeApiCaller.execute {
             accountApiService.setMovieRate(ratingRequest = RatingRequest(rate), movieId = movieId)
         })
     }
 
     override suspend fun getMovieRate(): List<MyRatedMovie> {
         return myRatedMoviesDetailsDtoMapper.map(
-            wrapApiCall { accountApiService.getRatedMovies() }.results?.filterNotNull() ?: emptyList()
+            safeApiCaller.execute { accountApiService.getRatedMovies() }.results?.filterNotNull() ?: emptyList()
         )
     }
 

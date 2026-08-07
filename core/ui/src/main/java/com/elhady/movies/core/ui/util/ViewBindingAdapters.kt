@@ -6,6 +6,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.databinding.BindingAdapter
+import com.elhady.movies.core.ui.base.UiError
 import com.elhady.movies.core.ui.R
 import com.google.android.material.progressindicator.LinearProgressIndicator
 
@@ -111,6 +112,15 @@ fun SwitchCompat.toggleUiMode(uiModeManager: UiModeManager) {
         } else {
             uiModeManager.nightMode = UiModeManager.MODE_NIGHT_YES
         }
+    }
+}
+
+@BindingAdapter(value = ["app:showWhenErrorUi"])
+fun View.showWhenErrorUi(uiError: UiError?) {
+    if (uiError != null) {
+        this.visibility = View.VISIBLE
+    } else {
+        this.visibility = View.GONE
     }
 }
 

@@ -6,7 +6,6 @@ import com.elhady.movies.core.network.util.NetworkConstants
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.Response
-import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
