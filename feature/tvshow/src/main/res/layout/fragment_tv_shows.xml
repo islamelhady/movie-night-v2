@@ -101,8 +101,7 @@
             android:layout_marginTop="@dimen/spacing_medium_16dp"
             android:layout_marginEnd="@dimen/spacing_small_8dp"
             android:orientation="vertical"
-            app:hideWhenError="@{viewModel.state.errorList}"
-            app:hideWhenLoading="@{viewModel.state.isLoading}"
+            app:isVisibleOrGone="@{!viewModel.state.isError &amp;&amp; !viewModel.state.isLoading}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -140,15 +139,29 @@
             android:id="@+id/lottie_animation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:isVisible="@{viewModel.state.isError}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:showWhenErrorUi="@{viewModel.state.error}"
+            app:layout_constraintBottom_toTopOf="@+id/button_retry"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
+            app:layout_constraintVertical_chainStyle="packed"
             app:lottie_autoPlay="true"
             app:lottie_colorFilter="@color/primary"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/no_connection" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_retry"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.onClickRetry()}"
+            android:text="@string/retry"
+            app:showWhenErrorUi="@{viewModel.state.error}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lottie_animation" />
 
 
     </androidx.constraintlayout.motion.widget.MotionLayout>

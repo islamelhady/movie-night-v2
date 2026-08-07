@@ -10,4 +10,5 @@ interface TvShowListener : BaseInteractionListener {
     fun onClickTopRatedTvShowsResult()
     fun onClickPopularTvShowsResult()
     fun onClickScrollToTopScreen()
+    fun onClickRetry()
 }

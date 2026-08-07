@@ -4,12 +4,16 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.PagingData
+import com.elhady.movies.core.common.NoNetworkThrowable
+import com.elhady.movies.core.common.ServerErrorThrowable
+import com.elhady.movies.core.common.UnauthorizedThrowable
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.domain.usecase.tvshow.GetAiringTodayTvShowsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetOnTheAirTvShowsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetPopularTvShowsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetTopRatedTvShowsUseCase
 import com.elhady.movies.feature.tvshow.presentation.tvshow.mapper.TvShowUiMapper
+import com.elhady.movies.core.ui.base.toUiError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.update
@@ -32,17 +36,13 @@ class TvShowViewModel @Inject constructor(
 
     ///region get data
     private fun getData() {
-        try {
-            viewModelScope.launch {
-                when (_state.value.tvShowType) {
-                    TvShowType.AIRING_TODAY -> getAiringTodayTvShows()
-                    TvShowType.ON_THE_AIR -> getOnTheAirTvShows()
-                    TvShowType.TOP_RATED -> getTopRatedTvShows()
-                    TvShowType.POPULAR -> getPopularTvShows()
-                }
+        viewModelScope.launch {
+            when (_state.value.tvShowType) {
+                TvShowType.AIRING_TODAY -> getAiringTodayTvShows()
+                TvShowType.ON_THE_AIR -> getOnTheAirTvShows()
+                TvShowType.TOP_RATED -> getTopRatedTvShows()
+                TvShowType.POPULAR -> getPopularTvShows()
             }
-        } catch (throwable: Throwable) {
-            onError(throwable)
         }
     }
 
@@ -54,12 +54,13 @@ class TvShowViewModel @Inject constructor(
             onError = ::onError
         )
     }
+
     private fun onSuccessAiringTodayTvShows(tvShowsEntity: Flow<PagingData<TvShowUi>>) {
         _state.update {
             it.copy(
                 tvShowType = TvShowType.AIRING_TODAY,
                 tvShowAiringToday = tvShowsEntity,
-                errorList = emptyList(),
+                error = null,
                 isLoading = false
             )
         }
@@ -73,12 +74,13 @@ class TvShowViewModel @Inject constructor(
             onError = ::onError
         )
     }
+
     private fun onSuccessOnTheAirTvShows(tvShowsEntity: Flow<PagingData<TvShowUi>>) {
         _state.update {
             it.copy(
                 tvShowType = TvShowType.ON_THE_AIR,
                 tvShowOnTheAir = tvShowsEntity,
-                errorList = emptyList(),
+                error = null,
                 isLoading = false
             )
         }
@@ -92,12 +94,13 @@ class TvShowViewModel @Inject constructor(
             onError = ::onError
         )
     }
+
     private fun onSuccessPopularTvShows(tvShowsEntity: Flow<PagingData<TvShowUi>>) {
         _state.update {
             it.copy(
                 tvShowType = TvShowType.POPULAR,
                 tvShowPopular = tvShowsEntity,
-                errorList = emptyList(),
+                error = null,
                 isLoading = false
             )
         }
@@ -118,7 +121,7 @@ class TvShowViewModel @Inject constructor(
             it.copy(
                 tvShowType = TvShowType.TOP_RATED,
                 tvShowTopRated = tvShowsEntity,
-                errorList = emptyList(),
+                error = null,
                 isLoading = false
             )
         }
@@ -128,11 +131,10 @@ class TvShowViewModel @Inject constructor(
 
     ///region error
     private fun onError(throwable: Throwable) {
-        val errorMessage = throwable.message ?: "No network connection"
-        showErrorWithSnackBar(errorMessage)
+        val uiError = throwable.toUiError()
         _state.update {
             it.copy(
-                errorList = listOf(errorMessage),
+                error = uiError,
                 isLoading = false
             )
         }
@@ -142,27 +144,25 @@ class TvShowViewModel @Inject constructor(
         when (combinedLoadStates.refresh) {
             is LoadState.NotLoading -> {
                 _state.update {
-                    it.copy(isLoading = false, errorList = emptyList())
+                    it.copy(isLoading = false, error = null)
                 }
             }
 
             LoadState.Loading -> {
                 _state.update {
-                    it.copy(isLoading = true, errorList = emptyList())
+                    it.copy(isLoading = true, error = null)
                 }
             }
 
             is LoadState.Error -> {
+                val error = (combinedLoadStates.refresh as LoadState.Error).error
                 _state.update {
-                    it.copy(isLoading = false, errorList = listOf("no Network"))
+                    it.copy(isLoading = false, error = error.toUiError())
                 }
             }
         }
     }
 
-    private fun showErrorWithSnackBar(messages: String) {
-        sendEvent(TvShowUiEvent.ShowSnackBar(messages))
-    }
     /// endregion
 
     ///region event
@@ -175,19 +175,23 @@ class TvShowViewModel @Inject constructor(
     }
 
     override fun onClickAiringTodayTvShowsResult() {
-        sendEvent(TvShowUiEvent.ShowAiringTodayTvShowsResult)
+        getAiringTodayTvShows()
     }
 
     override fun onClickOnTheAirTvShowsResult() {
-        sendEvent(TvShowUiEvent.ShowOnTheAirTvShowsResult)
+        getOnTheAirTvShows()
     }
 
     override fun onClickTopRatedTvShowsResult() {
-        sendEvent(TvShowUiEvent.ShowTopRatedTvShowsResult)
+        getTopRatedTvShows()
     }
 
     override fun onClickPopularTvShowsResult() {
-        sendEvent(TvShowUiEvent.ShowPopularTvShowsResult)
+        getPopularTvShows()
+    }
+
+    override fun onClickRetry() {
+        getData()
     }
     /// endregion
 }
