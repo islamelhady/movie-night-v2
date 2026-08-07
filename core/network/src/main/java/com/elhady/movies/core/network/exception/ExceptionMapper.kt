@@ -7,8 +7,9 @@ import java.net.ConnectException
 import java.net.HttpRetryException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import javax.inject.Inject
 
-class ExceptionMapper : AppExceptionMapper {
+class ExceptionMapper @Inject constructor() : AppExceptionMapper {
 
     override fun map(exception: Exception): AppException {
         return when (exception) {

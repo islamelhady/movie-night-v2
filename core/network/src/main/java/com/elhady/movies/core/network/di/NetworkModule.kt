@@ -3,12 +3,14 @@ package com.elhady.movies.core.network.di
 import com.elhady.movies.core.network.BuildConfig
 import com.elhady.movies.core.network.api.AccountApiService
 import com.elhady.movies.core.network.api.AuthApiService
-import com.elhady.movies.core.network.interceptor.AuthInterceptor
 import com.elhady.movies.core.network.api.GenreApiService
 import com.elhady.movies.core.network.api.MovieApiService
 import com.elhady.movies.core.network.api.PeopleApiService
 import com.elhady.movies.core.network.api.SearchApiService
 import com.elhady.movies.core.network.api.TvShowApiService
+import com.elhady.movies.core.network.exception.AppExceptionMapper
+import com.elhady.movies.core.network.exception.ExceptionMapper
+import com.elhady.movies.core.network.interceptor.AuthInterceptor
 import com.elhady.movies.core.network.interceptor.LanguageInterceptor
 import dagger.Module
 import dagger.Provides
@@ -64,6 +66,12 @@ object NetworkModule {
     @Singleton
     fun provideGenreApiService(retrofit: Retrofit): GenreApiService {
         return retrofit.create(GenreApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideExceptionMapper(): AppExceptionMapper {
+        return ExceptionMapper()
     }
 
     @Provides

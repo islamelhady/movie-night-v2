@@ -3,8 +3,9 @@ package com.elhady.movies.core.network.exception
 import com.elhady.movies.core.common.AppException
 import kotlinx.coroutines.CancellationException
 import retrofit2.Response
+import javax.inject.Inject
 
-class SafeApiCaller(private val exceptionMapper: AppExceptionMapper) {
+class SafeApiCaller @Inject constructor(private val exceptionMapper: AppExceptionMapper) {
 
     suspend fun <T> execute(call: suspend () -> Response<T>): T {
         return try {
