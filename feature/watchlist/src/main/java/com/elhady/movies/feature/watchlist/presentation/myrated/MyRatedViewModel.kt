@@ -111,21 +111,21 @@ class MyRatedViewModel @Inject constructor(
     }
 
     override fun onBackPressed() {
-        sendEvent(MyRatedUiEvent.NavigateBack)
+        sendEffect(MyRatedUiEvent.NavigateBack)
     }
 
     override fun onClickMovieChip() {
-        sendEvent(MyRatedUiEvent.ShowMyRatedMoviesPressed)
+        sendEffect(MyRatedUiEvent.ShowMyRatedMoviesPressed)
     }
 
     override fun onClickTvShowChip() {
-        sendEvent(MyRatedUiEvent.ShowMyRatedTvShowPressed)
+        sendEffect(MyRatedUiEvent.ShowMyRatedTvShowPressed)
     }
 
     override fun onClickMedia(id: Int) {
         when (_state.value.myRateType) {
-            RateType.Movies -> sendEvent(MyRatedUiEvent.NavigateToMovieDetails(id))
-            RateType.TvShows -> sendEvent(MyRatedUiEvent.NavigateToTvShowDetails(id))
+            RateType.Movies -> sendEffect(MyRatedUiEvent.NavigateToMovieDetails(id))
+            RateType.TvShows -> sendEffect(MyRatedUiEvent.NavigateToTvShowDetails(id))
         }
     }
 }

@@ -24,7 +24,7 @@ class SaveMovieToListBottomSheet :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        collectFlow(viewModel.event) { onEvent(it) }
+        collectFlow(viewModel.effect) { onEvent(it) }
 
         collectFlow(viewModel.state.map { it.userLists + it.id }.distinctUntilChanged()) {
             Log.i("list", "new list => ${viewModel.state.value.userLists}")

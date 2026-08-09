@@ -162,10 +162,10 @@ class TvDetailsViewModel @Inject constructor(
         tryToExecute(
             call = { addToFavouriteUseCase(tvShowId, "tv") },
             onSuccess = {
-                sendEvent(TvDetailsUiEvent.OnFavourite(stringsRes.addSuccessfully))
+                sendEffect(TvDetailsUiEvent.OnFavourite(stringsRes.addSuccessfully))
             },
             onError = {
-                sendEvent(TvDetailsUiEvent.OnFavourite(stringsRes.someThingError))
+                sendEffect(TvDetailsUiEvent.OnFavourite(stringsRes.someThingError))
             }
         )
         Log.d("FAV TV SHOW", "$tvShowId")
@@ -175,10 +175,10 @@ class TvDetailsViewModel @Inject constructor(
         tryToExecute(
             call = { addToWatchList(tvShowId, "tv") },
             onSuccess = {
-                sendEvent(TvDetailsUiEvent.OnWatchList(stringsRes.addSuccessfully))
+                sendEffect(TvDetailsUiEvent.OnWatchList(stringsRes.addSuccessfully))
             },
             onError = {
-                sendEvent(TvDetailsUiEvent.OnWatchList(stringsRes.someThingError))
+                sendEffect(TvDetailsUiEvent.OnWatchList(stringsRes.someThingError))
             }
         )
         Log.d("WAT TV SHOW", "$tvShowId")
@@ -238,13 +238,13 @@ class TvDetailsViewModel @Inject constructor(
             call = { tvShowUseCase(state.value.userRating.toDouble(), tvShowId) },
             onSuccess = ::onRatingSuccess,
             onError = {
-                sendEvent(TvDetailsUiEvent.ApplyRating(stringsRes.someThingErrorWhenAddRating))
+                sendEffect(TvDetailsUiEvent.ApplyRating(stringsRes.someThingErrorWhenAddRating))
             }
         )
     }
 
     private fun onRatingSuccess(statusEntity: Status) {
-        sendEvent(TvDetailsUiEvent.ApplyRating(stringsRes.ratingAddSuccessFully))
+        sendEffect(TvDetailsUiEvent.ApplyRating(stringsRes.ratingAddSuccessFully))
 
         Log.d("RateTvShowSuccess", "${state.value.userRating}  TV Show Id $tvShowId")
     }
@@ -292,7 +292,7 @@ class TvDetailsViewModel @Inject constructor(
             call = { getUserListsUseCase() },
             onSuccess = ::onGetUserListsUseCase,
             onError = {
-                sendEvent(TvDetailsUiEvent.ShowSnackBar(stringsRes.someThingError))
+                sendEffect(TvDetailsUiEvent.ShowSnackBar(stringsRes.someThingError))
             }
         )
     }
@@ -320,7 +320,7 @@ class TvDetailsViewModel @Inject constructor(
     }
 
     private fun onDoneSuccess(statusEntity: Status) {
-        sendEvent(TvDetailsUiEvent.OnDoneAdding("adding was successful"))
+        sendEffect(TvDetailsUiEvent.OnDoneAdding("adding was successful"))
     }
 
     fun createUserNewList(listName: String) {
@@ -328,13 +328,13 @@ class TvDetailsViewModel @Inject constructor(
             call = { createUserListUseCase(listName) },
             onSuccess = ::onCreateUserNewList,
             onError = {
-                sendEvent(TvDetailsUiEvent.OnCreateNewList(stringsRes.someThingError))
+                sendEffect(TvDetailsUiEvent.OnCreateNewList(stringsRes.someThingError))
             }
         )
     }
 
     private fun onCreateUserNewList(statusEntity: Status) {
-        sendEvent(TvDetailsUiEvent.OnCreateNewList(stringsRes.newListAddSuccessFully))
+        sendEffect(TvDetailsUiEvent.OnCreateNewList(stringsRes.newListAddSuccessFully))
         getUserLists()
     }
     //endregion
@@ -342,34 +342,34 @@ class TvDetailsViewModel @Inject constructor(
     //region events
     override fun onRateButtonClick() {
         if (state.value.isLogin) {
-            sendEvent(TvDetailsUiEvent.RateTvEvent)
+            sendEffect(TvDetailsUiEvent.RateTvEvent)
         } else {
-            sendEvent(TvDetailsUiEvent.ShowSnackBar(stringsRes.notLoggedInToRate))
+            sendEffect(TvDetailsUiEvent.ShowSnackBar(stringsRes.notLoggedInToRate))
         }
     }
 
     override fun onClickPeople(id: Int) {
-        sendEvent(TvDetailsUiEvent.OnPersonClick(id))
+        sendEffect(TvDetailsUiEvent.OnPersonClick(id))
     }
 
     override fun onClickMedia(id: Int) {
-        sendEvent(TvDetailsUiEvent.OnRecommended(id))
+        sendEffect(TvDetailsUiEvent.OnRecommended(id))
     }
 
     override fun onClickSeason(seasonNumber: Int) {
-        sendEvent(TvDetailsUiEvent.OnSeasonClick(seasonNumber))
+        sendEffect(TvDetailsUiEvent.OnSeasonClick(seasonNumber))
     }
 
     override fun onShowMoreCast() {
-        sendEvent(TvDetailsUiEvent.OnShowMoreCast)
+        sendEffect(TvDetailsUiEvent.OnShowMoreCast)
     }
 
     override fun onShowMoreRecommended() {
-        sendEvent(TvDetailsUiEvent.OnShowMoreRecommended)
+        sendEffect(TvDetailsUiEvent.OnShowMoreRecommended)
     }
 
     override fun onClickPlayButton() {
-        sendEvent(TvDetailsUiEvent.PlayButton(state.value.youtubeKeyId))
+        sendEffect(TvDetailsUiEvent.PlayButton(state.value.youtubeKeyId))
     }
 
     override fun onChipClick(id: Int) {
@@ -385,11 +385,11 @@ class TvDetailsViewModel @Inject constructor(
 
 
     fun onBack() {
-        sendEvent(TvDetailsUiEvent.Back)
+        sendEffect(TvDetailsUiEvent.Back)
     }
 
     fun onClickSaveButton() {
-        sendEvent(TvDetailsUiEvent.OnSaveButtonClick(tvShowId))
+        sendEffect(TvDetailsUiEvent.OnSaveButtonClick(tvShowId))
     }
     //endregion
 

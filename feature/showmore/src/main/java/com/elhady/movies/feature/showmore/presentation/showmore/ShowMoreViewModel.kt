@@ -243,17 +243,17 @@ class ShowMoreViewModel @Inject constructor(
     }
 
     private fun showErrorWithSnackBar(messages: String) {
-        sendEvent(ShowMoreUiEvent.ShowSnackBarEvent(messages))
+        sendEffect(ShowMoreUiEvent.ShowSnackBarEvent(messages))
     }
 
     override fun onClickBackNavigate() {
-        sendEvent(ShowMoreUiEvent.BackNavigateEvent)
+        sendEffect(ShowMoreUiEvent.BackNavigateEvent)
     }
 
     override fun onClickItem(mediaId: Int, type: ListType) {
         when(type){
-            ListType.TV -> sendEvent(ShowMoreUiEvent.NavigateToTvShowDetailsEvent(mediaId))
-            ListType.MOVIE -> sendEvent(ShowMoreUiEvent.NavigateToMovieDetailsEvent(mediaId))
+            ListType.TV -> sendEffect(ShowMoreUiEvent.NavigateToTvShowDetailsEvent(mediaId))
+            ListType.MOVIE -> sendEffect(ShowMoreUiEvent.NavigateToMovieDetailsEvent(mediaId))
         }
     }
 }

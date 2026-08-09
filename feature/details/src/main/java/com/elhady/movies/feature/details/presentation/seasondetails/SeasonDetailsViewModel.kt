@@ -62,14 +62,14 @@ class SeasonDetailsViewModel @Inject constructor(
     }
 
     fun onClickBack() {
-        sendEvent(SeasonDetailsUiEvent.NavigateBack)
+        sendEffect(SeasonDetailsUiEvent.NavigateBack)
     }
 
     private fun showErrorWithSnackBar(messages: String) {
-        sendEvent(SeasonDetailsUiEvent.ShowSnackBar(messages))
+        sendEffect(SeasonDetailsUiEvent.ShowSnackBar(messages))
     }
 
     override fun onClickEpisode(id: Int) {
-        sendEvent(SeasonDetailsUiEvent.NavigateToEpisodeDetails(episodeId = id, seriesId = seriesId , seasonNumber =  seasonNumber))
+        sendEffect(SeasonDetailsUiEvent.NavigateToEpisodeDetails(episodeId = id, seriesId = seriesId , seasonNumber =  seasonNumber))
     }
 }

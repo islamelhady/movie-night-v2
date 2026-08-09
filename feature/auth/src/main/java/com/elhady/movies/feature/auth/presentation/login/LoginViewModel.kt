@@ -19,7 +19,7 @@ class LoginViewModel @Inject constructor(
 ) : BaseViewModel<LoginUiState, LoginUiEvent>(LoginUiState()) {
 
     fun onClickSignUp() {
-        sendEvent(LoginUiEvent.SignUpEvent)
+        sendEffect(LoginUiEvent.SignUpEvent)
     }
 
     fun login() {
@@ -47,7 +47,7 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun updateStateToRequestError() {
-        sendEvent(LoginUiEvent.ShowSnackBar(stringsRes.theRequestFailed))
+        sendEffect(LoginUiEvent.ShowSnackBar(stringsRes.theRequestFailed))
     }
 
     private fun updateStateToUserNameError() {
@@ -60,6 +60,6 @@ class LoginViewModel @Inject constructor(
 
     private fun updateStateToSuccessLogin() {
         _state.update { it.copy(userNameError = null, passwordError = null, isLoading = false) }
-        sendEvent(LoginUiEvent.NavigateToHomeScreen(navigationRes.profileFeatureLink))
+        sendEffect(LoginUiEvent.NavigateToHomeScreen(navigationRes.profileFeatureLink))
     }
 }

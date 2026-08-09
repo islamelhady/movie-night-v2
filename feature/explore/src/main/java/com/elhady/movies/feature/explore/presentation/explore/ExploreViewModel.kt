@@ -54,17 +54,17 @@ class ExploreViewModel @Inject constructor(
     }
 
     private fun showErrorWithSnackBar(errorMessage: String) {
-        sendEvent(ExploreUiEvent.ShowSnackBarMessageEvent(errorMessage))
+        sendEffect(ExploreUiEvent.ShowSnackBarMessageEvent(errorMessage))
     }
 
 
     override fun onClickSearch() {
-        sendEvent(ExploreUiEvent.NavigateToSearchEvent)
+        sendEffect(ExploreUiEvent.NavigateToSearchEvent)
     }
 
 
     override fun onClickMedia(id: Int) {
-        sendEvent(ExploreUiEvent.NavigateToMovieDetailsEvent(movieId = id))
+        sendEffect(ExploreUiEvent.NavigateToMovieDetailsEvent(movieId = id))
     }
 
 }

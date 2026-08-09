@@ -51,7 +51,7 @@ class MyListViewModel @Inject constructor(
 
 
     override fun onClickItem(listId: Int, listType: String, listName: String) {
-        sendEvent(
+        sendEffect(
             MyListUiEvent.NavigateToListDetails(
                 listId = listId,
                 listType = listType,
@@ -62,7 +62,7 @@ class MyListViewModel @Inject constructor(
 
     override fun onClickNewList() {
         viewModelScope.launch {
-            _event.emit(MyListUiEvent.OpenCreateListBottomSheet)
+            _effect.emit(MyListUiEvent.OpenCreateListBottomSheet)
         }
     }
 
@@ -78,7 +78,7 @@ class MyListViewModel @Inject constructor(
     }
 
     private fun onCreateUserNewListSuccess(item: Boolean) {
-        sendEvent(MyListUiEvent.ShowSnackBar(stringsRes.newListAddSuccessFully))
+        sendEffect(MyListUiEvent.ShowSnackBar(stringsRes.newListAddSuccessFully))
         getData()
     }
 
@@ -89,7 +89,7 @@ class MyListViewModel @Inject constructor(
     }
 
     override fun onClickDelete(listId: Int, listName: String) {
-        sendEvent(MyListUiEvent.ShowConfirmDeleteDialog(listId, listName))
+        sendEffect(MyListUiEvent.ShowConfirmDeleteDialog(listId, listName))
     }
 
     fun deleteList(listId: Int){
@@ -135,12 +135,12 @@ class MyListViewModel @Inject constructor(
     }
 
     private fun showErrorWithSnackBar(messages: String) {
-        sendEvent(MyListUiEvent.ShowSnackBar(messages))
+        sendEffect(MyListUiEvent.ShowSnackBar(messages))
     }
 
 
     override fun onClickBackButton() {
-        sendEvent(MyListUiEvent.OnClickBack)
+        sendEffect(MyListUiEvent.OnClickBack)
     }
 
 }

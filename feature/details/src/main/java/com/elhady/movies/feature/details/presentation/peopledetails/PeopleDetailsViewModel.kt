@@ -104,14 +104,14 @@ class PeopleDetailsViewModel @Inject constructor(
 
     override fun onClickMedia(itemId: Int, type: String) {
         if (type == "movies") {
-            sendEvent(PeopleDetailsUiEvent.ClickMovieEvent(itemId))
+            sendEffect(PeopleDetailsUiEvent.ClickMovieEvent(itemId))
         } else if (type == "tvShows") {
-            sendEvent(PeopleDetailsUiEvent.ClickTvShowsEvent(itemId))
+            sendEffect(PeopleDetailsUiEvent.ClickTvShowsEvent(itemId))
         }
     }
 
     override fun backNavigate() {
-        sendEvent(PeopleDetailsUiEvent.BackNavigate)
+        sendEffect(PeopleDetailsUiEvent.BackNavigate)
     }
 }
 

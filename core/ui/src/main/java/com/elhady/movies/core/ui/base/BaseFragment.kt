@@ -50,7 +50,7 @@ abstract class BaseFragment<VDB : ViewDataBinding, STATE, EVENT> : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        collectFlow(viewModel.event) { onEvent(it) }
+        collectFlow(viewModel.effect) { onEvent(it) }
     }
 
     /**

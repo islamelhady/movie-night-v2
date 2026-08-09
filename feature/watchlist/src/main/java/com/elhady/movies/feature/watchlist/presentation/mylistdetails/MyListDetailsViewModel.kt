@@ -185,19 +185,19 @@ class MyListDetailsViewModel @Inject constructor(
     }
 
     private fun showErrorWithSnackBar(messages: String) {
-        sendEvent(MyListDetailsUiEvent.ShowSnackBar(messages))
+        sendEffect(MyListDetailsUiEvent.ShowSnackBar(messages))
     }
 
 
     override fun onClickItem(itemId: Int , mediaType:String) {
         when(mediaType){
              ListType.MOVIE.name ->{
-                 sendEvent(
+                 sendEffect(
                      MyListDetailsUiEvent.NavigateToMovieDetails(itemId)
                  )
             }
             ListType.TV.name ->{
-                sendEvent(
+                sendEffect(
                     MyListDetailsUiEvent.NavigateToTvDetails(itemId)
                 )
             }
@@ -206,7 +206,7 @@ class MyListDetailsViewModel @Inject constructor(
     }
 
     override fun onClickBackButton() {
-        sendEvent(MyListDetailsUiEvent.OnClickBack)
+        sendEffect(MyListDetailsUiEvent.OnClickBack)
     }
 
 }
