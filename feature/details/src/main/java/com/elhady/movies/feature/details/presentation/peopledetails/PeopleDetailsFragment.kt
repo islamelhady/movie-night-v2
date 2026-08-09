@@ -50,12 +50,12 @@ class PeopleDetailsFragment :
         }
 
 
-    override fun onEvent(event: PeopleDetailsUiEvent) {
-        when (event) {
+    override fun onEffect(effect: PeopleDetailsUiEvent) {
+        when (effect) {
             PeopleDetailsUiEvent.BackNavigate -> navigator.navigateBack()
-            is PeopleDetailsUiEvent.ClickMovieEvent -> navigator.navigateToMovieDetails(event.itemId)
+            is PeopleDetailsUiEvent.ClickMovieEvent -> navigator.navigateToMovieDetails(effect.itemId)
 
-            is PeopleDetailsUiEvent.ClickTvShowsEvent -> navigator.navigateToTvDetails(event.itemId)
+            is PeopleDetailsUiEvent.ClickTvShowsEvent -> navigator.navigateToTvDetails(effect.itemId)
         }
     }
 

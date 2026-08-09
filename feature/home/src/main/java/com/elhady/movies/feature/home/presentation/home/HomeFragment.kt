@@ -54,22 +54,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEvent>
         }
 
 
-    override fun onEvent(event: HomeUiEvent) {
-        when (event) {
+    override fun onEffect(effect: HomeUiEvent) {
+        when (effect) {
             is HomeUiEvent.MovieEvent -> {
-                navigator.navigateToMovieDetails(event.itemId)
+                navigator.navigateToMovieDetails(effect.itemId)
             }
 
             is HomeUiEvent.TvShowEvent -> {
-                navigator.navigateToTvDetails(event.itemId)
+                navigator.navigateToTvDetails(effect.itemId)
             }
 
             is HomeUiEvent.ClickShowMoreEvent -> {
-                navigator.navigateToShowMore(event.showMore)
+                navigator.navigateToShowMore(effect.showMore)
             }
 
             is HomeUiEvent.ShowSnackBarEvent -> {
-                showSnackBar(event.message)
+                showSnackBar(effect.message)
             }
         }
     }

@@ -74,19 +74,19 @@ class MyListDetailsFragment :
     }
 
 
-    override fun onEvent(event: MyListDetailsUiEvent) {
-        when (event) {
+    override fun onEffect(effect: MyListDetailsUiEvent) {
+        when (effect) {
             is MyListDetailsUiEvent.NavigateToMovieDetails -> {
-                navigator.navigateToMovieDetails(event.movieId)
+                navigator.navigateToMovieDetails(effect.movieId)
             }
 
             is MyListDetailsUiEvent.OnClickBack -> {
                 navigator.navigateBack()
             }
 
-            is MyListDetailsUiEvent.ShowSnackBar -> showSnackBar(event.message)
+            is MyListDetailsUiEvent.ShowSnackBar -> showSnackBar(effect.message)
             is MyListDetailsUiEvent.NavigateToTvDetails -> {
-                navigator.navigateToTvDetails(event.movieId)
+                navigator.navigateToTvDetails(effect.movieId)
             }
         }
     }

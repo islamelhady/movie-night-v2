@@ -2,7 +2,6 @@ package com.elhady.movies.feature.watchlist.presentation.watchhistory
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -54,9 +53,9 @@ class WatchHistoryFragment
     }
 
 
-    override fun onEvent(event: WatchHistoryUiEvent) {
-        when (event) {
-            is WatchHistoryUiEvent.NavigateToMovieDetails -> navigator.navigateToMovieDetails(event.movieId)
+    override fun onEffect(effect: WatchHistoryUiEvent) {
+        when (effect) {
+            is WatchHistoryUiEvent.NavigateToMovieDetails -> navigator.navigateToMovieDetails(effect.movieId)
             is WatchHistoryUiEvent.ShowDeleteSnackBar -> deletionIndicatorSnackBar.show()
             is WatchHistoryUiEvent.Error -> showSnackBar(getString(CoreUiR.string.cannot_fetch_movies))
             is WatchHistoryUiEvent.OnClickBack -> onBackButtonPressed()

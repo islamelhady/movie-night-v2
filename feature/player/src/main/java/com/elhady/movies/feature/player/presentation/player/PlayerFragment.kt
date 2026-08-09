@@ -41,7 +41,7 @@ class PlayerFragment :
         requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
     }
 
-    override fun onEvent(event: PlayerInteraction) {
+    override fun onEffect(effect: PlayerInteraction) {
 
     }
 }

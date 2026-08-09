@@ -40,33 +40,33 @@ class TvDetailsFragment :
         collapseState()
     }
 
-    override fun onEvent(event: TvDetailsUiEvent) {
-        when (event) {
+    override fun onEffect(effect: TvDetailsUiEvent) {
+        when (effect) {
             is TvDetailsUiEvent.RateTvEvent -> {
                 showRateBottomSheet()
             }
 
             is TvDetailsUiEvent.OnPersonClick -> {
-                navigator.navigateToPeopleDetails(event.id)
+                navigator.navigateToPeopleDetails(effect.id)
             }
             is TvDetailsUiEvent.OnSeasonClick -> {
-                navigator.navigateToSeasonDetails(viewModel.state.value.id, event.seasonNumber)
+                navigator.navigateToSeasonDetails(viewModel.state.value.id, effect.seasonNumber)
             }
-            is TvDetailsUiEvent.OnRecommended -> navigator.navigateToTvDetails(event.id)
+            is TvDetailsUiEvent.OnRecommended -> navigator.navigateToTvDetails(effect.id)
             is TvDetailsUiEvent.Back -> navigator.navigateBack()
-            is TvDetailsUiEvent.ApplyRating -> showSnackBar(event.message)
+            is TvDetailsUiEvent.ApplyRating -> showSnackBar(effect.message)
             is TvDetailsUiEvent.OnShowMoreCast -> showSnackBar("Show More Cast")
             is TvDetailsUiEvent.OnShowMoreRecommended -> showSnackBar("Show More Recommended")
             is TvDetailsUiEvent.PlayButton -> {
-                navigator.navigateToTrailer(event.youtubeKey)
-                showSnackBar(event.youtubeKey)
+                navigator.navigateToTrailer(effect.youtubeKey)
+                showSnackBar(effect.youtubeKey)
             }
             is TvDetailsUiEvent.OnSaveButtonClick -> showAddToWatchlistFavouriteBottomSheet()
-            is TvDetailsUiEvent.OnDoneAdding -> showSnackBar(event.message)
-            is TvDetailsUiEvent.OnCreateNewList -> showSnackBar(event.message)
-            is TvDetailsUiEvent.OnFavourite -> showSnackBar(event.message)
-            is TvDetailsUiEvent.OnWatchList -> showSnackBar(event.message)
-            is TvDetailsUiEvent.ShowSnackBar -> showSnackBar(event.message)
+            is TvDetailsUiEvent.OnDoneAdding -> showSnackBar(effect.message)
+            is TvDetailsUiEvent.OnCreateNewList -> showSnackBar(effect.message)
+            is TvDetailsUiEvent.OnFavourite -> showSnackBar(effect.message)
+            is TvDetailsUiEvent.OnWatchList -> showSnackBar(effect.message)
+            is TvDetailsUiEvent.ShowSnackBar -> showSnackBar(effect.message)
             else -> {}
         }
     }

@@ -51,11 +51,11 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
 
     }
 
-    override fun onEvent(event: ExploreUiEvent) {
-        when (event) {
+    override fun onEffect(effect: ExploreUiEvent) {
+        when (effect) {
             ExploreUiEvent.NavigateToSearchEvent -> navigateToSearch()
-            is ExploreUiEvent.ShowSnackBarMessageEvent -> showSnackBar(event.message)
-            is ExploreUiEvent.NavigateToMovieDetailsEvent -> navigator.navigateToMovieDetails(event.movieId)
+            is ExploreUiEvent.ShowSnackBarMessageEvent -> showSnackBar(effect.message)
+            is ExploreUiEvent.NavigateToMovieDetailsEvent -> navigator.navigateToMovieDetails(effect.movieId)
         }
     }
 

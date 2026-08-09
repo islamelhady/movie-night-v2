@@ -21,13 +21,13 @@ import kotlinx.coroutines.launch
  *
  * @param VDB The type of the ViewDataBinding associated with the fragment's layout.
  * @param STATE The type of the UI state associated with the fragment's ViewModel.
- * @param EVENT The type of the UI event associated with the fragment's ViewModel.
+ * @param EFFECT The type of the UI effect associated with the fragment's ViewModel.
  */
-abstract class BaseFragment<VDB : ViewDataBinding, STATE, EVENT> : Fragment() {
+abstract class BaseFragment<VDB : ViewDataBinding, STATE, EFFECT> : Fragment() {
     @get:LayoutRes
     abstract val layoutIdFragment: Int
 
-    abstract val viewModel: BaseViewModel<STATE, EVENT>
+    abstract val viewModel: BaseViewModel<STATE, EFFECT>
 
     private lateinit var _binding: VDB
     protected val binding: VDB
@@ -50,7 +50,7 @@ abstract class BaseFragment<VDB : ViewDataBinding, STATE, EVENT> : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        collectFlow(viewModel.effect) { onEvent(it) }
+        collectFlow(viewModel.effect) { onEffect(it) }
     }
 
     /**
@@ -68,11 +68,11 @@ abstract class BaseFragment<VDB : ViewDataBinding, STATE, EVENT> : Fragment() {
         }
     }
     /**
-     * Called when a UI event is emitted by the [viewModel].
+     * Called when a UI effect is emitted by the [viewModel].
      *
-     * @param event The emitted UI event.
+     * @param effect The emitted UI effect.
      */
-    abstract fun onEvent(event: EVENT)
+    abstract fun onEffect(effect: EFFECT)
 
     protected fun showSnackBar(messages: String) {
         Snackbar.make(binding.root, messages, Snackbar.LENGTH_SHORT).show()

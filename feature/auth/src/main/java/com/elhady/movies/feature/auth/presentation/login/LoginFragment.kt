@@ -64,8 +64,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginUiState, LoginUiEv
         }
     }
 
-    override fun onEvent(event: LoginUiEvent) {
-        when (event) {
+    override fun onEffect(effect: LoginUiEvent) {
+        when (effect) {
             is LoginUiEvent.NavigateToHomeScreen -> {
                 navigator.navigateToHome()
             }
@@ -78,7 +78,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginUiState, LoginUiEv
 
             is LoginUiEvent.ShowSnackBar -> {
                 binding.root.hideKeyboard()
-                showSnackBar(event.message)
+                showSnackBar(effect.message)
             }
 
         }
