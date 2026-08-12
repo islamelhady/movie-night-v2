@@ -10,6 +10,7 @@ sealed class AppException(message: String? = null) : Exception(message) {
      object NotFound : AppException()
      object Conflict : AppException()
      object TooManyRequests : AppException()
+     object EmptyResponse : AppException()
      data class Server(val code: Int, val serverMessage: String) : AppException(serverMessage)
     data class Unknown(val errorMessage: String) : AppException(errorMessage)
 }

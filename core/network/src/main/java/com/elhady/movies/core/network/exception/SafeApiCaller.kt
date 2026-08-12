@@ -11,7 +11,7 @@ class SafeApiCaller @Inject constructor(private val exceptionMapper: AppExceptio
         return try {
             val response = call()
             if (response.isSuccessful) {
-                response.body() ?: throw AppException.Unknown(errorMessage = "Response body is null")
+                response.body() ?: throw AppException.EmptyResponse
             } else {
                 throw exceptionMapper.map(code = response.code(), message = response.message())
             }
