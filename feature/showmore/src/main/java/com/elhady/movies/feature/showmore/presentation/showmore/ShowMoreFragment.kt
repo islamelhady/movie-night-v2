@@ -67,13 +67,13 @@ class ShowMoreFragment : BaseFragment<FragmentShowMoreBinding, ShowMoreUiState, 
         }
     }
 
-    override fun onEvent(event: ShowMoreUiEvent) {
-        when (event) {
-            is ShowMoreUiEvent.NavigateToMovieDetailsEvent -> navigator.navigateToMovieDetails(event.itemId)
+    override fun onEffect(effect: ShowMoreUiEvent) {
+        when (effect) {
+            is ShowMoreUiEvent.NavigateToMovieDetailsEvent -> navigator.navigateToMovieDetails(effect.itemId)
 
-            is ShowMoreUiEvent.NavigateToTvShowDetailsEvent -> navigator.navigateToTvDetails(event.itemId)
+            is ShowMoreUiEvent.NavigateToTvShowDetailsEvent -> navigator.navigateToTvDetails(effect.itemId)
             ShowMoreUiEvent.BackNavigateEvent -> navigator.navigateBack()
-            is ShowMoreUiEvent.ShowSnackBarEvent -> showSnackBar(event.messages)
+            is ShowMoreUiEvent.ShowSnackBarEvent -> showSnackBar(effect.messages)
         }
     }
 

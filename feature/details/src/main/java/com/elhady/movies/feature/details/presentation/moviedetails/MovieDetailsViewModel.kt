@@ -118,13 +118,13 @@ class MovieDetailsViewModel @Inject constructor(
             call = { ratingUseCase(movieId!!, state.value.userRating) },
             onSuccess = ::onRatingSuccess,
             onError = {
-                sendEvent(MovieDetailsUiEvent.ApplyRatingEvent(stringsRes.someThingErrorWhenAddRating))
+                sendEffect(MovieDetailsUiEvent.ApplyRatingEvent(stringsRes.someThingErrorWhenAddRating))
             }
         )
     }
 
     private fun onRatingSuccess(statusEntity: Status) {
-        sendEvent(MovieDetailsUiEvent.ApplyRatingEvent(stringsRes.ratingAddSuccessFully))
+        sendEffect(MovieDetailsUiEvent.ApplyRatingEvent(stringsRes.ratingAddSuccessFully))
         val item = tvRatingUiMapper.map(statusEntity)
 
         Log.d("Rate Success", "${state.value.userRating} ${item.ratingSuccess}")
@@ -218,7 +218,7 @@ class MovieDetailsViewModel @Inject constructor(
 
 
     private fun showMessageWithSnackBar(messages: String) {
-        sendEvent(MovieDetailsUiEvent.ShowSnackBarMessageEvent(messages))
+        sendEffect(MovieDetailsUiEvent.ShowSnackBarMessageEvent(messages))
     }
 
     private fun onError(throwable: Throwable) {
@@ -233,18 +233,18 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onClickPeople(id: Int) {
-        sendEvent(MovieDetailsUiEvent.NavigateToPeopleDetailsEvent(id))
+        sendEffect(MovieDetailsUiEvent.NavigateToPeopleDetailsEvent(id))
     }
 
 
     override fun onClickPlayTrailer() {
-        sendEvent(MovieDetailsUiEvent.PlayVideoTrailerEvent(state.value.movieUiState.videoKey))
+        sendEffect(MovieDetailsUiEvent.PlayVideoTrailerEvent(state.value.movieUiState.videoKey))
     }
 
 
     override fun onClickRateMovie() {
         if (state.value.isLogin) {
-            sendEvent(MovieDetailsUiEvent.RateMovieEvent)
+            sendEffect(MovieDetailsUiEvent.RateMovieEvent)
         } else {
             showMessageWithSnackBar(stringsRes.notLoggedInToRate)
         }
@@ -253,19 +253,19 @@ class MovieDetailsViewModel @Inject constructor(
 
     // region Movie details
     override fun onClickBackButton() {
-        sendEvent(MovieDetailsUiEvent.OnClickBackEvent)
+        sendEffect(MovieDetailsUiEvent.OnClickBackEvent)
     }
 
     fun onClickSaveButton() {
-        sendEvent(MovieDetailsUiEvent.SaveToListEvent)
+        sendEffect(MovieDetailsUiEvent.SaveToListEvent)
     }
 
     override fun onClickShowMore(movieId: Int) {
-        sendEvent(MovieDetailsUiEvent.NavigateToShowMoreEvent(movieId))
+        sendEffect(MovieDetailsUiEvent.NavigateToShowMoreEvent(movieId))
     }
 
     override fun onClickMedia(id: Int) {
-        sendEvent(MovieDetailsUiEvent.NavigateToMovieDetailsEvent(id))
+        sendEffect(MovieDetailsUiEvent.NavigateToMovieDetailsEvent(id))
     }
 
     fun tryAgain(movieId: Int) {
@@ -293,16 +293,16 @@ class MovieDetailsViewModel @Inject constructor(
 
     // region Rating Bottom Sheet Clicks
     override fun onClickCreateList() {
-        sendEvent(MovieDetailsUiEvent.CreateListEvent)
+        sendEffect(MovieDetailsUiEvent.CreateListEvent)
     }
 // endregion
 
     override fun onClickDone() {
-        sendEvent(MovieDetailsUiEvent.DoneEvent)
+        sendEffect(MovieDetailsUiEvent.DoneEvent)
     }
 
     override fun onClickAddList() {
-        sendEvent(MovieDetailsUiEvent.AddListEvent)
+        sendEffect(MovieDetailsUiEvent.AddListEvent)
     }
 //    override fun onClickFavourite() {
 //        addToFavourite()
@@ -313,7 +313,7 @@ class MovieDetailsViewModel @Inject constructor(
 //    }
 
     override fun onDismiss() {
-        sendEvent(MovieDetailsUiEvent.CloseEvent)
+        sendEffect(MovieDetailsUiEvent.CloseEvent)
     }
 
 // endregion

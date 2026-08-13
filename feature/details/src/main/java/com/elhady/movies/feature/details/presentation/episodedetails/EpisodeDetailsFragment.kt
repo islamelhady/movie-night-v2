@@ -36,13 +36,13 @@ class EpisodeDetailsFragment :
         }
     }
 
-    override fun onEvent(event: EpisodeDetailsUiEvent) {
-        when (event) {
+    override fun onEffect(effect: EpisodeDetailsUiEvent) {
+        when (effect) {
             is EpisodeDetailsUiEvent.ClickToBack -> navigateToBack()
             is EpisodeDetailsUiEvent.ClickToRate -> checkIsLoggedInOrNot()
-            is EpisodeDetailsUiEvent.ClickCast -> navigateToCastDetails(event.itemId)
-            is EpisodeDetailsUiEvent.SubmitRating -> showSnackBar(event.message)
-            is EpisodeDetailsUiEvent.ClickToPlayFullScreen -> navigateToPlayFullScreen(event.videoKey)
+            is EpisodeDetailsUiEvent.ClickCast -> navigateToCastDetails(effect.itemId)
+            is EpisodeDetailsUiEvent.SubmitRating -> showSnackBar(effect.message)
+            is EpisodeDetailsUiEvent.ClickToPlayFullScreen -> navigateToPlayFullScreen(effect.videoKey)
         }
     }
 

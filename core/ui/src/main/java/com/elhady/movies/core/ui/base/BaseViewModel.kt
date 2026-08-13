@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
+import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.common.mapper.Mapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -20,16 +21,22 @@ import kotlinx.coroutines.launch
  * A base class for all ViewModels in the project.
  *
  * @param STATE The type of the UI state.
- * @param EVENT The type of the UI event.
+ * @param EFFECT The type of the UI effect.
  * @param initialState The initial state of the ViewModel.
  */
-abstract class BaseViewModel<STATE, EVENT>(initialState: STATE) : ViewModel() {
+abstract class BaseViewModel<STATE, EFFECT>(initialState: STATE) : ViewModel() {
 
     protected val _state: MutableStateFlow<STATE> by lazy { MutableStateFlow(initialState) }
     val state = _state.asStateFlow()
 
-    protected val _event = MutableSharedFlow<EVENT>()
-    val event = _event.asSharedFlow()
+    protected val _effect = MutableSharedFlow<EFFECT>()
+    val effect = _effect.asSharedFlow()
+
+    protected fun sendEffect(effect: EFFECT) {
+        viewModelScope.launch {
+            _effect.emit(effect)
+        }
+    }
 
     /**
      * Executes a suspending call and handles the result.
@@ -43,49 +50,49 @@ abstract class BaseViewModel<STATE, EVENT>(initialState: STATE) : ViewModel() {
     protected fun <T> tryToExecute(
         call: suspend () -> T,
         onSuccess: (T) -> Unit,
-        onError: (Throwable) -> Unit,
+        onError: (AppException) -> Unit,
         dispatcher: CoroutineDispatcher = Dispatchers.IO
     ) {
         viewModelScope.launch(dispatcher) {
             try {
                 call().also(onSuccess)
-            } catch (th: Throwable) {
-                onError(th)
+            } catch (exception: AppException) {
+                onError(exception)
             }
         }
     }
+
 
     @JvmName("tryToExecuteList")
     protected fun <INPUT, OUTPUT> tryToExecute(
         call: suspend () -> List<INPUT>,
         mapper: Mapper<INPUT, OUTPUT>,
         onSuccess: (List<OUTPUT>) -> Unit,
-        onError: (Throwable) -> Unit,
+        onError: (AppException) -> Unit,
         dispatcher: CoroutineDispatcher = Dispatchers.IO
     ) {
         viewModelScope.launch(dispatcher) {
             try {
                 mapper.map(call()).also(onSuccess)
-            } catch (th: Throwable) {
-                onError(th)
+            } catch (exception: AppException) {
+                onError(exception)
             }
         }
     }
-
 
     @JvmName("tryToExecuteSingle")
     protected fun <INPUT, OUTPUT> tryToExecute(
         call: suspend () -> INPUT,
         mapper: Mapper<INPUT, OUTPUT>,
         onSuccess: (OUTPUT) -> Unit,
-        onError: (Throwable) -> Unit,
+        onError: (AppException) -> Unit,
         dispatcher: CoroutineDispatcher = Dispatchers.IO
     ) {
         viewModelScope.launch(dispatcher) {
             try {
                 mapper.map(call()).also(onSuccess)
-            } catch (th: Throwable) {
-                onError(th)
+            } catch (exception: AppException) {
+                onError(exception)
             }
         }
     }
@@ -94,7 +101,7 @@ abstract class BaseViewModel<STATE, EVENT>(initialState: STATE) : ViewModel() {
         data: suspend () -> Flow<PagingData<INPUT>>,
         mapper: Mapper<INPUT,OUTPUT>,
         onSuccess: (Flow<PagingData<OUTPUT>>) -> Unit,
-        onError: (Throwable) -> Unit,
+        onError: (AppException) -> Unit,
         dispatcher: CoroutineDispatcher = Dispatchers.IO
     ) {
         viewModelScope.launch(dispatcher) {
@@ -102,15 +109,9 @@ abstract class BaseViewModel<STATE, EVENT>(initialState: STATE) : ViewModel() {
                 data().map { pagingData ->
                     pagingData.map (mapper::map)
                 }.cachedIn(viewModelScope).also(onSuccess)
-            } catch (th: Throwable) {
-                onError(th)
+            } catch (exception: AppException) {
+                onError(exception)
             }
-        }
-    }
-
-    protected fun sendEvent(event: EVENT) {
-        viewModelScope.launch {
-            _event.emit(event)
         }
     }
 

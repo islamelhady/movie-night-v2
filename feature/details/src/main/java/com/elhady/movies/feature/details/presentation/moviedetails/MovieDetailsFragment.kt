@@ -71,22 +71,22 @@ class MovieDetailsFragment :
             }
         }
 
-    override fun onEvent(event: MovieDetailsUiEvent) {
-        when (event) {
+    override fun onEffect(effect: MovieDetailsUiEvent) {
+        when (effect) {
             MovieDetailsUiEvent.OnClickBackEvent -> {
                 navigator.navigateBack()
             }
 
             is MovieDetailsUiEvent.NavigateToPeopleDetailsEvent -> {
-                navigator.navigateToPeopleDetails(event.itemId)
+                navigator.navigateToPeopleDetails(effect.itemId)
             }
 
             is MovieDetailsUiEvent.ApplyRatingEvent -> {
-                showSnackBar(event.message)
+                showSnackBar(effect.message)
             }
 
             is MovieDetailsUiEvent.PlayVideoTrailerEvent -> {
-                navigator.navigateToTrailer(event.videoKey)
+                navigator.navigateToTrailer(effect.videoKey)
             }
 
             is MovieDetailsUiEvent.RateMovieEvent -> {
@@ -94,7 +94,7 @@ class MovieDetailsFragment :
             }
 
             is MovieDetailsUiEvent.NavigateToMovieDetailsEvent -> {
-                navigator.navigateToMovieDetails(event.movieId)
+                navigator.navigateToMovieDetails(effect.movieId)
             }
 
             is MovieDetailsUiEvent.SaveToListEvent -> {
@@ -107,7 +107,7 @@ class MovieDetailsFragment :
                 // TODO: Implement show more
             }
 
-            is MovieDetailsUiEvent.ShowSnackBarMessageEvent -> showSnackBar(event.message)
+            is MovieDetailsUiEvent.ShowSnackBarMessageEvent -> showSnackBar(effect.message)
             else -> {}
         }
     }

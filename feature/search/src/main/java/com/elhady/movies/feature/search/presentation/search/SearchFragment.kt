@@ -75,14 +75,14 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
         binding.edittextSearch.setAdapter(adapter)
     }
 
-    override fun onEvent(event: SearchUiEvent) {
-        when (event) {
+    override fun onEffect(effect: SearchUiEvent) {
+        when (effect) {
             is SearchUiEvent.OpenFilterBottomSheet -> showBottomSheet()
-            is SearchUiEvent.ApplyFilter -> applyFilter(event.genre)
-            is SearchUiEvent.ShowSnackBar -> showSnackBar(event.messages)
-            is SearchUiEvent.NavigateToMovie -> navigateToMovie(event.movieId)
-            is SearchUiEvent.NavigateToPeople -> navigateToPeople(event.peopleId)
-            is SearchUiEvent.NavigateToTv -> navigateToTv(event.tvId)
+            is SearchUiEvent.ApplyFilter -> applyFilter(effect.genre)
+            is SearchUiEvent.ShowSnackBar -> showSnackBar(effect.messages)
+            is SearchUiEvent.NavigateToMovie -> navigateToMovie(effect.movieId)
+            is SearchUiEvent.NavigateToPeople -> navigateToPeople(effect.peopleId)
+            is SearchUiEvent.NavigateToTv -> navigateToTv(effect.tvId)
             is SearchUiEvent.ShowMovieResult -> showMovieResult()
             is SearchUiEvent.ShowTvResult -> showTvResult()
             is SearchUiEvent.ShowPeopleResult -> showPeopleResult()

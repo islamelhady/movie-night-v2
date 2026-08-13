@@ -20,7 +20,7 @@ class SaveTvShowToListBottomSheet(private val watchlistFavouriteBottomSheet: Wat
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        collectFlow(viewModel.event) {
+        collectFlow(viewModel.effect) {
 //                onEvent(it)
         }
 

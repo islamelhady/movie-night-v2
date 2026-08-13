@@ -6,8 +6,6 @@ import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.core.domain.usecase.movie.DeleteMovieFromWatchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetAllWatchHistoryMoviesUseCase
 import com.elhady.movies.core.domain.usecase.movie.SearchWatchHistoryUseCase
-import com.elhady.movies.feature.watchlist.presentation.watchhistory.WatchHistoryRecyclerItem
-import com.elhady.movies.feature.watchlist.presentation.watchhistory.WatchHistoryRecyclerItemsCreator
 import com.elhady.movies.core.ui.interaction.MediaListener
 import com.elhady.movies.feature.watchlist.presentation.watchhistory.mapper.MovieDomainMapper
 import com.elhady.movies.feature.watchlist.presentation.watchhistory.mapper.MovieUiMapper
@@ -65,7 +63,7 @@ class WatchHistoryViewModel @Inject constructor(
     }
 
     private fun showMessageWithSnackBar(message: String) {
-        sendEvent(WatchHistoryUiEvent.Error(message))
+        sendEffect(WatchHistoryUiEvent.Error(message))
     }
 
     @OptIn(FlowPreview::class)
@@ -134,7 +132,7 @@ class WatchHistoryViewModel @Inject constructor(
     }
 
     override fun onClickMedia(id: Int) {
-        sendEvent(WatchHistoryUiEvent.NavigateToMovieDetails(id))
+        sendEffect(WatchHistoryUiEvent.NavigateToMovieDetails(id))
     }
 
     fun onSnackBarShown() {
@@ -164,7 +162,7 @@ class WatchHistoryViewModel @Inject constructor(
         position?.let {
             if (itemIsNotMovie(position)) return
             deleteItemFromRecyclerList(position)
-            sendEvent(WatchHistoryUiEvent.ShowDeleteSnackBar)
+            sendEffect(WatchHistoryUiEvent.ShowDeleteSnackBar)
             deleteTitleIfDayIsEmpty()
         }
     }
@@ -274,6 +272,6 @@ class WatchHistoryViewModel @Inject constructor(
     }
 
     fun onClickBack() {
-        sendEvent(WatchHistoryUiEvent.OnClickBack)
+        sendEffect(WatchHistoryUiEvent.OnClickBack)
     }
 }

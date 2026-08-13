@@ -61,14 +61,14 @@ class TvShowFragment : BaseFragment<FragmentTvShowsBinding, TvShowUiState, TvSho
         }
     }
 
-    override fun onEvent(event: TvShowUiEvent) {
-        when (event) {
+    override fun onEffect(effect: TvShowUiEvent) {
+        when (effect) {
             is TvShowUiEvent.ShowOnTheAirTvShowsResult -> viewModel.getOnTheAirTvShows()
             is TvShowUiEvent.ShowAiringTodayTvShowsResult -> viewModel.getAiringTodayTvShows()
             is TvShowUiEvent.ShowTopRatedTvShowsResult -> viewModel.getTopRatedTvShows()
             is TvShowUiEvent.ShowPopularTvShowsResult -> viewModel.getPopularTvShows()
-            is TvShowUiEvent.NavigateToTvShowDetails -> navigate(event.tvId)
-            is TvShowUiEvent.ShowSnackBar -> showSnackBar(event.messages)
+            is TvShowUiEvent.NavigateToTvShowDetails -> navigate(effect.tvId)
+            is TvShowUiEvent.ShowSnackBar -> showSnackBar(effect.messages)
             is TvShowUiEvent.ScrollToTopRecycler -> binding.recyclerViewTvShows.scrollToPosition(0)
         }
     }

@@ -1,7 +1,8 @@
 package com.elhady.movies.feature.explore.presentation.explore
 
-sealed interface ExploreUiEvent {
-    object NavigateToSearchEvent: ExploreUiEvent
-    data class ShowSnackBarMessageEvent(val message: String): ExploreUiEvent
-    data class NavigateToMovieDetailsEvent(val movieId: Int): ExploreUiEvent
+interface ExploreUiEvent {
+    object SearchClicked : ExploreUiEvent
+    data class MovieClicked(val id: Int) : ExploreUiEvent
+    object ChangeLayoutClicked : ExploreUiEvent
+    object RetryClicked  : ExploreUiEvent
 }

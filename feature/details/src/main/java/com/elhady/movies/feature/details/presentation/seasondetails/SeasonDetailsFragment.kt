@@ -41,18 +41,18 @@ class SeasonDetailsFragment
         }
 
 
-    override fun onEvent(event: SeasonDetailsUiEvent) {
-        when (event) {
+    override fun onEffect(effect: SeasonDetailsUiEvent) {
+        when (effect) {
             is SeasonDetailsUiEvent.NavigateToEpisodeDetails -> {
                 navigator.navigateToEpisodeDetails(
-                    event.seriesId,
-                    event.seasonNumber,
-                    event.episodeId
+                    effect.seriesId,
+                    effect.seasonNumber,
+                    effect.episodeId
                 )
             }
 
             SeasonDetailsUiEvent.NavigateBack -> navigator.navigateBack()
-            is SeasonDetailsUiEvent.ShowSnackBar -> showSnackBar(event.messages)
+            is SeasonDetailsUiEvent.ShowSnackBar -> showSnackBar(effect.messages)
         }
     }
 }

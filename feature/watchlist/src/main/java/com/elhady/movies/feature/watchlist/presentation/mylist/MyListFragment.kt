@@ -46,13 +46,13 @@ class MyListFragment :
     }
 
 
-    override fun onEvent(event: MyListUiEvent) {
-        when (event) {
+    override fun onEffect(effect: MyListUiEvent) {
+        when (effect) {
             is MyListUiEvent.NavigateToListDetails -> {
                 navigator.navigateToMyListDetails(
-                    event.listId,
-                    event.listType,
-                    event.listName
+                    effect.listId,
+                    effect.listType,
+                    effect.listName
                 )
             }
 
@@ -69,15 +69,15 @@ class MyListFragment :
             }
 
             is MyListUiEvent.ShowSnackBar -> {
-                showSnackBar(event.message)
+                showSnackBar(effect.message)
             }
 
             is MyListUiEvent.OnCreateNewList -> {
-                showSnackBar(event.message)
+                showSnackBar(effect.message)
             }
 
             is MyListUiEvent.ShowConfirmDeleteDialog -> {
-                showDialog(event.listId, event.listName)
+                showDialog(effect.listId, effect.listName)
             }
         }
     }

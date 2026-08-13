@@ -114,4 +114,15 @@
     <string name="popular_actors">Popular Actors</string>
     <string name="adventure">Adventure</string>
 
+    <!-- Error Messages -->
+    <string name="unauthorized_error">Unauthorized access. Please login.</string>
+    <string name="forbidden_error">Access forbidden.</string>
+    <string name="bad_request_error">Invalid request.</string>
+    <string name="validation_error">Validation failed.</string>
+    <string name="not_found_error">Resource not found.</string>
+    <string name="conflict_error">Resource conflict occurred.</string>
+    <string name="too_many_requests_error">Too many requests. Please slow down.</string>
+    <string name="empty_response_error">No data received from server.</string>
+    <string name="server_error">Server error occurred. Please try again later.</string>
+    <string name="unknown_error">An unexpected error occurred.</string>
 </resources>

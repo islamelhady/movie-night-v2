@@ -114,4 +114,15 @@
     <string name="adventure">مغامرة</string>
     <string name="popular_actors">ممثلون مشهورون</string>
 
+    <!-- Error Messages -->
+    <string name="unauthorized_error">غير مصرح بالدخول. يرجى تسجيل الدخول.</string>
+    <string name="forbidden_error">الدخول ممنوع.</string>
+    <string name="bad_request_error">طلب غير صالح.</string>
+    <string name="validation_error">فشل التحقق من الصحة.</string>
+    <string name="not_found_error">المورد غير موجود.</string>
+    <string name="conflict_error">حدث تعارض في الموارد.</string>
+    <string name="too_many_requests_error">طلبات كثيرة جداً. يرجى المحاولة لاحقاً.</string>
+    <string name="empty_response_error">لم يتم استلام بيانات من الخادم.</string>
+    <string name="server_error">حدث خطأ في الخادم. يرجى المحاولة مرة أخرى لاحقاً.</string>
+    <string name="unknown_error">حدث خطأ غير متوقع.</string>
 </resources>

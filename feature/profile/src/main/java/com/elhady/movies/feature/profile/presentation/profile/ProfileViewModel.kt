@@ -75,23 +75,23 @@ class ProfileViewModel @Inject constructor(
     }
 
     override fun onClickFavorite() {
-        sendEvent(ProfileUiEvent.NavigateToFavoriteScreen)
+        sendEffect(ProfileUiEvent.NavigateToFavoriteScreen)
     }
 
     override fun onClickWatchlist() {
-        sendEvent(ProfileUiEvent.NavigateToWatchlistScreen)
+        sendEffect(ProfileUiEvent.NavigateToWatchlistScreen)
     }
 
     override fun onClickWatchHistory() {
-        sendEvent(ProfileUiEvent.NavigateToWatchHistoryScreen)
+        sendEffect(ProfileUiEvent.NavigateToWatchHistoryScreen)
     }
 
     override fun onClickMyLists() {
-        sendEvent(ProfileUiEvent.NavigateToMyListsScreen)
+        sendEffect(ProfileUiEvent.NavigateToMyListsScreen)
     }
 
     override fun onClickLogout() {
-        sendEvent(ProfileUiEvent.Logout)
+        sendEffect(ProfileUiEvent.Logout)
     }
 
     fun logout() {
@@ -114,6 +114,6 @@ class ProfileViewModel @Inject constructor(
     }
 
     override fun ocClickLogIn() {
-        sendEvent(ProfileUiEvent.NavigateWithLink(navigationRes.authFeatureLink))
+        sendEffect(ProfileUiEvent.NavigateWithLink(navigationRes.authFeatureLink))
     }
 }

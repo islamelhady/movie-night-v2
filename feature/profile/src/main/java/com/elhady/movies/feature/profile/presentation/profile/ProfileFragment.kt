@@ -36,8 +36,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
         changeAppTheme()
     }
 
-    override fun onEvent(event: ProfileUiEvent) {
-        when (event) {
+    override fun onEffect(effect: ProfileUiEvent) {
+        when (effect) {
             ProfileUiEvent.NavigateToFavoriteScreen -> {
                 navigator.navigateToMyListDetails(
                     0,

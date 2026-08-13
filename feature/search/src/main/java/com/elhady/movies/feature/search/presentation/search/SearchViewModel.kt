@@ -174,7 +174,7 @@ class SearchViewModel @Inject constructor(
                 SearchUiState.SearchMedia.MOVIE -> getAllGenresMovies()
                 else -> getAllGenresTv()
             }
-            sendEvent(SearchUiEvent.OpenFilterBottomSheet)
+            sendEffect(SearchUiEvent.OpenFilterBottomSheet)
         }
     }
 
@@ -232,7 +232,7 @@ class SearchViewModel @Inject constructor(
     }
 
     override fun showResultMovie() {
-        sendEvent(SearchUiEvent.ShowMovieResult)
+        sendEffect(SearchUiEvent.ShowMovieResult)
         _state.update {
             it.copy(
                 selectedGenresId = null,
@@ -242,7 +242,7 @@ class SearchViewModel @Inject constructor(
     }
 
     override fun showResultTv() {
-        sendEvent(SearchUiEvent.ShowTvResult)
+        sendEffect(SearchUiEvent.ShowTvResult)
         _state.update {
             it.copy(
                 selectedGenresId = null,
@@ -252,23 +252,23 @@ class SearchViewModel @Inject constructor(
     }
 
     override fun showResultPeople() {
-        sendEvent(SearchUiEvent.ShowPeopleResult)
+        sendEffect(SearchUiEvent.ShowPeopleResult)
         _state.update { it.copy(mediaType = SearchUiState.SearchMedia.PEOPLE) }
     }
 
     override fun onClickBack() {
-        sendEvent(SearchUiEvent.NavigateToBack)
+        sendEffect(SearchUiEvent.NavigateToBack)
     }
 
     override fun onClickMedia(id: Int) {
         when (_state.value.mediaType) {
-            SearchUiState.SearchMedia.MOVIE -> sendEvent(SearchUiEvent.NavigateToMovie(id))
-            else -> sendEvent(SearchUiEvent.NavigateToTv(id))
+            SearchUiState.SearchMedia.MOVIE -> sendEffect(SearchUiEvent.NavigateToMovie(id))
+            else -> sendEffect(SearchUiEvent.NavigateToTv(id))
         }
     }
 
     override fun onClickPeople(id: Int) {
-        sendEvent(SearchUiEvent.NavigateToPeople(id))
+        sendEffect(SearchUiEvent.NavigateToPeople(id))
     }
     ///endregion
 
@@ -289,7 +289,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun showErrorWithSnackBar(messages: String) {
-        sendEvent(SearchUiEvent.ShowSnackBar(messages))
+        sendEffect(SearchUiEvent.ShowSnackBar(messages))
     }
     //endregion
 }

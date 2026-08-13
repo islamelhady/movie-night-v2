@@ -45,13 +45,13 @@ class MyRatedFragment : BaseFragment<FragmentMyRatedBinding, MyRatedUiState, MyR
             }
         }
     }
-    override fun onEvent(event: MyRatedUiEvent) {
-        when(event){
+    override fun onEffect(effect: MyRatedUiEvent) {
+        when(effect){
             is MyRatedUiEvent.NavigateToMovieDetails -> {
-                navigator.navigateToMovieDetails(event.movieId)
+                navigator.navigateToMovieDetails(effect.movieId)
             }
             is MyRatedUiEvent.NavigateToTvShowDetails -> {
-                navigator.navigateToTvDetails(event.tvId)
+                navigator.navigateToTvDetails(effect.tvId)
             }
             is MyRatedUiEvent.NavigateBack -> navigator.navigateBack()
             is MyRatedUiEvent.ShowMyRatedMoviesPressed -> viewModel.fetchMyRatedMovies()

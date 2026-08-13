@@ -240,21 +240,21 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun showErrorWithSnackBar(messages: String) {
-        sendEvent(HomeUiEvent.ShowSnackBarEvent(messages))
+        sendEffect(HomeUiEvent.ShowSnackBarEvent(messages))
     }
     /// endregion
 
     /// region events
     override fun onClickMovieItem(movieId: Int) {
-        sendEvent(HomeUiEvent.MovieEvent(movieId))
+        sendEffect(HomeUiEvent.MovieEvent(movieId))
     }
 
     override fun onClickTvShowItem(tvId: Int) {
-        sendEvent(HomeUiEvent.TvShowEvent(tvId))
+        sendEffect(HomeUiEvent.TvShowEvent(tvId))
     }
 
     override fun onClickShowMore(showMoreType: ShowMoreType) {
-        sendEvent(HomeUiEvent.ClickShowMoreEvent(showMoreType))
+        sendEffect(HomeUiEvent.ClickShowMoreEvent(showMoreType))
     }
     /// endregion
 

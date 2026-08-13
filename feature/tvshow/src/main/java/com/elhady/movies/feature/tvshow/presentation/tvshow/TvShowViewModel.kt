@@ -4,16 +4,14 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.PagingData
-import com.elhady.movies.core.common.NoNetworkThrowable
-import com.elhady.movies.core.common.ServerErrorThrowable
-import com.elhady.movies.core.common.UnauthorizedThrowable
+import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.domain.usecase.tvshow.GetAiringTodayTvShowsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetOnTheAirTvShowsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetPopularTvShowsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetTopRatedTvShowsUseCase
 import com.elhady.movies.feature.tvshow.presentation.tvshow.mapper.TvShowUiMapper
-import com.elhady.movies.core.ui.base.toUiError
+import com.elhady.movies.core.ui.base.toErrorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.update
@@ -37,6 +35,7 @@ class TvShowViewModel @Inject constructor(
     ///region get data
     private fun getData() {
         viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
             when (_state.value.tvShowType) {
                 TvShowType.AIRING_TODAY -> getAiringTodayTvShows()
                 TvShowType.ON_THE_AIR -> getOnTheAirTvShows()
@@ -130,8 +129,8 @@ class TvShowViewModel @Inject constructor(
     /// endregion
 
     ///region error
-    private fun onError(throwable: Throwable) {
-        val uiError = throwable.toUiError()
+    private fun onError(exception: AppException) {
+        val uiError = exception.toErrorUiState()
         _state.update {
             it.copy(
                 error = uiError,
@@ -157,7 +156,7 @@ class TvShowViewModel @Inject constructor(
             is LoadState.Error -> {
                 val error = (combinedLoadStates.refresh as LoadState.Error).error
                 _state.update {
-                    it.copy(isLoading = false, error = error.toUiError())
+                    it.copy(isLoading = false, error = (error as? Exception)?.toErrorUiState())
                 }
             }
         }
@@ -167,11 +166,11 @@ class TvShowViewModel @Inject constructor(
 
     ///region event
     override fun onClickTvShowItem(tvId: Int) {
-        sendEvent(TvShowUiEvent.NavigateToTvShowDetails(tvId))
+        sendEffect(TvShowUiEvent.NavigateToTvShowDetails(tvId))
     }
 
     override fun onClickScrollToTopScreen() {
-        sendEvent(TvShowUiEvent.ScrollToTopRecycler)
+        sendEffect(TvShowUiEvent.ScrollToTopRecycler)
     }
 
     override fun onClickAiringTodayTvShowsResult() {

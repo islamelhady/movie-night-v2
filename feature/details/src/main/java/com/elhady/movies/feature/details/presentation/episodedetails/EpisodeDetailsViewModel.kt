@@ -122,11 +122,11 @@ class EpisodeDetailsViewModel @Inject constructor(
     }
 
     private fun onRatingSuccess(episodeRateStatusEntity: RatingEpisodeDetailsStatus) {
-        sendEvent(EpisodeDetailsUiEvent.SubmitRating(stringsRes.ratingAddSuccessFully))
+        sendEffect(EpisodeDetailsUiEvent.SubmitRating(stringsRes.ratingAddSuccessFully))
     }
 
     private fun onRatingError(th: Throwable) {
-        sendEvent(EpisodeDetailsUiEvent.SubmitRating(stringsRes.someThingErrorWhenAddRating))
+        sendEffect(EpisodeDetailsUiEvent.SubmitRating(stringsRes.someThingErrorWhenAddRating))
     }
 
     fun updateRatingState(rate: Float) {
@@ -168,19 +168,19 @@ class EpisodeDetailsViewModel @Inject constructor(
 
     /// region event
     override fun clickToBack() {
-        sendEvent(EpisodeDetailsUiEvent.ClickToBack)
+        sendEffect(EpisodeDetailsUiEvent.ClickToBack)
     }
 
     override fun clickToRate(episodeId: Int) {
-        sendEvent(EpisodeDetailsUiEvent.ClickToRate(episodeId))
+        sendEffect(EpisodeDetailsUiEvent.ClickToRate(episodeId))
     }
 
     override fun clickToPlayFullScreen(videoKey: String) {
-        sendEvent(EpisodeDetailsUiEvent.ClickToPlayFullScreen(videoKey))
+        sendEffect(EpisodeDetailsUiEvent.ClickToPlayFullScreen(videoKey))
     }
 
     override fun onClickPeople(id: Int) {
-        sendEvent(EpisodeDetailsUiEvent.ClickCast(id))
+        sendEffect(EpisodeDetailsUiEvent.ClickCast(id))
     }
     /// endregion
 }
