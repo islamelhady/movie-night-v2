@@ -1,4 +1,4 @@
-# Movie Night | Modern Android Application
+<h1 align="center">Movie Night | Modern Android Application</h1>
 
 <p align="center">
 A modern Android movie discovery application built with
