@@ -1,70 +1,74 @@
 package com.elhady.movies.feature.explore.presentation.explore
 
-import androidx.lifecycle.viewModelScope
-import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.domain.usecase.movie.GetTrendingMoviesUseCase
+import com.elhady.movies.core.ui.base.BaseViewModel
+import com.elhady.movies.core.ui.base.ErrorUiState
+import com.elhady.movies.core.ui.base.messageRes
+import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.feature.explore.presentation.explore.mapper.ExploreTrendingUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ExploreViewModel @Inject constructor(
     private val trendingMoviesUseCase: GetTrendingMoviesUseCase,
     private val trendingUiMapper: ExploreTrendingUiMapper
-) : BaseViewModel<ExploreUiState, ExploreUiEvent>(ExploreUiState()), ExploreListener {
+) : BaseViewModel<ExploreUiState, ExploreUiEffect>(ExploreUiState()) {
 
-    val layout =  MutableStateFlow(false)
     init {
-        _state.update { it.copy(isLoading = true, onErrors = emptyList()) }
-        viewModelScope.launch {
-            layout.onEach {
-                _state.update { it.copy(layoutManager = layout.value) }
-            }.collect()
-        }
-        getTrendingMovies()
+        onEvent(ExploreUiEvent.RetryClicked)
     }
-    fun getTrendingMovies() {
+
+    fun onEvent(event: ExploreUiEvent) {
+        when (event) {
+            is ExploreUiEvent.ChangeLayoutClicked -> {
+                changeLayout()
+            }
+
+            is ExploreUiEvent.MovieClicked -> {
+                sendEffect(ExploreUiEffect.NavigateToMovieDetails(movieId = event.id))
+            }
+
+            ExploreUiEvent.SearchClicked -> {
+                sendEffect(ExploreUiEffect.NavigateToSearch)
+            }
+
+            ExploreUiEvent.RetryClicked -> {
+                getTrendingMovies()
+            }
+        }
+    }
+
+    private fun changeLayout() {
+        _state.update { it.copy(isGridLayout = !it.isGridLayout) }
+    }
+
+    private fun getTrendingMovies() {
+        _state.update { it.copy(isLoading = true, errors = null) }
         tryToExecute(
             call = { trendingMoviesUseCase() },
             onSuccess = ::onSuccessTrendingMovies,
             mapper = trendingUiMapper,
-            onError = ::onError
+            onError = { exception ->
+                onError(exception.toErrorUiState())
+            }
         )
     }
 
-    private fun onSuccessTrendingMovies(trendingMoviesEntities: List<ExploreUiState.TrendingMoviesUiState>) {
+    private fun onSuccessTrendingMovies(trendingMoviesUiState: List<ExploreUiState.TrendingMoviesUiState>) {
         _state.update {
             it.copy(
-                trendingMoviesToday = trendingMoviesEntities,
+                trendingMoviesToday = trendingMoviesUiState,
                 isLoading = false,
-                onErrors = emptyList()
+                errors = null
             )
         }
     }
 
-    private fun onError(throwable: Throwable) {
-        val errorMessage = throwable.message ?: "no network connection"
-        showErrorWithSnackBar(errorMessage)
-        _state.update { it.copy(onErrors = listOf(errorMessage), isLoading = false) }
-    }
-
-    private fun showErrorWithSnackBar(errorMessage: String) {
-        sendEffect(ExploreUiEvent.ShowSnackBarMessageEvent(errorMessage))
-    }
-
-
-    override fun onClickSearch() {
-        sendEffect(ExploreUiEvent.NavigateToSearchEvent)
-    }
-
-
-    override fun onClickMedia(id: Int) {
-        sendEffect(ExploreUiEvent.NavigateToMovieDetailsEvent(movieId = id))
+    private fun onError(exception: ErrorUiState) {
+        _state.update { it.copy(errors = exception, isLoading = false) }
+        sendEffect(ExploreUiEffect.ShowSnackBar(message = exception.messageRes.toString()))
     }
 
 }

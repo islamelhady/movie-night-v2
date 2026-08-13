@@ -1,12 +1,13 @@
 package com.elhady.movies.feature.explore.presentation.explore
 
+import com.elhady.movies.core.ui.base.ErrorUiState
 import kotlin.math.roundToInt
 
 data class ExploreUiState(
     val trendingMoviesToday: List<TrendingMoviesUiState> = emptyList(),
     val isLoading: Boolean = false,
-    val layoutManager: Boolean = false,
-    val onErrors: List<String> = emptyList(),
+    val isGridLayout: Boolean = false,
+    val errors: ErrorUiState? = null,
 ) {
 
     data class TrendingMoviesUiState(
@@ -19,8 +20,4 @@ data class ExploreUiState(
     ) {
         fun formattedRate(): Double = (rate * 100).roundToInt() / 100.0
     }
-
-    val isFailure: Boolean get() = onErrors.isNotEmpty()
-    val isEmptyResult: Boolean get() = trendingMoviesToday.isEmpty()
-
 }
