@@ -123,6 +123,6 @@
     <string name="conflict_error">حدث تعارض في الموارد.</string>
     <string name="too_many_requests_error">طلبات كثيرة جداً. يرجى المحاولة لاحقاً.</string>
     <string name="empty_response_error">لم يتم استلام بيانات من الخادم.</string>
-    <string name="server_error">خطأ في الخادم: %1$d %2$s</string>
-    <string name="unknown_error">حدث خطأ غير معروف: %1$s</string>
+    <string name="server_error">حدث خطأ في الخادم. يرجى المحاولة مرة أخرى لاحقاً.</string>
+    <string name="unknown_error">حدث خطأ غير متوقع.</string>
 </resources>

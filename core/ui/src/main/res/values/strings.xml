@@ -123,6 +123,6 @@
     <string name="conflict_error">Resource conflict occurred.</string>
     <string name="too_many_requests_error">Too many requests. Please slow down.</string>
     <string name="empty_response_error">No data received from server.</string>
-    <string name="server_error">Server error: %1$d %2$s</string>
-    <string name="unknown_error">An unknown error occurred: %1$s</string>
+    <string name="server_error">Server error occurred. Please try again later.</string>
+    <string name="unknown_error">An unexpected error occurred.</string>
 </resources>
