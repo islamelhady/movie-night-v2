@@ -1,7 +1,7 @@
 <h1 align="center">Movie Night | Modern Android Application</h1>
 
 <p align="center">
-A modern Android movie discovery application built with
+A production-inspired Android application for discovering movies and TV shows, built with
 <b>Kotlin</b>, <b>Clean Architecture</b>, <b>MVVM + UDF</b>,
 and <b>Multi-Module Architecture</b>.
 </p>
