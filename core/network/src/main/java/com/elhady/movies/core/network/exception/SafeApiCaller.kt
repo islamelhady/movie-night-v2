@@ -17,6 +17,8 @@ class SafeApiCaller @Inject constructor(private val exceptionMapper: AppExceptio
             }
         } catch (e: CancellationException) {
             throw e
+        } catch (e: AppException){
+           throw e
         } catch (e: Exception) {
             throw exceptionMapper.map(input = e)
         }
