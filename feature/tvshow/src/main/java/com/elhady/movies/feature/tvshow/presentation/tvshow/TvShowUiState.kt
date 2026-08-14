@@ -1,7 +1,7 @@
 package com.elhady.movies.feature.tvshow.presentation.tvshow
 
 import androidx.paging.PagingData
-import com.elhady.movies.core.ui.base.UiError
+import com.elhady.movies.core.ui.base.ErrorUiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlin.math.roundToInt
@@ -12,12 +12,9 @@ data class TvShowUiState(
     val tvShowTopRated: Flow<PagingData<ShowUiState>> = emptyFlow(),
     val tvShowOnTheAir: Flow<PagingData<ShowUiState>> = emptyFlow(),
     val tvShowPopular: Flow<PagingData<ShowUiState>> = emptyFlow(),
-    val error: UiError? = null,
+    val error: ErrorUiState? = null,
     val isLoading: Boolean = false
-) {
-    val isError: Boolean
-        get() = error != null
-}
+)
 
 data class ShowUiState(
     val tvId: Int?,

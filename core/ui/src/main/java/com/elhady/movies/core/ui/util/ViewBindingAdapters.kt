@@ -6,8 +6,8 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.databinding.BindingAdapter
-import com.elhady.movies.core.ui.base.UiError
 import com.elhady.movies.core.ui.R
+import com.elhady.movies.core.ui.base.ErrorUiState
 import com.google.android.material.progressindicator.LinearProgressIndicator
 
 @BindingAdapter(value = ["app:genres"])
@@ -116,7 +116,7 @@ fun SwitchCompat.toggleUiMode(uiModeManager: UiModeManager) {
 }
 
 @BindingAdapter(value = ["app:showWhenErrorUi"])
-fun View.showWhenErrorUi(uiError: UiError?) {
+fun View.showWhenErrorUi(uiError: ErrorUiState?) {
     if (uiError != null) {
         this.visibility = View.VISIBLE
     } else {
