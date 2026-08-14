@@ -54,7 +54,7 @@ class TvShowViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessAiringTodayTvShows(tvShowsEntity: Flow<PagingData<TvShowUi>>) {
+    private fun onSuccessAiringTodayTvShows(tvShowsEntity: Flow<PagingData<ShowUiState>>) {
         _state.update {
             it.copy(
                 tvShowType = TvShowType.AIRING_TODAY,
@@ -74,7 +74,7 @@ class TvShowViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessOnTheAirTvShows(tvShowsEntity: Flow<PagingData<TvShowUi>>) {
+    private fun onSuccessOnTheAirTvShows(tvShowsEntity: Flow<PagingData<ShowUiState>>) {
         _state.update {
             it.copy(
                 tvShowType = TvShowType.ON_THE_AIR,
@@ -94,7 +94,7 @@ class TvShowViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessPopularTvShows(tvShowsEntity: Flow<PagingData<TvShowUi>>) {
+    private fun onSuccessPopularTvShows(tvShowsEntity: Flow<PagingData<ShowUiState>>) {
         _state.update {
             it.copy(
                 tvShowType = TvShowType.POPULAR,
@@ -115,7 +115,7 @@ class TvShowViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessTopRatedTvShows(tvShowsEntity: Flow<PagingData<TvShowUi>>) {
+    private fun onSuccessTopRatedTvShows(tvShowsEntity: Flow<PagingData<ShowUiState>>) {
         _state.update {
             it.copy(
                 tvShowType = TvShowType.TOP_RATED,

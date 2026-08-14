@@ -5,25 +5,25 @@ import com.elhady.movies.feature.tvshow.BR
 import com.elhady.movies.feature.tvshow.R
 import com.elhady.movies.core.ui.base.BasePagingAdapter
 import com.elhady.movies.feature.tvshow.databinding.ItemTvShowBinding
-import com.elhady.movies.feature.tvshow.presentation.tvshow.TvShowUi
+import com.elhady.movies.feature.tvshow.presentation.tvshow.ShowUiState
 import com.elhady.movies.feature.tvshow.presentation.tvshow.TvShowListener
 
 class TvShowAdapter(listener: TvShowListener) :
-    BasePagingAdapter<TvShowUi, ItemTvShowBinding>(Comparator, listener) {
+    BasePagingAdapter<ShowUiState, ItemTvShowBinding>(Comparator, listener) {
 
 
     override val layoutId = R.layout.item_tv_show
     override val itemVariableId: Int = BR.item
     override val listenerVariableId: Int = BR.listener
 
-    object Comparator : DiffUtil.ItemCallback<TvShowUi>() {
-        override fun areItemsTheSame(oldItem: TvShowUi, newItem: TvShowUi): Boolean {
+    object Comparator : DiffUtil.ItemCallback<ShowUiState>() {
+        override fun areItemsTheSame(oldItem: ShowUiState, newItem: ShowUiState): Boolean {
             return oldItem.tvId == newItem.tvId
         }
 
         override fun areContentsTheSame(
-            oldItem: TvShowUi,
-            newItem: TvShowUi
+            oldItem: ShowUiState,
+            newItem: ShowUiState
         ): Boolean {
             return oldItem == newItem
         }

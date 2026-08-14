@@ -8,10 +8,10 @@ import kotlin.math.roundToInt
 
 data class TvShowUiState(
     val tvShowType: TvShowType = TvShowType.AIRING_TODAY,
-    val tvShowAiringToday: Flow<PagingData<TvShowUi>> = emptyFlow(),
-    val tvShowTopRated: Flow<PagingData<TvShowUi>> = emptyFlow(),
-    val tvShowOnTheAir: Flow<PagingData<TvShowUi>> = emptyFlow(),
-    val tvShowPopular: Flow<PagingData<TvShowUi>> = emptyFlow(),
+    val tvShowAiringToday: Flow<PagingData<ShowUiState>> = emptyFlow(),
+    val tvShowTopRated: Flow<PagingData<ShowUiState>> = emptyFlow(),
+    val tvShowOnTheAir: Flow<PagingData<ShowUiState>> = emptyFlow(),
+    val tvShowPopular: Flow<PagingData<ShowUiState>> = emptyFlow(),
     val error: UiError? = null,
     val isLoading: Boolean = false
 ) {
@@ -19,7 +19,7 @@ data class TvShowUiState(
         get() = error != null
 }
 
-data class TvShowUi(
+data class ShowUiState(
     val tvId: Int?,
     val imageUrl: String?,
     val rate: Double?
