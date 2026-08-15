@@ -14,7 +14,9 @@ data class TvShowUiState(
     val tvShowPopular: Flow<PagingData<ShowUiState>> = emptyFlow(),
     val error: ErrorUiState? = null,
     val isLoading: Boolean = false
-)
+) {
+    val isError: Boolean get() = error != null
+}
 
 data class ShowUiState(
     val tvId: Int?,

@@ -17,6 +17,7 @@ import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.tvshow.presentation.tvshow.adapter.TvShowAdapter
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 import kotlinx.coroutines.launch
@@ -85,6 +86,9 @@ class TvShowFragment : BaseFragment<FragmentTvShowsBinding, TvShowUiState, TvSho
         binding.fabScrollToTop.setOnClickListener {
             viewModel.onEvent(TvShowUiEvent.ToTopClicked)
         }
+        binding.buttonRetry.setOnClickListener {
+            viewModel.onEvent(TvShowUiEvent.RetryClicked)
+        }
     }
 
 
@@ -137,6 +141,7 @@ class TvShowFragment : BaseFragment<FragmentTvShowsBinding, TvShowUiState, TvSho
             TvShowType.TOP_RATED -> state.tvShowTopRated
             TvShowType.POPULAR -> state.tvShowPopular
         }
+        binding.recyclerViewTvShows.isVisible = !state.isLoading && state.error == null
 
         viewLifecycleOwner.lifecycleScope.launch {
             tvShowPaging.collectLatest { pagingData ->

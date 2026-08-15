@@ -27,7 +27,7 @@
     <string name="apply">Apply</string>
     <string name="popular_movies">Popular Movies</string>
     <string name="movies">Movies</string>
-    <string name="retry">retry</string>
+    <string name="retry">Retry</string>
     <string name="item_deleted">Item Deleted</string>
     <string name="undo">UNDO</string>
     <string name="duplicate_entry">Duplicate entry: The Media you tried to add already exists.</string>
