@@ -4,15 +4,17 @@ import com.elhady.movies.core.domain.model.tvshow.TvShows
 import com.elhady.movies.core.data.mapper.tvshow.AiringTodayTvShowDtoMapper
 import com.elhady.movies.core.data.base.BasePagingSource
 import com.elhady.movies.core.network.api.TvShowApiService
+import com.elhady.movies.core.network.exception.SafeApiCaller
 import javax.inject.Inject
 
 class OnTheAirTvShowPagingSource @Inject constructor(
-    service: TvShowApiService,
+    private val service: TvShowApiService,
+    private val safeApiCaller: SafeApiCaller,
     private val mapper: AiringTodayTvShowDtoMapper
-) : BasePagingSource<TvShowApiService, TvShows>(service) {
+) : BasePagingSource<TvShowApiService, TvShows>() {
 
     override suspend fun fetchData(page: Int): List<TvShows> {
-        val response = service.getOnTheAirTvShows(page).body()?.results?.filterNotNull()
-        return response?.map { mapper.map(it) } ?: emptyList()
+        val response = safeApiCaller.execute { service.getOnTheAirTvShows(page) }
+        return response.results?.filterNotNull()?.map { mapper.map(it) }.orEmpty()
     }
 }
