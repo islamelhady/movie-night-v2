@@ -176,7 +176,7 @@ class TvShowRepositoryImpl @Inject constructor(
         })
     }
 
-    override suspend fun getTvDetailsCredit(tvShowID: Int): List<People> {
+    override suspend fun getTvDetailsCast(tvShowID: Int): List<People> {
         return tvDetailsCreditDtoMapper.map(safeApiCaller.execute {
             tvShowApiService.getTvDetailsCredit(
                 tvShowID
