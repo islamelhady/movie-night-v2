@@ -5,7 +5,7 @@ import com.elhady.movies.core.domain.model.people.People
 import com.elhady.movies.core.ui.state.PeopleUiState
 import javax.inject.Inject
 
-class PeopleUiMapper @Inject constructor() :
+class CastUiMapper @Inject constructor() :
     Mapper<People, PeopleUiState> {
     override fun map(input: People): PeopleUiState {
         return PeopleUiState(
