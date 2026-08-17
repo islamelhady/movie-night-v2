@@ -8,10 +8,10 @@ class AddToFavouriteUseCase @Inject constructor(
     private val accountRepository: AccountRepository
 ) {
     suspend operator fun invoke(
-        movieId: Int,
+        mediaId: Int,
         mediaType: String,
         isFavorite: Boolean = true
     ): Status {
-        return accountRepository.addFavouriteList(movieId, mediaType, isFavorite)
+        return accountRepository.addFavouriteList(mediaId, mediaType, isFavorite)
     }
 }
