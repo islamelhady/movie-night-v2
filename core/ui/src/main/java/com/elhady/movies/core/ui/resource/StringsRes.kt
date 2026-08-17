@@ -1,6 +1,7 @@
 package com.elhady.movies.core.ui.resource
 
 interface StringsRes {
+    val noTrailer: String
     val theRequestFailed: String
     val noNetworkConnection: String
     val passwordIsRequired: String

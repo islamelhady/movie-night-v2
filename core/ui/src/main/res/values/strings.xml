@@ -125,4 +125,5 @@
     <string name="empty_response_error">No data received from server.</string>
     <string name="server_error">Server error occurred. Please try again later.</string>
     <string name="unknown_error">An unexpected error occurred.</string>
+    <string name="no_trailer">trailer not available</string>
 </resources>

@@ -12,6 +12,7 @@ import javax.inject.Singleton
 class StringsResImpl @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : StringsRes {
+    override val noTrailer: String = getString(R.string.no_trailer)
     override val theRequestFailed: String = getString(R.string.the_request_failed)
     override val noNetworkConnection: String = getString(R.string.no_network_connection)
     override val passwordIsRequired: String = getString(R.string.password_is_required)
