@@ -49,29 +49,6 @@ fun ImageView.loadImageForReviews(backDropPath: String?, autherName: String) {
 }
 
 
-@BindingAdapter(value = ["app:genreChips", "app:listener"])
-fun ChipGroup.setGenreChips(
-    chips: List<UserListUiState>,
-    chipListener: ChipListener
-) {
-    val inflater = LayoutInflater.from(context)
-    for (chipUiState in chips) {
-        val binding = DataBindingUtil.inflate<GenreChipBinding>(
-            inflater,
-            com.elhady.movies.core.ui.R.layout.genre_chip,
-            this,
-            false
-        )
-        binding.item = chipUiState
-        binding.listener = chipListener
-        addView(binding.root, 0)
-    }
-}
-
-@BindingAdapter(value = ["app:emptyList"])
-fun View.emptyList(list: List<Any>): Int {
-    return if (list.isEmpty()) View.GONE else View.VISIBLE
-}
 @BindingAdapter(value = ["app:hideOnEmpty"])
 fun View.hideOnEmpty(list: List<Any>) {
     if (list.isEmpty()) this.visibility = View.GONE else this.visibility = View.VISIBLE
