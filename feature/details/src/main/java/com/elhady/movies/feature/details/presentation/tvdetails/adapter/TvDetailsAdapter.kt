@@ -67,7 +67,7 @@ class TvDetailsAdapter(
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         when (holder) {
-            is InfoViewHolder -> bindUpper(holder, position)
+            is InfoViewHolder -> bindInfo(holder, position)
             is PeopleViewHolder -> bindPeople(holder, position)
             is SeasonViewHolder -> bindSeason(holder, position)
             is RecommendedViewHolder -> bindRecommended(holder, position)
@@ -83,7 +83,7 @@ class TvDetailsAdapter(
 
     override fun getItemViewType(position: Int): Int = tvDetailsItems[position].type.ordinal
 
-    private fun bindUpper(holder: InfoViewHolder, position: Int) {
+    private fun bindInfo(holder: InfoViewHolder, position: Int) {
         val info = tvDetailsItems[position] as TvDetailsItem.Info
         holder.binding.item = info
         holder.binding.playButtonListener = listener
