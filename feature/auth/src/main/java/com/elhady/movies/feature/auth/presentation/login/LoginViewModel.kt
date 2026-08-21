@@ -1,11 +1,11 @@
 package com.elhady.movies.feature.auth.presentation.login
 
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.core.domain.usecase.auth.LoginError
+import com.elhady.movies.core.domain.usecase.auth.LoginUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.resource.NavigationRes
 import com.elhady.movies.core.ui.resource.StringsRes
-import com.elhady.movies.core.domain.usecase.auth.LoginError
-import com.elhady.movies.core.domain.usecase.auth.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -16,50 +16,96 @@ class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val stringsRes: StringsRes,
     private val navigationRes: NavigationRes,
-) : BaseViewModel<LoginUiState, LoginUiEvent>(LoginUiState()) {
+) : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState()) {
 
-    fun onClickSignUp() {
-        sendEffect(LoginUiEvent.SignUpEvent)
-    }
-
-    fun login() {
-        viewModelScope.launch {
-            val userName = _state.value.userName
-            val password = _state.value.password
-            _state.update { it.copy(isLoading = true) }
-            when (loginUseCase(userName, password)) {
-                LoginError.USER_NAME_ERROR -> updateStateToUserNameError()
-                LoginError.PASSWORD_ERROR -> updateStateToPasswordError()
-                LoginError.REQUEST_ERROR -> updateStateToRequestError()
-                LoginError.SUCCESS -> updateStateToSuccessLogin()
-                LoginError.NO_INPUT_ERRORS -> {
-                    _state.update {
-                        it.copy(
-                            userNameError = null,
-                            passwordError = null,
-                            isLoading = false
-                        )
-                    }
+    fun onEvent(event: LoginUiEvent) {
+        when (event) {
+            is LoginUiEvent.UsernameChanged -> {
+                _state.update {
+                    it.copy(
+                        username = event.username,
+                        usernameError = null,
+                    )
                 }
             }
-            _state.update { it.copy(isLoading = false) }
+
+            is LoginUiEvent.PasswordChanged -> {
+                _state.update {
+                    it.copy(
+                        password = event.password,
+                        passwordError = null,
+                    )
+                }
+            }
+
+            LoginUiEvent.LoginClicked -> {
+                login()
+            }
+
+            LoginUiEvent.SignUpClicked -> {
+                sendEffect(LoginUiEffect.NavigateToSignUp)
+            }
         }
     }
 
-    private fun updateStateToRequestError() {
-        sendEffect(LoginUiEvent.ShowSnackBar(stringsRes.theRequestFailed))
-    }
+    private fun login() {
+        viewModelScope.launch {
+            val username = state.value.username
+            val password = state.value.password
 
-    private fun updateStateToUserNameError() {
-        _state.update { it.copy(userNameError = stringsRes.usernameIsRequired, isLoading = false) }
-    }
+            _state.update {
+                it.copy(
+                    isLoading = true,
+                    usernameError = null,
+                    passwordError = null,
+                )
+            }
 
-    private fun updateStateToPasswordError() {
-        _state.update { it.copy(passwordError = stringsRes.passwordIsRequired, isLoading = false) }
-    }
+            when (loginUseCase(username, password)) {
+                LoginError.USER_NAME_ERROR -> {
+                    _state.update {
+                        it.copy(
+                            usernameError = stringsRes.usernameIsRequired,
+                            isLoading = false,
+                        )
+                    }
+                }
 
-    private fun updateStateToSuccessLogin() {
-        _state.update { it.copy(userNameError = null, passwordError = null, isLoading = false) }
-        sendEffect(LoginUiEvent.NavigateToHomeScreen(navigationRes.profileFeatureLink))
+                LoginError.PASSWORD_ERROR -> {
+                    _state.update {
+                        it.copy(
+                            passwordError = stringsRes.passwordIsRequired,
+                            isLoading = false,
+                        )
+                    }
+                }
+
+                LoginError.REQUEST_ERROR -> {
+                    _state.update {
+                        it.copy(isLoading = false)
+                    }
+
+                    sendEffect(
+                        LoginUiEffect.ShowSnackBar(
+                            stringsRes.theRequestFailed
+                        )
+                    )
+                }
+
+                LoginError.SUCCESS -> {
+                    _state.update {
+                        it.copy(isLoading = false)
+                    }
+
+                    sendEffect(LoginUiEffect.NavigateToHome)
+                }
+
+                LoginError.NO_INPUT_ERRORS -> {
+                    _state.update {
+                        it.copy(isLoading = false)
+                    }
+                }
+            }
+        }
     }
 }
