@@ -48,7 +48,7 @@
             app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
             app:visibilityMode="ignore" />
         <Constraint
-            android:id="@+id/progressBar"
+            android:id="@+id/loading_animation"
             android:layout_width="100dp"
             android:layout_height="100dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -56,8 +56,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:visibilityMode="ignore" />
+
         <Constraint
-            android:id="@+id/lottie_animation"
+            android:id="@+id/error_animation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/button_retry"
@@ -74,7 +75,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lottie_animation"
+            app:layout_constraintTop_toBottomOf="@+id/error_animation"
             app:visibilityMode="ignore" />
 
         <Constraint
@@ -118,7 +119,7 @@
 
 
         <Constraint
-            android:id="@+id/progressBar"
+            android:id="@+id/loading_animation"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginEnd="8dp"
@@ -129,7 +130,7 @@
             motion:layout_constraintTop_toTopOf="parent" />
 
         <Constraint
-            android:id="@+id/lottie_animation"
+            android:id="@+id/error_animation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -147,7 +148,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lottie_animation"
+            app:layout_constraintTop_toBottomOf="@+id/error_animation"
             app:visibilityMode="ignore" />
 
         <Constraint

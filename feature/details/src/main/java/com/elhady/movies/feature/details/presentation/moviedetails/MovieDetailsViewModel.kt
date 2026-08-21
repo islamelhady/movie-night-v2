@@ -3,26 +3,26 @@ package com.elhady.movies.feature.details.presentation.moviedetails
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.elhady.movies.core.ui.base.BaseViewModel
-import com.elhady.movies.core.ui.resource.StringsRes
-import com.elhady.movies.core.domain.model.common.Status
-import com.elhady.movies.core.domain.model.movie.MovieDetails
 import com.elhady.movies.core.common.ForbiddenThrowable
-import com.elhady.movies.core.domain.usecase.account.AddToUserListUseCase
-import com.elhady.movies.core.domain.usecase.account.CreateUserListUseCase
-import com.elhady.movies.core.domain.usecase.account.GetUserListsUseCase
-import com.elhady.movies.core.domain.usecase.account.AddToFavouriteUseCase
-import com.elhady.movies.core.domain.usecase.account.AddToWatchList
-import com.elhady.movies.core.domain.usecase.movie.GetMovieDetailsUseCase
-import com.elhady.movies.core.domain.usecase.movie.SetRatingUseCase
 import com.elhady.movies.core.common.NoNetworkThrowable
 import com.elhady.movies.core.common.UnauthorizedThrowable
+import com.elhady.movies.core.domain.model.common.Status
+import com.elhady.movies.core.domain.model.movie.MovieDetails
+import com.elhady.movies.core.domain.usecase.account.AddToFavouriteUseCase
+import com.elhady.movies.core.domain.usecase.account.AddToUserListUseCase
+import com.elhady.movies.core.domain.usecase.account.AddToWatchList
+import com.elhady.movies.core.domain.usecase.account.CreateUserListUseCase
+import com.elhady.movies.core.domain.usecase.account.GetUserListsUseCase
 import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
-import com.elhady.movies.core.domain.usecase.movie.InsertMovieToWatchHistoryUseCase
+import com.elhady.movies.core.domain.usecase.movie.GetMovieDetailsUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetRatingMovieUseCase
+import com.elhady.movies.core.domain.usecase.movie.InsertMovieToWatchHistoryUseCase
+import com.elhady.movies.core.domain.usecase.movie.SetRatingUseCase
+import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.interaction.ChipListener
 import com.elhady.movies.core.ui.interaction.MediaListener
 import com.elhady.movies.core.ui.interaction.PeopleListener
+import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.core.ui.state.UserListUiState
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.CastUiMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.RecommendedUiMapper
@@ -33,7 +33,6 @@ import com.elhady.movies.feature.details.presentation.moviedetails.mapper.UserLi
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.WatchHistoryUiMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.rate.BottomSheetListener
 import com.elhady.movies.feature.details.presentation.moviedetails.save.SaveToListListener
-import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvRatingUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
@@ -60,7 +59,6 @@ class MovieDetailsViewModel @Inject constructor(
     private val watchHistoryUiStateMapper: WatchHistoryUiMapper,
     private val userListsUiMapper: UserListUiMapper,
     private val getRatingMovieUseCase: GetRatingMovieUseCase,
-    private val tvRatingUiMapper: TvRatingUiMapper,
     private val stringsRes: StringsRes,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel<MovieDetailsUiState, MovieDetailsUiEvent>(MovieDetailsUiState()),
@@ -116,18 +114,15 @@ class MovieDetailsViewModel @Inject constructor(
      fun onRatingSubmit() {
         tryToExecute(
             call = { ratingUseCase(movieId!!, state.value.userRating) },
-            onSuccess = ::onRatingSuccess,
+            onSuccess = { onRatingSuccess() },
             onError = {
                 sendEffect(MovieDetailsUiEvent.ApplyRatingEvent(stringsRes.someThingErrorWhenAddRating))
             }
         )
     }
 
-    private fun onRatingSuccess(statusEntity: Status) {
+    private fun onRatingSuccess() {
         sendEffect(MovieDetailsUiEvent.ApplyRatingEvent(stringsRes.ratingAddSuccessFully))
-        val item = tvRatingUiMapper.map(statusEntity)
-
-        Log.d("Rate Success", "${state.value.userRating} ${item.ratingSuccess}")
     }
 
 
@@ -198,7 +193,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     fun addToFavourite() {
         tryToExecute(
-            call = { addToFavouriteUseCase(movieId = movieId!!, mediaType = "movie") },
+            call = { addToFavouriteUseCase(mediaId = movieId!!, mediaType = "movie") },
             onSuccess = { showMessageWithSnackBar(messages = stringsRes.addSuccessfully) },
             onError = ::onError
         )

@@ -2,10 +2,9 @@ package com.elhady.movies.core.data.base
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import java.io.IOException
+import com.elhady.movies.core.common.AppException
 
 abstract class BasePagingSource<Service, Value : Any>(
-    val service: Service
 ) : PagingSource<Int, Value>() {
 
     protected abstract suspend fun fetchData(page: Int): List<Value>
@@ -20,7 +19,7 @@ abstract class BasePagingSource<Service, Value : Any>(
                 prevKey = if (currentPage == 1) null else currentPage - 1,
                 nextKey = nextKey
             )
-        } catch (e: IOException) {
+        } catch (e: AppException) {
             LoadResult.Error(e)
         }
     }

@@ -26,10 +26,10 @@ class TvDetailsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return when (viewType) {
-            TvDetailsType.UPPER.ordinal -> UpperViewHolder(
+            TvDetailsType.INFO.ordinal -> InfoViewHolder(
                 DataBindingUtil.inflate(
                     LayoutInflater.from(parent.context),
-                    R.layout.tv_details_item_upper, parent, false
+                    R.layout.tv_details_item_info, parent, false
                 )
             )
 
@@ -61,13 +61,13 @@ class TvDetailsAdapter(
                 )
             )
 
-            else -> throw IllegalStateException("UNKNOWN VIEW TYPE")
+            else -> throw IllegalStateException("UNKNOWN VIEW TYPE $viewType")
         }
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         when (holder) {
-            is UpperViewHolder -> bindUpper(holder, position)
+            is InfoViewHolder -> bindInfo(holder, position)
             is PeopleViewHolder -> bindPeople(holder, position)
             is SeasonViewHolder -> bindSeason(holder, position)
             is RecommendedViewHolder -> bindRecommended(holder, position)
@@ -83,9 +83,9 @@ class TvDetailsAdapter(
 
     override fun getItemViewType(position: Int): Int = tvDetailsItems[position].type.ordinal
 
-    private fun bindUpper(holder: UpperViewHolder, position: Int) {
-        val upper = tvDetailsItems[position] as TvDetailsItem.Upper
-        holder.binding.item = upper
+    private fun bindInfo(holder: InfoViewHolder, position: Int) {
+        val info = tvDetailsItems[position] as TvDetailsItem.Info
+        holder.binding.item = info
         holder.binding.playButtonListener = listener
         holder.binding.rateListener = listener
     }
@@ -118,7 +118,7 @@ class TvDetailsAdapter(
     }
 
 
-    class UpperViewHolder(val binding: TvDetailsItemUpperBinding) : BaseViewHolder(binding)
+    class InfoViewHolder(val binding: TvDetailsItemUpperBinding) : BaseViewHolder(binding)
 
     class PeopleViewHolder(val binding: TvDetailsItemPeopleRvBinding) : BaseViewHolder(binding)
 

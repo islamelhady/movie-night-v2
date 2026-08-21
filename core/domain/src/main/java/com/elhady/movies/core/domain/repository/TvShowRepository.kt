@@ -29,7 +29,7 @@ interface TvShowRepository {
 
     suspend fun getTvDetailsInfo(tvShowID: Int): TvDetailsInfo
     suspend fun getTvDetailsSeasons(tvShowID: Int): List<Season>
-    suspend fun getTvDetailsCredit(tvShowID: Int): List<People>
+    suspend fun getTvDetailsCast(tvShowID: Int): List<People>
     suspend fun rateTvShow(rate: Double, tvShowID: Int): Status
     suspend fun getRateTvShow(): List<MyRatedTvShow>
 

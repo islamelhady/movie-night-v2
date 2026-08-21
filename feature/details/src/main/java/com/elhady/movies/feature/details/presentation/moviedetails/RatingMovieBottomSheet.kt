@@ -8,7 +8,7 @@ import com.elhady.movies.feature.details.R
 import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.feature.details.databinding.MovieRatingBottomSheetBinding
 import com.elhady.movies.core.ui.base.BaseBottomSheet
-import com.elhady.movies.feature.details.presentation.tvdetails.BottomSheetDismissListener
+import com.elhady.movies.feature.details.presentation.tvdetails.listener.BottomSheetDismissListener
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 

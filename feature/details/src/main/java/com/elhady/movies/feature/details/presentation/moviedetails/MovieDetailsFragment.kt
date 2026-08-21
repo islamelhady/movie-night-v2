@@ -14,7 +14,7 @@ import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.feature.details.databinding.FragmentMovieDetailsBinding
 import com.elhady.movies.feature.details.presentation.moviedetails.adapter.MovieDetailsAdapter
 import com.elhady.movies.feature.details.presentation.moviedetails.adapter.MovieDetailsItem
-import com.elhady.movies.feature.details.presentation.tvdetails.BottomSheetDismissListener
+import com.elhady.movies.feature.details.presentation.tvdetails.listener.BottomSheetDismissListener
 import com.elhady.movies.core.ui.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

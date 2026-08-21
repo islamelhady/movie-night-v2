@@ -7,6 +7,7 @@ import androidx.fragment.app.activityViewModels
 import com.elhady.movies.feature.details.BR
 import com.elhady.movies.feature.details.R
 import com.elhady.movies.core.ui.base.BaseBottomSheet
+import com.elhady.movies.core.ui.util.setGenreChips
 import com.elhady.movies.feature.details.databinding.SaveMovieToCreateListBottomSheetBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged

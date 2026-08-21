@@ -4,9 +4,6 @@
 
     <data>
 
-        <variable
-            name="viewModel"
-            type="com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsViewModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

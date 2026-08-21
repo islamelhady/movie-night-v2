@@ -1,11 +1,11 @@
 package com.elhady.movies.feature.tvshow.presentation.tvshow
 
 sealed interface TvShowUiEvent {
-    data class NavigateToTvShowDetails(val tvId: Int) : TvShowUiEvent
-    object ShowOnTheAirTvShowsResult : TvShowUiEvent
-    object ShowAiringTodayTvShowsResult : TvShowUiEvent
-    object ShowTopRatedTvShowsResult : TvShowUiEvent
-    object ShowPopularTvShowsResult : TvShowUiEvent
-    data class ShowSnackBar(val messages: String) : TvShowUiEvent
-    object ScrollToTopRecycler : TvShowUiEvent
+    object OnTheAirTvShowClicked : TvShowUiEvent
+    object AiringTodayTvShowClicked : TvShowUiEvent
+    object TopRatedTvShowClicked : TvShowUiEvent
+    object PopularTvShowClicked : TvShowUiEvent
+    data class TvShowItemClicked(val tvId: Int) : TvShowUiEvent
+    object RetryClicked : TvShowUiEvent
+    object ToTopClicked : TvShowUiEvent
 }

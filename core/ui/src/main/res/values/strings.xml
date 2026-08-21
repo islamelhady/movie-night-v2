@@ -27,7 +27,7 @@
     <string name="apply">Apply</string>
     <string name="popular_movies">Popular Movies</string>
     <string name="movies">Movies</string>
-    <string name="retry">retry</string>
+    <string name="retry">Retry</string>
     <string name="item_deleted">Item Deleted</string>
     <string name="undo">UNDO</string>
     <string name="duplicate_entry">Duplicate entry: The Media you tried to add already exists.</string>
@@ -125,4 +125,5 @@
     <string name="empty_response_error">No data received from server.</string>
     <string name="server_error">Server error occurred. Please try again later.</string>
     <string name="unknown_error">An unexpected error occurred.</string>
+    <string name="no_trailer">trailer not available</string>
 </resources>

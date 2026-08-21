@@ -3,11 +3,12 @@ package com.elhady.movies.feature.details.presentation.tvdetails
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import com.elhady.movies.feature.details.BR
+import androidx.lifecycle.ViewModel
 import com.elhady.movies.feature.details.R
 import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.core.ui.base.BaseBottomSheet
 import com.elhady.movies.feature.details.databinding.TvDetailsItemBotomSheetBinding
+import com.elhady.movies.feature.details.presentation.tvdetails.listener.BottomSheetDismissListener
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,8 +16,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class RateTvDetailsBottomSheet :
     BaseBottomSheet<TvDetailsItemBotomSheetBinding>() {
     override val layoutIdFragment: Int = R.layout.tv_details_item_botom_sheet
-    override val viewModel by activityViewModels<TvDetailsViewModel>()
-    override val viewModelVariableId: Int = BR.viewModel
+    override val viewModel: TvDetailsViewModel by activityViewModels()
+    override val viewModelVariableId: Int = 0
 
     private var dismissListener: BottomSheetDismissListener? = null
 
@@ -35,8 +36,8 @@ class RateTvDetailsBottomSheet :
             if (userRating == 0f) {
                 showSnackBar(getString(CoreUiR.string.please_rate_first))
             } else {
-                dismissListener?.onApplyRateBottomSheet()
                 dismissListener?.updateRatingValue(userRating)
+                dismissListener?.onApplyRateBottomSheet()
                 dismiss()
             }
         }
@@ -47,3 +48,5 @@ class RateTvDetailsBottomSheet :
         Snackbar.make(binding.root, messages, Snackbar.LENGTH_SHORT).show()
     }
 }
+
+class GenericViewModel : ViewModel()

@@ -7,9 +7,6 @@ import javax.inject.Inject
 
 class TvDetailsReviewUiMapper @Inject constructor() :
     Mapper<Review, CommentUiState> {
-    override fun map(input: List<Review>): List<CommentUiState> {
-        return input.map(::map)
-    }
 
     override fun map(input: Review): CommentUiState {
         return CommentUiState(

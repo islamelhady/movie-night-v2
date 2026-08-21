@@ -113,6 +113,7 @@
     <string name="mystery">غموض</string>
     <string name="adventure">مغامرة</string>
     <string name="popular_actors">ممثلون مشهورون</string>
+    <string name="no_trailer">الفيديو غير متاح</string>
 
     <!-- Error Messages -->
     <string name="unauthorized_error">غير مصرح بالدخول. يرجى تسجيل الدخول.</string>

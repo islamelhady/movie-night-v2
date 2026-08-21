@@ -3,6 +3,7 @@ package com.elhady.movies.feature.tvshow.presentation.tvshow
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.forEach
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -10,17 +11,19 @@ import com.elhady.movies.feature.tvshow.BR
 import com.elhady.movies.feature.tvshow.R
 import com.elhady.movies.core.ui.adapter.BaseFooterAdapter
 import com.elhady.movies.core.ui.base.BaseFragment
+import com.elhady.movies.core.ui.base.animationRes
 import com.elhady.movies.feature.tvshow.databinding.FragmentTvShowsBinding
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.tvshow.presentation.tvshow.adapter.TvShowAdapter
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class TvShowFragment : BaseFragment<FragmentTvShowsBinding, TvShowUiState, TvShowUiEvent>() {
+class TvShowFragment : BaseFragment<FragmentTvShowsBinding, TvShowUiState, TvShowUiEffect>() {
 
     @Inject
     lateinit var navigator: Navigator
@@ -28,65 +31,148 @@ class TvShowFragment : BaseFragment<FragmentTvShowsBinding, TvShowUiState, TvSho
     override val layoutIdFragment = R.layout.fragment_tv_shows
     override val viewModel: TvShowViewModel by viewModels()
     override val viewModelVariableId: Int = BR.viewModel
-    private val tvShowsAdapter by lazy { TvShowAdapter(viewModel) }
+    private val tvShowAdapter by lazy {
+        TvShowAdapter(
+            listener = object : TvShowListener {
+                override fun onClickMedia(id: Int) {
+                    viewModel.onEvent(TvShowUiEvent.TvShowItemClicked(id))
+                }
+            }
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setAdapter()
+        setupRecyclerView()
+        setupListener()
+
+        collectFlow(viewModel.state) { state ->
+            render(state)
+        }
         doNothingWhenTheSameChipIsReselected()
     }
 
-    private fun setAdapter() {
-        val footerAdapter = BaseFooterAdapter { tvShowsAdapter.retry() }
-        binding.recyclerViewTvShows.adapter = tvShowsAdapter.withLoadStateFooter(footerAdapter)
+    private fun setupRecyclerView() {
+        val footerAdapter = BaseFooterAdapter { tvShowAdapter.retry() }
+        binding.recyclerViewTvShows.adapter = tvShowAdapter.withLoadStateFooter(footerAdapter)
 
-        val mManager = binding.recyclerViewTvShows.layoutManager as GridLayoutManager
-        mManager.setSpanSize(footerAdapter, tvShowsAdapter, mManager.spanCount)
+        val layoutManager = binding.recyclerViewTvShows.layoutManager as GridLayoutManager
+        layoutManager.setSpanSize(
+            footerAdapter,
+            tvShowAdapter,
+            layoutManager.spanCount
+        )
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collectLatest { state ->
-                val flow = when (state.tvShowType) {
-                    TvShowType.AIRING_TODAY -> state.tvShowAiringToday
-                    TvShowType.ON_THE_AIR -> state.tvShowOnTheAir
-                    TvShowType.TOP_RATED -> state.tvShowTopRated
-                    TvShowType.POPULAR -> state.tvShowPopular
-                }
-                collectLast(flow) { itemsPagingData ->
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        tvShowsAdapter.submitData(itemsPagingData)
-                    }
-                }
-                collectLast(tvShowsAdapter.loadStateFlow) { viewModel.setErrorUiState(it) }
+            tvShowAdapter.loadStateFlow.collectLatest { loadStates ->
+                viewModel.onPagingLoadStateChanged(loadStates)
             }
         }
     }
 
-    override fun onEffect(effect: TvShowUiEvent) {
-        when (effect) {
-            is TvShowUiEvent.ShowOnTheAirTvShowsResult -> viewModel.getOnTheAirTvShows()
-            is TvShowUiEvent.ShowAiringTodayTvShowsResult -> viewModel.getAiringTodayTvShows()
-            is TvShowUiEvent.ShowTopRatedTvShowsResult -> viewModel.getTopRatedTvShows()
-            is TvShowUiEvent.ShowPopularTvShowsResult -> viewModel.getPopularTvShows()
-            is TvShowUiEvent.NavigateToTvShowDetails -> navigate(effect.tvId)
-            is TvShowUiEvent.ShowSnackBar -> showSnackBar(effect.messages)
-            is TvShowUiEvent.ScrollToTopRecycler -> binding.recyclerViewTvShows.scrollToPosition(0)
+    private fun setupListener() {
+        binding.chipAiringToday.setOnClickListener {
+            viewModel.onEvent(TvShowUiEvent.AiringTodayTvShowClicked)
+        }
+        binding.chipOnTheAir.setOnClickListener {
+            viewModel.onEvent(TvShowUiEvent.OnTheAirTvShowClicked)
+        }
+        binding.chipPopular.setOnClickListener {
+            viewModel.onEvent(TvShowUiEvent.PopularTvShowClicked)
+        }
+        binding.chipTopRated.setOnClickListener {
+            viewModel.onEvent(TvShowUiEvent.TopRatedTvShowClicked)
+        }
+        binding.fabScrollToTop.setOnClickListener {
+            viewModel.onEvent(TvShowUiEvent.ToTopClicked)
+        }
+        binding.buttonRetry.setOnClickListener {
+            viewModel.onEvent(TvShowUiEvent.RetryClicked)
         }
     }
 
-    private fun navigate(tvId: Int) {
-        navigator.navigateToTvDetails(tvId)
+
+    override fun onEffect(effect: TvShowUiEffect) {
+        when (effect) {
+            is TvShowUiEffect.NavigateToTvShowDetails -> {
+                navigator.navigateToTvDetails(effect.tvId)
+            }
+
+            TvShowUiEffect.ScrollToTop -> {
+                binding.recyclerViewTvShows.scrollToPosition(0)
+            }
+
+            is TvShowUiEffect.ShowSnackBar -> {
+                showSnackBar(effect.messages)
+            }
+        }
     }
 
+    private fun render(state: TvShowUiState) {
+        renderLoading(state)
+        renderError(state)
+        collectPagingState(state)
+        renderChipGroup(state)
+    }
+
+
+    private fun renderLoading(state: TvShowUiState) {
+        binding.loadingAnimation.isVisible = state.isLoading
+    }
+
+    private fun renderError(state: TvShowUiState) {
+        val error = state.error
+        binding.errorAnimation.isVisible = error != null
+        binding.buttonRetry.isVisible = error != null
+
+        if (error == null) {
+            binding.errorAnimation.cancelAnimation()
+            return
+        }
+
+        binding.errorAnimation.setAnimation(error.animationRes)
+        binding.errorAnimation.playAnimation()
+    }
+
+    private fun collectPagingState(state: TvShowUiState) {
+        val tvShowPaging = when (state.tvShowType) {
+            TvShowType.AIRING_TODAY -> state.tvShowAiringToday
+            TvShowType.ON_THE_AIR -> state.tvShowOnTheAir
+            TvShowType.TOP_RATED -> state.tvShowTopRated
+            TvShowType.POPULAR -> state.tvShowPopular
+        }
+        binding.recyclerViewTvShows.isVisible = !state.isLoading && state.error == null
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            tvShowPaging.collectLatest { pagingData ->
+                tvShowAdapter.submitData(pagingData)
+            }
+        }
+
+    }
+
+    private fun renderChipGroup(state: TvShowUiState) {
+        when (state.tvShowType) {
+            TvShowType.AIRING_TODAY -> binding.chipAiringToday.isChecked = true
+            TvShowType.ON_THE_AIR -> binding.chipOnTheAir.isChecked = true
+            TvShowType.TOP_RATED -> binding.chipTopRated.isChecked = true
+            TvShowType.POPULAR -> binding.chipPopular.isChecked = true
+        }
+    }
 
     private fun doNothingWhenTheSameChipIsReselected() {
-        binding.chipGroup.setOnCheckedStateChangeListener { group, checkedId ->
-            if (checkedId.isNotEmpty()) {
-                val chip = group.findViewById<Chip>(checkedId.first())
-                chip.let {
-                    group.forEach { itemChip -> itemChip.isClickable = true }
-                    chip.isClickable = false
-                }
+
+        binding.chipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
+
+            val chip = group.findViewById<Chip>(
+                checkedIds.first()
+            )
+
+            group.forEach { itemChip ->
+                itemChip.isClickable = true
             }
+
+            chip.isClickable = false
         }
     }
 }

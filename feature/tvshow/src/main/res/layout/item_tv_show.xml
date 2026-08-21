@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.tvshow.presentation.tvshow.TvShowUi" />
+            type="com.elhady.movies.feature.tvshow.presentation.tvshow.ShowUiState" />
 
         <variable
             name="listener"
@@ -17,7 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{()-> listener.onClickTvShowItem(item.tvId)}">
+        android:onClick="@{()-> item.tvId != null ? listener.onClickMedia(item.tvId) : null}">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/shapeable_ImageView"

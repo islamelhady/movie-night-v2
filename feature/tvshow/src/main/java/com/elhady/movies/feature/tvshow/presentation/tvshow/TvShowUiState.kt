@@ -1,25 +1,24 @@
 package com.elhady.movies.feature.tvshow.presentation.tvshow
 
 import androidx.paging.PagingData
-import com.elhady.movies.core.ui.base.UiError
+import com.elhady.movies.core.ui.base.ErrorUiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlin.math.roundToInt
 
 data class TvShowUiState(
     val tvShowType: TvShowType = TvShowType.AIRING_TODAY,
-    val tvShowAiringToday: Flow<PagingData<TvShowUi>> = emptyFlow(),
-    val tvShowTopRated: Flow<PagingData<TvShowUi>> = emptyFlow(),
-    val tvShowOnTheAir: Flow<PagingData<TvShowUi>> = emptyFlow(),
-    val tvShowPopular: Flow<PagingData<TvShowUi>> = emptyFlow(),
-    val error: UiError? = null,
+    val tvShowAiringToday: Flow<PagingData<ShowUiState>> = emptyFlow(),
+    val tvShowTopRated: Flow<PagingData<ShowUiState>> = emptyFlow(),
+    val tvShowOnTheAir: Flow<PagingData<ShowUiState>> = emptyFlow(),
+    val tvShowPopular: Flow<PagingData<ShowUiState>> = emptyFlow(),
+    val error: ErrorUiState? = null,
     val isLoading: Boolean = false
 ) {
-    val isError: Boolean
-        get() = error != null
+    val isError: Boolean get() = error != null
 }
 
-data class TvShowUi(
+data class ShowUiState(
     val tvId: Int?,
     val imageUrl: String?,
     val rate: Double?

@@ -34,23 +34,3 @@ fun ChipGroup.setChips(chips: List<String>) {
     }
 }
 
-@BindingAdapter(value = ["app:genreChips","app:listener"])
-fun ChipGroup.setGenreChips(chips: List<UserListUiState>, chipListener: ChipListener) {
-    val inflater = LayoutInflater.from(context)
-    for (chipUiState in chips) {
-        val binding = DataBindingUtil.inflate<GenreChipBinding>(
-            inflater,
-            com.elhady.movies.core.ui.R.layout.genre_chip,
-            this,
-            false
-        )
-        binding.item = chipUiState
-        binding.listener = chipListener
-        addView(binding.root, 0)
-    }
-}
-
-@BindingAdapter(value=["app:emptyList"])
-fun View.emptyList(list: List<Any>): Int {
-    return if (list.isEmpty()) View.GONE else View.VISIBLE
-}

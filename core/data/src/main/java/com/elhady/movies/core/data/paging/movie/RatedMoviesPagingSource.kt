@@ -6,18 +6,20 @@ import com.elhady.movies.core.data.base.BasePagingSource
 import com.elhady.movies.core.domain.model.account.MyRatedMovie
 import com.elhady.movies.core.data.mapper.movie.GenreEntityMapper
 import com.elhady.movies.core.data.mapper.account.MyRatedMoviesDtoMapper
+import com.elhady.movies.core.network.exception.SafeApiCaller
 import javax.inject.Inject
 
 class RatedMoviesPagingSource @Inject constructor(
-    service: AccountApiService,
+    private val service: AccountApiService,
+    private val safeApiCaller: SafeApiCaller,
     private val domainGenreMapper: GenreEntityMapper,
     private val mapper: MyRatedMoviesDtoMapper,
     private val genreMovieDao: GenreMovieDao,
-) : BasePagingSource<AccountApiService, MyRatedMovie>(service) {
+) : BasePagingSource<AccountApiService, MyRatedMovie>() {
 
     override suspend fun fetchData(page: Int): List<MyRatedMovie> {
-        val response = service.getRatedMovies(page).body()?.results?.filterNotNull()
+        val response = safeApiCaller.execute { service.getRatedMovies(page) }.results?.filterNotNull()
         val genreMovieMapper = domainGenreMapper.map(genreMovieDao.getGenresMovies())
-        return response?.map { mapper.map(it , genreMovieMapper) } ?: emptyList()
+        return response?.map { mapper.map(it , genreMovieMapper) }.orEmpty()
     }
 }
