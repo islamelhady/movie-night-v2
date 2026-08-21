@@ -5,9 +5,17 @@
 
     <data>
 
+        <import type="com.elhady.movies.core.ui.state.UserListUiState" />
+        <import type="com.elhady.movies.core.ui.interaction.ChipListener" />
+        <import type="java.util.List" />
+
         <variable
-            name="viewModel"
-            type="com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsViewModel" />
+            name="items"
+            type="List&lt;UserListUiState&gt;" />
+
+        <variable
+            name="chipListener"
+            type="com.elhady.movies.core.ui.interaction.ChipListener" />
 
     </data>
 
@@ -150,6 +158,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:chipSpacingHorizontal="@dimen/spacing_tiny_4dp"
+                app:userListChips="@{items}"
+                app:chipListener="@{chipListener}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_view_save_to">
