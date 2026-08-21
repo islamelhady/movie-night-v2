@@ -1,54 +1,63 @@
 package com.elhady.movies.feature.details.presentation.tvdetails
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
-import com.elhady.movies.core.domain.model.people.People
-import com.elhady.movies.core.domain.model.common.Review
-import com.elhady.movies.core.domain.model.tvshow.Season
-import com.elhady.movies.core.domain.model.common.Status
-import com.elhady.movies.core.domain.model.tvshow.TvShow
+import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.domain.model.account.UserList
+import com.elhady.movies.core.domain.model.common.Review
 import com.elhady.movies.core.domain.model.common.YoutubeVideoDetails
+import com.elhady.movies.core.domain.model.people.People
+import com.elhady.movies.core.domain.model.tvshow.Season
 import com.elhady.movies.core.domain.model.tvshow.TvDetailsInfo
-import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
+import com.elhady.movies.core.domain.model.tvshow.TvShow
 import com.elhady.movies.core.domain.usecase.account.AddToFavouriteUseCase
-import com.elhady.movies.core.domain.usecase.account.AddToWatchList
 import com.elhady.movies.core.domain.usecase.account.AddToUserListUseCase
+import com.elhady.movies.core.domain.usecase.account.AddToWatchList
 import com.elhady.movies.core.domain.usecase.account.CreateUserListUseCase
+import com.elhady.movies.core.domain.usecase.account.GetUserListsUseCase
+import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetRatingTvUseCase
+import com.elhady.movies.core.domain.usecase.tvshow.GetTvDetailsCastUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetTvDetailsInfoUseCase
-import com.elhady.movies.core.domain.usecase.tvshow.GetTvDetailsCreditUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetTvDetailsReviewsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetTvDetailsSeasonsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetTvShowRecommendationsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetTvShowYoutubeDetailsUseCase
-import com.elhady.movies.core.domain.usecase.account.GetUserListsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.RateTvShowUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
+import com.elhady.movies.core.ui.base.toErrorUiState
+import com.elhady.movies.core.ui.interaction.ChipListener
 import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.details.presentation.tvdetails.listener.TvDetailsListeners
-import com.elhady.movies.feature.details.presentation.tvdetails.mapper.PeopleUiMapper
-import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvDetailsInfoUiMapper
+import com.elhady.movies.feature.details.presentation.tvdetails.mapper.CastUiMapper
+import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvDetailsInfoToInfoUIStateMapper
 import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvDetailsReviewUiMapper
 import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvDetailsSeasonUiMapper
-import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvShowUiMapper
+import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvShowToUIStateMapper
 import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvShowYoutubeVideoDetailsUiMapper
 import com.elhady.movies.feature.details.presentation.tvdetails.mapper.UserListsUiMapper
+import com.elhady.movies.feature.details.presentation.tvdetails.state.CastUIState
+import com.elhady.movies.feature.details.presentation.tvdetails.state.InfoUIState
+import com.elhady.movies.feature.details.presentation.tvdetails.state.RecommendationsUIState
+import com.elhady.movies.feature.details.presentation.tvdetails.state.ReviewsUIState
+import com.elhady.movies.feature.details.presentation.tvdetails.state.SeasonsUIState
+import com.elhady.movies.feature.details.presentation.tvdetails.state.TrailerUIState
+import com.elhady.movies.feature.details.presentation.tvdetails.state.TvDetailsUIState
+import com.elhady.movies.feature.details.presentation.tvdetails.state.UserListsUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
 class TvDetailsViewModel @Inject constructor(
-    private val tvDetailsInfoUiMapper: TvDetailsInfoUiMapper,
-    private val tvShowUiMapper: TvShowUiMapper,
-    private val peopleUiMapper: PeopleUiMapper,
+    private val tvDetailsInfoToInfoUIStateMapper: TvDetailsInfoToInfoUIStateMapper,
+    private val tvShowToUIStateMapper: TvShowToUIStateMapper,
+    private val castUiMapper: CastUiMapper,
     private val tvDetailsSeasonUiMapper: TvDetailsSeasonUiMapper,
     private val tvDetailsReviewUiMapper: TvDetailsReviewUiMapper,
     private val tvDetailsInfoUseCase: GetTvDetailsInfoUseCase,
-    private val getTvDetailsCreditUseCase: GetTvDetailsCreditUseCase,
+    private val getTvDetailsCastUseCase: GetTvDetailsCastUseCase,
     private val getTvDetailsSeasonsUseCase: GetTvDetailsSeasonsUseCase,
-    private val tvShowUseCase: RateTvShowUseCase,
+    private val rateTvShowUseCase: RateTvShowUseCase,
     private val getTvDetailsReviewsUseCase: GetTvDetailsReviewsUseCase,
     private val getTvShowRecommendationsUseCase: GetTvShowRecommendationsUseCase,
     private val getTvShowYoutubeDetailsUseCase: GetTvShowYoutubeDetailsUseCase,
@@ -63,226 +72,233 @@ class TvDetailsViewModel @Inject constructor(
     private val userListsUiMapper: UserListsUiMapper,
     private val stringsRes: StringsRes,
     savedStateHandle: SavedStateHandle,
-) : BaseViewModel<TvDetailsUiState, TvDetailsUiEvent>(TvDetailsUiState()), TvDetailsListeners {
+) : BaseViewModel<TvDetailsUIState, TvDetailsUiEffect>(TvDetailsUIState()) {
 
-    private val tvShowId =
-        savedStateHandle.get<Int>("tvShowId") ?: 44217
+    private val tvShowId: Int =
+        savedStateHandle.get<Int>(TV_SHOW_ID) ?: error("TV show id is missing")
 
     init {
-        getData()
+        loadTvDetails()
     }
 
-    private fun getData() {
+
+    // initial loading
+    private fun loadTvDetails() {
         _state.update { it.copy(isLogin = checkIsUserLoggedInUseCase()) }
-        getTvShowRecommendations()
+        getTvDetailsInfo()
+        getTvDetailsCast()
+        getTvDetailsSeasons()
+        getTvDetailsReviews()
+        getTvDetailsRecommendations()
         getYoutubeDetails()
-        getTvShowInfo()
-        getTvShowCast()
-        getTvShowSeasons()
-        getTvShowReviews()
-        getTvShowRating()
+        getTvDetailsRating()
     }
 
-    fun emptyUserLists() {
-        _state.update {
-            it.copy(userLists = emptyList())
-        }
-    }
 
     //region info
-    private fun getTvShowInfo() {
-        updateLoading(true)
+    private fun getTvDetailsInfo() {
         tryToExecute(
             call = { tvDetailsInfoUseCase(tvShowId) },
-            onSuccess = ::onSuccessTvShowInfo,
-            onError = ::onError
+            onSuccess = ::onInfoSuccess,
+            onError = ::onTvDetailsInfoError
+
         )
     }
 
-    private fun onSuccessTvShowInfo(tvShowInfoEntity: TvDetailsInfo) {
-        updateLoading(false)
-        val item = tvDetailsInfoUiMapper.map(tvShowInfoEntity)
+    private fun onInfoSuccess(data: TvDetailsInfo) {
+        val infoUIState = tvDetailsInfoToInfoUIStateMapper.map(input = data)
         _state.update {
             it.copy(
-                info = it.info.copy(
-                    backdropImageUrl = item.info.backdropImageUrl,
-                    name = item.info.name,
-                    rating = item.info.rating,
-                    description = item.info.description,
-                    genres = item.info.genres,
-                    isLogin = checkIsUserLoggedInUseCase()
+                infoUIState = InfoUIState.Success(
+                    info = infoUIState
                 )
             )
         }
     }
-    //endregion
 
-    //region youtube
-    private fun getYoutubeDetails() {
-        updateLoading(true)
-        tryToExecute(
-            call = { getTvShowYoutubeDetailsUseCase(tvShowId) },
-            onSuccess = ::onYoutubeDetailsSuccess,
-            onError = {}
-        )
-    }
-
-    private fun onYoutubeDetailsSuccess(youtubeVideoEntity: YoutubeVideoDetails) {
-        val item = tvShowYoutubeVideoDetailsUiMapper.map(youtubeVideoEntity)
+    private fun onTvDetailsInfoError(error: AppException) {
         _state.update {
-            it.copy(
-                youtubeKeyId = item.youtubeKeyId
-            )
+            it.copy(infoUIState = InfoUIState.Error(error = error.toErrorUiState()))
         }
     }
     //endregion
 
     //region cast
-    private fun getTvShowCast() {
-        updateLoading(true)
+    private fun getTvDetailsCast() {
         tryToExecute(
-            call = { getTvDetailsCreditUseCase(tvShowId) },
-            onSuccess = ::onTvDetailsCastSuccess,
-            onError = ::onError
+            call = { getTvDetailsCastUseCase(tvShowId) },
+            onSuccess = ::onCastSuccess,
+            onError = ::onCastError
         )
     }
 
-    private fun onTvDetailsCastSuccess(castEntity: List<People>) {
-        updateLoading(false)
-        val item = peopleUiMapper.map(castEntity)
+    private fun onCastSuccess(data: List<People>) {
+        val cast = castUiMapper.map(data)
         _state.update {
             it.copy(
-                cast = item
+                castUIState = CastUIState.Success(cast)
             )
+        }
+    }
+
+    private fun onCastError(error: AppException) {
+        _state.update {
+            it.copy(castUIState = CastUIState.Error(error = error.toErrorUiState()))
         }
     }
     //endregion
 
-    fun addToFavourite() {
-        tryToExecute(
-            call = { addToFavouriteUseCase(tvShowId, "tv") },
-            onSuccess = {
-                sendEffect(TvDetailsUiEvent.OnFavourite(stringsRes.addSuccessfully))
-            },
-            onError = {
-                sendEffect(TvDetailsUiEvent.OnFavourite(stringsRes.someThingError))
-            }
-        )
-        Log.d("FAV TV SHOW", "$tvShowId")
-    }
-
-    fun addToWatchlist() {
-        tryToExecute(
-            call = { addToWatchList(tvShowId, "tv") },
-            onSuccess = {
-                sendEffect(TvDetailsUiEvent.OnWatchList(stringsRes.addSuccessfully))
-            },
-            onError = {
-                sendEffect(TvDetailsUiEvent.OnWatchList(stringsRes.someThingError))
-            }
-        )
-        Log.d("WAT TV SHOW", "$tvShowId")
-
-    }
-
     //region seasons
-    private fun getTvShowSeasons() {
-        updateLoading(true)
+    private fun getTvDetailsSeasons() {
         tryToExecute(
             call = { getTvDetailsSeasonsUseCase(tvShowId) },
-            onSuccess = ::onTvDetailsSeasonSuccess,
-            onError = ::onError
+            onSuccess = ::onSeasonsSuccess,
+            onError = ::onSeasonError
         )
     }
 
-    private fun onTvDetailsSeasonSuccess(seasons: List<Season>) {
-        updateLoading(false)
-        val item = tvDetailsSeasonUiMapper.map(seasons)
-        _state.update { it.copy(seasons = item.seasons) }
+    private fun onSeasonsSuccess(data: List<Season>) {
+        val seasons = tvDetailsSeasonUiMapper.map(data)
+        _state.update { it.copy(seasonsUIState = SeasonsUIState.Success(seasons = seasons)) }
+    }
+
+    private fun onSeasonError(error: AppException) {
+        _state.update {
+            it.copy(seasonsUIState = SeasonsUIState.Error(error = error.toErrorUiState()))
+        }
+    }
+
+    //endregion
+
+    //region reviews
+    private fun getTvDetailsReviews() {
+        tryToExecute(
+            call = { getTvDetailsReviewsUseCase(tvShowId) },
+            onSuccess = ::onReviewsSuccess,
+            onError = ::onReviewsError
+        )
+    }
+
+    private fun onReviewsSuccess(data: List<Review>) {
+        val reviews = tvDetailsReviewUiMapper.map(data)
+        _state.update {
+            it.copy(
+                reviewsUIState = if (reviews.isEmpty()) {
+                    ReviewsUIState.Empty
+                } else {
+                    ReviewsUIState.Success(reviews)
+                }
+            )
+        }
+    }
+
+    private fun onReviewsError(error: AppException) {
+        _state.update {
+            it.copy(reviewsUIState = ReviewsUIState.Error(error = error.toErrorUiState()))
+        }
     }
 
     //endregion
 
     //region recommendations
-    private fun getTvShowRecommendations() {
-        updateLoading(true)
+    private fun getTvDetailsRecommendations() {
         tryToExecute(
             call = { getTvShowRecommendationsUseCase(tvShowId) },
-            onSuccess = ::onTvShowRecommendationsSuccess,
-            onError = ::onError
+            onSuccess = ::onRecommendationsSuccess,
+            onError = ::onRecommendationsError
         )
     }
 
-    private fun onTvShowRecommendationsSuccess(recommendations: List<TvShow>) {
-        updateLoading(false)
-        val item = tvShowUiMapper.map(recommendations)
+    private fun onRecommendationsSuccess(data: List<TvShow>) {
+        val recommendations = tvShowToUIStateMapper.map(data)
         _state.update {
             it.copy(
-                recommended = item.recommended
+                recommendationsUIState = if (recommendations.isEmpty()) {
+                    RecommendationsUIState.Empty
+                } else {
+                    RecommendationsUIState.Success(recommendations)
+                }
             )
+        }
+    }
+
+    private fun onRecommendationsError(error: AppException) {
+        _state.update {
+            it.copy(recommendationsUIState = RecommendationsUIState.Error(error = error.toErrorUiState()))
         }
     }
     //endregion
 
-    //region rating
-    fun updateRatingUiState(rate: Float) {
+    // region youtube
+    private fun getYoutubeDetails() {
+        tryToExecute(
+            call = { getTvShowYoutubeDetailsUseCase(tvShowId) },
+            onSuccess = ::onYoutubeDetailsSuccess,
+            onError = ::onYoutubeDetailsError
+
+        )
+    }
+
+    private fun onYoutubeDetailsSuccess(data: YoutubeVideoDetails) {
+        val youtubeKeyId = tvShowYoutubeVideoDetailsUiMapper.map(data)
         _state.update {
             it.copy(
-                userRating = rate
+                trailerUIState = if (youtubeKeyId.youtubeKey.isNotEmpty()) {
+                    TrailerUIState.Available(youtubeKey = youtubeKeyId)
+                } else {
+                    TrailerUIState.NotAvailable
+                }
             )
         }
     }
 
-    fun onRatingSubmit() {
-        tryToExecute(
-            call = { tvShowUseCase(state.value.userRating.toDouble(), tvShowId) },
-            onSuccess = ::onRatingSuccess,
-            onError = {
-                sendEffect(TvDetailsUiEvent.ApplyRating(stringsRes.someThingErrorWhenAddRating))
-            }
-        )
+    private fun onYoutubeDetailsError(error: AppException) {
+        _state.update {
+            it.copy(trailerUIState = TrailerUIState.Error(error = error.toErrorUiState()))
+        }
     }
+    //endregion
 
-    private fun onRatingSuccess(statusEntity: Status) {
-        sendEffect(TvDetailsUiEvent.ApplyRating(stringsRes.ratingAddSuccessFully))
-
-        Log.d("RateTvShowSuccess", "${state.value.userRating}  TV Show Id $tvShowId")
-    }
-
-    private fun getTvShowRating() {
+    // region get rating
+    private fun getTvDetailsRating() {
         tryToExecute(
             call = { getRatingTvUseCase(tvShowId) },
             onSuccess = ::onSuccessGetTvShowRating,
-            onError = ::onError
-        )
-        Log.d("GET_TV_SHOW_RATING", "${state.value.userRating}  TV Show Id $tvShowId")
-    }
-
-    private fun onSuccessGetTvShowRating(rate: Float){
-        _state.update { it.copy(userRating = rate) }
-        Log.d("OnSuccessRATE", "${state.value.userRating }")
-
-    }
-    //endregion
-
-    //region reviews
-    private fun getTvShowReviews() {
-        updateLoading(true)
-        tryToExecute(
-            call = { getTvDetailsReviewsUseCase(tvShowId) },
-            onSuccess = ::onTvDetailsReviewsSuccess,
-            onError = ::onError
+            onError = ::onRatingError
         )
     }
 
-    private fun onTvDetailsReviewsSuccess(seasons: List<Review>) {
-        updateLoading(false)
-        val item = tvDetailsReviewUiMapper.map(seasons)
+    private fun onSuccessGetTvShowRating(rate: Float) {
         _state.update {
             it.copy(
-                reviews = item
+                ratingUIState = it.ratingUIState.copy(
+                    rating = rate,
+                    isLoading = false,
+                    error = null
+                )
             )
         }
+    }
+
+    private fun onRatingError(error: AppException) {
+        _state.update { it.copy(ratingUIState = it.ratingUIState.copy(error = error.toErrorUiState())) }
+    }
+
+    private fun updateRating(rate: Float) {
+        _state.update { it.copy(ratingUIState = it.ratingUIState.copy(rating = rate, error = null)) }
+    }
+
+    private fun submitRating() {
+        tryToExecute(
+            call = {
+                rateTvShowUseCase(
+                    rate = state.value.ratingUIState.rating.toDouble(),
+                    tvShowId = tvShowId
+                )
+            },
+            onSuccess = { sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.ratingAddSuccessFully)) },
+            onError = { sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError)) }
+        )
     }
     //endregion
 
@@ -290,135 +306,222 @@ class TvDetailsViewModel @Inject constructor(
     fun getUserLists() {
         tryToExecute(
             call = { getUserListsUseCase() },
-            onSuccess = ::onGetUserListsUseCase,
-            onError = {
-                sendEffect(TvDetailsUiEvent.ShowSnackBar(stringsRes.someThingError))
-            }
+            onSuccess = ::onGetUserListsSuccess,
+            onError = { sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError)) }
         )
     }
 
-    private fun onGetUserListsUseCase(userListsEntity: List<UserList>) {
-        val item = userListsUiMapper.map(userListsEntity)
+    private fun onGetUserListsSuccess(data: List<UserList>) {
+        val lists = userListsUiMapper.map(data)
         _state.update {
             it.copy(
-                userLists = item.userLists
+                userListsUIState = UserListsUIState.Success(lists)
             )
         }
+        sendEffect(
+            TvDetailsUiEffect.ShowSaveToListBottomSheet(
+                lists = lists,
+                selectedLists = _state.value.userSelectedLists
+            )
+        )
     }
 
-    fun onDone(listsId: List<Int>) {
-        listsId.forEach { id ->
+    private fun chipList(listId: Int) {
+        _state.update { currentState ->
+
+            val selectedLists =
+                currentState.userSelectedLists.toMutableList()
+
+            if (listId in selectedLists) {
+                selectedLists.remove(listId)
+            } else {
+                selectedLists.add(listId)
+            }
+
+            currentState.copy(
+                userSelectedLists = selectedLists
+            )
+        }
+
+    }
+
+
+    fun addToSelectedLists() {
+        state.value.userSelectedLists.forEach { listId ->
+
             tryToExecute(
-                call = { addToUserListUseCase(id, tvShowId) },
-                onSuccess = ::onDoneSuccess,
+                call = { addToUserListUseCase(listId, tvShowId) },
+                onSuccess = {
+                    sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))
+                },
                 onError = {
-                    Log.i("chip", stringsRes.someThingError + "${it.message}")
+                    sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
                 }
             )
         }
-
     }
 
-    private fun onDoneSuccess(statusEntity: Status) {
-        sendEffect(TvDetailsUiEvent.OnDoneAdding("adding was successful"))
-    }
 
     fun createUserNewList(listName: String) {
         tryToExecute(
             call = { createUserListUseCase(listName) },
-            onSuccess = ::onCreateUserNewList,
+            onSuccess = {
+                getUserLists()
+            },
             onError = {
-                sendEffect(TvDetailsUiEvent.OnCreateNewList(stringsRes.someThingError))
+                sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
             }
         )
     }
 
-    private fun onCreateUserNewList(statusEntity: Status) {
-        sendEffect(TvDetailsUiEvent.OnCreateNewList(stringsRes.newListAddSuccessFully))
-        getUserLists()
-    }
     //endregion
+
+    // region favourite / watchlist
+    private fun addToFavourite() {
+        tryToExecute(
+            call = { addToFavouriteUseCase(tvShowId, "tv") },
+            onSuccess = {
+                sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))
+            },
+            onError = {
+                sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
+            }
+        )
+    }
+
+    fun addToWatchlist() {
+        tryToExecute(
+            call = { addToWatchList(tvShowId, "tv") },
+            onSuccess = {
+                sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))
+            },
+            onError = {
+                sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
+            }
+        )
+    }
+
+    // endregion
+
 
     //region events
-    override fun onRateButtonClick() {
-        if (state.value.isLogin) {
-            sendEffect(TvDetailsUiEvent.RateTvEvent)
-        } else {
-            sendEffect(TvDetailsUiEvent.ShowSnackBar(stringsRes.notLoggedInToRate))
+
+    fun onEvent(event: TvDetailsUiEvent) {
+        when (event) {
+            TvDetailsUiEvent.BackClicked -> {
+                sendEffect(TvDetailsUiEffect.NavigateBack)
+            }
+
+            TvDetailsUiEvent.PlayClicked -> {
+                handlePlayClicked()
+            }
+
+            TvDetailsUiEvent.RateClicked -> {
+                handelRateClicked()
+            }
+
+            TvDetailsUiEvent.SaveClicked -> {
+                handelSaveClicked()
+            }
+
+            TvDetailsUiEvent.FavouriteClicked -> {
+                addToFavourite()
+            }
+
+            TvDetailsUiEvent.WatchlistClicked -> {
+                addToWatchlist()
+            }
+
+            TvDetailsUiEvent.ShowMoreCastClicked -> {
+                sendEffect(TvDetailsUiEffect.NavigateToShowMoreCast)
+            }
+
+            TvDetailsUiEvent.ShowMoreRecommendedClicked -> {
+                sendEffect(TvDetailsUiEffect.NavigateToShowMoreRecommendation)
+            }
+
+            is TvDetailsUiEvent.PersonClicked -> {
+                sendEffect(TvDetailsUiEffect.NavigateToPersonDetails(event.personId))
+            }
+
+            is TvDetailsUiEvent.SeasonClicked -> {
+                sendEffect(
+                    TvDetailsUiEffect.NavigateToSeasonDetails(
+                        tvShowId = tvShowId,
+                        seasonNumber = event.seasonNumber
+                    )
+                )
+            }
+
+            is TvDetailsUiEvent.RecommendationClicked -> {
+                sendEffect(TvDetailsUiEffect.NavigateToTvDetails(event.tvShowId))
+            }
+
+            is TvDetailsUiEvent.RatingChanged -> {
+                updateRating(event.rating)
+            }
+
+            TvDetailsUiEvent.RatingSubmitted -> {
+                submitRating()
+            }
+
+            is TvDetailsUiEvent.ListSelected -> {
+                chipList(event.listId)
+            }
+
+            TvDetailsUiEvent.DoneAddingLists -> {
+                addToSelectedLists()
+            }
+
+            TvDetailsUiEvent.AddNewListClicked -> {
+                // Handled via UI visibility
+            }
+
+            is TvDetailsUiEvent.CreateNewListClicked -> {
+                createUserNewList(event.listName)
+            }
+
+            TvDetailsUiEvent.Retry -> {
+                loadTvDetails()
+            }
         }
     }
 
-    override fun onClickPeople(id: Int) {
-        sendEffect(TvDetailsUiEvent.OnPersonClick(id))
-    }
 
-    override fun onClickMedia(id: Int) {
-        sendEffect(TvDetailsUiEvent.OnRecommended(id))
-    }
+    // region event handlers
+    private fun handlePlayClicked() {
+        when (val trailer = state.value.trailerUIState) {
+            is TrailerUIState.Available -> {
+                sendEffect(TvDetailsUiEffect.NavigateToTrailer(trailer.youtubeKey.youtubeKey))
+            }
 
-    override fun onClickSeason(seasonNumber: Int) {
-        sendEffect(TvDetailsUiEvent.OnSeasonClick(seasonNumber))
-    }
-
-    override fun onShowMoreCast() {
-        sendEffect(TvDetailsUiEvent.OnShowMoreCast)
-    }
-
-    override fun onShowMoreRecommended() {
-        sendEffect(TvDetailsUiEvent.OnShowMoreRecommended)
-    }
-
-    override fun onClickPlayButton() {
-        sendEffect(TvDetailsUiEvent.PlayButton(state.value.youtubeKeyId))
-    }
-
-    override fun onChipClick(id: Int) {
-        val updatedList = state.value.userSelectedLists.toMutableList()
-        if (updatedList.remove(id)) Unit else updatedList.add(id)
-
-        _state.update {
-            it.copy(
-                userSelectedLists = updatedList
-            )
+            else -> {
+                sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.noTrailer))
+            }
         }
     }
 
-
-    fun onBack() {
-        sendEffect(TvDetailsUiEvent.Back)
+    private fun handelRateClicked() {
+        if (!state.value.isLogin) {
+            sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.notLoggedInToRate))
+            return
+        }
+        sendEffect(TvDetailsUiEffect.ShowRatingBottomSheet(rating = state.value.ratingUIState.rating))
     }
 
-    fun onClickSaveButton() {
-        sendEffect(TvDetailsUiEvent.OnSaveButtonClick(tvShowId))
-    }
-    //endregion
-
-    //region util
-    private fun onError(th: Throwable) {
-        val errors = _state.value.onErrors.toMutableList()
-        errors.add(th.message.toString())
-        _state.update { it.copy(onErrors = errors, isLoading = false) }
-    }
-
-    private fun updateLoading(value: Boolean) {
-        _state.update { it.copy(isLoading = value) }
-    }
-
-    fun refreshScreen() {
-        getData()
-        _state.update { it.copy(onErrors = emptyList()) }
-    }
-    //endregion
-
-    fun onApplyRateBottomSheet() {
-        onRatingSubmit()
-    }
-
-    fun updateRatingValue(rate: Float) {
-       updateRatingUiState(rate)
+    private fun handelSaveClicked() {
+        if (!state.value.isLogin) {
+            sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.notLoggedInToRate))
+            return
+        }
+        getUserLists()
     }
 
     fun getUserRating(): Float {
-        return state.value.userRating.div(2)
+        return state.value.ratingUIState.rating.div(2)
+    }
+
+    companion object {
+        const val TV_SHOW_ID = "tvShowId"
     }
 }

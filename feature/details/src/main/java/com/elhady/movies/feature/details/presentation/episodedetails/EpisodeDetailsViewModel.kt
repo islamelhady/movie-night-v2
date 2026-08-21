@@ -13,7 +13,7 @@ import com.elhady.movies.core.ui.interaction.PeopleListener
 import com.elhady.movies.core.ui.state.PeopleUiState
 import com.elhady.movies.feature.details.presentation.episodedetails.mapper.EpisodeDetailsUiMapper
 import com.elhady.movies.feature.details.presentation.episodedetails.mapper.TrailerUiMapper
-import com.elhady.movies.feature.details.presentation.tvdetails.mapper.PeopleUiMapper
+import com.elhady.movies.feature.details.presentation.tvdetails.mapper.CastUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -24,7 +24,7 @@ class EpisodeDetailsViewModel @Inject constructor(
     private val episodeDetailsUseCase: GetEpisodeDetailsUseCase,
     private val episodeDetailsUiMapper: EpisodeDetailsUiMapper,
     private val castUseCase: GetCastForEpisodeUseCase,
-    private val peopleUiMapper: PeopleUiMapper,
+    private val castUiMapper: CastUiMapper,
     private val trailerUiMapper: TrailerUiMapper,
     private val episodeVideoUseCase: GetEpisodeVideoUseCase,
     private val checkIsUserLoggedInUseCase: CheckIsUserLoggedInUseCase,
@@ -139,7 +139,7 @@ class EpisodeDetailsViewModel @Inject constructor(
     private fun getCastData(seriesId: Int, seasonNumber: Int, episodeNumber: Int) {
         tryToExecute(
             call = { castUseCase(seriesId, seasonNumber, episodeNumber) },
-            mapper = peopleUiMapper,
+            mapper = castUiMapper,
             onSuccess = ::onSuccessCast,
             onError = ::onError
         )
