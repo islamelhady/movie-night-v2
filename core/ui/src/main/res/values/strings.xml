@@ -113,6 +113,7 @@
     <string name="mystery">Mystery</string>
     <string name="popular_actors">Popular Actors</string>
     <string name="adventure">Adventure</string>
+    <string name="back">Back</string>
 
     <!-- Error Messages -->
     <string name="unauthorized_error">Unauthorized access. Please login.</string>
