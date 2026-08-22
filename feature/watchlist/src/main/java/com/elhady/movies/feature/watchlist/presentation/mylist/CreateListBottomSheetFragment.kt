@@ -23,7 +23,7 @@ class CreateListBottomSheetFragment(private val createButton: CreateListener) :
         super.onViewCreated(view, savedInstanceState)
 
         binding.materialButtonCreate.setOnClickListener {
-            val listName = binding.textInputEditTextListName.text.toString().trim()
+            val listName = binding.editTextListName.text.toString().trim()
             if (listName == "") {
                 showSnackBar(getString(CoreUiR.string.empty_field))
             } else {

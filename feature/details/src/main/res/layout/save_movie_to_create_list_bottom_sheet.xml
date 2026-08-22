@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:constraint_referenced_ids="text_view_title,
-                text_view_list_name,edit_text_list_name,material_button_create,text_view_close">
+                text_view_list_name,text_input_layout_list_name,material_button_create,text_view_close">
 
                 <!-- This group includes item1, item2, and item3 -->
 
@@ -84,7 +84,7 @@
                 app:layout_constraintTop_toBottomOf="@id/text_view_title" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/edit_text_list_name"
+                android:id="@+id/text_input_layout_list_name"
                 style="@style/TextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
                 app:layout_constraintTop_toBottomOf="@id/text_view_list_name">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/text_input_edit_text_list_name"
+                    android:id="@+id/edit_text_list_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/edittext_background"
@@ -119,7 +119,7 @@
                 android:textColor="@color/on_primary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_text_list_name" />
+                app:layout_constraintTop_toBottomOf="@id/text_input_layout_list_name" />
             <!--endregion-->
 
             <!--region save to list-->
