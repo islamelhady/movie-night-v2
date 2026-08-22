@@ -4,6 +4,7 @@ import androidx.paging.PagingData
 import com.elhady.movies.core.domain.model.account.ListType
 import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.core.common.ShowMoreType
+import com.elhady.movies.core.ui.base.ErrorUiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlin.math.roundToInt
@@ -18,7 +19,7 @@ data class ShowMoreUiState(
     val showMorePopularTvShow: Flow<PagingData<ShowMoreUi>> = emptyFlow(),
     val isLoading: Boolean = false,
     val showMoreType: ShowMoreType = ShowMoreType.POPULAR_MOVIES,
-    val errorList: List<String>? = null,
+    val errors: ErrorUiState? = null,
     private val stringsRes: StringsRes
 ) {
 
@@ -32,7 +33,6 @@ data class ShowMoreUiState(
         ShowMoreType.ON_THE_AIR_TV -> stringsRes.onTheAirTvShow
     }
 
-    val isError: Boolean = errorList?.isNotEmpty() ?: false
 }
 
 data class ShowMoreUi(

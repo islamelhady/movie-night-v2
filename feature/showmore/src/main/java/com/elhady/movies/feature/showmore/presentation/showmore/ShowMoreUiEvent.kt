@@ -1,9 +1,9 @@
 package com.elhady.movies.feature.showmore.presentation.showmore
 
-sealed interface ShowMoreUiEvent {
-    data class NavigateToMovieDetailsEvent(val itemId: Int) : ShowMoreUiEvent
-    data class NavigateToTvShowDetailsEvent(val itemId: Int) : ShowMoreUiEvent
-    object BackNavigateEvent : ShowMoreUiEvent
-    data class ShowSnackBarEvent(val messages: String) : ShowMoreUiEvent
+import com.elhady.movies.core.domain.model.account.ListType
 
+sealed interface ShowMoreUiEvent {
+    object BackClicked : ShowMoreUiEvent
+    data class ItemClicked(val id: Int, val type: ListType) : ShowMoreUiEvent
+    object RetryClicked : ShowMoreUiEvent
 }
