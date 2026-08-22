@@ -51,9 +51,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAccountDetails(): Profile {
-        val sessionId = prefs.sessionId
-        val profileData =
-            safeApiCaller.execute { accountApiService.getAccountDetails(sessionId ?: "") }
+        val profileData = safeApiCaller.execute { accountApiService.getAccountDetails() }
         return domainProfileMapper.map(profileData)
     }
 
