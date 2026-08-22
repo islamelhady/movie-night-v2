@@ -2,7 +2,7 @@ package com.elhady.movies.feature.details.presentation.moviedetails
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.elhady.movies.feature.details.R
 import com.elhady.movies.feature.details.databinding.MovieRatingBottomSheetBinding
 import com.elhady.movies.core.ui.base.BaseBottomSheet
@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class RatingMovieBottomSheet :
     BaseBottomSheet<MovieRatingBottomSheetBinding>() {
     override val layoutIdFragment: Int = R.layout.movie_rating_bottom_sheet
-    override val viewModel by activityViewModels<MovieDetailsViewModel>()
+    override val viewModel by viewModels<MovieDetailsViewModel>({ requireParentFragment() })
 
     private var dismissListener: BottomSheetDismissListener? = null
 
@@ -31,6 +31,11 @@ class RatingMovieBottomSheet :
 
         binding.movieRatingBar.setOnRatingBarChangeListener { _, rating, _ ->
             dismissListener?.updateRatingValue(rating * 2)
+        }
+
+        binding.buttonApply.setOnClickListener {
+            dismissListener?.onApplyRateBottomSheet()
+            dismiss()
         }
     }
 }

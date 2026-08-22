@@ -161,7 +161,10 @@ class MovieDetailsViewModel @Inject constructor(
         movieId?.let { id ->
             tryToExecute(
                 call = { ratingUseCase(id, state.value.userRating) },
-                onSuccess = { sendEffect(MovieDetailsUiEffect.ShowSnackBar(stringsRes.ratingAddSuccessFully)) },
+                onSuccess = { 
+                    sendEffect(MovieDetailsUiEffect.ShowSnackBar(stringsRes.ratingAddSuccessFully))
+                    getMovieDetails(id)
+                },
                 onError = { sendEffect(MovieDetailsUiEffect.ShowSnackBar(stringsRes.someThingErrorWhenAddRating)) }
             )
         }

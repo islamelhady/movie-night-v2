@@ -20,6 +20,9 @@ data class TvDetailsUIState(
     val isLoading: Boolean = false,
     val error: List<String>? = null
 ) {
+    val userLists: List<com.elhady.movies.core.ui.state.UserListUiState> 
+        get() = (userListsUIState as? UserListsUIState.Success)?.lists ?: emptyList()
+
     val isFailure: Boolean get() = error != null ||
             infoUIState is InfoUIState.Error ||
             castUIState is CastUIState.Error ||

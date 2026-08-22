@@ -10,12 +10,8 @@
         <import type="java.util.List" />
 
         <variable
-            name="viewModel"
-            type="com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsViewModel" />
-
-        <variable
-            name="items"
-            type="List&lt;UserListUiState&gt;" />
+            name="state"
+            type="com.elhady.movies.feature.details.presentation.tvdetails.state.TvDetailsUIState" />
 
         <variable
             name="listener"
@@ -165,7 +161,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:chipSpacingHorizontal="@dimen/spacing_tiny_4dp"
-                app:userListChips="@{items}"
+                app:userListChips="@{state.userLists}"
+                app:selectedIds="@{state.userSelectedLists}"
                 app:chipListener="@{listener}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

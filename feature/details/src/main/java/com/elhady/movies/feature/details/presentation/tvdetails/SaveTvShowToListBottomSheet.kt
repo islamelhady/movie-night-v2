@@ -3,7 +3,7 @@ package com.elhady.movies.feature.details.presentation.tvdetails
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.elhady.movies.feature.details.BR
 import com.elhady.movies.core.ui.base.BaseBottomSheet
 import com.elhady.movies.core.ui.interaction.ChipListener
@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SaveTvShowToListBottomSheet(private val watchlistFavouriteBottomSheet: WatchlistFavouriteListener) :
     BaseBottomSheet<SaveTvShowToListBottomSheetTvCreateListBinding>(), ChipListener {
     override val layoutIdFragment: Int = R.layout.save_tv_show_to_list_bottom_sheet_tv_create_list
-    override val viewModel: TvDetailsViewModel by activityViewModels()
+    override val viewModel by viewModels<TvDetailsViewModel>({ requireParentFragment() })
     override val viewModelVariableId: Int = BR.viewModel
 
     private var userLists: List<UserListUiState> = emptyList()
@@ -29,7 +29,9 @@ class SaveTvShowToListBottomSheet(private val watchlistFavouriteBottomSheet: Wat
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.items = userLists
+        collectFlow(viewModel.state) {
+            binding.state = it
+        }
         binding.listener = watchlistFavouriteBottomSheet
 
         binding.chipAddNewList.visibility = View.GONE

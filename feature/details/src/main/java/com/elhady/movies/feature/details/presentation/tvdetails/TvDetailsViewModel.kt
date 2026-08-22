@@ -325,7 +325,10 @@ class TvDetailsViewModel @Inject constructor(
                     tvShowId = tvShowId!!
                 )
             },
-            onSuccess = { sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.ratingAddSuccessFully)) },
+            onSuccess = { 
+                sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.ratingAddSuccessFully))
+                getTvDetailsInfo()
+            },
             onError = { sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError)) }
         )
     }
