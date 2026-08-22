@@ -1,6 +1,5 @@
 package com.elhady.movies.feature.profile.presentation.profile
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
@@ -19,7 +18,6 @@ import com.elhady.movies.feature.profile.databinding.FragmentProfileBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import androidx.core.content.edit
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, ProfileUiEffect>() {
@@ -31,15 +29,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
     override val viewModel: ProfileViewModel by viewModels()
     override val viewModelVariableId: Int = BR.viewModel
 
-    companion object {
-        private const val PREF_THEME_STATE = "night_mode_state"
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         collectState()
         setListeners()
-        changeAppTheme()
     }
 
     private fun setListeners() {
@@ -50,6 +43,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
         binding.textViewLogout.setOnClickListener { viewModel.onEvent(ProfileUiEvent.LogoutClicked) }
         binding.buttonLogin.setOnClickListener { viewModel.onEvent(ProfileUiEvent.LoginClicked) }
         binding.buttonRetry.setOnClickListener { viewModel.onEvent(ProfileUiEvent.RetryClicked) }
+        binding.switchBottonTheme.setOnCheckedChangeListener { buttonView, isChecked ->
+            // Only trigger event if the change comes from a user click
+            if (buttonView.isPressed) {
+                viewModel.onEvent(ProfileUiEvent.ThemeChanged(isChecked))
+            }
+        }
     }
 
     private fun collectState() {
@@ -61,6 +60,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
         renderError(state)
         renderProfile(state)
         renderLogin(state)
+        renderTheme(state)
     }
 
     private fun renderLoading(state: ProfileUiState) {
@@ -89,6 +89,22 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
 
     private fun renderLogin(state: ProfileUiState) {
         binding.whenUserNotLogin.isVisible = !state.isLoading && state.errors == null && !state.isLogIn
+    }
+
+    private fun renderTheme(state: ProfileUiState) {
+        if (binding.switchBottonTheme.isChecked != state.isDarkTheme) {
+            binding.switchBottonTheme.isChecked = state.isDarkTheme
+        }
+
+        val targetMode = if (state.isDarkTheme) {
+            AppCompatDelegate.MODE_NIGHT_YES
+        } else {
+            AppCompatDelegate.MODE_NIGHT_NO
+        }
+
+        if (AppCompatDelegate.getDefaultNightMode() != targetMode) {
+            AppCompatDelegate.setDefaultNightMode(targetMode)
+        }
     }
 
     override fun onEffect(effect: ProfileUiEffect) {
@@ -120,21 +136,5 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
                 dialog.dismiss()
             }
             .show()
-    }
-
-    private fun changeAppTheme() {
-        val sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        val switchButtonTheme = binding.switchBottonTheme
-        val savedThemeState = sharedPreferences.getBoolean(PREF_THEME_STATE, false)
-        switchButtonTheme.isChecked = savedThemeState
-
-        switchButtonTheme.setOnCheckedChangeListener { _, iChecked ->
-            sharedPreferences.edit { putBoolean(PREF_THEME_STATE, iChecked) }
-            if (iChecked) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-        }
     }
 }

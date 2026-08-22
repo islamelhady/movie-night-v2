@@ -7,5 +7,6 @@ data class ProfileUiState(
     val avatarUrl: String = "",
     val errors: ErrorUiState? = null,
     val isLogIn: Boolean = false,
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val isDarkTheme: Boolean = false
 )

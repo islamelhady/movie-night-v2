@@ -9,4 +9,5 @@ sealed interface ProfileUiEvent {
     object LoginClicked : ProfileUiEvent
     object LogoutConfirmed : ProfileUiEvent
     object RetryClicked : ProfileUiEvent
+    data class ThemeChanged(val isDark: Boolean) : ProfileUiEvent
 }

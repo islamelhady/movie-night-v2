@@ -1,9 +1,12 @@
 package com.elhady.movies.feature.profile.presentation.profile
 
+import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
 import com.elhady.movies.core.domain.usecase.auth.GetAccountDetailsUseCase
 import com.elhady.movies.core.domain.usecase.auth.LogoutUseCase
+import com.elhady.movies.core.domain.usecase.common.GetThemeUseCase
+import com.elhady.movies.core.domain.usecase.common.SaveThemeUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.base.ErrorUiState
 import com.elhady.movies.core.ui.base.messageRes
@@ -11,6 +14,7 @@ import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.feature.profile.presentation.profile.mapper.ProfileUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,9 +23,12 @@ class ProfileViewModel @Inject constructor(
     private val logoutUseCase: LogoutUseCase,
     private val profileUiMapper: ProfileUiMapper,
     private val checkIsUserLoggedInUseCase: CheckIsUserLoggedInUseCase,
+    private val getThemeUseCase: GetThemeUseCase,
+    private val saveThemeUseCase: SaveThemeUseCase
 ) : BaseViewModel<ProfileUiState, ProfileUiEffect>(ProfileUiState()) {
 
     init {
+        getTheme()
         checkUserLoggedIn()
     }
 
@@ -58,6 +65,22 @@ class ProfileViewModel @Inject constructor(
             ProfileUiEvent.RetryClicked -> {
                 checkUserLoggedIn()
             }
+
+            is ProfileUiEvent.ThemeChanged -> {
+                saveTheme(event.isDark)
+            }
+        }
+    }
+
+    private fun getTheme() {
+        val isDark = getThemeUseCase()
+        _state.update { it.copy(isDarkTheme = isDark) }
+    }
+
+    private fun saveTheme(isDark: Boolean) {
+        _state.update { it.copy(isDarkTheme = isDark) }
+        viewModelScope.launch {
+            saveThemeUseCase(isDark)
         }
     }
 
