@@ -10,8 +10,8 @@ import com.elhady.movies.feature.details.databinding.ItemCommentBinding
 import com.elhady.movies.feature.details.databinding.ItemSeasonHorizontalBinding
 import com.elhady.movies.feature.details.databinding.TvDetailsItemPeopleRvBinding
 import com.elhady.movies.feature.details.databinding.TvDetailsItemRecommendedRvBinding
-import com.elhady.movies.feature.details.databinding.TvDetailsItemUpperBinding
 import com.elhady.movies.core.ui.adapter.PeopleAdapter
+import com.elhady.movies.feature.details.databinding.TvDetailsItemInfoBinding
 import com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsItem
 import com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsType
 import com.elhady.movies.feature.details.presentation.tvdetails.listener.TvDetailsListeners
@@ -118,7 +118,7 @@ class TvDetailsAdapter(
     }
 
 
-    class InfoViewHolder(val binding: TvDetailsItemUpperBinding) : BaseViewHolder(binding)
+    class InfoViewHolder(val binding: TvDetailsItemInfoBinding) : BaseViewHolder(binding)
 
     class PeopleViewHolder(val binding: TvDetailsItemPeopleRvBinding) : BaseViewHolder(binding)
 

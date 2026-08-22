@@ -30,9 +30,7 @@ import retrofit2.http.Query
 interface AccountApiService {
 
     @GET("account")
-    suspend fun getAccountDetails(
-        @Query("session_id") sessionId: String = " "
-    ): Response<ProfileDto>
+    suspend fun getAccountDetails(): Response<ProfileDto>
 
     @GET("account/account_id/lists")
     suspend fun getUserLists(): Response<DataWrapperResponse<UserListDto>>

@@ -1,10 +1,13 @@
 package com.elhady.movies.feature.profile.presentation.profile
 
 sealed interface ProfileUiEvent {
-    object NavigateToFavoriteScreen : ProfileUiEvent
-    object NavigateToWatchlistScreen : ProfileUiEvent
-    object NavigateToWatchHistoryScreen : ProfileUiEvent
-    object NavigateToMyListsScreen : ProfileUiEvent
-    object Logout : ProfileUiEvent
-    data class NavigateWithLink(val link: Int) : ProfileUiEvent
+    object FavoriteClicked : ProfileUiEvent
+    object WatchlistClicked : ProfileUiEvent
+    object WatchHistoryClicked : ProfileUiEvent
+    object MyListsClicked : ProfileUiEvent
+    object LogoutClicked : ProfileUiEvent
+    object LoginClicked : ProfileUiEvent
+    object LogoutConfirmed : ProfileUiEvent
+    object RetryClicked : ProfileUiEvent
+    data class ThemeChanged(val isDark: Boolean) : ProfileUiEvent
 }

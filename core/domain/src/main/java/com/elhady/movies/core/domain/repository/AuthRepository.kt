@@ -10,5 +10,7 @@ interface AuthRepository {
     suspend fun getCurrentUsername(): String?
 
     suspend fun getAccountDetails(): Profile
-    fun isUserLoggedIn():Boolean
+    fun isUserLoggedIn(): Boolean
+    fun getTheme(): Boolean
+    suspend fun saveTheme(isDark: Boolean)
 }

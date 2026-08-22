@@ -1,15 +1,16 @@
 package com.elhady.movies.feature.profile.presentation.profile
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.elhady.movies.core.common.ForbiddenThrowable
-import com.elhady.movies.core.common.NoNetworkThrowable
-import com.elhady.movies.core.common.UnauthorizedThrowable
-import com.elhady.movies.core.ui.base.BaseViewModel
-import com.elhady.movies.core.ui.resource.NavigationRes
+import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
-import com.elhady.movies.core.domain.usecase.auth.LogoutUseCase
 import com.elhady.movies.core.domain.usecase.auth.GetAccountDetailsUseCase
+import com.elhady.movies.core.domain.usecase.auth.LogoutUseCase
+import com.elhady.movies.core.domain.usecase.common.GetThemeUseCase
+import com.elhady.movies.core.domain.usecase.common.SaveThemeUseCase
+import com.elhady.movies.core.ui.base.BaseViewModel
+import com.elhady.movies.core.ui.base.ErrorUiState
+import com.elhady.movies.core.ui.base.messageRes
+import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.feature.profile.presentation.profile.mapper.ProfileUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
@@ -22,98 +23,158 @@ class ProfileViewModel @Inject constructor(
     private val logoutUseCase: LogoutUseCase,
     private val profileUiMapper: ProfileUiMapper,
     private val checkIsUserLoggedInUseCase: CheckIsUserLoggedInUseCase,
-    private val navigationRes: NavigationRes
-) : BaseViewModel<ProfileUiState, ProfileUiEvent>(ProfileUiState()), ProfileListener {
+    private val getThemeUseCase: GetThemeUseCase,
+    private val saveThemeUseCase: SaveThemeUseCase
+) : BaseViewModel<ProfileUiState, ProfileUiEffect>(ProfileUiState()) {
 
     init {
+        getTheme()
         checkUserLoggedIn()
     }
 
-    private fun checkUserLoggedIn() {
-        viewModelScope.launch {
-            if (checkIsUserLoggedInUseCase()) {
-                _state.update { it.copy(isLogIn = true, isLoading = true, error = emptyList()) }
-                getAccountDetails()
-            }else {
-                _state.update { it.copy(isLogIn = false) }
+    fun onEvent(event: ProfileUiEvent) {
+        when (event) {
+            ProfileUiEvent.FavoriteClicked -> {
+                sendEffect(ProfileUiEffect.NavigateToFavoriteScreen)
+            }
+
+            ProfileUiEvent.WatchlistClicked -> {
+                sendEffect(ProfileUiEffect.NavigateToWatchlistScreen)
+            }
+
+            ProfileUiEvent.WatchHistoryClicked -> {
+                sendEffect(ProfileUiEffect.NavigateToWatchHistoryScreen)
+            }
+
+            ProfileUiEvent.MyListsClicked -> {
+                sendEffect(ProfileUiEffect.NavigateToMyListsScreen)
+            }
+
+            ProfileUiEvent.LogoutClicked -> {
+                sendEffect(ProfileUiEffect.ShowLogoutDialog)
+            }
+
+            ProfileUiEvent.LoginClicked -> {
+                sendEffect(ProfileUiEffect.NavigateToLogin)
+            }
+
+            ProfileUiEvent.LogoutConfirmed -> {
+                logout()
+            }
+
+            ProfileUiEvent.RetryClicked -> {
+                checkUserLoggedIn()
+            }
+
+            is ProfileUiEvent.ThemeChanged -> {
+                saveTheme(event.isDark)
             }
         }
     }
 
+    private fun getTheme() {
+        val isDark = getThemeUseCase()
+        _state.update { it.copy(isDarkTheme = isDark) }
+    }
 
-    private fun getAccountDetails() {
+    private fun saveTheme(isDark: Boolean) {
+        _state.update { it.copy(isDarkTheme = isDark) }
+        viewModelScope.launch {
+            saveThemeUseCase(isDark)
+        }
+    }
+
+    private fun checkUserLoggedIn() {
+        _state.update { it.copy(isLoading = true) }
         tryToExecute(
-            call = {getAccountDetailsUseCase()},
-            onSuccess = ::onSuccessGetAccountDetails,
-            mapper = profileUiMapper,
-            onError = ::onError
+            call = { checkIsUserLoggedInUseCase() },
+            onSuccess = { isLoggedIn ->
+                onSuccessCheckedLoggedIn(isLoggedIn)
+            },
+            onError = ::onCheckLoginError
         )
     }
 
-    private fun onSuccessGetAccountDetails(profileEntity: ProfileUiState){
+    private fun onSuccessCheckedLoggedIn(isLoggedIn: Boolean) {
+        if (isLoggedIn) {
+            _state.update { it.copy(isLogIn = true) }
+            getAccountDetails()
+        } else {
+            _state.update { it.copy(isLogIn = false, isLoading = false) }
+        }
+    }
+
+    private fun getAccountDetails() {
+        tryToExecute(
+            call = {
+                getAccountDetailsUseCase()
+            },
+            mapper = profileUiMapper,
+            onSuccess = ::onAccountDetailsSuccess,
+            onError = { exception ->
+                onAccountDetailsError(exception.toErrorUiState())
+            },
+        )
+    }
+
+    private fun onAccountDetailsSuccess(
+        profileState: ProfileUiState,
+    ) {
         _state.update {
             it.copy(
-                username = profileEntity.username,
-                avatarUrl = profileEntity.avatarUrl,
-                error = emptyList(),
-                isLoading = false
+                username = profileState.username,
+                avatarUrl = profileState.avatarUrl,
+                isLogIn = true,
+                isLoading = false,
+                errors = null,
             )
         }
-        Log.d("OnSuccessGetAccount", "${profileEntity.username}")
     }
 
-    private fun onError(throwable: Throwable) {
-        val errors = throwable.message ?: "SOME THINK WRONG"
-        when (throwable) {
-            is NoNetworkThrowable -> "No Network Connection"
-            is UnauthorizedThrowable -> "Unauthorized"
-            is ForbiddenThrowable -> "Forbidden"
-            else -> throwable.message.toString()
+    private fun onAccountDetailsError(
+        exception: ErrorUiState
+    ) {
+
+        if (exception is ErrorUiState.Unauthorized) {
+            logout()
+            return
         }
-        _state.update { it.copy(error = listOf(errors), isLoading = false) }
-        Log.d("onError", "${throwable.message} $errors")
+
+        _state.update {
+            it.copy(
+                isLoading = false,
+                errors = exception,
+            )
+        }
+
+        sendEffect(
+            ProfileUiEffect.ShowSnackBar(message = exception.messageRes)
+        )
     }
 
-    override fun onClickFavorite() {
-        sendEffect(ProfileUiEvent.NavigateToFavoriteScreen)
-    }
-
-    override fun onClickWatchlist() {
-        sendEffect(ProfileUiEvent.NavigateToWatchlistScreen)
-    }
-
-    override fun onClickWatchHistory() {
-        sendEffect(ProfileUiEvent.NavigateToWatchHistoryScreen)
-    }
-
-    override fun onClickMyLists() {
-        sendEffect(ProfileUiEvent.NavigateToMyListsScreen)
-    }
-
-    override fun onClickLogout() {
-        sendEffect(ProfileUiEvent.Logout)
-    }
-
-    fun logout() {
-        viewModelScope.launch {
-            _state.update { it.copy(isLogIn = false) }
-            logoutUseCase()
+    private fun onCheckLoginError(
+        exception: AppException,
+    ) {
+        _state.update {
+            it.copy(
+                isLoading = false,
+                isLogIn = false,
+                errors = exception.toErrorUiState(),
+            )
         }
     }
 
-    override fun onUserNotLoggedIn() {
-        viewModelScope.launch {
-            _state.update { it.copy(isLogIn = true) }
-            if (checkIsUserLoggedInUseCase()) {
-                _state.update {
-                    it.copy(isLogIn = false)
-                }
+    private fun logout() {
+        _state.update { it.copy(isLoading = true) }
+        tryToExecute(
+            call = { logoutUseCase() },
+            onSuccess = {
+                _state.update { it.copy(isLogIn = false, errors = null, isLoading = false) }
+                sendEffect(ProfileUiEffect.NavigateToLogin)
+            },
+            onError = { exception ->
+                _state.update { it.copy(isLoading = false, errors = exception.toErrorUiState()) }
             }
-
-        }
-    }
-
-    override fun ocClickLogIn() {
-        sendEffect(ProfileUiEvent.NavigateWithLink(navigationRes.authFeatureLink))
+        )
     }
 }

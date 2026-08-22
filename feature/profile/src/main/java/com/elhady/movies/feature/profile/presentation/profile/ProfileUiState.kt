@@ -1,9 +1,12 @@
 package com.elhady.movies.feature.profile.presentation.profile
 
+import com.elhady.movies.core.ui.base.ErrorUiState
+
 data class ProfileUiState(
     val username: String = "",
     val avatarUrl: String = "",
-    val error: List<String>? = null,
+    val errors: ErrorUiState? = null,
     val isLogIn: Boolean = false,
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val isDarkTheme: Boolean = false
 )

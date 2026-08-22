@@ -51,14 +51,20 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAccountDetails(): Profile {
-        val sessionId = prefs.sessionId
-        val profileData =
-            safeApiCaller.execute { accountApiService.getAccountDetails(sessionId ?: "") }
+        val profileData = safeApiCaller.execute { accountApiService.getAccountDetails() }
         return domainProfileMapper.map(profileData)
     }
 
     override fun isUserLoggedIn(): Boolean {
         val sessionId = prefs.sessionId
         return !sessionId.isNullOrBlank()
+    }
+
+    override fun getTheme(): Boolean {
+        return prefs.isDarkTheme ?: false
+    }
+
+    override suspend fun saveTheme(isDark: Boolean) {
+        prefs.setDarkTheme(isDark)
     }
 }

@@ -17,10 +17,14 @@ class AuthInterceptor @Inject constructor(
         val sessionId = userDataProvider.sessionId
 
         val request = chain.request()
-        val url: HttpUrl = request.url.newBuilder()
-            .addQueryParameter(NetworkConstants.API_KEY_QUERY, BuildConfig.API_KEY)
-            .addQueryParameter(NetworkConstants.SESSION_ID_QUERY, sessionId)
-            .build()
+        val urlBuilder = request.url.newBuilder()
+            .setQueryParameter(NetworkConstants.API_KEY_QUERY, BuildConfig.API_KEY)
+
+        if (!sessionId.isNullOrBlank()) {
+            urlBuilder.setQueryParameter(NetworkConstants.SESSION_ID_QUERY, sessionId)
+        }
+
+        val url: HttpUrl = urlBuilder.build()
 
         return chain.proceed(request.newBuilder().url(url).build())
     }
