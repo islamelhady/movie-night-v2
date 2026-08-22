@@ -4,21 +4,19 @@ import android.os.Bundle
 import android.transition.TransitionInflater
 import android.view.View
 import android.widget.ArrayAdapter
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.search.BR
 import com.elhady.movies.feature.search.R
 import com.elhady.movies.feature.search.databinding.FragmentSearchBinding
 import com.elhady.movies.feature.search.presentation.search.adapter.SearchAdapter
-import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, SearchUiEvent>() {
+class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, SearchUiEffect>(), SearchListener {
 
     @Inject
     lateinit var navigator: Navigator
@@ -34,35 +32,42 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
         sharedElementEnterTransition =
             TransitionInflater.from(context).inflateTransition(android.R.transition.move)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.listener = this
         setupHomeAdapter()
         collectChange()
-        doNothingWhenTheSameChipIsReslected()
+        setupSearchInput()
     }
 
     private fun setupHomeAdapter() {
-        searchAdapter = SearchAdapter(mutableListOf(), viewModel)
+        searchAdapter = SearchAdapter(mutableListOf(), this)
         binding.recyclerViewSearch.adapter = searchAdapter
+    }
+
+    private fun setupSearchInput() {
+        binding.edittextSearch.addTextChangedListener {
+            viewModel.onEvent(SearchUiEvent.QueryChanged(it.toString()))
+        }
     }
 
     private fun collectChange() {
         collectFlow(flow = viewModel.state) { state ->
-                setupSearchHistoryAdapter(state)
+            setupSearchHistoryAdapter(state)
 
-                val searchItems = when (state.mediaType) {
-                    SearchUiState.SearchMedia.MOVIE, SearchUiState.SearchMedia.TV -> {
-                        state.searchMediaResult.map { SearchItem.MediaItem(it) }
-                    }
-
-                    SearchUiState.SearchMedia.PEOPLE -> {
-                        state.searchPeopleResult.map { SearchItem.PeopleItem(it) }
-                    }
+            val searchItems = when (state.mediaType) {
+                SearchUiState.SearchMedia.MOVIE, SearchUiState.SearchMedia.TV -> {
+                    state.searchMediaResult.map { SearchItem.MediaItem(it) }
                 }
-                searchAdapter.setItems(searchItems)
-                state.error?.last()?.let { showSnackBar(it) }
-            }
 
+                SearchUiState.SearchMedia.PEOPLE -> {
+                    state.searchPeopleResult.map { SearchItem.PeopleItem(it) }
+                }
+            }
+            searchAdapter.setItems(searchItems)
+            state.error?.lastOrNull()?.let { showSnackBar(it) }
+        }
     }
 
     private fun setupSearchHistoryAdapter(state: SearchUiState) {
@@ -75,71 +80,62 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
         binding.edittextSearch.setAdapter(adapter)
     }
 
-    override fun onEffect(effect: SearchUiEvent) {
+    override fun onEffect(effect: SearchUiEffect) {
         when (effect) {
-            is SearchUiEvent.OpenFilterBottomSheet -> showBottomSheet()
-            is SearchUiEvent.ApplyFilter -> applyFilter(effect.genre)
-            is SearchUiEvent.ShowSnackBar -> showSnackBar(effect.messages)
-            is SearchUiEvent.NavigateToMovie -> navigateToMovie(effect.movieId)
-            is SearchUiEvent.NavigateToPeople -> navigateToPeople(effect.peopleId)
-            is SearchUiEvent.NavigateToTv -> navigateToTv(effect.tvId)
-            is SearchUiEvent.ShowMovieResult -> showMovieResult()
-            is SearchUiEvent.ShowTvResult -> showTvResult()
-            is SearchUiEvent.ShowPeopleResult -> showPeopleResult()
-            is SearchUiEvent.NavigateToBack -> navigateBack()
+            is SearchUiEffect.OpenFilterBottomSheet -> showBottomSheet()
+            is SearchUiEffect.ShowSnackBar -> showSnackBar(effect.message)
+            is SearchUiEffect.NavigateToMovieDetails -> navigator.navigateToMovieDetails(effect.id)
+            is SearchUiEffect.NavigateToPeopleDetails -> navigator.navigateToPeopleDetails(effect.id)
+            is SearchUiEffect.NavigateToTvDetails -> navigator.navigateToTvDetails(effect.id)
+            SearchUiEffect.NavigateBack -> navigator.navigateBack()
         }
-    }
-
-    private fun navigateBack() {
-        navigator.navigateBack()
     }
 
     private fun showBottomSheet() {
         FilterMovieBottomSheetFragment().show(childFragmentManager, "BOTTOM")
     }
 
-    private fun applyFilter(genresId: Int) {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.onClickGenre(genresId)
-        }
+    override fun onClickFilter() {
+        viewModel.onEvent(SearchUiEvent.FilterClicked)
     }
 
-    private fun navigateToMovie(movieId: Int) {
-        navigator.navigateToMovieDetails(movieId)
+    override fun onClickGenre(genresId: Int) {
+        viewModel.onEvent(SearchUiEvent.GenreClicked(genresId))
     }
 
-    private fun navigateToPeople(peopleId: Int) {
-        navigator.navigateToPeopleDetails(peopleId)
+    override fun onClickClear() {
+        viewModel.onEvent(SearchUiEvent.ClearClicked)
     }
 
-    private fun navigateToTv(tvId: Int) {
-        navigator.navigateToTvDetails(tvId)
+    override fun showResultMovie() {
+        viewModel.onEvent(SearchUiEvent.MediaTypeMovieClicked)
     }
 
-    private fun showMovieResult() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.onSearchForMovie()
-        }
+    override fun showResultTv() {
+        viewModel.onEvent(SearchUiEvent.MediaTypeTvClicked)
     }
 
-    private fun showTvResult() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.onSearchForTv()
-        }
+    override fun showResultPeople() {
+        viewModel.onEvent(SearchUiEvent.MediaTypePeopleClicked)
     }
 
-    private fun showPeopleResult() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.onSearchForPeople()
-        }
+    override fun onClickBack() {
+        viewModel.onEvent(SearchUiEvent.BackClicked)
     }
 
-    private fun doNothingWhenTheSameChipIsReslected() {
-        binding.chipGroup.setOnCheckedChangeListener { group, checkedId ->
-            val chip = group.findViewById<Chip>(checkedId)
-            if (chip?.isChecked == true) {
-                // Do nothing when the same chip is reselected
-            }
-        }
+    override fun onClickMedia(id: Int) {
+        viewModel.onEvent(SearchUiEvent.MovieClicked(id))
+    }
+
+    override fun onClickPeople(id: Int) {
+        viewModel.onEvent(SearchUiEvent.PeopleClicked(id))
+    }
+
+    override fun onClickTryAgain() {
+        viewModel.onEvent(SearchUiEvent.TryAgainClicked)
+    }
+
+    override fun onClickApply() {
+        viewModel.onEvent(SearchUiEvent.ApplyFilterClicked)
     }
 }

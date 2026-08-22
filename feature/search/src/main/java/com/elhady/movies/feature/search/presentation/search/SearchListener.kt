@@ -11,5 +11,6 @@ interface SearchListener:  MovieListener, PeopleListener {
     fun showResultTv()
     fun showResultPeople()
     fun onClickBack()
-
+    fun onClickTryAgain()
+    fun onClickApply()
 }
