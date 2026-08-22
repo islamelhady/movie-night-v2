@@ -5,6 +5,8 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.elhady.movies.core.ui.base.BaseViewModel
+import com.elhady.movies.core.ui.base.toErrorUiState
+import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.domain.model.account.ListType
 import com.elhady.movies.core.common.ShowMoreType
 import com.elhady.movies.core.ui.resource.StringsRes
@@ -35,18 +37,32 @@ class ShowMoreViewModel @Inject constructor(
     private val tvShowsMapper: ShowMoreTvShowUiMapper,
     savedStateHandle: SavedStateHandle,
     stringsRes: StringsRes
-) : BaseViewModel<ShowMoreUiState, ShowMoreUiEvent>(
+) : BaseViewModel<ShowMoreUiState, ShowMoreUiEffect>(
     ShowMoreUiState(
         showMoreType = savedStateHandle.get<ShowMoreType>(
             "showMoreType"
         ) ?: ShowMoreType.POPULAR_MOVIES,
         stringsRes = stringsRes
     )
-), ShowMoreListener {
+) {
 
     init {
         _state.update { it.copy(isLoading = true) }
         getData()
+    }
+
+    fun onEvent(event: ShowMoreUiEvent) {
+        when (event) {
+            ShowMoreUiEvent.BackClicked -> sendEffect(ShowMoreUiEffect.NavigateBack)
+            is ShowMoreUiEvent.ItemClicked -> {
+                when (event.type) {
+                    ListType.TV -> sendEffect(ShowMoreUiEffect.NavigateToTvShowDetails(event.id))
+                    ListType.MOVIE -> sendEffect(ShowMoreUiEffect.NavigateToMovieDetails(event.id))
+                }
+            }
+
+            ShowMoreUiEvent.RetryClicked -> getData()
+        }
     }
 
     fun getData() {
@@ -78,7 +94,7 @@ class ShowMoreViewModel @Inject constructor(
                 showMoreTopRatedTvShow = tvShowsEntity,
                 isLoading = false,
                 showMoreType = ShowMoreType.TOP_RATED_TV,
-                errorList = emptyList()
+                errors = null
             )
         }
     }
@@ -98,7 +114,7 @@ class ShowMoreViewModel @Inject constructor(
                 showMoreAiringTodayTvShow = tvShowsEntity,
                 isLoading = false,
                 showMoreType = ShowMoreType.AIRING_TODAY_TV,
-                errorList = emptyList()
+                errors = null
             )
         }
     }
@@ -118,7 +134,7 @@ class ShowMoreViewModel @Inject constructor(
                 showMorePopularTvShow = tvShowsEntity,
                 isLoading = false,
                 showMoreType = ShowMoreType.POPULAR_TV,
-                errorList = emptyList()
+                errors = null
             )
         }
     }
@@ -138,7 +154,7 @@ class ShowMoreViewModel @Inject constructor(
                 showMoreOnTheAirTvShow = tvShowsEntity,
                 isLoading = false,
                 showMoreType = ShowMoreType.ON_THE_AIR_TV,
-                errorList = emptyList()
+                errors = null
             )
         }
     }
@@ -162,7 +178,7 @@ class ShowMoreViewModel @Inject constructor(
                 showMoreType = ShowMoreType.POPULAR_MOVIES,
                 showMorePopularMovies = movieEntity,
                 isLoading = false,
-                errorList = emptyList()
+                errors = null
             )
         }
     }
@@ -182,7 +198,7 @@ class ShowMoreViewModel @Inject constructor(
                 showMoreType = ShowMoreType.TOP_RATED_MOVIES,
                 showMoreTopRatedMovies = movieEntity,
                 isLoading = false,
-                errorList = emptyList()
+                errors = null
             )
         }
     }
@@ -202,19 +218,17 @@ class ShowMoreViewModel @Inject constructor(
                 showMoreType = ShowMoreType.TRENDING_MOVIES,
                 showMoreTrendingMovies = movieEntity,
                 isLoading = false,
-                errorList = emptyList()
+                errors = null
             )
         }
     }
 
     // endregion MOVIES
 
-    private fun onError(throwable: Throwable) {
-        val errorMessage = throwable.message ?: "No network connection"
-        showErrorWithSnackBar(errorMessage)
+    private fun onError(appException: AppException) {
         _state.update {
             it.copy(
-                errorList = listOf(errorMessage),
+                errors = appException.toErrorUiState(),
                 isLoading = false
             )
         }
@@ -224,36 +238,23 @@ class ShowMoreViewModel @Inject constructor(
         when (combinedLoadStates.refresh) {
             is LoadState.NotLoading -> {
                 _state.update {
-                    it.copy(isLoading = false, errorList = emptyList())
+                    it.copy(isLoading = false, errors = null)
                 }
             }
 
             LoadState.Loading -> {
                 _state.update {
-                    it.copy(isLoading = true, errorList = emptyList())
+                    it.copy(isLoading = true, errors = null)
                 }
             }
 
             is LoadState.Error -> {
                 _state.update {
-                    it.copy(isLoading = false, errorList = listOf("no Network "))
+                    it.copy(isLoading = false, errors = (combinedLoadStates.refresh as LoadState.Error).error.let { th ->
+                        if (th is AppException) th.toErrorUiState() else null
+                    })
                 }
             }
-        }
-    }
-
-    private fun showErrorWithSnackBar(messages: String) {
-        sendEffect(ShowMoreUiEvent.ShowSnackBarEvent(messages))
-    }
-
-    override fun onClickBackNavigate() {
-        sendEffect(ShowMoreUiEvent.BackNavigateEvent)
-    }
-
-    override fun onClickItem(mediaId: Int, type: ListType) {
-        when(type){
-            ListType.TV -> sendEffect(ShowMoreUiEvent.NavigateToTvShowDetailsEvent(mediaId))
-            ListType.MOVIE -> sendEffect(ShowMoreUiEvent.NavigateToMovieDetailsEvent(mediaId))
         }
     }
 }
