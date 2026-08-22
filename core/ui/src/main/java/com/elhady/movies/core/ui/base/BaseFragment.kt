@@ -33,7 +33,7 @@ abstract class BaseFragment<VDB : ViewDataBinding, STATE, EFFECT> : Fragment() {
     protected val binding: VDB
         get() = _binding
 
-    abstract val viewModelVariableId: Int
+    protected open val viewModelVariableId: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,7 +43,9 @@ abstract class BaseFragment<VDB : ViewDataBinding, STATE, EFFECT> : Fragment() {
         _binding = DataBindingUtil.inflate(inflater, layoutIdFragment, container, false)
         _binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            setVariable(viewModelVariableId, viewModel)
+            viewModelVariableId?.let { variableId->
+                setVariable(variableId, viewModel)
+            }
             return root
         }
     }
