@@ -6,19 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import com.elhady.movies.feature.search.BR
 import com.elhady.movies.feature.search.R
 import com.elhady.movies.feature.search.databinding.BottomSheetSearchFilterBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class FilterMovieBottomSheetFragment : BottomSheetDialogFragment() {
+class FilterMovieBottomSheetFragment : BottomSheetDialogFragment(), SearchListener {
     private lateinit var binding: BottomSheetSearchFilterBinding
     val viewModel by activityViewModels<SearchViewModel>()
 
@@ -32,6 +27,7 @@ class FilterMovieBottomSheetFragment : BottomSheetDialogFragment() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             setVariable(BR.viewModel, viewModel)
+            setVariable(BR.listener, this@FilterMovieBottomSheetFragment)
             return root
         }
     }
@@ -39,19 +35,34 @@ class FilterMovieBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
+        binding.listener = this
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.buttonApplyFilter.setOnClickListener {
-            viewModel.getData()
-            dismiss()
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.map { it.genres }.distinctUntilChanged().collectLatest {
-                binding.chipGroupFilter.setGenres(
-                    viewModel.state.value.genres,
-                    viewModel,
-                    viewModel.state.value.selectedGenresId
-                )
-            }
-        }
+    }
+
+    override fun onClickFilter() {}
+
+    override fun onClickGenre(genresId: Int) {
+        viewModel.onEvent(SearchUiEvent.GenreClicked(genresId))
+    }
+
+    override fun onClickClear() {}
+
+    override fun showResultMovie() {}
+
+    override fun showResultTv() {}
+
+    override fun showResultPeople() {}
+
+    override fun onClickBack() {}
+
+    override fun onClickMedia(id: Int) {}
+
+    override fun onClickPeople(id: Int) {}
+
+    override fun onClickTryAgain() {}
+
+    override fun onClickApply() {
+        viewModel.onEvent(SearchUiEvent.ApplyFilterClicked)
+        dismiss()
     }
 }
