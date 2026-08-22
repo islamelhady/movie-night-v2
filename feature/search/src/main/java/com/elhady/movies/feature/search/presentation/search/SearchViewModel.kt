@@ -1,6 +1,7 @@
 package com.elhady.movies.feature.search.presentation.search
 
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.domain.model.common.Genre
 import com.elhady.movies.core.common.NoNetworkThrowable
@@ -11,6 +12,7 @@ import com.elhady.movies.core.domain.usecase.search.InsertSearchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.search.SearchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetAllGenresMoviesUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetAllGenresTvsUseCase
+import com.elhady.movies.core.ui.base.ErrorUiState
 import com.elhady.movies.core.ui.state.MovieHorizontalUiState
 import com.elhady.movies.core.ui.state.PeopleUiState
 import com.elhady.movies.feature.search.presentation.search.mapper.GenreUiMapper
@@ -19,9 +21,9 @@ import com.elhady.movies.feature.search.presentation.search.mapper.PeopleUiMappe
 import com.elhady.movies.feature.search.presentation.search.mapper.TvUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.net.SocketTimeoutException
@@ -40,22 +42,75 @@ class SearchViewModel @Inject constructor(
     private val movieUiMapper: MovieUiMapper,
     private val tvUiMapper: TvUiMapper,
     private val peopleUiMapper: PeopleUiMapper
-) : BaseViewModel<SearchUiState, SearchUiEvent>(SearchUiState()), SearchListener {
+) : BaseViewModel<SearchUiState, SearchUiEffect>(SearchUiState()) {
 
-    val query = MutableStateFlow("")
-
-    //region init
     init {
         viewModelScope.launch {
-            query.onEach {
-                _state.update { it.copy(isLoading = true) }
-            }.debounce(500)
+            state.map { it.searchQuery }
+                .distinctUntilChanged()
+                .debounce(500)
                 .collect { onSearchInputChanged(it) }
         }
     }
-    // endregion
 
-    //region search input
+    fun onEvent(event: SearchUiEvent) {
+        when (event) {
+            is SearchUiEvent.QueryChanged -> onQueryChanged(event.query)
+            SearchUiEvent.FilterClicked -> onClickFilter()
+            is SearchUiEvent.GenreClicked -> onClickGenre(event.genreId)
+            SearchUiEvent.ApplyFilterClicked -> getData()
+            SearchUiEvent.ClearClicked -> onClearClicked()
+            SearchUiEvent.MediaTypeMovieClicked -> onMediaTypeMovieClicked()
+            SearchUiEvent.MediaTypeTvClicked -> onMediaTypeTvClicked()
+            SearchUiEvent.MediaTypePeopleClicked -> onMediaTypePeopleClicked()
+            SearchUiEvent.BackClicked -> sendEffect(SearchUiEffect.NavigateBack)
+            SearchUiEvent.TryAgainClicked -> getData()
+            is SearchUiEvent.MovieClicked -> sendEffect(SearchUiEffect.NavigateToMovieDetails(event.movieId))
+            is SearchUiEvent.TvClicked -> sendEffect(SearchUiEffect.NavigateToTvDetails(event.tvId))
+            is SearchUiEvent.PeopleClicked -> sendEffect(SearchUiEffect.NavigateToPeopleDetails(event.peopleId))
+        }
+    }
+
+    private fun onQueryChanged(newQuery: String) {
+        _state.update { it.copy(searchQuery = newQuery, isLoading = true) }
+    }
+
+    private fun onClearClicked() {
+        _state.update { it.copy(searchQuery = "") }
+    }
+
+    private fun onMediaTypeMovieClicked() {
+        _state.update {
+            it.copy(
+                selectedGenresId = null,
+                mediaType = SearchUiState.SearchMedia.MOVIE,
+                isLoading = true
+            )
+        }
+        onSearchForMovie()
+    }
+
+    private fun onMediaTypeTvClicked() {
+        _state.update {
+            it.copy(
+                selectedGenresId = null,
+                mediaType = SearchUiState.SearchMedia.TV,
+                isLoading = true
+            )
+        }
+        onSearchForTv()
+    }
+
+    private fun onMediaTypePeopleClicked() {
+        _state.update {
+            it.copy(
+                mediaType = SearchUiState.SearchMedia.PEOPLE,
+                isLoading = true
+            )
+        }
+        onSearchForPeople()
+    }
+
     private fun onSearchInputChanged(newQuery: String) {
         viewModelScope.launch(Dispatchers.IO) {
             saveSearchHistoryInLocal(newQuery)
@@ -63,21 +118,19 @@ class SearchViewModel @Inject constructor(
             getData()
         }
     }
-    // endregion
 
-    //region search history
     private suspend fun saveSearchHistoryInLocal(query: String) {
-        insertSearchHistoryUseCase(query)
+        if (query.isNotBlank()) {
+            insertSearchHistoryUseCase(query)
+        }
     }
 
     private suspend fun getSearchHistory(query: String) {
         val result = searchHistoryUseCase(query)
         _state.update { it.copy(searchHistory = result) }
     }
-    // endregion
 
-    // region get data
-    fun getData() {
+    private fun getData() {
         _state.update { it.copy(isLoading = true) }
         when (_state.value.mediaType) {
             SearchUiState.SearchMedia.MOVIE -> onSearchForMovie()
@@ -86,13 +139,11 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    // endregion
-    // region movie
-    fun onSearchForMovie() {
+    private fun onSearchForMovie() {
         tryToExecute(
             call = {
                 searchMoviesUseCase(
-                    query.value,
+                    _state.value.searchQuery,
                     _state.value.selectedGenresId
                 )
             },
@@ -113,14 +164,12 @@ class SearchViewModel @Inject constructor(
             )
         }
     }
-    // endregion
 
-    // region tv
-    fun onSearchForTv() {
+    private fun onSearchForTv() {
         tryToExecute(
             call = {
                 searchTvsUseCase(
-                    query.value,
+                    _state.value.searchQuery,
                     _state.value.selectedGenresId
                 )
             },
@@ -141,12 +190,10 @@ class SearchViewModel @Inject constructor(
             )
         }
     }
-    // endregion
 
-    // region people
-    fun onSearchForPeople() {
+    private fun onSearchForPeople() {
         tryToExecute(
-            call = { searchPeopleUseCase(query.value) },
+            call = { searchPeopleUseCase(_state.value.searchQuery) },
             mapper = peopleUiMapper,
             onSuccess = ::onSuccessPeople,
             onError = ::onError
@@ -164,17 +211,15 @@ class SearchViewModel @Inject constructor(
             )
         }
     }
-    // endregion
 
-    ///region events
-    override fun onClickFilter() {
+    private fun onClickFilter() {
         _state.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             when (_state.value.mediaType) {
                 SearchUiState.SearchMedia.MOVIE -> getAllGenresMovies()
                 else -> getAllGenresTv()
             }
-            sendEffect(SearchUiEvent.OpenFilterBottomSheet)
+            sendEffect(SearchUiEffect.OpenFilterBottomSheet)
         }
     }
 
@@ -196,7 +241,6 @@ class SearchViewModel @Inject constructor(
         )
     }
 
-
     private fun onSuccessGenres(genreEntities: List<Genre>) {
         _state.update {
             val updatedGenres =
@@ -214,7 +258,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    override fun onClickGenre(genresId: Int) {
+    private fun onClickGenre(genresId: Int) {
         val updatedGenres = _state.value.genres.map { genre ->
             genre.copy(isSelected = genre.genreId == genresId)
         }
@@ -227,54 +271,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    override fun onClickClear() {
-        query.value = ""
-    }
-
-    override fun showResultMovie() {
-        sendEffect(SearchUiEvent.ShowMovieResult)
-        _state.update {
-            it.copy(
-                selectedGenresId = null,
-                mediaType = SearchUiState.SearchMedia.MOVIE
-            )
-        }
-    }
-
-    override fun showResultTv() {
-        sendEffect(SearchUiEvent.ShowTvResult)
-        _state.update {
-            it.copy(
-                selectedGenresId = null,
-                mediaType = SearchUiState.SearchMedia.TV
-            )
-        }
-    }
-
-    override fun showResultPeople() {
-        sendEffect(SearchUiEvent.ShowPeopleResult)
-        _state.update { it.copy(mediaType = SearchUiState.SearchMedia.PEOPLE) }
-    }
-
-    override fun onClickBack() {
-        sendEffect(SearchUiEvent.NavigateToBack)
-    }
-
-    override fun onClickMedia(id: Int) {
-        when (_state.value.mediaType) {
-            SearchUiState.SearchMedia.MOVIE -> sendEffect(SearchUiEvent.NavigateToMovie(id))
-            else -> sendEffect(SearchUiEvent.NavigateToTv(id))
-        }
-    }
-
-    override fun onClickPeople(id: Int) {
-        sendEffect(SearchUiEvent.NavigateToPeople(id))
-    }
-    ///endregion
-
-
-    /// region error handling
-    private fun onError(throwable: Throwable) {
+    private fun onError(throwable: AppException) {
         if (throwable == NoNetworkThrowable()) {
             showErrorWithSnackBar(throwable.message ?: "No Network Connection")
         } else if (throwable == SocketTimeoutException()) {
@@ -289,7 +286,6 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun showErrorWithSnackBar(messages: String) {
-        sendEffect(SearchUiEvent.ShowSnackBar(messages))
+        sendEffect(SearchUiEffect.ShowSnackBar(messages))
     }
-    //endregion
 }
