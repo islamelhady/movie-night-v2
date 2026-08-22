@@ -74,11 +74,15 @@ class TvDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<TvDetailsUIState, TvDetailsUiEffect>(TvDetailsUIState()) {
 
-    private val tvShowId: Int =
-        savedStateHandle.get<Int>(TV_SHOW_ID) ?: error("TV show id is missing")
+    private val tvShowId: Int? =
+        savedStateHandle.get<Int>(TV_SHOW_ID) ?: savedStateHandle.get<String>(TV_SHOW_ID)?.toIntOrNull()
 
     init {
-        loadTvDetails()
+        if (tvShowId != null) {
+            loadTvDetails()
+        } else {
+            _state.update { it.copy(isLoading = false, error = listOf(stringsRes.someThingError)) }
+        }
     }
 
 
@@ -98,7 +102,7 @@ class TvDetailsViewModel @Inject constructor(
     //region info
     private fun getTvDetailsInfo() {
         tryToExecute(
-            call = { tvDetailsInfoUseCase(tvShowId) },
+            call = { tvDetailsInfoUseCase(tvShowId!!) },
             onSuccess = ::onInfoSuccess,
             onError = ::onTvDetailsInfoError
 
@@ -132,7 +136,7 @@ class TvDetailsViewModel @Inject constructor(
     //region cast
     private fun getTvDetailsCast() {
         tryToExecute(
-            call = { getTvDetailsCastUseCase(tvShowId) },
+            call = { getTvDetailsCastUseCase(tvShowId!!) },
             onSuccess = ::onCastSuccess,
             onError = ::onCastError
         )
@@ -159,7 +163,7 @@ class TvDetailsViewModel @Inject constructor(
     //region seasons
     private fun getTvDetailsSeasons() {
         tryToExecute(
-            call = { getTvDetailsSeasonsUseCase(tvShowId) },
+            call = { getTvDetailsSeasonsUseCase(tvShowId!!) },
             onSuccess = ::onSeasonsSuccess,
             onError = ::onSeasonError
         )
@@ -185,7 +189,7 @@ class TvDetailsViewModel @Inject constructor(
     //region reviews
     private fun getTvDetailsReviews() {
         tryToExecute(
-            call = { getTvDetailsReviewsUseCase(tvShowId) },
+            call = { getTvDetailsReviewsUseCase(tvShowId!!) },
             onSuccess = ::onReviewsSuccess,
             onError = ::onReviewsError
         )
@@ -217,7 +221,7 @@ class TvDetailsViewModel @Inject constructor(
     //region recommendations
     private fun getTvDetailsRecommendations() {
         tryToExecute(
-            call = { getTvShowRecommendationsUseCase(tvShowId) },
+            call = { getTvShowRecommendationsUseCase(tvShowId!!) },
             onSuccess = ::onRecommendationsSuccess,
             onError = ::onRecommendationsError
         )
@@ -248,7 +252,7 @@ class TvDetailsViewModel @Inject constructor(
     // region youtube
     private fun getYoutubeDetails() {
         tryToExecute(
-            call = { getTvShowYoutubeDetailsUseCase(tvShowId) },
+            call = { getTvShowYoutubeDetailsUseCase(tvShowId!!) },
             onSuccess = ::onYoutubeDetailsSuccess,
             onError = ::onYoutubeDetailsError
 
@@ -278,7 +282,7 @@ class TvDetailsViewModel @Inject constructor(
     // region get rating
     private fun getTvDetailsRating() {
         tryToExecute(
-            call = { getRatingTvUseCase(tvShowId) },
+            call = { getRatingTvUseCase(tvShowId!!) },
             onSuccess = ::onSuccessGetTvShowRating,
             onError = ::onRatingError
         )
@@ -309,7 +313,7 @@ class TvDetailsViewModel @Inject constructor(
             call = {
                 rateTvShowUseCase(
                     rate = state.value.ratingUIState.rating.toDouble(),
-                    tvShowId = tvShowId
+                    tvShowId = tvShowId!!
                 )
             },
             onSuccess = { sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.ratingAddSuccessFully)) },
@@ -366,7 +370,7 @@ class TvDetailsViewModel @Inject constructor(
         state.value.userSelectedLists.forEach { listId ->
 
             tryToExecute(
-                call = { addToUserListUseCase(listId, tvShowId) },
+                call = { addToUserListUseCase(listId, tvShowId!!) },
                 onSuccess = {
                     sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))
                 },
@@ -395,7 +399,7 @@ class TvDetailsViewModel @Inject constructor(
     // region favourite / watchlist
     private fun addToFavourite() {
         tryToExecute(
-            call = { addToFavouriteUseCase(tvShowId, "tv") },
+            call = { addToFavouriteUseCase(tvShowId!!, "tv") },
             onSuccess = {
                 sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))
             },
@@ -407,7 +411,7 @@ class TvDetailsViewModel @Inject constructor(
 
     private fun addToWatchlist() {
         tryToExecute(
-            call = { addToWatchList(tvShowId, "tv") },
+            call = { addToWatchList(tvShowId!!, "tv") },
             onSuccess = {
                 sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))
             },
@@ -463,7 +467,7 @@ class TvDetailsViewModel @Inject constructor(
             is TvDetailsUiEvent.SeasonClicked -> {
                 sendEffect(
                     TvDetailsUiEffect.NavigateToSeasonDetails(
-                        tvShowId = tvShowId,
+                        tvShowId = tvShowId!!,
                         seasonNumber = event.seasonNumber
                     )
                 )
