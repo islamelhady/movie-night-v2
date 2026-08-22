@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:onClick="@{()->listener.onChipClick(item.id)}"
         android:paddingVertical="8dp"
-        android:checked="false"
+        android:checkable="true"
         android:text="@{item.name}"
         android:textAppearance="@style/TextStyle.BodySmall"
         tools:text="any" />

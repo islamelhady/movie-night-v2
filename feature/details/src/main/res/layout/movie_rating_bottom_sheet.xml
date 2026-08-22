@@ -3,14 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="state"
+            type="com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsUiState" />
 
         <variable
-            name="item"
-            type="com.elhady.movies.feature.details.presentation.moviedetails.adapter.MovieDetailsItem.Upper" />
-
-        <variable
-            name="viewModel"
-            type="com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsViewModel" />
+            name="listener"
+            type="com.elhady.movies.feature.details.presentation.tvdetails.listener.BottomSheetDismissListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -61,6 +60,7 @@
                 android:layout_marginTop="16dp"
                 android:numStars="5"
                 android:stepSize="1"
+                android:rating="@{state.userRating / 2}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/chip_group_genre" />
 

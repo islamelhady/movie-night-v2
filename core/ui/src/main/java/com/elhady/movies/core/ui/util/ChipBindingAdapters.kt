@@ -9,10 +9,11 @@ import com.elhady.movies.core.ui.interaction.ChipListener
 import com.elhady.movies.core.ui.state.UserListUiState
 import com.google.android.material.chip.ChipGroup
 
-@BindingAdapter(value = ["app:userListChips", "app:chipListener"])
+@BindingAdapter(value = ["app:userListChips", "app:chipListener", "app:selectedIds"], requireAll = false)
 fun ChipGroup.setGenreChips(
     chips: List<UserListUiState>?,
-    chipListener: ChipListener?
+    chipListener: ChipListener?,
+    selectedIds: List<Int>? = emptyList()
 ) {
     if (chips == null || chipListener == null) return
     
@@ -27,6 +28,10 @@ fun ChipGroup.setGenreChips(
         )
         binding.item = chipUiState
         binding.listener = chipListener
+        binding.root.post {
+            (binding.root as? com.google.android.material.chip.Chip)?.isChecked = 
+                selectedIds?.contains(chipUiState.id) == true
+        }
         addView(binding.root)
     }
 }

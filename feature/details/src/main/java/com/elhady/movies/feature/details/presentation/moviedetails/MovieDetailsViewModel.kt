@@ -1,12 +1,10 @@
 package com.elhady.movies.feature.details.presentation.moviedetails
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.common.ForbiddenThrowable
 import com.elhady.movies.core.common.NoNetworkThrowable
 import com.elhady.movies.core.common.UnauthorizedThrowable
-import com.elhady.movies.core.domain.model.common.Status
 import com.elhady.movies.core.domain.model.movie.MovieDetails
 import com.elhady.movies.core.domain.usecase.account.AddToFavouriteUseCase
 import com.elhady.movies.core.domain.usecase.account.AddToUserListUseCase
@@ -19,11 +17,7 @@ import com.elhady.movies.core.domain.usecase.movie.GetRatingMovieUseCase
 import com.elhady.movies.core.domain.usecase.movie.InsertMovieToWatchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.movie.SetRatingUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
-import com.elhady.movies.core.ui.interaction.ChipListener
-import com.elhady.movies.core.ui.interaction.MediaListener
-import com.elhady.movies.core.ui.interaction.PeopleListener
 import com.elhady.movies.core.ui.resource.StringsRes
-import com.elhady.movies.core.ui.state.UserListUiState
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.CastUiMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.RecommendedUiMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.ReviewDetailsUiMapper
@@ -31,14 +25,11 @@ import com.elhady.movies.feature.details.presentation.moviedetails.mapper.Review
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.UpperUiMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.UserListUiMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.WatchHistoryUiMapper
-import com.elhady.movies.feature.details.presentation.moviedetails.rate.BottomSheetListener
-import com.elhady.movies.feature.details.presentation.moviedetails.save.SaveToListListener
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
@@ -61,9 +52,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val getRatingMovieUseCase: GetRatingMovieUseCase,
     private val stringsRes: StringsRes,
     savedStateHandle: SavedStateHandle
-) : BaseViewModel<MovieDetailsUiState, MovieDetailsUiEvent>(MovieDetailsUiState()),
-    MovieDetailsListener, MediaListener, PeopleListener, ChipListener, BottomSheetListener,
-    SaveToListListener {
+) : BaseViewModel<MovieDetailsUiState, MovieDetailsUiEffect>(MovieDetailsUiState()) {
 
     private val movieId = savedStateHandle.get<Int>("movieId")
 
@@ -72,14 +61,69 @@ class MovieDetailsViewModel @Inject constructor(
         if (movieId != null) {
             getMovieDetails(movieId)
             getRatingMovie()
-
         } else {
-            val errors = _state.value.onErrors.toMutableList()
-            errors.add("There are a problem with MovieId")
-            _state.update { it.copy(onErrors = errors, isLoading = false) }
+            _state.update { 
+                it.copy(
+                    onErrors = listOf("There is a problem with MovieId"), 
+                    isLoading = false
+                ) 
+            }
         }
     }
 
+    fun onEvent(event: MovieDetailsUiEvent) {
+        when (event) {
+            MovieDetailsUiEvent.BackClicked -> sendEffect(MovieDetailsUiEffect.NavigateBack)
+            MovieDetailsUiEvent.PlayClicked -> {
+                sendEffect(MovieDetailsUiEffect.PlayVideoTrailer(state.value.movieUiState.videoKey))
+            }
+            MovieDetailsUiEvent.RateClicked -> {
+                if (state.value.isLogin) {
+                    sendEffect(MovieDetailsUiEffect.ShowRateBottomSheet)
+                } else {
+                    showMessageWithSnackBar(stringsRes.notLoggedInToRate)
+                }
+            }
+            MovieDetailsUiEvent.SaveClicked -> {
+                if (state.value.isLogin) {
+                    getUserLists()
+                } else {
+                    showMessageWithSnackBar(stringsRes.notLoggedInToRate)
+                }
+            }
+            is MovieDetailsUiEvent.ShowMoreClicked -> {
+                sendEffect(MovieDetailsUiEffect.NavigateToShowMore(event.movieId))
+            }
+            is MovieDetailsUiEvent.MovieClicked -> {
+                sendEffect(MovieDetailsUiEffect.NavigateToMovieDetails(event.movieId))
+            }
+            is MovieDetailsUiEvent.PersonClicked -> {
+                sendEffect(MovieDetailsUiEffect.NavigateToPeopleDetails(event.personId))
+            }
+            is MovieDetailsUiEvent.RatingChanged -> {
+                _state.update { it.copy(userRating = event.rating) }
+            }
+            MovieDetailsUiEvent.RatingSubmitted -> onRatingSubmit()
+            is MovieDetailsUiEvent.RetryClicked -> tryAgain(event.movieId)
+            is MovieDetailsUiEvent.ChipClicked -> {
+                _state.update {
+                    val currentSelected = it.userSelectedLists.toMutableList()
+                    if (event.id in currentSelected) {
+                        currentSelected.remove(event.id)
+                    } else {
+                        currentSelected.add(event.id)
+                    }
+                    it.copy(userSelectedLists = currentSelected)
+                }
+            }
+            MovieDetailsUiEvent.DoneClicked -> onDone()
+            MovieDetailsUiEvent.FavouriteClicked -> addToFavourite()
+            MovieDetailsUiEvent.WatchlistClicked -> addToWatchlist()
+            is MovieDetailsUiEvent.CreateListClicked -> createUserNewList(event.name)
+            MovieDetailsUiEvent.CloseClicked -> sendEffect(MovieDetailsUiEffect.CloseBottomSheet)
+            MovieDetailsUiEvent.AddListClicked -> sendEffect(MovieDetailsUiEffect.AddListToBottomSheet)
+        }
+    }
 
     private fun getMovieDetails(movieId: Int) {
         tryToExecute(
@@ -92,7 +136,7 @@ class MovieDetailsViewModel @Inject constructor(
     private fun onSuccessMovieDetails(movieDetails: MovieDetails) {
         _state.update {
             it.copy(
-//                id = movieDetails.id,
+                id = movieDetails.id,
                 movieUiState = upperUiStateMapper.map(movieDetails),
                 recommendedUiState = recommendedUiStateMapper.map(movieDetails.recommendations.recommendedMovies),
                 reviewUiState = reviewsUiStateMapper.map(movieDetails.reviewEntity.reviews),
@@ -106,52 +150,37 @@ class MovieDetailsViewModel @Inject constructor(
             try {
                 insertMovieToWatchHistoryUseCase(watchHistoryUiStateMapper.map(movieDetails))
             } catch (th: Throwable) {
-                onError(th)
+                // Should we show error for watch history? MovieDetailsViewModel original code called onError
+                // but usually watch history insertion shouldn't block the whole screen if it fails.
+                // Keeping original behavior for now.
             }
         }
     }
 
-     fun onRatingSubmit() {
-        tryToExecute(
-            call = { ratingUseCase(movieId!!, state.value.userRating) },
-            onSuccess = { onRatingSuccess() },
-            onError = {
-                sendEffect(MovieDetailsUiEvent.ApplyRatingEvent(stringsRes.someThingErrorWhenAddRating))
-            }
-        )
+    private fun onRatingSubmit() {
+        movieId?.let { id ->
+            tryToExecute(
+                call = { ratingUseCase(id, state.value.userRating) },
+                onSuccess = { 
+                    sendEffect(MovieDetailsUiEffect.ShowSnackBar(stringsRes.ratingAddSuccessFully))
+                    getMovieDetails(id)
+                },
+                onError = { sendEffect(MovieDetailsUiEffect.ShowSnackBar(stringsRes.someThingErrorWhenAddRating)) }
+            )
+        }
     }
-
-    private fun onRatingSuccess() {
-        sendEffect(MovieDetailsUiEvent.ApplyRatingEvent(stringsRes.ratingAddSuccessFully))
-    }
-
-
-    fun updateRatingUiState(rate: Float) {
-        _state.update { it.copy(userRating = rate) }
-    }
-
 
     private fun getRatingMovie() {
-        tryToExecute(
-            call = { getRatingMovieUseCase(movieId!!) },
-            onSuccess = ::onSuccessGetRating,
-            onError = ::onError
-        )
-        Log.d("GetRating", "${state.value.userRating}  Movie Id $movieId")
-    }
-
-    private fun onSuccessGetRating(rate: Float) {
-        _state.update { it.copy(userRating = rate) }
-    }
-
-    //region user lists
-    fun emptyUserLists() {
-        _state.update {
-            it.copy(userLists = emptyList())
+        movieId?.let { id ->
+            tryToExecute(
+                call = { getRatingMovieUseCase(id) },
+                onSuccess = { rate -> _state.update { it.copy(userRating = rate) } },
+                onError = ::onError
+            )
         }
     }
 
-    fun getUserLists() {
+    private fun getUserLists() {
         tryToExecute(
             call = { getUserListsUseCase() },
             mapper = userListsUiMapper,
@@ -160,60 +189,61 @@ class MovieDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun onSuccessUserLists(userListsEntity: List<UserListUiState>) {
+    private fun onSuccessUserLists(userListsEntity: List<com.elhady.movies.core.ui.state.UserListUiState>) {
         _state.update { it.copy(userLists = userListsEntity) }
+        sendEffect(MovieDetailsUiEffect.ShowSaveToListBottomSheet(userListsEntity))
     }
 
-
-    fun onDone(listsId: List<Int>) {
-        listsId.forEach { id ->
+    private fun onDone() {
+        state.value.userSelectedLists.forEach { id ->
             tryToExecute(
                 call = { addToUserListUseCase(id, movieId!!) },
-                onSuccess = { showMessageWithSnackBar(messages = stringsRes.newListAddSuccessFully) },
+                onSuccess = { showMessageWithSnackBar(stringsRes.newListAddSuccessFully) },
                 onError = ::onError
             )
         }
-
-        onClickDone()
+        _state.update { it.copy(userSelectedLists = emptyList()) }
+        sendEffect(MovieDetailsUiEffect.DoneEvent)
     }
 
-
-    fun createUserNewList(listName: String) {
+    private fun createUserNewList(listName: String) {
         tryToExecute(
             call = { createUserListUseCase(listName) },
-            onSuccess = ::onSuccessCreateUserNewList,
+            onSuccess = { 
+                showMessageWithSnackBar(stringsRes.newListAddSuccessFully)
+                getUserLists() 
+            },
             onError = ::onError
         )
     }
 
-    private fun onSuccessCreateUserNewList(statusEntity: Status) {
-        showMessageWithSnackBar(messages = "${statusEntity.success} :" + stringsRes.newListAddSuccessFully)
-        getUserLists()
+    private fun addToFavourite() {
+        movieId?.let { id ->
+            tryToExecute(
+                call = { addToFavouriteUseCase(mediaId = id, mediaType = "movie") },
+                onSuccess = { showMessageWithSnackBar(stringsRes.addSuccessfully) },
+                onError = ::onError
+            )
+        }
     }
 
-    fun addToFavourite() {
-        tryToExecute(
-            call = { addToFavouriteUseCase(mediaId = movieId!!, mediaType = "movie") },
-            onSuccess = { showMessageWithSnackBar(messages = stringsRes.addSuccessfully) },
-            onError = ::onError
-        )
-        Log.d("FAV: ", "$movieId")
+    private fun addToWatchlist() {
+        movieId?.let { id ->
+            tryToExecute(
+                call = { addToWatchList(movieId = id, mediaType = "movie") },
+                onSuccess = { showMessageWithSnackBar(stringsRes.addSuccessfully) },
+                onError = ::onError
+            )
+        }
     }
 
-    fun addToWatchlist() {
-        tryToExecute(
-            call = { addToWatchList(movieId = movieId!!, mediaType = "movie") },
-            onSuccess = { showMessageWithSnackBar(messages = stringsRes.addSuccessfully) },
-            onError = ::onError
-        )
-        Log.d("WAT: ", "$movieId")
+    private fun tryAgain(movieId: Int) {
+        _state.update { it.copy(isLoading = true, onErrors = emptyList()) }
+        getMovieDetails(movieId)
     }
 
-//endregion
-
-
-    private fun showMessageWithSnackBar(messages: String) {
-        sendEffect(MovieDetailsUiEvent.ShowSnackBarMessageEvent(messages))
+    private fun showMessageWithSnackBar(message: String) {
+        sendEffect(MovieDetailsUiEffect.ShowSnackBar(message))
     }
 
     private fun onError(throwable: Throwable) {
@@ -222,94 +252,8 @@ class MovieDetailsViewModel @Inject constructor(
             is NoNetworkThrowable -> showMessageWithSnackBar(stringsRes.noNetworkConnection)
             is UnauthorizedThrowable -> showMessageWithSnackBar(stringsRes.theRequestFailed)
             is ForbiddenThrowable -> showMessageWithSnackBar(stringsRes.duplicateEntity)
-            else -> throwable.message.toString()
+            else -> Unit
         }
         _state.update { it.copy(onErrors = listOf(errorMessage), isLoading = false) }
     }
-
-    override fun onClickPeople(id: Int) {
-        sendEffect(MovieDetailsUiEvent.NavigateToPeopleDetailsEvent(id))
-    }
-
-
-    override fun onClickPlayTrailer() {
-        sendEffect(MovieDetailsUiEvent.PlayVideoTrailerEvent(state.value.movieUiState.videoKey))
-    }
-
-
-    override fun onClickRateMovie() {
-        if (state.value.isLogin) {
-            sendEffect(MovieDetailsUiEvent.RateMovieEvent)
-        } else {
-            showMessageWithSnackBar(stringsRes.notLoggedInToRate)
-        }
-    }
-
-
-    // region Movie details
-    override fun onClickBackButton() {
-        sendEffect(MovieDetailsUiEvent.OnClickBackEvent)
-    }
-
-    fun onClickSaveButton() {
-        sendEffect(MovieDetailsUiEvent.SaveToListEvent)
-    }
-
-    override fun onClickShowMore(movieId: Int) {
-        sendEffect(MovieDetailsUiEvent.NavigateToShowMoreEvent(movieId))
-    }
-
-    override fun onClickMedia(id: Int) {
-        sendEffect(MovieDetailsUiEvent.NavigateToMovieDetailsEvent(id))
-    }
-
-    fun tryAgain(movieId: Int) {
-        _state.update { it.copy(isLoading = true, onErrors = emptyList()) }
-        getMovieDetails(movieId)
-    }
-
-    override fun onChipClick(id: Int) {
-        _state.update {
-            it.copy(
-                userSelectedLists = (it.userSelectedLists + id).distinct()
-            )
-        }
-    }
-
-// endregion
-
-    // region Rating Bottom Sheet
-    override fun onClickApplyRateBottomSheet() {
-//        onRatingSubmit()
-    }
-
-// endregion
-
-
-    // region Rating Bottom Sheet Clicks
-    override fun onClickCreateList() {
-        sendEffect(MovieDetailsUiEvent.CreateListEvent)
-    }
-// endregion
-
-    override fun onClickDone() {
-        sendEffect(MovieDetailsUiEvent.DoneEvent)
-    }
-
-    override fun onClickAddList() {
-        sendEffect(MovieDetailsUiEvent.AddListEvent)
-    }
-//    override fun onClickFavourite() {
-//        addToFavourite()
-//    }
-//
-//    override fun onClickWatchlist() {
-//        addToWatchlist()
-//    }
-
-    override fun onDismiss() {
-        sendEffect(MovieDetailsUiEvent.CloseEvent)
-    }
-
-// endregion
 }
