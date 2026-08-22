@@ -59,4 +59,12 @@ class AuthRepositoryImpl @Inject constructor(
         val sessionId = prefs.sessionId
         return !sessionId.isNullOrBlank()
     }
+
+    override fun getTheme(): Boolean {
+        return prefs.isDarkTheme ?: false
+    }
+
+    override suspend fun saveTheme(isDark: Boolean) {
+        prefs.setDarkTheme(isDark)
+    }
 }
