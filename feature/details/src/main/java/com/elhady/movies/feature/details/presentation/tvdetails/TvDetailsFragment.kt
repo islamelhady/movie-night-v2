@@ -220,6 +220,7 @@ class TvDetailsFragment :
 
                 override fun onDone() {
                     viewModel.onEvent(TvDetailsUiEvent.DoneAddingLists)
+                    saveTvShowToListBottomSheet.dismiss()
                 }
 
                 override fun onChipClick(id: Int) {

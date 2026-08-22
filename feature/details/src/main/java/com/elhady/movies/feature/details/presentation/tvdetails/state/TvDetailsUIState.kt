@@ -3,6 +3,8 @@ package com.elhady.movies.feature.details.presentation.tvdetails.state
 import com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsItem
 
 data class TvDetailsUIState(
+    val tvShowName: String = "",
+    val backdropImageUrl: String = "",
     val tvDetailsItems: List<TvDetailsItem> = emptyList(),
     val infoUIState: InfoUIState = InfoUIState.Loading,
     val castUIState: CastUIState = CastUIState.Loading,

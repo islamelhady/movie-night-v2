@@ -38,6 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
+                    app:imageUrl="@{viewModel.state.backdropImageUrl}"
                     app:layout_collapseMode="parallax"
                     tools:src="@tools:sample/backgrounds/scenic" />
 
@@ -94,6 +95,7 @@
                                 android:paddingStart="@dimen/spacing_small_8dp"
                                 android:ellipsize="end"
                                 android:maxLines="1"
+                                android:text="@{viewModel.state.tvShowName}"
                                 android:textColor="@color/on_background_87"
                                 android:visibility="invisible" />
                         </LinearLayout>
@@ -132,15 +134,6 @@
             app:layout_constraintTop_toTopOf="parent" />
         <!--endregion-->
 
-        <!--region loading-->
-<!--        <include-->
-<!--            layout="@layout/layout_loading"-->
-<!--            android:id="@+id/progressBar"-->
-<!--            android:layout_width="100dp"-->
-<!--            android:layout_height="100dp"-->
-<!--            android:layout_gravity="center"-->
-<!--            app:isVisible="@{viewModel.state.isLoading}"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent" />-->
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/progressBar"
@@ -163,17 +156,6 @@
             app:isVisibleOrGone="@{viewModel.state.isFailure}"
             android:orientation="vertical">
 
-<!--            <include-->
-<!--                android:id="@+id/lottie_animation"-->
-<!--                layout="@layout/layout_no_connection"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                app:showWhenError="@{viewModel.state.errors}"/>-->
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie_animation"

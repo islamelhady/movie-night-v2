@@ -113,6 +113,8 @@ class TvDetailsViewModel @Inject constructor(
         val infoUIState = tvDetailsInfoToInfoUIStateMapper.map(input = data)
         _state.update {
             val newState = it.copy(
+                tvShowName = infoUIState.name,
+                backdropImageUrl = infoUIState.backdropImageUrl,
                 infoUIState = InfoUIState.Success(
                     info = infoUIState
                 ),
@@ -130,6 +132,7 @@ class TvDetailsViewModel @Inject constructor(
             )
             newState.copy(tvDetailsItems = updateTvDetailsItems(newState))
         }
+        sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
     }
     //endregion
 
@@ -157,6 +160,7 @@ class TvDetailsViewModel @Inject constructor(
             val newState = it.copy(castUIState = CastUIState.Error(error = error.toErrorUiState()))
             newState.copy(tvDetailsItems = updateTvDetailsItems(newState))
         }
+        sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
     }
     //endregion
 
@@ -182,6 +186,7 @@ class TvDetailsViewModel @Inject constructor(
             val newState = it.copy(seasonsUIState = SeasonsUIState.Error(error = error.toErrorUiState()))
             newState.copy(tvDetailsItems = updateTvDetailsItems(newState))
         }
+        sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
     }
 
     //endregion
@@ -214,6 +219,7 @@ class TvDetailsViewModel @Inject constructor(
             val newState = it.copy(reviewsUIState = ReviewsUIState.Error(error = error.toErrorUiState()))
             newState.copy(tvDetailsItems = updateTvDetailsItems(newState))
         }
+        sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
     }
 
     //endregion
@@ -246,6 +252,7 @@ class TvDetailsViewModel @Inject constructor(
             val newState = it.copy(recommendationsUIState = RecommendationsUIState.Error(error = error.toErrorUiState()))
             newState.copy(tvDetailsItems = updateTvDetailsItems(newState))
         }
+        sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
     }
     //endregion
 
@@ -276,6 +283,7 @@ class TvDetailsViewModel @Inject constructor(
         _state.update {
             it.copy(trailerUIState = TrailerUIState.Error(error = error.toErrorUiState()))
         }
+        sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
     }
     //endregion
 
@@ -302,6 +310,7 @@ class TvDetailsViewModel @Inject constructor(
 
     private fun onRatingError(error: AppException) {
         _state.update { it.copy(ratingUIState = it.ratingUIState.copy(error = error.toErrorUiState())) }
+        sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
     }
 
     private fun updateRating(rate: Float) {
@@ -379,6 +388,7 @@ class TvDetailsViewModel @Inject constructor(
                 }
             )
         }
+        _state.update { it.copy(userSelectedLists = emptyList()) }
     }
 
 
