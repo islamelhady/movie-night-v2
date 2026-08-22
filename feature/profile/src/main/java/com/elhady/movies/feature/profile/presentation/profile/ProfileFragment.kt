@@ -4,12 +4,14 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.elhady.movies.core.domain.model.account.ListName
 import com.elhady.movies.core.domain.model.account.ListType
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.core.ui.base.animationRes
 import com.elhady.movies.core.ui.navigation.Navigator
+import com.elhady.movies.core.ui.util.loadProfileImage
 import com.elhady.movies.feature.profile.BR
 import com.elhady.movies.feature.profile.R
 import com.elhady.movies.core.ui.R as CoreUiR
@@ -17,6 +19,7 @@ import com.elhady.movies.feature.profile.databinding.FragmentProfileBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import androidx.core.content.edit
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, ProfileUiEffect>() {
@@ -46,7 +49,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
         binding.textViewMylists.setOnClickListener { viewModel.onEvent(ProfileUiEvent.MyListsClicked) }
         binding.textViewLogout.setOnClickListener { viewModel.onEvent(ProfileUiEvent.LogoutClicked) }
         binding.buttonLogin.setOnClickListener { viewModel.onEvent(ProfileUiEvent.LoginClicked) }
-        binding.textviewErrorOccurred.setOnClickListener { viewModel.onEvent(ProfileUiEvent.RetryClicked) }
         binding.buttonRetry.setOnClickListener { viewModel.onEvent(ProfileUiEvent.RetryClicked) }
     }
 
@@ -55,17 +57,38 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
     }
 
     private fun render(state: ProfileUiState) {
-        renderErrorAnimation(state)
+        renderLoading(state)
+        renderError(state)
+        renderProfile(state)
+        renderLogin(state)
     }
 
-    private fun renderErrorAnimation(state: ProfileUiState) {
-        val errors = state.errors
-        if (errors == null) {
+    private fun renderLoading(state: ProfileUiState) {
+        binding.progressBar.isVisible = state.isLoading
+    }
+
+    private fun renderError(state: ProfileUiState) {
+        val isError = state.errors != null
+        binding.groupError.isVisible = !state.isLoading && isError
+        if (isError && !state.isLoading) {
+            binding.lottieAnimation.setAnimation(state.errors!!.animationRes)
+            binding.lottieAnimation.playAnimation()
+        } else {
             binding.lottieAnimation.cancelAnimation()
-            return
         }
-        binding.lottieAnimation.setAnimation(errors.animationRes)
-        binding.lottieAnimation.playAnimation()
+    }
+
+    private fun renderProfile(state: ProfileUiState) {
+        val isShowProfile = !state.isLoading && state.errors == null && state.isLogIn
+        binding.whenUserLogin.isVisible = isShowProfile
+        if (isShowProfile) {
+            binding.textViewProfileUsername.text = state.username
+            binding.imageViewProfile.loadProfileImage(state.avatarUrl)
+        }
+    }
+
+    private fun renderLogin(state: ProfileUiState) {
+        binding.whenUserNotLogin.isVisible = !state.isLoading && state.errors == null && !state.isLogIn
     }
 
     override fun onEffect(effect: ProfileUiEffect) {
@@ -82,7 +105,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
             ProfileUiEffect.NavigateToMyListsScreen -> navigator.navigateToMyList()
             ProfileUiEffect.ShowLogoutDialog -> showConfirmDialog()
             ProfileUiEffect.NavigateToLogin -> navigator.navigateToLogin()
-            is ProfileUiEffect.ShowSnackBar -> showSnackBar(effect.message)
+            is ProfileUiEffect.ShowSnackBar -> showSnackBar(getString(effect.message))
         }
     }
 
@@ -106,7 +129,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
         switchButtonTheme.isChecked = savedThemeState
 
         switchButtonTheme.setOnCheckedChangeListener { _, iChecked ->
-            sharedPreferences.edit().putBoolean(PREF_THEME_STATE, iChecked).apply()
+            sharedPreferences.edit { putBoolean(PREF_THEME_STATE, iChecked) }
             if (iChecked) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             } else {

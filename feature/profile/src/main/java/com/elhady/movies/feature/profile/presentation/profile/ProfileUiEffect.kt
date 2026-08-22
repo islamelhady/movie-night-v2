@@ -7,5 +7,5 @@ sealed interface ProfileUiEffect {
     object NavigateToMyListsScreen : ProfileUiEffect
     object NavigateToLogin : ProfileUiEffect
     object ShowLogoutDialog : ProfileUiEffect
-    data class ShowSnackBar(val message: String) : ProfileUiEffect
+    data class ShowSnackBar(val message: Int) : ProfileUiEffect
 }

@@ -5,6 +5,8 @@ import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
 import com.elhady.movies.core.domain.usecase.auth.GetAccountDetailsUseCase
 import com.elhady.movies.core.domain.usecase.auth.LogoutUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
+import com.elhady.movies.core.ui.base.ErrorUiState
+import com.elhady.movies.core.ui.base.messageRes
 import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.feature.profile.presentation.profile.mapper.ProfileUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -86,7 +88,9 @@ class ProfileViewModel @Inject constructor(
             },
             mapper = profileUiMapper,
             onSuccess = ::onAccountDetailsSuccess,
-            onError = ::onAccountDetailsError,
+            onError = { exception ->
+                onAccountDetailsError(exception.toErrorUiState())
+            },
         )
     }
 
@@ -105,10 +109,10 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun onAccountDetailsError(
-        appException: AppException
+        exception: ErrorUiState
     ) {
 
-        if (appException is AppException.Unauthorized) {
+        if (exception is ErrorUiState.Unauthorized) {
             logout()
             return
         }
@@ -116,14 +120,12 @@ class ProfileViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = false,
-                errors = appException.toErrorUiState(),
+                errors = exception,
             )
         }
 
         sendEffect(
-            ProfileUiEffect.ShowSnackBar(
-                appException.message ?: "Failed to load profile"
-            )
+            ProfileUiEffect.ShowSnackBar(message = exception.messageRes)
         )
     }
 
@@ -138,6 +140,7 @@ class ProfileViewModel @Inject constructor(
             )
         }
     }
+
     private fun logout() {
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
