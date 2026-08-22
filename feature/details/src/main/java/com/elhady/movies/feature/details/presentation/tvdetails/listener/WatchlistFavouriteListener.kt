@@ -1,10 +1,12 @@
 package com.elhady.movies.feature.details.presentation.tvdetails.listener
 
-interface WatchlistFavouriteListener {
+import com.elhady.movies.core.ui.interaction.ChipListener
+
+interface WatchlistFavouriteListener : ChipListener {
     fun onFavourite()
     fun onWatchlist()
     fun onDone()
-    fun onChipClick(id: Int)
+    override fun onChipClick(id: Int)
     fun onCreateList(name: String)
     fun onDismiss()
 }

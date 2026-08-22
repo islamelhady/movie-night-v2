@@ -272,9 +272,9 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun onError(throwable: AppException) {
-        if (throwable == NoNetworkThrowable()) {
+        if (throwable == AppException.NoNetwork) {
             showErrorWithSnackBar(throwable.message ?: "No Network Connection")
-        } else if (throwable == SocketTimeoutException()) {
+        } else if (throwable == AppException.Timeout) {
             showErrorWithSnackBar(throwable.message ?: "time out!")
         }
         _state.update {

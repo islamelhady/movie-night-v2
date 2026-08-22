@@ -3,7 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsViewModel" />
+        <variable
+            name="listener"
+            type="com.elhady.movies.feature.details.presentation.tvdetails.listener.BottomSheetDismissListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

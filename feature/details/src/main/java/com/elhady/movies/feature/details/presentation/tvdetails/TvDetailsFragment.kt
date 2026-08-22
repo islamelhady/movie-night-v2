@@ -15,12 +15,6 @@ import com.elhady.movies.feature.details.presentation.tvdetails.adapter.TvDetail
 import com.elhady.movies.feature.details.presentation.tvdetails.listener.BottomSheetDismissListener
 import com.elhady.movies.feature.details.presentation.tvdetails.listener.TvDetailsListeners
 import com.elhady.movies.feature.details.presentation.tvdetails.listener.WatchlistFavouriteListener
-import com.elhady.movies.feature.details.presentation.tvdetails.state.CastUIState
-import com.elhady.movies.feature.details.presentation.tvdetails.state.InfoUIState
-import com.elhady.movies.feature.details.presentation.tvdetails.state.RatingUIState
-import com.elhady.movies.feature.details.presentation.tvdetails.state.RecommendationsUIState
-import com.elhady.movies.feature.details.presentation.tvdetails.state.ReviewsUIState
-import com.elhady.movies.feature.details.presentation.tvdetails.state.SeasonsUIState
 import com.elhady.movies.feature.details.presentation.tvdetails.state.TvDetailsUIState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -30,7 +24,7 @@ import com.elhady.movies.core.ui.R as CoreUiR
 @AndroidEntryPoint
 class TvDetailsFragment :
     BaseFragment<FragmentTvDetailsBinding, TvDetailsUIState, TvDetailsUiEffect>(),
-    BottomSheetDismissListener, WatchlistFavouriteListener {
+    BottomSheetDismissListener, WatchlistFavouriteListener, TvDetailsListeners {
 
     @Inject
     lateinit var navigator: Navigator
@@ -51,174 +45,73 @@ class TvDetailsFragment :
             view,
             savedInstanceState
         )
-
+        binding.listener = this
         setupAdapter()
-        setupClicks()
         collectState()
         setupCollapseBehavior()
     }
 
-    // adapter
+
     private fun setupAdapter() {
 
         tvDetailsAdapter = TvDetailsAdapter(
             mutableListOf(),
-            tvDetailsListener
+            this
         )
 
         binding.nestedRecycler.adapter =
             tvDetailsAdapter
     }
 
-    private val tvDetailsListener = object : TvDetailsListeners {
-        override fun onRateButtonClick() {
-            viewModel.onEvent(TvDetailsUiEvent.RateClicked)
-        }
-
-        override fun onClickPeople(id: Int) {
-            viewModel.onEvent(TvDetailsUiEvent.PersonClicked(id))
-        }
-
-        override fun onClickMedia(id: Int) {
-            viewModel.onEvent(TvDetailsUiEvent.RecommendationClicked(id))
-        }
-
-        override fun onClickSeason(seasonNumber: Int) {
-            viewModel.onEvent(TvDetailsUiEvent.SeasonClicked(seasonNumber))
-        }
-
-        override fun onShowMoreCast() {
-            viewModel.onEvent(TvDetailsUiEvent.ShowMoreCastClicked)
-        }
-
-        override fun onShowMoreRecommended() {
-            viewModel.onEvent(TvDetailsUiEvent.ShowMoreRecommendedClicked)
-        }
-
-        override fun onClickPlayButton() {
-            viewModel.onEvent(TvDetailsUiEvent.PlayClicked)
-        }
-
-        override fun onChipClick(id: Int) {
-            viewModel.onEvent(TvDetailsUiEvent.ListSelected(id))
-        }
-
+    override fun onRateButtonClick() {
+        viewModel.onEvent(TvDetailsUiEvent.RateClicked)
     }
 
-    private fun setupClicks() {
-
-        binding.saveButton.setOnClickListener {
-            viewModel.onEvent(
-                TvDetailsUiEvent.SaveClicked
-            )
-        }
-
-        binding.backButton.setOnClickListener {
-            viewModel.onEvent(
-                TvDetailsUiEvent.BackClicked
-            )
-        }
-
-        binding.imageButtonPlay.setOnClickListener {
-            viewModel.onEvent(
-                TvDetailsUiEvent.PlayClicked
-            )
-        }
+    override fun onClickPeople(id: Int) {
+        viewModel.onEvent(TvDetailsUiEvent.PersonClicked(id))
     }
 
-    // -------------------------------------------------------------------------
-    // State
-    // -------------------------------------------------------------------------
+    override fun onClickMedia(id: Int) {
+        viewModel.onEvent(TvDetailsUiEvent.RecommendationClicked(id))
+    }
+
+    override fun onClickSeason(seasonNumber: Int) {
+        viewModel.onEvent(TvDetailsUiEvent.SeasonClicked(seasonNumber))
+    }
+
+    override fun onShowMoreCast() {
+        viewModel.onEvent(TvDetailsUiEvent.ShowMoreCastClicked)
+    }
+
+    override fun onShowMoreRecommended() {
+        viewModel.onEvent(TvDetailsUiEvent.ShowMoreRecommendedClicked)
+    }
+
+    override fun onClickPlayButton() {
+        viewModel.onEvent(TvDetailsUiEvent.PlayClicked)
+    }
+
+    override fun onChipClick(id: Int) {
+        viewModel.onEvent(TvDetailsUiEvent.ListSelected(id))
+    }
+
+    override fun onClickBack() {
+        viewModel.onEvent(TvDetailsUiEvent.BackClicked)
+    }
+
+    override fun onSaveClicked() {
+        viewModel.onEvent(TvDetailsUiEvent.SaveClicked)
+    }
+
+    override fun onClickTryAgain() {
+        viewModel.onEvent(TvDetailsUiEvent.Retry)
+    }
 
     private fun collectState() {
         collectFlow(viewModel.state) { state ->
-            render(state)
+            tvDetailsAdapter.setItems(state.tvDetailsItems)
         }
     }
-
-
-    private fun render(
-        state: TvDetailsUIState
-    ) {
-
-        val items = mutableListOf<TvDetailsItem>()
-
-        when (val info = state.infoUIState) {
-            is InfoUIState.Success -> {
-                items.add(
-                    TvDetailsItem.Info(
-                        info.info
-                    )
-                )
-            }
-
-            else -> Unit
-        }
-
-        when (val cast = state.castUIState) {
-            is CastUIState.Success -> {
-                items.add(
-                    TvDetailsItem.People(
-                        cast.people,
-                        state.seasonsUIState is SeasonsUIState.Success
-                    )
-                )
-            }
-
-            else -> Unit
-        }
-
-        when (val seasons = state.seasonsUIState) {
-            is SeasonsUIState.Success -> {
-                items.addAll(
-                    seasons.seasons.map {
-                        TvDetailsItem.Season(it)
-                    }
-                )
-            }
-
-            else -> Unit
-        }
-
-        when (val recommendations = state.recommendationsUIState) {
-            is RecommendationsUIState.Success -> {
-                items.add(
-                    TvDetailsItem.Recommended(
-                        recommendations.items,
-                        state.reviewsUIState is ReviewsUIState.Success
-                    )
-                )
-            }
-
-            else -> Unit
-        }
-
-        when (val reviews = state.reviewsUIState) {
-            is ReviewsUIState.Success -> {
-                items.addAll(
-                    reviews.reviews.map {
-                        TvDetailsItem.Review(it)
-                    }
-                )
-            }
-
-            else -> Unit
-        }
-
-        tvDetailsAdapter.setItems(items)
-
-        renderRating(state.ratingUIState)
-    }
-
-    private fun renderRating(
-        state: RatingUIState
-    ) {
-        // Rating-specific UI if needed.
-    }
-
-// -------------------------------------------------------------------------
-// Effects
-// -------------------------------------------------------------------------
 
     override fun onEffect(effect: TvDetailsUiEffect) {
         when (effect) {
@@ -274,9 +167,6 @@ class TvDetailsFragment :
         }
     }
 
-// -------------------------------------------------------------------------
-// Rate BottomSheet
-// -------------------------------------------------------------------------
 
     private fun showRateBottomSheet() {
 
@@ -312,10 +202,6 @@ class TvDetailsFragment :
         return viewModel.state.value.ratingUIState.rating.div(2)
     }
 
-// -------------------------------------------------------------------------
-// Save BottomSheet
-// -------------------------------------------------------------------------
-
     private fun showSaveToListBottomSheet(lists: List<UserListUiState>) {
 
         binding.saveButton.setBackgroundResource(
@@ -334,6 +220,7 @@ class TvDetailsFragment :
 
                 override fun onDone() {
                     viewModel.onEvent(TvDetailsUiEvent.DoneAddingLists)
+                    saveTvShowToListBottomSheet.dismiss()
                 }
 
                 override fun onChipClick(id: Int) {
@@ -377,9 +264,9 @@ class TvDetailsFragment :
         )
     }
 
-    override fun onChipClick(id: Int) {
-        viewModel.onEvent(
-            TvDetailsUiEvent.ListSelected(id)
+    override fun onDismiss() {
+        binding.saveButton.setBackgroundResource(
+            CoreUiR.drawable.ic_save_unpressed
         )
     }
 
@@ -389,16 +276,6 @@ class TvDetailsFragment :
         )
     }
 
-    override fun onDismiss() {
-
-        binding.saveButton.setBackgroundResource(
-            CoreUiR.drawable.ic_save_unpressed
-        )
-    }
-
-// -------------------------------------------------------------------------
-// Collapse toolbar
-// -------------------------------------------------------------------------
 
     private fun setupCollapseBehavior() {
 

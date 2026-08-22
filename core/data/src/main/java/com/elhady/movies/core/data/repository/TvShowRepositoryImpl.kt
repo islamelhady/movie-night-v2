@@ -217,7 +217,7 @@ class TvShowRepositoryImpl @Inject constructor(
 
     override suspend fun getTrailerVideoForTvShow(tvShowID: Int): YoutubeVideoDetails {
         val call =
-            safeApiCaller.execute { tvShowApiService.getTrailerVideoForTvShow(tvShowID) }.results?.first()
+            safeApiCaller.execute { tvShowApiService.getTrailerVideoForTvShow(tvShowID) }.results?.firstOrNull()
                 ?: YoutubeVideoDetailsDto()
         return domainYoutubeDetailsMapper.map(call)
     }
@@ -233,7 +233,7 @@ class TvShowRepositoryImpl @Inject constructor(
                 seasonNumber,
                 episodeNumber
             )
-        }.results?.first() ?: YoutubeVideoDetailsDto()
+        }.results?.firstOrNull() ?: YoutubeVideoDetailsDto()
         return domainYoutubeDetailsMapper.map(response)
     }
 

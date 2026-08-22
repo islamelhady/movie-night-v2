@@ -74,17 +74,21 @@ class TvDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<TvDetailsUIState, TvDetailsUiEffect>(TvDetailsUIState()) {
 
-    private val tvShowId: Int =
-        savedStateHandle.get<Int>(TV_SHOW_ID) ?: error("TV show id is missing")
+    private val tvShowId: Int? =
+        savedStateHandle.get<Int>(TV_SHOW_ID) ?: savedStateHandle.get<String>(TV_SHOW_ID)?.toIntOrNull()
 
     init {
-        loadTvDetails()
+        if (tvShowId != null) {
+            loadTvDetails()
+        } else {
+            _state.update { it.copy(isLoading = false, error = listOf(stringsRes.someThingError)) }
+        }
     }
 
 
     // initial loading
     private fun loadTvDetails() {
-        _state.update { it.copy(isLogin = checkIsUserLoggedInUseCase()) }
+        _state.update { it.copy(isLoading = true, isLogin = checkIsUserLoggedInUseCase()) }
         getTvDetailsInfo()
         getTvDetailsCast()
         getTvDetailsSeasons()
@@ -98,7 +102,7 @@ class TvDetailsViewModel @Inject constructor(
     //region info
     private fun getTvDetailsInfo() {
         tryToExecute(
-            call = { tvDetailsInfoUseCase(tvShowId) },
+            call = { tvDetailsInfoUseCase(tvShowId!!) },
             onSuccess = ::onInfoSuccess,
             onError = ::onTvDetailsInfoError
 
@@ -108,25 +112,34 @@ class TvDetailsViewModel @Inject constructor(
     private fun onInfoSuccess(data: TvDetailsInfo) {
         val infoUIState = tvDetailsInfoToInfoUIStateMapper.map(input = data)
         _state.update {
-            it.copy(
+            val newState = it.copy(
+                tvShowName = infoUIState.name,
+                backdropImageUrl = infoUIState.backdropImageUrl,
                 infoUIState = InfoUIState.Success(
                     info = infoUIState
-                )
+                ),
+                isLoading = false
             )
+            newState.copy(tvDetailsItems = updateTvDetailsItems(newState))
         }
     }
 
     private fun onTvDetailsInfoError(error: AppException) {
         _state.update {
-            it.copy(infoUIState = InfoUIState.Error(error = error.toErrorUiState()))
+            val newState = it.copy(
+                infoUIState = InfoUIState.Error(error = error.toErrorUiState()),
+                isLoading = false
+            )
+            newState.copy(tvDetailsItems = updateTvDetailsItems(newState))
         }
+        sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
     }
     //endregion
 
     //region cast
     private fun getTvDetailsCast() {
         tryToExecute(
-            call = { getTvDetailsCastUseCase(tvShowId) },
+            call = { getTvDetailsCastUseCase(tvShowId!!) },
             onSuccess = ::onCastSuccess,
             onError = ::onCastError
         )
@@ -135,23 +148,26 @@ class TvDetailsViewModel @Inject constructor(
     private fun onCastSuccess(data: List<People>) {
         val cast = castUiMapper.map(data)
         _state.update {
-            it.copy(
+            val newState = it.copy(
                 castUIState = CastUIState.Success(cast)
             )
+            newState.copy(tvDetailsItems = updateTvDetailsItems(newState))
         }
     }
 
     private fun onCastError(error: AppException) {
         _state.update {
-            it.copy(castUIState = CastUIState.Error(error = error.toErrorUiState()))
+            val newState = it.copy(castUIState = CastUIState.Error(error = error.toErrorUiState()))
+            newState.copy(tvDetailsItems = updateTvDetailsItems(newState))
         }
+        sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
     }
     //endregion
 
     //region seasons
     private fun getTvDetailsSeasons() {
         tryToExecute(
-            call = { getTvDetailsSeasonsUseCase(tvShowId) },
+            call = { getTvDetailsSeasonsUseCase(tvShowId!!) },
             onSuccess = ::onSeasonsSuccess,
             onError = ::onSeasonError
         )
@@ -159,13 +175,18 @@ class TvDetailsViewModel @Inject constructor(
 
     private fun onSeasonsSuccess(data: List<Season>) {
         val seasons = tvDetailsSeasonUiMapper.map(data)
-        _state.update { it.copy(seasonsUIState = SeasonsUIState.Success(seasons = seasons)) }
+        _state.update {
+            val newState = it.copy(seasonsUIState = SeasonsUIState.Success(seasons = seasons))
+            newState.copy(tvDetailsItems = updateTvDetailsItems(newState))
+        }
     }
 
     private fun onSeasonError(error: AppException) {
         _state.update {
-            it.copy(seasonsUIState = SeasonsUIState.Error(error = error.toErrorUiState()))
+            val newState = it.copy(seasonsUIState = SeasonsUIState.Error(error = error.toErrorUiState()))
+            newState.copy(tvDetailsItems = updateTvDetailsItems(newState))
         }
+        sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
     }
 
     //endregion
@@ -173,7 +194,7 @@ class TvDetailsViewModel @Inject constructor(
     //region reviews
     private fun getTvDetailsReviews() {
         tryToExecute(
-            call = { getTvDetailsReviewsUseCase(tvShowId) },
+            call = { getTvDetailsReviewsUseCase(tvShowId!!) },
             onSuccess = ::onReviewsSuccess,
             onError = ::onReviewsError
         )
@@ -182,20 +203,23 @@ class TvDetailsViewModel @Inject constructor(
     private fun onReviewsSuccess(data: List<Review>) {
         val reviews = tvDetailsReviewUiMapper.map(data)
         _state.update {
-            it.copy(
+            val newState = it.copy(
                 reviewsUIState = if (reviews.isEmpty()) {
                     ReviewsUIState.Empty
                 } else {
                     ReviewsUIState.Success(reviews)
                 }
             )
+            newState.copy(tvDetailsItems = updateTvDetailsItems(newState))
         }
     }
 
     private fun onReviewsError(error: AppException) {
         _state.update {
-            it.copy(reviewsUIState = ReviewsUIState.Error(error = error.toErrorUiState()))
+            val newState = it.copy(reviewsUIState = ReviewsUIState.Error(error = error.toErrorUiState()))
+            newState.copy(tvDetailsItems = updateTvDetailsItems(newState))
         }
+        sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
     }
 
     //endregion
@@ -203,7 +227,7 @@ class TvDetailsViewModel @Inject constructor(
     //region recommendations
     private fun getTvDetailsRecommendations() {
         tryToExecute(
-            call = { getTvShowRecommendationsUseCase(tvShowId) },
+            call = { getTvShowRecommendationsUseCase(tvShowId!!) },
             onSuccess = ::onRecommendationsSuccess,
             onError = ::onRecommendationsError
         )
@@ -212,27 +236,30 @@ class TvDetailsViewModel @Inject constructor(
     private fun onRecommendationsSuccess(data: List<TvShow>) {
         val recommendations = tvShowToUIStateMapper.map(data)
         _state.update {
-            it.copy(
+            val newState = it.copy(
                 recommendationsUIState = if (recommendations.isEmpty()) {
                     RecommendationsUIState.Empty
                 } else {
                     RecommendationsUIState.Success(recommendations)
                 }
             )
+            newState.copy(tvDetailsItems = updateTvDetailsItems(newState))
         }
     }
 
     private fun onRecommendationsError(error: AppException) {
         _state.update {
-            it.copy(recommendationsUIState = RecommendationsUIState.Error(error = error.toErrorUiState()))
+            val newState = it.copy(recommendationsUIState = RecommendationsUIState.Error(error = error.toErrorUiState()))
+            newState.copy(tvDetailsItems = updateTvDetailsItems(newState))
         }
+        sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
     }
     //endregion
 
     // region youtube
     private fun getYoutubeDetails() {
         tryToExecute(
-            call = { getTvShowYoutubeDetailsUseCase(tvShowId) },
+            call = { getTvShowYoutubeDetailsUseCase(tvShowId!!) },
             onSuccess = ::onYoutubeDetailsSuccess,
             onError = ::onYoutubeDetailsError
 
@@ -256,13 +283,14 @@ class TvDetailsViewModel @Inject constructor(
         _state.update {
             it.copy(trailerUIState = TrailerUIState.Error(error = error.toErrorUiState()))
         }
+        sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
     }
     //endregion
 
     // region get rating
     private fun getTvDetailsRating() {
         tryToExecute(
-            call = { getRatingTvUseCase(tvShowId) },
+            call = { getRatingTvUseCase(tvShowId!!) },
             onSuccess = ::onSuccessGetTvShowRating,
             onError = ::onRatingError
         )
@@ -282,6 +310,7 @@ class TvDetailsViewModel @Inject constructor(
 
     private fun onRatingError(error: AppException) {
         _state.update { it.copy(ratingUIState = it.ratingUIState.copy(error = error.toErrorUiState())) }
+        sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
     }
 
     private fun updateRating(rate: Float) {
@@ -293,7 +322,7 @@ class TvDetailsViewModel @Inject constructor(
             call = {
                 rateTvShowUseCase(
                     rate = state.value.ratingUIState.rating.toDouble(),
-                    tvShowId = tvShowId
+                    tvShowId = tvShowId!!
                 )
             },
             onSuccess = { sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.ratingAddSuccessFully)) },
@@ -303,7 +332,7 @@ class TvDetailsViewModel @Inject constructor(
     //endregion
 
     //region user lists
-    fun getUserLists() {
+    private fun getUserLists() {
         tryToExecute(
             call = { getUserListsUseCase() },
             onSuccess = ::onGetUserListsSuccess,
@@ -346,11 +375,11 @@ class TvDetailsViewModel @Inject constructor(
     }
 
 
-    fun addToSelectedLists() {
+    private fun addToSelectedLists() {
         state.value.userSelectedLists.forEach { listId ->
 
             tryToExecute(
-                call = { addToUserListUseCase(listId, tvShowId) },
+                call = { addToUserListUseCase(listId, tvShowId!!) },
                 onSuccess = {
                     sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))
                 },
@@ -359,10 +388,11 @@ class TvDetailsViewModel @Inject constructor(
                 }
             )
         }
+        _state.update { it.copy(userSelectedLists = emptyList()) }
     }
 
 
-    fun createUserNewList(listName: String) {
+    private fun createUserNewList(listName: String) {
         tryToExecute(
             call = { createUserListUseCase(listName) },
             onSuccess = {
@@ -379,7 +409,7 @@ class TvDetailsViewModel @Inject constructor(
     // region favourite / watchlist
     private fun addToFavourite() {
         tryToExecute(
-            call = { addToFavouriteUseCase(tvShowId, "tv") },
+            call = { addToFavouriteUseCase(tvShowId!!, "tv") },
             onSuccess = {
                 sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))
             },
@@ -389,9 +419,9 @@ class TvDetailsViewModel @Inject constructor(
         )
     }
 
-    fun addToWatchlist() {
+    private fun addToWatchlist() {
         tryToExecute(
-            call = { addToWatchList(tvShowId, "tv") },
+            call = { addToWatchList(tvShowId!!, "tv") },
             onSuccess = {
                 sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))
             },
@@ -447,7 +477,7 @@ class TvDetailsViewModel @Inject constructor(
             is TvDetailsUiEvent.SeasonClicked -> {
                 sendEffect(
                     TvDetailsUiEffect.NavigateToSeasonDetails(
-                        tvShowId = tvShowId,
+                        tvShowId = tvShowId!!,
                         seasonNumber = event.seasonNumber
                     )
                 )
@@ -517,8 +547,71 @@ class TvDetailsViewModel @Inject constructor(
         getUserLists()
     }
 
-    fun getUserRating(): Float {
-        return state.value.ratingUIState.rating.div(2)
+    private fun updateTvDetailsItems(state: TvDetailsUIState): List<TvDetailsItem> {
+        val items = mutableListOf<TvDetailsItem>()
+
+        when (val info = state.infoUIState) {
+            is InfoUIState.Success -> {
+                items.add(
+                    TvDetailsItem.Info(
+                        info.info
+                    )
+                )
+            }
+
+            else -> Unit
+        }
+
+        when (val cast = state.castUIState) {
+            is CastUIState.Success -> {
+                items.add(
+                    TvDetailsItem.People(
+                        cast.people,
+                        state.seasonsUIState is SeasonsUIState.Success
+                    )
+                )
+            }
+
+            else -> Unit
+        }
+
+        when (val seasons = state.seasonsUIState) {
+            is SeasonsUIState.Success -> {
+                items.addAll(
+                    seasons.seasons.map {
+                        TvDetailsItem.Season(it)
+                    }
+                )
+            }
+
+            else -> Unit
+        }
+
+        when (val recommendations = state.recommendationsUIState) {
+            is RecommendationsUIState.Success -> {
+                items.add(
+                    TvDetailsItem.Recommended(
+                        recommendations.items,
+                        state.reviewsUIState is ReviewsUIState.Success
+                    )
+                )
+            }
+
+            else -> Unit
+        }
+
+        when (val reviews = state.reviewsUIState) {
+            is ReviewsUIState.Success -> {
+                items.addAll(
+                    reviews.reviews.map {
+                        TvDetailsItem.Review(it)
+                    }
+                )
+            }
+
+            else -> Unit
+        }
+        return items
     }
 
     companion object {

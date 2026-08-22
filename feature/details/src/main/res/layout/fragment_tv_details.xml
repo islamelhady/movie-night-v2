@@ -8,6 +8,10 @@
         <variable
             name="viewModel"
             type="com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsViewModel" />
+
+        <variable
+            name="listener"
+            type="com.elhady.movies.feature.details.presentation.tvdetails.listener.TvDetailsListeners" />
     </data>
 
 
@@ -34,6 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
+                    app:imageUrl="@{viewModel.state.backdropImageUrl}"
                     app:layout_collapseMode="parallax"
                     tools:src="@tools:sample/backgrounds/scenic" />
 
@@ -45,6 +50,7 @@
                     android:layout_marginEnd="@dimen/spacing_medium_16dp"
                     android:layout_marginBottom="@dimen/spacing_medium_16dp"
                     android:background="@drawable/play_button_background"
+                    android:onClick="@{() -> listener.onClickPlayButton()}"
                     android:src="@drawable/movie_play"
                     app:tint="@color/on_background_60" />
 
@@ -74,6 +80,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_height="24dp"
                                 android:background="@null"
+                                android:onClick="@{() -> listener.onClickBack()}"
                                 android:scaleType="centerCrop"
                                 android:src="@drawable/ic_back"
                                 app:tint="@color/on_background_60" />
@@ -88,6 +95,7 @@
                                 android:paddingStart="@dimen/spacing_small_8dp"
                                 android:ellipsize="end"
                                 android:maxLines="1"
+                                android:text="@{viewModel.state.tvShowName}"
                                 android:textColor="@color/on_background_87"
                                 android:visibility="invisible" />
                         </LinearLayout>
@@ -99,6 +107,7 @@
                             android:layout_gravity="end|center_vertical"
                             android:layout_marginEnd="16dp"
                             android:background="@null"
+                            android:onClick="@{() -> listener.onSaveClicked()}"
                             app:tint="@color/on_background_60"
                             android:backgroundTint="@color/on_primary"
                             android:scaleType="centerCrop"
@@ -125,15 +134,6 @@
             app:layout_constraintTop_toTopOf="parent" />
         <!--endregion-->
 
-        <!--region loading-->
-<!--        <include-->
-<!--            layout="@layout/layout_loading"-->
-<!--            android:id="@+id/progressBar"-->
-<!--            android:layout_width="100dp"-->
-<!--            android:layout_height="100dp"-->
-<!--            android:layout_gravity="center"-->
-<!--            app:isVisible="@{viewModel.state.isLoading}"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent" />-->
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/progressBar"
@@ -143,6 +143,7 @@
             app:lottie_autoPlay="true"
             app:lottie_colorFilter="@color/primary"
             app:lottie_loop="true"
+            app:isVisibleOrGone="@{viewModel.state.isLoading}"
             app:lottie_rawRes="@raw/anim_loading" />
 
         <!--endregion-->
@@ -152,19 +153,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            app:isVisibleOrGone="@{viewModel.state.isFailure}"
             android:orientation="vertical">
 
-<!--            <include-->
-<!--                android:id="@+id/lottie_animation"-->
-<!--                layout="@layout/layout_no_connection"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                app:showWhenError="@{viewModel.state.errors}"/>-->
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie_animation"
@@ -186,6 +177,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/spacing_small_8dp"
                 android:text="try again"
+                android:onClick="@{() -> listener.onClickTryAgain()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lottie_animation"/>
