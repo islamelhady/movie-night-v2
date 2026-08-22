@@ -4,6 +4,7 @@ import com.elhady.movies.core.ui.state.MovieHorizontalUiState
 import com.elhady.movies.core.ui.state.PeopleUiState
 
 data class SearchUiState(
+    val searchQuery: String = "",
     val mediaType: SearchMedia = SearchMedia.MOVIE,
     val searchMediaResult: List<MovieHorizontalUiState> = emptyList(),
     val searchPeopleResult: List<PeopleUiState> = emptyList(),
