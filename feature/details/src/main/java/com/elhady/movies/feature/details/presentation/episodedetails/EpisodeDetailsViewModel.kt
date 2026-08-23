@@ -244,7 +244,6 @@ class EpisodeDetailsViewModel @Inject constructor(
                 )
             },
             onError = {
-                Log.e("EpisodeRating", "Rating failed", it)
                 sendEffect(
                     EpisodeDetailsUiEffect.ShowSnackBar(
                         stringsRes.someThingErrorWhenAddRating
