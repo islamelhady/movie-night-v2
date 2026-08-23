@@ -3,7 +3,6 @@ package com.elhady.movies.feature.details.presentation.peopledetails
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import com.elhady.movies.feature.details.BR
 import com.elhady.movies.feature.details.R
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.feature.details.databinding.FragmentPeopleDetailsBinding
@@ -13,50 +12,106 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class PeopleDetailsFragment :
-    BaseFragment<FragmentPeopleDetailsBinding, PeopleDetailsUiState, PeopleDetailsUiEvent>() {
+    BaseFragment<
+            FragmentPeopleDetailsBinding,
+            PeopleDetailsUiState,
+            PeopleDetailsUiEffect
+            >(),
+    PeopleDetailsListener {
 
     @Inject
     lateinit var navigator: Navigator
 
     override val layoutIdFragment: Int = R.layout.fragment_people_details
     override val viewModel: PeopleDetailsViewModel by viewModels()
-    override val viewModelVariableId: Int = BR.viewModel
+
     private lateinit var peopleMoviesAdapter: PeopleDetailsRecyclerAdapter
     private lateinit var peopleTvShowsAdapter: PeopleDetailsRecyclerAdapter
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
-        setAdapters()
-        getData()
+
+        binding.listener = this
+
+        setupAdapters()
+        collectState()
     }
 
-    private fun setAdapters() {
-        peopleMoviesAdapter = PeopleDetailsRecyclerAdapter(mutableListOf(), viewModel)
-        binding.recyclerViewPeopleMovies.adapter = peopleMoviesAdapter
+    private fun setupAdapters() {
+        peopleMoviesAdapter = PeopleDetailsRecyclerAdapter(
+            items = emptyList(),
+            listener = this,
+        )
 
-        peopleTvShowsAdapter = PeopleDetailsRecyclerAdapter(mutableListOf(), viewModel)
+        peopleTvShowsAdapter = PeopleDetailsRecyclerAdapter(
+            items = emptyList(),
+            listener = this,
+        )
+
+        binding.recyclerViewPeopleMovies.adapter = peopleMoviesAdapter
         binding.recyclerViewPeopleTvShows.adapter = peopleTvShowsAdapter
     }
 
-    private fun getData() {
-        collectFlow(flow = viewModel.state) { state ->
-                peopleMoviesAdapter.setItems(state.movies)
-                peopleTvShowsAdapter.setItems(state.tvShows)
-                if (state.onErrors.isNotEmpty()) {
-                    state.onErrors.last().let {
-                        showSnackBar(it)
-                    }
-                }
-            }
-        }
+    private fun collectState() {
+        collectFlow(viewModel.state) { state ->
+            binding.state = state
 
-
-    override fun onEffect(effect: PeopleDetailsUiEvent) {
-        when (effect) {
-            PeopleDetailsUiEvent.BackNavigate -> navigator.navigateBack()
-            is PeopleDetailsUiEvent.ClickMovieEvent -> navigator.navigateToMovieDetails(effect.itemId)
-
-            is PeopleDetailsUiEvent.ClickTvShowsEvent -> navigator.navigateToTvDetails(effect.itemId)
+            peopleMoviesAdapter.setItems(state.movies)
+            peopleTvShowsAdapter.setItems(state.tvShows)
         }
     }
 
+    override fun onEffect(effect: PeopleDetailsUiEffect) {
+        when (effect) {
+            PeopleDetailsUiEffect.NavigateBack -> {
+                navigator.navigateBack()
+            }
+
+            is PeopleDetailsUiEffect.NavigateToMovieDetails -> {
+                navigator.navigateToMovieDetails(effect.movieId)
+            }
+
+            is PeopleDetailsUiEffect.NavigateToTvDetails -> {
+                navigator.navigateToTvDetails(effect.tvShowId)
+            }
+
+            is PeopleDetailsUiEffect.ShowSnackBar -> {
+                showSnackBar(effect.message)
+            }
+        }
+    }
+
+    override fun onClickMedia(
+        itemId: Int,
+        type: PeopleDetailsUiState.MediaType,
+    ) {
+        when (type) {
+            PeopleDetailsUiState.MediaType.MOVIE -> {
+                viewModel.onEvent(
+                    PeopleDetailsUiEvent.MovieClicked(itemId)
+                )
+            }
+
+            PeopleDetailsUiState.MediaType.TV_SHOW -> {
+                viewModel.onEvent(
+                    PeopleDetailsUiEvent.TvShowClicked(itemId)
+                )
+            }
+        }
+    }
+
+    override fun backNavigate() {
+        viewModel.onEvent(
+            PeopleDetailsUiEvent.BackClicked
+        )
+    }
+
+    override fun onClickRetry() {
+        viewModel.onEvent(
+            PeopleDetailsUiEvent.RetryClicked
+        )
+    }
 }
