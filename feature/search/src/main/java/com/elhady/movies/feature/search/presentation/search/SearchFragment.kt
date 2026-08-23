@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, SearchUiEffect>(), SearchListener {
+class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, SearchUiEffect>(), SearchAdapterAdapterListener {
 
     @Inject
     lateinit var navigator: Navigator
@@ -92,7 +92,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
     }
 
     private fun showBottomSheet() {
-        FilterMovieBottomSheetFragment().show(childFragmentManager, "BOTTOM")
+        FilterMovieAdapterBottomSheetFragment().show(childFragmentManager, "BOTTOM")
     }
 
     override fun onClickFilter() {

@@ -11,7 +11,7 @@
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.search.presentation.search.SearchListener" />
+            type="com.elhady.movies.feature.search.presentation.search.SearchAdapterAdapterListener" />
 
     </data>
 

@@ -9,12 +9,12 @@ import com.elhady.movies.feature.explore.R
 import com.elhady.movies.feature.explore.databinding.ExploreItemTrendingMovieGridBinding
 import com.elhady.movies.feature.explore.databinding.ExploreItemTrendingMovieHorizontalBinding
 import com.elhady.movies.feature.explore.presentation.explore.ExploreItem
-import com.elhady.movies.feature.explore.presentation.explore.ExploreListener
+import com.elhady.movies.feature.explore.presentation.explore.ExploreAdapterListener
 import com.elhady.movies.feature.explore.presentation.explore.LayoutItemType
 
 class ExploreAdapter(
     private var list: MutableList<ExploreItem>,
-    private val listener: ExploreListener
+    private val listener: ExploreAdapterListener
 ) : BaseAdapter<ExploreItem>(list, listener) {
     override val layoutID: Int = 0
     override val itemVariableId: Int = BR.item

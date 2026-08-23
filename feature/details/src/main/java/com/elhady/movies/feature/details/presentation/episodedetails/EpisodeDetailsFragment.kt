@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.elhady.movies.core.ui.adapter.PeopleAdapter
 import com.elhady.movies.core.ui.base.BaseFragment
-import com.elhady.movies.core.ui.interaction.PeopleListener
+import com.elhady.movies.core.ui.interaction.PeopleAdapterListener
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.details.R
 import com.elhady.movies.feature.details.databinding.FragmentEpisodeDetailsBinding
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class EpisodeDetailsFragment :
     BaseFragment<FragmentEpisodeDetailsBinding, EpisodeDetailsUiState, EpisodeDetailsUiEffect>(),
-    EpisodeDetailsListener, EpisodeListener, PeopleListener, BottomSheetListener {
+    EpisodeDetailsListener, EpisodeListener, PeopleAdapterListener, BottomSheetListener {
 
     @Inject
     lateinit var navigator: Navigator

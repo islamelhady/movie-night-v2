@@ -6,9 +6,9 @@ import com.elhady.movies.feature.tvshow.R
 import com.elhady.movies.core.ui.base.BasePagingAdapter
 import com.elhady.movies.feature.tvshow.databinding.ItemTvShowBinding
 import com.elhady.movies.feature.tvshow.presentation.tvshow.ShowUiState
-import com.elhady.movies.feature.tvshow.presentation.tvshow.TvShowListener
+import com.elhady.movies.feature.tvshow.presentation.tvshow.TvShowAdapterListener
 
-class TvShowAdapter(listener: TvShowListener) :
+class TvShowAdapter(listener: TvShowAdapterListener) :
     BasePagingAdapter<ShowUiState, ItemTvShowBinding>(Comparator, listener) {
 
 

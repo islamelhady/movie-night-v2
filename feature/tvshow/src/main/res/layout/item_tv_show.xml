@@ -11,7 +11,7 @@
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.tvshow.presentation.tvshow.TvShowListener" />
+            type="com.elhady.movies.feature.tvshow.presentation.tvshow.TvShowAdapterListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
