@@ -10,35 +10,40 @@ import com.elhady.movies.core.ui.base.BaseBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class EpisodeRateBottomSheet : BaseBottomSheet<ItemEpisodeDetailsRateBottomSheetBinding>() {
-    override val layoutIdFragment: Int = R.layout.item_episode_details_rate_bottom_sheet
-    override val viewModel by activityViewModels<EpisodeDetailsViewModel>()
-    override val viewModelVariableId: Int = BR.viewModel
-    private var dismissListener: BottomSheetListener? = null
+class EpisodeRateBottomSheet :
+    BaseBottomSheet<ItemEpisodeDetailsRateBottomSheetBinding>() {
 
-    fun setListener(dismissListener: BottomSheetListener) {
-        this.dismissListener = dismissListener
+    override val layoutIdFragment: Int = R.layout.item_episode_details_rate_bottom_sheet
+    private var listener: BottomSheetListener? = null
+
+    fun setListener(listener: BottomSheetListener) {
+        this.listener = listener
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-        var userRating = 0f
+    private var userRating = 0f
 
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        setupRatingBar()
+        setupApplyButton()
+    }
+
+    private fun setupRatingBar() {
         binding.episodeRatingBar.setOnRatingBarChangeListener { _, rating, _ ->
             userRating = rating * 2
         }
+    }
+
+    private fun setupApplyButton() {
         binding.buttonApply.setOnClickListener {
-            dismissListener?.onApplyRateBottomSheet()
-            dismissListener?.updateRatingValue(userRating)
+            listener?.onApplyRateBottomSheet(userRating)
             dismiss()
         }
     }
-}
-
-
-interface BottomSheetListener {
-    fun onApplyRateBottomSheet()
-    fun updateRatingValue(rate: Float)
 }
