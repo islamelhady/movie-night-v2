@@ -1,8 +1,11 @@
 package com.elhady.movies.feature.details.presentation.seasondetails
 
 import androidx.lifecycle.SavedStateHandle
+import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.domain.usecase.tvshow.GetSeasonDetailsUseCase
+import com.elhady.movies.core.ui.base.messageRes
+import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.feature.details.presentation.episodedetails.EpisodeListener
 import com.elhady.movies.feature.details.presentation.seasondetails.mapper.SeasonDetailsUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,63 +16,105 @@ import javax.inject.Inject
 class SeasonDetailsViewModel @Inject constructor(
     private val getSeasonDetailsUseCase: GetSeasonDetailsUseCase,
     private val seasonDetailsUiMapper: SeasonDetailsUiMapper,
-    savedStateHandle: SavedStateHandle
-) : BaseViewModel<SeasonDetailsUiState, SeasonDetailsUiEvent>(SeasonDetailsUiState()),
-    EpisodeListener {
+    savedStateHandle: SavedStateHandle,
+) : BaseViewModel<SeasonDetailsUiState, SeasonDetailsUiEffect>(
+    SeasonDetailsUiState()
+) {
 
-    private val seriesId = savedStateHandle.get<Int>("seriesId") ?: 1396
-    private val seasonNumber = savedStateHandle.get<Int>("seasonNumber") ?: 2
+    private val seriesId: Int =
+        checkNotNull(savedStateHandle.get<Int>(SERIES_ID))
 
+    private val seasonNumber: Int =
+        checkNotNull(savedStateHandle.get<Int>(SEASON_NUMBER))
 
     init {
         getData()
     }
 
-    fun getData() {
-        _state.update { it.copy(isLoading = true) }
+    fun onEvent(event: SeasonDetailsUiEvent) {
+        when (event) {
+
+            SeasonDetailsUiEvent.BackClicked -> {
+                sendEffect(
+                    SeasonDetailsUiEffect.NavigateBack
+                )
+            }
+
+            SeasonDetailsUiEvent.RetryClicked -> {
+                getData()
+            }
+
+            is SeasonDetailsUiEvent.EpisodeClicked -> {
+                sendEffect(
+                    SeasonDetailsUiEffect.NavigateToEpisodeDetails(
+                        episodeId = event.episodeId,
+                        seriesId = seriesId,
+                        seasonNumber = seasonNumber,
+                    )
+                )
+            }
+        }
+    }
+
+    private fun getData() {
+        _state.update {
+            it.copy(
+                isLoading = true,
+                error = null,
+            )
+        }
+
         getSeasonDetails()
     }
 
     private fun getSeasonDetails() {
         tryToExecute(
-            call = { getSeasonDetailsUseCase(seriesId = seriesId, seasonNumber = seasonNumber) },
-            onSuccess = ::onSuccessSeasonDetails,
+            call = {
+                getSeasonDetailsUseCase(
+                    seriesId = seriesId,
+                    seasonNumber = seasonNumber,
+                )
+            },
             mapper = seasonDetailsUiMapper,
+            onSuccess = ::onSuccessSeasonDetails,
             onError = ::onError,
         )
     }
 
-    private fun onSuccessSeasonDetails(seasonDetailsEntity: SeasonDetailsUiState) {
+    private fun onSuccessSeasonDetails(
+        seasonDetails: SeasonDetailsUiState,
+    ) {
         _state.update {
             it.copy(
-                id = seasonDetailsEntity.id,
-                name = seasonDetailsEntity.name,
-                episodes = seasonDetailsEntity.episodes,
-                onErrors = emptyList(),
-                isLoading = false
+                id = seasonDetails.id,
+                name = seasonDetails.name,
+                overview = seasonDetails.overview,
+                episodes = seasonDetails.episodes,
+                isLoading = false,
+                error = null,
             )
         }
     }
 
-    private fun onError(throwable: Throwable) {
-        showErrorWithSnackBar(throwable.message ?: "No Network Connection")
+    private fun onError(error: AppException) {
+        val error = error.toErrorUiState()
+
         _state.update {
             it.copy(
-                onErrors = listOf(throwable.message ?: "No Network Connection"),
-                isLoading = false
+                isLoading = false,
+                error = error,
             )
         }
+
+        sendEffect(
+            SeasonDetailsUiEffect.ShowSnackBar(
+                message = error.messageRes.toString()
+            )
+        )
     }
 
-    fun onClickBack() {
-        sendEffect(SeasonDetailsUiEvent.NavigateBack)
-    }
-
-    private fun showErrorWithSnackBar(messages: String) {
-        sendEffect(SeasonDetailsUiEvent.ShowSnackBar(messages))
-    }
-
-    override fun onClickEpisode(id: Int) {
-        sendEffect(SeasonDetailsUiEvent.NavigateToEpisodeDetails(episodeId = id, seriesId = seriesId , seasonNumber =  seasonNumber))
+    companion object{
+        const val SEASON_NUMBER = "seasonNumber"
+        const val SERIES_ID = "seriesId"
     }
 }
