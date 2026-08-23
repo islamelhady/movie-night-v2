@@ -82,7 +82,7 @@
                                 android:background="@null"
                                 android:onClick="@{() -> listener.onClickBack()}"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/ic_back"
+                                android:src="@drawable/ic_back_arrow"
                                 app:tint="@color/on_background_60" />
 
                             <TextView
