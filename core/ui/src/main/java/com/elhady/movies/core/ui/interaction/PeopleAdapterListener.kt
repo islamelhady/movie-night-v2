@@ -4,5 +4,5 @@ import com.elhady.movies.core.ui.base.BaseInteractionListener
 
 
 interface PeopleAdapterListener: BaseInteractionListener {
-    fun onClickPeople(id: Int)
+    fun onPeopleClick(id: Int)
 }
