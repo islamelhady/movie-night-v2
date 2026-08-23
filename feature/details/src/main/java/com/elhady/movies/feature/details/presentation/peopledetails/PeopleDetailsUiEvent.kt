@@ -1,8 +1,16 @@
 package com.elhady.movies.feature.details.presentation.peopledetails
 
 sealed interface PeopleDetailsUiEvent {
-    data class ClickMovieEvent(val itemId: Int) : PeopleDetailsUiEvent
-    data class ClickTvShowsEvent(val itemId: Int) : PeopleDetailsUiEvent
-    object BackNavigate : PeopleDetailsUiEvent
 
+    object BackClicked : PeopleDetailsUiEvent
+
+    object RetryClicked : PeopleDetailsUiEvent
+
+    data class MovieClicked(
+        val movieId: Int,
+    ) : PeopleDetailsUiEvent
+
+    data class TvShowClicked(
+        val tvShowId: Int,
+    ) : PeopleDetailsUiEvent
 }
