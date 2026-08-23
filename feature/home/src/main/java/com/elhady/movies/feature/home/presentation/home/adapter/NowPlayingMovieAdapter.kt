@@ -3,13 +3,13 @@ package com.elhady.movies.feature.home.presentation.home.adapter
 import com.elhady.movies.feature.home.BR
 import com.elhady.movies.feature.home.R
 import com.elhady.movies.core.ui.base.BaseAdapter
-import com.elhady.movies.feature.home.presentation.home.HomeListener
-import com.elhady.movies.feature.home.presentation.home.NowPlayingUiState
+import com.elhady.movies.core.ui.interaction.MovieListener
+import com.elhady.movies.feature.home.presentation.home.NowPlayingMovieUiState
 
 
-class NowPlayingAdapter(
-    list: List<NowPlayingUiState>, listener: HomeListener
-) : BaseAdapter<NowPlayingUiState>(list, listener) {
+class NowPlayingMovieAdapter(
+    list: List<NowPlayingMovieUiState>, listener: MovieListener
+) : BaseAdapter<NowPlayingMovieUiState>(list, listener) {
     override val layoutID = R.layout.home_item_now_playing
     override val itemVariableId: Int = BR.item
     override val listenerVariableId: Int = BR.listener
