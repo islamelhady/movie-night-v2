@@ -16,7 +16,6 @@ class SeasonDetailsUiMapper @Inject constructor():
             overview = input.overview,
             id = input.id,
             episodes = mapEpisodes(input.episodes),
-            onErrors = emptyList(),
             isLoading = false
         )
     }

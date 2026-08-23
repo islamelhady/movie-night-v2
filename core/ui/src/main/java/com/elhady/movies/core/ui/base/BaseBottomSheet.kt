@@ -26,7 +26,7 @@ abstract class BaseBottomSheet<VDB : ViewDataBinding>
 
     @get:LayoutRes
     abstract val layoutIdFragment: Int
-    abstract val viewModel: ViewModel
+    protected open val viewModel: ViewModel? = null
     protected open val viewModelVariableId: Int? = null
 
     private lateinit var _binding: VDB
@@ -41,8 +41,10 @@ abstract class BaseBottomSheet<VDB : ViewDataBinding>
         _binding = DataBindingUtil.inflate(inflater, layoutIdFragment, container, false)
         _binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModelVariableId?.let {
-                setVariable(it, viewModel)
+            viewModel?.let {
+                viewModelVariableId?.let {
+                    setVariable(it, viewModel)
+                }
             }
             return root
         }

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -7,8 +6,8 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="com.elhady.movies.feature.details.presentation.episodedetails.EpisodeDetailsViewModel" />
+            name="state"
+            type="com.elhady.movies.feature.details.presentation.episodedetails.EpisodeDetailsUiState" />
 
         <variable
             name="listener"
@@ -20,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:indeterminateTint="@color/primary"
-        app:setRefreshing="@{viewModel.state.refreshing}">
+        app:setRefreshing="@{state.refreshing}">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -32,8 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/background"
-                android:paddingBottom="@dimen/spacing_medium_16dp"
-                tools:context="">
+                android:paddingBottom="@dimen/spacing_medium_16dp">
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -45,25 +43,15 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:navigationIcon="@drawable/ic_back_arrow"
-                    app:onClickNavigation="@{()->viewModel.clickToBack()}"
-                    />
+                    app:onClickNavigation="@{()->listener.onClickBack()}" />
 
-<!--                <include-->
-<!--                    android:id="@+id/progressBar"-->
-<!--                    layout="@layout/layout_loading"-->
-<!--                    android:layout_width="100dp"-->
-<!--                    android:layout_height="100dp"-->
-<!--                    app:isVisible="@{viewModel.state.loading}"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+                <!-- Loading -->
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/progressBar"
                     android:layout_width="@dimen/spacing_extra_giant_48dp"
                     android:layout_height="@dimen/spacing_extra_giant_48dp"
-                    app:isVisible="@{viewModel.state.loading}"
+                    app:isVisible="@{state.isLoading}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -73,19 +61,22 @@
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/anim_loading" />
 
+                <!-- Episode Image -->
+
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/image_view_episode_image"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/height_image_details"
                     android:scaleType="centerCrop"
-                    app:hideWhenError="@{viewModel.state.onErrors}"
-                    app:hideWhenLoading="@{viewModel.state.loading}"
-                    app:imageUrl="@{viewModel.state.imageUrl}"
+                    app:imageUrl="@{state.imageUrl}"
+                    app:isVisibleOrGone="@{!state.isLoading &amp;&amp; !state.isFailure}"
                     app:layout_constraintDimensionRatio="16:9"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:src="@tools:sample/avatars" />
+
+                <!-- Episode Name -->
 
                 <TextView
                     android:id="@+id/text_view_episode_name"
@@ -94,12 +85,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_medium_16dp"
                     android:layout_marginTop="@dimen/spacing_medium_16dp"
-                    android:text="@{viewModel.state.episodeName}"
+                    android:text="@{state.episodeName}"
                     android:textColor="@color/on_background_87"
-                    app:hideWhenLoading="@{viewModel.state.loading}"
+                    app:isVisibleOrGone="@{!state.isLoading &amp;&amp; !state.isFailure}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/image_view_episode_image"
                     tools:text="The Super Mario Bros." />
+
+                <!-- Season / Episode -->
 
                 <TextView
                     android:id="@+id/text_view_season"
@@ -108,11 +101,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_medium_16dp"
                     android:layout_marginTop="@dimen/spacing_medium_16dp"
-                    android:text='@{@string/season + " " + String.valueOf(viewModel.state.seasonNumber) + " | " + @string/episode + " " + String.valueOf(viewModel.state.episodeNumber)}'
-                    app:isVisible="@{!viewModel.state.failure &amp;&amp; !viewModel.state.loading}"
+                    android:text='@{@string/season + " " + String.valueOf(state.seasonNumber) + " | " + @string/episode + " " + String.valueOf(state.episodeNumber)}'
+                    app:isVisibleOrGone="@{!state.isLoading &amp;&amp; !state.isFailure}"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_episode_name"
+                    app:layout_constraintTop_toBottomOf="@id/text_view_episode_name"
                     tools:text="Season 1 | Episode 1" />
+
+                <!-- Rate -->
 
                 <TextView
                     android:id="@+id/text_view_rate"
@@ -120,13 +115,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/spacing_medium_16dp"
-                    android:onClick="@{()-> viewModel.clickToRate(viewModel.state.episodeNumber)}"
+                    android:onClick="@{()->listener.onClickRate()}"
                     android:text="@string/rate_the_episode"
                     android:textColor="@color/primary"
-                    app:isVisible="@{!viewModel.state.failure &amp;&amp; !viewModel.state.loading}"
-                    app:layout_constraintBottom_toBottomOf="@+id/ratingBar"
+                    app:isVisibleOrGone="@{!state.isLoading &amp;&amp; !state.isFailure}"
+                    app:layout_constraintBottom_toBottomOf="@id/ratingBar"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/ratingBar" />
+                    app:layout_constraintTop_toTopOf="@id/ratingBar" />
 
                 <RatingBar
                     android:id="@+id/ratingBar"
@@ -138,11 +133,13 @@
                     android:contentDescription="@string/rate_the_episode"
                     android:isIndicator="true"
                     android:numStars="5"
-                    android:rating="@{viewModel.state.episodeRate}"
+                    android:rating="@{state.episodeRate}"
                     android:stepSize="1"
-                    app:isVisible="@{!viewModel.state.failure &amp;&amp; !viewModel.state.loading}"
+                    app:isVisibleOrGone="@{!state.isLoading &amp;&amp; !state.isFailure}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_view_season" />
+
+                <!-- Overview -->
 
                 <TextView
                     android:id="@+id/text_view_episode_description"
@@ -151,16 +148,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/spacing_medium_16dp"
                     android:layout_marginTop="@dimen/spacing_medium_16dp"
-                    android:text="@{viewModel.state.episodeOverview}"
+                    android:text="@{state.episodeOverview}"
                     android:textColor="@color/on_background_60"
-                    app:hideWhenError="@{viewModel.state.onErrors}"
-                    app:hideWhenLoading="@{viewModel.state.loading}"
-                    app:hideWhenNoResultText="@{viewModel.state.episodeOverview}"
+                    app:isVisibleOrGone="@{!state.isLoading &amp;&amp; !state.isFailure &amp;&amp; !state.episodeOverview.isEmpty()}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/ratingBar"
                     tools:text="@tools:sample/lorem/random" />
+
+                <!-- Trailer Title -->
 
                 <TextView
                     android:id="@+id/text_view_trailer"
@@ -171,12 +167,11 @@
                     android:layout_marginTop="@dimen/spacing_medium_16dp"
                     android:text="@string/trailer"
                     android:textColor="@color/on_background_87"
-                    app:hideWhenError="@{viewModel.state.onErrors}"
-                    app:hideWhenLoading="@{viewModel.state.loading}"
-                    app:hideWhenNoProductionCode="@{viewModel.state.trailerKey}"
+                    app:isVisibleOrGone="@{!state.isLoading &amp;&amp; !state.isFailure &amp;&amp; !state.trailerKey.isEmpty()}"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_episode_description" />
+                    app:layout_constraintTop_toBottomOf="@id/text_view_episode_description" />
 
+                <!-- Play Full Screen -->
 
                 <TextView
                     android:id="@+id/text_view_play_full_screen"
@@ -187,14 +182,15 @@
                     android:drawableStart="@drawable/ic_play"
                     android:drawablePadding="@dimen/spacing_small_8dp"
                     android:drawableTint="@color/primary"
-                    android:onClick="@{()->viewModel.clickToPlayFullScreen(viewModel.state.trailerKey)}"
+                    android:onClick="@{()->listener.onClickPlayFullScreen(state.trailerKey)}"
                     android:text="@string/play_full_screen"
                     android:textColor="@color/primary"
-                    app:hideWhenError="@{viewModel.state.onErrors}"
-                    app:hideWhenNoProductionCode="@{viewModel.state.trailerKey}"
-                    app:layout_constraintBottom_toBottomOf="@+id/text_view_trailer"
+                    app:isVisibleOrGone="@{!state.isLoading &amp;&amp; !state.isFailure &amp;&amp; !state.trailerKey.isEmpty()}"
+                    app:layout_constraintBottom_toBottomOf="@id/text_view_trailer"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/text_view_trailer" />
+
+                <!-- Trailer -->
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_view"
@@ -204,23 +200,20 @@
                     android:layout_marginTop="@dimen/spacing_small_8dp"
                     android:elevation="@dimen/spacing_zero_0dp"
                     app:cardCornerRadius="@dimen/spacing_medium_16dp"
-                    app:hideWhenError="@{viewModel.state.onErrors}"
-                    app:hideWhenNoProductionCode="@{viewModel.state.trailerKey}"
+                    app:isVisibleOrGone="@{!state.isLoading &amp;&amp; !state.isFailure &amp;&amp; !state.trailerKey.isEmpty()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_trailer">
+                    app:layout_constraintTop_toBottomOf="@id/text_view_trailer">
 
                     <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
                         android:id="@+id/youtube_player"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:hideWhenNoProductionCode="@{viewModel.state.trailerKey}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/text_view_episode_description"
-                        app:setVideoId="@{viewModel.state.trailerKey}" />
+                        app:setVideoId="@{state.trailerKey}" />
 
                 </com.google.android.material.card.MaterialCardView>
+
+                <!-- Actors -->
 
                 <TextView
                     android:id="@+id/text_view_actors"
@@ -228,13 +221,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_medium_16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/spacing_medium_16dp"
                     android:text="@string/actors"
                     android:textColor="@color/on_background_87"
-                    app:hideWhenError="@{viewModel.state.onErrors}"
-                    app:hideWhenNoList="@{viewModel.state.cast}"
+                    app:isVisibleOrGone="@{!state.isLoading &amp;&amp; !state.isFailure &amp;&amp; !state.cast.isEmpty()}"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/card_view" />
+                    app:layout_constraintTop_toBottomOf="@id/card_view" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view_people"
@@ -242,49 +234,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small_8dp"
                     android:clipToPadding="false"
-                    android:contentDescription="@string/rate_the_episode"
                     android:orientation="horizontal"
                     android:paddingHorizontal="@dimen/spacing_custom_12dp"
-                    app:hideWhenError="@{viewModel.state.onErrors}"
-                    app:hideWhenLoading="@{viewModel.state.loading}"
-                    app:hideWhenNoList="@{viewModel.state.cast}"
-                    app:items="@{viewModel.state.cast}"
+                    app:isVisibleOrGone="@{!state.isLoading &amp;&amp; !state.isFailure &amp;&amp; !state.cast.isEmpty()}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_actors"
+                    app:layout_constraintTop_toBottomOf="@id/text_view_actors"
                     tools:listitem="@layout/item_people" />
 
-                <Button
-                    android:id="@+id/button"
-                    style="@style/TextStyle.TitleMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_medium_16dp"
-                    android:onClick="@{()->viewModel.refresh()}"
-                    android:text="@string/try_again"
-                    android:textColor="@color/background"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lottie_animation"
-                    app:showWhenError="@{viewModel.state.onErrors}" />
-
-<!--                <include-->
-<!--                    android:id="@+id/lottie_animation"-->
-<!--                    layout="@layout/layout_no_connection"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:showWhenError="@{viewModel.state.onErrors}" />-->
+                <!-- Error -->
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/lottie_animation"
                     android:layout_width="@dimen/lottie_error_size"
                     android:layout_height="@dimen/lottie_error_size"
-                    app:showWhenError="@{viewModel.state.onErrors}"
+                    app:isVisibleOrGone="@{state.isFailure}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -294,7 +259,22 @@
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/no_connection" />
 
+                <Button
+                    android:id="@+id/button"
+                    style="@style/TextStyle.TitleMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium_16dp"
+                    android:onClick="@{()->listener.onClickRetry()}"
+                    android:text="@string/try_again"
+                    android:textColor="@color/background"
+                    app:isVisibleOrGone="@{state.isFailure}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lottie_animation" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </ScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

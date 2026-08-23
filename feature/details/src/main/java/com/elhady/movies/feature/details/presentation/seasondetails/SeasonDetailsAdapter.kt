@@ -49,10 +49,12 @@ class SeasonDetailsAdapter (
         holder.binding.item = episode.episodeHorizontalUiState
         holder.binding.listener = listener
     }
-
     override fun setItems(newItems: List<SeasonDetailsItem>) {
-        list = newItems.sortedBy { it.type.ordinal }.toMutableList()
-        super.setItems(newItems)
+        val sortedItems = newItems.sortedBy { it.type.ordinal }
+
+        list = sortedItems.toMutableList()
+
+        super.setItems(sortedItems)
     }
 
     override fun getItemViewType(position: Int): Int = list[position].type.ordinal
