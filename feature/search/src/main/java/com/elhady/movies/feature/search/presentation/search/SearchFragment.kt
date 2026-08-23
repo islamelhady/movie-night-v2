@@ -127,7 +127,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
         viewModel.onEvent(SearchUiEvent.MovieClicked(id))
     }
 
-    override fun onClickPeople(id: Int) {
+    override fun onPeopleClick(id: Int) {
         viewModel.onEvent(SearchUiEvent.PeopleClicked(id))
     }
 

@@ -57,7 +57,7 @@ class FilterMovieAdapterBottomSheetFragment : BottomSheetDialogFragment(), Searc
 
     override fun onClickMedia(id: Int) {}
 
-    override fun onClickPeople(id: Int) {}
+    override fun onPeopleClick(id: Int) {}
 
     override fun onClickTryAgain() {}
 

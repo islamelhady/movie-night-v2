@@ -97,7 +97,7 @@ class MovieDetailsFragment :
     override fun onClickSaveButton() = viewModel.onEvent(MovieDetailsUiEvent.SaveClicked)
     override fun tryAgain(movieId: Int) = viewModel.onEvent(MovieDetailsUiEvent.RetryClicked(movieId))
     override fun onClickMedia(id: Int) = viewModel.onEvent(MovieDetailsUiEvent.MovieClicked(id))
-    override fun onClickPeople(id: Int) = viewModel.onEvent(MovieDetailsUiEvent.PersonClicked(id))
+    override fun onPeopleClick(id: Int) = viewModel.onEvent(MovieDetailsUiEvent.PersonClicked(id))
     override fun onChipClick(id: Int) = viewModel.onEvent(MovieDetailsUiEvent.ChipClicked(id))
 
     // Fragment UI Logic

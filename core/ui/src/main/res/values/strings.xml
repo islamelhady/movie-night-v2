@@ -60,7 +60,7 @@
     <string name="_9_6" tools:ignore="ExtraTranslation">9.6</string>
     <string name="explore_the_best_tv_shows" tools:ignore="ExtraTranslation">Explore The Best TV Shows</string>
     <string name="explore_the_best_movies_tv_shows" tools:ignore="ExtraTranslation">Explore The Best Movies and TV Shows</string>
-    <string name="airing_today" tools:ignore="ExtraTranslation">Airing Today</string>
+    <string name="airing_today" tools:ignore="ExtraTranslation">Airing Today Shows</string>
     <string name="count_tv_shows">%s TV Shows</string>
     <string name="on_the_air" tools:ignore="ExtraTranslation">On The Air</string>
     <string name="cannot_fetch_movies" tools:ignore="ExtraTranslation">cannot fetch movies 😢</string>
