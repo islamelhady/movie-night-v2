@@ -7,11 +7,11 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.home.presentation.home.UpComingMoviesUiState" />
+            type="com.elhady.movies.feature.home.presentation.home.UpcomingMovieUiState" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.home.presentation.home.HomeListener" />
+            type="com.elhady.movies.feature.home.presentation.home.HomeAdapterListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +22,7 @@
             android:id="@+id/shapeable_image_slider"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:onClick="@{()->listener.onClickMovieItem(item.id)}"
+            android:onClick="@{()->listener.onClickMedia(item.id)}"
             app:imageUrl="@{item.imageUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="16:9"

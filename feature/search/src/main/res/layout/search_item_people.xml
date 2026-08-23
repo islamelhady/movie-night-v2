@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_tiny_4dp"
         android:layout_marginVertical="@dimen/spacing_small_8dp"
-        android:onClick="@{() -> listener.onClickPeople(item.id)}">
+        android:onClick="@{() -> listener.onPeopleClick(item.id)}">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/shape_image_view_people"

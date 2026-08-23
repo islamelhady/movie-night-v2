@@ -9,11 +9,11 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.home.presentation.home.PopularPeopleUiState" />
+            type="com.elhady.movies.feature.home.presentation.home.PopularPersonUiState" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.home.presentation.home.HomeListener" />
+            type="com.elhady.movies.feature.home.presentation.home.HomeAdapterListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +27,7 @@
             android:layout_marginStart="@dimen/spacing_tiny_4dp"
             android:layout_marginEnd="@dimen/spacing_tiny_4dp"
             android:adjustViewBounds="true"
-            android:onClick="@{()-> listener.onClickMovieItem(item.id)}"
+            android:onClick="@{()-> listener.onPeopleClick(item.id)}"
             android:scaleType="centerCrop"
             app:imageUrl="@{item.profilePath}"
             app:layout_constraintDimensionRatio="1:1"

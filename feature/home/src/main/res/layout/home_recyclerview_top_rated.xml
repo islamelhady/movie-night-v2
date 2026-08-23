@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.home.presentation.home.HomeItem.TopRated" />
+            type="com.elhady.movies.feature.home.presentation.home.HomeItem.TopRatedMovie" />
 
         <variable
             name="listener"
