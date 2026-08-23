@@ -10,7 +10,7 @@ class TvShowsByPeopleUiMapper @Inject constructor() :
     override fun map(input: TvShow): PeopleDetailsUiState.PeopleMediaUiState {
         return PeopleDetailsUiState.PeopleMediaUiState(
             id = input.id,
-            type = "tvShows",
+            type = PeopleDetailsUiState.MediaType.TV_SHOW,
             imageUrl = input.imageUrl,
             rate = input.rate
         )
