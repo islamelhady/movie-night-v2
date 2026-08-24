@@ -10,6 +10,7 @@ import com.elhady.movies.feature.watchlist.BR
 import com.elhady.movies.feature.watchlist.R
 import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.core.ui.base.BaseFragment
+import com.elhady.movies.core.ui.interaction.MediaListener
 import com.elhady.movies.feature.watchlist.databinding.FragmentWatchHistoryBinding
 import com.elhady.movies.core.ui.util.SwipeToDeleteItem
 import com.elhady.movies.feature.watchlist.presentation.watchhistory.adapter.WatchHistoryAdapter
@@ -20,81 +21,93 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class WatchHistoryFragment
-    : BaseFragment<FragmentWatchHistoryBinding, WatchHistoryUiState, WatchHistoryUiEvent>() {
-
+class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding, WatchHistoryUiState, WatchHistoryUiEffect>(),
+    MediaListener {
     @Inject
     lateinit var navigator: Navigator
 
-    override val layoutIdFragment = R.layout.fragment_watch_history
-    override val viewModel by viewModels<WatchHistoryViewModel>()
-    override val viewModelVariableId: Int = BR.viewModel
+    override val layoutIdFragment: Int =
+        R.layout.fragment_watch_history
+
+    override val viewModel: WatchHistoryViewModel by viewModels()
+
+    override val viewModelVariableId: Int =
+        BR.viewModel
+
     private lateinit var adapter: WatchHistoryAdapter
     private val deletionIndicatorSnackBar by lazy {
         setupSnackBar()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerAdapter()
-        swipeToDeleteItemSetup(binding.watchHistoryRecyclerView)
-        collectChange()
+
+        setupRecyclerView()
+        setupSwipeToDelete()
+        collectState()
     }
 
-    private fun collectChange() {
+    private fun setupRecyclerView() {
+        adapter = WatchHistoryAdapter(
+            items = mutableListOf(),
+            listener = this
+        )
+
+        binding.watchHistoryRecyclerView.adapter = adapter
+    }
+
+    private fun collectState() {
         collectFlow(viewModel.state) { state ->
+            binding.state = state
             adapter.setItems(state.movies)
         }
     }
 
-    private fun setupRecyclerAdapter() {
-        adapter = WatchHistoryAdapter(mutableListOf(), viewModel)
-        binding.watchHistoryRecyclerView.adapter = adapter
+    private fun setupSwipeToDelete() {
+        val swipeGesture = object : SwipeToDeleteItem() {
+
+            override fun onSwiped(
+                viewHolder: RecyclerView.ViewHolder,
+                direction: Int
+            ) {
+                if (direction == ItemTouchHelper.LEFT) {
+                    viewModel.onEvent(
+                        WatchHistoryUiEvent.MovieSwiped(
+                            position = viewHolder.absoluteAdapterPosition
+                        )
+                    )
+                }
+            }
+        }
+
+        ItemTouchHelper(swipeGesture)
+            .attachToRecyclerView(binding.watchHistoryRecyclerView)
     }
 
-
-    override fun onEffect(effect: WatchHistoryUiEvent) {
+    override fun onEffect(effect: WatchHistoryUiEffect) {
         when (effect) {
-            is WatchHistoryUiEvent.NavigateToMovieDetails -> navigator.navigateToMovieDetails(effect.movieId)
-            is WatchHistoryUiEvent.ShowDeleteSnackBar -> deletionIndicatorSnackBar.show()
-            is WatchHistoryUiEvent.Error -> showSnackBar(getString(CoreUiR.string.cannot_fetch_movies))
-            is WatchHistoryUiEvent.OnClickBack -> onBackButtonPressed()
-        }
-    }
 
-    private fun swipeToDeleteItemSetup(itemRv: RecyclerView) {
-        val swipeGesture = swipeGestureAnonymousObject()
-        val touchHelper = ItemTouchHelper(swipeGesture)
-        touchHelper.attachToRecyclerView(itemRv)
-    }
+            is WatchHistoryUiEffect.NavigateToMovieDetails -> {
+                navigator.navigateToMovieDetails(effect.movieId)
+            }
 
-    private fun swipeGestureAnonymousObject() = object : SwipeToDeleteItem() {
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            try {
-                finishNotCompletedDeletion()
-                handleSwipes(direction, viewHolder.absoluteAdapterPosition)
-            } catch (e: Exception) {
-                // Ignore
+            WatchHistoryUiEffect.ShowDeleteSnackBar -> {
+                deletionIndicatorSnackBar.show()
+            }
+
+            is WatchHistoryUiEffect.ShowErrorSnackBar -> {
+                showSnackBar(
+                    getString(CoreUiR.string.cannot_fetch_movies)
+                )
+            }
+
+            WatchHistoryUiEffect.NavigateBack -> {
+                navigator.navigateBack()
             }
         }
-    }
-
-    private fun finishNotCompletedDeletion() {
-        viewModel.deleteItemFromDataBase()
-        viewModel.initTheDeletionStates()
-    }
-
-    private fun handleSwipes(direction: Int, position: Int) {
-        when (direction) {
-            ItemTouchHelper.LEFT -> {
-                onSwipeLeftActions(position)
-            }
-        }
-    }
-
-    private fun onSwipeLeftActions(position: Int) {
-        viewModel.setPosition(position)
-        viewModel.deleteItemFromUi()
     }
 
     private fun setupSnackBar(): Snackbar {
@@ -110,36 +123,48 @@ class WatchHistoryFragment
                     CoreUiR.color.orange_red
                 )
             )
-            .addCallback(setupSnackBarCallback())
-            .setAction(getString(CoreUiR.string.undo)) {
-                viewModel.addItemToUi()
+            .setAction(
+                getString(CoreUiR.string.undo)
+            ) {
+                viewModel.onEvent(
+                    WatchHistoryUiEvent.UndoDeleteClicked
+                )
             }
-    }
+            .addCallback(
+                object :
+                    BaseTransientBottomBar.BaseCallback<Snackbar>() {
 
-    private fun setupSnackBarCallback() = object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
-        override fun onDismissed(
-            transientBottomBar: Snackbar?,
-            event: Int
-        ) {
-            viewModel.deleteItemFromDataBase()
-            super.onDismissed(transientBottomBar, event)
-        }
+                    override fun onDismissed(
+                        transientBottomBar: Snackbar?,
+                        event: Int
+                    ) {
+                        if (
+                            event != Snackbar.Callback.DISMISS_EVENT_ACTION
+                        ) {
+                            viewModel.onEvent(
+                                WatchHistoryUiEvent
+                                    .DeleteSnackBarDismissed
+                            )
+                        }
 
-        override fun onShown(snackBar: Snackbar?) {
-            viewModel.onSnackBarShown()
-            super.onShown(snackBar)
-        }
-    }
-
-
-
-
-    private fun onBackButtonPressed() {
-        navigator.navigateBack()
+                        super.onDismissed(
+                            transientBottomBar,
+                            event
+                        )
+                    }
+                }
+            )
     }
 
     override fun onStop() {
         super.onStop()
-        viewModel.deleteItemFromDataBase()
+
+        viewModel.onEvent(
+            WatchHistoryUiEvent.DeleteSnackBarDismissed
+        )
+    }
+
+    override fun onClickMedia(id: Int) {
+        viewModel.onEvent(WatchHistoryUiEvent.MovieClicked(id))
     }
 }
