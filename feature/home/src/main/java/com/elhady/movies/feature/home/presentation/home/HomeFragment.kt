@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.elhady.movies.core.common.ShowMoreType
 import com.elhady.movies.core.ui.navigation.Navigator
-import com.elhady.movies.feature.home.BR
 import com.elhady.movies.feature.home.R
 import com.elhady.movies.feature.home.presentation.home.adapter.HomeAdapter
 import com.elhady.movies.core.ui.base.BaseFragment
@@ -14,7 +13,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment :BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEffect>(), HomeAdapterListener {
+class HomeFragment :BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEffect>(), HomeAdapterListener,
+    HomeListener {
     @Inject
     lateinit var navigator: Navigator
 
@@ -101,6 +101,14 @@ class HomeFragment :BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEffect>
 
     override fun onPeopleClick(id: Int) {
         viewModel.onEvent(HomeUiEvent.PeopleClicked(id))
+    }
+
+    override fun onClickShowMore(type: ShowMoreType) {
+        viewModel.onEvent(HomeUiEvent.ShowMoreClicked(type))
+    }
+
+    override fun onClickRetry() {
+        viewModel.onEvent(HomeUiEvent.RetryClicked)
     }
 
 }

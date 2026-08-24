@@ -13,7 +13,6 @@ import com.elhady.movies.core.domain.usecase.tvshow.GetTvShowUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.base.messageRes
 import com.elhady.movies.core.ui.base.toErrorUiState
-import com.elhady.movies.feature.home.presentation.home.HomeUiEffect.*
 import com.elhady.movies.feature.home.presentation.home.mapper.AiringTodayUiMapper
 import com.elhady.movies.feature.home.presentation.home.mapper.NowPlayingUiMapper
 import com.elhady.movies.feature.home.presentation.home.mapper.PopularMoviesUiMapper
@@ -61,7 +60,7 @@ class HomeViewModel @Inject constructor(
 
             is HomeUiEvent.MovieClicked -> {
                 sendEffect(
-                    NavigateToMovieDetails(
+                    HomeUiEffect.NavigateToMovieDetails(
                         movieId = event.movieId
                     )
                 )
@@ -69,7 +68,7 @@ class HomeViewModel @Inject constructor(
 
             is HomeUiEvent.TvShowClicked -> {
                 sendEffect(
-                    NavigateToTvShowDetails(
+                    HomeUiEffect.NavigateToTvShowDetails(
                         tvShowId = event.tvShowId
                     )
                 )
@@ -77,9 +76,7 @@ class HomeViewModel @Inject constructor(
 
             is HomeUiEvent.ShowMoreClicked -> {
                 sendEffect(
-                    NavigateToShowMore(
-                        type = event.type
-                    )
+                    HomeUiEffect.NavigateToShowMore(event.type)
                 )
             }
 
@@ -93,7 +90,7 @@ class HomeViewModel @Inject constructor(
 
             is HomeUiEvent.PeopleClicked -> {
                 sendEffect(
-                    NavigateToPeopleDetails(
+                    HomeUiEffect.NavigateToPeopleDetails(
                         personId = event.personId
                     )
                 )
