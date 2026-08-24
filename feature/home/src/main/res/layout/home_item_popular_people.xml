@@ -9,7 +9,7 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.home.presentation.home.PopularPersonUiState" />
+            type="com.elhady.movies.feature.home.presentation.home.PopularPeopleUiState" />
 
         <variable
             name="listener"

@@ -18,4 +18,7 @@ sealed interface HomeUiEvent {
     data class ShowMoreClicked(
         val type: ShowMoreType
     ) : HomeUiEvent
+
+    object RetryClicked : HomeUiEvent
+    object Refresh : HomeUiEvent
 }

@@ -2,13 +2,12 @@ package com.elhady.movies.feature.home.presentation.home
 
 import com.elhady.movies.core.ui.base.ErrorUiState
 import kotlin.math.roundToInt
-import kotlin.times
 
 data class HomeUiState(
     val upcomingMovies: List<UpcomingMovieUiState> = emptyList(),
     val nowPlayingMovies: List<NowPlayingMovieUiState> = emptyList(),
     val trendingMovies: List<TrendingMovieUiState> = emptyList(),
-    val popularPeople: List<PopularPersonUiState> = emptyList(),
+    val popularPeople: List<PopularPeopleUiState> = emptyList(),
     val popularMovies: List<PopularMovieUiState> = emptyList(),
     val topRatedMovies: List<TopRatedMovieUiState> = emptyList(),
     val tvShows: List<TvShowUiState> = emptyList(),
@@ -44,7 +43,7 @@ data class TrendingMovieUiState(
     fun formattedRate(): Double = (rate * 100).roundToInt() / 100.0
 }
 
-data class PopularPersonUiState(
+data class PopularPeopleUiState(
     val id: Int,
     val profilePath: String,
     val name: String,

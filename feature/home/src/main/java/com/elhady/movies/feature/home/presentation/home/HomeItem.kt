@@ -27,7 +27,7 @@ sealed interface HomeItem {
     ) : HomeItem
 
     data class PopularPeople(
-        val items: List<PopularPersonUiState>
+        val items: List<PopularPeopleUiState>
     ) : HomeItem
 
     data class PopularMovies(
