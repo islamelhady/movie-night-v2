@@ -13,6 +13,7 @@ import com.elhady.movies.core.domain.usecase.tvshow.GetTvShowUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.base.messageRes
 import com.elhady.movies.core.ui.base.toErrorUiState
+import com.elhady.movies.feature.home.presentation.home.HomeUiEffect.*
 import com.elhady.movies.feature.home.presentation.home.mapper.AiringTodayUiMapper
 import com.elhady.movies.feature.home.presentation.home.mapper.NowPlayingUiMapper
 import com.elhady.movies.feature.home.presentation.home.mapper.PopularMoviesUiMapper
@@ -55,6 +56,50 @@ class HomeViewModel @Inject constructor(
         getData()
     }
 
+    fun onEvent(event: HomeUiEvent) {
+        when (event) {
+
+            is HomeUiEvent.MovieClicked -> {
+                sendEffect(
+                    NavigateToMovieDetails(
+                        movieId = event.movieId
+                    )
+                )
+            }
+
+            is HomeUiEvent.TvShowClicked -> {
+                sendEffect(
+                    NavigateToTvShowDetails(
+                        tvShowId = event.tvShowId
+                    )
+                )
+            }
+
+            is HomeUiEvent.ShowMoreClicked -> {
+                sendEffect(
+                    NavigateToShowMore(
+                        type = event.type
+                    )
+                )
+            }
+
+            HomeUiEvent.RetryClicked -> {
+                getData()
+            }
+
+            HomeUiEvent.Refresh -> {
+                getData()
+            }
+
+            is HomeUiEvent.PeopleClicked -> {
+                sendEffect(
+                    NavigateToPeopleDetails(
+                        personId = event.personId
+                    )
+                )
+            }
+        }
+    }
     private fun getData() {
         _state.update {
             it.copy(

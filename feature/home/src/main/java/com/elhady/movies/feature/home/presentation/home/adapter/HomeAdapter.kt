@@ -318,7 +318,41 @@ class HomeAdapter(
         val binding: HomeRecyclerviewPopularMoviesBinding
     ) : BaseViewHolder(binding)
 
+    private fun HomeItem.order(): Int =
+        when (this) {
+            is HomeItem.Slider -> 0
+            is HomeItem.NowPlaying -> 1
+            is HomeItem.TvShow -> 2
+            is HomeItem.AiringTodayTvShow -> 3
+            is HomeItem.TrendingMovie -> 4
+            is HomeItem.TopRatedMovie -> 5
+            is HomeItem.PopularPeople -> 6
+            is HomeItem.PopularMovies -> 7
+        }
 
+    fun setItem(item: HomeItem) {
+        val newItems = items.toMutableList()
+
+        val index = newItems.indexOfFirst {
+            it::class == item::class
+        }
+
+        if (index == -1) {
+            newItems.add(item)
+        } else {
+            newItems[index] = item
+        }
+
+        setItems(newItems)
+    }
+
+    override fun setItems(newItems: List<HomeItem>) {
+        items = newItems
+            .sortedBy { it.order() }
+            .toMutableList()
+
+        super.setItems(items)
+    }
     private companion object {
         const val SLIDER = 0
         const val NOW_PLAYING = 1

@@ -25,7 +25,7 @@
             app:layout_constraintDimensionRatio="3:4"
             android:layout_marginStart="@dimen/spacing_tiny_4dp"
             android:layout_marginEnd="@dimen/spacing_tiny_4dp"
-            android:onClick="@{()-> listener.onClickMedia(item.id)}"
+            android:onClick="@{()-> listener.onMovieClick(item.id)}"
             android:scaleType="centerCrop"
             app:imageUrl="@{item.imageUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
