@@ -13,8 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment :BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEffect>(), HomeAdapterListener,
-    HomeListener {
+class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEffect>(), HomeAdapterListener {
     @Inject
     lateinit var navigator: Navigator
 
