@@ -1,16 +1,36 @@
 package com.elhady.movies.feature.home.presentation.home
 
-sealed class HomeItem(val type: HomeItemType) {
+sealed interface HomeItem {
 
-    data class Slider(val list: List<UpComingMoviesUiState>) : HomeItem(HomeItemType.SLIDER)
-    data class NowPlaying(val list: List<NowPlayingUiState>) : HomeItem(HomeItemType.NOW_PLAYING)
-    data class TvShow(val list: List<TvShowUiState>) : HomeItem(HomeItemType.TV_SHOW)
-    data class AiringTodayTvShow(val list: List<AiringTodayTvShowUiState>) : HomeItem(HomeItemType.AIRING_TODAY)
-    data class Trending(val list: List<TrendingMoviesUiState>) : HomeItem(HomeItemType.TRENDING)
-    data class TopRated(val list: List<TopRatedUiState>) : HomeItem(HomeItemType.TOP_RATED)
-    data class PopularPeople(val list: List<PopularPeopleUiState>) : HomeItem(HomeItemType.POPULAR_PEOPLE)
-    data class PopularMovies(val list: List<PopularMoviesUiState>) :
-        HomeItem(HomeItemType.POPULAR_MOVIES)
+    data class Slider(
+        val items: List<UpcomingMovieUiState>
+    ) : HomeItem
+
+    data class NowPlaying(
+        val items: List<NowPlayingMovieUiState>
+    ) : HomeItem
+
+    data class TvShow(
+        val items: List<TvShowUiState>
+    ) : HomeItem
+
+    data class AiringTodayTvShow(
+        val items: List<AiringTodayTvShowUiState>
+    ) : HomeItem
+
+    data class TrendingMovie(
+        val items: List<TrendingMovieUiState>
+    ) : HomeItem
+
+    data class TopRatedMovie(
+        val items: List<TopRatedMovieUiState>
+    ) : HomeItem
+
+    data class PopularPeople(
+        val items: List<PopularPeopleUiState>
+    ) : HomeItem
+
+    data class PopularMovies(
+        val items: List<PopularMovieUiState>
+    ) : HomeItem
 }
-
-enum class HomeItemType { SLIDER, NOW_PLAYING, TV_SHOW, AIRING_TODAY, TRENDING, TOP_RATED, POPULAR_PEOPLE, POPULAR_MOVIES }

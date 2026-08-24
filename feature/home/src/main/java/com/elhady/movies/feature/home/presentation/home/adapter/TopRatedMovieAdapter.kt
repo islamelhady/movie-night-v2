@@ -4,19 +4,15 @@ import com.elhady.movies.core.ui.base.BaseAdapter
 import com.elhady.movies.feature.home.BR
 import com.elhady.movies.feature.home.R
 import com.elhady.movies.feature.home.presentation.home.HomeAdapterListener
-import com.elhady.movies.feature.home.presentation.home.PopularMovieUiState
+import com.elhady.movies.feature.home.presentation.home.TopRatedMovieUiState
 
-class PopularMoviesAdapter(
-    itemsPopular: List<PopularMovieUiState>,
+class TopRatedMovieAdapter(
+    itemsTopRated: List<TopRatedMovieUiState>,
     listener: HomeAdapterListener
-) : BaseAdapter<PopularMovieUiState>(itemsPopular, listener) {
-    override val layoutID = R.layout.home_item_popular_movies
+) : BaseAdapter<TopRatedMovieUiState>(itemsTopRated, listener
+) {
+    override val layoutID = R.layout.home_item_top_rated
     override val itemVariableId: Int = BR.item
     override val listenerVariableId: Int = BR.listener
 
 }
-
-
-
-
-

@@ -52,7 +52,7 @@ fun View.showBasedOnState(
 @BindingAdapter(value = ["app:setGenres", "app:listener", "app:chipSelected"])
 fun ChipGroup.setGenres(
     items: List<SearchUiState.GenresUiState>?,
-    listener: SearchListener,
+    listener: SearchAdapterAdapterListener,
     chipSelected: Int?
 ) {
     this.removeAllViews()

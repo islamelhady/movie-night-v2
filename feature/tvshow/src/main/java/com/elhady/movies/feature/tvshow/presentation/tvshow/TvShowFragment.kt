@@ -17,7 +17,6 @@ import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.tvshow.presentation.tvshow.adapter.TvShowAdapter
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 import kotlinx.coroutines.launch
@@ -33,7 +32,7 @@ class TvShowFragment : BaseFragment<FragmentTvShowsBinding, TvShowUiState, TvSho
     override val viewModelVariableId: Int = BR.viewModel
     private val tvShowAdapter by lazy {
         TvShowAdapter(
-            listener = object : TvShowListener {
+            listener = object : TvShowAdapterListener {
                 override fun onClickMedia(id: Int) {
                     viewModel.onEvent(TvShowUiEvent.TvShowItemClicked(id))
                 }

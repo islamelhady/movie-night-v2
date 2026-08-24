@@ -8,7 +8,9 @@ import androidx.paging.map
 import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.common.mapper.Mapper
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -97,9 +99,25 @@ abstract class BaseViewModel<STATE, EFFECT>(initialState: STATE) : ViewModel() {
         }
     }
 
+    protected suspend fun <INPUT, OUTPUT> tryToExecuteAsync(
+        call: suspend () -> List<INPUT>,
+        mapper: Mapper<INPUT, OUTPUT>,
+        onSuccess: (List<OUTPUT>) -> Unit,
+        onError: (AppException) -> Unit,
+    ) {
+        try {
+            call()
+                .map(mapper::map)
+                .also(onSuccess)
+        } catch (exception: AppException) {
+            onError(exception)
+        }
+    }
+
+
     protected fun <INPUT : Any, OUTPUT : Any> wrapperPager(
         data: suspend () -> Flow<PagingData<INPUT>>,
-        mapper: Mapper<INPUT,OUTPUT>,
+        mapper: Mapper<INPUT, OUTPUT>,
         onSuccess: (Flow<PagingData<OUTPUT>>) -> Unit,
         onError: (AppException) -> Unit,
         dispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -107,7 +125,7 @@ abstract class BaseViewModel<STATE, EFFECT>(initialState: STATE) : ViewModel() {
         viewModelScope.launch(dispatcher) {
             try {
                 data().map { pagingData ->
-                    pagingData.map (mapper::map)
+                    pagingData.map(mapper::map)
                 }.cachedIn(viewModelScope).also(onSuccess)
             } catch (exception: AppException) {
                 onError(exception)

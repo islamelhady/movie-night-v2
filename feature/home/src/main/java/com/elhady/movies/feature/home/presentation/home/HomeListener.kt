@@ -1,10 +1,9 @@
 package com.elhady.movies.feature.home.presentation.home
 
-import com.elhady.movies.core.ui.base.BaseInteractionListener
 import com.elhady.movies.core.common.ShowMoreType
 
-interface HomeListener : BaseInteractionListener {
-    fun onClickMovieItem(movieId: Int)
-    fun onClickTvShowItem(tvId: Int)
-    fun onClickShowMore(showMoreType: ShowMoreType)
+interface HomeListener {
+    fun onClickShowMore(type: ShowMoreType)
+
+    fun onClickRetry()
 }

@@ -12,7 +12,7 @@ import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.core.ui.interaction.ChipListener
 import com.elhady.movies.core.ui.interaction.MediaListener
-import com.elhady.movies.core.ui.interaction.PeopleListener
+import com.elhady.movies.core.ui.interaction.PeopleAdapterListener
 import com.elhady.movies.feature.details.databinding.FragmentMovieDetailsBinding
 import com.elhady.movies.feature.details.presentation.moviedetails.adapter.MovieDetailsAdapter
 import com.elhady.movies.feature.details.presentation.moviedetails.adapter.MovieDetailsItem
@@ -25,7 +25,7 @@ import kotlin.math.abs
 @AndroidEntryPoint
 class MovieDetailsFragment :
     BaseFragment<FragmentMovieDetailsBinding, MovieDetailsUiState, MovieDetailsUiEffect>(),
-    BottomSheetDismissListener, MovieDetailsListener, MediaListener, PeopleListener, ChipListener {
+    BottomSheetDismissListener, MovieDetailsListener, MediaListener, PeopleAdapterListener, ChipListener {
 
     @Inject
     lateinit var navigator: Navigator
@@ -97,7 +97,7 @@ class MovieDetailsFragment :
     override fun onClickSaveButton() = viewModel.onEvent(MovieDetailsUiEvent.SaveClicked)
     override fun tryAgain(movieId: Int) = viewModel.onEvent(MovieDetailsUiEvent.RetryClicked(movieId))
     override fun onClickMedia(id: Int) = viewModel.onEvent(MovieDetailsUiEvent.MovieClicked(id))
-    override fun onClickPeople(id: Int) = viewModel.onEvent(MovieDetailsUiEvent.PersonClicked(id))
+    override fun onPeopleClick(id: Int) = viewModel.onEvent(MovieDetailsUiEvent.PersonClicked(id))
     override fun onChipClick(id: Int) = viewModel.onEvent(MovieDetailsUiEvent.ChipClicked(id))
 
     // Fragment UI Logic

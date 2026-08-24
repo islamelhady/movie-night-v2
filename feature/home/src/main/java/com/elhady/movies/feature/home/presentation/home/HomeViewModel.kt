@@ -1,16 +1,18 @@
 package com.elhady.movies.feature.home.presentation.home
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.elhady.movies.core.ui.base.BaseViewModel
-import com.elhady.movies.core.domain.usecase.tvshow.GetAiringTodayTvUseCase
+import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.domain.usecase.movie.GetNowPlayingUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetPopularMoviesUseCase
-import com.elhady.movies.core.domain.usecase.people.GetPopularPeopleUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetTopRatedUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetTrendingMoviesUseCase
-import com.elhady.movies.core.domain.usecase.tvshow.GetTvShowUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetUpcomingMoviesUseCase
+import com.elhady.movies.core.domain.usecase.people.GetPopularPeopleUseCase
+import com.elhady.movies.core.domain.usecase.tvshow.GetAiringTodayTvUseCase
+import com.elhady.movies.core.domain.usecase.tvshow.GetTvShowUseCase
+import com.elhady.movies.core.ui.base.BaseViewModel
+import com.elhady.movies.core.ui.base.messageRes
+import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.feature.home.presentation.home.mapper.AiringTodayUiMapper
 import com.elhady.movies.feature.home.presentation.home.mapper.NowPlayingUiMapper
 import com.elhady.movies.feature.home.presentation.home.mapper.PopularMoviesUiMapper
@@ -19,11 +21,10 @@ import com.elhady.movies.feature.home.presentation.home.mapper.TopRatedUiMapper
 import com.elhady.movies.feature.home.presentation.home.mapper.TrendingUiMapper
 import com.elhady.movies.feature.home.presentation.home.mapper.TvShowUiMapper
 import com.elhady.movies.feature.home.presentation.home.mapper.UpComingUiMapper
-import com.elhady.movies.core.common.ShowMoreType
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 import javax.inject.Inject
 
 
@@ -36,6 +37,8 @@ class HomeViewModel @Inject constructor(
     private val trendingMoviesUseCase: GetTrendingMoviesUseCase,
     private val upcomingMoviesUseCase: GetUpcomingMoviesUseCase,
     private val tvShowUseCase: GetTvShowUseCase,
+    private val getAiringTodayTvUseCase: GetAiringTodayTvUseCase,
+
     private val upComingUiMapper: UpComingUiMapper,
     private val nowPlayingUiMapper: NowPlayingUiMapper,
     private val trendingUiMapper: TrendingUiMapper,
@@ -43,220 +46,253 @@ class HomeViewModel @Inject constructor(
     private val tvShowUiMapper: TvShowUiMapper,
     private val popularPeopleUiMapper: PopularPeopleUiMapper,
     private val popularMoviesUiMapper: PopularMoviesUiMapper,
-    private val getAiringTodayTvUseCase: GetAiringTodayTvUseCase,
-    private val airingTodayUiMapper: AiringTodayUiMapper
-) : BaseViewModel<HomeUiState, HomeUiEvent>(HomeUiState()), HomeListener {
+    private val airingTodayUiMapper: AiringTodayUiMapper,
+) : BaseViewModel<HomeUiState, HomeUiEffect>(
+    HomeUiState()
+) {
 
-
-    /// region init
     init {
         getData()
-        viewModelScope.launch {
-            state.collectLatest {
-                Log.d("HomeViewModel", "log(${this::class.java.simpleName}) : $it")
+    }
+
+    fun onEvent(event: HomeUiEvent) {
+        when (event) {
+
+            is HomeUiEvent.MovieClicked -> {
+                sendEffect(
+                    HomeUiEffect.NavigateToMovieDetails(
+                        movieId = event.movieId
+                    )
+                )
+            }
+
+            is HomeUiEvent.TvShowClicked -> {
+                sendEffect(
+                    HomeUiEffect.NavigateToTvShowDetails(
+                        tvShowId = event.tvShowId
+                    )
+                )
+            }
+
+            is HomeUiEvent.ShowMoreClicked -> {
+                sendEffect(
+                    HomeUiEffect.NavigateToShowMore(event.type)
+                )
+            }
+
+            HomeUiEvent.RetryClicked -> {
+                getData()
+            }
+
+            HomeUiEvent.Refresh -> {
+                getData()
+            }
+
+            is HomeUiEvent.PeopleClicked -> {
+                sendEffect(
+                    HomeUiEffect.NavigateToPeopleDetails(
+                        personId = event.personId
+                    )
+                )
             }
         }
-
     }
-
     private fun getData() {
-        _state.update { it.copy(isLoading = true, onErrors = emptyList()) }
-        getUpComingMovies()
-        getPopularPeople()
-        getTvShow()
-        getNowPlayingMovies()
-        getTrendingMovies()
-        getPopularMovies()
-        getTopRatedMovies()
-        getAiringTodayTvShow()
-
-    }
-
-    private fun getAiringTodayTvShow() {
-        tryToExecute(
-            call = { getAiringTodayTvUseCase() },
-            onSuccess = ::onSuccessAiringTodayTvShow,
-            mapper = airingTodayUiMapper,
-            onError = ::onError
-        )
-    }
-
-    private fun onSuccessAiringTodayTvShow(airingTodayEntities: List<AiringTodayTvShowUiState>) {
         _state.update {
             it.copy(
-                airingTodayTvShow = airingTodayEntities,
-                isLoading = false,
-                onErrors = emptyList()
+                isLoading = true,
+                error = null
             )
         }
-        Log.d(
-            "HomeViewModel",
-            "log(${this::class.java.simpleName}) : ${this.state.value.airingTodayTvShow.isEmpty()}"
-        )
 
-    }
+        viewModelScope.launch {
+            supervisorScope {
+                launch {
+                    getUpcomingMovies()
+                }
 
-    /// endregion
+                launch {
+                    getPopularPeople()
+                }
 
-    /// region call
-    private fun getPopularMovies() {
-        tryToExecute(
-            call = { popularMoviesUseCase() },
-            onSuccess = ::onSuccessPopularMovies,
-            mapper = popularMoviesUiMapper,
-            onError = ::onError
-        )
-    }
+                launch {
+                    getTvShow()
+                }
 
-    private fun onSuccessPopularMovies(popularMovieEntities: List<PopularMoviesUiState>) {
-        _state.update {
-            it.copy(
-                popularMovies = popularMovieEntities,
-                isLoading = false,
-                onErrors = emptyList()
-            )
+                launch {
+                    getNowPlayingMovies()
+                }
+
+                launch {
+                    getTrendingMovies()
+                }
+
+                launch {
+                    getPopularMovies()
+                }
+
+                launch {
+                    getTopRatedMovies()
+                }
+
+                launch {
+                    getAiringTodayTvShow()
+                }
+            }
+
+            _state.update {
+                it.copy(isLoading = false)
+            }
         }
     }
 
-    private fun getTvShow() {
-        tryToExecute(
-            call = { tvShowUseCase() },
-            onSuccess = ::onSuccessTvShow,
-            mapper = tvShowUiMapper,
-            onError = ::onError
-        )
-    }
-
-    private fun onSuccessTvShow(tvShowEntities: List<TvShowUiState>) {
-        _state.update {
-            it.copy(
-                tvShow = tvShowEntities,
-                isLoading = false,
-                onErrors = emptyList()
-            )
-        }
-    }
-
-    private fun getTopRatedMovies() {
-        tryToExecute(
-            call = { topRatedUseCase() },
-            onSuccess = ::onSuccessTopRatedMovies,
-            mapper = topRatedUiMapper,
-            onError = ::onError
-        )
-    }
-
-    private fun onSuccessTopRatedMovies(topRatedMovieEntities: List<TopRatedUiState>) {
-        _state.update {
-            it.copy(
-                topRated = topRatedMovieEntities,
-                isLoading = false,
-                onErrors = emptyList()
-            )
-        }
-    }
-
-
-    private fun getUpComingMovies() {
-        tryToExecute(
+    private suspend fun getUpcomingMovies() {
+        tryToExecuteAsync(
             call = { upcomingMoviesUseCase() },
-            onSuccess = ::onSuccessUpcomingMovies,
             mapper = upComingUiMapper,
+            onSuccess = ::onSuccessUpcomingMovies,
             onError = ::onError
         )
     }
 
-    private fun onSuccessUpcomingMovies(upcomingMovieEntities: List<UpComingMoviesUiState>) {
-        _state.update {
-            it.copy(
-                upComingMovies = upcomingMovieEntities,
-                isLoading = false,
-                onErrors = emptyList()
-            )
-        }
-    }
-
-    private fun getPopularPeople() {
-        tryToExecute(
+    private suspend fun getPopularPeople() {
+        tryToExecuteAsync(
             call = { popularPeopleUseCase() },
-            onSuccess = ::onSuccessPopularPeople,
             mapper = popularPeopleUiMapper,
+            onSuccess = ::onSuccessPopularPeople,
             onError = ::onError
         )
     }
 
-    private fun onSuccessPopularPeople(popularPeopleEntities: List<PopularPeopleUiState>) {
-        _state.update {
-            it.copy(
-                popularPeople = popularPeopleEntities,
-                isLoading = false, onErrors = emptyList()
-            )
-        }
+    private suspend fun getTvShow() {
+        tryToExecuteAsync(
+            call = { tvShowUseCase() },
+            mapper = tvShowUiMapper,
+            onSuccess = ::onSuccessTvShow,
+            onError = ::onError
+        )
     }
 
-    private fun getNowPlayingMovies() {
-        tryToExecute(
+    private suspend fun getNowPlayingMovies() {
+        tryToExecuteAsync(
             call = { nowPlayingUseCase() },
-            onSuccess = ::onSuccessNowPlayingMovies,
             mapper = nowPlayingUiMapper,
+            onSuccess = ::onSuccessNowPlayingMovies,
             onError = ::onError
         )
     }
 
-    private fun onSuccessNowPlayingMovies(nowPlayingMovieEntities: List<NowPlayingUiState>) {
-        _state.update {
-            it.copy(
-                nowPlayingMovies = nowPlayingMovieEntities,
-                isLoading = false, onErrors = emptyList()
-            )
-        }
-    }
-
-    private fun getTrendingMovies() {
-        tryToExecute(
+    private suspend fun getTrendingMovies() {
+        tryToExecuteAsync(
             call = { trendingMoviesUseCase() },
-            onSuccess = ::onSuccessTrendingMovies,
             mapper = trendingUiMapper,
+            onSuccess = ::onSuccessTrendingMovies,
             onError = ::onError
         )
     }
 
-    private fun onSuccessTrendingMovies(trendingMoviesEntities: List<TrendingMoviesUiState>) {
+    private suspend fun getPopularMovies() {
+        tryToExecuteAsync(
+            call = { popularMoviesUseCase() },
+            mapper = popularMoviesUiMapper,
+            onSuccess = ::onSuccessPopularMovies,
+            onError = ::onError
+        )
+    }
+
+    private suspend fun getTopRatedMovies() {
+        tryToExecuteAsync(
+            call = { topRatedUseCase() },
+            mapper = topRatedUiMapper,
+            onSuccess = ::onSuccessTopRatedMovies,
+            onError = ::onError
+        )
+    }
+
+    private suspend fun getAiringTodayTvShow() {
+        tryToExecuteAsync(
+            call = { getAiringTodayTvUseCase() },
+            mapper = airingTodayUiMapper,
+            onSuccess = ::onSuccessAiringTodayTvShow,
+            onError = ::onError
+        )
+    }
+
+    private fun onSuccessUpcomingMovies(
+        movies: List<UpcomingMovieUiState>
+    ) {
         _state.update {
-            it.copy(
-                trendingMovies = trendingMoviesEntities,
-                isLoading = false,
-                onErrors = emptyList()
-            )
+            it.copy(upcomingMovies = movies)
         }
     }
-    /// endregion
 
-    /// region errors
-    private fun onError(throwable: Throwable) {
-        val errorMessage = throwable.message ?: "no network connection"
-        showErrorWithSnackBar(errorMessage)
-        _state.update { it.copy(onErrors = listOf(errorMessage), isLoading = false) }
+    private fun onSuccessPopularPeople(
+        people: List<PopularPeopleUiState>
+    ) {
+        _state.update {
+            it.copy(popularPeople = people)
+        }
     }
 
-    private fun showErrorWithSnackBar(messages: String) {
-        sendEffect(HomeUiEvent.ShowSnackBarEvent(messages))
-    }
-    /// endregion
-
-    /// region events
-    override fun onClickMovieItem(movieId: Int) {
-        sendEffect(HomeUiEvent.MovieEvent(movieId))
+    private fun onSuccessTvShow(
+        tvShows: List<TvShowUiState>
+    ) {
+        _state.update {
+            it.copy(tvShows = tvShows)
+        }
     }
 
-    override fun onClickTvShowItem(tvId: Int) {
-        sendEffect(HomeUiEvent.TvShowEvent(tvId))
+    private fun onSuccessNowPlayingMovies(
+        movies: List<NowPlayingMovieUiState>
+    ) {
+        _state.update {
+            it.copy(nowPlayingMovies = movies)
+        }
     }
 
-    override fun onClickShowMore(showMoreType: ShowMoreType) {
-        sendEffect(HomeUiEvent.ClickShowMoreEvent(showMoreType))
+    private fun onSuccessTrendingMovies(
+        movies: List<TrendingMovieUiState>
+    ) {
+        _state.update {
+            it.copy(trendingMovies = movies)
+        }
     }
-    /// endregion
 
+    private fun onSuccessPopularMovies(
+        movies: List<PopularMovieUiState>
+    ) {
+        _state.update {
+            it.copy(popularMovies = movies)
+        }
+    }
 
+    private fun onSuccessTopRatedMovies(
+        movies: List<TopRatedMovieUiState>
+    ) {
+        _state.update {
+            it.copy(topRatedMovies = movies)
+        }
+    }
+
+    private fun onSuccessAiringTodayTvShow(
+        tvShows: List<AiringTodayTvShowUiState>
+    ) {
+        _state.update {
+            it.copy(airingTodayTvShows = tvShows)
+        }
+    }
+
+    private fun onError(error: AppException) {
+        _state.update {
+            it.copy(
+                error = error.toErrorUiState()
+            )
+        }
+
+        sendEffect(
+            HomeUiEffect.ShowSnackBar(
+                error.toErrorUiState().messageRes.toString()
+            )
+        )
+    }
 }

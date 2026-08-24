@@ -1,9 +1,9 @@
 package com.elhady.movies.feature.search.presentation.search
 
-import com.elhady.movies.core.ui.interaction.MovieListener
-import com.elhady.movies.core.ui.interaction.PeopleListener
+import com.elhady.movies.core.ui.interaction.MovieAdapterListener
+import com.elhady.movies.core.ui.interaction.PeopleAdapterListener
 
-interface SearchListener:  MovieListener, PeopleListener {
+interface SearchAdapterAdapterListener:  MovieAdapterListener, PeopleAdapterListener {
     fun onClickFilter()
     fun onClickGenre(genresId: Int)
     fun onClickClear()

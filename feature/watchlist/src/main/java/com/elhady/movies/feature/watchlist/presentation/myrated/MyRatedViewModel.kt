@@ -6,7 +6,7 @@ import androidx.paging.PagingData
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.domain.usecase.account.GetMyRatedMoviesUseCase
 import com.elhady.movies.core.domain.usecase.account.GetMyRatedTvShowUseCase
-import com.elhady.movies.core.ui.interaction.MovieListener
+import com.elhady.movies.core.ui.interaction.MovieAdapterListener
 import com.elhady.movies.core.ui.state.MovieHorizontalUiState
 import com.elhady.movies.feature.watchlist.presentation.myrated.mapper.MyRatedMovieToMovieHorizontalUiMapper
 import com.elhady.movies.feature.watchlist.presentation.myrated.mapper.MyRatedTvShowToMovieHorizontalUiMapper
@@ -22,7 +22,7 @@ class MyRatedViewModel @Inject constructor(
     private val myRatedMovieToMovieHorizontalUiMapper: MyRatedMovieToMovieHorizontalUiMapper,
     private val myRatedTvShowToMovieHorizontalUiMapper: MyRatedTvShowToMovieHorizontalUiMapper,
 ) : BaseViewModel<MyRatedUiState, MyRatedUiEvent>(MyRatedUiState()), MyRatedListener,
-    MovieListener {
+    MovieAdapterListener {
 
 
     init {

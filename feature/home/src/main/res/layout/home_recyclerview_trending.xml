@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.home.presentation.home.HomeItem.Trending" />
+            type="com.elhady.movies.feature.home.presentation.home.HomeItem.TrendingMovie" />
 
         <variable
             name="listener"
@@ -21,7 +21,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:hideWhenNoResult="@{item.list}">
+        app:hideWhenNoResult="@{item.items}">
 
         <TextView
             android:id="@+id/text_view_trending"
@@ -56,7 +56,7 @@
             android:clipToPadding="false"
             android:orientation="horizontal"
             android:paddingHorizontal="@dimen/spacing_custom_12dp"
-            app:items="@{item.list}"
+            app:items="@{item.items}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

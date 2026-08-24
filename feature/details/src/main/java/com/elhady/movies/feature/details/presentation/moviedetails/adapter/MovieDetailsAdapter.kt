@@ -13,14 +13,14 @@ import com.elhady.movies.feature.details.databinding.MovieDetailsItemUpperBindin
 import com.elhady.movies.core.ui.adapter.MediaVerticalAdapter
 import com.elhady.movies.core.ui.adapter.PeopleAdapter
 import com.elhady.movies.core.ui.interaction.MediaListener
-import com.elhady.movies.core.ui.interaction.PeopleListener
+import com.elhady.movies.core.ui.interaction.PeopleAdapterListener
 import com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsListener
 
 class MovieDetailsAdapter(
     private var itemsMovie: MutableList<MovieDetailsItem>,
     private val listener: MovieDetailsListener,
     private val movieListener: MediaListener,
-    private val peopleListener: PeopleListener,
+    private val peopleAdapterListener: PeopleAdapterListener,
 ) : BaseAdapter<MovieDetailsItem>(itemsMovie, listener) {
     override val layoutID: Int = 0 // handled in onCreateViewHolder
     override val itemVariableId: Int = BR.item
@@ -97,7 +97,7 @@ class MovieDetailsAdapter(
     }
     private fun bindPeople(holder: PeopleViewHolder, position: Int) {
         val people = itemsMovie[position] as MovieDetailsItem.People
-        val adapter = PeopleAdapter(people.list ,peopleListener)
+        val adapter = PeopleAdapter(people.list ,peopleAdapterListener)
         holder.binding.recyclerViewPeople.adapter = adapter
         holder.binding.item = people
     }

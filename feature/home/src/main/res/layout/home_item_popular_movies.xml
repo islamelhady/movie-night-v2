@@ -7,11 +7,11 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.home.presentation.home.PopularMoviesUiState" />
+            type="com.elhady.movies.feature.home.presentation.home.PopularMovieUiState" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.home.presentation.home.HomeListener" />
+            type="com.elhady.movies.feature.home.presentation.home.HomeAdapterListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +24,7 @@
             android:layout_height="@dimen/spacing_zero_0dp"
             android:layout_marginStart="@dimen/spacing_tiny_4dp"
             android:layout_marginEnd="@dimen/spacing_tiny_4dp"
-            android:onClick="@{()-> listener.onClickMovieItem(item.id)}"
+            android:onClick="@{()-> listener.onMovieClick(item.id)}"
             android:scaleType="centerCrop"
             app:imageUrl="@{item.imageUrl}"
             app:layout_constraintDimensionRatio="3:4"
