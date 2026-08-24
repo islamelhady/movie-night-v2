@@ -1,6 +1,7 @@
 package com.elhady.movies.feature.watchlist.presentation.mylist
 
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.core.domain.model.common.Status
@@ -8,6 +9,8 @@ import com.elhady.movies.core.domain.usecase.account.CreateListUseCase
 import com.elhady.movies.core.domain.usecase.account.DeleteListUseCase
 import com.elhady.movies.core.domain.usecase.account.GetListsCreatedUseCase
 import com.elhady.movies.core.common.NoNetworkThrowable
+import com.elhady.movies.core.ui.base.messageRes
+import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.feature.watchlist.presentation.mylist.mapper.MyListUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
@@ -17,130 +20,133 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MyListViewModel @Inject constructor(
-    private val getMoviesUseCase: GetListsCreatedUseCase,
+    private val getListsCreatedUseCase: GetListsCreatedUseCase,
     private val deleteListUseCase: DeleteListUseCase,
+    private val createListUseCase: CreateListUseCase,
     private val myListUiMapper: MyListUiMapper,
-    private val createList: CreateListUseCase,
-    private val stringsRes: StringsRes
-) : BaseViewModel<MyListUiState, MyListUiEvent>(MyListUiState()), MyListListener {
+    private val stringsRes: StringsRes,
+) : BaseViewModel<MyListUiState, MyListUiEffect>(
+    MyListUiState()
+) {
 
     init {
         getData()
     }
 
-    fun getData() {
-        _state.update { it.copy(isLoading = true ,) }
+    fun onEvent(event: MyListUiEvent) {
+        when (event) {
+
+            is MyListUiEvent.ListClicked -> {
+                sendEffect(
+                    MyListUiEffect.NavigateToListDetails(
+                        listId = event.listId,
+                        listType = event.listType,
+                        listName = event.listName,
+                    )
+                )
+            }
+
+            MyListUiEvent.NewListClicked -> {
+                sendEffect(
+                    MyListUiEffect.OpenCreateListBottomSheet
+                )
+            }
+
+            MyListUiEvent.BackClicked -> {
+                sendEffect(MyListUiEffect.NavigateBack)
+            }
+
+            is MyListUiEvent.DeleteClicked -> {
+                sendEffect(
+                    MyListUiEffect.ShowDeleteConfirmation(
+                        listId = event.listId,
+                        listName = event.listName,
+                    )
+                )
+            }
+
+            is MyListUiEvent.CreateList -> {
+                createList(event.listName)
+            }
+
+            MyListUiEvent.RetryClicked -> {
+                getData()
+            }
+        }
+    }
+
+    private fun getData() {
+        _state.update {
+            it.copy(
+                isLoading = true,
+                error = null,
+            )
+        }
+
         tryToExecute(
-            call = { getMoviesUseCase()},
+            call = {
+                getListsCreatedUseCase()
+            },
             mapper = myListUiMapper,
-            onSuccess = ::onGetAllListSuccess,
+            onSuccess = ::onGetListsSuccess,
             onError = ::onError,
         )
     }
 
-    private fun onGetAllListSuccess(items: List<ListMovieUiState>) {
+    private fun onGetListsSuccess(
+        lists: List<ListMovieUiState>
+    ) {
         _state.update {
             it.copy(
-                movieList = items,
+                movieLists = lists,
                 isLoading = false,
                 error = null,
-                isShowDelete = false
             )
         }
     }
 
-
-    override fun onClickItem(listId: Int, listType: String, listName: String) {
-        sendEffect(
-            MyListUiEvent.NavigateToListDetails(
-                listId = listId,
-                listType = listType,
-                listName = listName,
-            )
-        )
-    }
-
-    override fun onClickNewList() {
-        viewModelScope.launch {
-            _effect.emit(MyListUiEvent.OpenCreateListBottomSheet)
-        }
-    }
-
-
-    fun onCreateList(listName: String) {
+    private fun createList(listName: String) {
         tryToExecute(
             call = {
-                createList.invoke(listName)
+                createListUseCase(listName)
             },
-            onSuccess = ::onCreateUserNewListSuccess,
+            onSuccess = {
+                sendEffect(
+                    MyListUiEffect.ShowSnackBar(
+                        stringsRes.newListAddSuccessFully
+                    )
+                )
+
+                getData()
+            },
             onError = ::onError,
         )
     }
 
-    private fun onCreateUserNewListSuccess(item: Boolean) {
-        sendEffect(MyListUiEvent.ShowSnackBar(stringsRes.newListAddSuccessFully))
-        getData()
-    }
-
-
-
-    override fun onClickShowDelete() {
-       _state.update { it.copy(isShowDelete = true , error = null  ) }
-    }
-
-    override fun onClickDelete(listId: Int, listName: String) {
-        sendEffect(MyListUiEvent.ShowConfirmDeleteDialog(listId, listName))
-    }
-
-    fun deleteList(listId: Int){
+    fun deleteList(listId: Int) {
         tryToExecute(
             call = {
-                deleteListUseCase.invoke(listId = listId)
+                deleteListUseCase(listId)
             },
-            onSuccess = ::onDeleteListSuccess,
-            onError = ::onErrorDelete ,
+            onSuccess = {
+                getData()
+            },
+            onError = ::onError,
         )
     }
 
-    private fun onDeleteListSuccess(isDelete: Status) {
-        _state.update { it.copy( isShowDelete = false) }
-        getData()
-    }
-
-
-    private fun onError(throwable: Throwable) {
-        if (throwable == NoNetworkThrowable()) {
-            showErrorWithSnackBar(throwable.message ?: stringsRes.someThingErrorWhenAddRating)
-        } else if (throwable == SocketTimeoutException()) {
-            showErrorWithSnackBar(throwable.message ?: stringsRes.timeOut)
-        }
+    private fun onError(error: AppException) {
         _state.update {
             it.copy(
-                error = listOf(throwable.message ?: stringsRes.someThingErrorWhenAddRating),
                 isLoading = false,
-                isShowDelete = false
+                error = error.toErrorUiState(),
             )
         }
-    }
 
-    private fun onErrorDelete(throwable: Throwable) {
-        _state.update {
-            it.copy(
-                error = listOf(throwable.message ?: "No Network Connection"),
-                isLoading = false,
-                isShowDelete = false
+        sendEffect(
+            MyListUiEffect.ShowSnackBar(
+                error.toErrorUiState().toString()
             )
-        }
-        getData()
+        )
     }
-
-    private fun showErrorWithSnackBar(messages: String) {
-        sendEffect(MyListUiEvent.ShowSnackBar(messages))
-    }
-
-
-    override fun onClickBackButton() {
-        sendEffect(MyListUiEvent.OnClickBack)
-    }
-
 }

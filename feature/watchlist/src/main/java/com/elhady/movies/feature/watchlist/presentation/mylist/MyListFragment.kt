@@ -3,111 +3,181 @@ package com.elhady.movies.feature.watchlist.presentation.mylist
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import com.elhady.movies.feature.watchlist.BR
-import com.elhady.movies.feature.watchlist.R
-import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.core.ui.base.BaseFragment
+import com.elhady.movies.core.ui.navigation.Navigator
+import com.elhady.movies.feature.watchlist.R
 import com.elhady.movies.feature.watchlist.databinding.FragmentMyListBinding
 import com.elhady.movies.feature.watchlist.presentation.mylist.adapter.MyListAdapter
-import com.elhady.movies.core.ui.navigation.Navigator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.elhady.movies.core.ui.R as CoreUiR
 
 @AndroidEntryPoint
 class MyListFragment :
-    BaseFragment<FragmentMyListBinding, MyListUiState, MyListUiEvent>(), CreateListener {
+    BaseFragment<FragmentMyListBinding, MyListUiState, MyListUiEffect>(),
+    MyListListener, MyListAdapterListener, CreateListener {
 
     @Inject
     lateinit var navigator: Navigator
 
-    override val layoutIdFragment: Int = R.layout.fragment_my_list
+    override val layoutIdFragment: Int =
+        R.layout.fragment_my_list
+
     override val viewModel: MyListViewModel by viewModels()
-    override val viewModelVariableId: Int = BR.viewModel
-    private lateinit var createListBottomSheet: CreateListBottomSheetFragment
 
-    private lateinit var myListAdapter: MyListAdapter
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setAdapter()
-        collectChange()
+    private val myListAdapter: MyListAdapter by lazy {
+        MyListAdapter(
+            items = mutableListOf(),
+            listener = this
+        )
     }
 
-    private fun setAdapter() {
-        myListAdapter = MyListAdapter(mutableListOf(), viewModel)
+    private lateinit var createListBottomSheet: CreateListBottomSheetFragment
+
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupRecyclerView()
+        setupListeners()
+        collectState()
+    }
+
+    private fun setupRecyclerView() {
         binding.recyclerViewMyList.adapter = myListAdapter
     }
 
-    private fun collectChange() {
+    private fun setupListeners() {
+        binding.toolbar.setNavigationOnClickListener {
+            viewModel.onEvent(MyListUiEvent.BackClicked)
+        }
+        binding.listener = this
+    }
+
+    private fun collectState() {
         collectFlow(viewModel.state) { state ->
-            myListAdapter.setItems(state.movieList)
+            render(state)
         }
     }
 
+    private fun render(state: MyListUiState) {
+        binding.state = state
+        myListAdapter.setItems(state.movieLists)
+    }
 
-    override fun onEffect(effect: MyListUiEvent) {
+    override fun onEffect(effect: MyListUiEffect) {
         when (effect) {
-            is MyListUiEvent.NavigateToListDetails -> {
+
+            is MyListUiEffect.NavigateToListDetails -> {
                 navigator.navigateToMyListDetails(
-                    effect.listId,
-                    effect.listType,
-                    effect.listName
+                    listId = effect.listId,
+                    listType = effect.listType,
+                    listName = effect.listName
                 )
             }
 
-            is MyListUiEvent.ApplyCreateList -> {
-//                applyCreateList()
-            }
-
-            is MyListUiEvent.OpenCreateListBottomSheet -> {
-                showBottomSheet()
-            }
-
-            is MyListUiEvent.OnClickBack -> {
+            MyListUiEffect.NavigateBack -> {
                 navigator.navigateBack()
             }
 
-            is MyListUiEvent.ShowSnackBar -> {
-                showSnackBar(effect.message)
+            MyListUiEffect.OpenCreateListBottomSheet -> {
+                showCreateListBottomSheet()
             }
 
-            is MyListUiEvent.OnCreateNewList -> {
-                showSnackBar(effect.message)
+            is MyListUiEffect.ShowDeleteConfirmation -> {
+                showDeleteConfirmation(
+                    listId = effect.listId,
+                    listName = effect.listName
+                )
             }
 
-            is MyListUiEvent.ShowConfirmDeleteDialog -> {
-                showDialog(effect.listId, effect.listName)
+            is MyListUiEffect.ShowSnackBar -> {
+                showSnackBar(effect.message)
             }
         }
     }
 
-    private fun showDialog(listId: Int, listName: String) {
+    private fun showCreateListBottomSheet() {
+        val bottomSheet = CreateListBottomSheetFragment()
+
+        bottomSheet.setListener(this)
+
+        createListBottomSheet.show(
+            childFragmentManager,
+            "CREATE_LIST_BOTTOM_SHEET"
+        )
+    }
+
+    private fun showDeleteConfirmation(
+        listId: Int,
+        listName: String
+    ) {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(getString(CoreUiR.string.delete))
-            .setMessage(getString(CoreUiR.string.are_you_sure_that_you_want_to_delete_1d,listName))
-            .setPositiveButton(getString(CoreUiR.string.confirm)) { _, _ ->
+            .setTitle(CoreUiR.string.delete)
+            .setMessage(
+                getString(
+                    CoreUiR.string.are_you_sure_that_you_want_to_delete_1d,
+                    listName
+                )
+            )
+            .setPositiveButton(CoreUiR.string.confirm) { _, _ ->
                 viewModel.deleteList(listId)
             }
-            .setNeutralButton(getString(CoreUiR.string.cancel)) { dialog, _ ->
-                dialog.dismiss()
-            }
+            .setNegativeButton(CoreUiR.string.cancel, null)
             .show()
     }
 
-
-    private fun showBottomSheet() {
-        createListBottomSheet = CreateListBottomSheetFragment(this)
-        createListBottomSheet.show(childFragmentManager, "BOTTOM")
+    override fun onClickItem(
+        listId: Int,
+        listType: String,
+        listName: String
+    ) {
+        viewModel.onEvent(
+            MyListUiEvent.ListClicked(
+                listId = listId,
+                listType = listType,
+                listName = listName
+            )
+        )
     }
 
-    override fun onClickCreate(listName: String) {
-        viewModel.onCreateList(listName)
+    override fun onClickNewList() {
+        viewModel.onEvent(MyListUiEvent.NewListClicked)
+    }
+
+    override fun onClickBackButton() {
+        viewModel.onEvent(
+            MyListUiEvent.BackClicked
+        )
+    }
+
+    override fun onClickTryAgain() {
+        viewModel.onEvent(MyListUiEvent.RetryClicked)
+    }
+
+
+    override fun onClickDelete(
+        listId: Int,
+        listName: String
+    ) {
+        viewModel.onEvent(
+            MyListUiEvent.DeleteClicked(
+                listId = listId,
+                listName = listName
+            )
+        )
+    }
+
+    override fun onClickCreate(
+        listName: String
+    ) {
+        viewModel.onEvent(
+            MyListUiEvent.CreateList(listName)
+        )
+
         createListBottomSheet.dismiss()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.getData()
     }
 }
