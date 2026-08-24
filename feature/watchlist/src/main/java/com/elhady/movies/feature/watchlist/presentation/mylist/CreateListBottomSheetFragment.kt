@@ -12,23 +12,34 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CreateListBottomSheetFragment(private val createButton: CreateListener) :
-    BaseBottomSheet<BottomSheetCreateListBinding>() {
+class CreateListBottomSheetFragment : BaseBottomSheet<BottomSheetCreateListBinding>() {
 
     override val layoutIdFragment: Int = R.layout.bottom_sheet_create_list
-    override val viewModel: MyListViewModel by activityViewModels()
-    override val viewModelVariableId: Int = BR.viewModel
+    private var listener: CreateListener? = null
+    fun setListener(listener: CreateListener) {
+        this.listener = listener
+    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.materialButtonCreate.setOnClickListener {
-            val listName = binding.editTextListName.text.toString().trim()
-            if (listName == "") {
-                showSnackBar(getString(CoreUiR.string.empty_field))
-            } else {
-                createButton.onClickCreate(listName)
+            val listName = binding.editTextListName.text
+                .toString()
+                .trim()
+
+            if (listName.isEmpty()) {
+                showSnackBar(
+                    getString(CoreUiR.string.empty_field)
+                )
+                return@setOnClickListener
             }
+
+            listener?.onClickCreate(listName)
+            dismiss()
         }
 
         binding.textViewClose.setOnClickListener {
@@ -36,11 +47,11 @@ class CreateListBottomSheetFragment(private val createButton: CreateListener) :
         }
     }
 
-    private fun showSnackBar(messages: String) {
-        Snackbar.make(binding.root, messages, Snackbar.LENGTH_SHORT).show()
+    private fun showSnackBar(message: String) {
+        Snackbar.make(
+            binding.root,
+            message,
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
-}
-
-interface CreateListener {
-    fun onClickCreate(listName: String)
 }
