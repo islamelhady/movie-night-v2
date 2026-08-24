@@ -8,11 +8,11 @@ sealed interface WatchHistoryUiEffect {
         val movieId: Int
     ) : WatchHistoryUiEffect
 
-    data object ShowDeleteSnackBar : WatchHistoryUiEffect
+    object ShowDeleteSnackBar : WatchHistoryUiEffect
 
     data class ShowErrorSnackBar(
         val error: ErrorUiState
     ) : WatchHistoryUiEffect
 
-    data object NavigateBack : WatchHistoryUiEffect
+    object NavigateBack : WatchHistoryUiEffect
 }

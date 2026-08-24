@@ -14,11 +14,11 @@ sealed interface WatchHistoryUiEvent {
         val position: Int
     ) : WatchHistoryUiEvent
 
-    data object UndoDeleteClicked : WatchHistoryUiEvent
+    object UndoDeleteClicked : WatchHistoryUiEvent
 
-    data object DeleteSnackBarDismissed : WatchHistoryUiEvent
+    object DeleteSnackBarDismissed : WatchHistoryUiEvent
 
-    data object RetryClicked : WatchHistoryUiEvent
+    object RetryClicked : WatchHistoryUiEvent
 
-    data object BackClicked : WatchHistoryUiEvent
+    object BackClicked : WatchHistoryUiEvent
 }
