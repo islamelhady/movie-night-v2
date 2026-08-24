@@ -1,12 +1,11 @@
 package com.elhady.movies.feature.watchlist.presentation.mylist
 
-data class MyListUiState(
-    val movieList: List<ListMovieUiState> = emptyList(),
-    val isLoading: Boolean = false,
-    val isShowDelete: Boolean = false,
-    val newListName: String = "",
-    val error: List<String>? = null,
+import com.elhady.movies.core.ui.base.ErrorUiState
 
-    ){
-    val isFailure: Boolean = error?.isNotEmpty() == true
+data class MyListUiState(
+    val movieLists: List<ListMovieUiState> = emptyList(),
+    val isLoading: Boolean = false,
+    val error: ErrorUiState? = null,
+){
+    val isFailure: Boolean = error != null
 }
