@@ -3,59 +3,110 @@ package com.elhady.movies.feature.watchlist.presentation.myrated
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import com.elhady.movies.feature.watchlist.BR
-import com.elhady.movies.feature.watchlist.R
-import com.elhady.movies.core.ui.adapter.BaseFooterAdapter
 import com.elhady.movies.core.ui.base.BaseFragment
+import com.elhady.movies.core.ui.interaction.MediaListener
+import com.elhady.movies.core.ui.interaction.MovieAdapterListener
+import com.elhady.movies.core.ui.navigation.Navigator
+import com.elhady.movies.feature.watchlist.R
 import com.elhady.movies.feature.watchlist.databinding.FragmentMyRatedBinding
 import com.elhady.movies.feature.watchlist.presentation.myrated.adapter.MyRateAdapter
-import com.elhady.movies.core.ui.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MyRatedFragment : BaseFragment<FragmentMyRatedBinding, MyRatedUiState, MyRatedUiEvent>() {
+class MyRatedFragment : BaseFragment<FragmentMyRatedBinding, MyRatedUiState, MyRatedUiEffect>(),
+    MyRatedListener, MovieAdapterListener {
+
+    override val layoutIdFragment: Int =
+        R.layout.fragment_my_rated
+
+    override val viewModel: MyRatedViewModel by viewModels()
 
     @Inject
     lateinit var navigator: Navigator
 
-    override val layoutIdFragment: Int = R.layout.fragment_my_rated
-    override val viewModel: MyRatedViewModel by viewModels()
-    override val viewModelVariableId: Int = BR.viewModel
-    private val myRateAdapter by lazy { MyRateAdapter(viewModel) }
+    private val movieAdapter: MyRateAdapter by lazy {
+        MyRateAdapter(
+            listener = this
+        )
+    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
         super.onViewCreated(view, savedInstanceState)
-        setAdapter()
-        getData()
-    }
-    private fun setAdapter() {
-        val footerAdapter = BaseFooterAdapter { myRateAdapter.retry() }
-        binding.recyclerViewMedia.adapter = myRateAdapter.withLoadStateFooter(footerAdapter)
+
+        setupRecyclerView()
+        collectState()
+        binding.listener = this
     }
 
-    private fun getData() {
-        collectFlow(myRateAdapter.loadStateFlow) {
-            viewModel.setErrorUiState(it)
-        }
-        collectFlow(viewModel.state) { state ->
-            state.movies.collectLatest { itemsPagingData ->
-                myRateAdapter.submitData(itemsPagingData)
+    override fun onEffect(effect: MyRatedUiEffect) {
+        when (effect) {
+
+            MyRatedUiEffect.NavigateBack -> {
+                navigator.navigateBack()
+            }
+
+            is MyRatedUiEffect.NavigateToMovieDetails -> {
+                navigator.navigateToMovieDetails(
+                    effect.movieId
+                )
+            }
+
+            is MyRatedUiEffect.NavigateToTvShowDetails -> {
+                navigator.navigateToTvDetails(
+                    effect.tvShowId
+                )
             }
         }
     }
-    override fun onEffect(effect: MyRatedUiEvent) {
-        when(effect){
-            is MyRatedUiEvent.NavigateToMovieDetails -> {
-                navigator.navigateToMovieDetails(effect.movieId)
-            }
-            is MyRatedUiEvent.NavigateToTvShowDetails -> {
-                navigator.navigateToTvDetails(effect.tvId)
-            }
-            is MyRatedUiEvent.NavigateBack -> navigator.navigateBack()
-            is MyRatedUiEvent.ShowMyRatedMoviesPressed -> viewModel.fetchMyRatedMovies()
-            is MyRatedUiEvent.ShowMyRatedTvShowPressed -> viewModel.fetchMyRatedTvShow()
+
+    private fun setupRecyclerView() {
+        binding.recyclerViewMedia.adapter = movieAdapter
+    }
+
+    private fun collectState() {
+        collectFlow(viewModel.state) { state ->
+            render(state)
+
         }
+    }
+
+    private fun render(state: MyRatedUiState) {
+        binding.state = state
+        collectFlow(flow = state.movies) { itemsPagingData ->
+            movieAdapter.submitData(itemsPagingData)
+        }
+        collectFlow(movieAdapter.loadStateFlow) { loadState ->
+            viewModel.setErrorUiState(loadState)
+        }
+    }
+
+
+    override fun onBackPressed() {
+        viewModel.onEvent(
+            MyRatedUiEvent.BackClicked
+        )
+    }
+
+    override fun onClickMovieChip() {
+        viewModel.onEvent(
+            MyRatedUiEvent.MoviesSelected
+        )
+
+    }
+
+    override fun onClickTvShowChip() {
+        viewModel.onEvent(
+            MyRatedUiEvent.TvShowsSelected
+        )
+    }
+
+    override fun onClickMedia(id: Int) {
+        viewModel.onEvent(
+            MyRatedUiEvent.MediaClicked(id)
+        )
     }
 }

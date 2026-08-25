@@ -31,9 +31,6 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding, WatchHist
 
     override val viewModel: WatchHistoryViewModel by viewModels()
 
-    override val viewModelVariableId: Int =
-        BR.viewModel
-
     private lateinit var adapter: WatchHistoryAdapter
     private val deletionIndicatorSnackBar by lazy {
         setupSnackBar()

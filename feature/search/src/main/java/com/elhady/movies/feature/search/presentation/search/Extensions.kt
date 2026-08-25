@@ -7,7 +7,7 @@ import com.elhady.movies.feature.search.R
 import com.elhady.movies.feature.search.databinding.SearchChipsFilterItemBinding
 import com.google.android.material.chip.ChipGroup
 
-fun <T> ChipGroup.createChip(item: T, listener: SearchAdapterAdapterListener): View {
+fun <T> ChipGroup.createChip(item: T, listener: AdapterAdapterListener): View {
     val binding: SearchChipsFilterItemBinding = DataBindingUtil.inflate(
         LayoutInflater.from(context),
         R.layout.search_chips_filter_item,

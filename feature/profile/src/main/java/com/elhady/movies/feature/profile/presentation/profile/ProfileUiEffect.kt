@@ -4,6 +4,7 @@ sealed interface ProfileUiEffect {
     object NavigateToFavoriteScreen : ProfileUiEffect
     object NavigateToWatchlistScreen : ProfileUiEffect
     object NavigateToWatchHistoryScreen : ProfileUiEffect
+    object NavigateToRateScreen : ProfileUiEffect
     object NavigateToMyListsScreen : ProfileUiEffect
     object NavigateToLogin : ProfileUiEffect
     object ShowLogoutDialog : ProfileUiEffect
