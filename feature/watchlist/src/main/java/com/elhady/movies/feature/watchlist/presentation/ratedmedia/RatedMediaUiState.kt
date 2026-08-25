@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.watchlist.presentation.myrated
+package com.elhady.movies.feature.watchlist.presentation.ratedmedia
 
 import androidx.paging.PagingData
 import com.elhady.movies.core.ui.base.ErrorUiState

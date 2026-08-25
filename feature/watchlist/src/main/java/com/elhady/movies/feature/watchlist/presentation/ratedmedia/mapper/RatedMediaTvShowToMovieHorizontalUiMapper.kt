@@ -1,16 +1,16 @@
-package com.elhady.movies.feature.watchlist.presentation.myrated.mapper
+package com.elhady.movies.feature.watchlist.presentation.ratedmedia.mapper
 
 import com.elhady.movies.core.common.mapper.Mapper
-import com.elhady.movies.core.domain.model.account.MyRatedMovie
+import com.elhady.movies.core.domain.model.account.MyRatedTvShow
 import com.elhady.movies.core.ui.state.MovieHorizontalUiState
 import javax.inject.Inject
 
-class MyRatedMovieToMovieHorizontalUiMapper @Inject constructor()  :
-    Mapper<MyRatedMovie, MovieHorizontalUiState> {
-    override fun map(input: MyRatedMovie): MovieHorizontalUiState {
+class RatedMediaTvShowToMovieHorizontalUiMapper @Inject constructor()  :
+    Mapper<MyRatedTvShow, MovieHorizontalUiState> {
+    override fun map(input: MyRatedTvShow): MovieHorizontalUiState {
         return MovieHorizontalUiState(
             id = input.id,
-            rate = input.myRate,
+            rate = input.rate,
             title = input.title,
             imageUrl = input.imageUrl,
             year = extractYearFromDate(input.year),

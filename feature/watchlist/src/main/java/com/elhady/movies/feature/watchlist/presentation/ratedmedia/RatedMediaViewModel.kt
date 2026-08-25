@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.watchlist.presentation.myrated
+package com.elhady.movies.feature.watchlist.presentation.ratedmedia
 
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
@@ -9,20 +9,20 @@ import com.elhady.movies.core.domain.usecase.account.GetMyRatedTvShowUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.core.ui.state.MovieHorizontalUiState
-import com.elhady.movies.feature.watchlist.presentation.myrated.mapper.MyRatedMovieToMovieHorizontalUiMapper
-import com.elhady.movies.feature.watchlist.presentation.myrated.mapper.MyRatedTvShowToMovieHorizontalUiMapper
+import com.elhady.movies.feature.watchlist.presentation.ratedmedia.mapper.RatedMediaMovieToMovieHorizontalUiMapper
+import com.elhady.movies.feature.watchlist.presentation.ratedmedia.mapper.RatedMediaTvShowToMovieHorizontalUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class MyRatedViewModel @Inject constructor(
+class RatedMediaViewModel @Inject constructor(
     private val getMyRatedTvShowUseCase: GetMyRatedTvShowUseCase,
     private val getMyRatedMoviesUseCase: GetMyRatedMoviesUseCase,
-    private val myRatedMovieToMovieHorizontalUiMapper: MyRatedMovieToMovieHorizontalUiMapper,
-    private val myRatedTvShowToMovieHorizontalUiMapper: MyRatedTvShowToMovieHorizontalUiMapper,
-) : BaseViewModel<MyRatedUiState, MyRatedUiEffect>(
+    private val ratedMediaMovieToMovieHorizontalUiMapper: RatedMediaMovieToMovieHorizontalUiMapper,
+    private val ratedMediaTvShowToMovieHorizontalUiMapper: RatedMediaTvShowToMovieHorizontalUiMapper,
+) : BaseViewModel<MyRatedUiState, RatedMediaUiEffect>(
     MyRatedUiState()
 ) {
 
@@ -30,29 +30,29 @@ class MyRatedViewModel @Inject constructor(
         getData()
     }
 
-    fun onEvent(event: MyRatedUiEvent) {
+    fun onEvent(event: RatedMediaUiEvent) {
         when (event) {
 
-            MyRatedUiEvent.BackClicked -> {
+            RatedMediaUiEvent.BackClicked -> {
                 sendEffect(
-                    MyRatedUiEffect.NavigateBack
+                    RatedMediaUiEffect.NavigateBack
                 )
             }
 
-            MyRatedUiEvent.MoviesSelected -> {
+            RatedMediaUiEvent.MoviesSelected -> {
                 fetchMyRatedMovies()
             }
 
-            MyRatedUiEvent.TvShowsSelected -> {
+            RatedMediaUiEvent.TvShowsSelected -> {
                 fetchMyRatedTvShows()
             }
 
-            is MyRatedUiEvent.MediaClicked -> {
+            is RatedMediaUiEvent.MediaClicked -> {
                 when (state.value.rateType) {
 
                     RateType.Movies -> {
                         sendEffect(
-                            MyRatedUiEffect.NavigateToMovieDetails(
+                            RatedMediaUiEffect.NavigateToMovieDetails(
                                 movieId = event.id
                             )
                         )
@@ -60,7 +60,7 @@ class MyRatedViewModel @Inject constructor(
 
                     RateType.TvShows -> {
                         sendEffect(
-                            MyRatedUiEffect.NavigateToTvShowDetails(
+                            RatedMediaUiEffect.NavigateToTvShowDetails(
                                 tvShowId = event.id
                             )
                         )
@@ -68,7 +68,7 @@ class MyRatedViewModel @Inject constructor(
                 }
             }
 
-            MyRatedUiEvent.RetryClicked -> {
+            RatedMediaUiEvent.RetryClicked -> {
                 getData()
             }
         }
@@ -101,7 +101,7 @@ class MyRatedViewModel @Inject constructor(
                 getMyRatedMoviesUseCase()
             },
             onSuccess = ::onRatedMoviesSuccess,
-            mapper = myRatedMovieToMovieHorizontalUiMapper,
+            mapper = ratedMediaMovieToMovieHorizontalUiMapper,
             onError = ::onError
         )
     }
@@ -120,7 +120,7 @@ class MyRatedViewModel @Inject constructor(
                 getMyRatedTvShowUseCase()
             },
             onSuccess = ::onRatedTvShowsSuccess,
-            mapper = myRatedTvShowToMovieHorizontalUiMapper,
+            mapper = ratedMediaTvShowToMovieHorizontalUiMapper,
             onError = ::onError
         )
     }

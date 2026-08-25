@@ -5,18 +5,18 @@
     <data>
         <variable
             name="state"
-            type="com.elhady.movies.feature.watchlist.presentation.myrated.MyRatedUiState"/>
+            type="com.elhady.movies.feature.watchlist.presentation.ratedmedia.MyRatedUiState"/>
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.watchlist.presentation.myrated.MyRatedListener" />
+            type="com.elhady.movies.feature.watchlist.presentation.ratedmedia.RatedMediaListener" />
     </data>
 
     <androidx.constraintlayout.motion.widget.MotionLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutDescription="@xml/fragment_my_rated_scene"
-        tools:context="com.elhady.movies.feature.watchlist.presentation.myrated.MyRatedFragment">
+        tools:context="com.elhady.movies.feature.watchlist.presentation.ratedmedia.RatedMediaMediaFragment">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
