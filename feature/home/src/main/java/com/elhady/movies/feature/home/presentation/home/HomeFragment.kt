@@ -98,7 +98,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEffect
         viewModel.onEvent(HomeUiEvent.TvShowClicked(id))
     }
 
-    override fun onPeopleClick(id: Int) {
+    override fun onClickPeople(id: Int) {
         viewModel.onEvent(HomeUiEvent.PeopleClicked(id))
     }
 

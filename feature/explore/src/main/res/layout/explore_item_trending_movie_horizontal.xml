@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/spacing_tiny_4dp"
-        android:onClick="@{() -> listener.onClickMedia(item.id)}">
+        android:onClick="@{() -> listener.onClickMovie(item.id)}">
 
         <View
             android:id="@+id/view_card_background"

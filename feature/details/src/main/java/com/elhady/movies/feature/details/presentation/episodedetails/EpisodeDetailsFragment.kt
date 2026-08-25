@@ -122,7 +122,7 @@ class EpisodeDetailsFragment :
         )
     }
 
-    override fun onPeopleClick(id: Int) {
+    override fun onClickPeople(id: Int) {
         viewModel.onEvent(
             EpisodeDetailsUiEvent.CastClicked(personId = id)
         )

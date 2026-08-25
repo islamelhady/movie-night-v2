@@ -57,7 +57,7 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
         adapter = ExploreAdapter(
             list = mutableListOf(),
             listener = object : ExploreAdapterListener {
-                override fun onClickMedia(id: Int) {
+                override fun onClickMovie(id: Int) {
                     viewModel.onEvent(
                         ExploreUiEvent.MovieClicked(id)
                     )

@@ -4,5 +4,5 @@ import com.elhady.movies.core.ui.base.BaseInteractionListener
 
 
 interface MovieAdapterListener: BaseInteractionListener {
-    fun onClickMedia(id: Int)
+    fun onClickMovie(id: Int)
 }
