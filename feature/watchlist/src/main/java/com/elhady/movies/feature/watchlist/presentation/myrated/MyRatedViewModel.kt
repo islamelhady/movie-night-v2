@@ -3,10 +3,11 @@ package com.elhady.movies.feature.watchlist.presentation.myrated
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.PagingData
-import com.elhady.movies.core.ui.base.BaseViewModel
+import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.domain.usecase.account.GetMyRatedMoviesUseCase
 import com.elhady.movies.core.domain.usecase.account.GetMyRatedTvShowUseCase
-import com.elhady.movies.core.ui.interaction.MovieAdapterListener
+import com.elhady.movies.core.ui.base.BaseViewModel
+import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.core.ui.state.MovieHorizontalUiState
 import com.elhady.movies.feature.watchlist.presentation.myrated.mapper.MyRatedMovieToMovieHorizontalUiMapper
 import com.elhady.movies.feature.watchlist.presentation.myrated.mapper.MyRatedTvShowToMovieHorizontalUiMapper
@@ -21,111 +22,179 @@ class MyRatedViewModel @Inject constructor(
     private val getMyRatedMoviesUseCase: GetMyRatedMoviesUseCase,
     private val myRatedMovieToMovieHorizontalUiMapper: MyRatedMovieToMovieHorizontalUiMapper,
     private val myRatedTvShowToMovieHorizontalUiMapper: MyRatedTvShowToMovieHorizontalUiMapper,
-) : BaseViewModel<MyRatedUiState, MyRatedUiEvent>(MyRatedUiState()), MyRatedListener,
-    MovieAdapterListener {
-
+) : BaseViewModel<MyRatedUiState, MyRatedUiEffect>(
+    MyRatedUiState()
+) {
 
     init {
         getData()
     }
 
-    private fun getData() {
-        when (_state.value.myRateType) {
-            RateType.Movies -> fetchMyRatedMovies()
-            RateType.TvShows -> fetchMyRatedTvShow()
+    fun onEvent(event: MyRatedUiEvent) {
+        when (event) {
+
+            MyRatedUiEvent.BackClicked -> {
+                sendEffect(
+                    MyRatedUiEffect.NavigateBack
+                )
+            }
+
+            MyRatedUiEvent.MoviesSelected -> {
+                fetchMyRatedMovies()
+            }
+
+            MyRatedUiEvent.TvShowsSelected -> {
+                fetchMyRatedTvShows()
+            }
+
+            is MyRatedUiEvent.MediaClicked -> {
+                when (state.value.rateType) {
+
+                    RateType.Movies -> {
+                        sendEffect(
+                            MyRatedUiEffect.NavigateToMovieDetails(
+                                movieId = event.id
+                            )
+                        )
+                    }
+
+                    RateType.TvShows -> {
+                        sendEffect(
+                            MyRatedUiEffect.NavigateToTvShowDetails(
+                                tvShowId = event.id
+                            )
+                        )
+                    }
+                }
+            }
+
+            MyRatedUiEvent.RetryClicked -> {
+                getData()
+            }
         }
     }
 
-    fun fetchMyRatedMovies() {
-        _state.update { it.copy(isLoading = true) }
+    private fun getData() {
+        when (state.value.rateType) {
+
+            RateType.Movies -> {
+                fetchMyRatedMovies()
+            }
+
+            RateType.TvShows -> {
+                fetchMyRatedTvShows()
+            }
+        }
+    }
+
+    private fun fetchMyRatedMovies() {
+        _state.update {
+            it.copy(
+                rateType = RateType.Movies,
+                isLoading = true,
+                error = null
+            )
+        }
+
         wrapperPager(
-            data = { getMyRatedMoviesUseCase() },
-            onSuccess = ::onSuccessRatedMovie,
+            data = {
+                getMyRatedMoviesUseCase()
+            },
+            onSuccess = ::onRatedMoviesSuccess,
             mapper = myRatedMovieToMovieHorizontalUiMapper,
             onError = ::onError
         )
     }
 
-    private fun onSuccessRatedMovie(myRatedMovieEntity: Flow<PagingData<MovieHorizontalUiState>>) {
+    private fun fetchMyRatedTvShows() {
         _state.update {
             it.copy(
-                myRateType = RateType.Movies,
-                movies = myRatedMovieEntity,
-                isLoading = false,
-                errorList = emptyList()
+                rateType = RateType.TvShows,
+                isLoading = true,
+                error = null
             )
         }
-    }
 
-    fun fetchMyRatedTvShow() {
-        _state.update { it.copy(isLoading = true) }
         wrapperPager(
-            data = { getMyRatedTvShowUseCase() },
-            onSuccess = ::onSuccessRatedTvShow,
+            data = {
+                getMyRatedTvShowUseCase()
+            },
+            onSuccess = ::onRatedTvShowsSuccess,
             mapper = myRatedTvShowToMovieHorizontalUiMapper,
             onError = ::onError
         )
     }
 
-    private fun onSuccessRatedTvShow(myRatedTvShowEntity: Flow<PagingData<MovieHorizontalUiState>>) {
+    private fun onRatedMoviesSuccess(
+        movies: Flow<PagingData<MovieHorizontalUiState>>
+    ) {
         _state.update {
             it.copy(
-                myRateType = RateType.TvShows,
-                movies = myRatedTvShowEntity,
+                movies = movies,
                 isLoading = false,
-                errorList = emptyList()
+                error = null
             )
         }
     }
 
-    private fun onError(throwable: Throwable) {
-        val errorMessage = throwable.message ?: "No network connection"
+    private fun onRatedTvShowsSuccess(
+        tvShows: Flow<PagingData<MovieHorizontalUiState>>
+    ) {
         _state.update {
             it.copy(
-                errorList = listOf(errorMessage),
-                isLoading = false
+                movies = tvShows,
+                isLoading = false,
+                error = null
             )
         }
     }
 
-    fun setErrorUiState(combinedLoadStates: CombinedLoadStates) {
+    private fun onError(
+        throwable: AppException
+    ) {
+        _state.update {
+            it.copy(
+                isLoading = false,
+                error = throwable.toErrorUiState()
+            )
+        }
+    }
+
+    fun setErrorUiState(
+        combinedLoadStates: CombinedLoadStates
+    ) {
         when (combinedLoadStates.refresh) {
+
             is LoadState.NotLoading -> {
                 _state.update {
-                    it.copy(isLoading = false, errorList = emptyList())
+                    it.copy(
+                        isLoading = false,
+                        error = null
+                    )
                 }
             }
 
             LoadState.Loading -> {
                 _state.update {
-                    it.copy(isLoading = true, errorList = emptyList())
+                    it.copy(
+                        isLoading = true,
+                        error = null
+                    )
                 }
             }
 
             is LoadState.Error -> {
                 _state.update {
-                    it.copy(isLoading = false, errorList = listOf("no Network"))
+                    it.copy(
+                        isLoading = false,
+                        error = (combinedLoadStates.refresh as LoadState.Error).error.let { throwable ->
+                            if (throwable is AppException) {
+                                throwable.toErrorUiState()
+                            } else null
+                        }
+                    )
                 }
             }
-        }
-    }
-
-    override fun onBackPressed() {
-        sendEffect(MyRatedUiEvent.NavigateBack)
-    }
-
-    override fun onClickMovieChip() {
-        sendEffect(MyRatedUiEvent.ShowMyRatedMoviesPressed)
-    }
-
-    override fun onClickTvShowChip() {
-        sendEffect(MyRatedUiEvent.ShowMyRatedTvShowPressed)
-    }
-
-    override fun onClickMedia(id: Int) {
-        when (_state.value.myRateType) {
-            RateType.Movies -> sendEffect(MyRatedUiEvent.NavigateToMovieDetails(id))
-            RateType.TvShows -> sendEffect(MyRatedUiEvent.NavigateToTvShowDetails(id))
         }
     }
 }

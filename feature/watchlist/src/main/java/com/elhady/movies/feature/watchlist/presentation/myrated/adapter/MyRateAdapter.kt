@@ -1,13 +1,13 @@
 package com.elhady.movies.feature.watchlist.presentation.myrated.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.elhady.movies.feature.watchlist.BR
 import com.elhady.movies.core.ui.base.BasePagingAdapter
 import com.elhady.movies.core.ui.databinding.ItemMovieHorizontalBinding
+import com.elhady.movies.core.ui.interaction.MovieAdapterListener
 import com.elhady.movies.core.ui.state.MovieHorizontalUiState
-import com.elhady.movies.feature.watchlist.presentation.myrated.MyRatedListener
+import com.elhady.movies.feature.watchlist.BR
 
-class MyRateAdapter(listener: MyRatedListener) :
+class MyRateAdapter(listener: MovieAdapterListener) :
     BasePagingAdapter<MovieHorizontalUiState, ItemMovieHorizontalBinding>(Comparator, listener) {
 
     override val layoutId = com.elhady.movies.core.ui.R.layout.item_movie_horizontal

@@ -1,9 +1,6 @@
 package com.elhady.movies.feature.watchlist.presentation.myrated
 
-import com.elhady.movies.core.ui.base.BaseInteractionListener
-
-
-interface MyRatedListener : BaseInteractionListener {
+interface MyRatedListener  {
     fun onBackPressed()
     fun onClickMovieChip()
     fun onClickTvShowChip()
