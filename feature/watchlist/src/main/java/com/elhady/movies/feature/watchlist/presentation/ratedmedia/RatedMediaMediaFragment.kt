@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class RatedMediaMediaFragment : BaseFragment<FragmentMyRatedBinding, MyRatedUiState, RatedMediaUiEffect>(),
+class RatedMediaMediaFragment : BaseFragment<FragmentMyRatedBinding, RatedMediaUiState, RatedMediaUiEffect>(),
     RatedMediaListener, MovieAdapterListener {
 
     override val layoutIdFragment: Int =
@@ -37,7 +37,6 @@ class RatedMediaMediaFragment : BaseFragment<FragmentMyRatedBinding, MyRatedUiSt
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
-        collectState()
         binding.listener = this
     }
 
@@ -66,14 +65,7 @@ class RatedMediaMediaFragment : BaseFragment<FragmentMyRatedBinding, MyRatedUiSt
         binding.recyclerViewMedia.adapter = movieAdapter
     }
 
-    private fun collectState() {
-        collectFlow(viewModel.state) { state ->
-            render(state)
-
-        }
-    }
-
-    private fun render(state: MyRatedUiState) {
+    override fun render(state: RatedMediaUiState) {
         binding.state = state
         collectFlow(flow = state.movies) { itemsPagingData ->
             movieAdapter.submitData(itemsPagingData)

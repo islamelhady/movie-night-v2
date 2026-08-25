@@ -38,32 +38,26 @@ class SeasonDetailsFragment :
 
         binding.listener = this
         binding.recyclerViewEpisodes.adapter = seasonDetailsAdapter
-
-        collectState()
     }
 
-    private fun collectState() {
-        collectFlow(viewModel.state) { state ->
-
-            val items = buildList {
-                add(
-                    SeasonDetailsItem.OverviewItem(
-                        overview = state.overview,
-                        isEmptyEpisodes = state.episodes.isEmpty(),
-                    )
+    override fun render(state: SeasonDetailsUiState) {
+        binding.state = state
+        val items = buildList {
+            add(
+                SeasonDetailsItem.OverviewItem(
+                    overview = state.overview,
+                    isEmptyEpisodes = state.episodes.isEmpty(),
                 )
+            )
 
-                addAll(
-                    state.episodes.map {
-                        SeasonDetailsItem.EpisodeItem(it)
-                    }
-                )
-            }
-
-            seasonDetailsAdapter.setItems(items)
-
-            binding.state = state
+            addAll(
+                state.episodes.map {
+                    SeasonDetailsItem.EpisodeItem(it)
+                }
+            )
         }
+
+        seasonDetailsAdapter.setItems(items)
     }
 
     override fun onEffect(

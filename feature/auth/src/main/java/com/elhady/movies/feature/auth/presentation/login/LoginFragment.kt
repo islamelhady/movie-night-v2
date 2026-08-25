@@ -31,7 +31,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginUiState, LoginUiEf
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        collectState()
         setListeners()
         handleKeyboardAppearanceEvent()
     }
@@ -51,11 +50,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginUiState, LoginUiEf
         }
     }
 
-    private fun collectState() {
-        collectFlow(viewModel.state) { render(it) }
-    }
-
-    private fun render(state: LoginUiState) {
+    override fun render(state: LoginUiState) {
         binding.progressBar.isVisible = state.isLoading
         binding.buttonLogin.isVisible = !state.isLoading
 

@@ -11,13 +11,12 @@ import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.core.ui.base.animationRes
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.core.ui.util.loadProfileImage
-import com.elhady.movies.feature.profile.BR
 import com.elhady.movies.feature.profile.R
-import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.feature.profile.databinding.FragmentProfileBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.elhady.movies.core.ui.R as CoreUiR
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, ProfileUiEffect>() {
@@ -30,7 +29,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        collectState()
         setListeners()
     }
 
@@ -51,11 +49,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
         }
     }
 
-    private fun collectState() {
-        collectFlow(viewModel.state) { render(it) }
-    }
-
-    private fun render(state: ProfileUiState) {
+    override fun render(state: ProfileUiState) {
         renderLoading(state)
         renderError(state)
         renderProfile(state)

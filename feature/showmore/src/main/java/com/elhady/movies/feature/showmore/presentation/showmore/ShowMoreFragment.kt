@@ -37,7 +37,6 @@ class ShowMoreFragment : BaseFragment<FragmentShowMoreBinding, ShowMoreUiState, 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setAdapter()
-        collectState()
         setListeners()
     }
 
@@ -54,13 +53,7 @@ class ShowMoreFragment : BaseFragment<FragmentShowMoreBinding, ShowMoreUiState, 
         }
     }
 
-    private fun collectState() {
-        collectFlow(flow = viewModel.state) { state ->
-            render(state)
-        }
-    }
-
-    private fun render(state: ShowMoreUiState) {
+    override fun render(state: ShowMoreUiState) {
         binding.toolbar.title = state.title
         binding.progressBar.isVisible = state.isLoading
         binding.lottieAnimation.isVisible = state.errors != null

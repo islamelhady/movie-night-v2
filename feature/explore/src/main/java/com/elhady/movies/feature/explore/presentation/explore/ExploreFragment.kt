@@ -33,7 +33,6 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        collectState()
 
         setAdapter()
         setListener()
@@ -66,14 +65,8 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
         binding.recyclerTrend.adapter = adapter
     }
 
-    private fun collectState() {
-        collectFlow(flow = viewModel.state) { state ->
-            render(state)
-        }
-    }
 
-
-    private fun render(
+    override fun render(
         state: ExploreUiState
     ) {
         renderLoading(state)

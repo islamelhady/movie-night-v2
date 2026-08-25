@@ -6,7 +6,7 @@ import com.elhady.movies.core.ui.state.MovieHorizontalUiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
-data class MyRatedUiState (
+data class RatedMediaUiState (
     val rateType: RateType = RateType.Movies,
     val movies: Flow<PagingData<MovieHorizontalUiState>> = emptyFlow(),
     val error: ErrorUiState? = null,

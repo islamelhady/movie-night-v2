@@ -7,20 +7,19 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.elhady.movies.feature.tvshow.BR
-import com.elhady.movies.feature.tvshow.R
 import com.elhady.movies.core.ui.adapter.BaseFooterAdapter
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.core.ui.base.animationRes
 import com.elhady.movies.core.ui.interaction.TvShowAdapterListener
-import com.elhady.movies.feature.tvshow.databinding.FragmentTvShowsBinding
 import com.elhady.movies.core.ui.navigation.Navigator
+import com.elhady.movies.feature.tvshow.R
+import com.elhady.movies.feature.tvshow.databinding.FragmentTvShowsBinding
 import com.elhady.movies.feature.tvshow.presentation.tvshow.adapter.TvShowAdapter
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TvShowFragment : BaseFragment<FragmentTvShowsBinding, TvShowUiState, TvShowUiEffect>() {
@@ -44,10 +43,6 @@ class TvShowFragment : BaseFragment<FragmentTvShowsBinding, TvShowUiState, TvSho
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setupListener()
-
-        collectFlow(viewModel.state) { state ->
-            render(state)
-        }
         doNothingWhenTheSameChipIsReselected()
     }
 
@@ -107,7 +102,7 @@ class TvShowFragment : BaseFragment<FragmentTvShowsBinding, TvShowUiState, TvSho
         }
     }
 
-    private fun render(state: TvShowUiState) {
+    override fun render(state: TvShowUiState) {
         renderLoading(state)
         renderError(state)
         collectPagingState(state)

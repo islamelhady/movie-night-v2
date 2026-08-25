@@ -7,10 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.core.ui.navigation.Navigator
-import com.elhady.movies.feature.details.BR
+import com.elhady.movies.core.ui.state.UserListUiState
 import com.elhady.movies.feature.details.R
 import com.elhady.movies.feature.details.databinding.FragmentTvDetailsBinding
-import com.elhady.movies.core.ui.state.UserListUiState
 import com.elhady.movies.feature.details.presentation.tvdetails.adapter.TvDetailsAdapter
 import com.elhady.movies.feature.details.presentation.tvdetails.listener.BottomSheetDismissListener
 import com.elhady.movies.feature.details.presentation.tvdetails.listener.TvDetailsListeners
@@ -46,7 +45,6 @@ class TvDetailsFragment :
         )
         binding.listener = this
         setupAdapter()
-        collectState()
         setupCollapseBehavior()
     }
 
@@ -106,11 +104,9 @@ class TvDetailsFragment :
         viewModel.onEvent(TvDetailsUiEvent.Retry)
     }
 
-    private fun collectState() {
-        collectFlow(viewModel.state) { state ->
-            tvDetailsAdapter.setItems(state.tvDetailsItems)
-            binding.state = state
-        }
+    override fun render(state: TvDetailsUIState) {
+        tvDetailsAdapter.setItems(state.tvDetailsItems)
+        binding.state = state
     }
 
     override fun onEffect(effect: TvDetailsUiEffect) {

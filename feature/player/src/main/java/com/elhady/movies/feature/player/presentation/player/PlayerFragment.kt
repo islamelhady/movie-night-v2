@@ -36,7 +36,6 @@ class PlayerFragment :
         viewLifecycleOwner.lifecycle.addObserver(binding.youtubePlayer)
         setupSystemBars()
         setupYoutubePlayer()
-        collectState()
         setListeners()
     }
 
@@ -64,11 +63,7 @@ class PlayerFragment :
         })
     }
 
-    private fun collectState() {
-        collectFlow(viewModel.state) { render(it) }
-    }
-
-    private fun render(state: PlayerUiState) {
+    override fun render(state: PlayerUiState) {
         if (youtubePlayer != null && state.videoKey.isNotEmpty() && !isVideoLoaded) {
             youtubePlayer?.cueVideo(state.videoKey, 0f)
             isVideoLoaded = true

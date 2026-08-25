@@ -48,6 +48,7 @@ abstract class BaseFragment<VDB : ViewDataBinding, STATE, EFFECT> : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         collectFlow(viewModel.effect) { onEffect(it) }
+        collectFlow(viewModel.state) { render(it) }
     }
 
     /**
@@ -71,6 +72,8 @@ abstract class BaseFragment<VDB : ViewDataBinding, STATE, EFFECT> : Fragment() {
      * @param effect The emitted UI effect.
      */
     abstract fun onEffect(effect: EFFECT)
+
+    abstract fun render(state: STATE)
 
     protected fun showSnackBar(messages: String) {
         Snackbar.make(binding.root, messages, Snackbar.LENGTH_SHORT).show()

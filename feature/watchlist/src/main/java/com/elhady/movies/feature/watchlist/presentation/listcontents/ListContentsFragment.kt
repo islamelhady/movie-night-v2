@@ -38,7 +38,6 @@ class ListContentsFragment :
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
-        collectState()
         binding.listener = this
     }
 
@@ -47,13 +46,7 @@ class ListContentsFragment :
     }
 
 
-    private fun collectState() {
-        collectFlow(viewModel.state) { state ->
-            render(state)
-        }
-    }
-
-    private fun render(state: ListContentsUiState) {
+    override fun render(state: ListContentsUiState) {
         binding.state = state
         adapter.setItems(state.movies)
     }

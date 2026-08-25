@@ -25,7 +25,8 @@ import kotlin.math.abs
 @AndroidEntryPoint
 class MovieDetailsFragment :
     BaseFragment<FragmentMovieDetailsBinding, MovieDetailsUiState, MovieDetailsUiEffect>(),
-    BottomSheetDismissListener, MovieDetailsListener, MediaListener, PeopleAdapterListener, ChipListener {
+    BottomSheetDismissListener, MovieDetailsListener, MediaListener, PeopleAdapterListener,
+    ChipListener {
 
     @Inject
     lateinit var navigator: Navigator
@@ -44,7 +45,6 @@ class MovieDetailsFragment :
         binding.listener = this
         (activity as AppCompatActivity?)!!.setSupportActionBar(binding.toolbar)
         setAdapter()
-        collectChange()
         collapseState()
     }
 
@@ -54,36 +54,42 @@ class MovieDetailsFragment :
         binding.nestedRecycler.adapter = movieDetailsAdapter
     }
 
-    private fun collectChange() {
-        collectFlow(flow = viewModel.state) { state ->
-            binding.state = state
-            movieDetailsAdapter.setItems(
-                mutableListOf(
-                    MovieDetailsItem.Upper(state.movieUiState),
-                    MovieDetailsItem.People(state.castUiState),
-                    MovieDetailsItem.Recommended(
-                        state.recommendedUiState,
-                        state.reviewUiState.isEmpty(),
-                        state.id,
-                        state.reviewsDetails.totalReviews,
-                        state.reviewsDetails.totalPages > 1
-                    ),
-                ) + state.reviewUiState.map { MovieDetailsItem.Reviews(it) }
-            )
-        }
+    override fun render(state: MovieDetailsUiState) {
+        binding.state = state
+        movieDetailsAdapter.setItems(
+            mutableListOf(
+                MovieDetailsItem.Upper(state.movieUiState),
+                MovieDetailsItem.People(state.castUiState),
+                MovieDetailsItem.Recommended(
+                    state.recommendedUiState,
+                    state.reviewUiState.isEmpty(),
+                    state.id,
+                    state.reviewsDetails.totalReviews,
+                    state.reviewsDetails.totalPages > 1
+                ),
+            ) + state.reviewUiState.map { MovieDetailsItem.Reviews(it) }
+        )
+
     }
 
     override fun onEffect(effect: MovieDetailsUiEffect) {
         when (effect) {
             MovieDetailsUiEffect.NavigateBack -> navigator.navigateBack()
-            is MovieDetailsUiEffect.NavigateToPeopleDetails -> navigator.navigateToPeopleDetails(effect.personId)
-            is MovieDetailsUiEffect.NavigateToMovieDetails -> navigator.navigateToMovieDetails(effect.movieId)
+            is MovieDetailsUiEffect.NavigateToPeopleDetails -> navigator.navigateToPeopleDetails(
+                effect.personId
+            )
+
+            is MovieDetailsUiEffect.NavigateToMovieDetails -> navigator.navigateToMovieDetails(
+                effect.movieId
+            )
+
             is MovieDetailsUiEffect.ShowSnackBar -> showSnackBar(effect.message)
             MovieDetailsUiEffect.ShowRateBottomSheet -> showRateBottomSheet()
             is MovieDetailsUiEffect.ShowSaveToListBottomSheet -> showSaveToListBottomSheet()
             is MovieDetailsUiEffect.NavigateToShowMore -> {
                 // TODO: Implement show more
             }
+
             is MovieDetailsUiEffect.PlayVideoTrailer -> navigator.navigateToTrailer(effect.videoKey)
             else -> {}
         }
@@ -93,9 +99,13 @@ class MovieDetailsFragment :
     override fun onClickPlayTrailer() = viewModel.onEvent(MovieDetailsUiEvent.PlayClicked)
     override fun onClickRateMovie() = viewModel.onEvent(MovieDetailsUiEvent.RateClicked)
     override fun onClickBackButton() = viewModel.onEvent(MovieDetailsUiEvent.BackClicked)
-    override fun onClickShowMore(movieId: Int) = viewModel.onEvent(MovieDetailsUiEvent.ShowMoreClicked(movieId))
+    override fun onClickShowMore(movieId: Int) =
+        viewModel.onEvent(MovieDetailsUiEvent.ShowMoreClicked(movieId))
+
     override fun onClickSaveButton() = viewModel.onEvent(MovieDetailsUiEvent.SaveClicked)
-    override fun tryAgain(movieId: Int) = viewModel.onEvent(MovieDetailsUiEvent.RetryClicked(movieId))
+    override fun tryAgain(movieId: Int) =
+        viewModel.onEvent(MovieDetailsUiEvent.RetryClicked(movieId))
+
     override fun onClickMedia(id: Int) = viewModel.onEvent(MovieDetailsUiEvent.MovieClicked(id))
     override fun onClickPeople(id: Int) = viewModel.onEvent(MovieDetailsUiEvent.PersonClicked(id))
     override fun onChipClick(id: Int) = viewModel.onEvent(MovieDetailsUiEvent.ChipClicked(id))
@@ -133,10 +143,12 @@ class MovieDetailsFragment :
                         binding.textViewToolBarName.visibility = View.INVISIBLE
                         if (pos != 0) appBarLayout.setExpanded(false, false)
                     }
+
                     abs(verticalOffset) >= appBarLayout.totalScrollRange -> {
                         binding.textViewToolBarName.visibility = View.VISIBLE
                         binding.nestedRecycler.isNestedScrollingEnabled = true
                     }
+
                     else -> {
                         binding.textViewToolBarName.visibility = View.INVISIBLE
                     }
@@ -147,6 +159,8 @@ class MovieDetailsFragment :
 
     // BottomSheetDismissListener
     override fun onApplyRateBottomSheet() = viewModel.onEvent(MovieDetailsUiEvent.RatingSubmitted)
-    override fun updateRatingValue(rate: Float) = viewModel.onEvent(MovieDetailsUiEvent.RatingChanged(rate))
+    override fun updateRatingValue(rate: Float) =
+        viewModel.onEvent(MovieDetailsUiEvent.RatingChanged(rate))
+
     override fun getUserRating(): Float = viewModel.state.value.userRating / 2
 }
