@@ -2,10 +2,8 @@ package com.elhady.movies.feature.watchlist.presentation.mylistdetails
 
 
 import androidx.lifecycle.SavedStateHandle
-import com.elhady.movies.core.ui.base.BaseViewModel
+import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.domain.model.account.ListName
-import com.elhady.movies.core.domain.model.account.ListType
-import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.core.domain.model.common.Status
 import com.elhady.movies.core.domain.usecase.account.AddToFavouriteUseCase
 import com.elhady.movies.core.domain.usecase.account.AddToWatchList
@@ -13,11 +11,12 @@ import com.elhady.movies.core.domain.usecase.account.DeleteMovieFromDetailsListU
 import com.elhady.movies.core.domain.usecase.account.GetMyFavoriteListUseCase
 import com.elhady.movies.core.domain.usecase.account.GetMyListDetailsByListIdUseCase
 import com.elhady.movies.core.domain.usecase.account.GetMyWatchlistListUseCase
-import com.elhady.movies.core.common.NoNetworkThrowable
+import com.elhady.movies.core.ui.base.BaseViewModel
+import com.elhady.movies.core.ui.base.toErrorUiState
+import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.watchlist.presentation.mylistdetails.mapper.MyListDetailsUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
-import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,183 +29,237 @@ class MyListDetailsViewModel @Inject constructor(
     private val deleteMovieFromDetailsListUseCase: DeleteMovieFromDetailsListUseCase,
     private val deleteWatchlistUseCase: AddToWatchList,
     private val myListDetailsUiMapper: MyListDetailsUiMapper,
-    private val savedStateHandle: SavedStateHandle,
-) : BaseViewModel<MyListDetailsUiState, MyListDetailsUiEvent>(MyListDetailsUiState()),
-    MyListDetailsListener {
+    savedStateHandle: SavedStateHandle,
+) : BaseViewModel<MyListDetailsUiState, MyListDetailsUiEffect>(
+    MyListDetailsUiState()
+) {
 
-    private val listType = savedStateHandle.get<String>("listType") ?: ""
-    private val _listName = savedStateHandle.get<String>("listName") ?: ""
-    val listName = when (_listName) {
-        "watchlist" -> stringsRes.watchlist
-        "favorite" -> stringsRes.favourite
-        else -> _listName
-    }
-    private val listId = savedStateHandle.get<Int>("listId") ?: 0
+
+    private val listType =
+        savedStateHandle.get<String>("listType") ?: ""
+
+    private val listName =
+        savedStateHandle.get<String>("listName") ?: ""
+
+    private val listId =
+        savedStateHandle.get<Int>("listId") ?: 0
+
+
+
 
     init {
+        updateTitle()
         getData()
     }
 
-    fun getData() {
-        when (_listName) {
-            ListName.FAVORITE.name -> {
-                getAllFavorite()
-            }
-
-            ListName.WATCHLIST.name -> {
-                getAllWatchlist()
-            }
-
-            else -> {
-                getAllMovieListDetails(listId)
-            }
-        }
-    }
-
-    private fun getAllFavorite() {
-        _state.update { it.copy(isLoading = true) }
-        tryToExecute(
-            call = { getFavoriteUseCase().map { myListDetailsUiMapper.map(it) } },
-            onSuccess = ::onGetAllMoviesSuccess,
-            onError = ::onError,
-        )
-    }
-
-    private fun getAllWatchlist() {
-        _state.update { it.copy(isLoading = true) }
-        tryToExecute(
-            call = { getWatchlistUseCase().map { myListDetailsUiMapper.map(it) } },
-            onSuccess = ::onGetAllMoviesSuccess,
-            onError = ::onError,
-        )
-    }
-
-    private fun getAllMovieListDetails(listId: Int) {
-        _state.update { it.copy(isLoading = true) }
-        tryToExecute(
-            call = { getMovieListDetailsUseCase(listId).map { myListDetailsUiMapper.map(it) } },
-            onSuccess = ::onGetAllMoviesSuccess,
-            onError = ::onError,
-        )
-    }
-
-    private fun onGetAllMoviesSuccess(items: List<MovieUiState>) {
+    private fun updateTitle() {
         _state.update {
             it.copy(
-                movies = items,
-                isLoading = false,
-                error = null,
+                title = when (listName) {
+                    ListName.WATCHLIST.name -> stringsRes.watchlist
+                    ListName.FAVORITE.name -> stringsRes.favourite
+                    else -> listName
+                }
             )
         }
     }
 
+    fun onEvent(event: MyListDetailsUiEvent) {
+        when (event) {
 
-    fun deleteMedia(position: Int) {
-        val mediaId = state.value.movies[position].id
-        val mediaType = state.value.movies[position].mediaType
+            is MyListDetailsUiEvent.MovieClicked -> {
+                sendEffect(
+                    MyListDetailsUiEffect.NavigateToMovieDetails(
+                        movieId = event.movieId
+                    )
+                )
+            }
+
+            is MyListDetailsUiEvent.TvShowClicked -> {
+                sendEffect(
+                    MyListDetailsUiEffect.NavigateToTvShowDetails(
+                        tvShowId = event.tvShowId
+                    )
+                )
+            }
+
+            is MyListDetailsUiEvent.DeleteMovieClicked -> {
+                deleteMedia(event.position)
+            }
+
+            MyListDetailsUiEvent.BackClicked -> {
+                sendEffect(
+                    MyListDetailsUiEffect.NavigateBack
+                )
+            }
+
+            MyListDetailsUiEvent.RetryClicked -> {
+                getData()
+            }
+        }
+    }
+
+    private fun getData() {
+        when (listName) {
+
+            ListName.FAVORITE.name -> {
+                getFavorite()
+            }
+
+            ListName.WATCHLIST.name -> {
+                getWatchlist()
+            }
+
+            else -> {
+                getMovieListDetails()
+            }
+        }
+    }
+
+    private fun getFavorite() {
+        tryToExecute(
+            call = {
+                getFavoriteUseCase()
+                    .map(myListDetailsUiMapper::map)
+            },
+            onSuccess = ::onGetMoviesSuccess,
+            onError = ::onError,
+        )
+    }
+
+    private fun getWatchlist() {
+        tryToExecute(
+            call = {
+                getWatchlistUseCase()
+                    .map(myListDetailsUiMapper::map)
+            },
+            onSuccess = ::onGetMoviesSuccess,
+            onError = ::onError,
+        )
+    }
+
+    private fun getMovieListDetails() {
+        tryToExecute(
+            call = {
+                getMovieListDetailsUseCase(listId)
+                    .map(myListDetailsUiMapper::map)
+            },
+            onSuccess = ::onGetMoviesSuccess,
+            onError = ::onError,
+        )
+    }
+
+    private fun onGetMoviesSuccess(
+        movies: List<MovieUiState>
+    ) {
+        _state.update {
+            it.copy(
+                movies = movies,
+                isLoading = false,
+                error = null
+            )
+        }
+    }
+
+    private fun deleteMedia(position: Int) {
+        val movie = state.value.movies.getOrNull(position) ?: return
 
         _state.update {
             it.copy(
                 isLoading = true,
+                error = null
             )
         }
-        when (_listName) {
+        when (listName) {
             ListName.FAVORITE.name -> {
-                deleteFavorite(mediaId , mediaType)
+                deleteFavorite(
+                    mediaId = movie.id,
+                    mediaType = movie.mediaType
+                )
             }
 
             ListName.WATCHLIST.name -> {
-                deleteWatchlist(mediaId, mediaType)
+                deleteWatchlist(
+                    mediaId = movie.id,
+                    mediaType = movie.mediaType
+                )
             }
 
             else -> {
-                deleteMovieFromListDetails(mediaId)
-            }
-        }
-    }
-
-    private fun deleteFavorite(mediaId: Int  , mediaType: String ) {
-        tryToExecute(
-            call = { deleteFavoriteUseCase(mediaId, mediaType, false) },
-            onSuccess = ::onDeleteMediaSuccess,
-            onError = ::onError,
-        )
-    }
-
-    private fun deleteWatchlist(mediaId: Int , mediaType: String  ) {
-        tryToExecute(
-            call = { deleteWatchlistUseCase(mediaId, mediaType, false) },
-            onSuccess = ::onDeleteMediaSuccess,
-            onError = ::onError,
-        )
-    }
-
-    private fun deleteMovieFromListDetails(mediaId: Int) {
-        tryToExecute(
-            call = {
-                deleteMovieFromDetailsListUseCase(listId = listId, mediaId = mediaId)
-            },
-            onSuccess = ::onDeleteMediaSuccess,
-            onError = ::onError,
-        )
-    }
-
-
-    private fun onDeleteMediaSuccess(isDelete: Status) {
-        _state.update { it.copy(isLoading = false) }
-        when (_listName) {
-            ListName.FAVORITE.name -> {
-                getAllFavorite()
-            }
-
-            ListName.WATCHLIST.name -> {
-                getAllWatchlist()
-            }
-
-            else -> {
-                getAllMovieListDetails(listId)
-            }
-        }
-    }
-
-
-    private fun onError(throwable: Throwable) {
-        if (throwable == NoNetworkThrowable()) {
-            showErrorWithSnackBar(throwable.message ?: "No Network Connection")
-        } else if (throwable == SocketTimeoutException()) {
-            showErrorWithSnackBar(throwable.message ?: "time out!")
-        }
-        _state.update {
-            it.copy(
-                error = listOf(throwable.message ?: "No Network Connection"),
-                isLoading = false
-            )
-        }
-    }
-
-    private fun showErrorWithSnackBar(messages: String) {
-        sendEffect(MyListDetailsUiEvent.ShowSnackBar(messages))
-    }
-
-
-    override fun onClickItem(itemId: Int , mediaType:String) {
-        when(mediaType){
-             ListType.MOVIE.name ->{
-                 sendEffect(
-                     MyListDetailsUiEvent.NavigateToMovieDetails(itemId)
-                 )
-            }
-            ListType.TV.name ->{
-                sendEffect(
-                    MyListDetailsUiEvent.NavigateToTvDetails(itemId)
+                deleteFromCustomList(
+                    mediaId = movie.id
                 )
             }
         }
-
     }
 
-    override fun onClickBackButton() {
-        sendEffect(MyListDetailsUiEvent.OnClickBack)
+    private fun deleteFavorite(
+        mediaId: Int,
+        mediaType: String,
+    ) {
+        tryToExecute(
+            call = {
+                deleteFavoriteUseCase(
+                    mediaId,
+                    mediaType,
+                    false
+                )
+            },
+            onSuccess = ::onDeleteSuccess,
+            onError = ::onError,
+        )
     }
 
+    private fun deleteWatchlist(
+        mediaId: Int,
+        mediaType: String,
+    ) {
+        tryToExecute(
+            call = {
+                deleteWatchlistUseCase(
+                    mediaId,
+                    mediaType,
+                    false
+                )
+            },
+            onSuccess = ::onDeleteSuccess,
+            onError = ::onError,
+        )
+    }
+
+    private fun deleteFromCustomList(
+        mediaId: Int,
+    ) {
+        tryToExecute(
+            call = {
+                deleteMovieFromDetailsListUseCase(
+                    listId = listId,
+                    mediaId = mediaId
+                )
+            },
+            onSuccess = ::onDeleteSuccess,
+            onError = ::onError,
+        )
+    }
+
+    private fun onDeleteSuccess(
+        status: Status
+    ) {
+        getData()
+    }
+
+    private fun onError(
+        throwable: AppException
+    ) {
+        _state.update {
+            it.copy(
+                isLoading = false,
+                error = throwable.toErrorUiState()
+            )
+        }
+        MyListDetailsUiEffect.ShowSnackBar(
+            throwable.message
+                ?: "No Network Connection"
+        )
+    }
 }

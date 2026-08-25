@@ -1,14 +1,12 @@
 package com.elhady.movies.feature.watchlist.presentation.mylistdetails
 
+import com.elhady.movies.core.ui.base.ErrorUiState
 
 data class MyListDetailsUiState(
+    val title: String = "",
     val movies: List<MovieUiState> = emptyList(),
     val isLoading: Boolean = false,
-    val deletedMovie: MovieUiState? = null,
-    val swipePosition: Int? = null,
-    val snackBarUndoPressed: Boolean? = null,
-    val error: List<String>? = null,
-
-    ){
-    val isFailure: Boolean = error?.isNotEmpty() == true
+    val error: ErrorUiState? = null,
+){
+    val isFailure = error != null
 }
