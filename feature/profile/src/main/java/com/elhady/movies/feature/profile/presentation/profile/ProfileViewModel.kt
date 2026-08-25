@@ -46,6 +46,11 @@ class ProfileViewModel @Inject constructor(
                 sendEffect(ProfileUiEffect.NavigateToWatchHistoryScreen)
             }
 
+            ProfileUiEvent.RateClicked -> {
+                sendEffect(ProfileUiEffect.NavigateToRateScreen)
+            }
+
+
             ProfileUiEvent.MyListsClicked -> {
                 sendEffect(ProfileUiEffect.NavigateToMyListsScreen)
             }

@@ -39,6 +39,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
         binding.textViewFavorite.setOnClickListener { viewModel.onEvent(ProfileUiEvent.FavoriteClicked) }
         binding.textViewWatchlist.setOnClickListener { viewModel.onEvent(ProfileUiEvent.WatchlistClicked) }
         binding.textViewWatchHistory.setOnClickListener { viewModel.onEvent(ProfileUiEvent.WatchHistoryClicked) }
+        binding.textViewMyRated.setOnClickListener { viewModel.onEvent(ProfileUiEvent.RateClicked) }
         binding.textViewMylists.setOnClickListener { viewModel.onEvent(ProfileUiEvent.MyListsClicked) }
         binding.textViewLogout.setOnClickListener { viewModel.onEvent(ProfileUiEvent.LogoutClicked) }
         binding.buttonLogin.setOnClickListener { viewModel.onEvent(ProfileUiEvent.LoginClicked) }
@@ -115,6 +116,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
 
             ProfileUiEffect.NavigateToWatchlistScreen -> {
                 navigator.navigateToMyListDetails(0, ListType.MOVIE.name, ListName.WATCHLIST.name)
+            }
+
+            ProfileUiEffect.NavigateToRateScreen -> {
+                navigator.navigateToMyRated()
             }
 
             ProfileUiEffect.NavigateToWatchHistoryScreen -> navigator.navigateToWatchHistory()
