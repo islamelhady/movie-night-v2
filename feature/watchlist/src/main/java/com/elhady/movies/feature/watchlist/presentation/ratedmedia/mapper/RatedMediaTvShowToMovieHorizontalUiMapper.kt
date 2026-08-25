@@ -1,0 +1,29 @@
+package com.elhady.movies.feature.watchlist.presentation.ratedmedia.mapper
+
+import com.elhady.movies.core.common.mapper.Mapper
+import com.elhady.movies.core.domain.model.account.MyRatedTvShow
+import com.elhady.movies.core.ui.state.MovieHorizontalUiState
+import javax.inject.Inject
+
+class RatedMediaTvShowToMovieHorizontalUiMapper @Inject constructor()  :
+    Mapper<MyRatedTvShow, MovieHorizontalUiState> {
+    override fun map(input: MyRatedTvShow): MovieHorizontalUiState {
+        return MovieHorizontalUiState(
+            id = input.id,
+            rate = input.rate,
+            title = input.title,
+            imageUrl = input.imageUrl,
+            year = extractYearFromDate(input.year),
+            genres = convertGenreListToString(input.genreEntities.map { it.genreName }),
+        )
+    }
+
+    private fun convertGenreListToString(list: List<String>): String {
+        return list.joinToString(" | ")
+    }
+
+    private fun extractYearFromDate(year: String): String {
+        val parts = year.split("-")
+        return parts[0]
+    }
+}
