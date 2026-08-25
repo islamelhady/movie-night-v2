@@ -30,7 +30,7 @@
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.home.presentation.home.HomeListener" />
+            type="com.elhady.movies.feature.home.presentation.home.HomeAdapterListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -69,7 +69,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
-            android:onClick="@{() -> listener.onClickShowMore(ShowMoreType.TOP_RATED_TV)}"
+            android:onClick="@{() -> listener.onClickTvShow(topRatedTv.id)}"
             android:background="@drawable/gradient_background"
             app:layout_constraintStart_toStartOf="@id/image_top_rated"
             app:layout_constraintBottom_toBottomOf="@+id/image_top_rated"
@@ -106,7 +106,7 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:onClick="@{() -> listener.onClickShowMore(ShowMoreType.AIRING_TODAY_TV)}"
+            android:onClick="@{() -> listener.onClickTvShow(airingTodayTv.id)}"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
             android:background="@drawable/gradient_background"
             app:layout_constraintBottom_toBottomOf="@+id/image_latest"
@@ -147,7 +147,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
-            android:onClick="@{() -> listener.onClickShowMore(ShowMoreType.POPULAR_TV)}"
+            android:onClick="@{() -> listener.onClickTvShow(popularTv.id)}"
             android:background="@drawable/gradient_background"
             app:layout_constraintBottom_toBottomOf="@+id/image_popular"
             app:layout_constraintEnd_toEndOf="@id/image_popular"

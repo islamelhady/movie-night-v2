@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.elhady.movies.core.ui.base.BaseFragment
-import com.elhady.movies.core.ui.interaction.MediaListener
 import com.elhady.movies.core.ui.interaction.MovieAdapterListener
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.watchlist.R
@@ -104,7 +103,7 @@ class MyRatedFragment : BaseFragment<FragmentMyRatedBinding, MyRatedUiState, MyR
         )
     }
 
-    override fun onClickMedia(id: Int) {
+    override fun onClickMovie(id: Int) {
         viewModel.onEvent(
             MyRatedUiEvent.MediaClicked(id)
         )

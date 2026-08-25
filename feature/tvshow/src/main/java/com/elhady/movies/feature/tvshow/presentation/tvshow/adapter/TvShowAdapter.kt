@@ -4,9 +4,9 @@ import androidx.recyclerview.widget.DiffUtil
 import com.elhady.movies.feature.tvshow.BR
 import com.elhady.movies.feature.tvshow.R
 import com.elhady.movies.core.ui.base.BasePagingAdapter
+import com.elhady.movies.core.ui.interaction.TvShowAdapterListener
 import com.elhady.movies.feature.tvshow.databinding.ItemTvShowBinding
 import com.elhady.movies.feature.tvshow.presentation.tvshow.ShowUiState
-import com.elhady.movies.feature.tvshow.presentation.tvshow.TvShowAdapterListener
 
 class TvShowAdapter(listener: TvShowAdapterListener) :
     BasePagingAdapter<ShowUiState, ItemTvShowBinding>(Comparator, listener) {

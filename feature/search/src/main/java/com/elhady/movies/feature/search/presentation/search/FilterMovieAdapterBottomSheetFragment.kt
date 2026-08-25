@@ -55,9 +55,9 @@ class FilterMovieAdapterBottomSheetFragment : BottomSheetDialogFragment(), Adapt
 
     override fun onClickBack() {}
 
-    override fun onClickMedia(id: Int) {}
+    override fun onClickMovie(id: Int) {}
 
-    override fun onPeopleClick(id: Int) {}
+    override fun onClickPeople(id: Int) {}
 
     override fun onClickTryAgain() {}
 

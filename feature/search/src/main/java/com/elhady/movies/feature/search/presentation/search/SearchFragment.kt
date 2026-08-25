@@ -123,11 +123,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
         viewModel.onEvent(SearchUiEvent.BackClicked)
     }
 
-    override fun onClickMedia(id: Int) {
+    override fun onClickMovie(id: Int) {
         viewModel.onEvent(SearchUiEvent.MovieClicked(id))
     }
 
-    override fun onPeopleClick(id: Int) {
+    override fun onClickPeople(id: Int) {
         viewModel.onEvent(SearchUiEvent.PeopleClicked(id))
     }
 

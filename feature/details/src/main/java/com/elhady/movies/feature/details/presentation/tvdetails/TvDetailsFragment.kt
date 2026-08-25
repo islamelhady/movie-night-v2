@@ -67,7 +67,7 @@ class TvDetailsFragment :
         viewModel.onEvent(TvDetailsUiEvent.RateClicked)
     }
 
-    override fun onPeopleClick(id: Int) {
+    override fun onClickPeople(id: Int) {
         viewModel.onEvent(TvDetailsUiEvent.PersonClicked(id))
     }
 

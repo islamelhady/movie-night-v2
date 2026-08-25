@@ -12,6 +12,7 @@ import com.elhady.movies.feature.tvshow.R
 import com.elhady.movies.core.ui.adapter.BaseFooterAdapter
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.core.ui.base.animationRes
+import com.elhady.movies.core.ui.interaction.TvShowAdapterListener
 import com.elhady.movies.feature.tvshow.databinding.FragmentTvShowsBinding
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.tvshow.presentation.tvshow.adapter.TvShowAdapter
@@ -33,7 +34,7 @@ class TvShowFragment : BaseFragment<FragmentTvShowsBinding, TvShowUiState, TvSho
     private val tvShowAdapter by lazy {
         TvShowAdapter(
             listener = object : TvShowAdapterListener {
-                override fun onClickMedia(id: Int) {
+                override fun onClickTvShow(id: Int) {
                     viewModel.onEvent(TvShowUiEvent.TvShowItemClicked(id))
                 }
             }
