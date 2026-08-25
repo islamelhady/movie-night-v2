@@ -18,8 +18,6 @@ class SaveTvShowToListBottomSheet(private val watchlistFavouriteBottomSheet: Wat
     BaseBottomSheet<SaveTvShowToListBottomSheetTvCreateListBinding>(), ChipListener {
     override val layoutIdFragment: Int = R.layout.save_tv_show_to_list_bottom_sheet_tv_create_list
     override val viewModel by viewModels<TvDetailsViewModel>({ requireParentFragment() })
-    override val viewModelVariableId: Int = BR.viewModel
-
     private var userLists: List<UserListUiState> = emptyList()
 
     fun setItems(lists: List<UserListUiState>) {

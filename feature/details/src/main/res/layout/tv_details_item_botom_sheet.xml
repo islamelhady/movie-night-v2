@@ -4,9 +4,6 @@
 
     <data>
         <variable
-            name="viewModel"
-            type="com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsViewModel" />
-        <variable
             name="listener"
             type="com.elhady.movies.feature.details.presentation.tvdetails.listener.BottomSheetDismissListener" />
     </data>

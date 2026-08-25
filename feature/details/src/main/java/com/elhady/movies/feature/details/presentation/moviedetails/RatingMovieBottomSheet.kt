@@ -14,7 +14,6 @@ class RatingMovieBottomSheet :
     BaseBottomSheet<MovieRatingBottomSheetBinding>() {
     override val layoutIdFragment: Int = R.layout.movie_rating_bottom_sheet
     override val viewModel by viewModels<MovieDetailsViewModel>({ requireParentFragment() })
-
     private var dismissListener: BottomSheetDismissListener? = null
 
     fun setListener(dismissListener: BottomSheetDismissListener) {
@@ -27,7 +26,6 @@ class RatingMovieBottomSheet :
         collectFlow(viewModel.state) {
             binding.state = it
         }
-        binding.listener = dismissListener
 
         binding.movieRatingBar.setOnRatingBarChangeListener { _, rating, _ ->
             dismissListener?.updateRatingValue(rating * 2)

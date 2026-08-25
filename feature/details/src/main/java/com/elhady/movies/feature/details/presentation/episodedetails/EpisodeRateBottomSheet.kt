@@ -2,11 +2,9 @@ package com.elhady.movies.feature.details.presentation.episodedetails
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.activityViewModels
-import com.elhady.movies.feature.details.BR
+import com.elhady.movies.core.ui.base.BaseBottomSheet
 import com.elhady.movies.feature.details.R
 import com.elhady.movies.feature.details.databinding.ItemEpisodeDetailsRateBottomSheetBinding
-import com.elhady.movies.core.ui.base.BaseBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,8 +25,6 @@ class EpisodeRateBottomSheet :
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.lifecycleOwner = viewLifecycleOwner
 
         setupRatingBar()
         setupApplyButton()
