@@ -5,9 +5,6 @@
 
     <data>
 
-        <variable
-            name="viewModel"
-            type="com.elhady.movies.feature.profile.presentation.profile.ProfileViewModel" />
 
     </data>
 

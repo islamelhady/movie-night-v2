@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="com.elhady.movies.feature.tvshow.presentation.tvshow.TvShowViewModel" />
+            name="state"
+            type="com.elhady.movies.feature.tvshow.presentation.tvshow.ShowUiState" />
     </data>
 
 

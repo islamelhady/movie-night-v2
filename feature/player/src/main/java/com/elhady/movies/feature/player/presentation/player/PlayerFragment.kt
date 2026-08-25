@@ -4,20 +4,18 @@ import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.elhady.movies.core.ui.base.BaseFragment
-import com.elhady.movies.feature.player.BR
+import com.elhady.movies.core.ui.base.animationRes
+import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.player.R
 import com.elhady.movies.feature.player.databinding.FragmentPlayerBinding
-import dagger.hilt.android.AndroidEntryPoint
-import androidx.core.view.isVisible
-import com.elhady.movies.core.ui.base.animationRes
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import com.elhady.movies.core.ui.navigation.Navigator
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -38,7 +36,6 @@ class PlayerFragment :
         viewLifecycleOwner.lifecycle.addObserver(binding.youtubePlayer)
         setupSystemBars()
         setupYoutubePlayer()
-        collectState()
         setListeners()
     }
 
@@ -66,11 +63,7 @@ class PlayerFragment :
         })
     }
 
-    private fun collectState() {
-        collectFlow(viewModel.state) { render(it) }
-    }
-
-    private fun render(state: PlayerUiState) {
+    override fun render(state: PlayerUiState) {
         if (youtubePlayer != null && state.videoKey.isNotEmpty() && !isVideoLoaded) {
             youtubePlayer?.cueVideo(state.videoKey, 0f)
             isVideoLoaded = true

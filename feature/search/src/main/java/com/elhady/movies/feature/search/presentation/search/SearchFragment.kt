@@ -8,7 +8,6 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.core.ui.navigation.Navigator
-import com.elhady.movies.feature.search.BR
 import com.elhady.movies.feature.search.R
 import com.elhady.movies.feature.search.databinding.FragmentSearchBinding
 import com.elhady.movies.feature.search.presentation.search.adapter.SearchAdapter
@@ -16,14 +15,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, SearchUiEffect>(), AdapterAdapterListener {
+class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, SearchUiEffect>(),
+    AdapterAdapterListener {
 
     @Inject
     lateinit var navigator: Navigator
 
     override val layoutIdFragment: Int = R.layout.fragment_search
     override val viewModel by activityViewModels<SearchViewModel>()
-    override val viewModelVariableId: Int = BR.viewModel
 
     private lateinit var searchAdapter: SearchAdapter
 
@@ -37,7 +36,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
         super.onViewCreated(view, savedInstanceState)
         binding.listener = this
         setupHomeAdapter()
-        collectChange()
         setupSearchInput()
     }
 
@@ -52,22 +50,21 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
         }
     }
 
-    private fun collectChange() {
-        collectFlow(flow = viewModel.state) { state ->
-            setupSearchHistoryAdapter(state)
+    override fun render(state: SearchUiState) {
+        setupSearchHistoryAdapter(state)
 
-            val searchItems = when (state.mediaType) {
-                SearchUiState.SearchMedia.MOVIE, SearchUiState.SearchMedia.TV -> {
-                    state.searchMediaResult.map { SearchItem.MediaItem(it) }
-                }
-
-                SearchUiState.SearchMedia.PEOPLE -> {
-                    state.searchPeopleResult.map { SearchItem.PeopleItem(it) }
-                }
+        val searchItems = when (state.mediaType) {
+            SearchUiState.SearchMedia.MOVIE, SearchUiState.SearchMedia.TV -> {
+                state.searchMediaResult.map { SearchItem.MediaItem(it) }
             }
-            searchAdapter.setItems(searchItems)
-            state.error?.lastOrNull()?.let { showSnackBar(it) }
+
+            SearchUiState.SearchMedia.PEOPLE -> {
+                state.searchPeopleResult.map { SearchItem.PeopleItem(it) }
+            }
         }
+        searchAdapter.setItems(searchItems)
+        state.error?.lastOrNull()?.let { showSnackBar(it) }
+        binding.state = state
     }
 
     private fun setupSearchHistoryAdapter(state: SearchUiState) {

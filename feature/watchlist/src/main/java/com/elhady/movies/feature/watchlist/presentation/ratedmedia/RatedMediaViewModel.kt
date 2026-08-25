@@ -22,8 +22,8 @@ class RatedMediaViewModel @Inject constructor(
     private val getMyRatedMoviesUseCase: GetMyRatedMoviesUseCase,
     private val ratedMediaMovieToMovieHorizontalUiMapper: RatedMediaMovieToMovieHorizontalUiMapper,
     private val ratedMediaTvShowToMovieHorizontalUiMapper: RatedMediaTvShowToMovieHorizontalUiMapper,
-) : BaseViewModel<MyRatedUiState, RatedMediaUiEffect>(
-    MyRatedUiState()
+) : BaseViewModel<RatedMediaUiState, RatedMediaUiEffect>(
+    RatedMediaUiState()
 ) {
 
     init {

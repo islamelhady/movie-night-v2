@@ -28,13 +28,11 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
 
     override val layoutIdFragment: Int = R.layout.fragment_explore
     override val viewModel: ExploreViewModel by viewModels()
-    override val viewModelVariableId: Int = BR.viewModel
     private lateinit var adapter: ExploreAdapter
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        collectState()
 
         setAdapter()
         setListener()
@@ -67,14 +65,8 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
         binding.recyclerTrend.adapter = adapter
     }
 
-    private fun collectState() {
-        collectFlow(flow = viewModel.state) { state ->
-            render(state)
-        }
-    }
 
-
-    private fun render(
+    override fun render(
         state: ExploreUiState
     ) {
         renderLoading(state)

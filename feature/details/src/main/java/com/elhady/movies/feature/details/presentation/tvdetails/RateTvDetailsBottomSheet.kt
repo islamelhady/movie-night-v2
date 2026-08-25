@@ -17,7 +17,6 @@ class RateTvDetailsBottomSheet :
     BaseBottomSheet<TvDetailsItemBotomSheetBinding>() {
     override val layoutIdFragment: Int = R.layout.tv_details_item_botom_sheet
     override val viewModel by viewModels<TvDetailsViewModel>({ requireParentFragment() })
-    override val viewModelVariableId: Int = BR.viewModel
 
     private var dismissListener: BottomSheetDismissListener? = null
 

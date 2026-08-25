@@ -37,7 +37,6 @@ class EpisodeDetailsFragment :
 
         setupPeopleAdapter()
         setupSwipeRefresh()
-        collectState()
     }
 
     private fun setupPeopleAdapter() {
@@ -50,15 +49,10 @@ class EpisodeDetailsFragment :
         }
     }
 
-    private fun collectState() {
-        collectFlow(viewModel.state) { state ->
-            binding.state = state
-
-            binding.swipeToRefreshLayout.isRefreshing =
-                state.isRefreshing
-
-            peopleAdapter.setItems(state.cast)
-        }
+    override fun render(state: EpisodeDetailsUiState) {
+        binding.state = state
+        binding.swipeToRefreshLayout.isRefreshing = state.isRefreshing
+        peopleAdapter.setItems(state.cast)
     }
 
     override fun onEffect(effect: EpisodeDetailsUiEffect) {

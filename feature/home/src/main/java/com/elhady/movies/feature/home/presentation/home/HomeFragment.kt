@@ -34,7 +34,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEffect
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
-        collectState()
     }
 
 
@@ -42,13 +41,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEffect
         binding.recyclerViewHome.adapter = homeAdapter
     }
 
-    private fun collectState() {
-        collectFlow(viewModel.state) { state ->
-            render(state)
-        }
-    }
-
-    private fun render(state: HomeUiState) {
+    override fun render(state: HomeUiState) {
         binding.state = state
 
         homeAdapter.setItems(

@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsViewModel" />
+            name="state"
+            type="com.elhady.movies.feature.details.presentation.tvdetails.state.TvDetailsUIState" />
 
         <variable
             name="listener"
@@ -38,7 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    app:imageUrl="@{viewModel.state.backdropImageUrl}"
+                    app:imageUrl="@{state.backdropImageUrl}"
                     app:layout_collapseMode="parallax"
                     tools:src="@tools:sample/backgrounds/scenic" />
 
@@ -95,7 +95,7 @@
                                 android:paddingStart="@dimen/spacing_small_8dp"
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:text="@{viewModel.state.tvShowName}"
+                                android:text="@{state.tvShowName}"
                                 android:textColor="@color/on_background_87"
                                 android:visibility="invisible" />
                         </LinearLayout>
@@ -120,7 +120,6 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <!--region nested recycler-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/nestedRecycler"
             android:layout_width="match_parent"
@@ -132,7 +131,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-        <!--endregion-->
 
 
         <com.airbnb.lottie.LottieAnimationView
@@ -143,17 +141,15 @@
             app:lottie_autoPlay="true"
             app:lottie_colorFilter="@color/primary"
             app:lottie_loop="true"
-            app:isVisibleOrGone="@{viewModel.state.isLoading}"
+            app:isVisible="@{state.isLoading}"
             app:lottie_rawRes="@raw/anim_loading" />
 
-        <!--endregion-->
 
-        <!--region error-->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:isVisibleOrGone="@{viewModel.state.isFailure}"
+            app:isVisible="@{state.isFailure}"
             android:orientation="vertical">
 
 
@@ -182,6 +178,5 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lottie_animation"/>
         </LinearLayout>
-        <!--endregion-->
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

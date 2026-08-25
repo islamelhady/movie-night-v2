@@ -21,13 +21,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding, WatchHistoryUiState, WatchHistoryUiEffect>(),
+class WatchHistoryFragment :
+    BaseFragment<FragmentWatchHistoryBinding, WatchHistoryUiState, WatchHistoryUiEffect>(),
     MediaListener {
     @Inject
     lateinit var navigator: Navigator
 
-    override val layoutIdFragment: Int =
-        R.layout.fragment_watch_history
+    override val layoutIdFragment: Int = R.layout.fragment_watch_history
 
     override val viewModel: WatchHistoryViewModel by viewModels()
 
@@ -44,7 +44,6 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding, WatchHist
 
         setupRecyclerView()
         setupSwipeToDelete()
-        collectState()
     }
 
     private fun setupRecyclerView() {
@@ -56,11 +55,9 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding, WatchHist
         binding.watchHistoryRecyclerView.adapter = adapter
     }
 
-    private fun collectState() {
-        collectFlow(viewModel.state) { state ->
-            binding.state = state
-            adapter.setItems(state.movies)
-        }
+    override fun render(state: WatchHistoryUiState) {
+        binding.state = state
+        adapter.setItems(state.movies)
     }
 
     private fun setupSwipeToDelete() {
