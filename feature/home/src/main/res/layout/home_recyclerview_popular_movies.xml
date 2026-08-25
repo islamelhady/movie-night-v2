@@ -44,6 +44,9 @@
             android:onClick="@{()->listener.onClickShowMore(ShowMoreType.POPULAR_MOVIES)}"
             android:text="@string/show_more"
             android:textColor="@color/primary"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintBottom_toBottomOf="@+id/text_view_popular_movies"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/text_view_popular_movies" />

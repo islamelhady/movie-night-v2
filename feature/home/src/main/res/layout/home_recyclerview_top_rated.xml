@@ -45,6 +45,9 @@
             android:text="@string/show_more"
             android:onClick="@{()->listener.onClickShowMore(ShowMoreType.TOP_RATED_MOVIES)}"
             android:textColor="@color/primary"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
