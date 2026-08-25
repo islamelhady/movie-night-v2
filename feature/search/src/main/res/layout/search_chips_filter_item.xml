@@ -10,7 +10,7 @@
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.search.presentation.search.SearchAdapterAdapterListener" />
+            type="com.elhady.movies.feature.search.presentation.search.AdapterAdapterListener" />
     </data>
 
     <com.google.android.material.chip.Chip

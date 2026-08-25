@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, SearchUiEffect>(), SearchAdapterAdapterListener {
+class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, SearchUiEffect>(), AdapterAdapterListener {
 
     @Inject
     lateinit var navigator: Navigator
