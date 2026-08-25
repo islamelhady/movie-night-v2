@@ -28,7 +28,6 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
 
     override val layoutIdFragment: Int = R.layout.fragment_explore
     override val viewModel: ExploreViewModel by viewModels()
-    override val viewModelVariableId: Int = BR.viewModel
     private lateinit var adapter: ExploreAdapter
 
 

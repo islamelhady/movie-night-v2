@@ -27,7 +27,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
 
     override val layoutIdFragment: Int = R.layout.fragment_profile
     override val viewModel: ProfileViewModel by viewModels()
-    override val viewModelVariableId: Int = BR.viewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.watchlist.R
-import com.elhady.movies.feature.watchlist.databinding.FragmentMyListBinding
+import com.elhady.movies.feature.watchlist.databinding.FragmentListsBinding
 import com.elhady.movies.feature.watchlist.presentation.lists.adapter.ListsAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,15 +15,13 @@ import com.elhady.movies.core.ui.R as CoreUiR
 
 @AndroidEntryPoint
 class ListsFragment :
-    BaseFragment<FragmentMyListBinding, ListsUiState, ListsUiEffect>(),
+    BaseFragment<FragmentListsBinding, ListsUiState, ListsUiEffect>(),
     ListsListener, ListsAdapterListener, CreateListener {
 
     @Inject
     lateinit var navigator: Navigator
 
-    override val layoutIdFragment: Int =
-        R.layout.fragment_lists
-
+    override val layoutIdFragment: Int = R.layout.fragment_lists
     override val viewModel: ListsViewModel by viewModels()
 
     private val listsAdapter: ListsAdapter by lazy {

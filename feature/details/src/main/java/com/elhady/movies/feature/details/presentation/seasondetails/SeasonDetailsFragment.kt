@@ -14,11 +14,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class SeasonDetailsFragment :
-    BaseFragment<
-            FragmentSeasonDetailsBinding,
-            SeasonDetailsUiState,
-            SeasonDetailsUiEffect
-            >(),
+    BaseFragment<FragmentSeasonDetailsBinding, SeasonDetailsUiState, SeasonDetailsUiEffect>(),
     SeasonDetailsListener, EpisodeListener {
 
     @Inject

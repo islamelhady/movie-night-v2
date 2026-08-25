@@ -3,20 +3,16 @@ package com.elhady.movies.feature.details.presentation.peopledetails
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import com.elhady.movies.feature.details.R
 import com.elhady.movies.core.ui.base.BaseFragment
-import com.elhady.movies.feature.details.databinding.FragmentPeopleDetailsBinding
 import com.elhady.movies.core.ui.navigation.Navigator
+import com.elhady.movies.feature.details.R
+import com.elhady.movies.feature.details.databinding.FragmentPeopleDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class PeopleDetailsFragment :
-    BaseFragment<
-            FragmentPeopleDetailsBinding,
-            PeopleDetailsUiState,
-            PeopleDetailsUiEffect
-            >(),
+    BaseFragment<FragmentPeopleDetailsBinding, PeopleDetailsUiState, PeopleDetailsUiEffect>(),
     PeopleDetailsListener {
 
     @Inject

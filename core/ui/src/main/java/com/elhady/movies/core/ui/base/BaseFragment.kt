@@ -33,8 +33,6 @@ abstract class BaseFragment<VDB : ViewDataBinding, STATE, EFFECT> : Fragment() {
     protected val binding: VDB
         get() = _binding
 
-    protected open val viewModelVariableId: Int? = null
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,9 +41,6 @@ abstract class BaseFragment<VDB : ViewDataBinding, STATE, EFFECT> : Fragment() {
         _binding = DataBindingUtil.inflate(inflater, layoutIdFragment, container, false)
         _binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModelVariableId?.let { variableId->
-                setVariable(variableId, viewModel)
-            }
             return root
         }
     }
@@ -69,6 +64,7 @@ abstract class BaseFragment<VDB : ViewDataBinding, STATE, EFFECT> : Fragment() {
             }
         }
     }
+
     /**
      * Called when a UI effect is emitted by the [viewModel].
      *

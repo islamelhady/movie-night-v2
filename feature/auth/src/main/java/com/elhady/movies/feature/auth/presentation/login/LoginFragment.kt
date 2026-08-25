@@ -28,7 +28,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginUiState, LoginUiEf
 
     override val layoutIdFragment = R.layout.fragment_login
     override val viewModel: LoginViewModel by viewModels()
-    override val viewModelVariableId: Int = BR.viewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -23,7 +23,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
 
     override val layoutIdFragment: Int = R.layout.fragment_search
     override val viewModel by activityViewModels<SearchViewModel>()
-    override val viewModelVariableId: Int = BR.viewModel
 
     private lateinit var searchAdapter: SearchAdapter
 
@@ -67,6 +66,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
             }
             searchAdapter.setItems(searchItems)
             state.error?.lastOrNull()?.let { showSnackBar(it) }
+            binding.state = state
         }
     }
 

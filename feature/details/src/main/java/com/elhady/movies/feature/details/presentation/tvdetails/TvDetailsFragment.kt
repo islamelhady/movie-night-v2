@@ -35,7 +35,6 @@ class TvDetailsFragment :
 
     override val layoutIdFragment: Int = R.layout.fragment_tv_details
     override val viewModel: TvDetailsViewModel by viewModels()
-    override val viewModelVariableId: Int = BR.viewModel
 
     override fun onViewCreated(
         view: View,
@@ -110,6 +109,7 @@ class TvDetailsFragment :
     private fun collectState() {
         collectFlow(viewModel.state) { state ->
             tvDetailsAdapter.setItems(state.tvDetailsItems)
+            binding.state = state
         }
     }
 

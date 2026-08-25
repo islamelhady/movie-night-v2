@@ -30,7 +30,6 @@ class TvShowFragment : BaseFragment<FragmentTvShowsBinding, TvShowUiState, TvSho
 
     override val layoutIdFragment = R.layout.fragment_tv_shows
     override val viewModel: TvShowViewModel by viewModels()
-    override val viewModelVariableId: Int = BR.viewModel
     private val tvShowAdapter by lazy {
         TvShowAdapter(
             listener = object : TvShowAdapterListener {
