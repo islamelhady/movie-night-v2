@@ -1,11 +1,11 @@
-package com.elhady.movies.feature.watchlist.presentation.mylistdetails.mapper
+package com.elhady.movies.feature.watchlist.presentation.listcontents.mapper
 
 import com.elhady.movies.core.common.mapper.Mapper
 import com.elhady.movies.core.domain.model.movie.Movie
-import com.elhady.movies.feature.watchlist.presentation.mylistdetails.MovieUiState
+import com.elhady.movies.feature.watchlist.presentation.listcontents.MovieUiState
 import javax.inject.Inject
 
-class MyListDetailsUiMapper @Inject constructor() : Mapper<Movie, MovieUiState> {
+class ListContentsUiMapper @Inject constructor() : Mapper<Movie, MovieUiState> {
     override fun map(input: Movie): MovieUiState {
         return MovieUiState(
             id= input.id,

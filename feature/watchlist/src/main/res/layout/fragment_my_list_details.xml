@@ -7,11 +7,11 @@
 
         <variable
             name="state"
-            type="com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDetailsUiState" />
+            type="com.elhady.movies.feature.watchlist.presentation.listcontents.ListContentsUiState" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDetailsListener" />
+            type="com.elhady.movies.feature.watchlist.presentation.listcontents.ListContentsListener" />
     </data>
 
     <LinearLayout

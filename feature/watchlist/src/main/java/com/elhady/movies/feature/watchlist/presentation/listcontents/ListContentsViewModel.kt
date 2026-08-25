@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.watchlist.presentation.mylistdetails
+package com.elhady.movies.feature.watchlist.presentation.listcontents
 
 
 import androidx.lifecycle.SavedStateHandle
@@ -14,13 +14,13 @@ import com.elhady.movies.core.domain.usecase.account.GetMyWatchlistListUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.core.ui.resource.StringsRes
-import com.elhady.movies.feature.watchlist.presentation.mylistdetails.mapper.MyListDetailsUiMapper
+import com.elhady.movies.feature.watchlist.presentation.listcontents.mapper.ListContentsUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class MyListDetailsViewModel @Inject constructor(
+class ListContentsViewModel @Inject constructor(
     private val stringsRes: StringsRes,
     private val getFavoriteUseCase: GetMyFavoriteListUseCase,
     private val getWatchlistUseCase: GetMyWatchlistListUseCase,
@@ -28,10 +28,10 @@ class MyListDetailsViewModel @Inject constructor(
     private val deleteFavoriteUseCase: AddToFavouriteUseCase,
     private val deleteMovieFromDetailsListUseCase: DeleteMovieFromDetailsListUseCase,
     private val deleteWatchlistUseCase: AddToWatchList,
-    private val myListDetailsUiMapper: MyListDetailsUiMapper,
+    private val listContentsUiMapper: ListContentsUiMapper,
     savedStateHandle: SavedStateHandle,
-) : BaseViewModel<MyListDetailsUiState, MyListDetailsUiEffect>(
-    MyListDetailsUiState()
+) : BaseViewModel<ListContentsUiState, ListContentsUiEffect>(
+    ListContentsUiState()
 ) {
 
 
@@ -64,36 +64,36 @@ class MyListDetailsViewModel @Inject constructor(
         }
     }
 
-    fun onEvent(event: MyListDetailsUiEvent) {
+    fun onEvent(event: ListContentsUiEvent) {
         when (event) {
 
-            is MyListDetailsUiEvent.MovieClicked -> {
+            is ListContentsUiEvent.MovieClicked -> {
                 sendEffect(
-                    MyListDetailsUiEffect.NavigateToMovieDetails(
+                    ListContentsUiEffect.NavigateToMovieContents(
                         movieId = event.movieId
                     )
                 )
             }
 
-            is MyListDetailsUiEvent.TvShowClicked -> {
+            is ListContentsUiEvent.TvShowClicked -> {
                 sendEffect(
-                    MyListDetailsUiEffect.NavigateToTvShowDetails(
+                    ListContentsUiEffect.NavigateToTvShowContents(
                         tvShowId = event.tvShowId
                     )
                 )
             }
 
-            is MyListDetailsUiEvent.DeleteMovieClicked -> {
+            is ListContentsUiEvent.DeleteMovieClicked -> {
                 deleteMedia(event.position)
             }
 
-            MyListDetailsUiEvent.BackClicked -> {
+            ListContentsUiEvent.BackClicked -> {
                 sendEffect(
-                    MyListDetailsUiEffect.NavigateBack
+                    ListContentsUiEffect.NavigateBack
                 )
             }
 
-            MyListDetailsUiEvent.RetryClicked -> {
+            ListContentsUiEvent.RetryClicked -> {
                 getData()
             }
         }
@@ -120,7 +120,7 @@ class MyListDetailsViewModel @Inject constructor(
         tryToExecute(
             call = {
                 getFavoriteUseCase()
-                    .map(myListDetailsUiMapper::map)
+                    .map(listContentsUiMapper::map)
             },
             onSuccess = ::onGetMoviesSuccess,
             onError = ::onError,
@@ -131,7 +131,7 @@ class MyListDetailsViewModel @Inject constructor(
         tryToExecute(
             call = {
                 getWatchlistUseCase()
-                    .map(myListDetailsUiMapper::map)
+                    .map(listContentsUiMapper::map)
             },
             onSuccess = ::onGetMoviesSuccess,
             onError = ::onError,
@@ -142,7 +142,7 @@ class MyListDetailsViewModel @Inject constructor(
         tryToExecute(
             call = {
                 getMovieListDetailsUseCase(listId)
-                    .map(myListDetailsUiMapper::map)
+                    .map(listContentsUiMapper::map)
             },
             onSuccess = ::onGetMoviesSuccess,
             onError = ::onError,
@@ -257,7 +257,7 @@ class MyListDetailsViewModel @Inject constructor(
                 error = throwable.toErrorUiState()
             )
         }
-        MyListDetailsUiEffect.ShowSnackBar(
+        ListContentsUiEffect.ShowSnackBar(
             throwable.message
                 ?: "No Network Connection"
         )

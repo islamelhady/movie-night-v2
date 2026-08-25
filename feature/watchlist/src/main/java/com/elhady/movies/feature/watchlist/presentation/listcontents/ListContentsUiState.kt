@@ -1,8 +1,8 @@
-package com.elhady.movies.feature.watchlist.presentation.mylistdetails
+package com.elhady.movies.feature.watchlist.presentation.listcontents
 
 import com.elhady.movies.core.ui.base.ErrorUiState
 
-data class MyListDetailsUiState(
+data class ListContentsUiState(
     val title: String = "",
     val movies: List<MovieUiState> = emptyList(),
     val isLoading: Boolean = false,

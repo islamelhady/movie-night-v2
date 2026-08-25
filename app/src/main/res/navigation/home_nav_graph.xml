@@ -110,7 +110,7 @@
 
     <fragment
         android:id="@+id/myListDetailsFragment"
-        android:name="com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDetailsFragment"
+        android:name="com.elhady.movies.feature.watchlist.presentation.listcontents.ListContentsFragment"
         android:label="MyListDetailsFragment"
         tools:layout="@layout/fragment_my_list_details">
         <argument

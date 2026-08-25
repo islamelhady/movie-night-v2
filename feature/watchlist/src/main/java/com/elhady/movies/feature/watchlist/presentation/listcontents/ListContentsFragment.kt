@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.watchlist.presentation.mylistdetails
+package com.elhady.movies.feature.watchlist.presentation.listcontents
 
 import android.os.Bundle
 import android.view.View
@@ -7,14 +7,14 @@ import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.watchlist.R
 import com.elhady.movies.feature.watchlist.databinding.FragmentMyListDetailsBinding
-import com.elhady.movies.feature.watchlist.presentation.mylistdetails.adapter.MyListDetailsAdapter
+import com.elhady.movies.feature.watchlist.presentation.listcontents.adapter.ListContentsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MyListDetailsFragment :
-    BaseFragment<FragmentMyListDetailsBinding, MyListDetailsUiState, MyListDetailsUiEffect>(),
-    MyListDetailsAdapterListener, MyListDetailsListener {
+class ListContentsFragment :
+    BaseFragment<FragmentMyListDetailsBinding, ListContentsUiState, ListContentsUiEffect>(),
+    ListContentsAdapterListener, ListContentsListener {
 
     @Inject
     lateinit var navigator: Navigator
@@ -22,10 +22,10 @@ class MyListDetailsFragment :
     override val layoutIdFragment: Int =
         R.layout.fragment_my_list_details
 
-    override val viewModel: MyListDetailsViewModel by viewModels()
+    override val viewModel: ListContentsViewModel by viewModels()
 
-    private val adapter: MyListDetailsAdapter by lazy {
-        MyListDetailsAdapter(
+    private val adapter: ListContentsAdapter by lazy {
+        ListContentsAdapter(
             items = emptyList(),
             listener = this
         )
@@ -53,31 +53,31 @@ class MyListDetailsFragment :
         }
     }
 
-    private fun render(state: MyListDetailsUiState) {
+    private fun render(state: ListContentsUiState) {
         binding.state = state
         adapter.setItems(state.movies)
     }
 
-    override fun onEffect(effect: MyListDetailsUiEffect) {
+    override fun onEffect(effect: ListContentsUiEffect) {
         when (effect) {
 
-            is MyListDetailsUiEffect.NavigateToMovieDetails -> {
+            is ListContentsUiEffect.NavigateToMovieContents -> {
                 navigator.navigateToMovieDetails(
                     effect.movieId
                 )
             }
 
-            is MyListDetailsUiEffect.NavigateToTvShowDetails -> {
+            is ListContentsUiEffect.NavigateToTvShowContents -> {
                 navigator.navigateToTvDetails(
                     effect.tvShowId
                 )
             }
 
-            MyListDetailsUiEffect.NavigateBack -> {
+            ListContentsUiEffect.NavigateBack -> {
                 navigator.navigateBack()
             }
 
-            is MyListDetailsUiEffect.ShowSnackBar -> {
+            is ListContentsUiEffect.ShowSnackBar -> {
                 showSnackBar(effect.message)
             }
         }
@@ -85,19 +85,19 @@ class MyListDetailsFragment :
 
     override fun onClickItem(itemId: Int, mediaType: String) {
         viewModel.onEvent(
-            MyListDetailsUiEvent.MovieClicked(itemId)
+            ListContentsUiEvent.MovieClicked(itemId)
         )
     }
 
     override fun onClickBackButton() {
         viewModel.onEvent(
-            MyListDetailsUiEvent.BackClicked
+            ListContentsUiEvent.BackClicked
         )
     }
 
     override fun onClickRetry() {
         viewModel.onEvent(
-            MyListDetailsUiEvent.RetryClicked
+            ListContentsUiEvent.RetryClicked
         )
     }
 }

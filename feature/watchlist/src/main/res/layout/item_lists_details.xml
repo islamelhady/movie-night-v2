@@ -6,11 +6,11 @@
     <data>
         <variable
             name="item"
-            type="com.elhady.movies.feature.watchlist.presentation.mylistdetails.MovieUiState" />
+            type="com.elhady.movies.feature.watchlist.presentation.listcontents.MovieUiState" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDetailsAdapterListener" />
+            type="com.elhady.movies.feature.watchlist.presentation.listcontents.ListContentsAdapterListener" />
     </data>
 
 
