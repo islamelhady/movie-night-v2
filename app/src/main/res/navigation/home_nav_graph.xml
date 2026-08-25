@@ -102,9 +102,9 @@
 
     <fragment
         android:id="@+id/myListFragment"
-        android:name="com.elhady.movies.feature.watchlist.presentation.mylist.MyListFragment"
+        android:name="com.elhady.movies.feature.watchlist.presentation.lists.ListsFragment"
         android:label="MyListFragment"
-        tools:layout="@layout/fragment_my_list">
+        tools:layout="@layout/fragment_lists">
         <deepLink app:uri="movie://my_list" />
     </fragment>
 

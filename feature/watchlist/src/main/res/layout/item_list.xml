@@ -7,11 +7,11 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.watchlist.presentation.mylist.ListMovieUiState" />
+            type="com.elhady.movies.feature.watchlist.presentation.lists.ListMovieUiState" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.watchlist.presentation.mylist.MyListAdapterListener" />
+            type="com.elhady.movies.feature.watchlist.presentation.lists.ListsAdapterListener" />
 
     </data>
 

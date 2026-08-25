@@ -1,9 +1,7 @@
-package com.elhady.movies.feature.watchlist.presentation.mylist
+package com.elhady.movies.feature.watchlist.presentation.lists
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.activityViewModels
-import com.elhady.movies.feature.watchlist.BR
 import com.elhady.movies.feature.watchlist.R
 import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.core.ui.base.BaseBottomSheet

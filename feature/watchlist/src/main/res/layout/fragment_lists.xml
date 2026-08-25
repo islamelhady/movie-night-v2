@@ -7,11 +7,11 @@
 
         <variable
             name="state"
-            type="com.elhady.movies.feature.watchlist.presentation.mylist.MyListUiState" />
+            type="com.elhady.movies.feature.watchlist.presentation.lists.ListsUiState" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.watchlist.presentation.mylist.MyListListener" />
+            type="com.elhady.movies.feature.watchlist.presentation.lists.ListsListener" />
 
     </data>
 
@@ -89,7 +89,7 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:listitem="@layout/item_my_list" />
+                tools:listitem="@layout/item_list" />
 
 
             <TextView

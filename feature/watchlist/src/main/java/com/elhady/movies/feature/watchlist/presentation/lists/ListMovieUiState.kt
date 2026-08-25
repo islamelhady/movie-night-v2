@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.watchlist.presentation.mylist
+package com.elhady.movies.feature.watchlist.presentation.lists
 
 data class ListMovieUiState(
     val id: Int? = null,

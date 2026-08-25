@@ -1,23 +1,23 @@
-package com.elhady.movies.feature.watchlist.presentation.mylist
+package com.elhady.movies.feature.watchlist.presentation.lists
 
-sealed interface MyListUiEffect {
+sealed interface ListsUiEffect {
 
     data class NavigateToListDetails(
         val listId: Int,
         val listType: String,
         val listName: String,
-    ) : MyListUiEffect
+    ) : ListsUiEffect
 
-    object NavigateBack : MyListUiEffect
+    object NavigateBack : ListsUiEffect
 
-    object OpenCreateListBottomSheet : MyListUiEffect
+    object OpenCreateListBottomSheet : ListsUiEffect
 
     data class ShowDeleteConfirmation(
         val listId: Int,
         val listName: String,
-    ) : MyListUiEffect
+    ) : ListsUiEffect
 
     data class ShowSnackBar(
         val message: String,
-    ) : MyListUiEffect
+    ) : ListsUiEffect
 }

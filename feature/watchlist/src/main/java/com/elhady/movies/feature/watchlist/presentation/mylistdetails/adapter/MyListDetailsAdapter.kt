@@ -10,7 +10,7 @@ import com.elhady.movies.feature.watchlist.presentation.mylistdetails.MyListDeta
 class  MyListDetailsAdapter(items: List<MovieUiState>, listener: MyListDetailsAdapterListener):
     BaseAdapter<MovieUiState>(items, listener) {
 
-    override val layoutID = R.layout.item_my_list_details
+    override val layoutID = R.layout.item_lists_details
     override val itemVariableId: Int = BR.item
     override val listenerVariableId: Int = BR.listener
 }

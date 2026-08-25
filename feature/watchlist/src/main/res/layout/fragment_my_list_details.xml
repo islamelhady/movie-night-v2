@@ -86,7 +86,7 @@
                 app:items="@{state.movies}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:listitem="@layout/item_my_list_details" />
+                tools:listitem="@layout/item_lists_details" />
 
 
             <TextView

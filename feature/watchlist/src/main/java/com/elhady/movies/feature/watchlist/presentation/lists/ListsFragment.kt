@@ -1,4 +1,4 @@
-package com.elhady.movies.feature.watchlist.presentation.mylist
+package com.elhady.movies.feature.watchlist.presentation.lists
 
 import android.os.Bundle
 import android.view.View
@@ -7,27 +7,27 @@ import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.watchlist.R
 import com.elhady.movies.feature.watchlist.databinding.FragmentMyListBinding
-import com.elhady.movies.feature.watchlist.presentation.mylist.adapter.MyListAdapter
+import com.elhady.movies.feature.watchlist.presentation.lists.adapter.ListsAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.elhady.movies.core.ui.R as CoreUiR
 
 @AndroidEntryPoint
-class MyListFragment :
-    BaseFragment<FragmentMyListBinding, MyListUiState, MyListUiEffect>(),
-    MyListListener, MyListAdapterListener, CreateListener {
+class ListsFragment :
+    BaseFragment<FragmentMyListBinding, ListsUiState, ListsUiEffect>(),
+    ListsListener, ListsAdapterListener, CreateListener {
 
     @Inject
     lateinit var navigator: Navigator
 
     override val layoutIdFragment: Int =
-        R.layout.fragment_my_list
+        R.layout.fragment_lists
 
-    override val viewModel: MyListViewModel by viewModels()
+    override val viewModel: ListsViewModel by viewModels()
 
-    private val myListAdapter: MyListAdapter by lazy {
-        MyListAdapter(
+    private val listsAdapter: ListsAdapter by lazy {
+        ListsAdapter(
             items = mutableListOf(),
             listener = this
         )
@@ -47,12 +47,12 @@ class MyListFragment :
     }
 
     private fun setupRecyclerView() {
-        binding.recyclerViewMyList.adapter = myListAdapter
+        binding.recyclerViewMyList.adapter = listsAdapter
     }
 
     private fun setupListeners() {
         binding.toolbar.setNavigationOnClickListener {
-            viewModel.onEvent(MyListUiEvent.BackClicked)
+            viewModel.onEvent(ListsUiEvent.BackClicked)
         }
         binding.listener = this
     }
@@ -63,15 +63,15 @@ class MyListFragment :
         }
     }
 
-    private fun render(state: MyListUiState) {
+    private fun render(state: ListsUiState) {
         binding.state = state
-        myListAdapter.setItems(state.movieLists)
+        listsAdapter.setItems(state.movieLists)
     }
 
-    override fun onEffect(effect: MyListUiEffect) {
+    override fun onEffect(effect: ListsUiEffect) {
         when (effect) {
 
-            is MyListUiEffect.NavigateToListDetails -> {
+            is ListsUiEffect.NavigateToListDetails -> {
                 navigator.navigateToMyListDetails(
                     listId = effect.listId,
                     listType = effect.listType,
@@ -79,22 +79,22 @@ class MyListFragment :
                 )
             }
 
-            MyListUiEffect.NavigateBack -> {
+            ListsUiEffect.NavigateBack -> {
                 navigator.navigateBack()
             }
 
-            MyListUiEffect.OpenCreateListBottomSheet -> {
+            ListsUiEffect.OpenCreateListBottomSheet -> {
                 showCreateListBottomSheet()
             }
 
-            is MyListUiEffect.ShowDeleteConfirmation -> {
+            is ListsUiEffect.ShowDeleteConfirmation -> {
                 showDeleteConfirmation(
                     listId = effect.listId,
                     listName = effect.listName
                 )
             }
 
-            is MyListUiEffect.ShowSnackBar -> {
+            is ListsUiEffect.ShowSnackBar -> {
                 showSnackBar(effect.message)
             }
         }
@@ -136,7 +136,7 @@ class MyListFragment :
         listName: String
     ) {
         viewModel.onEvent(
-            MyListUiEvent.ListClicked(
+            ListsUiEvent.ListClicked(
                 listId = listId,
                 listType = listType,
                 listName = listName
@@ -145,17 +145,17 @@ class MyListFragment :
     }
 
     override fun onClickNewList() {
-        viewModel.onEvent(MyListUiEvent.NewListClicked)
+        viewModel.onEvent(ListsUiEvent.NewListClicked)
     }
 
     override fun onClickBackButton() {
         viewModel.onEvent(
-            MyListUiEvent.BackClicked
+            ListsUiEvent.BackClicked
         )
     }
 
     override fun onClickTryAgain() {
-        viewModel.onEvent(MyListUiEvent.RetryClicked)
+        viewModel.onEvent(ListsUiEvent.RetryClicked)
     }
 
 
@@ -164,7 +164,7 @@ class MyListFragment :
         listName: String
     ) {
         viewModel.onEvent(
-            MyListUiEvent.DeleteClicked(
+            ListsUiEvent.DeleteClicked(
                 listId = listId,
                 listName = listName
             )
@@ -175,7 +175,7 @@ class MyListFragment :
         listName: String
     ) {
         viewModel.onEvent(
-            MyListUiEvent.CreateList(listName)
+            ListsUiEvent.CreateList(listName)
         )
 
         createListBottomSheet.dismiss()

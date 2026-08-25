@@ -1,44 +1,38 @@
-package com.elhady.movies.feature.watchlist.presentation.mylist
+package com.elhady.movies.feature.watchlist.presentation.lists
 
-import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.resource.StringsRes
-import com.elhady.movies.core.domain.model.common.Status
 import com.elhady.movies.core.domain.usecase.account.CreateListUseCase
 import com.elhady.movies.core.domain.usecase.account.DeleteListUseCase
 import com.elhady.movies.core.domain.usecase.account.GetListsCreatedUseCase
-import com.elhady.movies.core.common.NoNetworkThrowable
-import com.elhady.movies.core.ui.base.messageRes
 import com.elhady.movies.core.ui.base.toErrorUiState
-import com.elhady.movies.feature.watchlist.presentation.mylist.mapper.MyListUiMapper
+import com.elhady.movies.feature.watchlist.presentation.lists.mapper.ListsUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 @HiltViewModel
-class MyListViewModel @Inject constructor(
+class ListsViewModel @Inject constructor(
     private val getListsCreatedUseCase: GetListsCreatedUseCase,
     private val deleteListUseCase: DeleteListUseCase,
     private val createListUseCase: CreateListUseCase,
-    private val myListUiMapper: MyListUiMapper,
+    private val listsUiMapper: ListsUiMapper,
     private val stringsRes: StringsRes,
-) : BaseViewModel<MyListUiState, MyListUiEffect>(
-    MyListUiState()
+) : BaseViewModel<ListsUiState, ListsUiEffect>(
+    ListsUiState()
 ) {
 
     init {
         getData()
     }
 
-    fun onEvent(event: MyListUiEvent) {
+    fun onEvent(event: ListsUiEvent) {
         when (event) {
 
-            is MyListUiEvent.ListClicked -> {
+            is ListsUiEvent.ListClicked -> {
                 sendEffect(
-                    MyListUiEffect.NavigateToListDetails(
+                    ListsUiEffect.NavigateToListDetails(
                         listId = event.listId,
                         listType = event.listType,
                         listName = event.listName,
@@ -46,30 +40,30 @@ class MyListViewModel @Inject constructor(
                 )
             }
 
-            MyListUiEvent.NewListClicked -> {
+            ListsUiEvent.NewListClicked -> {
                 sendEffect(
-                    MyListUiEffect.OpenCreateListBottomSheet
+                    ListsUiEffect.OpenCreateListBottomSheet
                 )
             }
 
-            MyListUiEvent.BackClicked -> {
-                sendEffect(MyListUiEffect.NavigateBack)
+            ListsUiEvent.BackClicked -> {
+                sendEffect(ListsUiEffect.NavigateBack)
             }
 
-            is MyListUiEvent.DeleteClicked -> {
+            is ListsUiEvent.DeleteClicked -> {
                 sendEffect(
-                    MyListUiEffect.ShowDeleteConfirmation(
+                    ListsUiEffect.ShowDeleteConfirmation(
                         listId = event.listId,
                         listName = event.listName,
                     )
                 )
             }
 
-            is MyListUiEvent.CreateList -> {
+            is ListsUiEvent.CreateList -> {
                 createList(event.listName)
             }
 
-            MyListUiEvent.RetryClicked -> {
+            ListsUiEvent.RetryClicked -> {
                 getData()
             }
         }
@@ -87,7 +81,7 @@ class MyListViewModel @Inject constructor(
             call = {
                 getListsCreatedUseCase()
             },
-            mapper = myListUiMapper,
+            mapper = listsUiMapper,
             onSuccess = ::onGetListsSuccess,
             onError = ::onError,
         )
@@ -112,7 +106,7 @@ class MyListViewModel @Inject constructor(
             },
             onSuccess = {
                 sendEffect(
-                    MyListUiEffect.ShowSnackBar(
+                    ListsUiEffect.ShowSnackBar(
                         stringsRes.newListAddSuccessFully
                     )
                 )
@@ -144,7 +138,7 @@ class MyListViewModel @Inject constructor(
         }
 
         sendEffect(
-            MyListUiEffect.ShowSnackBar(
+            ListsUiEffect.ShowSnackBar(
                 error.toErrorUiState().toString()
             )
         )
