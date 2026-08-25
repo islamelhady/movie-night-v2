@@ -45,13 +45,16 @@
             android:onClick="@{()->listener.onClickShowMore(ShowMoreType.TRENDING_MOVIES)}"
             android:text="@string/show_more"
             android:textColor="@color/primary"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_trending"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small_8dp"
             android:clipToPadding="false"
             android:orientation="horizontal"

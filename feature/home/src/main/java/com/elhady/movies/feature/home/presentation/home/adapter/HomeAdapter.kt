@@ -151,7 +151,9 @@ class HomeAdapter(
         setupViewPager(viewPager, adapter)
         registerPageChangeCallback(viewPager)
         setSliderPageTransformer(viewPager)
-        holder.binding.item = upcomingSlider
+        holder.binding.apply {
+            setVariable(BR.item, upcomingSlider)
+        }
     }
 
     private fun bindNowPlaying(
@@ -160,8 +162,10 @@ class HomeAdapter(
     ) {
         val nowPlaying = items[position] as HomeItem.NowPlaying
         val adapter = NowPlayingMovieAdapter(nowPlayingItems = nowPlaying.items, listener)
-        holder.binding.recyclerViewNowPlaying.adapter = adapter
-        holder.binding.item = nowPlaying
+        holder.binding.apply {
+            recyclerViewNowPlaying.adapter = adapter
+            setVariable(BR.item, nowPlaying)
+        }
     }
 
     private fun bindTvShow(
@@ -175,8 +179,8 @@ class HomeAdapter(
             topRatedTv = tvShow.items.random()
             popularTv = tvShow.items.last()
             onTheAirTv = tvShow.items.last()
-            this.listener = listener
-            this.item = tvShow
+            setVariable(BR.listener, this@HomeAdapter.listener)
+            setVariable(BR.item, tvShow)
         }
     }
 
@@ -187,8 +191,8 @@ class HomeAdapter(
         )
         holder.binding.apply {
             recyclerViewTopRated.adapter = adapter
-            this.item = topRated
-            this.listener = listener
+            setVariable(BR.item, topRated)
+            setVariable(BR.listener, this@HomeAdapter.listener)
         }
     }
 
@@ -199,8 +203,8 @@ class HomeAdapter(
         holder.binding.apply {
             recyclerAiringTvShows.adapter = adapter
             count = airingToday.items.size
-            item = airingToday
-            this.listener = listener
+            setVariable(BR.item, airingToday)
+            setVariable(BR.listener, this@HomeAdapter.listener)
         }
     }
 
@@ -212,8 +216,8 @@ class HomeAdapter(
         val adapter = TrendingMovieAdapter(trending.items, listener)
         holder.binding.apply {
             recyclerViewTrending.adapter = adapter
-            this.item = trending
-            this.listener = listener
+            setVariable(BR.item, trending)
+            setVariable(BR.listener, this@HomeAdapter.listener)
         }
     }
 
@@ -227,7 +231,7 @@ class HomeAdapter(
         )
         holder.binding.apply {
             recyclerViewPopularPeople.adapter = adapter
-            this.item = popularPeople
+            setVariable(BR.item, popularPeople)
         }
     }
 
@@ -239,8 +243,8 @@ class HomeAdapter(
         val adapter = PopularMoviesAdapter(popularMovies.items, listener)
         holder.binding.apply {
             recyclerViewPopularMovies.adapter = adapter
-            this.item = popularMovies
-            this.listener = listener
+            setVariable(BR.item, popularMovies)
+            setVariable(BR.listener, this@HomeAdapter.listener)
         }
     }
 
