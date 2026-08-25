@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEffect>(), HomeAdapterListener {
+class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEffect>(), HomeAdapterListener , HomeListener {
     @Inject
     lateinit var navigator: Navigator
 
@@ -90,11 +90,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEffect
         }
     }
 
-    override fun onMovieClick(id: Int) {
+    override fun onClickMovie(id: Int) {
         viewModel.onEvent(HomeUiEvent.MovieClicked(id))
     }
 
-    override fun onTvShowClick(id: Int) {
+    override fun onClickTvShow(id: Int) {
         viewModel.onEvent(HomeUiEvent.TvShowClicked(id))
     }
 
