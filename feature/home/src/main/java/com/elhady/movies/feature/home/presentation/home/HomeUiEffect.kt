@@ -21,6 +21,6 @@ sealed interface HomeUiEffect {
     ) : HomeUiEffect
 
     data class ShowSnackBar(
-        val message: String
+        val messageRes: Int
     ) : HomeUiEffect
 }

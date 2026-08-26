@@ -16,6 +16,38 @@ sealed class ErrorUiState {
     object EmptyResponse : ErrorUiState()
     data class Server(val code: Int, val serverMessage: String?) : ErrorUiState()
     data class Unknown(val errorMessage: String?) : ErrorUiState()
+
+    val animationRes: Int
+        get() = when (this) {
+            is NoNetwork -> R.raw.no_connection
+            is Timeout -> R.raw.timeout
+            is Unauthorized -> R.raw.no_item_have
+            is Forbidden -> R.raw.no_item_have
+            is BadRequest -> R.raw.no_item_have
+            is Validation -> R.raw.no_item_have
+            is Conflict -> R.raw.no_item_have
+            is NotFound -> R.raw.no_item_have
+            is Server -> R.raw.no_item_have
+            is TooManyRequests -> R.raw.no_item_have
+            is Unknown -> R.raw.no_item_have
+            is EmptyResponse -> R.raw.no_viedo
+        }
+
+    val messageRes: Int
+        get() = when (this) {
+            is NoNetwork -> R.string.no_network_connection
+            is Timeout -> R.string.time_out
+            is Unauthorized -> R.string.unauthorized_error
+            is Forbidden -> R.string.forbidden_error
+            is BadRequest -> R.string.bad_request_error
+            is Validation -> R.string.validation_error
+            is Conflict -> R.string.conflict_error
+            is NotFound -> R.string.not_found_error
+            is EmptyResponse -> R.string.empty_response_error
+            is TooManyRequests -> R.string.too_many_requests_error
+            is Server -> R.string.server_error
+            is Unknown -> R.string.unknown_error
+        }
 }
 
 fun AppException.toErrorUiState(): ErrorUiState {
@@ -34,35 +66,3 @@ fun AppException.toErrorUiState(): ErrorUiState {
         is AppException.Unknown -> ErrorUiState.Unknown(errorMessage = this.errorMessage)
     }
 }
-
-val ErrorUiState.animationRes: Int
-    get() = when (this) {
-        is ErrorUiState.NoNetwork -> R.raw.no_connection
-        is ErrorUiState.Timeout -> R.raw.timeout
-        is ErrorUiState.Unauthorized -> R.raw.no_item_have
-        is ErrorUiState.Forbidden -> R.raw.no_item_have
-        is ErrorUiState.BadRequest -> R.raw.no_item_have
-        is ErrorUiState.Validation -> R.raw.no_item_have
-        is ErrorUiState.Conflict -> R.raw.no_item_have
-        is ErrorUiState.NotFound -> R.raw.no_item_have
-        is ErrorUiState.Server -> R.raw.no_item_have
-        is ErrorUiState.TooManyRequests -> R.raw.no_item_have
-        is ErrorUiState.Unknown -> R.raw.no_item_have
-        is ErrorUiState.EmptyResponse -> R.raw.no_viedo
-    }
-
-val ErrorUiState.messageRes: Int
-    get() = when (this) {
-        is ErrorUiState.NoNetwork -> R.string.no_network_connection
-        is ErrorUiState.Timeout -> R.string.time_out
-        is ErrorUiState.Unauthorized -> R.string.unauthorized_error
-        is ErrorUiState.Forbidden -> R.string.forbidden_error
-        is ErrorUiState.BadRequest -> R.string.bad_request_error
-        is ErrorUiState.Validation -> R.string.validation_error
-        is ErrorUiState.Conflict -> R.string.conflict_error
-        is ErrorUiState.NotFound -> R.string.not_found_error
-        is ErrorUiState.EmptyResponse -> R.string.empty_response_error
-        is ErrorUiState.TooManyRequests -> R.string.too_many_requests_error
-        is ErrorUiState.Server -> R.string.server_error
-        is ErrorUiState.Unknown -> R.string.unknown_error
-    }
