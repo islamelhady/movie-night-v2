@@ -176,7 +176,7 @@ class HomeAdapter(
         if (tvShow.items.isEmpty()) return
         holder.binding.apply {
             airingTodayTv = tvShow.items.first()
-            topRatedTv = tvShow.items.random()
+            topRatedTv = tvShow.items.first()
             popularTv = tvShow.items.last()
             onTheAirTv = tvShow.items.last()
             setVariable(BR.listener, this@HomeAdapter.listener)
