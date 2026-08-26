@@ -1,25 +1,31 @@
 package com.elhady.movies.core.domain.usecase.common
 
 import com.elhady.movies.core.domain.repository.MovieRepository
-import java.util.Date
+import com.elhady.movies.core.domain.utils.Clock
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class RefreshIfNeededUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
-    private val currentDate: Date
+    private val clock: Clock
 ) {
+    private val mutex = Mutex()
+
     suspend operator fun invoke(): Boolean {
-        val lastRefreshTime = movieRepository.getLastRefreshTime()
+        mutex.withLock {
+            val lastRefreshTime = movieRepository.getLastRefreshTime()
+            val currentTime = clock.now()
 
-        if (lastRefreshTime == null ||
-            currentDate.time - lastRefreshTime >= TimeUnit.DAYS.toMillis(1)
-        ) {
-            movieRepository.setLastRefreshTime(currentDate.time)
-            movieRepository.refreshAll()
-            return true
+            if (lastRefreshTime == null ||
+                currentTime - lastRefreshTime >= TimeUnit.DAYS.toMillis(1)
+            ) {
+                movieRepository.refreshAll()
+                movieRepository.setLastRefreshTime(currentTime)
+                return true
+            }
         }
-
         return false
     }
 }

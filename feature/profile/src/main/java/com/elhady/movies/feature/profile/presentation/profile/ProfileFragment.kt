@@ -8,7 +8,6 @@ import androidx.fragment.app.viewModels
 import com.elhady.movies.core.domain.model.account.ListName
 import com.elhady.movies.core.domain.model.account.ListType
 import com.elhady.movies.core.ui.base.BaseFragment
-import com.elhady.movies.core.ui.base.animationRes
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.core.ui.util.loadProfileImage
 import com.elhady.movies.feature.profile.R

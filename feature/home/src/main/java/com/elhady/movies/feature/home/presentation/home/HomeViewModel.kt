@@ -11,7 +11,6 @@ import com.elhady.movies.core.domain.usecase.people.GetPopularPeopleUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetAiringTodayTvUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetTvShowUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
-import com.elhady.movies.core.ui.base.messageRes
 import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.feature.home.presentation.home.mapper.AiringTodayUiMapper
 import com.elhady.movies.feature.home.presentation.home.mapper.NowPlayingUiMapper
@@ -283,15 +282,16 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onError(error: AppException) {
+        val errorUiState = error.toErrorUiState()
         _state.update {
             it.copy(
-                error = error.toErrorUiState()
+                error = errorUiState
             )
         }
 
         sendEffect(
             HomeUiEffect.ShowSnackBar(
-                error.toErrorUiState().messageRes.toString()
+                messageRes = errorUiState.messageRes
             )
         )
     }

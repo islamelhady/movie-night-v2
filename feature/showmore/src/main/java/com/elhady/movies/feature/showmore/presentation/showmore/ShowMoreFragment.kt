@@ -7,7 +7,6 @@ import androidx.fragment.app.viewModels
 import com.elhady.movies.core.common.ShowMoreType
 import com.elhady.movies.core.domain.model.account.ListType
 import com.elhady.movies.core.ui.base.BaseFragment
-import com.elhady.movies.core.ui.base.animationRes
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.showmore.R
 import com.elhady.movies.feature.showmore.databinding.FragmentShowMoreBinding

@@ -3,7 +3,6 @@ package com.elhady.movies.feature.explore.presentation.explore
 import com.elhady.movies.core.domain.usecase.movie.GetTrendingMoviesUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.base.ErrorUiState
-import com.elhady.movies.core.ui.base.messageRes
 import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.feature.explore.presentation.explore.mapper.ExploreTrendingUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel

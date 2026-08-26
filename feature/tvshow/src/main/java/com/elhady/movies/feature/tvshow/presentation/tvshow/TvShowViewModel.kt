@@ -8,10 +8,8 @@ import com.elhady.movies.core.domain.usecase.tvshow.GetAiringTodayTvShowsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetOnTheAirTvShowsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetPopularTvShowsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetTopRatedTvShowsUseCase
-import com.elhady.movies.core.ui.R
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.base.ErrorUiState
-import com.elhady.movies.core.ui.base.messageRes
 import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.feature.tvshow.presentation.tvshow.mapper.TvShowUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
