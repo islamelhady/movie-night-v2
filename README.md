@@ -1,204 +1,368 @@
-<h1 align="center">🎬 Movie Night | Modern Android Application</h1>
+<h1 align="center">Movie Night | Modern Android Application</h1>
+
 <p align="center">
-A production-inspired Android movie discovery application built with Kotlin using
-<b>Multi-Module Clean Architecture</b>, <b>MVI</b>, and modern Android development practices.
+A production-inspired Android application for discovering movies and TV shows, built with
+<b>Kotlin</b>, <b>Clean Architecture</b>, <b>MVVM + UDF</b>,
+and <b>Multi-Module Architecture</b>.
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Platform-Android-green.svg?style=for-the-badge&logo=android" />
   <img src="https://img.shields.io/badge/Kotlin-0095D5?&style=for-the-badge&logo=kotlin&logoColor=white" />
   <img src="https://img.shields.io/badge/Architecture-Clean%20Architecture-orange?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Pattern-MVI-red?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Pattern-MVVM%20%2B%20UDF-blue?style=for-the-badge" />
   <img src="https://img.shields.io/badge/DI-Hilt-yellow?style=for-the-badge&logo=dagger" />
 </p>
 
 ---
 
-# Overview
+##  Overview
 
-**Movie Night** is a modern Android application that allows users to discover, search, and explore movies and TV shows using **The Movie Database (TMDB)** API.
+**Movie Night** is an Android application for discovering, searching, and exploring movies and TV shows using **The Movie Database (TMDB) API**.
 
-The application follows **Google's recommended Android architecture** using **Clean Architecture**, **MVI**, **Repository Pattern**, and **Multi-Module Architecture** to achieve scalability, maintainability, and testability.
+The project is built with a focus on scalable and maintainable Android development using:
 
-# Architecture
+* Clean Architecture
+* MVVM + Unidirectional Data Flow
+* Multi-Module Architecture
+* Repository Pattern
+* Dependency Injection
+* Reactive state management
+* Local data caching
 
-- **Multi-Module Architecture** — separates features and shared components into independent Gradle modules.
-- **Clean Architecture** — organizes the project into Presentation, Domain, and Data layers.
-- **MVI (Model-View-Intent)** — provides predictable UI state management with unidirectional data flow.
-- **Repository Pattern** — abstracts data sources behind a single access point.
-- **Dependency Injection (Hilt)** — manages dependencies across modules.
-- **Offline-first caching** — uses Room to cache data and improve the offline experience.
+The project is organized mainly by feature, with shared core modules that provide common infrastructure and functionality.
 
 ---
 
-#  Features
+##  Features
 
 ###  Movies & TV Shows
-- Browse Trending, Popular, Top Rated, and Upcoming content.
-- Discover Movies by Category and Genres.
-- Integrated YouTube player for trailers.
+
+* Browse Trending, Popular, Top Rated, and Upcoming content
+* Discover movies by categories and genres
+* Explore TV shows
+* Watch movie and TV show trailers
 
 ###  Search
-- Predictive search for Movies, TV Shows, and Actors.
-- Search suggestions and history.
 
-###  Movie Details
-- Comprehensive information: Ratings, Cast, Crew, and Reviews.
-- Similar movies and personalized recommendations.
+* Search for Movies, TV Shows, and Actors
+* Search suggestions
+* Search history
+
+###  Movie & TV Details
+
+* Ratings
+* Cast and Crew
+* Reviews
+* Similar Movies
+* Recommendations
+* Trailers
 
 ###  User Features
-- Secure Authentication and Profile management.
-- Personalized Watchlist and Favorites.
-- Detailed Watch History.
+
+* Authentication
+* Profile management
+* Watchlist
+* Favorites
+* Watch history
 
 ###  UI & UX
-- **Material Design 3** implementation.
-- Full support for **Light and Dark themes**.
-- Smooth animations and responsive layouts.
+
+* Material Design 3
+* Light and Dark themes
+* Responsive layouts
+* Smooth animations
+* Loading and error states
 
 ---
 
-#  Project Structure
+##  Architecture
+
+Movie Night follows:
+
+**MVVM + UDF + Clean Architecture + Multi-Module Architecture**
+
+### Data Flow
+
+```text
+UI
+ ↓
+ViewModel
+ ↓
+UseCase
+ ↓
+Repository
+ ↓
+Data Sources
+ ├── Remote
+ └── Local
+```
+
+The UI observes state exposed by the `ViewModel` and sends user actions back to it.
+
+The application follows a unidirectional flow:
+
+```text
+User Action
+    ↓
+ViewModel
+    ↓
+UseCase
+    ↓
+Repository
+    ↓
+Data Sources
+    ↓
+Repository
+    ↓
+ViewModel
+    ↓
+UI State
+    ↓
+UI
+```
+
+### Architecture Principles
+
+* Separation of concerns
+* Dependency inversion
+* Unidirectional data flow
+* Immutable UI state
+* Feature isolation
+* Composition over unnecessary inheritance
+* Clear dependency direction
+* Testable business logic
+
+---
+
+## Multi-Module Architecture
+
+The project is organized mainly by feature with shared core modules.
 
 ```text
 movie-night
 │
-├── app                 # Application entry point
+├── app
 │
 ├── core
-│   ├── common          # Shared utilities and extensions
-│   ├── data            # Repository implementations
-│   ├── database        # Room database
-│   ├── datastore       # DataStore preferences
-│   ├── domain          # UseCases & repository interfaces
-│   ├── network         # Retrofit & API services
-│   └── ui              # Shared UI components
+│   ├── common
+│   ├── data
+│   ├── database
+│   ├── datastore
+│   ├── domain
+│   ├── network
+│   └── ui
 │
 ├── feature
-│   ├── auth            # Authentication
-│   ├── home            # Home screen
-│   ├── search          # Search
-│   ├── details         # Movie details
-│   ├── explore         # Discover content
-│   ├── watchlist       # Watchlist
-│   ├── player          # Trailer player
-│   ├── profile         # User profile
-│   ├── tvshow          # TV Shows
-│   └── showmore        # Show more content
+│   ├── auth
+│   ├── home
+│   ├── search
+│   ├── details
+│   ├── explore
+│   ├── watchlist
+│   ├── player
+│   ├── profile
+│   ├── tvshow
+│   └── showmore
 │
-└── build-logic         # Convention plugins & Gradle configuration
-
+└── build-logic
 ```
 
-## MVI (Model-View-Intent)
+### Core Modules
 
-MVI ensures a unidirectional data flow, making the UI state predictable and easier to debug.
+| Module           | Responsibility                                     |
+| ---------------- | -------------------------------------------------- |
+| `core:common`    | Shared utilities and extensions                    |
+| `core:data`      | Repository implementations and data coordination   |
+| `core:database`  | Room database and local persistence                |
+| `core:datastore` | DataStore preferences                              |
+| `core:domain`    | Business logic, UseCases, and repository contracts |
+| `core:network`   | Retrofit, OkHttp, and API services                 |
+| `core:ui`        | Shared UI components and resources                 |
 
-```mermaid
-flowchart TD
+### Feature Modules
 
-User([User])
+Each feature is isolated into its own module:
 
-Intent[Intent]
+* `feature:auth`
+* `feature:home`
+* `feature:search`
+* `feature:details`
+* `feature:explore`
+* `feature:watchlist`
+* `feature:player`
+* `feature:profile`
+* `feature:tvshow`
+* `feature:showmore`
 
-VM[ViewModel]
+This structure helps reduce coupling and makes the project easier to maintain and scale.
 
-Reducer[Reducer]
+---
 
-State[UI State]
+##  UI State Management
 
-UI[UI]
+The presentation layer follows **MVVM + UDF**.
 
-User --> Intent
-Intent --> VM
-VM --> Reducer
-Reducer --> State
-State --> UI
-UI --> User
+Persistent screen state is represented using immutable `UiState` models and exposed through `StateFlow`.
+
+One-time events such as navigation, messages, and transient UI effects are handled separately when needed.
+
+Example:
+
+```kotlin
+data class ExploreUiState(
+    val isLoading: Boolean = false,
+    val movies: List<Movie> = emptyList(),
+    val isGridLayout: Boolean = false
+)
 ```
 
----
+The UI does not directly control business logic.
 
-# Tech Stack
+Instead:
 
-- Kotlin
-- XML
-- Clean Architecture
-- Multi-Module
-- MVI
-- Coroutines
-- Flow
-- StateFlow
-- Paging 3
-- Room
-- Retrofit
-- OkHttp
-- Hilt
-- Navigation Component
-- DataStore
-- Coil
+```text
+UI
+ ↓ user action
+ViewModel
+ ↓
+UseCase
+ ↓
+Repository
+```
+
+This keeps the UI layer simple and predictable.
 
 ---
 
-# Light and Dark Theme
+##  Tech Stack
 
-The app supports both **Light** and **Dark** themes, which can be toggled based on system preferences.
+### Language
 
-## Light Theme
-|                                                        |                                                       |                                                     |
-|:------------------------------------------------------:|:-----------------------------------------------------:|:---------------------------------------------------:|
-| <img src="https://i.imgur.com/I300etz.jpg" width="250">  | <img src="https://imgur.com/eFNvTOL.jpg" width="250"> | <img src="https://imgur.com/wd9wTBy.jpg" width="250">   
-| <img src="https://i.imgur.com/MrjJ3iF.jpg" width="250">  | <img src="https://imgur.com/OB3voHY.jpg" width="250"> | <img src="https://imgur.com/cKgotDS.jpg" width="250"> 
-| <img src="https://imgur.com/LLEgoPr.jpg" width="250">  | <img src="https://imgur.com/XJQTOyx.jpg" width="250"> | <img src="https://imgur.com/aOgwh56.jpg" width="250"> 
-| <img src="https://imgur.com/DeNpsd2.jpg" width="250">  | <img src="https://imgur.com/QmtAm5V.jpg" width="250"> | <img src="https://i.imgur.com/zgz9Epj.jpg" width="250">
+* Kotlin
 
-## Dark Theme
+### Android
 
-|                                                        |                                                       |                                                     |
-|:------------------------------------------------------:|:-----------------------------------------------------:|:---------------------------------------------------:|
-| <img src="https://imgur.com/2vv8ded.jpg" width="250">  | <img src="https://imgur.com/8H6AAPD.jpg" width="250">  | <img src="https://imgur.com/qvKkqxR.jpg" width="250">
-| <img src="https://imgur.com/WTbgV6a.jpg" width="250">  | <img src="https://imgur.com/WVngEtv.jpg" width="250"> | <img src="https://imgur.com/BpIrKDd.jpg" width="250"> 
-| <img src="https://imgur.com/hhVs90b.jpg" width="250">  | <img src="https://imgur.com/mVhEejx.jpg" width="250"> | <img src="https://imgur.com/Kbm2rDX.jpg" width="250">
-| <img src="https://imgur.com/3RO4LOQ.jpg" width="250">  | <img src="https://imgur.com/FY923cv.jpg" width="250"> | <img src="https://imgur.com/q9HpB50.jpg" width="250"> 
+* Android SDK
+* XML
+* Material 3
+* Navigation Component
+* ViewModel
+
+### Architecture
+
+* MVVM
+* Unidirectional Data Flow
+* Clean Architecture
+* Repository Pattern
+* Multi-Module Architecture
+
+### Asynchronous Programming
+
+* Kotlin Coroutines
+* Flow
+* StateFlow
+* SharedFlow
+
+### Networking
+
+* Retrofit
+* OkHttp
+
+### Local Storage
+
+* Room
+* DataStore
+
+### Dependency Injection
+
+* Hilt
+
+### Other Libraries
+
+* Paging 3
+* Coil
+
+### API
+
+* TMDB API
+
 ---
 
-#  Getting Started
+##  Screenshots
 
-## Prerequisites
-- Android Studio Koala+
-- JDK 17+
+###  Light Theme
+
+|                                                         |                                                       |                                                         |
+| :-----------------------------------------------------: | :---------------------------------------------------: | :-----------------------------------------------------: |
+| <img src="https://i.imgur.com/I300etz.jpg" width="250"> | <img src="https://imgur.com/eFNvTOL.jpg" width="250"> |  <img src="https://imgur.com/wd9wTBy.jpg" width="250">  |
+| <img src="https://i.imgur.com/MrjJ3iF.jpg" width="250"> | <img src="https://imgur.com/OB3voHY.jpg" width="250"> |  <img src="https://imgur.com/cKgotDS.jpg" width="250">  |
+|  <img src="https://imgur.com/LLEgoPr.jpg" width="250">  | <img src="https://imgur.com/XJQTOyx.jpg" width="250"> |  <img src="https://imgur.com/aOgwh56.jpg" width="250">  |
+|  <img src="https://imgur.com/DeNpsd2.jpg" width="250">  | <img src="https://imgur.com/QmtAm5V.jpg" width="250"> | <img src="https://i.imgur.com/zgz9Epj.jpg" width="250"> |
+
+###  Dark Theme
+
+|                                                       |                                                       |                                                       |
+| :---------------------------------------------------: | :---------------------------------------------------: | :---------------------------------------------------: |
+| <img src="https://imgur.com/2vv8ded.jpg" width="250"> | <img src="https://imgur.com/8H6AAPD.jpg" width="250"> | <img src="https://imgur.com/qvKkqxR.jpg" width="250"> |
+| <img src="https://imgur.com/WTbgV6a.jpg" width="250"> | <img src="https://imgur.com/WVngEtv.jpg" width="250"> | <img src="https://imgur.com/BpIrKDd.jpg" width="250"> |
+| <img src="https://imgur.com/hhVs90b.jpg" width="250"> | <img src="https://imgur.com/mVhEejx.jpg" width="250"> | <img src="https://imgur.com/Kbm2rDX.jpg" width="250"> |
+| <img src="https://imgur.com/3RO4LOQ.jpg" width="250"> | <img src="https://imgur.com/FY923cv.jpg" width="250"> | <img src="https://imgur.com/q9HpB50.jpg" width="250"> |
+
+---
+
+##  Getting Started
+
+### Prerequisites
+
+* Android Studio Koala or newer
+* JDK 17+
+* TMDB API key
 
 ## Setup
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/islamelhady/movie-night-v2.git
-   ```
 
-2. **Configure TMDB API**:
-   Create a `local.properties` file in the root directory and add:
-   ```properties
-   API_KEY=YOUR_API_KEY
-   BASE_URL=https://api.themoviedb.org/3/
-   IMAGE_BASE_PATH=https://image.tmdb.org/t/p/
-   TMDB_SIGNUP_URL=https://www.themoviedb.org/signup
-   ```
-   *Obtain your key at [developer.themoviedb.org](https://developer.themoviedb.org/)*
+### 1. Clone the repository
 
-3. **Build & Run**:
-   Open in Android Studio, sync Gradle, and press **Run**.
+```bash
+git clone https://github.com/islamelhady/movie-night-v2.git
+```
+
+### 2. Configure TMDB
+
+Create a `local.properties` file in the project root:
+
+```properties
+API_KEY=YOUR_API_KEY
+BASE_URL=https://api.themoviedb.org/3/
+IMAGE_BASE_PATH=https://image.tmdb.org/t/p/
+TMDB_SIGNUP_URL=https://www.themoviedb.org/signup
+```
+
+Get your API key from the TMDB developer portal.
+
+### 3. Build and Run
+
+Open the project in Android Studio, sync Gradle, and run the application.
 
 ---
 
-#  Author
+##  Author
 
 **Islam Elhady**
-Android Developer
 
-- **GitHub**: [islamelhady](https://github.com/islamelhady)
-- **LinkedIn**: [islam-elhady](https://www.linkedin.com/in/islam-elhady/)
+Android Developer specializing in Kotlin and modern Android Development.
+
+* LinkedIn: [islam elhady](https://www.linkedin.com/in/islamelhady)
 
 ---
 
-#  Support
-If you found this project helpful, consider giving it a ⭐ on GitHub!
+##  Support
+
+If you find this project useful or interesting, consider giving it a ⭐ on GitHub.
+
+---
+
+## License
+
+This project is developed for educational and portfolio purposes.
 
