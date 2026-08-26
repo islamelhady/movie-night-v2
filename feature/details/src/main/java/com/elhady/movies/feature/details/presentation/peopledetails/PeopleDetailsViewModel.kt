@@ -2,14 +2,11 @@ package com.elhady.movies.feature.details.presentation.peopledetails
 
 import androidx.lifecycle.SavedStateHandle
 import com.elhady.movies.core.common.AppException
-import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.domain.usecase.people.GetMoviesByPersonUseCase
 import com.elhady.movies.core.domain.usecase.people.GetPeopleDetailsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetTvShowsByPersonUseCase
-import com.elhady.movies.core.ui.base.ErrorUiState
-import com.elhady.movies.core.ui.base.messageRes
+import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.base.toErrorUiState
-import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.details.presentation.peopledetails.mapper.MoviesByPeopleUiMapper
 import com.elhady.movies.feature.details.presentation.peopledetails.mapper.PeopleDataUiMapper
 import com.elhady.movies.feature.details.presentation.peopledetails.mapper.TvShowsByPeopleUiMapper

@@ -11,9 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.elhady.movies.core.ui.base.BaseFragment
-import com.elhady.movies.core.ui.base.animationRes
 import com.elhady.movies.core.ui.navigation.Navigator
-import com.elhady.movies.feature.explore.BR
 import com.elhady.movies.feature.explore.R
 import com.elhady.movies.feature.explore.databinding.FragmentExploreBinding
 import com.elhady.movies.feature.explore.presentation.explore.adapter.ExploreAdapter

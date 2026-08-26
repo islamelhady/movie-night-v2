@@ -2,11 +2,9 @@ package com.elhady.movies.feature.details.presentation.seasondetails
 
 import androidx.lifecycle.SavedStateHandle
 import com.elhady.movies.core.common.AppException
-import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.domain.usecase.tvshow.GetSeasonDetailsUseCase
-import com.elhady.movies.core.ui.base.messageRes
+import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.base.toErrorUiState
-import com.elhady.movies.feature.details.presentation.episodedetails.EpisodeListener
 import com.elhady.movies.feature.details.presentation.seasondetails.mapper.SeasonDetailsUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update

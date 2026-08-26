@@ -9,7 +9,6 @@ import android.view.WindowManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.elhady.movies.core.ui.base.BaseFragment
-import com.elhady.movies.core.ui.base.animationRes
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.player.R
 import com.elhady.movies.feature.player.databinding.FragmentPlayerBinding
