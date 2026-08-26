@@ -6,11 +6,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
-import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import com.elhady.movies.feature.auth.BuildConfig
-import com.elhady.movies.feature.auth.BR
 import com.elhady.movies.feature.auth.R
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.feature.auth.databinding.FragmentLoginBinding
@@ -21,7 +18,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class LoginFragment : BaseFragment<FragmentLoginBinding, LoginUiState, LoginUiEffect>() {
+class LoginFragment : BaseFragment<FragmentLoginBinding, LoginUiState, LoginUiEffect>(), LoginListener {
 
     @Inject
     lateinit var navigator: Navigator
@@ -31,31 +28,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginUiState, LoginUiEf
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setListeners()
+        binding.listener = this
         handleKeyboardAppearanceEvent()
     }
 
-    private fun setListeners() {
-        binding.edittextUsername.editText?.addTextChangedListener {
-            viewModel.onEvent(LoginUiEvent.UsernameChanged(it.toString()))
-        }
-        binding.edittextPassword.editText?.addTextChangedListener {
-            viewModel.onEvent(LoginUiEvent.PasswordChanged(it.toString()))
-        }
-        binding.buttonLogin.setOnClickListener {
-            viewModel.onEvent(LoginUiEvent.LoginClicked)
-        }
-        binding.textviewSignup.setOnClickListener {
-            viewModel.onEvent(LoginUiEvent.SignUpClicked)
-        }
-    }
-
     override fun render(state: LoginUiState) {
-        binding.progressBar.isVisible = state.isLoading
-        binding.buttonLogin.isVisible = !state.isLoading
-
-        binding.edittextUsername.error = state.usernameError
-        binding.edittextPassword.error = state.passwordError
+        binding.state = state
     }
 
     private fun handleKeyboardAppearanceEvent() {
@@ -106,7 +84,22 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginUiState, LoginUiEf
                 binding.root.hideKeyboard()
                 showSnackBar(effect.message)
             }
-
         }
+    }
+
+    override fun onUsernameChanged(username: String) {
+        viewModel.onEvent(LoginUiEvent.UsernameChanged(username))
+    }
+
+    override fun onPasswordChanged(password: String) {
+        viewModel.onEvent(LoginUiEvent.PasswordChanged(password))
+    }
+
+    override fun onLoginClicked() {
+        viewModel.onEvent(LoginUiEvent.LoginClicked)
+    }
+
+    override fun onSignUpClicked() {
+        viewModel.onEvent(LoginUiEvent.SignUpClicked)
     }
 }

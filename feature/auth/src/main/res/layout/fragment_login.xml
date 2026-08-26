@@ -2,6 +2,17 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="state"
+            type="com.elhady.movies.feature.auth.presentation.login.LoginUiState" />
+
+        <variable
+            name="listener"
+            type="com.elhady.movies.feature.auth.presentation.login.LoginListener" />
+
+    </data>
 
     <androidx.constraintlayout.motion.widget.MotionLayout
         android:id="@+id/login_motion_layout"
@@ -69,11 +80,13 @@
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:passwordToggleDrawable="@drawable/selector_password_icon"
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/on_background_60">
+            app:passwordToggleTint="@color/on_background_60"
+            app:setTipError="@{state.passwordError}">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:afterTextChanged="@{(text) -> listener.onPasswordChanged(text.toString())}"
                 android:background="@drawable/edittext_background"
                 android:inputType="textPassword"
                 android:maxLines="1"
@@ -92,11 +105,13 @@
             android:layout_marginTop="@dimen/spacing_tiny_4dp"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/textview_username">
+            app:layout_constraintTop_toBottomOf="@+id/textview_username"
+            app:setTipError="@{state.usernameError}">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:afterTextChanged="@{(text) -> listener.onUsernameChanged(text.toString())}"
                 android:background="@drawable/edittext_background"
                 android:inputType="textPersonName"
                 android:maxLines="1"
@@ -126,7 +141,7 @@
             android:indeterminate="true"
             android:indeterminateTint="@color/primary"
             android:indeterminateTintMode="src_atop"
-            android:visibility="gone"
+            app:isVisibleOrGone="@{state.isLoading}"
             app:layout_constraintBottom_toBottomOf="@+id/button_login"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -140,6 +155,8 @@
             android:layout_marginHorizontal="@dimen/spacing_medium_16dp"
             android:layout_marginTop="@dimen/spacing_giant_32dp"
             android:text="@string/login"
+            android:onClick="@{() -> listener.onLoginClicked()}"
+            app:isVisible="@{!state.isLoading}"
             app:layout_constraintTop_toBottomOf="@+id/edittext_password" />
 
         <TextView
@@ -163,6 +180,7 @@
             android:layout_marginStart="@dimen/spacing_tiny_4dp"
             android:text="@string/signup"
             android:textColor="@color/primary"
+            android:onClick="@{() -> listener.onSignUpClicked()}"
             app:layout_constraintBottom_toBottomOf="@+id/textview_do_u_have_account"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textview_do_u_have_account"

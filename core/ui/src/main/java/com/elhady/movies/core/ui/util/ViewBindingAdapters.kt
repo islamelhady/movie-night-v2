@@ -9,6 +9,7 @@ import androidx.databinding.BindingAdapter
 import com.elhady.movies.core.ui.R
 import com.elhady.movies.core.ui.base.ErrorUiState
 import com.google.android.material.progressindicator.LinearProgressIndicator
+import com.google.android.material.textfield.TextInputLayout
 
 @BindingAdapter(value = ["app:genres"])
 fun setGenres(textView: TextView, genres: List<String>?){
@@ -42,6 +43,11 @@ fun View.hideWhenNotLoggedIn(hideWhenNotLoggedIn: Boolean?) {
     } else {
         this.visibility = View.INVISIBLE
     }
+}
+
+@BindingAdapter("app:setTipError")
+fun TextInputLayout.setTipError(errorMessage: String?) {
+    error = errorMessage
 }
 
 @BindingAdapter("app:setTipError")
