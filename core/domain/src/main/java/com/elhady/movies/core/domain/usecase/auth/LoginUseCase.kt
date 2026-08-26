@@ -9,23 +9,17 @@ class LoginUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(username: String, password: String): LoginError {
         val inputErrors = getIsValidLoginUseCase(username, password)
-        return if (inputErrors != LoginError.NO_INPUT_ERRORS) {
-            inputErrors
-        } else {
-            try {
-                authRepository.login(username, password)
-                LoginError.SUCCESS
-            } catch (_: Throwable) {
-                LoginError.REQUEST_ERROR
-            }
+        if (inputErrors != LoginError.NO_INPUT_ERRORS) {
+            return inputErrors
         }
+        authRepository.login(username, password)
+        return LoginError.SUCCESS
     }
 }
 
 enum class LoginError {
     USER_NAME_ERROR,
     PASSWORD_ERROR,
-    REQUEST_ERROR,
     NO_INPUT_ERRORS,
     SUCCESS
 }
