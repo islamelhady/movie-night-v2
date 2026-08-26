@@ -1,65 +1,75 @@
 package com.elhady.movies.core.data.repository
 
-import com.elhady.movies.core.data.base.BaseRepository
-import com.elhady.movies.core.data.mapper.people.LocalPopularPeopleMapper
-import com.elhady.movies.core.data.mapper.people.DomainMoviesByPeopleMapper
-import com.elhady.movies.core.data.mapper.people.DomainPeopleDetailsMapper
-import com.elhady.movies.core.data.mapper.people.DomainPeopleMapper
-import com.elhady.movies.core.data.mapper.people.DomainPeopleRemoteMapper
-import com.elhady.movies.core.data.mapper.people.DomainTvShowsByPeopleMapper
-import com.elhady.movies.core.database.MovieDao
-import com.elhady.movies.core.domain.model.movie.MovieEntity
-import com.elhady.movies.core.domain.model.people.PeopleDetailsEntity
-import com.elhady.movies.core.domain.model.people.PeopleEntity
-import com.elhady.movies.core.domain.model.tvshow.TvShowEntity
+import androidx.room.withTransaction
+import com.elhady.movies.core.data.mapper.people.PopularPeopleDtoToEntityMapper
+import com.elhady.movies.core.data.mapper.people.MovieByPeopleDtoMapper
+import com.elhady.movies.core.data.mapper.people.PeopleDetailsDtoMapper
+import com.elhady.movies.core.data.mapper.people.PopularPeopleEntityMapper
+import com.elhady.movies.core.data.mapper.people.PeopleDtoMapper
+import com.elhady.movies.core.data.mapper.people.TvShowCastDtoMapper
+import com.elhady.movies.core.database.dao.PeopleDao
+import com.elhady.movies.core.database.db.MovieDatabase
+import com.elhady.movies.core.domain.model.movie.Movie
+import com.elhady.movies.core.domain.model.people.PeopleDetails
+import com.elhady.movies.core.domain.model.people.People
+import com.elhady.movies.core.domain.model.tvshow.TvShow
 import com.elhady.movies.core.domain.repository.PeopleRepository
 import com.elhady.movies.core.network.api.PeopleApiService
+import com.elhady.movies.core.network.exception.SafeApiCaller
 import java.util.Random
 import javax.inject.Inject
 
 class PeopleRepositoryImpl @Inject constructor(
     private val peopleApiService: PeopleApiService,
-    private val movieDao: MovieDao,
-    private val domainPeopleMapper: DomainPeopleMapper,
-    private val domainPeopleRemoteMapper: DomainPeopleRemoteMapper,
-    private val localPopularPeopleMapper: LocalPopularPeopleMapper,
-    private val domainPeopleDetailsMapper: DomainPeopleDetailsMapper,
-    private val domainMoviesByPeopleMapper: DomainMoviesByPeopleMapper,
-    private val tvShowsByPeopleMapper: DomainTvShowsByPeopleMapper,
-    private val random: Random
-) : BaseRepository(), PeopleRepository {
+    private val peopleDao: PeopleDao,
+    private val popularPeopleEntityMapper: PopularPeopleEntityMapper,
+    private val peopleDtoMapper: PeopleDtoMapper,
+    private val popularPeopleDtoToEntityMapper: PopularPeopleDtoToEntityMapper,
+    private val peopleDetailsDtoMapper: PeopleDetailsDtoMapper,
+    private val movieByPeopleDtoMapper: MovieByPeopleDtoMapper,
+    private val tvShowCastDtoMapper: TvShowCastDtoMapper,
+    private val random: Random,
+    private val safeApiCaller: SafeApiCaller,
+    private val database: MovieDatabase
+) : PeopleRepository {
 
-    override suspend fun getPopularPeopleFromDatabase(): List<PeopleEntity> {
-        return domainPeopleMapper.map(movieDao.getPopularPeople())
+    override suspend fun getPopularPeopleFromDatabase(): List<People> {
+        return popularPeopleEntityMapper.map(peopleDao.getPopularPeople())
     }
 
-    override suspend fun getPopularPeopleFromRemote(): List<PeopleEntity> {
+    override suspend fun getPopularPeopleFromRemote(): List<People> {
         val page = random.nextInt(20) + 1
         val call =
-            wrapApiCall { peopleApiService.getPopularPeople(page = page) }.results?.filterNotNull()
+            safeApiCaller.execute { peopleApiService.getPopularPeople(page = page) }.results?.filterNotNull()
                 ?: emptyList()
-        return domainPeopleRemoteMapper.map(call)
+        return peopleDtoMapper.map(call)
     }
 
     override suspend fun refreshPopularPeople() {
-        refreshWrapper(
-            { peopleApiService.getPopularPeople(random.nextInt(20) + 1) },
-            localPopularPeopleMapper::map,
-            movieDao::insertPopularPeople,
-            clearOldLocalData = movieDao::clearAllPopularPeople
-        )
+//        refreshWrapper(
+//            { peopleApiService.getPopularPeople(random.nextInt(20) + 1) },
+//            popularPeopleDtoToEntityMapper::map,
+//            peopleDao::insertPopularPeople,
+//            clearOldLocalData = peopleDao::clearAllPopularPeople
+//        )
+        val response = safeApiCaller.execute { peopleApiService.getPopularPeople(random.nextInt(20) + 1) }
+        database.withTransaction {
+            peopleDao.clearAllPopularPeople()
+            val popularPeople = response.results?.filterNotNull()?.map(popularPeopleDtoToEntityMapper::map).orEmpty()
+            peopleDao.insertPopularPeople(popularPeople)
+        }
     }
 
-    override suspend fun getPersonDetails(personId: Int): PeopleDetailsEntity {
-        return domainPeopleDetailsMapper.map(wrapApiCall { peopleApiService.getPerson(personId) })
+    override suspend fun getPersonDetails(personId: Int): PeopleDetails {
+        return peopleDetailsDtoMapper.map(safeApiCaller.execute { peopleApiService.getPerson(personId) })
     }
 
-    override suspend fun getMoviesByPerson(personId: Int): List<MovieEntity> {
-        return domainMoviesByPeopleMapper.map(wrapApiCall { peopleApiService.getMoviesByPerson(personId) }.cast!!.filterNotNull())
+    override suspend fun getMoviesByPerson(personId: Int): List<Movie> {
+        return movieByPeopleDtoMapper.map(safeApiCaller.execute { peopleApiService.getMoviesByPerson(personId) }.cast!!.filterNotNull())
     }
 
-    override suspend fun getTvShowsByPerson(personId: Int): List<TvShowEntity> {
-        return tvShowsByPeopleMapper.map(wrapApiCall {
+    override suspend fun getTvShowsByPerson(personId: Int): List<TvShow> {
+        return tvShowCastDtoMapper.map(safeApiCaller.execute {
             peopleApiService.getTvShowsByPerson(personId)
         }.cast!!.filterNotNull())
     }

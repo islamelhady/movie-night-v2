@@ -1,34 +1,34 @@
 package com.elhady.movies.core.domain.repository
 
 import androidx.paging.Pager
-import com.elhady.movies.core.domain.model.movie.MovieEntity
-import com.elhady.movies.core.domain.model.common.StatusEntity
-import com.elhady.movies.core.domain.model.account.UserListEntity
-import com.elhady.movies.core.domain.model.account.ListCreatedEntity
-import com.elhady.movies.core.domain.model.account.MyRatedMovieEntity
-import com.elhady.movies.core.domain.model.account.MyRatedTvShowEntity
+import com.elhady.movies.core.domain.model.movie.Movie
+import com.elhady.movies.core.domain.model.common.Status
+import com.elhady.movies.core.domain.model.account.UserList
+import com.elhady.movies.core.domain.model.account.ListCreated
+import com.elhady.movies.core.domain.model.account.MyRatedMovie
+import com.elhady.movies.core.domain.model.account.MyRatedTvShow
 
 interface AccountRepository {
-    suspend fun getUserLists(): List<UserListEntity>
-    suspend fun postUserLists(listId: Int, mediaId: Int): StatusEntity
-    suspend fun createUserList(listName: String): StatusEntity
+    suspend fun getUserLists(): List<UserList>
+    suspend fun postUserLists(listId: Int, mediaId: Int): Status
+    suspend fun createUserList(listName: String): Status
 
-    suspend fun getFavoriteMovies(): List<MovieEntity>
-    suspend fun getFavoriteTv(): List<MovieEntity>
-    suspend fun getWatchlistMovies(): List<MovieEntity>
-    suspend fun getWatchlistTv(): List<MovieEntity>
+    suspend fun getFavoriteMovies(): List<Movie>
+    suspend fun getFavoriteTv(): List<Movie>
+    suspend fun getWatchlistMovies(): List<Movie>
+    suspend fun getWatchlistTv(): List<Movie>
 
     suspend fun addList(name: String): Boolean
-    suspend fun getDetailsList(listId: Int): List<MovieEntity>
-    suspend fun deleteMovieDetailsList(listId: Int, mediaId: Int): StatusEntity
-    suspend fun deleteList(listId: Int): StatusEntity
-    suspend fun getListCreated(): List<ListCreatedEntity>
+    suspend fun getDetailsList(listId: Int): List<Movie>
+    suspend fun deleteMovieDetailsList(listId: Int, mediaId: Int): Status
+    suspend fun deleteList(listId: Int): Status
+    suspend fun getListCreated(): List<ListCreated>
 
-    suspend fun addWatchlist(mediaId: Int, mediaType: String, isWatchList: Boolean): StatusEntity
-    suspend fun addFavouriteList(mediaId: Int, mediaType: String, isFavourite: Boolean): StatusEntity
+    suspend fun addWatchlist(mediaId: Int, mediaType: String, isWatchList: Boolean): Status
+    suspend fun addFavouriteList(mediaId: Int, mediaType: String, isFavourite: Boolean): Status
 
-    suspend fun setMovieRate(movieId: Int, rate: Float): StatusEntity
-    suspend fun getMovieRate(): List<MyRatedMovieEntity>
-    suspend fun getRatedMovies(): Pager<Int, MyRatedMovieEntity>
-    suspend fun getRatedTvShows(): Pager<Int, MyRatedTvShowEntity>
+    suspend fun setMovieRate(movieId: Int, rate: Float): Status
+    suspend fun getMovieRate(): List<MyRatedMovie>
+    suspend fun getRatedMovies(): Pager<Int, MyRatedMovie>
+    suspend fun getRatedTvShows(): Pager<Int, MyRatedTvShow>
 }

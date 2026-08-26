@@ -1,68 +1,68 @@
 package com.elhady.movies.core.domain.repository
 
 import androidx.paging.Pager
-import com.elhady.movies.core.domain.model.tvshow.EpisodeDetailsEntity
-import com.elhady.movies.core.domain.model.people.PeopleEntity
-import com.elhady.movies.core.domain.model.tvshow.RatingEpisodeDetailsStatusEntity
-import com.elhady.movies.core.domain.model.tvshow.SeasonEntity
-import com.elhady.movies.core.domain.model.common.StatusEntity
-import com.elhady.movies.core.domain.model.tvshow.TVShowsEntity
-import com.elhady.movies.core.domain.model.tvshow.TvShowEntity
-import com.elhady.movies.core.domain.model.common.YoutubeVideoDetailsEntity
-import com.elhady.movies.core.domain.model.account.MyRatedTvShowEntity
-import com.elhady.movies.core.domain.model.common.ReviewEntity
-import com.elhady.movies.core.domain.model.tvshow.SeasonDetailsEntity
-import com.elhady.movies.core.domain.model.tvshow.TvDetailsInfoEntity
+import com.elhady.movies.core.domain.model.tvshow.EpisodeDetails
+import com.elhady.movies.core.domain.model.people.People
+import com.elhady.movies.core.domain.model.tvshow.RatingEpisodeDetailsStatus
+import com.elhady.movies.core.domain.model.tvshow.Season
+import com.elhady.movies.core.domain.model.common.Status
+import com.elhady.movies.core.domain.model.tvshow.TvShows
+import com.elhady.movies.core.domain.model.tvshow.TvShow
+import com.elhady.movies.core.domain.model.common.YoutubeVideoDetails
+import com.elhady.movies.core.domain.model.account.MyRatedTvShow
+import com.elhady.movies.core.domain.model.common.Review
+import com.elhady.movies.core.domain.model.tvshow.SeasonDetails
+import com.elhady.movies.core.domain.model.tvshow.TvDetailsInfo
 
 interface TvShowRepository {
     suspend fun refreshTvShows()
-    suspend fun getTvShowsFromDatabase(): List<TVShowsEntity>
+    suspend fun getTvShowsFromDatabase(): List<TvShows>
     suspend fun refreshAiringTodayTvShows()
-    suspend fun getAiringTodayTvShowsFromDatabase(): List<TVShowsEntity>
-    suspend fun getAiringTodayTVShowsFromRemote(): List<TVShowsEntity>
-    suspend fun getAiringTodayTVShowsPager(): Pager<Int, TVShowsEntity>
-    suspend fun getTopRatedTVShowsPager(): Pager<Int, TVShowsEntity>
-    suspend fun getPopularTVShowsPager(): Pager<Int, TVShowsEntity>
-    suspend fun getOnTheAirTVShowsPager(): Pager<Int, TVShowsEntity>
+    suspend fun getAiringTodayTvShowsFromDatabase(): List<TvShows>
+    suspend fun getAiringTodayTvShowsFromRemote(): List<TvShows>
+    suspend fun getAiringTodayTvShowsPager(): Pager<Int, TvShows>
+    suspend fun getTopRatedTvShowsPager(): Pager<Int, TvShows>
+    suspend fun getPopularTvShowsPager(): Pager<Int, TvShows>
+    suspend fun getOnTheAirTvShowsPager(): Pager<Int, TvShows>
 
-    suspend fun getSeasonDetails(seriesId: Int, seasonId: Int): SeasonDetailsEntity
+    suspend fun getSeasonDetails(seriesId: Int, seasonId: Int): SeasonDetails
 
-    suspend fun getTvDetailsInfo(tvShowID: Int): TvDetailsInfoEntity
-    suspend fun getTvDetailsSeasons(tvShowID: Int): List<SeasonEntity>
-    suspend fun getTvDetailsCredit(tvShowID: Int): List<PeopleEntity>
-    suspend fun rateTvShow(rate: Double, tvShowID: Int): StatusEntity
-    suspend fun getRateTvShow(): List<MyRatedTvShowEntity>
+    suspend fun getTvDetailsInfo(tvShowID: Int): TvDetailsInfo
+    suspend fun getTvDetailsSeasons(tvShowID: Int): List<Season>
+    suspend fun getTvDetailsCast(tvShowID: Int): List<People>
+    suspend fun rateTvShow(rate: Double, tvShowID: Int): Status
+    suspend fun getRateTvShow(): List<MyRatedTvShow>
 
-    suspend fun getTvShowReviews(tvShowID: Int): List<ReviewEntity>
-    suspend fun getTvShowRecommendations(tvShowID: Int): List<TvShowEntity>
-    suspend fun getTrailerVideoForTvShow(tvShowID: Int): YoutubeVideoDetailsEntity
+    suspend fun getTvShowReviews(tvShowID: Int): List<Review>
+    suspend fun getTvShowRecommendations(tvShowID: Int): List<TvShow>
+    suspend fun getTrailerVideoForTvShow(tvShowID: Int): YoutubeVideoDetails
 
     suspend fun getVideoEpisodeDetails(
         seriesId: Int,
         seasonNumber: Int,
         episodeNumber: Int
-    ): YoutubeVideoDetailsEntity
+    ): YoutubeVideoDetails
 
     suspend fun getCastForEpisode(
         id: Int,
         seasonNumber: Int,
         episodeNumber: Int
-    ): List<PeopleEntity>
+    ): List<People>
 
     suspend fun getEpisodeDetails(
         seriesId: Int,
         seasonNumber: Int,
         episodeNumber: Int
-    ): EpisodeDetailsEntity
+    ): EpisodeDetails
 
     suspend fun setRatingForEpisode(
         seriesId: Int,
         seasonNumber: Int,
         episodeNumber: Int,
         value: Float
-    ): RatingEpisodeDetailsStatusEntity
+    ): RatingEpisodeDetailsStatus
 
-    suspend fun getRatedTvShows(): Pager<Int, MyRatedTvShowEntity>
+    suspend fun getRatedTvShows(): Pager<Int, MyRatedTvShow>
 
-    suspend fun getTvShowsByPerson(personId: Int): List<TvShowEntity>
+    suspend fun getTvShowsByPerson(personId: Int): List<TvShow>
 }

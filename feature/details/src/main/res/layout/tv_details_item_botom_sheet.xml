@@ -3,17 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
-            name="viewModel"
-            type="com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsViewModel" />
+            name="listener"
+            type="com.elhady.movies.feature.details.presentation.tvdetails.listener.BottomSheetDismissListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/background"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_bottom_sheet">
+        app:shapeAppearanceOverlay="@style/shape_appearance_overlay_bottom_sheet">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,7 +57,7 @@
                 android:numStars="5"
                 android:stepSize="1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chip_group_genere"
+                app:layout_constraintTop_toBottomOf="@+id/chip_group_genre"
                 />
 
             <com.google.android.material.button.MaterialButton

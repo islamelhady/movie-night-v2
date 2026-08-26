@@ -3,21 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="state"
+            type="com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsUiState" />
 
         <variable
-            name="item"
-            type="com.elhady.movies.feature.details.presentation.ui.moviedetails.adapter.MovieDetailsItem.Upper" />
-
-        <variable
-            name="viewModel"
-            type="com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsViewModel" />
+            name="listener"
+            type="com.elhady.movies.feature.details.presentation.tvdetails.listener.BottomSheetDismissListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/background"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_bottom_sheet">
+        app:shapeAppearanceOverlay="@style/shape_appearance_overlay_bottom_sheet">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,8 +60,9 @@
                 android:layout_marginTop="16dp"
                 android:numStars="5"
                 android:stepSize="1"
+                android:rating="@{state.userRating / 2}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chip_group_genere" />
+                app:layout_constraintTop_toBottomOf="@+id/chip_group_genre" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_apply"

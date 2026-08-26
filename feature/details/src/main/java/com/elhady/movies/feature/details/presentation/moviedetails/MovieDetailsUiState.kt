@@ -1,22 +1,22 @@
 package com.elhady.movies.feature.details.presentation.moviedetails
 
-import com.elhady.movies.core.ui.model.MediaVerticalUIState
-import com.elhady.movies.core.ui.model.PeopleUIState
-import com.elhady.movies.core.ui.model.UserListUi
+import com.elhady.movies.core.ui.state.MediaVerticalUiState
+import com.elhady.movies.core.ui.state.PeopleUiState
+import com.elhady.movies.core.ui.state.UserListUiState
 
 
 data class MovieDetailsUiState(
     val id: Int = 0,
     val movieUiState: UpperUiState = UpperUiState(),
-    val recommendedUiState: List<MediaVerticalUIState> = emptyList(),
-    val castUiState: List<PeopleUIState> = emptyList(),
+    val recommendedUiState: List<MediaVerticalUiState> = emptyList(),
+    val castUiState: List<PeopleUiState> = emptyList(),
     val reviewUiState: List<ReviewUiState> = emptyList(),
     val reviewsDetails: ReviewDetailsUiState = ReviewDetailsUiState(),
     val onErrors: List<String> = emptyList(),
     val isLoading: Boolean = false,
     val isLogin: Boolean = false,
     val userRating: Float = 5f,
-    val userLists: List<UserListUi> = emptyList(),
+    val userLists: List<UserListUiState> = emptyList(),
     val userSelectedLists: List<Int> = emptyList()
 ){
     val isFailure: Boolean = onErrors.isNotEmpty()

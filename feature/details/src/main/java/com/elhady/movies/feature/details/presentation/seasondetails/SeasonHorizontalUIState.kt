@@ -1,6 +1,6 @@
 package com.elhady.movies.feature.details.presentation.seasondetails
 
-data class SeasonHorizontalUIState(
+data class SeasonHorizontalUiState(
     val id: Int = 0,
     val imageUrl: String = "",
     val title: String = "",

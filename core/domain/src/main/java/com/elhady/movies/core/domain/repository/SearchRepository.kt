@@ -1,8 +1,8 @@
 package com.elhady.movies.core.domain.repository
 
-import com.elhady.movies.core.domain.model.movie.MovieEntity
-import com.elhady.movies.core.domain.model.people.PeopleEntity
-import com.elhady.movies.core.domain.model.tvshow.TvEntity
+import com.elhady.movies.core.domain.model.movie.Movie
+import com.elhady.movies.core.domain.model.people.People
+import com.elhady.movies.core.domain.model.tvshow.Tv
 
 interface SearchRepository {
     suspend fun getSearchHistory(keyword: String): List<String>
@@ -11,7 +11,7 @@ interface SearchRepository {
     suspend fun clearAllSearchHistory()
     suspend fun deleteSearchHistory(keyword: String)
 
-    suspend fun searchForMovies(keyword: String): List<MovieEntity>
-    suspend fun searchForTv(keyword: String): List<TvEntity>
-    suspend fun searchForPeople(keyword: String): List<PeopleEntity>
+    suspend fun searchForMovies(keyword: String): List<Movie>
+    suspend fun searchForTv(keyword: String): List<Tv>
+    suspend fun searchForPeople(keyword: String): List<People>
 }

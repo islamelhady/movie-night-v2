@@ -6,11 +6,16 @@ interface PreferenceStorage : UserDataProvider {
     override val sessionId: String?
     val currentUserName: String?
     val lastRefreshTime: Long?
+
+    val isDarkTheme: Boolean?
+
     suspend fun setSessionId(sessionId: String)
 
     suspend fun setCurrentUserName(currentUserName: String)
 
     suspend fun setLastRefreshTime(lastRefreshTime: Long)
+
+    suspend fun setDarkTheme(isDark: Boolean)
 
     suspend fun clearPreferenceStorage()
 }

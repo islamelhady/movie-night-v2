@@ -1,37 +1,37 @@
 package com.elhady.movies.core.domain.repository
 
 import androidx.paging.Pager
-import com.elhady.movies.core.domain.model.movie.MovieEntity
-import com.elhady.movies.core.domain.model.movie.MovieDetailsEntity
-import com.elhady.movies.core.domain.model.movie.ReviewResponseEntity
-import com.elhady.movies.core.domain.model.common.YoutubeVideoDetailsEntity
+import com.elhady.movies.core.domain.model.movie.Movie
+import com.elhady.movies.core.domain.model.movie.MovieDetails
+import com.elhady.movies.core.domain.model.movie.ReviewResponse
+import com.elhady.movies.core.domain.model.common.YoutubeVideoDetails
 
 interface MovieRepository {
 
     // Discovery / Popular / Trending Movies
-    suspend fun getPopularMoviesPaging(): Pager<Int, MovieEntity>
-    suspend fun getTopRateMoviesPaging(): Pager<Int, MovieEntity>
-    suspend fun getTrendingMoviesPaging(): Pager<Int, MovieEntity>
-    suspend fun getPopularMoviesFromDatabase(): List<MovieEntity>
-    suspend fun getPopularMoviesFromRemote(): List<MovieEntity>
+    suspend fun getPopularMoviesPaging(): Pager<Int, Movie>
+    suspend fun getTopRateMoviesPaging(): Pager<Int, Movie>
+    suspend fun getTrendingMoviesPaging(): Pager<Int, Movie>
+    suspend fun getPopularMoviesFromDatabase(): List<Movie>
+    suspend fun getPopularMoviesFromRemote(): List<Movie>
     suspend fun refreshPopularMovies()
 
-    suspend fun getNowPlayingMovies(): List<MovieEntity>
+    suspend fun getNowPlayingMovies(): List<Movie>
     suspend fun refreshNowPlayingMovies()
 
-    suspend fun getTopRatedMovies(): List<MovieEntity>
+    suspend fun getTopRatedMovies(): List<Movie>
     suspend fun refreshTopRatedMovies()
 
-    suspend fun getUpcomingMoviesFromDatabase(): List<MovieEntity>
+    suspend fun getUpcomingMoviesFromDatabase(): List<Movie>
     suspend fun refreshUpcomingMovies()
 
-    suspend fun getTrendingMovies(): List<MovieEntity>
+    suspend fun getTrendingMovies(): List<Movie>
     suspend fun refreshTrendingMovies()
 
     // Movie Details & Reviews
-    suspend fun getMoviesDetails(movieId: Int): MovieDetailsEntity
-    suspend fun getMovieReviews(movieId: Int, page: Int): ReviewResponseEntity
-    suspend fun getTrailerVideoForMovie(movieID: Int): YoutubeVideoDetailsEntity
+    suspend fun getMoviesDetails(movieId: Int): MovieDetails
+    suspend fun getMovieReviews(movieId: Int, page: Int): ReviewResponse
+    suspend fun getTrailerVideoForMovie(movieID: Int): YoutubeVideoDetails
 
     // Global Refresh Logic
     suspend fun getLastRefreshTime(): Long?

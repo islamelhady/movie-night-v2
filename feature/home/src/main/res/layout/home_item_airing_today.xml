@@ -7,11 +7,11 @@
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.home.presentation.HomeListener" />
+            type="com.elhady.movies.feature.home.presentation.home.HomeAdapterListener" />
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.home.presentation.AiringTodayTvShowUiState" />
+            type="com.elhady.movies.feature.home.presentation.home.AiringTodayTvShowUiState" />
 
     </data>
 
@@ -25,8 +25,11 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             tools:background="@color/red"
-            android:onClick="@{()->listener.onClickTvShowItem(item.id)}"
+            android:onClick="@{()->listener.onClickTvShow(item.id)}"
             app:imageUri="@{item.imageUrl}"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1.4"

@@ -2,11 +2,11 @@ package com.elhady.movies.feature.details.presentation.episodedetails
 
 import kotlin.math.roundToInt
 
-data class EpisodeHorizontalUIState(
+data class EpisodeHorizontalUiState(
     val id: Int,
     val imageUrl: String,
     val title: String,
-    val Description: String,
+    val description: String,
     val timeEpisode: Int,
     val rate: Double,
     val numberEpisode: Int

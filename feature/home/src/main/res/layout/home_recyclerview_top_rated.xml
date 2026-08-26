@@ -7,11 +7,11 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.home.presentation.ui.HomeItem.TopRated" />
+            type="com.elhady.movies.feature.home.presentation.home.HomeItem.TopRatedMovie" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.home.presentation.HomeListener" />
+            type="com.elhady.movies.feature.home.presentation.home.HomeListener" />
 
         <import type="com.elhady.movies.core.common.ShowMoreType"/>
 
@@ -21,7 +21,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:hideWhenNoResult="@{item.list}">
+        app:hideWhenNoResult="@{item.items}">
 
         <TextView
             android:id="@+id/text_view_top_rated"
@@ -45,6 +45,9 @@
             android:text="@string/show_more"
             android:onClick="@{()->listener.onClickShowMore(ShowMoreType.TOP_RATED_MOVIES)}"
             android:textColor="@color/primary"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,7 +59,7 @@
             android:clipToPadding="false"
             android:orientation="horizontal"
             android:paddingHorizontal="@dimen/spacing_custom_12dp"
-            app:items="@{item.list}"
+            app:items="@{item.items}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

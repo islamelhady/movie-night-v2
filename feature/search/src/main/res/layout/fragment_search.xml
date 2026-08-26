@@ -6,8 +6,12 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="com.elhady.movies.feature.search.presentation.SearchViewModel" />
+            name="state"
+            type="com.elhady.movies.feature.search.presentation.search.SearchUiState" />
+
+        <variable
+            name="listener"
+            type="com.elhady.movies.feature.search.presentation.search.AdapterAdapterListener" />
 
     </data>
 
@@ -21,11 +25,11 @@
             android:layout_width="@dimen/spacing_large_24dp"
             android:layout_height="@dimen/spacing_large_24dp"
             android:layout_marginStart="@dimen/spacing_medium_16dp"
-            android:onClick="@{() -> viewModel.onClickBack()}"
+            android:onClick="@{() -> listener.onClickBack()}"
             app:layout_constraintBottom_toBottomOf="@id/edittext_search"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/edittext_search"
-            android:src="@drawable/arrow_left"
+            android:src="@drawable/ic_back_arrow"
             app:tint="@color/on_background_60"/>
 
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -46,7 +50,7 @@
             android:paddingStart="@dimen/spacing_custom_12dp"
             android:transitionName="search_box"
             android:paddingEnd="74dp"
-            android:text="@={viewModel.query}"
+            android:text="@{state.searchQuery}"
             android:textColor="@color/on_background_60"
             app:layout_constraintEnd_toStartOf="@id/image_button_filter"
             app:layout_constraintStart_toEndOf="@id/image_back_arrow"
@@ -63,7 +67,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edittext_search"
-            app:loading="@{viewModel.state.loading}" />
+            app:loading="@{state.loading}" />
 
         <ImageButton
             android:id="@+id/image_button_filter"
@@ -71,8 +75,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_medium_16dp"
             android:background="@null"
-            android:onClick="@{() -> viewModel.onClickFilter()}"
-            app:isVisibleOrGone="@{(!viewModel.state.isSelectedPeople) &amp;&amp; (!viewModel.query.empty) &amp;&amp; (!viewModel.state.isFailure) }"
+            android:onClick="@{() -> listener.onClickFilter()}"
+            app:isVisibleOrGone="@{(!state.isSelectedPeople) &amp;&amp; (!state.searchQuery.empty) &amp;&amp; (!state.isFailure) }"
             android:src="@drawable/ic_filter"
             app:layout_constraintBottom_toBottomOf="@+id/edittext_search"
             app:layout_constraintTop_toTopOf="@+id/edittext_search"
@@ -85,8 +89,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_custom_12dp"
             android:background="@null"
-            android:onClick="@{() -> viewModel.onClickClear()}"
-            app:isVisibleOrGone="@{(!viewModel.query.empty) &amp;&amp; (!viewModel.state.isFailure) }"
+            android:onClick="@{() -> listener.onClickClear()}"
+            app:isVisibleOrGone="@{(!state.searchQuery.empty) &amp;&amp; (!state.isFailure) }"
             android:src="@drawable/ic_clear"
             app:layout_constraintBottom_toBottomOf="@+id/edittext_search"
             app:layout_constraintTop_toTopOf="@+id/edittext_search"
@@ -110,7 +114,7 @@
                 android:id="@+id/chipGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:selectedMedia="@{viewModel.state.mediaType}"
+                app:selectedMedia="@{state.mediaType}"
                 app:selectionRequired="true"
                 app:singleSelection="true">
 
@@ -120,7 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:onClick="@{() -> viewModel.showResultMovie()}"
+                    android:onClick="@{() -> listener.showResultMovie()}"
                     android:text="@string/movie" />
 
                 <com.google.android.material.chip.Chip
@@ -128,7 +132,7 @@
                     style="@style/TextStyle.BodySmall.ChipStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{() -> viewModel.showResultTv()}"
+                    android:onClick="@{() -> listener.showResultTv()}"
                     android:text="@string/tv" />
 
                 <com.google.android.material.chip.Chip
@@ -136,7 +140,7 @@
                     style="@style/TextStyle.BodySmall.ChipStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{() -> viewModel.showResultPeople()}"
+                    android:onClick="@{() -> listener.showResultPeople()}"
                     android:text="@string/person" />
 
             </com.google.android.material.chip.ChipGroup>
@@ -148,9 +152,9 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:clipToPadding="false"
-            app:searchLayoutManager="@{viewModel.state}"
-            app:hideResult="@{viewModel.state.error}"
-            app:query="@{viewModel.query}"
+            app:searchLayoutManager="@{state}"
+            app:hideResult="@{state.error}"
+            app:query="@{state.searchQuery}"
             android:paddingBottom="100dp"
             android:paddingHorizontal="@dimen/spacing_custom_12dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -169,7 +173,7 @@
             app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
             app:lottie_autoPlay="true"
             app:lottie_loop="false"
-            app:isVisibleOrGone="@{viewModel.state.emptyResult &amp;&amp; !viewModel.query.empty &amp;&amp; !viewModel.state.isFailure &amp;&amp; !viewModel.state.loading}"
+            app:isVisibleOrGone="@{state.emptyResult &amp;&amp; !state.searchQuery.empty &amp;&amp; !state.isFailure &amp;&amp; !state.loading}"
             app:lottie_rawRes="@raw/empty_state" />
 
         <com.airbnb.lottie.LottieAnimationView
@@ -183,7 +187,7 @@
             app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
             app:lottie_autoPlay="true"
             app:lottie_loop="false"
-            app:isVisibleOrGone="@{viewModel.query.empty &amp;&amp; !viewModel.state.isFailure}"
+            app:isVisibleOrGone="@{state.searchQuery.empty &amp;&amp; !state.isFailure}"
             app:lottie_rawRes="@raw/search" />
 
         <TextView
@@ -195,17 +199,17 @@
             android:layout_marginTop="@dimen/spacing_medium_16dp"
             android:text="@string/no_items_found"
             android:textColor="@color/on_background_60"
-            app:isVisibleOrGone="@{viewModel.state.emptyResult &amp;&amp; !viewModel.query.empty &amp;&amp; !viewModel.state.isFailure &amp;&amp; !viewModel.state.loading}"
+            app:isVisibleOrGone="@{state.emptyResult &amp;&amp; !state.searchQuery.empty &amp;&amp; !state.isFailure &amp;&amp; !state.loading}"
             app:layout_constraintEnd_toEndOf="@id/lottie_animation_view_empty"
             app:layout_constraintStart_toStartOf="@id/lottie_animation_view_empty"
             app:layout_constraintTop_toBottomOf="@id/lottie_animation_view_empty" />
 
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottie_animation_view_no_network"
+            android:id="@+id/lottie_animation"
             android:layout_width="@dimen/lottie_error_size"
             android:layout_height="@dimen/lottie_error_size"
-            app:isVisibleOrGone="@{viewModel.state.isFailure}"
+            app:isVisibleOrGone="@{state.isFailure}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -223,12 +227,12 @@
             android:gravity="center"
             android:layout_marginTop="@dimen/spacing_medium_16dp"
             android:text="@string/try_again"
-            android:onClick="@{() -> viewModel.getData()}"
+            android:onClick="@{() -> listener.onClickTryAgain()}"
             android:textColor="@color/on_background_60"
-            app:isVisibleOrGone="@{viewModel.state.isFailure}"
-            app:layout_constraintEnd_toEndOf="@id/lottie_animation_view_no_network"
-            app:layout_constraintStart_toStartOf="@id/lottie_animation_view_no_network"
-            app:layout_constraintTop_toBottomOf="@id/lottie_animation_view_no_network" />
+            app:isVisibleOrGone="@{state.isFailure}"
+            app:layout_constraintEnd_toEndOf="@id/lottie_animation"
+            app:layout_constraintStart_toStartOf="@id/lottie_animation"
+            app:layout_constraintTop_toBottomOf="@id/lottie_animation" />
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

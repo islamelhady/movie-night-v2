@@ -7,18 +7,18 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.explore.viewmodel.explore.ExploreUiState.TrendingMoviesUiState" />
+            type="com.elhady.movies.feature.explore.presentation.explore.ExploreUiState.TrendingMoviesUiState" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.core.ui.listener.MovieListener" />
+            type="com.elhady.movies.core.ui.interaction.MovieAdapterListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/spacing_tiny_4dp"
-        android:onClick="@{() -> listener.onClickMedia(item.id)}">
+        android:onClick="@{() -> listener.onClickMovie(item.id)}">
 
         <View
             android:id="@+id/view_card_background"

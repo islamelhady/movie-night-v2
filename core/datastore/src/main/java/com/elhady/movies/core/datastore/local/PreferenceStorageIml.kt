@@ -2,6 +2,7 @@ package com.elhady.movies.core.datastore.local
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -19,6 +20,7 @@ class PreferenceStorageIml @Inject constructor(
         val CURRENT_USERNAME_ID = stringPreferencesKey("CURRENT_USERNAME_ID")
         val SESSION_ID = stringPreferencesKey("SESSION_ID")
         val LAST_REFRESH = longPreferencesKey("LAST_REFRESH")
+        val IS_DARK_MODE = booleanPreferencesKey("is_dark_mode")
     }
 
     override val sessionId: String?
@@ -32,6 +34,9 @@ class PreferenceStorageIml @Inject constructor(
     override val lastRefreshTime: Long?
         get() = runBlocking { dataStore.data.map { it[PreferencesKeys.LAST_REFRESH] }.first() }
 
+    override val isDarkTheme: Boolean?
+        get() = runBlocking { dataStore.data.map { it[PreferencesKeys.IS_DARK_MODE] }.first() }
+
     override suspend fun setSessionId(sessionId: String) {
         dataStore.setValue(PreferencesKeys.SESSION_ID, sessionId)
     }
@@ -42,6 +47,10 @@ class PreferenceStorageIml @Inject constructor(
 
     override suspend fun setLastRefreshTime(lastRefreshTime: Long) {
         dataStore.setValue(PreferencesKeys.LAST_REFRESH, lastRefreshTime)
+    }
+
+    override suspend fun setDarkTheme(isDark: Boolean) {
+        dataStore.setValue(PreferencesKeys.IS_DARK_MODE, isDark)
     }
 
     override suspend fun clearPreferenceStorage() {

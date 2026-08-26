@@ -8,13 +8,18 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.elhady.movies.R
+import com.elhady.movies.core.domain.usecase.common.GetThemeUseCase
 import com.elhady.movies.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    @Inject
+    lateinit var getThemeUseCase: GetThemeUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        changeAppTheme()
+        setAppTheme()
     }
 
     override fun onResume() {
@@ -58,19 +63,12 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun changeAppTheme() {
-        val sharedPreferences = getPreferences(MODE_PRIVATE)
-        val savedThemeState = sharedPreferences.getBoolean(KEY_NIGHT_MODE_STATE, false)
-        if (savedThemeState) {
+    private fun setAppTheme() {
+        if (getThemeUseCase()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
     }
-
-    companion object {
-        const val KEY_NIGHT_MODE_STATE = "night_mode_state"
-    }
-
 
 }

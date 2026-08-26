@@ -25,7 +25,7 @@
     <string name="collection">مجموعة</string>
     <string name="company">شركة</string>
     <string name="apply">الموافقة</string>
-    <string name="Popular_Movies">الافلام المشهورة</string>
+    <string name="popular_movies">الافلام المشهورة</string>
     <string name="movies">افلام</string>
     <string name="retry">حاول مرة اخرى</string>
     <string name="item_deleted">تم حذف العنصر</string>
@@ -49,7 +49,7 @@
     <string name="no_items_have">لا توجد عناصر</string>
     <string name="items">%s عناصر</string>
     <string name="favorite">مفضلة</string>
-    <string name="your_not_loged_in_to_rate">انت لست مسجل دخول 😥, الرجاء تسجيل الدخول</string>
+    <string name="you_re_not_logged_in_to_rate">انت لست مسجل دخول 😥, الرجاء تسجيل الدخول</string>
     <string name="watchlist">قائمة المشاهدة</string>
     <string name="watch_history">سجل المشاهدة</string>
     <string name="my_lists">قائماتي</string>
@@ -113,5 +113,18 @@
     <string name="mystery">غموض</string>
     <string name="adventure">مغامرة</string>
     <string name="popular_actors">ممثلون مشهورون</string>
+    <string name="no_trailer">الفيديو غير متاح</string>
+    <string name="back">رجوع</string>
 
+    <!-- Error Messages -->
+    <string name="unauthorized_error">غير مصرح بالدخول. يرجى تسجيل الدخول.</string>
+    <string name="forbidden_error">الدخول ممنوع.</string>
+    <string name="bad_request_error">طلب غير صالح.</string>
+    <string name="validation_error">فشل التحقق من الصحة.</string>
+    <string name="not_found_error">المورد غير موجود.</string>
+    <string name="conflict_error">حدث تعارض في الموارد.</string>
+    <string name="too_many_requests_error">طلبات كثيرة جداً. يرجى المحاولة لاحقاً.</string>
+    <string name="empty_response_error">لم يتم استلام بيانات من الخادم.</string>
+    <string name="server_error">حدث خطأ في الخادم. يرجى المحاولة مرة أخرى لاحقاً.</string>
+    <string name="unknown_error">حدث خطأ غير متوقع.</string>
 </resources>

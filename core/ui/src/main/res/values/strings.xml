@@ -25,9 +25,9 @@
     <string name="collection">Collection</string>
     <string name="company">Company</string>
     <string name="apply">Apply</string>
-    <string name="Popular_Movies">Popular Movies</string>
+    <string name="popular_movies">Popular Movies</string>
     <string name="movies">Movies</string>
-    <string name="retry">retry</string>
+    <string name="retry">Retry</string>
     <string name="item_deleted">Item Deleted</string>
     <string name="undo">UNDO</string>
     <string name="duplicate_entry">Duplicate entry: The Media you tried to add already exists.</string>
@@ -49,7 +49,7 @@
     <string name="items">%s items</string>
     <string name="search">Search</string>
     <string name="favorite">Favorite</string>
-    <string name="your_not_loged_in_to_rate">You are not logged in 😢, please login to rate this Movie</string>
+    <string name="you_re_not_logged_in_to_rate">You are not logged in 😢, please log in to rate this Movie</string>
     <string name="watchlist">Watchlist</string>
     <string name="watch_history">Watch History</string>
     <string name="my_lists">My Lists</string>
@@ -60,7 +60,7 @@
     <string name="_9_6" tools:ignore="ExtraTranslation">9.6</string>
     <string name="explore_the_best_tv_shows" tools:ignore="ExtraTranslation">Explore The Best TV Shows</string>
     <string name="explore_the_best_movies_tv_shows" tools:ignore="ExtraTranslation">Explore The Best Movies and TV Shows</string>
-    <string name="airing_today" tools:ignore="ExtraTranslation">Airing Today</string>
+    <string name="airing_today" tools:ignore="ExtraTranslation">Airing Today Shows</string>
     <string name="count_tv_shows">%s TV Shows</string>
     <string name="on_the_air" tools:ignore="ExtraTranslation">On The Air</string>
     <string name="cannot_fetch_movies" tools:ignore="ExtraTranslation">cannot fetch movies 😢</string>
@@ -113,5 +113,18 @@
     <string name="mystery">Mystery</string>
     <string name="popular_actors">Popular Actors</string>
     <string name="adventure">Adventure</string>
+    <string name="back">Back</string>
 
+    <!-- Error Messages -->
+    <string name="unauthorized_error">Unauthorized access. Please login.</string>
+    <string name="forbidden_error">Access forbidden.</string>
+    <string name="bad_request_error">Invalid request.</string>
+    <string name="validation_error">Validation failed.</string>
+    <string name="not_found_error">Resource not found.</string>
+    <string name="conflict_error">Resource conflict occurred.</string>
+    <string name="too_many_requests_error">Too many requests. Please slow down.</string>
+    <string name="empty_response_error">No data received from server.</string>
+    <string name="server_error">Server error occurred. Please try again later.</string>
+    <string name="unknown_error">An unexpected error occurred.</string>
+    <string name="no_trailer">trailer not available</string>
 </resources>

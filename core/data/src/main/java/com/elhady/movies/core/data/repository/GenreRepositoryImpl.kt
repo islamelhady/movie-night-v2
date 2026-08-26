@@ -1,44 +1,56 @@
 package com.elhady.movies.core.data.repository
 
-import com.elhady.movies.core.data.base.BaseRepository
-import com.elhady.movies.core.data.mapper.movie.LocalGenresMovieMapper
-import com.elhady.movies.core.data.mapper.tvshow.LocalGenresTvMapper
-import com.elhady.movies.core.data.mapper.movie.DomainGenreMapper
-import com.elhady.movies.core.data.mapper.tvshow.DomainGenreTvMapper
-import com.elhady.movies.core.database.MovieDao
-import com.elhady.movies.core.domain.model.common.GenreEntity
+import androidx.room.withTransaction
+import com.elhady.movies.core.data.mapper.movie.GenreEntityMapper
+import com.elhady.movies.core.data.mapper.movie.GenresMovieDtoToEntityMapper
+import com.elhady.movies.core.data.mapper.tvshow.GenreTvEntityMapper
+import com.elhady.movies.core.data.mapper.tvshow.GenresTvDtoToEntityMapper
+import com.elhady.movies.core.database.dao.genre.GenreMovieDao
+import com.elhady.movies.core.database.dao.genre.GenreTvDao
+import com.elhady.movies.core.database.db.MovieDatabase
+import com.elhady.movies.core.domain.model.common.Genre
 import com.elhady.movies.core.domain.repository.GenreRepository
 import com.elhady.movies.core.network.api.GenreApiService
+import com.elhady.movies.core.network.exception.SafeApiCaller
 import javax.inject.Inject
 
 class GenreRepositoryImpl @Inject constructor(
     private val genreApiService: GenreApiService,
-    private val movieDao: MovieDao,
-    private val localGenresMovieMapper: LocalGenresMovieMapper,
-    private val localGenresTvMapper: LocalGenresTvMapper,
-    private val domainGenreMapper: DomainGenreMapper,
-    private val domainGenreTvMapper: DomainGenreTvMapper
-) : BaseRepository(), GenreRepository {
+    private val genreMovieDao: GenreMovieDao,
+    private val genreTvDao: GenreTvDao,
+    private val genresMovieDtoToEntityMapper: GenresMovieDtoToEntityMapper,
+    private val genresTvDtoToEntityMapper: GenresTvDtoToEntityMapper,
+    private val genreEntityMapper: GenreEntityMapper,
+    private val genreTvEntityMapper: GenreTvEntityMapper,
+    private val safeApiCaller: SafeApiCaller,
+    private val database: MovieDatabase
+) : GenreRepository {
 
-    override suspend fun getGenresMovies(): List<GenreEntity> {
-        return domainGenreMapper.map(movieDao.getGenresMovies())
+    override suspend fun getGenresMovies(): List<Genre> {
+        return genreEntityMapper.map(genreMovieDao.getGenresMovies())
     }
 
     override suspend fun refreshGenres() {
-        wrapApiCall { genreApiService.getListOfGenresForMovies() }.results
-            ?.let { remoteGenres ->
-                movieDao.insertGenresMovies(localGenresMovieMapper.map(remoteGenres))
+        val response = safeApiCaller.execute { genreApiService.getListOfGenresForMovies() }.results
+        database.withTransaction {
+            response?.let { remoteGenres ->
+                genreMovieDao.clearAllGenresMovies()
+                genreMovieDao.insertGenresMovies(genresMovieDtoToEntityMapper.map(remoteGenres))
             }
+        }
     }
 
-    override suspend fun getGenresTvs(): List<GenreEntity> {
-        return domainGenreTvMapper.map(movieDao.getGenresTvs())
+    override suspend fun getGenresTvs(): List<Genre> {
+        return genreTvEntityMapper.map(genreTvDao.getGenresTvs())
     }
 
     override suspend fun refreshGenresTv() {
-        wrapApiCall { genreApiService.getListOfGenresForTvs() }.results
-            ?.let { remoteGenres ->
-                movieDao.insertGenresTvs(localGenresTvMapper.map(remoteGenres))
+        val response = safeApiCaller.execute { genreApiService.getListOfGenresForTvs() }.results
+        database.withTransaction {
+            response?.let { remoteGenres ->
+                genreTvDao.clearAllGenresTvs()
+                genreTvDao.insertGenresTvs(genresTvDtoToEntityMapper.map(remoteGenres))
             }
+        }
     }
 }

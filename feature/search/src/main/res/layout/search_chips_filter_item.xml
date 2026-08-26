@@ -6,11 +6,11 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.search.presentation.SearchUiState.GenresUiState" />
+            type="com.elhady.movies.feature.search.presentation.search.SearchUiState.GenresUiState" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.search.presentation.SearchListener" />
+            type="com.elhady.movies.feature.search.presentation.search.AdapterAdapterListener" />
     </data>
 
     <com.google.android.material.chip.Chip

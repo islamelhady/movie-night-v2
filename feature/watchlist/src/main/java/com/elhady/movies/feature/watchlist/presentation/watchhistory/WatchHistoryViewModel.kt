@@ -1,24 +1,16 @@
 package com.elhady.movies.feature.watchlist.presentation.watchhistory
 
-import androidx.lifecycle.viewModelScope
-import com.elhady.movies.core.ui.bases.BaseViewModel
-import com.elhady.movies.core.ui.bases.StringsRes
+import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.domain.usecase.movie.DeleteMovieFromWatchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetAllWatchHistoryMoviesUseCase
 import com.elhady.movies.core.domain.usecase.movie.SearchWatchHistoryUseCase
-import com.elhady.movies.feature.watchlist.presentation.ui.watchhistory.WatchHistoryRecyclerItem
-import com.elhady.movies.feature.watchlist.presentation.ui.watchhistory.WatchHistoryRecyclerItemsCreator
-import com.elhady.movies.core.ui.listener.MediaListener
-import com.elhady.movies.feature.watchlist.presentation.watchhistory.mappers.MovieDomainMapper
-import com.elhady.movies.feature.watchlist.presentation.watchhistory.mappers.MovieUiStateMapper
+import com.elhady.movies.core.ui.base.BaseViewModel
+import com.elhady.movies.core.ui.base.toErrorUiState
+import com.elhady.movies.core.ui.resource.StringsRes
+import com.elhady.movies.feature.watchlist.presentation.watchhistory.mapper.MovieDomainMapper
+import com.elhady.movies.feature.watchlist.presentation.watchhistory.mapper.MovieUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,253 +19,245 @@ class WatchHistoryViewModel @Inject constructor(
     private val deleteMovieFromWatchHistoryUseCase: DeleteMovieFromWatchHistoryUseCase,
     private val searchWatchHistoryUseCase: SearchWatchHistoryUseCase,
     private val movieDomainMapper: MovieDomainMapper,
-    private val movieUiStateMapper: MovieUiStateMapper,
+    private val movieUiStateMapper: MovieUiMapper,
     private val stringsRes: StringsRes
-) : BaseViewModel<WatchHistoryUiState, WatchHistoryUiEvent>(WatchHistoryUiState()), MediaListener {
+) : BaseViewModel<WatchHistoryUiState, WatchHistoryUiEffect>(
+    WatchHistoryUiState()
+) {
 
     private val itemsCreator = WatchHistoryRecyclerItemsCreator(stringsRes)
 
     init {
         getAllMovies()
-        initSearchCallBacks()
+    }
+
+    fun onEvent(event: WatchHistoryUiEvent) {
+        when (event) {
+
+            is WatchHistoryUiEvent.SearchQueryChanged -> {
+                onSearchQueryChanged(event.query)
+            }
+
+            is WatchHistoryUiEvent.MovieClicked -> {
+                sendEffect(
+                    WatchHistoryUiEffect.NavigateToMovieDetails(
+                        event.movieId
+                    )
+                )
+            }
+
+            is WatchHistoryUiEvent.MovieSwiped -> {
+                deleteMovie(event.position)
+            }
+
+            WatchHistoryUiEvent.UndoDeleteClicked -> {
+                undoDelete()
+            }
+
+            WatchHistoryUiEvent.DeleteSnackBarDismissed -> {
+                confirmDelete()
+            }
+
+            WatchHistoryUiEvent.RetryClicked -> {
+                getAllMovies()
+            }
+
+            WatchHistoryUiEvent.BackClicked -> {
+                sendEffect(WatchHistoryUiEffect.NavigateBack)
+            }
+
+        }
     }
 
     private fun getAllMovies() {
-        updateStateToLoading()
+        _state.update {
+            it.copy(
+                isLoading = true,
+                error = null
+            )
+        }
+
         tryToExecute(
             call = {
-                val movies = getAllWatchHistoryMoviesUseCase().map {
-                    movieUiStateMapper.map(it)
-                }
-                itemsCreator.createItems(movies)
+                getAllWatchHistoryMoviesUseCase()
+                    .map(movieUiStateMapper::map)
+                    .let(itemsCreator::createItems)
             },
-            onSuccess = ::onGetAllMoviesSuccess,
-            onError = ::onGetAllMoviesError
+            onSuccess = ::onMoviesLoaded,
+            onError = ::onError
+        )
+    }
+
+    private fun onMoviesLoaded(
+        movies: List<WatchHistoryRecyclerItem>
+    ) {
+        _state.update {
+            it.copy(
+                movies = movies,
+                isLoading = false,
+                error = null
+            )
+        }
+    }
+
+    private fun onSearchQueryChanged(query: String) {
+        _state.update {
+            it.copy(searchInput = query)
+        }
+
+        searchMovies(query)
+    }
+
+    private fun searchMovies(query: String) {
+        _state.update {
+            it.copy(
+                isLoading = true,
+                error = null
+            )
+        }
+
+        tryToExecute(
+            call = {
+                val movies = if (query.isBlank()) {
+                    getAllWatchHistoryMoviesUseCase()
+                } else {
+                    searchWatchHistoryUseCase(query)
+                }
+                movies.map(movieUiStateMapper::map)
+                    .let(itemsCreator::createItems)
+            },
+            onSuccess = ::onMoviesLoaded,
+            onError = ::onError
+        )
+    }
+
+    private fun deleteMovie(position: Int) {
+        val items = state.value.movies
+
+        if (position !in items.indices) return
+
+        val item = items[position]
+
+        if (item !is WatchHistoryRecyclerItem.MovieCard) return
+
+        val newItems = items.toMutableList()
+
+        val deletedMovie = item.movie
+
+        newItems.removeAt(position)
+
+        val deletedTitle = if (shouldRemoveTitle(position, newItems)) {
+            val titlePosition = position - 1
+
+            if (titlePosition in newItems.indices &&
+                newItems[titlePosition] is WatchHistoryRecyclerItem.Title
+            ) {
+                val title = newItems.removeAt(titlePosition)
+                        as WatchHistoryRecyclerItem.Title
+
+                title.title
+            } else {
+                null
+            }
+        } else {
+            null
+        }
+
+        _state.update {
+            it.copy(
+                movies = newItems,
+                pendingDeletion = PendingDeletion(
+                    movie = deletedMovie,
+                    title = deletedTitle,
+                    position = position
+                )
+            )
+        }
+
+        sendEffect(WatchHistoryUiEffect.ShowDeleteSnackBar)
+    }
+
+    private fun shouldRemoveTitle(
+        deletedPosition: Int,
+        itemsAfterDeletion: List<WatchHistoryRecyclerItem>
+    ): Boolean {
+
+        val titlePosition = deletedPosition - 1
+
+        if (
+            titlePosition !in itemsAfterDeletion.indices ||
+            itemsAfterDeletion[titlePosition] !is WatchHistoryRecyclerItem.Title
+        ) {
+            return false
+        }
+
+        return (
+                titlePosition + 1 !in itemsAfterDeletion.indices ||
+                        itemsAfterDeletion[titlePosition + 1] is WatchHistoryRecyclerItem.Title
+                )
+    }
+
+    private fun undoDelete() {
+        val pendingDeletion = state.value.pendingDeletion
+            ?: return
+
+        val items = state.value.movies.toMutableList()
+
+        pendingDeletion.title?.let { title ->
+            items.add(
+                pendingDeletion.position - 1,
+                WatchHistoryRecyclerItem.Title(title)
+            )
+        }
+
+        items.add(
+            pendingDeletion.position,
+            WatchHistoryRecyclerItem.MovieCard(
+                pendingDeletion.movie
+            )
         )
 
-    }
-
-    private fun onGetAllMoviesSuccess(items: List<WatchHistoryRecyclerItem>) {
         _state.update {
-            it.copy(movies = items, isLoading = false)
+            it.copy(
+                movies = items,
+                pendingDeletion = null
+            )
         }
     }
 
-    private fun onGetAllMoviesError(throwable: Throwable) {
-        _state.update { it.copy(isLoading = false) }
-        showMessageWithSnackBar(throwable.message.toString())
-    }
+    private fun confirmDelete() {
+        val pendingDeletion = state.value.pendingDeletion
+            ?: return
 
-    private fun showMessageWithSnackBar(message: String) {
-        sendEvent(WatchHistoryUiEvent.Error(message))
-    }
-
-    @OptIn(FlowPreview::class)
-    private fun initSearchCallBacks() {
-        var oldValue = state.value.searchInput
-        viewModelScope.launch {
-            state.debounce(600)
-                .filter { oldValue != state.value.searchInput }
-                .collect {
-                    onSearchInputChanged(it.searchInput)
-                    oldValue = state.value.searchInput
+        tryToExecute(
+            call = {
+                deleteMovieFromWatchHistoryUseCase(
+                    movieDomainMapper.map(pendingDeletion.movie)
+                )
+            },
+            onSuccess = {
+                _state.update {
+                    it.copy(
+                        pendingDeletion = null
+                    )
                 }
-        }
+            },
+            onError = ::onError
+        )
     }
 
-    fun onSearchInputChanged(newSearchInput: CharSequence) {
-        _state.update { it.copy(searchInput = newSearchInput.toString(), isLoading = true) }
-        viewModelScope.launch {
-            tryToSearchInMovies(newSearchInput.toString())
-        }
-    }
+    private fun onError(exception: AppException) {
+        val error = exception.toErrorUiState()
 
-    private suspend fun tryToSearchInMovies(newSearchInput: String) {
-        try {
-            searchOrGetAllMovies(newSearchInput)
-        } catch (th: Throwable) {
-            showMessageWithSnackBar(th.message.toString())
-        }
-    }
-
-    private suspend fun searchOrGetAllMovies(newSearchInput: String) {
-        if (newSearchInput.isEmpty()) {
-            getAllMovies()
-        } else {
-            searchMovies(newSearchInput)
-        }
-    }
-
-    private suspend fun searchMovies(searchTerm: String) {
-        updateStateToLoading()
-        val movies = runBlocking {
-            searchWatchHistoryUseCase(searchTerm).map {
-                movieUiStateMapper.map(it)
-            }
-        }
-        updateStateToSuccess(movies)
-    }
-
-    private fun updateStateToLoading() {
-        _state.update { it.copy(isLoading = true) }
-    }
-
-    private fun updateStateToSuccess(movies: List<MovieUiState>) {
-        _state.update { uiState ->
-            uiState.copy(
-                movies = itemsCreator.createItems(movies),
-                isLoading = false
-            )
-        }
-    }
-
-    fun setSearchQuery(query: CharSequence?) {
-        _state.update {
-            it.copy(searchInput = query.toString())
-        }
-    }
-
-    override fun onClickMedia(id: Int) {
-        sendEvent(WatchHistoryUiEvent.NavigateToMovieDetails(id))
-    }
-
-    fun onSnackBarShown() {
-        _state.update {
-            it.copy(snackBarUndoPressed = false)
-        }
-    }
-
-    fun setPosition(position: Int) {
-        _state.update {
-            it.copy(swipePosition = position)
-        }
-    }
-
-    fun deleteItemFromDataBase() = MainScope().launch {
-        runBlocking {
-            state.value.deletedMovie?.let { movieUiState ->
-                if (state.value.snackBarUndoPressed == false) {
-                    deleteMovieFromWatchHistoryUseCase(movieDomainMapper.map(movieUiState))
-                }
-            }
-        }
-    }
-
-    fun deleteItemFromUi() {
-        val position = state.value.swipePosition
-        position?.let {
-            if (itemIsNotMovie(position)) return
-            deleteItemFromRecyclerList(position)
-            sendEvent(WatchHistoryUiEvent.ShowDeleteSnackBar)
-            deleteTitleIfDayIsEmpty()
-        }
-    }
-
-    private fun deleteItemFromRecyclerList(position: Int) {
-        val newList = _state.value.movies.toMutableList()
-        val tempMovie = newList[position]
-        newList.removeAt(position)
         _state.update {
             it.copy(
-                movies = newList,
-                deletedMovie = (tempMovie as WatchHistoryRecyclerItem.MovieCard).movie
+                isLoading = false,
+                error = error
             )
         }
-    }
 
-    private fun itemIsNotMovie(position: Int) =
-        _state.value.movies[position] !is WatchHistoryRecyclerItem.MovieCard
-
-    private fun deleteTitleIfDayIsEmpty() {
-        if (isTitleRedundant()) {
-            state.value.swipePosition?.let { pos ->
-                removeTitleFromRecyclerList(pos)
-            }
-        }
-    }
-
-    private fun removeTitleFromRecyclerList(position: Int) {
-        val newList = _state.value.movies.toMutableList()
-        val tempTitle = newList[position - 1]
-        newList.removeAt(position - 1)
-        _state.update {
-            it.copy(
-                movies = newList,
-                deletedTitle = (tempTitle as WatchHistoryRecyclerItem.Title).title
-            )
-        }
-    }
-
-    private fun isTitleRedundant(): Boolean {
-        if (noMoviesExist()) return true
-        state.value.swipePosition?.let {
-            if (isNoMoviesBetweenTitles(it))
-                return true
-        }
-        return false
-    }
-
-    private fun isNoMoviesBetweenTitles(position: Int) =
-        (state.value.movies[position - 1] is WatchHistoryRecyclerItem.Title
-                && state.value.movies[position] is WatchHistoryRecyclerItem.Title)
-
-    private fun noMoviesExist() = state.value.movies.size <= 2
-
-    fun addItemToUi() {
-        val position = state.value.swipePosition
-        position?.let {
-            val movies = _state.value.movies.toMutableList()
-            addDeletedTitle(movies, position)
-            addDeletedMovie(movies, position)
-            returnOldListToState(movies)
-        }
-
-    }
-
-    private fun returnOldListToState(newList: MutableList<WatchHistoryRecyclerItem>) {
-        _state.update {
-            it.copy(
-                movies = newList,
-                snackBarUndoPressed = true
-            )
-        }
-    }
-
-    private fun addDeletedMovie(
-        newList: MutableList<WatchHistoryRecyclerItem>,
-        position: Int
-    ) {
-        state.value.deletedMovie?.let {
-            newList.add(
-                position,
-                WatchHistoryRecyclerItem.MovieCard(it)
-            )
-        }
-    }
-
-    private fun addDeletedTitle(
-        newList: MutableList<WatchHistoryRecyclerItem>,
-        position: Int
-    ) {
-        state.value.deletedTitle?.let {
-            newList.add(
-                position - 1,
-                WatchHistoryRecyclerItem.Title(it)
-            )
-        }
-    }
-
-    fun initTheDeletionStates() {
-        _state.update {
-            it.copy(
-                deletedTitle = null,
-                deletedMovie = null,
-                snackBarUndoPressed = false
-            )
-        }
-    }
-
-    fun onClickBack() {
-        sendEvent(WatchHistoryUiEvent.OnClickBack)
+        sendEffect(
+            WatchHistoryUiEffect.ShowErrorSnackBar(error)
+        )
     }
 }

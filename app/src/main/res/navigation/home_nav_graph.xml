@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.elhady.movies.feature.home.presentation.ui.HomeFragment"
+        android:name="com.elhady.movies.feature.home.presentation.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <deepLink app:uri="movie://home" />
@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.elhady.movies.feature.search.presentation.ui.SearchFragment"
+        android:name="com.elhady.movies.feature.search.presentation.search.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search">
         <deepLink app:uri="movie://search" />
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/tvFragment"
-        android:name="com.elhady.movies.feature.tvshow.presentation.TvShowsFragment"
+        android:name="com.elhady.movies.feature.tvshow.presentation.tvshow.TvShowFragment"
         android:label="TvFragment"
         tools:layout="@layout/fragment_tv_shows">
         <deepLink app:uri="movie://tv" />
@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.elhady.movies.feature.profile.presentation.ProfileFragment"
+        android:name="com.elhady.movies.feature.profile.presentation.profile.ProfileFragment"
         android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile">
         <deepLink app:uri="movie://profile" />
@@ -39,7 +39,7 @@
 
     <fragment
         android:id="@+id/watchHistoryFragment"
-        android:name="com.elhady.movies.feature.watchlist.presentation.ui.watchhistory.WatchHistoryFragment"
+        android:name="com.elhady.movies.feature.watchlist.presentation.watchhistory.WatchHistoryFragment"
         android:label="WatchHistoryFragment"
         tools:layout="@layout/fragment_watch_history">
         <deepLink app:uri="movie://watch_history" />
@@ -47,7 +47,7 @@
 
     <fragment
         android:id="@+id/movieDetailsFragment"
-        android:name="com.elhady.movies.feature.details.presentation.ui.moviedetails.MovieDetailsFragment"
+        android:name="com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsFragment"
         android:label="MovieDetailsFragment"
         tools:layout="@layout/fragment_movie_details">
         <argument
@@ -58,7 +58,7 @@
 
     <fragment
         android:id="@+id/showMoreFragment"
-        android:name="com.elhady.movies.feature.showmore.presentation.ShowMoreFragment"
+        android:name="com.elhady.movies.feature.showmore.presentation.showmore.ShowMoreFragment"
         android:label="ShowMoreFragment"
         tools:layout="@layout/fragment_show_more">
         <argument
@@ -69,7 +69,7 @@
 
     <fragment
         android:id="@+id/seasonDetailsFragment"
-        android:name="com.elhady.movies.feature.details.presentation.ui.seasondetails.SeasonDetailsFragment"
+        android:name="com.elhady.movies.feature.details.presentation.seasondetails.SeasonDetailsFragment"
         android:label="SeasonDetailsFragment"
         tools:layout="@layout/fragment_season_details">
         <argument
@@ -83,7 +83,7 @@
 
     <fragment
         android:id="@+id/tvDetailsFragment"
-        android:name="com.elhady.movies.feature.details.presentation.ui.tvdetails.TvDetailsFragment"
+        android:name="com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsFragment"
         android:label="TvDetailsFragment"
         tools:layout="@layout/fragment_tv_details">
         <argument
@@ -94,7 +94,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.elhady.movies.feature.auth.presentation.LoginFragment"
+        android:name="com.elhady.movies.feature.auth.presentation.login.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <deepLink app:uri="movie://login" />
@@ -102,15 +102,15 @@
 
     <fragment
         android:id="@+id/myListFragment"
-        android:name="com.elhady.movies.feature.watchlist.presentation.ui.mylist.MyListFragment"
+        android:name="com.elhady.movies.feature.watchlist.presentation.lists.ListsFragment"
         android:label="MyListFragment"
-        tools:layout="@layout/fragment_my_list">
+        tools:layout="@layout/fragment_lists">
         <deepLink app:uri="movie://my_list" />
     </fragment>
 
     <fragment
         android:id="@+id/myListDetailsFragment"
-        android:name="com.elhady.movies.feature.watchlist.presentation.ui.mylistdetails.MyListDetailsFragment"
+        android:name="com.elhady.movies.feature.watchlist.presentation.listcontents.ListContentsFragment"
         android:label="MyListDetailsFragment"
         tools:layout="@layout/fragment_my_list_details">
         <argument
@@ -125,7 +125,7 @@
 
     <fragment
         android:id="@+id/episodeDetailsFragment"
-        android:name="com.elhady.movies.feature.details.presentation.ui.episodedetails.EpisodeDetailsFragment"
+        android:name="com.elhady.movies.feature.details.presentation.episodedetails.EpisodeDetailsFragment"
         android:label="EpisodeDetailsFragment"
         tools:layout="@layout/fragment_episode_details">
         <argument
@@ -142,7 +142,7 @@
 
     <fragment
         android:id="@+id/trailerFragment"
-        android:name="com.elhady.movies.feature.player.presentation.ui.PlayerFragment"
+        android:name="com.elhady.movies.feature.player.presentation.player.PlayerFragment"
         android:label="TrailerFragment"
         tools:layout="@layout/fragment_player">
         <argument
@@ -153,14 +153,14 @@
 
     <fragment
         android:id="@+id/myRatedFragment"
-        android:name="com.elhady.movies.feature.watchlist.presentation.ui.myrated.MyRatedFragment"
+        android:name="com.elhady.movies.feature.watchlist.presentation.ratedmedia.RatedMediaMediaFragment"
         android:label="MyRatedFragment">
         <deepLink app:uri="movie://my_rated" />
     </fragment>
 
     <fragment
         android:id="@+id/peopleDetailsFragment"
-        android:name="com.elhady.movies.feature.details.presentation.ui.peopledetails.PeopleDetailsFragment"
+        android:name="com.elhady.movies.feature.details.presentation.peopledetails.PeopleDetailsFragment"
         android:label="PeopleDetailsFragment"
         tools:layout="@layout/fragment_people_details">
         <argument
@@ -171,7 +171,7 @@
 
     <dialog
         android:id="@+id/saveToListBottomSheet"
-        android:name="com.elhady.movies.feature.details.presentation.ui.moviedetails.SaveMovieToListBottomSheet"
+        android:name="com.elhady.movies.feature.details.presentation.moviedetails.SaveMovieToListBottomSheet"
         android:label="SaveToListBottomSheet"
         tools:layout="@layout/save_movie_to_create_list_bottom_sheet">
         <deepLink app:uri="movie://save_to_list" />

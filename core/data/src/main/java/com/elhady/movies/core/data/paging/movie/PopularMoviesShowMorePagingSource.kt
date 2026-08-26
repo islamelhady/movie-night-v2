@@ -1,23 +1,25 @@
 package com.elhady.movies.core.data.paging.movie
 
-import com.elhady.movies.core.domain.model.movie.MovieEntity
-import com.elhady.movies.core.data.mapper.movie.DomainGenreMapper
-import com.elhady.movies.core.data.mapper.movie.DomainPopularMovieShowMoreMapper
-import com.elhady.movies.core.database.MovieDao
+import com.elhady.movies.core.domain.model.movie.Movie
+import com.elhady.movies.core.data.mapper.movie.GenreEntityMapper
+import com.elhady.movies.core.data.mapper.movie.PopularMovieShowMoreDtoMapper
+import com.elhady.movies.core.database.dao.genre.GenreMovieDao
 import com.elhady.movies.core.data.base.BasePagingSource
 import com.elhady.movies.core.network.api.MovieApiService
+import com.elhady.movies.core.network.exception.SafeApiCaller
 import javax.inject.Inject
 
 class PopularMoviesShowMorePagingSource @Inject constructor(
-    service: MovieApiService,
-    private val mapper: DomainPopularMovieShowMoreMapper,
-    private val domainGenreMapper: DomainGenreMapper,
-    private val movieDao: MovieDao,
-) : BasePagingSource<MovieApiService, MovieEntity>(service) {
+    private val service: MovieApiService,
+    private val safeApiCaller: SafeApiCaller,
+    private val mapper: PopularMovieShowMoreDtoMapper,
+    private val domainGenreMapper: GenreEntityMapper,
+    private val genreMovieDao: GenreMovieDao,
+) : BasePagingSource<MovieApiService, Movie>() {
 
-    override suspend fun fetchData(page: Int): List<MovieEntity> {
-        val response = service.getPopularMovies(page).body()?.results?.filterNotNull()
-        val genreMovieMapper = domainGenreMapper.map(movieDao.getGenresMovies())
-        return response?.map { mapper.map(it, genreMovieMapper) } ?: emptyList()
+    override suspend fun fetchData(page: Int): List<Movie> {
+        val response = safeApiCaller.execute { service.getPopularMovies(page) }.results?.filterNotNull()
+        val genreMovieMapper = domainGenreMapper.map(genreMovieDao.getGenresMovies())
+        return response?.map { mapper.map(it, genreMovieMapper) }.orEmpty()
     }
 }

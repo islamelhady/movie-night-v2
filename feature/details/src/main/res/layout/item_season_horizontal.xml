@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.details.presentation.seasondetails.SeasonHorizontalUIState" />
+            type="com.elhady.movies.feature.details.presentation.seasondetails.SeasonHorizontalUiState" />
 
         <variable
             name="listener"
@@ -20,6 +20,21 @@
         android:layout_marginHorizontal="@dimen/spacing_medium_16dp"
         android:layout_marginVertical="@dimen/spacing_tiny_4dp"
         android:onClick="@{() -> listener.onClickSeason(item.seasonNumber)}">
+
+
+        <TextView
+            android:id="@+id/text_seasons"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/seasons"
+            android:layout_marginTop="@dimen/spacing_medium_16dp"
+            android:textColor="@color/on_background_87"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="@dimen/spacing_small_8dp"
+            style="@style/TextStyle.TitleMedium"
+            app:isVisibleOrGone="@{!item.title.empty}" />
+
 
         <View
             android:id="@+id/view_card_background"
@@ -101,7 +116,8 @@
             android:scaleType="centerCrop"
             app:imageUrl="@{item.imageUrl}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/spacing_small_8dp"
+            app:layout_constraintTop_toBottomOf="@id/text_seasons"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
             tools:src="@tools:sample/backgrounds/scenic" />
     </androidx.constraintlayout.widget.ConstraintLayout>

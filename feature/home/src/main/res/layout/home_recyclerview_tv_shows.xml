@@ -5,167 +5,213 @@
 
     <data>
 
-        <import type="com.elhady.movies.core.common.ShowMoreType"/>
+        <import type="com.elhady.movies.core.common.ShowMoreType" />
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.home.presentation.ui.HomeItem.TvShow" />
+            type="com.elhady.movies.feature.home.presentation.home.HomeItem.TvShow" />
 
         <variable
             name="airingTodayTv"
-            type="com.elhady.movies.feature.home.presentation.TvShowUiState" />
+            type="com.elhady.movies.feature.home.presentation.home.TvShowUiState" />
 
         <variable
             name="topRatedTv"
-            type="com.elhady.movies.feature.home.presentation.TvShowUiState" />
+            type="com.elhady.movies.feature.home.presentation.home.TvShowUiState" />
 
         <variable
             name="popularTv"
-            type="com.elhady.movies.feature.home.presentation.TvShowUiState" />
+            type="com.elhady.movies.feature.home.presentation.home.TvShowUiState" />
 
         <variable
             name="onTheAirTv"
-            type="com.elhady.movies.feature.home.presentation.TvShowUiState" />
-
+            type="com.elhady.movies.feature.home.presentation.home.TvShowUiState" />
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.home.presentation.HomeListener" />
+            type="com.elhady.movies.feature.home.presentation.home.HomeAdapterListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        app:hideWhenNoResult="@{item.list}">
+        app:hideWhenNoResult="@{item.items}">
 
         <TextView
             android:id="@+id/text_tvShow_title"
             style="@style/TextStyle.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/tv_show"
-            android:textColor="@color/on_background_87"
             android:layout_marginStart="@dimen/spacing_medium_16dp"
             android:layout_marginTop="@dimen/spacing_medium_16dp"
+            android:text="@string/tv_show"
+            android:textColor="@color/on_background_87"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Top Rated -->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_top_rated"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
             android:layout_marginStart="@dimen/spacing_medium_16dp"
+            android:scaleType="centerCrop"
+            app:imageUrl="@{topRatedTv.imageUrl}"
+            app:layout_constraintBottom_toBottomOf="@id/image_popular"
+            app:layout_constraintEnd_toStartOf="@id/image_latest"
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/image_latest"
-            app:layout_constraintBottom_toBottomOf="@+id/image_popular"
-            app:layout_constraintEnd_toStartOf="@+id/image_latest"
-            app:imageUrl="@{topRatedTv.imageUrl}" />
+            app:layout_constraintTop_toTopOf="@id/image_latest"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
-            android:onClick="@{() -> listener.onClickShowMore(ShowMoreType.TOP_RATED_TV)}"
             android:background="@drawable/gradient_background"
-            app:layout_constraintStart_toStartOf="@id/image_top_rated"
-            app:layout_constraintBottom_toBottomOf="@+id/image_top_rated"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="@{() -> listener.onClickTvShow(topRatedTv.id)}"
+            app:layout_constraintBottom_toBottomOf="@id/image_top_rated"
             app:layout_constraintEnd_toEndOf="@id/image_top_rated"
+            app:layout_constraintStart_toStartOf="@id/image_top_rated"
             app:layout_constraintTop_toTopOf="@id/image_top_rated"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
             tools:src="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/text_top_rated"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="2dp"
             android:layout_margin="@dimen/spacing_medium_16dp"
+            android:elevation="2dp"
             android:text="@string/top_rated"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/image_top_rated"
-            app:layout_constraintStart_toStartOf="@+id/image_top_rated" />
+            app:layout_constraintBottom_toBottomOf="@id/image_top_rated"
+            app:layout_constraintStart_toStartOf="@id/image_top_rated" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_latest"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
             android:layout_marginHorizontal="@dimen/spacing_medium_16dp"
             android:layout_marginTop="@dimen/spacing_small_8dp"
+            android:scaleType="centerCrop"
+            app:imageUrl="@{airingTodayTv.imageUrl}"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/image_top_rated"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_tvShow_title"
-            app:imageUrl="@{airingTodayTv.imageUrl}"/>
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/image_top_rated"
+            app:layout_constraintTop_toBottomOf="@id/text_tvShow_title"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:onClick="@{() -> listener.onClickShowMore(ShowMoreType.AIRING_TODAY_TV)}"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+            android:onClick="@{() -> listener.onClickTvShow(airingTodayTv.id)}"
             android:background="@drawable/gradient_background"
-            app:layout_constraintBottom_toBottomOf="@+id/image_latest"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="@id/image_latest"
             app:layout_constraintEnd_toEndOf="@id/image_latest"
             app:layout_constraintStart_toStartOf="@id/image_latest"
             app:layout_constraintTop_toTopOf="@id/image_latest"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
             tools:src="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/text_air_today"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="2dp"
             android:layout_margin="@dimen/spacing_small_8dp"
+            android:elevation="2dp"
             android:text="Air Today"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/image_latest"
-            app:layout_constraintStart_toStartOf="@+id/image_latest" />
+            app:layout_constraintBottom_toBottomOf="@id/image_latest"
+            app:layout_constraintStart_toStartOf="@id/image_latest" />
 
-
+        <!-- Popular -->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_popular"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
             android:layout_marginTop="@dimen/spacing_medium_16dp"
-            android:layout_marginBottom="@dimen/spacing_medium_16dp"
+            android:scaleType="centerCrop"
+            app:imageUrl="@{popularTv.imageUrl}"
             app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@id/image_latest"
             app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toStartOf="@+id/image_latest"
-            app:layout_constraintEnd_toEndOf="@+id/image_latest"
-            app:layout_constraintTop_toBottomOf="@+id/image_latest"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:imageUrl="@{popularTv.imageUrl}"/>
+            app:layout_constraintStart_toStartOf="@id/image_latest"
+            app:layout_constraintTop_toBottomOf="@id/image_latest"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
-            android:onClick="@{() -> listener.onClickShowMore(ShowMoreType.POPULAR_TV)}"
+            android:clickable="true"
+            android:focusable="true"
             android:background="@drawable/gradient_background"
-            app:layout_constraintBottom_toBottomOf="@+id/image_popular"
+            android:onClick="@{() -> listener.onClickTvShow(popularTv.id)}"
+            app:layout_constraintBottom_toBottomOf="@id/image_popular"
             app:layout_constraintEnd_toEndOf="@id/image_popular"
             app:layout_constraintStart_toStartOf="@id/image_popular"
             app:layout_constraintTop_toTopOf="@id/image_popular"
-            tools:src="@tools:sample/avatars"
-            />
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+            tools:src="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/text_popular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="2dp"
             android:layout_margin="@dimen/spacing_small_8dp"
+            android:elevation="2dp"
             android:text="@string/popular"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/image_popular"
-            app:layout_constraintStart_toStartOf="@+id/image_popular" />
+            app:layout_constraintBottom_toBottomOf="@id/image_popular"
+            app:layout_constraintStart_toStartOf="@id/image_popular" />
+
+        <!-- On The Air -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_on_the_air"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/spacing_medium_16dp"
+            android:layout_marginTop="@dimen/spacing_medium_16dp"
+            android:layout_marginBottom="@dimen/spacing_medium_16dp"
+            android:scaleType="centerCrop"
+            app:imageUrl="@{onTheAirTv.imageUrl}"
+            app:layout_constraintDimensionRatio="2:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_popular"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/gradient_background"
+            android:onClick="@{() -> listener.onClickTvShow(onTheAirTv.id)}"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="@id/image_on_the_air"
+            app:layout_constraintEnd_toEndOf="@id/image_on_the_air"
+            app:layout_constraintStart_toStartOf="@id/image_on_the_air"
+            app:layout_constraintTop_toTopOf="@id/image_on_the_air"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/text_on_the_air"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small_8dp"
+            android:elevation="2dp"
+            android:text="@string/on_the_air"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/image_on_the_air"
+            app:layout_constraintStart_toStartOf="@id/image_on_the_air" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

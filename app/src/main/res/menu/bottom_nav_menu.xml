@@ -15,7 +15,7 @@
         android:title="@string/explore" />
     <item
         android:id="@+id/profileFragment"
-        android:icon="@drawable/ic_liner"
+        android:icon="@drawable/ic_linear"
         android:title="@string/more" />
 
 </menu>

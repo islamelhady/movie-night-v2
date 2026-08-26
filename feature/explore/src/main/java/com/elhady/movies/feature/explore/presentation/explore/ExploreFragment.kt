@@ -3,63 +3,142 @@ package com.elhady.movies.feature.explore.presentation.explore
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
-import com.elhady.movies.core.ui.bases.BaseFragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.elhady.movies.core.ui.base.BaseFragment
+import com.elhady.movies.core.ui.base.animationRes
+import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.explore.BR
 import com.elhady.movies.feature.explore.R
 import com.elhady.movies.feature.explore.databinding.FragmentExploreBinding
-import com.elhady.movies.feature.explore.viewmodel.explore.ExploreItem
-import com.elhady.movies.feature.explore.viewmodel.explore.ExploreUiEvent
-import com.elhady.movies.feature.explore.viewmodel.explore.ExploreUiState
-import com.elhady.movies.feature.explore.viewmodel.explore.ExploreViewModel
-import com.elhady.movies.core.ui.navigation.Navigator
+import com.elhady.movies.feature.explore.presentation.explore.adapter.ExploreAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, ExploreUiEvent>() {
+class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, ExploreUiEffect>() {
 
     @Inject
     lateinit var navigator: Navigator
 
     override val layoutIdFragment: Int = R.layout.fragment_explore
     override val viewModel: ExploreViewModel by viewModels()
-    override val viewModelVariableId: Int = BR.viewModel
     private lateinit var adapter: ExploreAdapter
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        collectData()
+
         setAdapter()
+        setListener()
     }
 
-    private fun setAdapter() {
-        adapter = ExploreAdapter(mutableListOf(), viewModel)
-        binding.recyclerTrend.adapter = adapter
-    }
-
-    private fun collectData() {
-        collectLatest {
-            viewModel.state.collect { state ->
-                val exploreItem = if (state.layoutManager) {
-                    state.trendingMoviesToday.map { ExploreItem.GridItem(it) }
-                } else {
-                    state.trendingMoviesToday.map { ExploreItem.HorizontalItem(it) }
-                }
-                adapter.setItems(exploreItem)
-            }
+    private fun setListener() {
+        binding.inputSearch.setOnClickListener {
+            viewModel.onEvent(ExploreUiEvent.SearchClicked)
+        }
+        binding.switchCompat.setOnClickListener {
+            viewModel.onEvent(ExploreUiEvent.ChangeLayoutClicked)
+        }
+        binding.buttonRetry.setOnClickListener {
+            viewModel.onEvent(ExploreUiEvent.RetryClicked)
         }
     }
 
-    override fun onEvent(event: ExploreUiEvent) {
-        when (event) {
-            ExploreUiEvent.NavigateToSearchEvent -> navigateToSearch()
-            is ExploreUiEvent.ShowSnackBarMessageEvent -> showSnackBar(event.message)
-            is ExploreUiEvent.NavigateToMovieDetailsEvent -> navigator.navigateToMovieDetails(event.movieId)
+
+    private fun setAdapter() {
+        adapter = ExploreAdapter(
+            list = mutableListOf(),
+            listener = object : ExploreAdapterListener {
+                override fun onClickMovie(id: Int) {
+                    viewModel.onEvent(
+                        ExploreUiEvent.MovieClicked(id)
+                    )
+                }
+            }
+        )
+        binding.recyclerTrend.adapter = adapter
+    }
+
+
+    override fun render(
+        state: ExploreUiState
+    ) {
+        renderLoading(state)
+        renderMovies(state)
+        renderLayout(state)
+        renderError(state)
+    }
+
+    private fun renderLoading(
+        state: ExploreUiState
+    ) {
+        binding.animationLoading.isVisible = state.isLoading
+    }
+
+    private fun renderError(
+        state: ExploreUiState
+    ) {
+        val errors = state.errors
+        binding.errorAnimation.isVisible = errors != null
+        binding.buttonRetry.isVisible = errors != null
+
+        if (errors == null) {
+            binding.errorAnimation.cancelAnimation()
+            return
+        }
+
+        binding.errorAnimation.setAnimation(errors.animationRes)
+        binding.errorAnimation.playAnimation()
+    }
+
+    private fun renderMovies(
+        state: ExploreUiState
+    ) {
+        val items = if (state.isGridLayout) {
+            state.trendingMoviesToday.map {
+                ExploreItem.GridItem(it)
+            }
+        } else {
+            state.trendingMoviesToday.map {
+                ExploreItem.HorizontalItem(it)
+            }
+        }
+        binding.recyclerTrend.isVisible =
+            state.trendingMoviesToday.isNotEmpty() && !state.isLoading && state.errors == null
+
+        adapter.setItems(items)
+    }
+
+    private fun renderLayout(
+        state: ExploreUiState
+    ) {
+        binding.switchCompat.isChecked = state.isGridLayout
+        binding.recyclerTrend.layoutManager =
+            if (state.isGridLayout) {
+                GridLayoutManager(
+                    requireContext(),
+                    2
+                )
+            } else {
+                LinearLayoutManager(
+                    requireContext(),
+                    LinearLayoutManager.VERTICAL,
+                    false
+                )
+            }
+    }
+
+    override fun onEffect(effect: ExploreUiEffect) {
+        when (effect) {
+            ExploreUiEffect.NavigateToSearch -> navigateToSearch()
+            is ExploreUiEffect.ShowSnackBar -> showSnackBar(effect.message)
+            is ExploreUiEffect.NavigateToMovieDetails -> navigator.navigateToMovieDetails(effect.movieId)
         }
     }
 
