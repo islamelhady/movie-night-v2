@@ -40,9 +40,13 @@ class MovieDetailsFragment :
     private lateinit var rateBottomSheet: RatingMovieBottomSheet
     private lateinit var addToListBottomSheet: SaveMovieToListBottomSheet
 
+    private var youtubePlayer: YouTubePlayer? = null
+    private var loadedVideoKey: String? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycle.addObserver(binding.includePlayerOverlay.youtubePlayerView)
+        initYoutubePlayer()
         binding.toolbar.title = ""
         binding.listener = this
         (activity as AppCompatActivity?)!!.setSupportActionBar(binding.toolbar)
@@ -57,9 +61,7 @@ class MovieDetailsFragment :
     }
 
     override fun render(state: MovieDetailsUiState) {
-        if (state.isPlayerVisible) {
-            setupYoutubePlayer(state.movieUiState.videoKey)
-        }
+        handlePlayerState(state.isPlayerVisible, state.movieUiState.videoKey)
         binding.state = state
         movieDetailsAdapter.setItems(
             mutableListOf(
@@ -116,13 +118,29 @@ class MovieDetailsFragment :
     override fun onChipClick(id: Int) = viewModel.onEvent(MovieDetailsUiEvent.ChipClicked(id))
 
     // Fragment UI Logic
-    private fun setupYoutubePlayer(videoKey: String) {
+    private fun initYoutubePlayer() {
         binding.includePlayerOverlay.youtubePlayerView.addYouTubePlayerListener(object :
             AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                youTubePlayer.cueVideo(videoKey, 0f)
+                this@MovieDetailsFragment.youtubePlayer = youTubePlayer
+                // Re-render to cue if player was already visible when onReady fired
+                render(viewModel.state.value)
             }
         })
+    }
+
+    private fun handlePlayerState(isPlayerVisible: Boolean, videoKey: String) {
+        if (isPlayerVisible) {
+            if (loadedVideoKey != videoKey && youtubePlayer != null) {
+                youtubePlayer?.cueVideo(videoKey, 0f)
+                loadedVideoKey = videoKey
+            }
+        } else {
+            if (loadedVideoKey != null) {
+                youtubePlayer?.pause()
+                loadedVideoKey = null
+            }
+        }
     }
 
     private fun showRateBottomSheet() {
@@ -177,4 +195,10 @@ class MovieDetailsFragment :
         viewModel.onEvent(MovieDetailsUiEvent.RatingChanged(rate))
 
     override fun getUserRating(): Float = viewModel.state.value.userRating / 2
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        youtubePlayer = null
+        loadedVideoKey = null
+    }
 }

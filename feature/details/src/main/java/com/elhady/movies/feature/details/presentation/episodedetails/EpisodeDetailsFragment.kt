@@ -26,6 +26,9 @@ class EpisodeDetailsFragment :
     override val layoutIdFragment: Int = R.layout.fragment_episode_details
     override val viewModel: EpisodeDetailsViewModel by viewModels()
 
+    private var youtubePlayer: YouTubePlayer? = null
+    private var loadedVideoKey: String? = null
+
     private val peopleAdapter: PeopleAdapter by lazy {
         PeopleAdapter(mutableListOf(), this)
     }
@@ -36,6 +39,7 @@ class EpisodeDetailsFragment :
     ) {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycle.addObserver(binding.includePlayerOverlay.youtubePlayerView)
+        initYoutubePlayer()
         binding.listener = this
 
         setupPeopleAdapter()
@@ -53,21 +57,34 @@ class EpisodeDetailsFragment :
     }
 
     override fun render(state: EpisodeDetailsUiState) {
-        if (state.isPlayerVisible) {
-            setupYoutubePlayer(state.trailerKey)
-        }
+        handlePlayerState(state.isPlayerVisible, state.trailerKey)
         binding.state = state
         binding.swipeToRefreshLayout.isRefreshing = state.isRefreshing
         peopleAdapter.setItems(state.cast)
     }
 
-    private fun setupYoutubePlayer(videoKey: String) {
+    private fun initYoutubePlayer() {
         binding.includePlayerOverlay.youtubePlayerView.addYouTubePlayerListener(object :
             AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                youTubePlayer.cueVideo(videoKey, 0f)
+                this@EpisodeDetailsFragment.youtubePlayer = youTubePlayer
+                render(viewModel.state.value)
             }
         })
+    }
+
+    private fun handlePlayerState(isPlayerVisible: Boolean, videoKey: String) {
+        if (isPlayerVisible && videoKey.isNotEmpty()) {
+            if (loadedVideoKey != videoKey && youtubePlayer != null) {
+                youtubePlayer?.cueVideo(videoKey, 0f)
+                loadedVideoKey = videoKey
+            }
+        } else {
+            if (loadedVideoKey != null) {
+                youtubePlayer?.pause()
+                loadedVideoKey = null
+            }
+        }
     }
 
     override fun onEffect(effect: EpisodeDetailsUiEffect) {
@@ -152,5 +169,11 @@ class EpisodeDetailsFragment :
     override fun onApplyRateBottomSheet(rate: Float) {
         viewModel.onEvent(EpisodeDetailsUiEvent.RatingChanged(rate))
         viewModel.onEvent(EpisodeDetailsUiEvent.SubmitRating)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        youtubePlayer = null
+        loadedVideoKey = null
     }
 }
