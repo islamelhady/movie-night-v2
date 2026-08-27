@@ -5,6 +5,7 @@ import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.domain.usecase.tvshow.GetSeasonDetailsUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.base.toErrorUiState
+import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.details.presentation.seasondetails.mapper.SeasonDetailsUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
@@ -14,19 +15,26 @@ import javax.inject.Inject
 class SeasonDetailsViewModel @Inject constructor(
     private val getSeasonDetailsUseCase: GetSeasonDetailsUseCase,
     private val seasonDetailsUiMapper: SeasonDetailsUiMapper,
+    private val stringsRes: StringsRes,
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<SeasonDetailsUiState, SeasonDetailsUiEffect>(
     SeasonDetailsUiState()
 ) {
 
-    private val seriesId: Int =
-        checkNotNull(savedStateHandle.get<Int>(SERIES_ID))
-
-    private val seasonNumber: Int =
-        checkNotNull(savedStateHandle.get<Int>(SEASON_NUMBER))
+    private val seriesId: Int? = savedStateHandle.get<Int>(SERIES_ID)
+    private val seasonNumber: Int? = savedStateHandle.get<Int>(SEASON_NUMBER)
 
     init {
-        getData()
+        if (seriesId != null && seasonNumber != null) {
+            getData()
+        } else {
+            _state.update {
+                it.copy(
+                    isLoading = false,
+                    error = com.elhady.movies.core.ui.base.ErrorUiState.EmptyResponse
+                )
+            }
+        }
     }
 
     fun onEvent(event: SeasonDetailsUiEvent) {
@@ -46,8 +54,8 @@ class SeasonDetailsViewModel @Inject constructor(
                 sendEffect(
                     SeasonDetailsUiEffect.NavigateToEpisodeDetails(
                         episodeId = event.episodeId,
-                        seriesId = seriesId,
-                        seasonNumber = seasonNumber,
+                        seriesId = seriesId!!,
+                        seasonNumber = seasonNumber!!,
                     )
                 )
             }
@@ -69,8 +77,8 @@ class SeasonDetailsViewModel @Inject constructor(
         tryToExecute(
             call = {
                 getSeasonDetailsUseCase(
-                    seriesId = seriesId,
-                    seasonNumber = seasonNumber,
+                    seriesId = seriesId!!,
+                    seasonNumber = seasonNumber!!,
                 )
             },
             mapper = seasonDetailsUiMapper,
@@ -95,18 +103,18 @@ class SeasonDetailsViewModel @Inject constructor(
     }
 
     private fun onError(error: AppException) {
-        val error = error.toErrorUiState()
+        val errorUiState = error.toErrorUiState()
 
         _state.update {
             it.copy(
                 isLoading = false,
-                error = error,
+                error = errorUiState,
             )
         }
 
         sendEffect(
             SeasonDetailsUiEffect.ShowSnackBar(
-                message = error.messageRes.toString()
+                message = stringsRes.someThingError // Using stringsRes
             )
         )
     }

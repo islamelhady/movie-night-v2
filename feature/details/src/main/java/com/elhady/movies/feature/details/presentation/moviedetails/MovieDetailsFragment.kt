@@ -2,7 +2,6 @@ package com.elhady.movies.feature.details.presentation.moviedetails
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -49,7 +48,6 @@ class MovieDetailsFragment :
         initYoutubePlayer()
         binding.toolbar.title = ""
         binding.listener = this
-        (activity as AppCompatActivity?)!!.setSupportActionBar(binding.toolbar)
         setAdapter()
         collapseState()
     }

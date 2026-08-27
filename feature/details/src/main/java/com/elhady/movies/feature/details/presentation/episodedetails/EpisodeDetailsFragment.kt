@@ -18,7 +18,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 @AndroidEntryPoint
 class EpisodeDetailsFragment :
     BaseFragment<FragmentEpisodeDetailsBinding, EpisodeDetailsUiState, EpisodeDetailsUiEffect>(),
-    EpisodeDetailsListener, EpisodeListener, PeopleAdapterListener, BottomSheetListener {
+    EpisodeDetailsListener, PeopleAdapterListener, BottomSheetListener {
 
     @Inject
     lateinit var navigator: Navigator
@@ -137,14 +137,6 @@ class EpisodeDetailsFragment :
     override fun onClickRetry() {
         viewModel.onEvent(
             EpisodeDetailsUiEvent.RetryClicked
-        )
-    }
-
-    override fun onClickEpisode(id: Int) {
-        viewModel.onEvent(
-            EpisodeDetailsUiEvent.CastClicked(
-                personId = id
-            )
         )
     }
 
