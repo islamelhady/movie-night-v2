@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.feature.details.R
@@ -125,32 +124,32 @@ class MovieDetailsFragment :
 
     private fun collapseState() {
         collectFlow(flow = viewModel.state) { state ->
-            binding.nestedRecycler.isNestedScrollingEnabled =
+            _binding?.nestedRecycler?.isNestedScrollingEnabled =
                 !(state.reviewUiState.isEmpty() && state.recommendedUiState.isEmpty())
         }
 
         var pos = 0
-        findNavController().addOnDestinationChangedListener { _, _, _ ->
-            binding.nestedRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    val firstVisibleItemPosition = recyclerView.layoutManager as LinearLayoutManager
-                    pos = firstVisibleItemPosition.findFirstVisibleItemPosition()
-                }
-            })
-            binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+        binding.nestedRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val firstVisibleItemPosition = recyclerView.layoutManager as LinearLayoutManager
+                pos = firstVisibleItemPosition.findFirstVisibleItemPosition()
+            }
+        })
+        binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+            _binding?.apply {
                 when {
                     verticalOffset == 0 -> {
-                        binding.textViewToolBarName.visibility = View.INVISIBLE
+                        textViewToolBarName.visibility = View.INVISIBLE
                         if (pos != 0) appBarLayout.setExpanded(false, false)
                     }
 
                     abs(verticalOffset) >= appBarLayout.totalScrollRange -> {
-                        binding.textViewToolBarName.visibility = View.VISIBLE
-                        binding.nestedRecycler.isNestedScrollingEnabled = true
+                        textViewToolBarName.visibility = View.VISIBLE
+                        nestedRecycler.isNestedScrollingEnabled = true
                     }
 
                     else -> {
-                        binding.textViewToolBarName.visibility = View.INVISIBLE
+                        textViewToolBarName.visibility = View.INVISIBLE
                     }
                 }
             }
