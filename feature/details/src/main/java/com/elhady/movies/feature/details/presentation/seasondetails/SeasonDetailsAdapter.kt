@@ -20,11 +20,11 @@ class SeasonDetailsAdapter (
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return when(viewType){
-            SeasonDetailsType.OVERVIEW.ordinal -> {
+            VIEW_TYPE_OVERVIEW -> {
                 OverviewViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context),
                     R.layout.item_season_details_header,parent,false))
             }
-            SeasonDetailsType.EPISODE.ordinal -> {
+            VIEW_TYPE_EPISODE -> {
                 EpisodeViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context),
                 R.layout.item_episode_horizontal,parent,false))
             }
@@ -40,26 +40,33 @@ class SeasonDetailsAdapter (
     }
 
     private fun bindOverview(holder: OverviewViewHolder, position: Int){
-        val overview = list[position] as SeasonDetailsItem.OverviewItem
+        val overview = list[position] as SeasonDetailsItem.Overview
         holder.binding.item = overview
     }
 
     private fun bindEpisodes(holder: EpisodeViewHolder, position: Int){
-        val episode = list[position] as SeasonDetailsItem.EpisodeItem
-        holder.binding.item = episode.episodeHorizontalUiState
+        val episode = list[position] as SeasonDetailsItem.Episode
+        holder.binding.item = episode.episode
         holder.binding.listener = listener
     }
     override fun setItems(newItems: List<SeasonDetailsItem>) {
-        val sortedItems = newItems.sortedBy { it.type.ordinal }
-
-        list = sortedItems.toMutableList()
-
-        super.setItems(sortedItems)
+        list = newItems.toMutableList()
+        super.setItems(newItems)
     }
 
-    override fun getItemViewType(position: Int): Int = list[position].type.ordinal
+    override fun getItemViewType(position: Int): Int {
+        return when (list[position]) {
+            is SeasonDetailsItem.Overview -> VIEW_TYPE_OVERVIEW
+            is SeasonDetailsItem.Episode -> VIEW_TYPE_EPISODE
+        }
+    }
 
     class OverviewViewHolder(val binding: ItemSeasonDetailsHeaderBinding): BaseViewHolder(binding)
 
     class EpisodeViewHolder(val binding: ItemEpisodeHorizontalBinding): BaseViewHolder(binding)
+
+    companion object {
+        private const val VIEW_TYPE_OVERVIEW = 0
+        private const val VIEW_TYPE_EPISODE = 1
+    }
 }

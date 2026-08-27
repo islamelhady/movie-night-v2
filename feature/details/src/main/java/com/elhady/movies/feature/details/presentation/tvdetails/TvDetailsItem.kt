@@ -6,18 +6,13 @@ import com.elhady.movies.core.ui.state.PeopleUiState
 import com.elhady.movies.feature.details.presentation.seasondetails.SeasonHorizontalUiState
 import com.elhady.movies.feature.details.presentation.tvdetails.state.InfoUIState
 
-sealed class TvDetailsItem(val type: TvDetailsType) {
-    data class Info(val info: InfoUIState.Info) : TvDetailsItem(TvDetailsType.INFO)
-    data class People(val people: List<PeopleUiState>, val isSeasonNotEmpty: Boolean) : TvDetailsItem(
-        TvDetailsType.PEOPLE
-    )
-    data class Season(val season: SeasonHorizontalUiState) :
-        TvDetailsItem(TvDetailsType.Seasons)
+sealed interface TvDetailsItem {
+    data class Info(val info: InfoUIState.Info) : TvDetailsItem
+    data class People(val people: List<PeopleUiState>, val isSeasonNotEmpty: Boolean) : TvDetailsItem
 
-    data class Recommended(val recommended: List<MediaVerticalUiState>, val isCommentNotEmpty: Boolean) :
-        TvDetailsItem(TvDetailsType.RECOMMENDED)
+    data class Season(val season: SeasonHorizontalUiState) : TvDetailsItem
 
-    data class Review(val review: CommentUiState) : TvDetailsItem(TvDetailsType.REVIEWS)
+    data class Recommended(val recommended: List<MediaVerticalUiState>, val isCommentNotEmpty: Boolean) : TvDetailsItem
+
+    data class Review(val review: CommentUiState) : TvDetailsItem
 }
-
-enum class TvDetailsType { INFO, PEOPLE, Seasons, RECOMMENDED, REVIEWS }
