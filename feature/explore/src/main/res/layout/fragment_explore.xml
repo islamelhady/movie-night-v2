@@ -9,6 +9,10 @@
         <variable
             name="state"
             type="com.elhady.movies.feature.explore.presentation.explore.ExploreUiState" />
+
+        <variable
+            name="listener"
+            type="com.elhady.movies.feature.explore.presentation.explore.ExploreListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,6 +47,7 @@
             android:drawablePadding="@dimen/spacing_custom_12dp"
             android:focusableInTouchMode="false"
             android:hint="@string/search_hint"
+            android:onClick="@{() -> listener.onClickSearch()}"
             android:paddingStart="@dimen/spacing_small_8dp"
             android:textColorHint="@color/on_background_60"
             android:transitionName="search_box"
@@ -72,6 +77,7 @@
             android:textOff=""
             android:textOn=""
             android:checked="@{state.gridLayout}"
+            android:onClick="@{() -> listener.onClickChangeLayout()}"
             app:layout_constraintBottom_toBottomOf="@id/text_trend_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/text_trend_label"
@@ -129,6 +135,7 @@
             android:layout_height="wrap_content"
             app:isVisibleOrGone="@{state.errors != null &amp;&amp; state.trendingMoviesToday.isEmpty()}"
             android:text="@string/retry"
+            android:onClick="@{() -> listener.onClickRetry()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

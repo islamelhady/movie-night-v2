@@ -14,7 +14,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, ExploreUiEffect>() {
+class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, ExploreUiEffect>(),
+    ExploreListener, ExploreAdapterListener {
 
     @Inject
     lateinit var navigator: Navigator
@@ -26,34 +27,14 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.listener = this
         setAdapter()
-        setListener()
     }
-
-    private fun setListener() {
-        binding.inputSearch.setOnClickListener {
-            viewModel.onEvent(ExploreUiEvent.SearchClicked)
-        }
-        binding.switchCompat.setOnClickListener {
-            viewModel.onEvent(ExploreUiEvent.ChangeLayoutClicked)
-        }
-        binding.buttonRetry.setOnClickListener {
-            viewModel.onEvent(ExploreUiEvent.RetryClicked)
-        }
-    }
-
 
     private fun setAdapter() {
         adapter = ExploreAdapter(
             items = mutableListOf(),
-            listener = object : ExploreAdapterListener {
-                override fun onClickMovie(id: Int) {
-                    viewModel.onEvent(
-                        ExploreUiEvent.MovieClicked(id)
-                    )
-                }
-            }
+            listener = this
         )
         binding.recyclerTrend.adapter = adapter
     }
@@ -115,15 +96,26 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
 
     override fun onEffect(effect: ExploreUiEffect) {
         when (effect) {
-            ExploreUiEffect.NavigateToSearch -> navigateToSearch()
+            ExploreUiEffect.NavigateToSearch -> navigator.navigateToSearch()
             is ExploreUiEffect.ShowSnackBar -> showSnackBar(getString(effect.messageRes))
             is ExploreUiEffect.NavigateToMovieDetails -> navigator.navigateToMovieDetails(effect.movieId)
         }
     }
 
+    override fun onClickSearch() {
+        viewModel.onEvent(ExploreUiEvent.SearchClicked)
+    }
 
-    private fun navigateToSearch() {
-        navigator.navigateToSearch()
+    override fun onClickChangeLayout() {
+        viewModel.onEvent(ExploreUiEvent.ChangeLayoutClicked)
+    }
+
+    override fun onClickRetry() {
+        viewModel.onEvent(ExploreUiEvent.RetryClicked)
+    }
+
+    override fun onClickMovie(id: Int) {
+        viewModel.onEvent(ExploreUiEvent.MovieClicked(id))
     }
 
 }
