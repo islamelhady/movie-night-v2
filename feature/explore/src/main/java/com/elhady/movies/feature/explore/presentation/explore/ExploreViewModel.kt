@@ -1,5 +1,6 @@
 package com.elhady.movies.feature.explore.presentation.explore
 
+import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.domain.usecase.movie.GetTrendingMoviesUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.base.ErrorUiState
@@ -7,6 +8,7 @@ import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.feature.explore.presentation.explore.mapper.ExploreTrendingUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -45,14 +47,16 @@ class ExploreViewModel @Inject constructor(
 
     private fun getTrendingMovies() {
         _state.update { it.copy(isLoading = true, errors = null) }
-        tryToExecute(
-            call = { trendingMoviesUseCase() },
-            onSuccess = ::onSuccessTrendingMovies,
-            mapper = trendingUiMapper,
-            onError = { exception ->
-                onError(exception.toErrorUiState())
-            }
-        )
+        viewModelScope.launch {
+            tryToExecuteAsync(
+                call = { trendingMoviesUseCase() },
+                onSuccess = ::onSuccessTrendingMovies,
+                mapper = trendingUiMapper,
+                onError = { exception ->
+                    onError(exception.toErrorUiState())
+                }
+            )
+        }
     }
 
     private fun onSuccessTrendingMovies(trendingMoviesUiState: List<ExploreUiState.TrendingMoviesUiState>) {
@@ -67,7 +71,7 @@ class ExploreViewModel @Inject constructor(
 
     private fun onError(exception: ErrorUiState) {
         _state.update { it.copy(errors = exception, isLoading = false) }
-        sendEffect(ExploreUiEffect.ShowSnackBar(message = exception.messageRes.toString()))
+        sendEffect(ExploreUiEffect.ShowSnackBar(messageRes = exception.messageRes))
     }
 
 }

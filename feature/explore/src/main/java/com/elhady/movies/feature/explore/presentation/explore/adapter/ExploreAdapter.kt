@@ -13,9 +13,9 @@ import com.elhady.movies.feature.explore.presentation.explore.ExploreAdapterList
 import com.elhady.movies.feature.explore.presentation.explore.LayoutItemType
 
 class ExploreAdapter(
-    private var list: MutableList<ExploreItem>,
+    private var items: List<ExploreItem>,
     private val listener: ExploreAdapterListener
-) : BaseAdapter<ExploreItem>(list, listener) {
+) : BaseAdapter<ExploreItem>(items, listener) {
     override val layoutID: Int = 0
     override val itemVariableId: Int = BR.item
     override val listenerVariableId: Int = BR.listener
@@ -40,7 +40,7 @@ class ExploreAdapter(
                 )
             }
 
-            else -> throw Exception("UNKNOWN VIEW HOLDER")
+            else -> throw IllegalArgumentException("UNKNOWN VIEW HOLDER")
         }
     }
 
@@ -52,26 +52,26 @@ class ExploreAdapter(
     }
 
     private fun bindGrid(holder: GridViewHolder, position: Int) {
-        val grid = list[position] as ExploreItem.GridItem
+        val grid = items[position] as ExploreItem.GridItem
         holder.binding.item = grid.gridItem
         holder.binding.listener = listener
 
     }
 
     private fun bindHorizontal(holder: HorizontalViewHolder, position: Int) {
-        val horizontal = list[position] as ExploreItem.HorizontalItem
+        val horizontal = items[position] as ExploreItem.HorizontalItem
         holder.binding.item = horizontal.horizontalItem
         holder.binding.listener = listener
     }
 
-
     override fun setItems(newItems: List<ExploreItem>) {
-        list = newItems.sortedBy { it.type.ordinal }.toMutableList()
+        items = newItems
         super.setItems(newItems)
     }
 
+    override fun getItemCount() = items.size
 
-    override fun getItemViewType(position: Int): Int = list[position].type.ordinal
+    override fun getItemViewType(position: Int): Int = items[position].type.ordinal
 
     class GridViewHolder(val binding: ExploreItemTrendingMovieGridBinding) : BaseViewHolder(binding)
 

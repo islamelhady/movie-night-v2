@@ -51,7 +51,7 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
 
     private fun setAdapter() {
         adapter = ExploreAdapter(
-            list = mutableListOf(),
+            items = mutableListOf(),
             listener = object : ExploreAdapterListener {
                 override fun onClickMovie(id: Int) {
                     viewModel.onEvent(
@@ -83,10 +83,12 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
         state: ExploreUiState
     ) {
         val errors = state.errors
-        binding.errorAnimation.isVisible = errors != null
-        binding.buttonRetry.isVisible = errors != null
+        val hasNoData = state.trendingMoviesToday.isEmpty()
+        
+        binding.errorAnimation.isVisible = errors != null && hasNoData
+        binding.buttonRetry.isVisible = errors != null && hasNoData
 
-        if (errors == null) {
+        if (errors == null || !hasNoData) {
             binding.errorAnimation.cancelAnimation()
             return
         }
@@ -107,8 +109,7 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
                 ExploreItem.HorizontalItem(it)
             }
         }
-        binding.recyclerTrend.isVisible =
-            state.trendingMoviesToday.isNotEmpty() && !state.isLoading && state.errors == null
+        binding.recyclerTrend.isVisible = state.trendingMoviesToday.isNotEmpty()
 
         adapter.setItems(items)
     }
@@ -117,25 +118,23 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
         state: ExploreUiState
     ) {
         binding.switchCompat.isChecked = state.isGridLayout
-        binding.recyclerTrend.layoutManager =
-            if (state.isGridLayout) {
-                GridLayoutManager(
-                    requireContext(),
-                    2
-                )
+
+        val currentLayoutManager = binding.recyclerTrend.layoutManager
+        val isGrid = currentLayoutManager is GridLayoutManager
+        
+        if (state.isGridLayout != isGrid || currentLayoutManager == null) {
+            binding.recyclerTrend.layoutManager = if (state.isGridLayout) {
+                GridLayoutManager(requireContext(), 2)
             } else {
-                LinearLayoutManager(
-                    requireContext(),
-                    LinearLayoutManager.VERTICAL,
-                    false
-                )
+                LinearLayoutManager(requireContext())
             }
+        }
     }
 
     override fun onEffect(effect: ExploreUiEffect) {
         when (effect) {
             ExploreUiEffect.NavigateToSearch -> navigateToSearch()
-            is ExploreUiEffect.ShowSnackBar -> showSnackBar(effect.message)
+            is ExploreUiEffect.ShowSnackBar -> showSnackBar(getString(effect.messageRes))
             is ExploreUiEffect.NavigateToMovieDetails -> navigator.navigateToMovieDetails(effect.movieId)
         }
     }
