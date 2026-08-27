@@ -26,8 +26,10 @@ class EpisodeDetailsFragment :
     override val layoutIdFragment: Int = R.layout.fragment_episode_details
     override val viewModel: EpisodeDetailsViewModel by viewModels()
 
-    private var youtubePlayer: YouTubePlayer? = null
-    private var loadedVideoKey: String? = null
+    private var inlineYoutubePlayer: YouTubePlayer? = null
+    private var overlayYoutubePlayer: YouTubePlayer? = null
+    private var loadedInlineVideoKey: String? = null
+    private var loadedOverlayVideoKey: String? = null
 
     private val peopleAdapter: PeopleAdapter by lazy {
         PeopleAdapter(mutableListOf(), this)
@@ -39,7 +41,8 @@ class EpisodeDetailsFragment :
     ) {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycle.addObserver(binding.includePlayerOverlay.youtubePlayerView)
-        initYoutubePlayer()
+        viewLifecycleOwner.lifecycle.addObserver(binding.youtubePlayer)
+        initYoutubePlayers()
         binding.listener = this
 
         setupPeopleAdapter()
@@ -57,32 +60,50 @@ class EpisodeDetailsFragment :
     }
 
     override fun render(state: EpisodeDetailsUiState) {
-        handlePlayerState(state.isPlayerVisible, state.trailerKey)
+        handleInlinePlayerState(state.trailerKey)
+        handleOverlayPlayerState(state.isPlayerVisible, state.trailerKey)
         binding.state = state
         binding.swipeToRefreshLayout.isRefreshing = state.isRefreshing
         peopleAdapter.setItems(state.cast)
     }
 
-    private fun initYoutubePlayer() {
+    private fun initYoutubePlayers() {
+        binding.youtubePlayer.addYouTubePlayerListener(object :
+            AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                this@EpisodeDetailsFragment.inlineYoutubePlayer = youTubePlayer
+                render(viewModel.state.value)
+            }
+        })
+
         binding.includePlayerOverlay.youtubePlayerView.addYouTubePlayerListener(object :
             AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                this@EpisodeDetailsFragment.youtubePlayer = youTubePlayer
+                this@EpisodeDetailsFragment.overlayYoutubePlayer = youTubePlayer
                 render(viewModel.state.value)
             }
         })
     }
 
-    private fun handlePlayerState(isPlayerVisible: Boolean, videoKey: String) {
+    private fun handleInlinePlayerState(videoKey: String) {
+        if (videoKey.isNotEmpty()) {
+            if (loadedInlineVideoKey != videoKey && inlineYoutubePlayer != null) {
+                inlineYoutubePlayer?.cueVideo(videoKey, 0f)
+                loadedInlineVideoKey = videoKey
+            }
+        }
+    }
+
+    private fun handleOverlayPlayerState(isPlayerVisible: Boolean, videoKey: String) {
         if (isPlayerVisible && videoKey.isNotEmpty()) {
-            if (loadedVideoKey != videoKey && youtubePlayer != null) {
-                youtubePlayer?.cueVideo(videoKey, 0f)
-                loadedVideoKey = videoKey
+            if (loadedOverlayVideoKey != videoKey && overlayYoutubePlayer != null) {
+                overlayYoutubePlayer?.cueVideo(videoKey, 0f)
+                loadedOverlayVideoKey = videoKey
             }
         } else {
-            if (loadedVideoKey != null) {
-                youtubePlayer?.pause()
-                loadedVideoKey = null
+            if (loadedOverlayVideoKey != null) {
+                overlayYoutubePlayer?.pause()
+                loadedOverlayVideoKey = null
             }
         }
     }
@@ -165,7 +186,9 @@ class EpisodeDetailsFragment :
 
     override fun onDestroyView() {
         super.onDestroyView()
-        youtubePlayer = null
-        loadedVideoKey = null
+        inlineYoutubePlayer = null
+        overlayYoutubePlayer = null
+        loadedInlineVideoKey = null
+        loadedOverlayVideoKey = null
     }
 }

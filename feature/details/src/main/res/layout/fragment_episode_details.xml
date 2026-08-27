@@ -12,9 +12,7 @@
         <variable
             name="listener"
             type="com.elhady.movies.feature.details.presentation.episodedetails.EpisodeDetailsListener" />
-        <variable
-            name="viewModel"
-            type="com.elhady.movies.feature.details.presentation.episodedetails.EpisodeDetailsViewModel" />
+
     </data>
 
     <FrameLayout
@@ -215,8 +213,7 @@
                         <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
                             android:id="@+id/youtube_player"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:setVideoId="@{state.trailerKey}" />
+                            android:layout_height="wrap_content" />
 
                     </com.google.android.material.card.MaterialCardView>
 

@@ -37,7 +37,8 @@ class TvDetailsAdapter(
                 DataBindingUtil.inflate(
                     LayoutInflater.from(parent.context),
                     R.layout.tv_details_item_people_rv, parent, false
-                )
+                ),
+                listener
             )
 
             TvDetailsType.Seasons.ordinal -> SeasonViewHolder(
@@ -51,7 +52,8 @@ class TvDetailsAdapter(
                 DataBindingUtil.inflate(
                     LayoutInflater.from(parent.context),
                     R.layout.tv_details_item_recommended_rv, parent, false
-                )
+                ),
+                listener
             )
 
             TvDetailsType.REVIEWS.ordinal -> ReviewViewHolder(
@@ -92,9 +94,8 @@ class TvDetailsAdapter(
 
     private fun bindPeople(holder: PeopleViewHolder, position: Int) {
         val people = tvDetailsItems[position] as TvDetailsItem.People
-        val adapter = PeopleAdapter(people.people, listener)
+        holder.adapter.setItems(people.people)
         holder.binding.listener = listener
-        holder.binding.recyclerViewPeople.adapter = adapter
         holder.binding.item = people
     }
 
@@ -106,9 +107,8 @@ class TvDetailsAdapter(
 
     private fun bindRecommended(holder: RecommendedViewHolder, position: Int) {
         val recommendedItems = tvDetailsItems[position] as TvDetailsItem.Recommended
-        val adapter = RecommendedAdapter(recommendedItems.recommended, listener)
+        holder.adapter.setItems(recommendedItems.recommended)
         holder.binding.listener = listener
-        holder.binding.recyclerViewRecommended.adapter = adapter
         holder.binding.item = recommendedItems
     }
 
@@ -120,11 +120,21 @@ class TvDetailsAdapter(
 
     class InfoViewHolder(val binding: TvDetailsItemInfoBinding) : BaseViewHolder(binding)
 
-    class PeopleViewHolder(val binding: TvDetailsItemPeopleRvBinding) : BaseViewHolder(binding)
+    class PeopleViewHolder(val binding: TvDetailsItemPeopleRvBinding, listener: TvDetailsListeners) : BaseViewHolder(binding) {
+        val adapter = PeopleAdapter(emptyList(), listener)
+        init {
+            binding.recyclerViewPeople.adapter = adapter
+        }
+    }
 
     class SeasonViewHolder(val binding: ItemSeasonHorizontalBinding) : BaseViewHolder(binding)
 
-    class RecommendedViewHolder(val binding: TvDetailsItemRecommendedRvBinding) : BaseViewHolder(binding)
+    class RecommendedViewHolder(val binding: TvDetailsItemRecommendedRvBinding, listener: TvDetailsListeners) : BaseViewHolder(binding) {
+        val adapter = RecommendedAdapter(emptyList(), listener)
+        init {
+            binding.recyclerViewRecommended.adapter = adapter
+        }
+    }
 
     class ReviewViewHolder(val binding: ItemCommentBinding) : BaseViewHolder(binding)
 }
