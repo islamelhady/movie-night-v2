@@ -28,9 +28,9 @@ abstract class BaseBottomSheet<VDB : ViewDataBinding>
     abstract val layoutIdFragment: Int
     protected open val viewModel: ViewModel? = null
 
-    private lateinit var _binding: VDB
+    private var _binding: VDB? = null
     protected val binding: VDB
-        get() = _binding
+        get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,10 +38,13 @@ abstract class BaseBottomSheet<VDB : ViewDataBinding>
         savedInstanceState: Bundle?
     ): View? {
         _binding = DataBindingUtil.inflate(inflater, layoutIdFragment, container, false)
-        _binding.apply {
-            lifecycleOwner = viewLifecycleOwner
-            return root
-        }
+        _binding?.lifecycleOwner = viewLifecycleOwner
+        return _binding?.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     protected fun <T> collectFlow(flow: Flow<T>, collect: suspend (T) -> Unit) {
