@@ -1,13 +1,8 @@
 package com.elhady.movies.feature.explore.presentation.explore
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavDeepLinkRequest
-import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.elhady.movies.core.ui.base.BaseFragment
@@ -67,16 +62,10 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
     override fun render(
         state: ExploreUiState
     ) {
-        renderLoading(state)
+        binding.state = state
         renderMovies(state)
         renderLayout(state)
         renderError(state)
-    }
-
-    private fun renderLoading(
-        state: ExploreUiState
-    ) {
-        binding.animationLoading.isVisible = state.isLoading
     }
 
     private fun renderError(
@@ -84,9 +73,6 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
     ) {
         val errors = state.errors
         val hasNoData = state.trendingMoviesToday.isEmpty()
-        
-        binding.errorAnimation.isVisible = errors != null && hasNoData
-        binding.buttonRetry.isVisible = errors != null && hasNoData
 
         if (errors == null || !hasNoData) {
             binding.errorAnimation.cancelAnimation()
@@ -109,16 +95,12 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
                 ExploreItem.HorizontalItem(it)
             }
         }
-        binding.recyclerTrend.isVisible = state.trendingMoviesToday.isNotEmpty()
-
         adapter.setItems(items)
     }
 
     private fun renderLayout(
         state: ExploreUiState
     ) {
-        binding.switchCompat.isChecked = state.isGridLayout
-
         val currentLayoutManager = binding.recyclerTrend.layoutManager
         val isGrid = currentLayoutManager is GridLayoutManager
         
@@ -141,12 +123,7 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
 
 
     private fun navigateToSearch() {
-        // Keeping extras for now, using findNavController directly for infrastructure
-        val extras = FragmentNavigatorExtras(binding.inputSearch to "search_box")
-        val request =
-            NavDeepLinkRequest.Builder.fromUri(Uri.parse("movie://search")).build()
-
-        findNavController().navigate(request, null, extras)
+        navigator.navigateToSearch()
     }
 
 }

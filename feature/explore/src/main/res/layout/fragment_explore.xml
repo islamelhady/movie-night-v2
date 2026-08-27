@@ -4,6 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
+    <data>
+
+        <variable
+            name="state"
+            type="com.elhady.movies.feature.explore.presentation.explore.ExploreUiState" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -64,6 +71,7 @@
             android:background="@drawable/trend_button"
             android:textOff=""
             android:textOn=""
+            android:checked="@{state.gridLayout}"
             app:layout_constraintBottom_toBottomOf="@id/text_trend_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/text_trend_label"
@@ -77,6 +85,7 @@
             android:layout_marginTop="@dimen/spacing_small_8dp"
             android:clipToPadding="false"
             android:elevation="@dimen/spacing_tiny_4dp"
+            app:isVisible="@{!state.trendingMoviesToday.isEmpty()}"
             tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +98,7 @@
             android:id="@+id/animation_loading"
             android:layout_width="128dp"
             android:layout_height="128dp"
-            android:visibility="gone"
+            app:isVisible="@{state.isLoading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -108,7 +117,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
-            android:visibility="gone"
+            app:isVisible="@{state.errors != null &amp;&amp; state.trendingMoviesToday.isEmpty()}"
             app:lottie_autoPlay="true"
             app:lottie_colorFilter="@color/primary"
             app:lottie_loop="true" />
@@ -118,7 +127,7 @@
             style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            app:isVisible="@{state.errors != null &amp;&amp; state.trendingMoviesToday.isEmpty()}"
             android:text="@string/retry"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
