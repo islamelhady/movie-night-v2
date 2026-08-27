@@ -19,4 +19,5 @@ sealed interface TvDetailsUiEvent {
     object AddNewListClicked : TvDetailsUiEvent
     data class CreateNewListClicked(val listName: String) : TvDetailsUiEvent
     object Retry : TvDetailsUiEvent
+    object DismissPlayerClicked : TvDetailsUiEvent
 }

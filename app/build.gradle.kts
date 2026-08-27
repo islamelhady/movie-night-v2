@@ -82,7 +82,6 @@ dependencies {
     implementation(project(":feature:search"))
     implementation(project(":feature:details"))
     implementation(project(":feature:watchlist"))
-    implementation(project(":feature:player"))
     implementation(project(":feature:explore"))
     implementation(project(":feature:profile"))
     implementation(project(":feature:tvshow"))

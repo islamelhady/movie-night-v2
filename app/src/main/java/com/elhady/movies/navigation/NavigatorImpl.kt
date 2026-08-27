@@ -64,13 +64,6 @@ class NavigatorImpl @Inject constructor(
         navController?.navigate(request)
     }
 
-    override fun navigateToTrailer(videoKey: String) {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri(Uri.parse("movie://trailer/$videoKey"))
-            .build()
-        navController?.navigate(request)
-    }
-
     override fun navigateToLogin() {
         val request = NavDeepLinkRequest.Builder
             .fromUri(Uri.parse("movie://login"))

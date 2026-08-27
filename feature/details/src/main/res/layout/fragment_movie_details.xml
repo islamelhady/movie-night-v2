@@ -11,6 +11,10 @@
         <variable
             name="listener"
             type="com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsListener" />
+
+        <variable
+            name="viewModel"
+            type="com.elhady.movies.feature.details.presentation.moviedetails.MovieDetailsViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -245,5 +249,12 @@
                 android:text="@{state.onErrors.toString()}"
                 android:textColor="@color/on_background_87" />
         </LinearLayout>
+
+        <include
+            android:id="@+id/include_player_overlay"
+            layout="@layout/layout_player_overlay"
+            android:onClick="@{() -> listener.onClickDismissPlayer()}"
+            app:isPlayerVisible="@{state.isPlayerVisible}" />
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

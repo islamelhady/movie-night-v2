@@ -18,6 +18,7 @@ data class TvDetailsUIState(
     val userSelectedLists: List<Int> = emptyList(),
     val isLogin: Boolean = false,
     val isLoading: Boolean = false,
+    val isPlayerVisible: Boolean = false,
     val error: List<String>? = null
 ) {
     val userLists: List<com.elhady.movies.core.ui.state.UserListUiState> 

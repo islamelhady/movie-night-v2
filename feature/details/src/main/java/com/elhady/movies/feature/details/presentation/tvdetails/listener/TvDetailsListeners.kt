@@ -8,5 +8,6 @@ interface TvDetailsListeners : RateListener, PeopleAdapterListener, MediaListene
     SeasonListener, ShowMoreCast, ShowMoreRecommended, PlayButtonListener, ChipListener {
     fun onClickBack()
     fun onSaveClicked()
+    fun onClickDismissPlayer()
     fun onClickTryAgain()
 }

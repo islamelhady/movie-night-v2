@@ -14,7 +14,10 @@ import com.elhady.movies.feature.details.presentation.tvdetails.adapter.TvDetail
 import com.elhady.movies.feature.details.presentation.tvdetails.listener.BottomSheetDismissListener
 import com.elhady.movies.feature.details.presentation.tvdetails.listener.TvDetailsListeners
 import com.elhady.movies.feature.details.presentation.tvdetails.listener.WatchlistFavouriteListener
+import com.elhady.movies.feature.details.presentation.tvdetails.state.TrailerUIState
 import com.elhady.movies.feature.details.presentation.tvdetails.state.TvDetailsUIState
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.math.abs
@@ -32,6 +35,9 @@ class TvDetailsFragment :
     private lateinit var saveTvShowToListBottomSheet: SaveTvShowToListBottomSheet
     private lateinit var tvDetailsAdapter: TvDetailsAdapter
 
+    private var youtubePlayer: YouTubePlayer? = null
+    private var loadedVideoKey: String? = null
+
     override val layoutIdFragment: Int = R.layout.fragment_tv_details
     override val viewModel: TvDetailsViewModel by viewModels()
 
@@ -43,6 +49,8 @@ class TvDetailsFragment :
             view,
             savedInstanceState
         )
+        viewLifecycleOwner.lifecycle.addObserver(binding.includePlayerOverlay.youtubePlayerView)
+        initYoutubePlayer()
         binding.listener = this
         setupAdapter()
         setupCollapseBehavior()
@@ -96,6 +104,10 @@ class TvDetailsFragment :
         viewModel.onEvent(TvDetailsUiEvent.BackClicked)
     }
 
+    override fun onClickDismissPlayer() {
+        viewModel.onEvent(TvDetailsUiEvent.DismissPlayerClicked)
+    }
+
     override fun onSaveClicked() {
         viewModel.onEvent(TvDetailsUiEvent.SaveClicked)
     }
@@ -105,8 +117,34 @@ class TvDetailsFragment :
     }
 
     override fun render(state: TvDetailsUIState) {
+        val videoKey = (state.trailerUIState as? TrailerUIState.Available)?.youtubeKey?.youtubeKey ?: ""
+        handlePlayerState(state.isPlayerVisible, videoKey)
         tvDetailsAdapter.setItems(state.tvDetailsItems)
         binding.state = state
+    }
+
+    private fun initYoutubePlayer() {
+        binding.includePlayerOverlay.youtubePlayerView.addYouTubePlayerListener(object :
+            AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                this@TvDetailsFragment.youtubePlayer = youTubePlayer
+                render(viewModel.state.value)
+            }
+        })
+    }
+
+    private fun handlePlayerState(isPlayerVisible: Boolean, videoKey: String) {
+        if (isPlayerVisible && videoKey.isNotEmpty()) {
+            if (loadedVideoKey != videoKey && youtubePlayer != null) {
+                youtubePlayer?.cueVideo(videoKey, 0f)
+                loadedVideoKey = videoKey
+            }
+        } else {
+            if (loadedVideoKey != null) {
+                youtubePlayer?.pause()
+                loadedVideoKey = null
+            }
+        }
     }
 
     override fun onEffect(effect: TvDetailsUiEffect) {
@@ -132,12 +170,6 @@ class TvDetailsFragment :
             is TvDetailsUiEffect.NavigateToTvDetails -> {
                 navigator.navigateToTvDetails(
                     effect.tvShowId
-                )
-            }
-
-            is TvDetailsUiEffect.NavigateToTrailer -> {
-                navigator.navigateToTrailer(
-                    effect.youtubeKey
                 )
             }
 
@@ -328,6 +360,12 @@ class TvDetailsFragment :
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        youtubePlayer = null
+        loadedVideoKey = null
     }
 
     private companion object {

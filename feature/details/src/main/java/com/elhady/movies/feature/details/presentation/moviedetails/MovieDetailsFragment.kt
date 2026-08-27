@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.feature.details.R
@@ -22,6 +21,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.math.abs
 
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+
 @AndroidEntryPoint
 class MovieDetailsFragment :
     BaseFragment<FragmentMovieDetailsBinding, MovieDetailsUiState, MovieDetailsUiEffect>(),
@@ -38,9 +40,13 @@ class MovieDetailsFragment :
     private lateinit var rateBottomSheet: RatingMovieBottomSheet
     private lateinit var addToListBottomSheet: SaveMovieToListBottomSheet
 
+    private var youtubePlayer: YouTubePlayer? = null
+    private var loadedVideoKey: String? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewLifecycleOwner.lifecycle.addObserver(binding.includePlayerOverlay.youtubePlayerView)
+        initYoutubePlayer()
         binding.toolbar.title = ""
         binding.listener = this
         (activity as AppCompatActivity?)!!.setSupportActionBar(binding.toolbar)
@@ -55,6 +61,7 @@ class MovieDetailsFragment :
     }
 
     override fun render(state: MovieDetailsUiState) {
+        handlePlayerState(state.isPlayerVisible, state.movieUiState.videoKey)
         binding.state = state
         movieDetailsAdapter.setItems(
             mutableListOf(
@@ -90,7 +97,6 @@ class MovieDetailsFragment :
                 // TODO: Implement show more
             }
 
-            is MovieDetailsUiEffect.PlayVideoTrailer -> navigator.navigateToTrailer(effect.videoKey)
             else -> {}
         }
     }
@@ -99,6 +105,7 @@ class MovieDetailsFragment :
     override fun onClickPlayTrailer() = viewModel.onEvent(MovieDetailsUiEvent.PlayClicked)
     override fun onClickRateMovie() = viewModel.onEvent(MovieDetailsUiEvent.RateClicked)
     override fun onClickBackButton() = viewModel.onEvent(MovieDetailsUiEvent.BackClicked)
+    override fun onClickDismissPlayer() = viewModel.onEvent(MovieDetailsUiEvent.DismissPlayerClicked)
     override fun onClickShowMore(movieId: Int) =
         viewModel.onEvent(MovieDetailsUiEvent.ShowMoreClicked(movieId))
 
@@ -111,6 +118,31 @@ class MovieDetailsFragment :
     override fun onChipClick(id: Int) = viewModel.onEvent(MovieDetailsUiEvent.ChipClicked(id))
 
     // Fragment UI Logic
+    private fun initYoutubePlayer() {
+        binding.includePlayerOverlay.youtubePlayerView.addYouTubePlayerListener(object :
+            AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                this@MovieDetailsFragment.youtubePlayer = youTubePlayer
+                // Re-render to cue if player was already visible when onReady fired
+                render(viewModel.state.value)
+            }
+        })
+    }
+
+    private fun handlePlayerState(isPlayerVisible: Boolean, videoKey: String) {
+        if (isPlayerVisible) {
+            if (loadedVideoKey != videoKey && youtubePlayer != null) {
+                youtubePlayer?.cueVideo(videoKey, 0f)
+                loadedVideoKey = videoKey
+            }
+        } else {
+            if (loadedVideoKey != null) {
+                youtubePlayer?.pause()
+                loadedVideoKey = null
+            }
+        }
+    }
+
     private fun showRateBottomSheet() {
         rateBottomSheet = RatingMovieBottomSheet()
         rateBottomSheet.setListener(this)
@@ -125,32 +157,32 @@ class MovieDetailsFragment :
 
     private fun collapseState() {
         collectFlow(flow = viewModel.state) { state ->
-            binding.nestedRecycler.isNestedScrollingEnabled =
+            _binding?.nestedRecycler?.isNestedScrollingEnabled =
                 !(state.reviewUiState.isEmpty() && state.recommendedUiState.isEmpty())
         }
 
         var pos = 0
-        findNavController().addOnDestinationChangedListener { _, _, _ ->
-            binding.nestedRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    val firstVisibleItemPosition = recyclerView.layoutManager as LinearLayoutManager
-                    pos = firstVisibleItemPosition.findFirstVisibleItemPosition()
-                }
-            })
-            binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+        binding.nestedRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val firstVisibleItemPosition = recyclerView.layoutManager as LinearLayoutManager
+                pos = firstVisibleItemPosition.findFirstVisibleItemPosition()
+            }
+        })
+        binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+            _binding?.apply {
                 when {
                     verticalOffset == 0 -> {
-                        binding.textViewToolBarName.visibility = View.INVISIBLE
+                        textViewToolBarName.visibility = View.INVISIBLE
                         if (pos != 0) appBarLayout.setExpanded(false, false)
                     }
 
                     abs(verticalOffset) >= appBarLayout.totalScrollRange -> {
-                        binding.textViewToolBarName.visibility = View.VISIBLE
-                        binding.nestedRecycler.isNestedScrollingEnabled = true
+                        textViewToolBarName.visibility = View.VISIBLE
+                        nestedRecycler.isNestedScrollingEnabled = true
                     }
 
                     else -> {
-                        binding.textViewToolBarName.visibility = View.INVISIBLE
+                        textViewToolBarName.visibility = View.INVISIBLE
                     }
                 }
             }
@@ -163,4 +195,10 @@ class MovieDetailsFragment :
         viewModel.onEvent(MovieDetailsUiEvent.RatingChanged(rate))
 
     override fun getUserRating(): Float = viewModel.state.value.userRating / 2
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        youtubePlayer = null
+        loadedVideoKey = null
+    }
 }

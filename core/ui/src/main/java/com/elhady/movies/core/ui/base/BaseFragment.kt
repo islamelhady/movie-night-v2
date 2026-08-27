@@ -29,7 +29,7 @@ abstract class BaseFragment<VDB : ViewDataBinding, STATE, EFFECT> : Fragment() {
 
     abstract val viewModel: BaseViewModel<STATE, EFFECT>
 
-    private var _binding: VDB? = null
+    protected var _binding: VDB? = null
     protected val binding: VDB
         get() = _binding!!
 

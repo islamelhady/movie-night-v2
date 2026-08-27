@@ -13,7 +13,6 @@ import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.details.presentation.episodedetails.EpisodeDetailsUiEffect.NavigateToCastDetails
-import com.elhady.movies.feature.details.presentation.episodedetails.EpisodeDetailsUiEffect.NavigateToTrailer
 import com.elhady.movies.feature.details.presentation.episodedetails.mapper.EpisodeDetailsUiMapper
 import com.elhady.movies.feature.details.presentation.episodedetails.mapper.TrailerUiMapper
 import com.elhady.movies.feature.details.presentation.tvdetails.mapper.CastUiMapper
@@ -79,11 +78,11 @@ class EpisodeDetailsViewModel @Inject constructor(
             }
 
             is EpisodeDetailsUiEvent.PlayFullScreenClicked -> {
-                sendEffect(
-                    NavigateToTrailer(
-                        videoKey = event.videoKey
-                    )
-                )
+                _state.update { it.copy(isPlayerVisible = true) }
+            }
+
+            EpisodeDetailsUiEvent.DismissPlayerClicked -> {
+                _state.update { it.copy(isPlayerVisible = false) }
             }
 
             is EpisodeDetailsUiEvent.RatingChanged -> {

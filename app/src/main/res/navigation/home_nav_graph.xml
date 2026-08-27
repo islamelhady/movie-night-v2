@@ -141,17 +141,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/trailerFragment"
-        android:name="com.elhady.movies.feature.player.presentation.player.PlayerFragment"
-        android:label="TrailerFragment"
-        tools:layout="@layout/fragment_player">
-        <argument
-            android:name="videoKey"
-            app:argType="string" />
-        <deepLink app:uri="movie://trailer/{videoKey}" />
-    </fragment>
-
-    <fragment
         android:id="@+id/myRatedFragment"
         android:name="com.elhady.movies.feature.watchlist.presentation.ratedmedia.RatedMediaMediaFragment"
         android:label="MyRatedFragment">

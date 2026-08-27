@@ -20,4 +20,5 @@ sealed interface MovieDetailsUiEvent {
     data class CreateListClicked(val name: String) : MovieDetailsUiEvent
     object CloseClicked : MovieDetailsUiEvent
     object AddListClicked : MovieDetailsUiEvent
+    object DismissPlayerClicked : MovieDetailsUiEvent
 }
