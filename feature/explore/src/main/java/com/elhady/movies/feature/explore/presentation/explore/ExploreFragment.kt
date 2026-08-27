@@ -3,8 +3,6 @@ package com.elhady.movies.feature.explore.presentation.explore
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.explore.R
@@ -44,54 +42,6 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
         state: ExploreUiState
     ) {
         binding.state = state
-        renderMovies(state)
-        renderLayout(state)
-        renderError(state)
-    }
-
-    private fun renderError(
-        state: ExploreUiState
-    ) {
-        val errors = state.errors
-        val hasNoData = state.trendingMoviesToday.isEmpty()
-
-        if (errors == null || !hasNoData) {
-            binding.errorAnimation.cancelAnimation()
-            return
-        }
-
-        binding.errorAnimation.setAnimation(errors.animationRes)
-        binding.errorAnimation.playAnimation()
-    }
-
-    private fun renderMovies(
-        state: ExploreUiState
-    ) {
-        val items = if (state.isGridLayout) {
-            state.trendingMoviesToday.map {
-                ExploreItem.GridItem(it)
-            }
-        } else {
-            state.trendingMoviesToday.map {
-                ExploreItem.HorizontalItem(it)
-            }
-        }
-        adapter.setItems(items)
-    }
-
-    private fun renderLayout(
-        state: ExploreUiState
-    ) {
-        val currentLayoutManager = binding.recyclerTrend.layoutManager
-        val isGrid = currentLayoutManager is GridLayoutManager
-        
-        if (state.isGridLayout != isGrid || currentLayoutManager == null) {
-            binding.recyclerTrend.layoutManager = if (state.isGridLayout) {
-                GridLayoutManager(requireContext(), 2)
-            } else {
-                LinearLayoutManager(requireContext())
-            }
-        }
     }
 
     override fun onEffect(effect: ExploreUiEffect) {

@@ -42,7 +42,13 @@ class ExploreViewModel @Inject constructor(
     }
 
     private fun changeLayout() {
-        _state.update { it.copy(isGridLayout = !it.isGridLayout) }
+        _state.update {
+            val newIsGridLayout = !it.isGridLayout
+            it.copy(
+                isGridLayout = newIsGridLayout,
+                exploreItems = getExploreItems(it.trendingMoviesToday, newIsGridLayout)
+            )
+        }
     }
 
     private fun getTrendingMovies() {
@@ -63,9 +69,21 @@ class ExploreViewModel @Inject constructor(
         _state.update {
             it.copy(
                 trendingMoviesToday = trendingMoviesUiState,
+                exploreItems = getExploreItems(trendingMoviesUiState, it.isGridLayout),
                 isLoading = false,
                 errors = null
             )
+        }
+    }
+
+    private fun getExploreItems(
+        trendingMovies: List<ExploreUiState.TrendingMoviesUiState>,
+        isGridLayout: Boolean
+    ): List<ExploreItem> {
+        return if (isGridLayout) {
+            trendingMovies.map { ExploreItem.GridItem(it) }
+        } else {
+            trendingMovies.map { ExploreItem.HorizontalItem(it) }
         }
     }
 

@@ -5,6 +5,7 @@ import kotlin.math.roundToInt
 
 data class ExploreUiState(
     val trendingMoviesToday: List<TrendingMoviesUiState> = emptyList(),
+    val exploreItems: List<ExploreItem> = emptyList(),
     val isLoading: Boolean = false,
     val isGridLayout: Boolean = false,
     val errors: ErrorUiState? = null,
