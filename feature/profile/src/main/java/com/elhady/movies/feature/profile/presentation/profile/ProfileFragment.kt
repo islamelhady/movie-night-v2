@@ -18,7 +18,8 @@ import javax.inject.Inject
 import com.elhady.movies.core.ui.R as CoreUiR
 
 @AndroidEntryPoint
-class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, ProfileUiEffect>() {
+class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, ProfileUiEffect>(),
+    ProfileListener {
 
     @Inject
     lateinit var navigator: Navigator
@@ -32,63 +33,21 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
     }
 
     private fun setListeners() {
-        binding.textViewFavorite.setOnClickListener { viewModel.onEvent(ProfileUiEvent.FavoriteClicked) }
-        binding.textViewWatchlist.setOnClickListener { viewModel.onEvent(ProfileUiEvent.WatchlistClicked) }
-        binding.textViewWatchHistory.setOnClickListener { viewModel.onEvent(ProfileUiEvent.WatchHistoryClicked) }
-        binding.textViewMyRated.setOnClickListener { viewModel.onEvent(ProfileUiEvent.RateClicked) }
-        binding.textViewMylists.setOnClickListener { viewModel.onEvent(ProfileUiEvent.MyListsClicked) }
-        binding.textViewLogout.setOnClickListener { viewModel.onEvent(ProfileUiEvent.LogoutClicked) }
-        binding.buttonLogin.setOnClickListener { viewModel.onEvent(ProfileUiEvent.LoginClicked) }
-        binding.buttonRetry.setOnClickListener { viewModel.onEvent(ProfileUiEvent.RetryClicked) }
         binding.switchBottonTheme.setOnCheckedChangeListener { buttonView, isChecked ->
             // Only trigger event if the change comes from a user click
             if (buttonView.isPressed) {
                 viewModel.onEvent(ProfileUiEvent.ThemeChanged(isChecked))
             }
         }
+        binding.listener = this
     }
 
     override fun render(state: ProfileUiState) {
-        renderLoading(state)
-        renderError(state)
-        renderProfile(state)
-        renderLogin(state)
+        binding.state = state
         renderTheme(state)
     }
 
-    private fun renderLoading(state: ProfileUiState) {
-        binding.progressBar.isVisible = state.isLoading
-    }
-
-    private fun renderError(state: ProfileUiState) {
-        val isError = state.errors != null
-        binding.groupError.isVisible = !state.isLoading && isError
-        if (isError && !state.isLoading) {
-            binding.lottieAnimation.setAnimation(state.errors!!.animationRes)
-            binding.lottieAnimation.playAnimation()
-        } else {
-            binding.lottieAnimation.cancelAnimation()
-        }
-    }
-
-    private fun renderProfile(state: ProfileUiState) {
-        val isShowProfile = !state.isLoading && state.errors == null && state.isLogIn
-        binding.whenUserLogin.isVisible = isShowProfile
-        if (isShowProfile) {
-            binding.textViewProfileUsername.text = state.username
-            binding.imageViewProfile.loadProfileImage(state.avatarUrl)
-        }
-    }
-
-    private fun renderLogin(state: ProfileUiState) {
-        binding.whenUserNotLogin.isVisible = !state.isLoading && state.errors == null && !state.isLogIn
-    }
-
     private fun renderTheme(state: ProfileUiState) {
-        if (binding.switchBottonTheme.isChecked != state.isDarkTheme) {
-            binding.switchBottonTheme.isChecked = state.isDarkTheme
-        }
-
         val targetMode = if (state.isDarkTheme) {
             AppCompatDelegate.MODE_NIGHT_YES
         } else {
@@ -98,6 +57,38 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
         if (AppCompatDelegate.getDefaultNightMode() != targetMode) {
             AppCompatDelegate.setDefaultNightMode(targetMode)
         }
+    }
+
+    override fun onClickFavorite() {
+        viewModel.onEvent(ProfileUiEvent.FavoriteClicked)
+    }
+
+    override fun onClickWatchlist() {
+        viewModel.onEvent(ProfileUiEvent.WatchlistClicked)
+    }
+
+    override fun onClickWatchHistory() {
+        viewModel.onEvent(ProfileUiEvent.WatchHistoryClicked)
+    }
+
+    override fun onClickMyRated() {
+        viewModel.onEvent(ProfileUiEvent.RateClicked)
+    }
+
+    override fun onClickMyLists() {
+        viewModel.onEvent(ProfileUiEvent.MyListsClicked)
+    }
+
+    override fun onClickLogout() {
+        viewModel.onEvent(ProfileUiEvent.LogoutClicked)
+    }
+
+    override fun onClickLogin() {
+        viewModel.onEvent(ProfileUiEvent.LoginClicked)
+    }
+
+    override fun onClickRetry() {
+        viewModel.onEvent(ProfileUiEvent.RetryClicked)
     }
 
     override fun onEffect(effect: ProfileUiEffect) {
