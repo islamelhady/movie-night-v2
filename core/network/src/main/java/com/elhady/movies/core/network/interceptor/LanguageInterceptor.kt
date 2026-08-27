@@ -16,7 +16,7 @@ class LanguageInterceptor @Inject constructor() : Interceptor {
         val originalRequest = chain.request()
 
         val urlWithLanguage = originalRequest.url.newBuilder()
-            .addQueryParameter(NetworkConstants.LANGUAGE_QUERY, currentLanguage)
+            .setQueryParameter(NetworkConstants.LANGUAGE_QUERY, currentLanguage)
             .build()
 
         val newRequest = originalRequest.newBuilder().url(urlWithLanguage).build()
