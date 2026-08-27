@@ -284,7 +284,7 @@ class TvShowRepositoryImpl @Inject constructor(
     override suspend fun getTvShowsByPerson(personId: Int): List<DomainTvShowEntity> {
         return tvShowCastDtoMapper.map(safeApiCaller.execute {
             peopleApiService.getTvShowsByPerson(personId)
-        }.cast!!.filterNotNull())
+        }.cast.orEmpty().filterNotNull())
 
     }
 }

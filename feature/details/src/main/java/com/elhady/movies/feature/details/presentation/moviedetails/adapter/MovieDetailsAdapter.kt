@@ -41,7 +41,8 @@ class MovieDetailsAdapter(
                     DataBindingUtil.inflate(
                         LayoutInflater.from(parent.context),
                         R.layout.movie_details_item_popular_people, parent, false
-                    )
+                    ),
+                    peopleAdapterListener
                 )
             }
 
@@ -50,7 +51,8 @@ class MovieDetailsAdapter(
                     DataBindingUtil.inflate(
                         LayoutInflater.from(parent.context),
                         R.layout.movie_details_item_recommended, parent, false
-                    )
+                    ),
+                    movieListener
                 )
             }
 
@@ -97,15 +99,13 @@ class MovieDetailsAdapter(
     }
     private fun bindPeople(holder: PeopleViewHolder, position: Int) {
         val people = itemsMovie[position] as MovieDetailsItem.People
-        val adapter = PeopleAdapter(people.list ,peopleAdapterListener)
-        holder.binding.recyclerViewPeople.adapter = adapter
+        holder.adapter.setItems(people.list)
         holder.binding.item = people
     }
 
     private fun bindRecommended(holder: RecommendedViewHolder, position: Int) {
         val recommended = itemsMovie[position] as MovieDetailsItem.Recommended
-        val adapter = MediaVerticalAdapter(recommended.list, movieListener)
-        holder.binding.recyclerViewRecommened.adapter = adapter
+        holder.adapter.setItems(recommended.list)
         holder.binding.item = recommended
         holder.binding.listener = listener
     }
@@ -120,11 +120,21 @@ class MovieDetailsAdapter(
 
     class UpperViewHolder(val binding: MovieDetailsItemUpperBinding) :
         BaseViewHolder(binding)
-    class PeopleViewHolder(val binding: MovieDetailsItemPopularPeopleBinding) :
-        BaseViewHolder(binding)
+    class PeopleViewHolder(val binding: MovieDetailsItemPopularPeopleBinding, listener: PeopleAdapterListener) :
+        BaseViewHolder(binding) {
+        val adapter = PeopleAdapter(emptyList(), listener)
+        init {
+            binding.recyclerViewPeople.adapter = adapter
+        }
+    }
 
-    class RecommendedViewHolder(val binding: MovieDetailsItemRecommendedBinding) :
-        BaseViewHolder(binding)
+    class RecommendedViewHolder(val binding: MovieDetailsItemRecommendedBinding, listener: MediaListener) :
+        BaseViewHolder(binding) {
+        val adapter = MediaVerticalAdapter(emptyList(), listener)
+        init {
+            binding.recyclerViewRecommened.adapter = adapter
+        }
+    }
 
     class ReviewsViewHolder(val binding: ItemReviewBinding) : BaseViewHolder(binding)
 

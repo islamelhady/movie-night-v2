@@ -521,10 +521,6 @@ class TvDetailsViewModel @Inject constructor(
             TvDetailsUiEvent.Retry -> {
                 loadTvDetails()
             }
-
-            TvDetailsUiEvent.DismissPlayerClicked -> {
-                _state.update { it.copy(isPlayerVisible = false) }
-            }
         }
     }
 
