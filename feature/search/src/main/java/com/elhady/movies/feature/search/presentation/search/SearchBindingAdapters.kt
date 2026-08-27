@@ -11,8 +11,8 @@ import com.elhady.movies.feature.search.R
 import com.google.android.material.chip.ChipGroup
 
 @BindingAdapter(value = ["app:hideResult", "app:query"])
-fun <T> View.hideResult(list: List<T>?, text: String) {
-    if (list.isNullOrEmpty() && text.isNotBlank()) {
+fun <T> View.hideResult(list: List<T>?, text: String?) {
+    if (list.isNullOrEmpty() && text?.isNotBlank() == true) {
         this.visibility = View.VISIBLE
     } else {
         this.visibility = View.GONE
@@ -65,11 +65,12 @@ fun ChipGroup.setGenres(
 }
 
 @BindingAdapter(value = ["app:selectedMedia"])
-fun ChipGroup.setSelectedMedia(media: SearchUiState.SearchMedia) {
+fun ChipGroup.setSelectedMedia(media: SearchUiState.SearchMedia?) {
     when (media) {
         SearchUiState.SearchMedia.MOVIE -> check(R.id.chipMovie)
         SearchUiState.SearchMedia.TV -> check(R.id.chipTV)
         SearchUiState.SearchMedia.PEOPLE -> check(R.id.chipPerson)
+        else -> {}
     }
 }
 
