@@ -10,6 +10,7 @@ import com.elhady.movies.core.domain.usecase.tvshow.GetEpisodeDetailsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetEpisodeVideoUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.SetEpisodeRatingUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
+import com.elhady.movies.core.ui.base.ErrorUiState
 import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.details.presentation.episodedetails.EpisodeDetailsUiEffect.NavigateToCastDetails
@@ -39,23 +40,26 @@ class EpisodeDetailsViewModel @Inject constructor(
     EpisodeDetailsUiState()
 ) {
 
-    private val seriesId: Int =
-        checkNotNull(savedStateHandle.get<Int>("seriesId"))
-
-    private val seasonNumber: Int =
-        checkNotNull(savedStateHandle.get<Int>("seasonNumber"))
-
-    private val episodeNumber: Int =
-        checkNotNull(savedStateHandle.get<Int>("episodeNumber"))
+    private val seriesId: Int? = savedStateHandle.get<Int>("seriesId")
+    private val seasonNumber: Int? = savedStateHandle.get<Int>("seasonNumber")
+    private val episodeNumber: Int? = savedStateHandle.get<Int>("episodeNumber")
 
     init {
-        _state.update {
-            it.copy(
-                isLoggedIn = checkIsUserLoggedInUseCase(),
-            )
+        if (seriesId != null && seasonNumber != null && episodeNumber != null) {
+            _state.update {
+                it.copy(
+                    isLoggedIn = checkIsUserLoggedInUseCase(),
+                )
+            }
+            loadData()
+        } else {
+            _state.update {
+                it.copy(
+                    isLoading = false,
+                    error = ErrorUiState.EmptyResponse // Using existing pattern
+                )
+            }
         }
-
-        loadData()
     }
 
     fun onEvent(event: EpisodeDetailsUiEvent) {
@@ -137,9 +141,9 @@ class EpisodeDetailsViewModel @Inject constructor(
                 runCatching {
                     episodeDetailsUiMapper.map(
                         episodeDetailsUseCase(
-                            seriesId,
-                            seasonNumber,
-                            episodeNumber,
+                            seriesId!!,
+                            seasonNumber!!,
+                            episodeNumber!!,
                         )
                     )
                 }
@@ -149,9 +153,9 @@ class EpisodeDetailsViewModel @Inject constructor(
                 runCatching {
                     castUiMapper.map(
                         castUseCase(
-                            seriesId,
-                            seasonNumber,
-                            episodeNumber,
+                            seriesId!!,
+                            seasonNumber!!,
+                            episodeNumber!!,
                         )
                     )
                 }
@@ -161,9 +165,9 @@ class EpisodeDetailsViewModel @Inject constructor(
                 runCatching {
                     trailerUiMapper.map(
                         episodeVideoUseCase(
-                            seriesId,
-                            seasonNumber,
-                            episodeNumber,
+                            seriesId!!,
+                            seasonNumber!!,
+                            episodeNumber!!,
                         )
                     )
                 }
@@ -229,9 +233,9 @@ class EpisodeDetailsViewModel @Inject constructor(
         tryToExecute(
             call = {
                 setEpisodeRatingUseCase(
-                    seriesId,
-                    seasonNumber,
-                    episodeNumber,
+                    seriesId!!,
+                    seasonNumber!!,
+                    episodeNumber!!,
                     state.value.userRate,
                 )
             },

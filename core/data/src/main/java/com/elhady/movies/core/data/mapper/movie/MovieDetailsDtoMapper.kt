@@ -24,7 +24,7 @@ class MovieDetailsDtoMapper @Inject constructor() : Mapper<MovieDetailsDto, Movi
         return MovieDetails(
             backdropPath = BuildConfig.IMAGE_BASE_PATH + input.backdropPath,
             credits = mapCredits(input.credits),
-            genres = input.genres?.map { it.name!! } ?: emptyList(),
+            genres = input.genres?.mapNotNull { it.name } ?: emptyList(),
             id = input.id ?: 0,
             overview = input.overview ?: "",
             recommendations = mapRecommendations(input.recommendations),

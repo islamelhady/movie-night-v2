@@ -44,7 +44,7 @@ class SeasonDetailsFragment :
         binding.state = state
         val items = buildList {
             add(
-                SeasonDetailsItem.OverviewItem(
+                SeasonDetailsItem.Overview(
                     overview = state.overview,
                     isEmptyEpisodes = state.episodes.isEmpty(),
                 )
@@ -52,7 +52,7 @@ class SeasonDetailsFragment :
 
             addAll(
                 state.episodes.map {
-                    SeasonDetailsItem.EpisodeItem(it)
+                    SeasonDetailsItem.Episode(it)
                 }
             )
         }

@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.elhady.movies.feature.details.presentation.seasondetails.SeasonDetailsItem.OverviewItem" />
+            type="com.elhady.movies.feature.details.presentation.seasondetails.SeasonDetailsItem.Overview" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

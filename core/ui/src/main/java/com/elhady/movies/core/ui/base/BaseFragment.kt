@@ -81,4 +81,8 @@ abstract class BaseFragment<VDB : ViewDataBinding, STATE, EFFECT> : Fragment() {
     protected fun showSnackBar(messages: String) {
         Snackbar.make(binding.root, messages, Snackbar.LENGTH_SHORT).show()
     }
+
+    protected fun showSnackBar(messageRes: Int) {
+        Snackbar.make(binding.root, getString(messageRes), Snackbar.LENGTH_SHORT).show()
+    }
 }

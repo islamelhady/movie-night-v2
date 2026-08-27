@@ -28,7 +28,7 @@ class MovieDetailsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return when (viewType) {
-            MovieDetailsType.UPPER.ordinal->{
+            VIEW_TYPE_UPPER -> {
                 UpperViewHolder(
                     DataBindingUtil.inflate(
                         LayoutInflater.from(parent.context),
@@ -36,25 +36,28 @@ class MovieDetailsAdapter(
                     )
                 )
             }
-            MovieDetailsType.PEOPLE.ordinal -> {
+
+            VIEW_TYPE_PEOPLE -> {
                 PeopleViewHolder(
                     DataBindingUtil.inflate(
                         LayoutInflater.from(parent.context),
                         R.layout.movie_details_item_popular_people, parent, false
-                    )
+                    ),
+                    peopleAdapterListener
                 )
             }
 
-            MovieDetailsType.RECOMMENDED.ordinal -> {
+            VIEW_TYPE_RECOMMENDED -> {
                 RecommendedViewHolder(
                     DataBindingUtil.inflate(
                         LayoutInflater.from(parent.context),
                         R.layout.movie_details_item_recommended, parent, false
-                    )
+                    ),
+                    movieListener
                 )
             }
 
-            MovieDetailsType.REVIEWS.ordinal -> {
+            VIEW_TYPE_REVIEWS -> {
                 ReviewsViewHolder(
                     DataBindingUtil.inflate(
                         LayoutInflater.from(parent.context),
@@ -63,30 +66,21 @@ class MovieDetailsAdapter(
                 )
             }
 
-
             else -> throw Exception("UNKNOWN VIEW TYPE")
         }
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         when (holder) {
-            is UpperViewHolder -> bindUpper(holder , position)
+            is UpperViewHolder -> bindUpper(holder, position)
             is PeopleViewHolder -> bindPeople(holder, position)
             is RecommendedViewHolder -> bindRecommended(holder, position)
             is ReviewsViewHolder -> bindReviews(holder, position)
         }
     }
 
-    fun setItem(item: MovieDetailsItem) {
-        val newItems = itemsMovie.apply {
-            removeAt(item.type.ordinal)
-            add(item.type.ordinal, item)
-        }
-        setItems(newItems)
-    }
-
     override fun setItems(newItems: List<MovieDetailsItem>) {
-        itemsMovie = newItems.sortedBy { it.type.ordinal }.toMutableList()
+        itemsMovie = newItems.toMutableList()
         super.setItems(newItems)
     }
 
@@ -95,17 +89,16 @@ class MovieDetailsAdapter(
         holder.binding.item = upper
         holder.binding.listener = listener
     }
+
     private fun bindPeople(holder: PeopleViewHolder, position: Int) {
         val people = itemsMovie[position] as MovieDetailsItem.People
-        val adapter = PeopleAdapter(people.list ,peopleAdapterListener)
-        holder.binding.recyclerViewPeople.adapter = adapter
+        holder.adapter.setItems(people.list)
         holder.binding.item = people
     }
 
     private fun bindRecommended(holder: RecommendedViewHolder, position: Int) {
         val recommended = itemsMovie[position] as MovieDetailsItem.Recommended
-        val adapter = MediaVerticalAdapter(recommended.list, movieListener)
-        holder.binding.recyclerViewRecommened.adapter = adapter
+        holder.adapter.setItems(recommended.list)
         holder.binding.item = recommended
         holder.binding.listener = listener
     }
@@ -116,17 +109,45 @@ class MovieDetailsAdapter(
     }
 
 
-    override fun getItemViewType(position: Int): Int = itemsMovie[position].type.ordinal
+    override fun getItemViewType(position: Int): Int {
+        return when (itemsMovie[position]) {
+            is MovieDetailsItem.Upper -> VIEW_TYPE_UPPER
+            is MovieDetailsItem.People -> VIEW_TYPE_PEOPLE
+            is MovieDetailsItem.Recommended -> VIEW_TYPE_RECOMMENDED
+            is MovieDetailsItem.Reviews -> VIEW_TYPE_REVIEWS
+        }
+    }
 
     class UpperViewHolder(val binding: MovieDetailsItemUpperBinding) :
         BaseViewHolder(binding)
-    class PeopleViewHolder(val binding: MovieDetailsItemPopularPeopleBinding) :
-        BaseViewHolder(binding)
 
-    class RecommendedViewHolder(val binding: MovieDetailsItemRecommendedBinding) :
-        BaseViewHolder(binding)
+    class PeopleViewHolder(
+        val binding: MovieDetailsItemPopularPeopleBinding,
+        listener: PeopleAdapterListener
+    ) :
+        BaseViewHolder(binding) {
+        val adapter = PeopleAdapter(emptyList(), listener)
+
+        init {
+            binding.recyclerViewPeople.adapter = adapter
+        }
+    }
+
+    class RecommendedViewHolder(val binding: MovieDetailsItemRecommendedBinding, listener: MediaListener) :
+        BaseViewHolder(binding) {
+        val adapter = MediaVerticalAdapter(emptyList(), listener)
+
+        init {
+            binding.recyclerViewRecommened.adapter = adapter
+        }
+    }
 
     class ReviewsViewHolder(val binding: ItemReviewBinding) : BaseViewHolder(binding)
 
-
+    companion object {
+        private const val VIEW_TYPE_UPPER = 0
+        private const val VIEW_TYPE_PEOPLE = 1
+        private const val VIEW_TYPE_RECOMMENDED = 2
+        private const val VIEW_TYPE_REVIEWS = 3
+    }
 }
