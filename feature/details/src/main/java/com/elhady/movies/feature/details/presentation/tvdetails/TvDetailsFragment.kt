@@ -20,6 +20,10 @@ import javax.inject.Inject
 import kotlin.math.abs
 import com.elhady.movies.core.ui.R as CoreUiR
 
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.elhady.movies.feature.details.presentation.tvdetails.state.TrailerUIState
+
 @AndroidEntryPoint
 class TvDetailsFragment :
     BaseFragment<FragmentTvDetailsBinding, TvDetailsUIState, TvDetailsUiEffect>(),
@@ -43,6 +47,7 @@ class TvDetailsFragment :
             view,
             savedInstanceState
         )
+        viewLifecycleOwner.lifecycle.addObserver(binding.includePlayerOverlay.youtubePlayerView)
         binding.listener = this
         setupAdapter()
         setupCollapseBehavior()
@@ -96,6 +101,10 @@ class TvDetailsFragment :
         viewModel.onEvent(TvDetailsUiEvent.BackClicked)
     }
 
+    override fun onClickDismissPlayer() {
+        viewModel.onEvent(TvDetailsUiEvent.DismissPlayerClicked)
+    }
+
     override fun onSaveClicked() {
         viewModel.onEvent(TvDetailsUiEvent.SaveClicked)
     }
@@ -105,8 +114,23 @@ class TvDetailsFragment :
     }
 
     override fun render(state: TvDetailsUIState) {
+        if (state.isPlayerVisible) {
+            val trailer = state.trailerUIState
+            if (trailer is TrailerUIState.Available) {
+                setupYoutubePlayer(trailer.youtubeKey.youtubeKey)
+            }
+        }
         tvDetailsAdapter.setItems(state.tvDetailsItems)
         binding.state = state
+    }
+
+    private fun setupYoutubePlayer(videoKey: String) {
+        binding.includePlayerOverlay.youtubePlayerView.addYouTubePlayerListener(object :
+            AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                youTubePlayer.cueVideo(videoKey, 0f)
+            }
+        })
     }
 
     override fun onEffect(effect: TvDetailsUiEffect) {
@@ -132,12 +156,6 @@ class TvDetailsFragment :
             is TvDetailsUiEffect.NavigateToTvDetails -> {
                 navigator.navigateToTvDetails(
                     effect.tvShowId
-                )
-            }
-
-            is TvDetailsUiEffect.NavigateToTrailer -> {
-                navigator.navigateToTrailer(
-                    effect.youtubeKey
                 )
             }
 

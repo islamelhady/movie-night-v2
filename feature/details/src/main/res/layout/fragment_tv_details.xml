@@ -12,6 +12,9 @@
         <variable
             name="listener"
             type="com.elhady.movies.feature.details.presentation.tvdetails.listener.TvDetailsListeners" />
+        <variable
+            name="viewModel"
+            type="com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsViewModel" />
     </data>
 
 
@@ -178,5 +181,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lottie_animation"/>
         </LinearLayout>
+
+        <include
+            android:id="@+id/include_player_overlay"
+            layout="@layout/layout_player_overlay"
+            android:onClick="@{() -> listener.onClickDismissPlayer()}"
+            app:isPlayerVisible="@{state.isPlayerVisible}" />
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

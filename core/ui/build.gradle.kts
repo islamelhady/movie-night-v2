@@ -45,6 +45,9 @@ dependencies {
     // Recycler Swipe Decorator
     implementation(libs.recyclerview.swipe.decorator)
 
+    // youtube player
+    implementation(libs.youtube.player)
+
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)

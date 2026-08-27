@@ -22,4 +22,5 @@ sealed interface EpisodeDetailsUiEvent {
 
     object RetryClicked : EpisodeDetailsUiEvent
     object Refresh : EpisodeDetailsUiEvent
+    object DismissPlayerClicked : EpisodeDetailsUiEvent
 }

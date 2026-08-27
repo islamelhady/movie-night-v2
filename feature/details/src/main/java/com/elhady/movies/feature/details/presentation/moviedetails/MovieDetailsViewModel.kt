@@ -75,7 +75,10 @@ class MovieDetailsViewModel @Inject constructor(
         when (event) {
             MovieDetailsUiEvent.BackClicked -> sendEffect(MovieDetailsUiEffect.NavigateBack)
             MovieDetailsUiEvent.PlayClicked -> {
-                sendEffect(MovieDetailsUiEffect.PlayVideoTrailer(state.value.movieUiState.videoKey))
+                _state.update { it.copy(isPlayerVisible = true) }
+            }
+            MovieDetailsUiEvent.DismissPlayerClicked -> {
+                _state.update { it.copy(isPlayerVisible = false) }
             }
             MovieDetailsUiEvent.RateClicked -> {
                 if (state.value.isLogin) {

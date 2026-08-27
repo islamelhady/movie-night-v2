@@ -21,6 +21,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.math.abs
 
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+
 @AndroidEntryPoint
 class MovieDetailsFragment :
     BaseFragment<FragmentMovieDetailsBinding, MovieDetailsUiState, MovieDetailsUiEffect>(),
@@ -39,7 +42,7 @@ class MovieDetailsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewLifecycleOwner.lifecycle.addObserver(binding.includePlayerOverlay.youtubePlayerView)
         binding.toolbar.title = ""
         binding.listener = this
         (activity as AppCompatActivity?)!!.setSupportActionBar(binding.toolbar)
@@ -54,6 +57,9 @@ class MovieDetailsFragment :
     }
 
     override fun render(state: MovieDetailsUiState) {
+        if (state.isPlayerVisible) {
+            setupYoutubePlayer(state.movieUiState.videoKey)
+        }
         binding.state = state
         movieDetailsAdapter.setItems(
             mutableListOf(
@@ -89,7 +95,6 @@ class MovieDetailsFragment :
                 // TODO: Implement show more
             }
 
-            is MovieDetailsUiEffect.PlayVideoTrailer -> navigator.navigateToTrailer(effect.videoKey)
             else -> {}
         }
     }
@@ -98,6 +103,7 @@ class MovieDetailsFragment :
     override fun onClickPlayTrailer() = viewModel.onEvent(MovieDetailsUiEvent.PlayClicked)
     override fun onClickRateMovie() = viewModel.onEvent(MovieDetailsUiEvent.RateClicked)
     override fun onClickBackButton() = viewModel.onEvent(MovieDetailsUiEvent.BackClicked)
+    override fun onClickDismissPlayer() = viewModel.onEvent(MovieDetailsUiEvent.DismissPlayerClicked)
     override fun onClickShowMore(movieId: Int) =
         viewModel.onEvent(MovieDetailsUiEvent.ShowMoreClicked(movieId))
 
@@ -110,6 +116,15 @@ class MovieDetailsFragment :
     override fun onChipClick(id: Int) = viewModel.onEvent(MovieDetailsUiEvent.ChipClicked(id))
 
     // Fragment UI Logic
+    private fun setupYoutubePlayer(videoKey: String) {
+        binding.includePlayerOverlay.youtubePlayerView.addYouTubePlayerListener(object :
+            AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                youTubePlayer.cueVideo(videoKey, 0f)
+            }
+        })
+    }
+
     private fun showRateBottomSheet() {
         rateBottomSheet = RatingMovieBottomSheet()
         rateBottomSheet.setListener(this)

@@ -12,6 +12,9 @@ import com.elhady.movies.feature.details.databinding.FragmentEpisodeDetailsBindi
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+
 @AndroidEntryPoint
 class EpisodeDetailsFragment :
     BaseFragment<FragmentEpisodeDetailsBinding, EpisodeDetailsUiState, EpisodeDetailsUiEffect>(),
@@ -32,7 +35,7 @@ class EpisodeDetailsFragment :
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewLifecycleOwner.lifecycle.addObserver(binding.includePlayerOverlay.youtubePlayerView)
         binding.listener = this
 
         setupPeopleAdapter()
@@ -50,9 +53,21 @@ class EpisodeDetailsFragment :
     }
 
     override fun render(state: EpisodeDetailsUiState) {
+        if (state.isPlayerVisible) {
+            setupYoutubePlayer(state.trailerKey)
+        }
         binding.state = state
         binding.swipeToRefreshLayout.isRefreshing = state.isRefreshing
         peopleAdapter.setItems(state.cast)
+    }
+
+    private fun setupYoutubePlayer(videoKey: String) {
+        binding.includePlayerOverlay.youtubePlayerView.addYouTubePlayerListener(object :
+            AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                youTubePlayer.cueVideo(videoKey, 0f)
+            }
+        })
     }
 
     override fun onEffect(effect: EpisodeDetailsUiEffect) {
@@ -64,10 +79,6 @@ class EpisodeDetailsFragment :
 
             is EpisodeDetailsUiEffect.NavigateToCastDetails -> {
                 navigator.navigateToPeopleDetails(effect.personId)
-            }
-
-            is EpisodeDetailsUiEffect.NavigateToTrailer -> {
-                navigator.navigateToTrailer(effect.videoKey)
             }
 
             EpisodeDetailsUiEffect.ShowRatingBottomSheet -> {
@@ -100,6 +111,10 @@ class EpisodeDetailsFragment :
                 videoKey = videoKey
             )
         )
+    }
+
+    override fun onClickDismissPlayer() {
+        viewModel.onEvent(EpisodeDetailsUiEvent.DismissPlayerClicked)
     }
 
     override fun onClickRetry() {

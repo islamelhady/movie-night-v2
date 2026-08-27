@@ -17,7 +17,8 @@ data class MovieDetailsUiState(
     val isLogin: Boolean = false,
     val userRating: Float = 5f,
     val userLists: List<UserListUiState> = emptyList(),
-    val userSelectedLists: List<Int> = emptyList()
+    val userSelectedLists: List<Int> = emptyList(),
+    val isPlayerVisible: Boolean = false
 ){
     val isFailure: Boolean = onErrors.isNotEmpty()
 }

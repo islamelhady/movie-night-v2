@@ -4,5 +4,6 @@ interface EpisodeDetailsListener {
     fun onClickBack()
     fun onClickRate()
     fun onClickPlayFullScreen(videoKey: String)
+    fun onClickDismissPlayer()
     fun onClickRetry()
 }
