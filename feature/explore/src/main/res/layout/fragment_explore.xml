@@ -4,6 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
+    <data>
+
+        <variable
+            name="state"
+            type="com.elhady.movies.feature.explore.presentation.explore.ExploreUiState" />
+
+        <variable
+            name="listener"
+            type="com.elhady.movies.feature.explore.presentation.explore.ExploreListener" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -36,6 +47,7 @@
             android:drawablePadding="@dimen/spacing_custom_12dp"
             android:focusableInTouchMode="false"
             android:hint="@string/search_hint"
+            android:onClick="@{() -> listener.onClickSearch()}"
             android:paddingStart="@dimen/spacing_small_8dp"
             android:textColorHint="@color/on_background_60"
             android:transitionName="search_box"
@@ -64,6 +76,8 @@
             android:background="@drawable/trend_button"
             android:textOff=""
             android:textOn=""
+            android:checked="@{state.gridLayout}"
+            android:onClick="@{() -> listener.onClickChangeLayout()}"
             app:layout_constraintBottom_toBottomOf="@id/text_trend_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/text_trend_label"
@@ -77,6 +91,9 @@
             android:layout_marginTop="@dimen/spacing_small_8dp"
             android:clipToPadding="false"
             android:elevation="@dimen/spacing_tiny_4dp"
+            app:isGridLayout="@{state.isGridLayout}"
+            app:items="@{state.exploreItems}"
+            app:isVisibleOrGone="@{state != null &amp;&amp; !state.exploreItems.isEmpty()}"
             tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +106,7 @@
             android:id="@+id/animation_loading"
             android:layout_width="128dp"
             android:layout_height="128dp"
-            android:visibility="gone"
+            app:isVisibleOrGone="@{state.isLoading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -108,18 +125,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
-            android:visibility="gone"
+            app:isVisibleOrGone="@{state.errors != null &amp;&amp; state.exploreItems.isEmpty()}"
             app:lottie_autoPlay="true"
             app:lottie_colorFilter="@color/primary"
-            app:lottie_loop="true" />
+            app:lottie_loop="true"
+            app:lottie_rawRes="@{state.errors.animationRes}" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_retry"
             style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            app:isVisibleOrGone="@{state.errors != null &amp;&amp; state.exploreItems.isEmpty()}"
             android:text="@string/retry"
+            android:onClick="@{() -> listener.onClickRetry()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
