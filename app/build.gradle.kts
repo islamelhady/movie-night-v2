@@ -75,6 +75,7 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:data"))
     implementation(project(":core:domain"))
+    implementation(project(":core:datastore"))
 
     // Feature Modules
     implementation(project(":feature:auth"))
@@ -135,4 +136,8 @@ dependencies {
     // splash
     implementation(libs.androidx.core.splashscreen)
 
+    // WorkManager
+    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.hilt.work)
+    kapt(libs.androidx.hilt.compiler)
 }

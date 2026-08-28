@@ -127,4 +127,10 @@
     <string name="server_error">Server error occurred. Please try again later.</string>
     <string name="unknown_error">An unexpected error occurred.</string>
     <string name="no_trailer">trailer not available</string>
+
+    <!-- Watchlist Notifications -->
+    <string name="watchlist_notification_channel_name">Watchlist Alerts</string>
+    <string name="watchlist_notification_channel_description">Notifies you when items in your watchlist are released or updated.</string>
+    <string name="watchlist_notification_title">Watchlist Reminder</string>
+    <string name="watchlist_notification_message">"Time to watch! %1$s is out today."</string>
 </resources>
