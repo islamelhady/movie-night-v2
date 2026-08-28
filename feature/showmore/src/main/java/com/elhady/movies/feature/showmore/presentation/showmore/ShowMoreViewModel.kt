@@ -36,7 +36,7 @@ class ShowMoreViewModel @Inject constructor(
     private val moviesMapper: ShowMoreMovieUiMapper,
     private val tvShowsMapper: ShowMoreTvShowUiMapper,
     savedStateHandle: SavedStateHandle,
-    stringsRes: StringsRes
+    private val stringsRes: StringsRes
 ) : BaseViewModel<ShowMoreUiState, ShowMoreUiEffect>(
     ShowMoreUiState(
         showMoreType = savedStateHandle.get<ShowMoreType>(
@@ -226,6 +226,9 @@ class ShowMoreViewModel @Inject constructor(
     // endregion MOVIES
 
     private fun onError(appException: AppException) {
+        if (appException is AppException.NoNetwork) {
+            sendEffect(ShowMoreUiEffect.ShowSnackBar(stringsRes.noNetworkConnection))
+        }
         _state.update {
             it.copy(
                 errors = appException.toErrorUiState(),
@@ -235,6 +238,16 @@ class ShowMoreViewModel @Inject constructor(
     }
 
     fun setErrorUiState(combinedLoadStates: CombinedLoadStates) {
+        val errorState = combinedLoadStates.source.refresh as? LoadState.Error
+            ?: combinedLoadStates.source.append as? LoadState.Error
+            ?: combinedLoadStates.source.prepend as? LoadState.Error
+
+        errorState?.let {
+            if (it.error is AppException.NoNetwork) {
+                sendEffect(ShowMoreUiEffect.ShowSnackBar(stringsRes.noNetworkConnection))
+            }
+        }
+
         when (combinedLoadStates.refresh) {
             is LoadState.NotLoading -> {
                 _state.update {
