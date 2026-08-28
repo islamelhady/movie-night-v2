@@ -9,11 +9,11 @@ import com.elhady.movies.core.ui.base.BaseAdapter
 import com.elhady.movies.core.ui.databinding.ItemMovieHorizontalBinding
 import com.elhady.movies.feature.search.databinding.SearchItemPeopleBinding
 import com.elhady.movies.feature.search.presentation.search.SearchItem
-import com.elhady.movies.feature.search.presentation.search.AdapterAdapterListener
+import com.elhady.movies.feature.search.presentation.search.SearchAdapterListener
 
 class SearchAdapter(
     list: MutableList<SearchItem>,
-    private val listener: AdapterAdapterListener
+    private val listener: SearchAdapterListener
 ) : BaseAdapter<SearchItem>(list, listener) {
     override val layoutID: Int = 0 // handled in onCreateViewHolder
     override val itemVariableId: Int = BR.item

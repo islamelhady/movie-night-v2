@@ -13,7 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FilterMovieAdapterBottomSheetFragment : BottomSheetDialogFragment(), AdapterAdapterListener {
+class FilterMovieAdapterBottomSheetFragment : BottomSheetDialogFragment(), SearchAdapterListener {
     private lateinit var binding: BottomSheetSearchFilterBinding
     val viewModel by activityViewModels<SearchViewModel>()
 
@@ -26,7 +26,6 @@ class FilterMovieAdapterBottomSheetFragment : BottomSheetDialogFragment(), Adapt
             DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_search_filter, container, false)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            setVariable(BR.viewModel, viewModel)
             setVariable(BR.listener, this@FilterMovieAdapterBottomSheetFragment)
             return root
         }

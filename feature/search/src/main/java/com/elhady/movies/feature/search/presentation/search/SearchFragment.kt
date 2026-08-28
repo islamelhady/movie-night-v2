@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, SearchUiEffect>(),
-    AdapterAdapterListener {
+    SearchAdapterListener {
 
     @Inject
     lateinit var navigator: Navigator

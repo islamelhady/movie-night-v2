@@ -3,7 +3,7 @@ package com.elhady.movies.feature.search.presentation.search
 import com.elhady.movies.core.ui.interaction.MovieAdapterListener
 import com.elhady.movies.core.ui.interaction.PeopleAdapterListener
 
-interface AdapterAdapterListener:  MovieAdapterListener, PeopleAdapterListener {
+interface SearchAdapterListener:  MovieAdapterListener, PeopleAdapterListener {
     fun onClickFilter()
     fun onClickGenre(genresId: Int)
     fun onClickClear()
