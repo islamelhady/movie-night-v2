@@ -58,7 +58,7 @@
     <string name="logout">Logout</string>
     <string name="do_u_wanna_leave_us">Really wanna Leave us?</string>
     <string name="_9_6" tools:ignore="ExtraTranslation">9.6</string>
-    <string name="explore_the_best_tv_shows" tools:ignore="ExtraTranslation">Explore The Best TV Shows</string>
+    <string name="explore_the_best_tv_shows" tools:ignore="ExtraTranslation">The Best TV Shows</string>
     <string name="explore_the_best_movies_tv_shows" tools:ignore="ExtraTranslation">Explore The Best Movies and TV Shows</string>
     <string name="airing_today" tools:ignore="ExtraTranslation">Airing Today Shows</string>
     <string name="count_tv_shows">%s TV Shows</string>
