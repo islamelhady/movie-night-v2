@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
+import com.elhady.movies.core.ui.adapter.BaseFooterAdapter
 import com.elhady.movies.core.common.ShowMoreType
 import com.elhady.movies.core.domain.model.account.ListType
 import com.elhady.movies.core.ui.base.BaseFragment
@@ -40,7 +41,9 @@ class ShowMoreFragment : BaseFragment<FragmentShowMoreBinding, ShowMoreUiState, 
     }
 
     private fun setAdapter() {
-        binding.recyclerMedia.adapter = showMoreAdapter
+        binding.recyclerMedia.adapter = showMoreAdapter.withLoadStateFooter(
+            footer = BaseFooterAdapter { showMoreAdapter.retry() }
+        )
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
