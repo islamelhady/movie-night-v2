@@ -20,6 +20,8 @@ abstract class BaseAdapter<T>(
     private val listener: BaseInteractionListener,
 ) : RecyclerView.Adapter<BaseAdapter.BaseViewHolder>() {
 
+    fun getItems() = items
+
 
     abstract val layoutID: Int
     abstract val itemVariableId: Int
