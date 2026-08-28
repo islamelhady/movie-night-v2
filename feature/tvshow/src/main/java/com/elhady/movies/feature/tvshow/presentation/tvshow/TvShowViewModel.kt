@@ -11,6 +11,7 @@ import com.elhady.movies.core.domain.usecase.tvshow.GetTopRatedTvShowsUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.base.ErrorUiState
 import com.elhady.movies.core.ui.base.toErrorUiState
+import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.tvshow.presentation.tvshow.mapper.TvShowUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -27,6 +28,7 @@ class TvShowViewModel @Inject constructor(
     private val getPopularTvShowsUseCase: GetPopularTvShowsUseCase,
     private val getTopRatedTvShowsUseCase: GetTopRatedTvShowsUseCase,
     private val tvShowUiMapper: TvShowUiMapper,
+    private val stringsRes: StringsRes,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BaseViewModel<TvShowUiState, TvShowUiEffect>(TvShowUiState()) {
 
@@ -155,6 +157,16 @@ class TvShowViewModel @Inject constructor(
     }
 
     fun onPagingLoadStateChanged(loadStates: CombinedLoadStates) {
+        val errorState = loadStates.source.refresh as? LoadState.Error
+            ?: loadStates.source.append as? LoadState.Error
+            ?: loadStates.source.prepend as? LoadState.Error
+
+        errorState?.let {
+            if (it.error is AppException.NoNetwork) {
+                sendEffect(TvShowUiEffect.ShowSnackBar(stringsRes.noNetworkConnection))
+            }
+        }
+
         when (val refreshState = loadStates.refresh) {
             is LoadState.NotLoading -> {
                 _state.update {

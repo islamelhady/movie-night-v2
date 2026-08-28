@@ -7,6 +7,7 @@ import com.elhady.movies.core.domain.usecase.tvshow.GetAiringTodayTvShowsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetOnTheAirTvShowsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetPopularTvShowsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetTopRatedTvShowsUseCase
+import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.tvshow.presentation.tvshow.mapper.TvShowUiMapper
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -37,6 +38,7 @@ class TvShowViewModelTest {
     private val getOnTheAirTvShowsUseCase: GetOnTheAirTvShowsUseCase = mockk(relaxed = true)
     private val getPopularTvShowsUseCase: GetPopularTvShowsUseCase = mockk(relaxed = true)
     private val getTopRatedTvShowsUseCase: GetTopRatedTvShowsUseCase = mockk(relaxed = true)
+    private val stringsRes: StringsRes = mockk(relaxed = true)
     private val tvShowUiMapper = TvShowUiMapper()
 
     @Before
@@ -55,6 +57,7 @@ class TvShowViewModelTest {
             getPopularTvShowsUseCase,
             getTopRatedTvShowsUseCase,
             tvShowUiMapper,
+            stringsRes,
             testDispatcher
         )
     }
