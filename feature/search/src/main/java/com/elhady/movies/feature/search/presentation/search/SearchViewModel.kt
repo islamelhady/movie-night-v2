@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.domain.model.common.Genre
-import com.elhady.movies.core.common.NoNetworkThrowable
 import com.elhady.movies.core.domain.usecase.search.SearchMoviesUseCase
 import com.elhady.movies.core.domain.usecase.search.SearchPeopleUseCase
 import com.elhady.movies.core.domain.usecase.search.SearchTvsUseCase
@@ -20,13 +19,13 @@ import com.elhady.movies.feature.search.presentation.search.mapper.MovieUiMapper
 import com.elhady.movies.feature.search.presentation.search.mapper.PeopleUiMapper
 import com.elhady.movies.feature.search.presentation.search.mapper.TvUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,7 +40,8 @@ class SearchViewModel @Inject constructor(
     private val genreUiStateMapper: GenreUiMapper,
     private val movieUiMapper: MovieUiMapper,
     private val tvUiMapper: TvUiMapper,
-    private val peopleUiMapper: PeopleUiMapper
+    private val peopleUiMapper: PeopleUiMapper,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BaseViewModel<SearchUiState, SearchUiEffect>(SearchUiState()) {
 
     private var searchJob: kotlinx.coroutines.Job? = null
@@ -114,7 +114,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun onSearchInputChanged(newQuery: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(ioDispatcher) {
             getSearchHistory(newQuery)
             getData()
         }
@@ -152,6 +152,7 @@ class SearchViewModel @Inject constructor(
             mapper = movieUiMapper,
             onSuccess = ::onSuccessMovies,
             onError = ::onError,
+            dispatcher = ioDispatcher
         )
     }
 
@@ -166,7 +167,7 @@ class SearchViewModel @Inject constructor(
                 error = null,
             )
         }
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(ioDispatcher) {
             saveSearchHistoryInLocal(currentQuery)
         }
     }
@@ -182,7 +183,8 @@ class SearchViewModel @Inject constructor(
             },
             mapper = tvUiMapper,
             onSuccess = ::onSuccessTv,
-            onError = ::onError
+            onError = ::onError,
+            dispatcher = ioDispatcher
         )
     }
 
@@ -197,7 +199,7 @@ class SearchViewModel @Inject constructor(
                 error = null
             )
         }
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(ioDispatcher) {
             saveSearchHistoryInLocal(currentQuery)
         }
     }
@@ -208,7 +210,8 @@ class SearchViewModel @Inject constructor(
             call = { searchPeopleUseCase(_state.value.searchQuery) },
             mapper = peopleUiMapper,
             onSuccess = ::onSuccessPeople,
-            onError = ::onError
+            onError = ::onError,
+            dispatcher = ioDispatcher
         )
     }
 
@@ -223,7 +226,7 @@ class SearchViewModel @Inject constructor(
                 error = null
             )
         }
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(ioDispatcher) {
             saveSearchHistoryInLocal(currentQuery)
         }
     }
@@ -244,7 +247,8 @@ class SearchViewModel @Inject constructor(
         tryToExecute(
             call = { getAllGenresMoviesUseCase() },
             onSuccess = ::onSuccessGenres,
-            onError = ::onError
+            onError = ::onError,
+            dispatcher = ioDispatcher
         )
     }
 
@@ -253,7 +257,8 @@ class SearchViewModel @Inject constructor(
         tryToExecute(
             call = { getAllGenresTvsUseCase() },
             onSuccess = ::onSuccessGenres,
-            onError = ::onError
+            onError = ::onError,
+            dispatcher = ioDispatcher
         )
     }
 

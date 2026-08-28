@@ -122,8 +122,8 @@ abstract class BaseViewModel<STATE, EFFECT>(initialState: STATE) : ViewModel() {
         onSuccess: (Flow<PagingData<OUTPUT>>) -> Unit,
         onError: (AppException) -> Unit,
         dispatcher: CoroutineDispatcher = Dispatchers.IO
-    ) {
-        viewModelScope.launch(dispatcher) {
+    ): Job {
+        return viewModelScope.launch(dispatcher) {
             try {
                 data().map { pagingData ->
                     pagingData.map(mapper::map)
