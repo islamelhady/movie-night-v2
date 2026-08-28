@@ -25,6 +25,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
     override val viewModel by activityViewModels<SearchViewModel>()
 
     private lateinit var searchAdapter: SearchAdapter
+    private var historyAdapter: ArrayAdapter<String>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,13 +69,19 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
     }
 
     private fun setupSearchHistoryAdapter(state: SearchUiState) {
-        val searchHistory = state.searchHistory.map { it }
-        val adapter = ArrayAdapter(
-            requireActivity(),
-            android.R.layout.simple_dropdown_item_1line,
-            searchHistory
-        )
-        binding.edittextSearch.setAdapter(adapter)
+        if (historyAdapter == null) {
+            historyAdapter = ArrayAdapter(
+                requireActivity(),
+                android.R.layout.simple_dropdown_item_1line,
+                mutableListOf<String>()
+            )
+            binding.edittextSearch.setAdapter(historyAdapter)
+        }
+        historyAdapter?.apply {
+            clear()
+            addAll(state.searchHistory)
+            notifyDataSetChanged()
+        }
     }
 
     override fun onEffect(effect: SearchUiEffect) {
