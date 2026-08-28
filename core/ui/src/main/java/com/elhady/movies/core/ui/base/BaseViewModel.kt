@@ -10,6 +10,7 @@ import com.elhady.movies.core.common.mapper.Mapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -54,8 +55,8 @@ abstract class BaseViewModel<STATE, EFFECT>(initialState: STATE) : ViewModel() {
         onSuccess: (T) -> Unit,
         onError: (AppException) -> Unit,
         dispatcher: CoroutineDispatcher = Dispatchers.IO
-    ) {
-        viewModelScope.launch(dispatcher) {
+    ): Job {
+        return viewModelScope.launch(dispatcher) {
             try {
                 call().also(onSuccess)
             } catch (exception: AppException) {
@@ -72,8 +73,8 @@ abstract class BaseViewModel<STATE, EFFECT>(initialState: STATE) : ViewModel() {
         onSuccess: (List<OUTPUT>) -> Unit,
         onError: (AppException) -> Unit,
         dispatcher: CoroutineDispatcher = Dispatchers.IO
-    ) {
-        viewModelScope.launch(dispatcher) {
+    ): Job {
+        return viewModelScope.launch(dispatcher) {
             try {
                 mapper.map(call()).also(onSuccess)
             } catch (exception: AppException) {
@@ -89,8 +90,8 @@ abstract class BaseViewModel<STATE, EFFECT>(initialState: STATE) : ViewModel() {
         onSuccess: (OUTPUT) -> Unit,
         onError: (AppException) -> Unit,
         dispatcher: CoroutineDispatcher = Dispatchers.IO
-    ) {
-        viewModelScope.launch(dispatcher) {
+    ): Job {
+        return viewModelScope.launch(dispatcher) {
             try {
                 mapper.map(call()).also(onSuccess)
             } catch (exception: AppException) {
