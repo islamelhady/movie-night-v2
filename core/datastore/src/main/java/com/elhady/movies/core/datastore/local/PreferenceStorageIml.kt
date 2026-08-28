@@ -20,6 +20,7 @@ class PreferenceStorageIml @Inject constructor(
         val CURRENT_USERNAME_ID = stringPreferencesKey("CURRENT_USERNAME_ID")
         val SESSION_ID = stringPreferencesKey("SESSION_ID")
         val LAST_REFRESH = longPreferencesKey("LAST_REFRESH")
+        val LAST_WATCHLIST_NOTIFICATION_DATE = stringPreferencesKey("LAST_WATCHLIST_NOTIFICATION_DATE")
         val IS_DARK_MODE = booleanPreferencesKey("is_dark_mode")
     }
 
@@ -34,6 +35,9 @@ class PreferenceStorageIml @Inject constructor(
     override val lastRefreshTime: Long?
         get() = runBlocking { dataStore.data.map { it[PreferencesKeys.LAST_REFRESH] }.first() }
 
+    override val lastWatchlistNotificationDate: String?
+        get() = runBlocking { dataStore.data.map { it[PreferencesKeys.LAST_WATCHLIST_NOTIFICATION_DATE] }.first() }
+
     override val isDarkTheme: Boolean?
         get() = runBlocking { dataStore.data.map { it[PreferencesKeys.IS_DARK_MODE] }.first() }
 
@@ -47,6 +51,10 @@ class PreferenceStorageIml @Inject constructor(
 
     override suspend fun setLastRefreshTime(lastRefreshTime: Long) {
         dataStore.setValue(PreferencesKeys.LAST_REFRESH, lastRefreshTime)
+    }
+
+    override suspend fun setLastWatchlistNotificationDate(date: String) {
+        dataStore.setValue(PreferencesKeys.LAST_WATCHLIST_NOTIFICATION_DATE, date)
     }
 
     override suspend fun setDarkTheme(isDark: Boolean) {
