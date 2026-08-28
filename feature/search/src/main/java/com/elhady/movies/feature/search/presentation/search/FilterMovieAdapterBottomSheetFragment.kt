@@ -13,7 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FilterMovieAdapterBottomSheetFragment : BottomSheetDialogFragment(), SearchAdapterListener {
+class FilterMovieAdapterBottomSheetFragment : BottomSheetDialogFragment(), SearchFilterListener {
     private lateinit var binding: BottomSheetSearchFilterBinding
     val viewModel by activityViewModels<SearchViewModel>()
 
@@ -38,27 +38,9 @@ class FilterMovieAdapterBottomSheetFragment : BottomSheetDialogFragment(), Searc
         binding.lifecycleOwner = viewLifecycleOwner
     }
 
-    override fun onClickFilter() {}
-
-    override fun onClickGenre(genresId: Int) {
-        viewModel.onEvent(SearchUiEvent.GenreClicked(genresId))
+    override fun onClickGenre(genreId: Int) {
+        viewModel.onEvent(SearchUiEvent.GenreClicked(genreId))
     }
-
-    override fun onClickClear() {}
-
-    override fun showResultMovie() {}
-
-    override fun showResultTv() {}
-
-    override fun showResultPeople() {}
-
-    override fun onClickBack() {}
-
-    override fun onClickMovie(id: Int) {}
-
-    override fun onClickPeople(id: Int) {}
-
-    override fun onClickTryAgain() {}
 
     override fun onClickApply() {
         viewModel.onEvent(SearchUiEvent.ApplyFilterClicked)

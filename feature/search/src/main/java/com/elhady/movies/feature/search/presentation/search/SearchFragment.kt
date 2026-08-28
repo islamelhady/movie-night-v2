@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, SearchUiEffect>(),
-    SearchAdapterListener {
+    SearchAdapterListener, SearchFragmentListener, SearchFilterListener {
 
     @Inject
     lateinit var navigator: Navigator
@@ -103,8 +103,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
         viewModel.onEvent(SearchUiEvent.FilterClicked)
     }
 
-    override fun onClickGenre(genresId: Int) {
-        viewModel.onEvent(SearchUiEvent.GenreClicked(genresId))
+    override fun onClickGenre(genreId: Int) {
+        viewModel.onEvent(SearchUiEvent.GenreClicked(genreId))
     }
 
     override fun onClickClear() {
