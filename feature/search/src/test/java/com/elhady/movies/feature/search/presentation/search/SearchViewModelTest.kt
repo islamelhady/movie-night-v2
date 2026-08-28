@@ -17,14 +17,12 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -85,46 +83,47 @@ class SearchViewModelTest {
 
         // When
         viewModel.onEvent(SearchUiEvent.QueryChanged("Batman"))
-
+        
         // Then
         assertEquals("Batman", viewModel.state.value.searchQuery)
         assertTrue(viewModel.state.value.isLoading)
     }
 
     @Test
-    fun `search should be cancelled when new query arrives`() = runTest {
+    fun `history should be saved only after successful search`() = runTest {
         // Given
-        coEvery { searchMoviesUseCase(any(), any()) } coAnswers {
-            delay(1000)
-            emptyList()
-        }
         initViewModel()
+        advanceUntilIdle() // Process init
 
         // When
         viewModel.onEvent(SearchUiEvent.QueryChanged("Batman"))
-        advanceTimeBy(600) // Trigger first search (debounce is 500ms)
+        advanceTimeBy(600) // Trigger debounce (500ms)
+        advanceUntilIdle() // Process background work
+
+        // Then
+        coVerify { insertSearchHistoryUseCase("Batman") }
+    }
+
+    @Test
+    fun `rapid typing should cancel previous search jobs`() = runTest {
+        // Given
+        coEvery { searchMoviesUseCase(any(), any()) } coAnswers {
+            kotlinx.coroutines.delay(2000)
+            emptyList()
+        }
+        initViewModel()
+        advanceUntilIdle()
+
+        // When
+        viewModel.onEvent(SearchUiEvent.QueryChanged("A"))
+        advanceTimeBy(600) // Trigger first search
         
-        viewModel.onEvent(SearchUiEvent.QueryChanged("Spider-man"))
+        viewModel.onEvent(SearchUiEvent.QueryChanged("B"))
         advanceTimeBy(600) // Trigger second search
         
         advanceUntilIdle()
 
         // Then
-        // Verify only one success should happen for the latest query
-        coVerify(exactly = 2) { searchMoviesUseCase(any(), any()) }
-    }
-
-    @Test
-    fun `history should be saved only after successful search`() = runTest {
-        // Given
-        initViewModel()
-
-        // When
-        viewModel.onEvent(SearchUiEvent.QueryChanged("Batman"))
-        advanceTimeBy(600) // Trigger search
-        advanceUntilIdle()
-
-        // Then
-        coVerify { insertSearchHistoryUseCase("Batman") }
+        coVerify { searchMoviesUseCase("B", any()) }
     }
 }

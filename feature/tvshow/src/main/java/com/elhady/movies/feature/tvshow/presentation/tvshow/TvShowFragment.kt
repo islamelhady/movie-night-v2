@@ -2,8 +2,6 @@ package com.elhady.movies.feature.tvshow.presentation.tvshow
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.forEach
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,14 +12,18 @@ import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.tvshow.R
 import com.elhady.movies.feature.tvshow.databinding.FragmentTvShowsBinding
 import com.elhady.movies.feature.tvshow.presentation.tvshow.adapter.TvShowAdapter
-import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TvShowFragment : BaseFragment<FragmentTvShowsBinding, TvShowUiState, TvShowUiEffect>() {
+class TvShowFragment : BaseFragment<FragmentTvShowsBinding, TvShowUiState, TvShowUiEffect>(),
+    TvShowFragmentListener {
 
     @Inject
     lateinit var navigator: Navigator
@@ -40,9 +42,9 @@ class TvShowFragment : BaseFragment<FragmentTvShowsBinding, TvShowUiState, TvSho
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.listener = this
         setupRecyclerView()
-        setupListener()
-        doNothingWhenTheSameChipIsReselected()
+        collectPagingData()
     }
 
     private fun setupRecyclerView() {
@@ -56,34 +58,29 @@ class TvShowFragment : BaseFragment<FragmentTvShowsBinding, TvShowUiState, TvSho
             layoutManager.spanCount
         )
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            tvShowAdapter.loadStateFlow.collectLatest { loadStates ->
-                viewModel.onPagingLoadStateChanged(loadStates)
+        collectFlow(tvShowAdapter.loadStateFlow) { loadStates ->
+            viewModel.onPagingLoadStateChanged(loadStates)
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun collectPagingData() {
+        val pagingFlow = viewModel.state
+            .map { state ->
+                when (state.tvShowType) {
+                    TvShowType.AIRING_TODAY -> state.tvShowAiringToday
+                    TvShowType.ON_THE_AIR -> state.tvShowOnTheAir
+                    TvShowType.TOP_RATED -> state.tvShowTopRated
+                    TvShowType.POPULAR -> state.tvShowPopular
+                }
             }
+            .distinctUntilChanged()
+            .flatMapLatest { it }
+
+        collectFlow(pagingFlow) { pagingData ->
+            tvShowAdapter.submitData(pagingData)
         }
     }
-
-    private fun setupListener() {
-        binding.chipAiringToday.setOnClickListener {
-            viewModel.onEvent(TvShowUiEvent.AiringTodayTvShowClicked)
-        }
-        binding.chipOnTheAir.setOnClickListener {
-            viewModel.onEvent(TvShowUiEvent.OnTheAirTvShowClicked)
-        }
-        binding.chipPopular.setOnClickListener {
-            viewModel.onEvent(TvShowUiEvent.PopularTvShowClicked)
-        }
-        binding.chipTopRated.setOnClickListener {
-            viewModel.onEvent(TvShowUiEvent.TopRatedTvShowClicked)
-        }
-        binding.fabScrollToTop.setOnClickListener {
-            viewModel.onEvent(TvShowUiEvent.ToTopClicked)
-        }
-        binding.buttonRetry.setOnClickListener {
-            viewModel.onEvent(TvShowUiEvent.RetryClicked)
-        }
-    }
-
 
     override fun onEffect(effect: TvShowUiEffect) {
         when (effect) {
@@ -102,70 +99,30 @@ class TvShowFragment : BaseFragment<FragmentTvShowsBinding, TvShowUiState, TvSho
     }
 
     override fun render(state: TvShowUiState) {
-        renderLoading(state)
-        renderError(state)
-        collectPagingState(state)
-        renderChipGroup(state)
+        binding.state = state
     }
 
-
-    private fun renderLoading(state: TvShowUiState) {
-        binding.loadingAnimation.isVisible = state.isLoading
+    override fun onAiringTodayClicked() {
+        viewModel.onEvent(TvShowUiEvent.AiringTodayTvShowClicked)
     }
 
-    private fun renderError(state: TvShowUiState) {
-        val error = state.error
-        binding.errorAnimation.isVisible = error != null
-        binding.buttonRetry.isVisible = error != null
-
-        if (error == null) {
-            binding.errorAnimation.cancelAnimation()
-            return
-        }
-
-        binding.errorAnimation.setAnimation(error.animationRes)
-        binding.errorAnimation.playAnimation()
+    override fun onOnTheAirClicked() {
+        viewModel.onEvent(TvShowUiEvent.OnTheAirTvShowClicked)
     }
 
-    private fun collectPagingState(state: TvShowUiState) {
-        val tvShowPaging = when (state.tvShowType) {
-            TvShowType.AIRING_TODAY -> state.tvShowAiringToday
-            TvShowType.ON_THE_AIR -> state.tvShowOnTheAir
-            TvShowType.TOP_RATED -> state.tvShowTopRated
-            TvShowType.POPULAR -> state.tvShowPopular
-        }
-        binding.recyclerViewTvShows.isVisible = !state.isLoading && state.error == null
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            tvShowPaging.collectLatest { pagingData ->
-                tvShowAdapter.submitData(pagingData)
-            }
-        }
-
+    override fun onPopularClicked() {
+        viewModel.onEvent(TvShowUiEvent.PopularTvShowClicked)
     }
 
-    private fun renderChipGroup(state: TvShowUiState) {
-        when (state.tvShowType) {
-            TvShowType.AIRING_TODAY -> binding.chipAiringToday.isChecked = true
-            TvShowType.ON_THE_AIR -> binding.chipOnTheAir.isChecked = true
-            TvShowType.TOP_RATED -> binding.chipTopRated.isChecked = true
-            TvShowType.POPULAR -> binding.chipPopular.isChecked = true
-        }
+    override fun onTopRatedClicked() {
+        viewModel.onEvent(TvShowUiEvent.TopRatedTvShowClicked)
     }
 
-    private fun doNothingWhenTheSameChipIsReselected() {
+    override fun onRetryClicked() {
+        viewModel.onEvent(TvShowUiEvent.RetryClicked)
+    }
 
-        binding.chipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
-
-            val chip = group.findViewById<Chip>(
-                checkedIds.first()
-            )
-
-            group.forEach { itemChip ->
-                itemChip.isClickable = true
-            }
-
-            chip.isClickable = false
-        }
+    override fun onScrollToTopClicked() {
+        viewModel.onEvent(TvShowUiEvent.ToTopClicked)
     }
 }

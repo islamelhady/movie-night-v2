@@ -11,8 +11,10 @@ import com.elhady.movies.core.domain.usecase.tvshow.GetTopRatedTvShowsUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.base.ErrorUiState
 import com.elhady.movies.core.ui.base.toErrorUiState
+import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.tvshow.presentation.tvshow.mapper.TvShowUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -23,47 +25,28 @@ class TvShowViewModel @Inject constructor(
     private val getOnTheAirTvShowsUseCase: GetOnTheAirTvShowsUseCase,
     private val getPopularTvShowsUseCase: GetPopularTvShowsUseCase,
     private val getTopRatedTvShowsUseCase: GetTopRatedTvShowsUseCase,
-    private val tvShowUiMapper: TvShowUiMapper
+    private val tvShowUiMapper: TvShowUiMapper,
+    private val stringsRes: StringsRes
 ) : BaseViewModel<TvShowUiState, TvShowUiEffect>(TvShowUiState()) {
 
+    private var pagingJob: Job? = null
 
     init {
-        onEvent(TvShowUiEvent.AiringTodayTvShowClicked)
+        getAiringTodayTvShows()
     }
 
     fun onEvent(event: TvShowUiEvent) {
         when (event) {
-            TvShowUiEvent.AiringTodayTvShowClicked -> {
-                getAiringTodayTvShows()
-            }
-
-            TvShowUiEvent.OnTheAirTvShowClicked -> {
-                getOnTheAirTvShows()
-            }
-
-            TvShowUiEvent.PopularTvShowClicked -> {
-                getPopularTvShows()
-            }
-
-            TvShowUiEvent.TopRatedTvShowClicked -> {
-                getTopRatedTvShows()
-            }
-
-            TvShowUiEvent.RetryClicked -> {
-                getData()
-            }
-
-            TvShowUiEvent.ToTopClicked -> {
-                sendEffect(TvShowUiEffect.ScrollToTop)
-            }
-
-            is TvShowUiEvent.TvShowItemClicked -> {
-                sendEffect(TvShowUiEffect.NavigateToTvShowDetails(event.tvId))
-            }
+            TvShowUiEvent.OnTheAirTvShowClicked -> getOnTheAirTvShows()
+            TvShowUiEvent.AiringTodayTvShowClicked -> getAiringTodayTvShows()
+            TvShowUiEvent.TopRatedTvShowClicked -> getTopRatedTvShows()
+            TvShowUiEvent.PopularTvShowClicked -> getPopularTvShows()
+            TvShowUiEvent.RetryClicked -> getData()
+            TvShowUiEvent.ToTopClicked -> sendEffect(TvShowUiEffect.ScrollToTop)
+            is TvShowUiEvent.TvShowItemClicked -> sendEffect(TvShowUiEffect.NavigateToTvShowDetails(event.tvId))
         }
     }
 
-    ///region get data
     private fun getData() {
         when (_state.value.tvShowType) {
             TvShowType.AIRING_TODAY -> getAiringTodayTvShows()
@@ -74,20 +57,19 @@ class TvShowViewModel @Inject constructor(
     }
 
     private fun getAiringTodayTvShows() {
-        wrapperPager(
+        _state.update { it.copy(tvShowType = TvShowType.AIRING_TODAY, isLoading = true, error = null) }
+        pagingJob?.cancel()
+        pagingJob = wrapperPager(
             data = { getAiringTodayTvShowsUseCase() },
             mapper = tvShowUiMapper,
             onSuccess = ::onSuccessAiringTodayTvShows,
-            onError = {
-                onError(it.toErrorUiState())
-            }
+            onError = { onError(it.toErrorUiState()) }
         )
     }
 
     private fun onSuccessAiringTodayTvShows(showUiState: Flow<PagingData<ShowUiState>>) {
         _state.update {
             it.copy(
-                tvShowType = TvShowType.AIRING_TODAY,
                 tvShowAiringToday = showUiState,
                 error = null,
                 isLoading = false
@@ -96,20 +78,19 @@ class TvShowViewModel @Inject constructor(
     }
 
     private fun getOnTheAirTvShows() {
-        wrapperPager(
+        _state.update { it.copy(tvShowType = TvShowType.ON_THE_AIR, isLoading = true, error = null) }
+        pagingJob?.cancel()
+        pagingJob = wrapperPager(
             data = { getOnTheAirTvShowsUseCase() },
             mapper = tvShowUiMapper,
             onSuccess = ::onSuccessOnTheAirTvShows,
-            onError = {
-                onError(it.toErrorUiState())
-            }
+            onError = { onError(it.toErrorUiState()) }
         )
     }
 
     private fun onSuccessOnTheAirTvShows(showUiState: Flow<PagingData<ShowUiState>>) {
         _state.update {
             it.copy(
-                tvShowType = TvShowType.ON_THE_AIR,
                 tvShowOnTheAir = showUiState,
                 error = null,
                 isLoading = false
@@ -118,20 +99,19 @@ class TvShowViewModel @Inject constructor(
     }
 
     private fun getPopularTvShows() {
-        wrapperPager(
+        _state.update { it.copy(tvShowType = TvShowType.POPULAR, isLoading = true, error = null) }
+        pagingJob?.cancel()
+        pagingJob = wrapperPager(
             data = { getPopularTvShowsUseCase() },
             mapper = tvShowUiMapper,
             onSuccess = ::onSuccessPopularTvShows,
-            onError = {
-                onError(it.toErrorUiState())
-            }
+            onError = { onError(it.toErrorUiState()) }
         )
     }
 
     private fun onSuccessPopularTvShows(showUiState: Flow<PagingData<ShowUiState>>) {
         _state.update {
             it.copy(
-                tvShowType = TvShowType.POPULAR,
                 tvShowPopular = showUiState,
                 error = null,
                 isLoading = false
@@ -139,22 +119,20 @@ class TvShowViewModel @Inject constructor(
         }
     }
 
-
     private fun getTopRatedTvShows() {
-        wrapperPager(
+        _state.update { it.copy(tvShowType = TvShowType.TOP_RATED, isLoading = true, error = null) }
+        pagingJob?.cancel()
+        pagingJob = wrapperPager(
             data = { getTopRatedTvShowsUseCase() },
             mapper = tvShowUiMapper,
             onSuccess = ::onSuccessTopRatedTvShows,
-            onError = {
-                onError(it.toErrorUiState())
-            }
+            onError = { onError(it.toErrorUiState()) }
         )
     }
 
     private fun onSuccessTopRatedTvShows(showUiState: Flow<PagingData<ShowUiState>>) {
         _state.update {
             it.copy(
-                tvShowType = TvShowType.TOP_RATED,
                 tvShowTopRated = showUiState,
                 error = null,
                 isLoading = false
@@ -162,9 +140,6 @@ class TvShowViewModel @Inject constructor(
         }
     }
 
-    /// endregion
-
-    ///region error
     private fun onError(errorUiState: ErrorUiState) {
         _state.update {
             it.copy(
@@ -174,26 +149,33 @@ class TvShowViewModel @Inject constructor(
         }
     }
 
-    fun onPagingLoadStateChanged(
-        loadStates: CombinedLoadStates
-    ) {
+    fun onPagingLoadStateChanged(loadStates: CombinedLoadStates) {
+        val errorState = loadStates.source.refresh as? LoadState.Error
+            ?: loadStates.source.append as? LoadState.Error
+            ?: loadStates.source.prepend as? LoadState.Error
+
+        errorState?.let {
+            if (it.error is AppException.NoNetwork) {
+                sendEffect(TvShowUiEffect.ShowSnackBar(stringsRes.noNetworkConnection))
+            }
+        }
+
         when (val refreshState = loadStates.refresh) {
             is LoadState.NotLoading -> {
                 _state.update {
                     it.copy(isLoading = false, error = null)
                 }
             }
-
             LoadState.Loading -> {
                 _state.update {
                     it.copy(isLoading = true, error = null)
                 }
             }
-
             is LoadState.Error -> {
                 val error = refreshState.error
-                val errorUiState = (error as AppException).toErrorUiState()
-                onError(errorUiState)
+                if (error is AppException) {
+                    onError(error.toErrorUiState())
+                }
             }
         }
     }
