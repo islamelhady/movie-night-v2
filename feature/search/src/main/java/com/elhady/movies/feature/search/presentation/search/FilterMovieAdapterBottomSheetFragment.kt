@@ -13,7 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FilterMovieAdapterBottomSheetFragment : BottomSheetDialogFragment(), AdapterAdapterListener {
+class FilterMovieAdapterBottomSheetFragment : BottomSheetDialogFragment(), SearchFilterListener {
     private lateinit var binding: BottomSheetSearchFilterBinding
     val viewModel by activityViewModels<SearchViewModel>()
 
@@ -26,7 +26,6 @@ class FilterMovieAdapterBottomSheetFragment : BottomSheetDialogFragment(), Adapt
             DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_search_filter, container, false)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            setVariable(BR.viewModel, viewModel)
             setVariable(BR.listener, this@FilterMovieAdapterBottomSheetFragment)
             return root
         }
@@ -39,27 +38,9 @@ class FilterMovieAdapterBottomSheetFragment : BottomSheetDialogFragment(), Adapt
         binding.lifecycleOwner = viewLifecycleOwner
     }
 
-    override fun onClickFilter() {}
-
-    override fun onClickGenre(genresId: Int) {
-        viewModel.onEvent(SearchUiEvent.GenreClicked(genresId))
+    override fun onClickGenre(genreId: Int) {
+        viewModel.onEvent(SearchUiEvent.GenreClicked(genreId))
     }
-
-    override fun onClickClear() {}
-
-    override fun showResultMovie() {}
-
-    override fun showResultTv() {}
-
-    override fun showResultPeople() {}
-
-    override fun onClickBack() {}
-
-    override fun onClickMovie(id: Int) {}
-
-    override fun onClickPeople(id: Int) {}
-
-    override fun onClickTryAgain() {}
 
     override fun onClickApply() {
         viewModel.onEvent(SearchUiEvent.ApplyFilterClicked)

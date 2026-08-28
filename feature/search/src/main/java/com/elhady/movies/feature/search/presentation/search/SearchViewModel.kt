@@ -44,6 +44,8 @@ class SearchViewModel @Inject constructor(
     private val peopleUiMapper: PeopleUiMapper
 ) : BaseViewModel<SearchUiState, SearchUiEffect>(SearchUiState()) {
 
+    private var searchJob: kotlinx.coroutines.Job? = null
+
     init {
         viewModelScope.launch {
             state.map { it.searchQuery }
@@ -113,7 +115,6 @@ class SearchViewModel @Inject constructor(
 
     private fun onSearchInputChanged(newQuery: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            saveSearchHistoryInLocal(newQuery)
             getSearchHistory(newQuery)
             getData()
         }
@@ -140,7 +141,8 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun onSearchForMovie() {
-        tryToExecute(
+        searchJob?.cancel()
+        searchJob = tryToExecute(
             call = {
                 searchMoviesUseCase(
                     _state.value.searchQuery,
@@ -154,6 +156,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun onSuccessMovies(mediaUiState: List<MovieHorizontalUiState>) {
+        val currentQuery = _state.value.searchQuery
         _state.update {
             it.copy(
                 mediaType = SearchUiState.SearchMedia.MOVIE,
@@ -163,10 +166,14 @@ class SearchViewModel @Inject constructor(
                 error = null,
             )
         }
+        viewModelScope.launch(Dispatchers.IO) {
+            saveSearchHistoryInLocal(currentQuery)
+        }
     }
 
     private fun onSearchForTv() {
-        tryToExecute(
+        searchJob?.cancel()
+        searchJob = tryToExecute(
             call = {
                 searchTvsUseCase(
                     _state.value.searchQuery,
@@ -180,6 +187,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun onSuccessTv(tv: List<MovieHorizontalUiState>) {
+        val currentQuery = _state.value.searchQuery
         _state.update {
             it.copy(
                 mediaType = SearchUiState.SearchMedia.TV,
@@ -189,10 +197,14 @@ class SearchViewModel @Inject constructor(
                 error = null
             )
         }
+        viewModelScope.launch(Dispatchers.IO) {
+            saveSearchHistoryInLocal(currentQuery)
+        }
     }
 
     private fun onSearchForPeople() {
-        tryToExecute(
+        searchJob?.cancel()
+        searchJob = tryToExecute(
             call = { searchPeopleUseCase(_state.value.searchQuery) },
             mapper = peopleUiMapper,
             onSuccess = ::onSuccessPeople,
@@ -201,6 +213,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun onSuccessPeople(people: List<PeopleUiState>) {
+        val currentQuery = _state.value.searchQuery
         _state.update {
             it.copy(
                 mediaType = SearchUiState.SearchMedia.PEOPLE,
@@ -209,6 +222,9 @@ class SearchViewModel @Inject constructor(
                 isLoading = false,
                 error = null
             )
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            saveSearchHistoryInLocal(currentQuery)
         }
     }
 
