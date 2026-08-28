@@ -58,7 +58,7 @@
     <string name="logout">تسجيل خروج</string>
     <string name="do_u_wanna_leave_us">هل تريد تركنا؟</string>
     <string name="_9_6" tools:ignore="ExtraTranslation">9.6</string>
-    <string name="explore_the_best_tv_shows" tools:ignore="ExtraTranslation">استكشف أفضل البرامج التلفزيونية</string>
+    <string name="explore_the_best_tv_shows" tools:ignore="ExtraTranslation">أفضل البرامج التلفزيونية</string>
     <string name="explore_the_best_movies_tv_shows" tools:ignore="ExtraTranslation">استكشف أفضل الافلام و البرامج التلفزيونية</string>
     <string name="airing_today" tools:ignore="ExtraTranslation">يعرض اليوم</string>
     <string name="count_tv_shows">%s مسلسل</string>
@@ -127,4 +127,10 @@
     <string name="empty_response_error">لم يتم استلام بيانات من الخادم.</string>
     <string name="server_error">حدث خطأ في الخادم. يرجى المحاولة مرة أخرى لاحقاً.</string>
     <string name="unknown_error">حدث خطأ غير متوقع.</string>
+
+    <!-- Watchlist Notifications -->
+    <string name="watchlist_notification_channel_name">تنبيهات قائمة المشاهدة</string>
+    <string name="watchlist_notification_channel_description">تنبيهك عند توفر أو تحديث عناصر في قائمة المشاهدة الخاصة بك.</string>
+    <string name="watchlist_notification_title">تذكير قائمة المشاهدة</string>
+    <string name="watchlist_notification_message">"حان وقت المشاهدة! %1$s متاح اليوم."</string>
 </resources>

@@ -11,19 +11,10 @@ class SearchMoviesUseCase @Inject constructor(
         keyword: String,
         genreId: Int? = null
     ): List<Movie> {
-
         return searchRepository.searchForMovies(keyword)
-            // Filter the search results.
             .filter { movie ->
-                // If a genreId is provided, check if the movie's genre list contains it.
-                movie.genreEntities.takeIf { genreId != null }
-                    ?.map { it.genreID }
-                    ?.contains(genreId)
-                        // If no genreId is provided, or the movie's genre list contains the genreId,
-                        // and the movie's rate is not 0.0, include the movie in the filter results.
-                        ?: true && movie.rate != 0.0
+                ((genreId == null) || movie.genreEntities.any { it.genreID == genreId }) && movie.rate != 0.0
             }
-            // Sort the filtered results by the movie rate in descending order.
             .sortedByDescending { it.rate }
     }
 }

@@ -13,7 +13,7 @@ abstract class BasePagingSource<Service, Value : Any>(
         val currentPage = params.key ?: 1
         return try {
             val response = fetchData(currentPage)
-            val nextKey = (currentPage + 1).takeIf { response.lastIndex >= currentPage }
+            val nextKey = (currentPage + 1).takeIf { response.isNotEmpty() }
             LoadResult.Page(
                 data = response,
                 prevKey = if (currentPage == 1) null else currentPage - 1,
@@ -25,6 +25,9 @@ abstract class BasePagingSource<Service, Value : Any>(
     }
 
     override fun getRefreshKey(state: PagingState<Int, Value>): Int? {
-        return null
+        return state.anchorPosition?.let { anchorPosition ->
+            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
+                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
+        }
     }
 }

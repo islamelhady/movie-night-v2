@@ -52,7 +52,7 @@ fun View.showBasedOnState(
 @BindingAdapter(value = ["app:setGenres", "app:listener", "app:chipSelected"])
 fun ChipGroup.setGenres(
     items: List<SearchUiState.GenresUiState>?,
-    listener: AdapterAdapterListener,
+    listener: SearchFilterListener,
     chipSelected: Int?
 ) {
     this.removeAllViews()
@@ -81,20 +81,37 @@ fun ImageButton.setHideImageButton(hide: Boolean?, query: String?) {
 
 @BindingAdapter(value = ["app:searchLayoutManager"])
 fun RecyclerView.setSearchLayoutManager(searchUiState: SearchUiState?) {
-    val layoutManager = when (searchUiState?.mediaType) {
+    val currentLayoutManager = this.layoutManager
+    val requiredType = when (searchUiState?.mediaType) {
         SearchUiState.SearchMedia.MOVIE, SearchUiState.SearchMedia.TV -> {
-            LinearLayoutManager(context)
+            LinearLayoutManager::class
         }
+
         SearchUiState.SearchMedia.PEOPLE -> {
-            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                GridLayoutManager(context, 8)
-            } else {
-                GridLayoutManager(context, 5)
+            GridLayoutManager::class
+        }
+
+        else -> LinearLayoutManager::class
+    }
+
+    if (currentLayoutManager == null || !requiredType.isInstance(currentLayoutManager)) {
+        val layoutManager = when (searchUiState?.mediaType) {
+            SearchUiState.SearchMedia.MOVIE, SearchUiState.SearchMedia.TV -> {
+                LinearLayoutManager(context)
+            }
+
+            SearchUiState.SearchMedia.PEOPLE -> {
+                if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    GridLayoutManager(context, 8)
+                } else {
+                    GridLayoutManager(context, 5)
+                }
+            }
+
+            else -> {
+                LinearLayoutManager(context)
             }
         }
-        else -> {
-            LinearLayoutManager(context)
-        }
+        this.layoutManager = layoutManager
     }
-    this.layoutManager = layoutManager
 }

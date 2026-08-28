@@ -6,6 +6,7 @@ interface PreferenceStorage : UserDataProvider {
     override val sessionId: String?
     val currentUserName: String?
     val lastRefreshTime: Long?
+    val lastWatchlistNotificationDate: String?
 
     val isDarkTheme: Boolean?
 
@@ -14,6 +15,8 @@ interface PreferenceStorage : UserDataProvider {
     suspend fun setCurrentUserName(currentUserName: String)
 
     suspend fun setLastRefreshTime(lastRefreshTime: Long)
+
+    suspend fun setLastWatchlistNotificationDate(date: String)
 
     suspend fun setDarkTheme(isDark: Boolean)
 

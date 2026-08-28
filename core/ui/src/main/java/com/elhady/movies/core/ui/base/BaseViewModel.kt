@@ -7,9 +7,8 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.common.mapper.Mapper
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -47,15 +46,13 @@ abstract class BaseViewModel<STATE, EFFECT>(initialState: STATE) : ViewModel() {
      * @param call The suspending function to execute.
      * @param onSuccess The callback to execute on success.
      * @param onError The callback to execute on error.
-     * @param dispatcher The dispatcher on which to execute the call.
      */
     protected fun <T> tryToExecute(
         call: suspend () -> T,
         onSuccess: (T) -> Unit,
         onError: (AppException) -> Unit,
-        dispatcher: CoroutineDispatcher = Dispatchers.IO
-    ) {
-        viewModelScope.launch(dispatcher) {
+    ): Job {
+        return viewModelScope.launch {
             try {
                 call().also(onSuccess)
             } catch (exception: AppException) {
@@ -71,9 +68,8 @@ abstract class BaseViewModel<STATE, EFFECT>(initialState: STATE) : ViewModel() {
         mapper: Mapper<INPUT, OUTPUT>,
         onSuccess: (List<OUTPUT>) -> Unit,
         onError: (AppException) -> Unit,
-        dispatcher: CoroutineDispatcher = Dispatchers.IO
-    ) {
-        viewModelScope.launch(dispatcher) {
+    ): Job {
+        return viewModelScope.launch {
             try {
                 mapper.map(call()).also(onSuccess)
             } catch (exception: AppException) {
@@ -88,9 +84,8 @@ abstract class BaseViewModel<STATE, EFFECT>(initialState: STATE) : ViewModel() {
         mapper: Mapper<INPUT, OUTPUT>,
         onSuccess: (OUTPUT) -> Unit,
         onError: (AppException) -> Unit,
-        dispatcher: CoroutineDispatcher = Dispatchers.IO
-    ) {
-        viewModelScope.launch(dispatcher) {
+    ): Job {
+        return viewModelScope.launch {
             try {
                 mapper.map(call()).also(onSuccess)
             } catch (exception: AppException) {
@@ -120,9 +115,8 @@ abstract class BaseViewModel<STATE, EFFECT>(initialState: STATE) : ViewModel() {
         mapper: Mapper<INPUT, OUTPUT>,
         onSuccess: (Flow<PagingData<OUTPUT>>) -> Unit,
         onError: (AppException) -> Unit,
-        dispatcher: CoroutineDispatcher = Dispatchers.IO
-    ) {
-        viewModelScope.launch(dispatcher) {
+    ): Job {
+        return viewModelScope.launch {
             try {
                 data().map { pagingData ->
                     pagingData.map(mapper::map)

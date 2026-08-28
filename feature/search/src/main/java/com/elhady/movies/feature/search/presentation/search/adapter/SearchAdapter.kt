@@ -9,12 +9,11 @@ import com.elhady.movies.core.ui.base.BaseAdapter
 import com.elhady.movies.core.ui.databinding.ItemMovieHorizontalBinding
 import com.elhady.movies.feature.search.databinding.SearchItemPeopleBinding
 import com.elhady.movies.feature.search.presentation.search.SearchItem
-import com.elhady.movies.feature.search.presentation.search.SearchItemType
-import com.elhady.movies.feature.search.presentation.search.AdapterAdapterListener
+import com.elhady.movies.feature.search.presentation.search.SearchAdapterListener
 
 class SearchAdapter(
-    private var list: MutableList<SearchItem>,
-    private val listener: AdapterAdapterListener
+    list: MutableList<SearchItem>,
+    private val listener: SearchAdapterListener
 ) : BaseAdapter<SearchItem>(list, listener) {
     override val layoutID: Int = 0 // handled in onCreateViewHolder
     override val itemVariableId: Int = BR.item
@@ -22,7 +21,7 @@ class SearchAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return when (viewType) {
-            SearchItemType.MEDIA.ordinal -> {
+            VIEW_TYPE_MEDIA -> {
                 MediaViewHolder(
                     DataBindingUtil.inflate(
                         LayoutInflater.from(parent.context),
@@ -31,7 +30,7 @@ class SearchAdapter(
                 )
             }
 
-            SearchItemType.PEOPLE.ordinal -> {
+            VIEW_TYPE_PEOPLE -> {
                 PeopleViewHolder(
                     DataBindingUtil.inflate(
                         LayoutInflater.from(parent.context),
@@ -52,36 +51,42 @@ class SearchAdapter(
     }
 
     private fun bindMedia(holder: MediaViewHolder, position: Int) {
-        val media = list[position] as SearchItem.MediaItem
+        val media = getItems()[position] as SearchItem.MediaItem
         holder.binding.item = media.movieHorizontalUiState
         holder.binding.listener = listener
 
     }
 
     private fun bindPeople(holder: PeopleViewHolder, position: Int) {
-        val people = list[position] as SearchItem.PeopleItem
+        val people = getItems()[position] as SearchItem.PeopleItem
         holder.binding.item = people.peopleItem
         holder.binding.listener = listener
     }
 
-//    fun setItem(item: SearchItem) {
-//        val newItems = list.apply {
-//            removeAt(item.type.ordinal)
-//            add(item.type.ordinal, item)
-//        }
-//        setItems(newItems)
-//    }
-
     override fun setItems(newItems: List<SearchItem>) {
-        list = newItems.sortedBy { it.type.ordinal }.toMutableList()
-        super.setItems(newItems)
+        val sortedItems = newItems.sortedBy {
+            when (it) {
+                is SearchItem.MediaItem -> VIEW_TYPE_MEDIA
+                is SearchItem.PeopleItem -> VIEW_TYPE_PEOPLE
+            }
+        }
+        super.setItems(sortedItems)
     }
 
-
-    override fun getItemViewType(position: Int): Int = list[position].type.ordinal
+    override fun getItemViewType(position: Int): Int {
+        return when (getItems()[position]) {
+            is SearchItem.MediaItem -> VIEW_TYPE_MEDIA
+            is SearchItem.PeopleItem -> VIEW_TYPE_PEOPLE
+        }
+    }
 
     class MediaViewHolder(val binding: ItemMovieHorizontalBinding) : BaseViewHolder(binding)
 
     class PeopleViewHolder(val binding: SearchItemPeopleBinding) : BaseViewHolder(binding)
+
+    companion object {
+        private const val VIEW_TYPE_MEDIA = 0
+        private const val VIEW_TYPE_PEOPLE = 1
+    }
 
 }

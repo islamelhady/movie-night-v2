@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.paging.LoadState
+import com.elhady.movies.core.ui.adapter.BaseFooterAdapter
 import com.elhady.movies.core.common.ShowMoreType
 import com.elhady.movies.core.domain.model.account.ListType
 import com.elhady.movies.core.ui.base.BaseFragment
@@ -12,10 +14,15 @@ import com.elhady.movies.feature.showmore.R
 import com.elhady.movies.feature.showmore.databinding.FragmentShowMoreBinding
 import com.elhady.movies.feature.showmore.presentation.showmore.adapter.ShowMoreAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ShowMoreFragment : BaseFragment<FragmentShowMoreBinding, ShowMoreUiState, ShowMoreUiEffect>() {
+class ShowMoreFragment : BaseFragment<FragmentShowMoreBinding, ShowMoreUiState, ShowMoreUiEffect>(),
+    ShowMoreAdapterListener, ShowMoreFragmentListener {
 
     @Inject
     lateinit var navigator: Navigator
@@ -23,59 +30,54 @@ class ShowMoreFragment : BaseFragment<FragmentShowMoreBinding, ShowMoreUiState, 
     override val layoutIdFragment: Int = R.layout.fragment_show_more
     override val viewModel: ShowMoreViewModel by viewModels()
 
-    private val listener = object : ShowMoreListener {
-        override fun onClickItem(mediaId: Int, type: ListType) {
-            viewModel.onEvent(ShowMoreUiEvent.ItemClicked(mediaId, type))
-        }
-        override fun onClickBackNavigate() {
-            viewModel.onEvent(ShowMoreUiEvent.BackClicked)
-        }
-    }
-    private val showMoreAdapter by lazy { ShowMoreAdapter(listener = listener) }
+    private val showMoreAdapter by lazy { ShowMoreAdapter(listener = this) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.listener = this
         setAdapter()
-        setListeners()
+        collectPagingData()
+        collectLoadStates()
     }
 
     private fun setAdapter() {
-        binding.recyclerMedia.adapter = showMoreAdapter
+        binding.recyclerMedia.adapter = showMoreAdapter.withLoadStateFooter(
+            footer = BaseFooterAdapter { showMoreAdapter.retry() }
+        )
     }
 
-    private fun setListeners() {
-        binding.toolbar.setNavigationOnClickListener {
-            viewModel.onEvent(ShowMoreUiEvent.BackClicked)
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun collectPagingData() {
+        val pagingFlow = viewModel.state
+            .map { state ->
+                when (state.showMoreType) {
+                    ShowMoreType.POPULAR_MOVIES -> state.showMorePopularMovies
+                    ShowMoreType.TOP_RATED_MOVIES -> state.showMoreTopRatedMovies
+                    ShowMoreType.TRENDING_MOVIES -> state.showMoreTrendingMovies
+                    ShowMoreType.AIRING_TODAY_TV -> state.showMoreAiringTodayTvShow
+                    ShowMoreType.TOP_RATED_TV -> state.showMoreTopRatedTvShow
+                    ShowMoreType.POPULAR_TV -> state.showMorePopularTvShow
+                    ShowMoreType.ON_THE_AIR_TV -> state.showMoreOnTheAirTvShow
+                }
+            }
+            .distinctUntilChanged()
+            .flatMapLatest { it }
+
+        collectFlow(pagingFlow) { itemsPagingData ->
+            showMoreAdapter.submitData(itemsPagingData)
         }
-        binding.buttonRetry.setOnClickListener {
-            viewModel.onEvent(ShowMoreUiEvent.RetryClicked)
+    }
+
+    private fun collectLoadStates() {
+        collectFlow(showMoreAdapter.loadStateFlow) { loadStates ->
+            viewModel.setErrorUiState(loadStates)
+            binding.lottieAnimationEmpty.isVisible =
+                loadStates.refresh is LoadState.NotLoading && showMoreAdapter.itemCount == 0
         }
     }
 
     override fun render(state: ShowMoreUiState) {
-        binding.toolbar.title = state.title
-        binding.progressBar.isVisible = state.isLoading
-        binding.lottieAnimation.isVisible = state.errors != null
-        binding.buttonRetry.isVisible = state.errors != null
-
-        state.errors?.let {
-            binding.lottieAnimation.setAnimation(it.animationRes)
-            binding.lottieAnimation.playAnimation()
-        }
-
-        val flow = when (state.showMoreType) {
-            ShowMoreType.POPULAR_MOVIES -> state.showMorePopularMovies
-            ShowMoreType.TOP_RATED_MOVIES -> state.showMoreTopRatedMovies
-            ShowMoreType.TRENDING_MOVIES -> state.showMoreTrendingMovies
-            ShowMoreType.AIRING_TODAY_TV -> state.showMoreAiringTodayTvShow
-            ShowMoreType.TOP_RATED_TV -> state.showMoreTopRatedTvShow
-            ShowMoreType.POPULAR_TV -> state.showMorePopularTvShow
-            ShowMoreType.ON_THE_AIR_TV -> state.showMoreOnTheAirTvShow
-        }
-        collectFlow(flow) { itemsPagingData ->
-            showMoreAdapter.submitData(itemsPagingData)
-        }
-        collectFlow(showMoreAdapter.loadStateFlow) { viewModel.setErrorUiState(it) }
+        binding.state = state
     }
 
     override fun onEffect(effect: ShowMoreUiEffect) {
@@ -85,6 +87,18 @@ class ShowMoreFragment : BaseFragment<FragmentShowMoreBinding, ShowMoreUiState, 
             ShowMoreUiEffect.NavigateBack -> navigator.navigateBack()
             is ShowMoreUiEffect.ShowSnackBar -> showSnackBar(effect.message)
         }
+    }
+
+    override fun onClickItem(mediaId: Int, type: ListType) {
+        viewModel.onEvent(ShowMoreUiEvent.ItemClicked(mediaId, type))
+    }
+
+    override fun onClickBack() {
+        viewModel.onEvent(ShowMoreUiEvent.BackClicked)
+    }
+
+    override fun onClickRetry() {
+        viewModel.onEvent(ShowMoreUiEvent.RetryClicked)
     }
 
 }

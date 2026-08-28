@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.domain.model.common.Genre
-import com.elhady.movies.core.common.NoNetworkThrowable
 import com.elhady.movies.core.domain.usecase.search.SearchMoviesUseCase
 import com.elhady.movies.core.domain.usecase.search.SearchPeopleUseCase
 import com.elhady.movies.core.domain.usecase.search.SearchTvsUseCase
@@ -20,13 +19,11 @@ import com.elhady.movies.feature.search.presentation.search.mapper.MovieUiMapper
 import com.elhady.movies.feature.search.presentation.search.mapper.PeopleUiMapper
 import com.elhady.movies.feature.search.presentation.search.mapper.TvUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,6 +40,8 @@ class SearchViewModel @Inject constructor(
     private val tvUiMapper: TvUiMapper,
     private val peopleUiMapper: PeopleUiMapper
 ) : BaseViewModel<SearchUiState, SearchUiEffect>(SearchUiState()) {
+
+    private var searchJob: kotlinx.coroutines.Job? = null
 
     init {
         viewModelScope.launch {
@@ -112,8 +111,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun onSearchInputChanged(newQuery: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            saveSearchHistoryInLocal(newQuery)
+        viewModelScope.launch {
             getSearchHistory(newQuery)
             getData()
         }
@@ -140,7 +138,8 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun onSearchForMovie() {
-        tryToExecute(
+        searchJob?.cancel()
+        searchJob = tryToExecute(
             call = {
                 searchMoviesUseCase(
                     _state.value.searchQuery,
@@ -154,6 +153,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun onSuccessMovies(mediaUiState: List<MovieHorizontalUiState>) {
+        val currentQuery = _state.value.searchQuery
         _state.update {
             it.copy(
                 mediaType = SearchUiState.SearchMedia.MOVIE,
@@ -163,10 +163,14 @@ class SearchViewModel @Inject constructor(
                 error = null,
             )
         }
+        viewModelScope.launch {
+            saveSearchHistoryInLocal(currentQuery)
+        }
     }
 
     private fun onSearchForTv() {
-        tryToExecute(
+        searchJob?.cancel()
+        searchJob = tryToExecute(
             call = {
                 searchTvsUseCase(
                     _state.value.searchQuery,
@@ -175,11 +179,12 @@ class SearchViewModel @Inject constructor(
             },
             mapper = tvUiMapper,
             onSuccess = ::onSuccessTv,
-            onError = ::onError
+            onError = ::onError,
         )
     }
 
     private fun onSuccessTv(tv: List<MovieHorizontalUiState>) {
+        val currentQuery = _state.value.searchQuery
         _state.update {
             it.copy(
                 mediaType = SearchUiState.SearchMedia.TV,
@@ -189,18 +194,23 @@ class SearchViewModel @Inject constructor(
                 error = null
             )
         }
+        viewModelScope.launch {
+            saveSearchHistoryInLocal(currentQuery)
+        }
     }
 
     private fun onSearchForPeople() {
-        tryToExecute(
+        searchJob?.cancel()
+        searchJob = tryToExecute(
             call = { searchPeopleUseCase(_state.value.searchQuery) },
             mapper = peopleUiMapper,
             onSuccess = ::onSuccessPeople,
-            onError = ::onError
+            onError = ::onError,
         )
     }
 
     private fun onSuccessPeople(people: List<PeopleUiState>) {
+        val currentQuery = _state.value.searchQuery
         _state.update {
             it.copy(
                 mediaType = SearchUiState.SearchMedia.PEOPLE,
@@ -209,6 +219,9 @@ class SearchViewModel @Inject constructor(
                 isLoading = false,
                 error = null
             )
+        }
+        viewModelScope.launch {
+            saveSearchHistoryInLocal(currentQuery)
         }
     }
 
@@ -228,7 +241,7 @@ class SearchViewModel @Inject constructor(
         tryToExecute(
             call = { getAllGenresMoviesUseCase() },
             onSuccess = ::onSuccessGenres,
-            onError = ::onError
+            onError = ::onError,
         )
     }
 
@@ -237,7 +250,7 @@ class SearchViewModel @Inject constructor(
         tryToExecute(
             call = { getAllGenresTvsUseCase() },
             onSuccess = ::onSuccessGenres,
-            onError = ::onError
+            onError = ::onError,
         )
     }
 
