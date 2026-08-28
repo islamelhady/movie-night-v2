@@ -57,14 +57,14 @@ class MovieDetailsViewModel @Inject constructor(
     private val movieId = savedStateHandle.get<Int>("movieId")
 
     init {
-        _state.update { it.copy(isLoading = true, isLogin = checkIsUserLoggedInUseCase()) }
         if (movieId != null) {
+            _state.update { it.copy(isLoading = true, isLogin = checkIsUserLoggedInUseCase()) }
             getMovieDetails(movieId)
             getRatingMovie()
         } else {
             _state.update { 
                 it.copy(
-                    onErrors = listOf("There is a problem with MovieId"), 
+                    onErrors = listOf(stringsRes.someThingError), 
                     isLoading = false
                 ) 
             }
@@ -75,7 +75,10 @@ class MovieDetailsViewModel @Inject constructor(
         when (event) {
             MovieDetailsUiEvent.BackClicked -> sendEffect(MovieDetailsUiEffect.NavigateBack)
             MovieDetailsUiEvent.PlayClicked -> {
-                sendEffect(MovieDetailsUiEffect.PlayVideoTrailer(state.value.movieUiState.videoKey))
+                _state.update { it.copy(isPlayerVisible = true) }
+            }
+            MovieDetailsUiEvent.DismissPlayerClicked -> {
+                _state.update { it.copy(isPlayerVisible = false) }
             }
             MovieDetailsUiEvent.RateClicked -> {
                 if (state.value.isLogin) {

@@ -238,7 +238,7 @@
                 android:id="@+id/progressBar"
                 android:layout_width="@dimen/spacing_extra_giant_48dp"
                 android:layout_height="@dimen/spacing_extra_giant_48dp"
-                app:isVisible="@{state.personLoading}"
+                app:isVisible="@{state.isPersonLoading}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

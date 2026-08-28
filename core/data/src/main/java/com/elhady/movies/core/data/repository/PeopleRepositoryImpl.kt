@@ -65,12 +65,12 @@ class PeopleRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getMoviesByPerson(personId: Int): List<Movie> {
-        return movieByPeopleDtoMapper.map(safeApiCaller.execute { peopleApiService.getMoviesByPerson(personId) }.cast!!.filterNotNull())
+        return movieByPeopleDtoMapper.map(safeApiCaller.execute { peopleApiService.getMoviesByPerson(personId) }.cast.orEmpty().filterNotNull())
     }
 
     override suspend fun getTvShowsByPerson(personId: Int): List<TvShow> {
         return tvShowCastDtoMapper.map(safeApiCaller.execute {
             peopleApiService.getTvShowsByPerson(personId)
-        }.cast!!.filterNotNull())
+        }.cast.orEmpty().filterNotNull())
     }
 }

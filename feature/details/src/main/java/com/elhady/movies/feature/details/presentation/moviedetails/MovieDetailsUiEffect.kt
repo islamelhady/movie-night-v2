@@ -10,7 +10,6 @@ sealed interface MovieDetailsUiEffect {
     object ShowRateBottomSheet : MovieDetailsUiEffect
     data class ShowSaveToListBottomSheet(val lists: List<UserListUiState>) : MovieDetailsUiEffect
     data class NavigateToShowMore(val movieId: Int) : MovieDetailsUiEffect
-    data class PlayVideoTrailer(val videoKey: String) : MovieDetailsUiEffect
     
     // Bottom Sheet interactions
     object CloseBottomSheet : MovieDetailsUiEffect

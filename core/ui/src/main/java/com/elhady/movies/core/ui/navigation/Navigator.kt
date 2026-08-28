@@ -10,7 +10,6 @@ interface Navigator {
     fun navigateToEpisodeDetails(seriesId: Int, seasonNumber: Int, episodeNumber: Int)
     fun navigateToPeopleDetails(personId: Int)
     fun navigateToShowMore(showMoreType: ShowMoreType)
-    fun navigateToTrailer(videoKey: String)
     fun navigateToLogin()
     fun navigateToMyList()
     fun navigateToMyListDetails(listId: Int, listType: String, listName: String)

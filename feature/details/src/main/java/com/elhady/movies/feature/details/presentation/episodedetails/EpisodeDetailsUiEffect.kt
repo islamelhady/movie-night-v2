@@ -8,10 +8,6 @@ sealed interface EpisodeDetailsUiEffect {
         val personId: Int,
     ) : EpisodeDetailsUiEffect
 
-    data class NavigateToTrailer(
-        val videoKey: String,
-    ) : EpisodeDetailsUiEffect
-
     object ShowRatingBottomSheet : EpisodeDetailsUiEffect
 
     data class ShowSnackBar(

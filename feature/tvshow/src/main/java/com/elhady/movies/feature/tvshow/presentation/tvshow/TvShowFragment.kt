@@ -9,7 +9,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.elhady.movies.core.ui.adapter.BaseFooterAdapter
 import com.elhady.movies.core.ui.base.BaseFragment
-import com.elhady.movies.core.ui.base.animationRes
 import com.elhady.movies.core.ui.interaction.TvShowAdapterListener
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.tvshow.R

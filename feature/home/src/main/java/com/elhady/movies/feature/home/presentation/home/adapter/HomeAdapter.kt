@@ -5,7 +5,6 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
@@ -22,7 +21,7 @@ import com.elhady.movies.feature.home.databinding.HomeRecyclerviewTrendingBindin
 import com.elhady.movies.feature.home.databinding.HomeRecyclerviewTvShowsBinding
 import com.elhady.movies.feature.home.presentation.home.HomeAdapterListener
 import com.elhady.movies.feature.home.presentation.home.HomeItem
-import java.lang.Math.abs
+import kotlin.math.abs
 
 class HomeAdapter(
     private var items: List<HomeItem>,
@@ -146,14 +145,7 @@ class HomeAdapter(
         position: Int
     ) {
         val upcomingSlider = items[position] as HomeItem.Slider
-        val viewPager = holder.binding.viewPager
-        val adapter = UpcomingMovieAdapter(upcomingItems = upcomingSlider.items, listener)
-        setupViewPager(viewPager, adapter)
-        registerPageChangeCallback(viewPager)
-        setSliderPageTransformer(viewPager)
-        holder.binding.apply {
-            setVariable(BR.item, upcomingSlider)
-        }
+        holder.bind(upcomingSlider, listener)
     }
 
     private fun bindNowPlaying(
@@ -176,7 +168,7 @@ class HomeAdapter(
         if (tvShow.items.isEmpty()) return
         holder.binding.apply {
             airingTodayTv = tvShow.items.first()
-            topRatedTv = tvShow.items.random()
+            topRatedTv = tvShow.items.first()
             popularTv = tvShow.items.last()
             onTheAirTv = tvShow.items.last()
             setVariable(BR.listener, this@HomeAdapter.listener)
@@ -248,51 +240,64 @@ class HomeAdapter(
         }
     }
 
-    private fun setupViewPager(
-        viewPager: ViewPager2,
-        adapter: RecyclerView.Adapter<*>
-    ) {
-        viewPager.apply {
-            this.adapter = adapter
-            offscreenPageLimit = 3
+    override fun onViewDetachedFromWindow(holder: BaseViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        if (holder is SliderViewHolder) {
+            holder.release()
         }
     }
 
-    private fun registerPageChangeCallback(viewPager: ViewPager2) {
-        val handler = Handler(Looper.getMainLooper())
-        val runnable = Runnable {
-            viewPager.currentItem += 1
+    class SliderViewHolder(
+        val binding: HomeRecyclerviewSliderBinding
+    ) : BaseViewHolder(binding) {
+        private val handler = Handler(Looper.getMainLooper())
+        private val runnable = Runnable {
+            binding.viewPager.currentItem += 1
         }
+        private var callback: ViewPager2.OnPageChangeCallback? = null
 
-        viewPager.registerOnPageChangeCallback(
-            object : ViewPager2.OnPageChangeCallback() {
+        fun bind(upcomingSlider: HomeItem.Slider, listener: HomeAdapterListener) {
+            val adapter = UpcomingMovieAdapter(upcomingItems = upcomingSlider.items, listener)
+            binding.viewPager.apply {
+                this.adapter = adapter
+                offscreenPageLimit = 3
+                setSliderPageTransformer(this)
+            }
+
+            // Clean up previous callback if any
+            callback?.let { binding.viewPager.unregisterOnPageChangeCallback(it) }
+
+            callback = object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
                     handler.removeCallbacks(runnable)
                     handler.postDelayed(runnable, 6000)
                 }
             }
-        )
-    }
+            binding.viewPager.registerOnPageChangeCallback(callback!!)
 
-    private fun setSliderPageTransformer(viewPager: ViewPager2) {
-        val transformer = CompositePageTransformer()
-
-        transformer.addTransformer(
-            MarginPageTransformer(16)
-        )
-
-        transformer.addTransformer { page, position ->
-            val r = 1 - abs(position)
-            page.scaleY = 0.85f + r * 0.14f
+            binding.setVariable(BR.item, upcomingSlider)
+            binding.executePendingBindings()
         }
-        viewPager.setPageTransformer(transformer)
+
+        private fun setSliderPageTransformer(viewPager: ViewPager2) {
+            val transformer = CompositePageTransformer()
+            transformer.addTransformer(MarginPageTransformer(16))
+            transformer.addTransformer { page, position ->
+                val r = 1 - abs(position)
+                page.scaleY = 0.85f + r * 0.14f
+            }
+            viewPager.setPageTransformer(transformer)
+        }
+
+        fun release() {
+            handler.removeCallbacks(runnable)
+            callback?.let {
+                binding.viewPager.unregisterOnPageChangeCallback(it)
+            }
+            callback = null
+        }
     }
-
-
-    class SliderViewHolder(
-        val binding: HomeRecyclerviewSliderBinding
-    ) : BaseViewHolder(binding)
 
     class NowPlayingViewHolder(
         val binding: HomeRecyclerviewNowPlayingBinding

@@ -6,9 +6,11 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.databinding.BindingAdapter
+import com.airbnb.lottie.LottieAnimationView
 import com.elhady.movies.core.ui.R
 import com.elhady.movies.core.ui.base.ErrorUiState
 import com.google.android.material.progressindicator.LinearProgressIndicator
+import com.google.android.material.textfield.TextInputLayout
 
 @BindingAdapter(value = ["app:genres"])
 fun setGenres(textView: TextView, genres: List<String>?){
@@ -42,6 +44,11 @@ fun View.hideWhenNotLoggedIn(hideWhenNotLoggedIn: Boolean?) {
     } else {
         this.visibility = View.INVISIBLE
     }
+}
+
+@BindingAdapter("app:setTipError")
+fun TextInputLayout.setTipError(errorMessage: String?) {
+    error = errorMessage
 }
 
 @BindingAdapter("app:setTipError")
@@ -163,4 +170,13 @@ fun TextView.convertGenderText(gender: String?) {
         "2" -> context.getString(R.string.male)
         else -> ""
     }.takeIf { gender != null } ?: ""
+}
+
+@BindingAdapter("app:lottie_rawRes")
+fun LottieAnimationView.setLottieRawRes(resId: Int?) {
+    if (resId != null && resId > 0) {
+        setAnimation(resId)
+    } else {
+        cancelAnimation()
+    }
 }

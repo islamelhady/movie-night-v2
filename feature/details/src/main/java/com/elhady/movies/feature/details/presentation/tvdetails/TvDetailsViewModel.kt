@@ -449,6 +449,10 @@ class TvDetailsViewModel @Inject constructor(
                 handlePlayClicked()
             }
 
+            TvDetailsUiEvent.DismissPlayerClicked -> {
+                _state.update { it.copy(isPlayerVisible = false) }
+            }
+
             TvDetailsUiEvent.RateClicked -> {
                 handelRateClicked()
             }
@@ -525,7 +529,7 @@ class TvDetailsViewModel @Inject constructor(
     private fun handlePlayClicked() {
         when (val trailer = state.value.trailerUIState) {
             is TrailerUIState.Available -> {
-                sendEffect(TvDetailsUiEffect.NavigateToTrailer(trailer.youtubeKey.youtubeKey))
+                _state.update { it.copy(isPlayerVisible = true) }
             }
 
             else -> {

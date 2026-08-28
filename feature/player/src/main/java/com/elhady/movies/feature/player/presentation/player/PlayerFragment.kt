@@ -1,15 +1,10 @@
 package com.elhady.movies.feature.player.presentation.player
 
-import android.content.pm.ActivityInfo
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.elhady.movies.core.ui.base.BaseFragment
-import com.elhady.movies.core.ui.base.animationRes
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.player.R
 import com.elhady.movies.feature.player.databinding.FragmentPlayerBinding
@@ -34,24 +29,8 @@ class PlayerFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycle.addObserver(binding.youtubePlayer)
-        setupSystemBars()
         setupYoutubePlayer()
         setListeners()
-    }
-
-    private fun setupSystemBars() {
-        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        activity?.window?.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
-        activity?.window?.navigationBarColor = Color.BLACK
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            activity?.window?.setDecorFitsSystemWindows(false)
-        } else {
-            @Suppress("DEPRECATION")
-            activity?.window?.decorView?.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
-        }
     }
 
     private fun setupYoutubePlayer() {
@@ -71,8 +50,10 @@ class PlayerFragment :
 
         binding.lottieAnimation.isVisible = state.errors != null
         state.errors?.let {
-            binding.lottieAnimation.setAnimation(it.animationRes)
-            binding.lottieAnimation.playAnimation()
+            if (!binding.lottieAnimation.isAnimating) {
+                binding.lottieAnimation.setAnimation(it.animationRes)
+                binding.lottieAnimation.playAnimation()
+            }
         }
     }
 
@@ -90,6 +71,7 @@ class PlayerFragment :
 
     override fun onDestroyView() {
         super.onDestroyView()
-        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        youtubePlayer = null
+        isVideoLoaded = false
     }
 }

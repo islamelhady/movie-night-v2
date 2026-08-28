@@ -18,6 +18,7 @@ data class EpisodeDetailsUiState(
     val isLoading: Boolean = true,
     val isRefreshing: Boolean = false,
     val isLoggedIn: Boolean = false,
+    val isPlayerVisible: Boolean = false
 ) {
     val isFailure: Boolean
         get() = error != null

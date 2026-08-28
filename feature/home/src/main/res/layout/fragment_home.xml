@@ -38,7 +38,7 @@
             android:clipToPadding="false"
             android:orientation="vertical"
             android:paddingVertical="@dimen/spacing_medium_16dp"
-            app:isVisible="@{!state.isLoading}"
+            app:isVisible="@{!state.isLoading &amp;&amp; (state.hasData || !state.isError)}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -63,7 +63,7 @@
             android:id="@+id/lottie_animation"
             android:layout_width="@dimen/lottie_error_size"
             android:layout_height="@dimen/lottie_error_size"
-            app:isVisibleOrGone="@{state.isError}"
+            app:isVisibleOrGone="@{state.isError &amp;&amp; !state.hasData}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +71,7 @@
             app:lottie_autoPlay="true"
             app:lottie_colorFilter="@color/primary"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/no_connection" />
+            app:lottie_rawRes="@{state.error.animationRes}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

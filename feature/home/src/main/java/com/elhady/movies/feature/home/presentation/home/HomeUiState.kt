@@ -17,6 +17,16 @@ data class HomeUiState(
 ) {
     val isError: Boolean
         get() = error != null
+
+    val hasData: Boolean
+        get() = upcomingMovies.isNotEmpty() ||
+                nowPlayingMovies.isNotEmpty() ||
+                trendingMovies.isNotEmpty() ||
+                popularPeople.isNotEmpty() ||
+                popularMovies.isNotEmpty() ||
+                topRatedMovies.isNotEmpty() ||
+                tvShows.isNotEmpty() ||
+                airingTodayTvShows.isNotEmpty()
 }
 
 data class UpcomingMovieUiState(

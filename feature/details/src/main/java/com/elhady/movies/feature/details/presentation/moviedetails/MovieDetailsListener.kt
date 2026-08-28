@@ -8,5 +8,6 @@ interface MovieDetailsListener : BaseInteractionListener {
     fun onClickBackButton()
     fun onClickShowMore(movieId: Int)
     fun onClickSaveButton()
+    fun onClickDismissPlayer()
     fun tryAgain(movieId: Int)
 }

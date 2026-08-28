@@ -2,12 +2,11 @@ package com.elhady.movies.feature.details.presentation.peopledetails
 
 import androidx.lifecycle.SavedStateHandle
 import com.elhady.movies.core.common.AppException
-import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.domain.usecase.people.GetMoviesByPersonUseCase
 import com.elhady.movies.core.domain.usecase.people.GetPeopleDetailsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetTvShowsByPersonUseCase
+import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.base.ErrorUiState
-import com.elhady.movies.core.ui.base.messageRes
 import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.details.presentation.peopledetails.mapper.MoviesByPeopleUiMapper
@@ -25,16 +24,27 @@ class PeopleDetailsViewModel @Inject constructor(
     private val peopleDataUiMapper: PeopleDataUiMapper,
     private val moviesByPeopleUiMapper: MoviesByPeopleUiMapper,
     private val tvShowsByPeopleUiMapper: TvShowsByPeopleUiMapper,
+    private val stringsRes: StringsRes,
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<PeopleDetailsUiState, PeopleDetailsUiEffect>(
     PeopleDetailsUiState()
 ) {
 
-    private val personId: Int =
-        checkNotNull(savedStateHandle.get<Int>(PERSON_ID))
+    private val personId: Int? = savedStateHandle.get<Int>(PERSON_ID)
 
     init {
-        refreshScreen()
+        if (personId != null) {
+            refreshScreen()
+        } else {
+            _state.update {
+                it.copy(
+                    isPersonLoading = false,
+                    isMoviesLoading = false,
+                    isTvShowsLoading = false,
+                    error = ErrorUiState.EmptyResponse
+                )
+            }
+        }
     }
 
     fun onEvent(event: PeopleDetailsUiEvent) {
@@ -82,7 +92,7 @@ class PeopleDetailsViewModel @Inject constructor(
     private fun getPersonData() {
         tryToExecute(
             call = {
-                getPeopleDetailsUseCase(personId)
+                getPeopleDetailsUseCase(personId!!)
             },
             mapper = peopleDataUiMapper,
             onSuccess = ::onSuccessGetPersonData,
@@ -104,7 +114,7 @@ class PeopleDetailsViewModel @Inject constructor(
     private fun getMoviesByPerson() {
         tryToExecute(
             call = {
-                getMoviesByPersonUseCase(personId)
+                getMoviesByPersonUseCase(personId!!)
             },
             mapper = moviesByPeopleUiMapper,
             onSuccess = ::onSuccessGetMovies,
@@ -126,7 +136,7 @@ class PeopleDetailsViewModel @Inject constructor(
     private fun getTvShowsByPerson() {
         tryToExecute(
             call = {
-                getTvShowsByPersonUseCase(personId)
+                getTvShowsByPersonUseCase(personId!!)
             },
             mapper = tvShowsByPeopleUiMapper,
             onSuccess = ::onSuccessGetTvShows,
@@ -186,7 +196,7 @@ class PeopleDetailsViewModel @Inject constructor(
 
         sendEffect(
             PeopleDetailsUiEffect.ShowSnackBar(
-                errorUiState.messageRes.toString()
+                stringsRes.someThingError
             )
         )
     }

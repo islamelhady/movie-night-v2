@@ -29,9 +29,9 @@ abstract class BaseFragment<VDB : ViewDataBinding, STATE, EFFECT> : Fragment() {
 
     abstract val viewModel: BaseViewModel<STATE, EFFECT>
 
-    private lateinit var _binding: VDB
+    protected var _binding: VDB? = null
     protected val binding: VDB
-        get() = _binding
+        get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,16 +39,19 @@ abstract class BaseFragment<VDB : ViewDataBinding, STATE, EFFECT> : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = DataBindingUtil.inflate(inflater, layoutIdFragment, container, false)
-        _binding.apply {
-            lifecycleOwner = viewLifecycleOwner
-            return root
-        }
+        return _binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding?.lifecycleOwner = viewLifecycleOwner
         collectFlow(viewModel.effect) { onEffect(it) }
         collectFlow(viewModel.state) { render(it) }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     /**
@@ -77,5 +80,9 @@ abstract class BaseFragment<VDB : ViewDataBinding, STATE, EFFECT> : Fragment() {
 
     protected fun showSnackBar(messages: String) {
         Snackbar.make(binding.root, messages, Snackbar.LENGTH_SHORT).show()
+    }
+
+    protected fun showSnackBar(messageRes: Int) {
+        Snackbar.make(binding.root, getString(messageRes), Snackbar.LENGTH_SHORT).show()
     }
 }

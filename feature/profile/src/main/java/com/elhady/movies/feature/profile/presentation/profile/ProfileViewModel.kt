@@ -9,7 +9,6 @@ import com.elhady.movies.core.domain.usecase.common.GetThemeUseCase
 import com.elhady.movies.core.domain.usecase.common.SaveThemeUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.base.ErrorUiState
-import com.elhady.movies.core.ui.base.messageRes
 import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.feature.profile.presentation.profile.mapper.ProfileUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel

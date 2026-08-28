@@ -14,8 +14,8 @@ class PeopleDetailsDtoMapper @Inject constructor() :
             name = input.name ?: "",
             imageUrl = (BuildConfig.IMAGE_BASE_PATH + input.profilePath),
             placeOfBirth = input.placeOfBirth ?: "",
-            gender = input.gender.toString(),
-            acting = input.knownForDepartment.toString(),
+            gender = input.gender?.toString() ?: "",
+            acting = input.knownForDepartment.orEmpty(),
             numMovies = "",
             biography = input.biography ?:""
         )
