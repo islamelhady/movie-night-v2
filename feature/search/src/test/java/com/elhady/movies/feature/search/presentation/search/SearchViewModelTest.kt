@@ -72,19 +72,17 @@ class SearchViewModelTest {
             genreUiStateMapper,
             movieUiMapper,
             tvUiMapper,
-            peopleUiMapper,
-            testDispatcher
+            peopleUiMapper
         )
     }
 
     @Test
-    fun `onQueryChanged should update state and set loading`() = runTest(testDispatcher) {
+    fun `onQueryChanged should update state and set loading`() = runTest {
         // Given
         initViewModel()
 
         // When
         viewModel.onEvent(SearchUiEvent.QueryChanged("Batman"))
-        // We don't advanceUntilIdle here because that would trigger the full search flow in the mock
         
         // Then
         assertEquals("Batman", viewModel.state.value.searchQuery)
@@ -92,7 +90,7 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `history should be saved only after successful search`() = runTest(testDispatcher) {
+    fun `history should be saved only after successful search`() = runTest {
         // Given
         initViewModel()
         advanceUntilIdle() // Process init
@@ -107,7 +105,7 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `rapid typing should cancel previous search jobs`() = runTest(testDispatcher) {
+    fun `rapid typing should cancel previous search jobs`() = runTest {
         // Given
         coEvery { searchMoviesUseCase(any(), any()) } coAnswers {
             kotlinx.coroutines.delay(2000)
@@ -126,8 +124,6 @@ class SearchViewModelTest {
         advanceUntilIdle()
 
         // Then
-        // Verify only the latest search's history is potentially saved (depending on implementation)
-        // Here we just care that it compiles and runs deterministically.
         coVerify { searchMoviesUseCase("B", any()) }
     }
 }

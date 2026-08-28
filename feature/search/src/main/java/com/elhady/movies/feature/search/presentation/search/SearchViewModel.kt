@@ -19,8 +19,6 @@ import com.elhady.movies.feature.search.presentation.search.mapper.MovieUiMapper
 import com.elhady.movies.feature.search.presentation.search.mapper.PeopleUiMapper
 import com.elhady.movies.feature.search.presentation.search.mapper.TvUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -40,8 +38,7 @@ class SearchViewModel @Inject constructor(
     private val genreUiStateMapper: GenreUiMapper,
     private val movieUiMapper: MovieUiMapper,
     private val tvUiMapper: TvUiMapper,
-    private val peopleUiMapper: PeopleUiMapper,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val peopleUiMapper: PeopleUiMapper
 ) : BaseViewModel<SearchUiState, SearchUiEffect>(SearchUiState()) {
 
     private var searchJob: kotlinx.coroutines.Job? = null
@@ -114,7 +111,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun onSearchInputChanged(newQuery: String) {
-        viewModelScope.launch(ioDispatcher) {
+        viewModelScope.launch {
             getSearchHistory(newQuery)
             getData()
         }
@@ -152,7 +149,6 @@ class SearchViewModel @Inject constructor(
             mapper = movieUiMapper,
             onSuccess = ::onSuccessMovies,
             onError = ::onError,
-            dispatcher = ioDispatcher
         )
     }
 
@@ -167,7 +163,7 @@ class SearchViewModel @Inject constructor(
                 error = null,
             )
         }
-        viewModelScope.launch(ioDispatcher) {
+        viewModelScope.launch {
             saveSearchHistoryInLocal(currentQuery)
         }
     }
@@ -184,7 +180,6 @@ class SearchViewModel @Inject constructor(
             mapper = tvUiMapper,
             onSuccess = ::onSuccessTv,
             onError = ::onError,
-            dispatcher = ioDispatcher
         )
     }
 
@@ -199,7 +194,7 @@ class SearchViewModel @Inject constructor(
                 error = null
             )
         }
-        viewModelScope.launch(ioDispatcher) {
+        viewModelScope.launch {
             saveSearchHistoryInLocal(currentQuery)
         }
     }
@@ -211,7 +206,6 @@ class SearchViewModel @Inject constructor(
             mapper = peopleUiMapper,
             onSuccess = ::onSuccessPeople,
             onError = ::onError,
-            dispatcher = ioDispatcher
         )
     }
 
@@ -226,7 +220,7 @@ class SearchViewModel @Inject constructor(
                 error = null
             )
         }
-        viewModelScope.launch(ioDispatcher) {
+        viewModelScope.launch {
             saveSearchHistoryInLocal(currentQuery)
         }
     }
@@ -248,7 +242,6 @@ class SearchViewModel @Inject constructor(
             call = { getAllGenresMoviesUseCase() },
             onSuccess = ::onSuccessGenres,
             onError = ::onError,
-            dispatcher = ioDispatcher
         )
     }
 
@@ -258,7 +251,6 @@ class SearchViewModel @Inject constructor(
             call = { getAllGenresTvsUseCase() },
             onSuccess = ::onSuccessGenres,
             onError = ::onError,
-            dispatcher = ioDispatcher
         )
     }
 

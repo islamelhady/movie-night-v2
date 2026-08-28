@@ -14,8 +14,6 @@ import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.tvshow.presentation.tvshow.mapper.TvShowUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.update
@@ -28,8 +26,7 @@ class TvShowViewModel @Inject constructor(
     private val getPopularTvShowsUseCase: GetPopularTvShowsUseCase,
     private val getTopRatedTvShowsUseCase: GetTopRatedTvShowsUseCase,
     private val tvShowUiMapper: TvShowUiMapper,
-    private val stringsRes: StringsRes,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val stringsRes: StringsRes
 ) : BaseViewModel<TvShowUiState, TvShowUiEffect>(TvShowUiState()) {
 
     private var pagingJob: Job? = null
@@ -66,8 +63,7 @@ class TvShowViewModel @Inject constructor(
             data = { getAiringTodayTvShowsUseCase() },
             mapper = tvShowUiMapper,
             onSuccess = ::onSuccessAiringTodayTvShows,
-            onError = { onError(it.toErrorUiState()) },
-            dispatcher = ioDispatcher
+            onError = { onError(it.toErrorUiState()) }
         )
     }
 
@@ -88,8 +84,7 @@ class TvShowViewModel @Inject constructor(
             data = { getOnTheAirTvShowsUseCase() },
             mapper = tvShowUiMapper,
             onSuccess = ::onSuccessOnTheAirTvShows,
-            onError = { onError(it.toErrorUiState()) },
-            dispatcher = ioDispatcher
+            onError = { onError(it.toErrorUiState()) }
         )
     }
 
@@ -110,8 +105,7 @@ class TvShowViewModel @Inject constructor(
             data = { getPopularTvShowsUseCase() },
             mapper = tvShowUiMapper,
             onSuccess = ::onSuccessPopularTvShows,
-            onError = { onError(it.toErrorUiState()) },
-            dispatcher = ioDispatcher
+            onError = { onError(it.toErrorUiState()) }
         )
     }
 
@@ -132,8 +126,7 @@ class TvShowViewModel @Inject constructor(
             data = { getTopRatedTvShowsUseCase() },
             mapper = tvShowUiMapper,
             onSuccess = ::onSuccessTopRatedTvShows,
-            onError = { onError(it.toErrorUiState()) },
-            dispatcher = ioDispatcher
+            onError = { onError(it.toErrorUiState()) }
         )
     }
 

@@ -57,13 +57,12 @@ class TvShowViewModelTest {
             getPopularTvShowsUseCase,
             getTopRatedTvShowsUseCase,
             tvShowUiMapper,
-            stringsRes,
-            testDispatcher
+            stringsRes
         )
     }
 
     @Test
-    fun `init should call getAiringTodayTvShows`() = runTest(testDispatcher) {
+    fun `init should call getAiringTodayTvShows`() = runTest {
         initViewModel()
         advanceUntilIdle()
         coVerify { getAiringTodayTvShowsUseCase() }
@@ -71,7 +70,7 @@ class TvShowViewModelTest {
     }
 
     @Test
-    fun `OnTheAirTvShowClicked should update type and call usecase`() = runTest(testDispatcher) {
+    fun `OnTheAirTvShowClicked should update type and call usecase`() = runTest {
         initViewModel()
         advanceUntilIdle()
         viewModel.onEvent(TvShowUiEvent.OnTheAirTvShowClicked)
@@ -81,7 +80,7 @@ class TvShowViewModelTest {
     }
 
     @Test
-    fun `PopularTvShowClicked should update type and call usecase`() = runTest(testDispatcher) {
+    fun `PopularTvShowClicked should update type and call usecase`() = runTest {
         initViewModel()
         advanceUntilIdle()
         viewModel.onEvent(TvShowUiEvent.PopularTvShowClicked)
@@ -91,7 +90,7 @@ class TvShowViewModelTest {
     }
 
     @Test
-    fun `TopRatedTvShowClicked should update type and call usecase`() = runTest(testDispatcher) {
+    fun `TopRatedTvShowClicked should update type and call usecase`() = runTest {
         initViewModel()
         advanceUntilIdle()
         viewModel.onEvent(TvShowUiEvent.TopRatedTvShowClicked)
@@ -101,7 +100,7 @@ class TvShowViewModelTest {
     }
 
     @Test
-    fun `RetryClicked should call appropriate usecase based on current type`() = runTest(testDispatcher) {
+    fun `RetryClicked should call appropriate usecase based on current type`() = runTest {
         initViewModel()
         advanceUntilIdle()
         viewModel.onEvent(TvShowUiEvent.PopularTvShowClicked)
@@ -114,7 +113,7 @@ class TvShowViewModelTest {
     }
 
     @Test
-    fun `rapid category switching should cancel previous requests`() = runTest(testDispatcher) {
+    fun `rapid category switching should cancel previous requests`() = runTest {
         // Given
         val popularPagingData = PagingData.from(listOf(mockk<TvShows>(relaxed = true)))
         val topRatedPagingData = PagingData.from(listOf(mockk<TvShows>(relaxed = true)))
