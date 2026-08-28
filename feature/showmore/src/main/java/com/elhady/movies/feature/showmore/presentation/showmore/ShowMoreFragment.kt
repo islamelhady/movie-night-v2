@@ -20,7 +20,8 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ShowMoreFragment : BaseFragment<FragmentShowMoreBinding, ShowMoreUiState, ShowMoreUiEffect>() {
+class ShowMoreFragment : BaseFragment<FragmentShowMoreBinding, ShowMoreUiState, ShowMoreUiEffect>(),
+    ShowMoreAdapterListener, ShowMoreFragmentListener {
 
     @Inject
     lateinit var navigator: Navigator
@@ -28,35 +29,18 @@ class ShowMoreFragment : BaseFragment<FragmentShowMoreBinding, ShowMoreUiState, 
     override val layoutIdFragment: Int = R.layout.fragment_show_more
     override val viewModel: ShowMoreViewModel by viewModels()
 
-    private val listener = object : ShowMoreListener {
-        override fun onClickItem(mediaId: Int, type: ListType) {
-            viewModel.onEvent(ShowMoreUiEvent.ItemClicked(mediaId, type))
-        }
-        override fun onClickBackNavigate() {
-            viewModel.onEvent(ShowMoreUiEvent.BackClicked)
-        }
-    }
-    private val showMoreAdapter by lazy { ShowMoreAdapter(listener = listener) }
+    private val showMoreAdapter by lazy { ShowMoreAdapter(listener = this) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.listener = this
         setAdapter()
-        setListeners()
         collectPagingData()
         collectLoadStates()
     }
 
     private fun setAdapter() {
         binding.recyclerMedia.adapter = showMoreAdapter
-    }
-
-    private fun setListeners() {
-        binding.toolbar.setNavigationOnClickListener {
-            viewModel.onEvent(ShowMoreUiEvent.BackClicked)
-        }
-        binding.buttonRetry.setOnClickListener {
-            viewModel.onEvent(ShowMoreUiEvent.RetryClicked)
-        }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -90,15 +74,7 @@ class ShowMoreFragment : BaseFragment<FragmentShowMoreBinding, ShowMoreUiState, 
     }
 
     override fun render(state: ShowMoreUiState) {
-        binding.toolbar.title = state.title
-        binding.progressBar.isVisible = state.isLoading
-        binding.lottieAnimation.isVisible = state.errors != null
-        binding.buttonRetry.isVisible = state.errors != null
-
-        state.errors?.let {
-            binding.lottieAnimation.setAnimation(it.animationRes)
-            binding.lottieAnimation.playAnimation()
-        }
+        binding.state = state
     }
 
     override fun onEffect(effect: ShowMoreUiEffect) {
@@ -108,6 +84,18 @@ class ShowMoreFragment : BaseFragment<FragmentShowMoreBinding, ShowMoreUiState, 
             ShowMoreUiEffect.NavigateBack -> navigator.navigateBack()
             is ShowMoreUiEffect.ShowSnackBar -> showSnackBar(effect.message)
         }
+    }
+
+    override fun onClickItem(mediaId: Int, type: ListType) {
+        viewModel.onEvent(ShowMoreUiEvent.ItemClicked(mediaId, type))
+    }
+
+    override fun onClickBack() {
+        viewModel.onEvent(ShowMoreUiEvent.BackClicked)
+    }
+
+    override fun onClickRetry() {
+        viewModel.onEvent(ShowMoreUiEvent.RetryClicked)
     }
 
 }

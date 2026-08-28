@@ -6,10 +6,10 @@ import com.elhady.movies.feature.showmore.R
 import com.elhady.movies.core.ui.base.BasePagingAdapter
 import com.elhady.movies.feature.showmore.databinding.ShowMoreItemHorizontalBinding
 import com.elhady.movies.feature.showmore.presentation.showmore.ShowMoreUi
-import com.elhady.movies.feature.showmore.presentation.showmore.ShowMoreListener
+import com.elhady.movies.feature.showmore.presentation.showmore.ShowMoreAdapterListener
 
 class ShowMoreAdapter(
-    listener: ShowMoreListener
+    listener: ShowMoreAdapterListener
 ) :
     BasePagingAdapter<ShowMoreUi, ShowMoreItemHorizontalBinding>(ShowComparator, listener) {
     override val layoutId: Int = R.layout.show_more_item_horizontal
