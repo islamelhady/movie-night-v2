@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.paging.LoadState
 import com.elhady.movies.core.common.ShowMoreType
 import com.elhady.movies.core.domain.model.account.ListType
 import com.elhady.movies.core.ui.base.BaseFragment
@@ -12,6 +13,10 @@ import com.elhady.movies.feature.showmore.R
 import com.elhady.movies.feature.showmore.databinding.FragmentShowMoreBinding
 import com.elhady.movies.feature.showmore.presentation.showmore.adapter.ShowMoreAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -37,6 +42,8 @@ class ShowMoreFragment : BaseFragment<FragmentShowMoreBinding, ShowMoreUiState, 
         super.onViewCreated(view, savedInstanceState)
         setAdapter()
         setListeners()
+        collectPagingData()
+        collectLoadStates()
     }
 
     private fun setAdapter() {
@@ -52,6 +59,36 @@ class ShowMoreFragment : BaseFragment<FragmentShowMoreBinding, ShowMoreUiState, 
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun collectPagingData() {
+        val pagingFlow = viewModel.state
+            .map { state ->
+                when (state.showMoreType) {
+                    ShowMoreType.POPULAR_MOVIES -> state.showMorePopularMovies
+                    ShowMoreType.TOP_RATED_MOVIES -> state.showMoreTopRatedMovies
+                    ShowMoreType.TRENDING_MOVIES -> state.showMoreTrendingMovies
+                    ShowMoreType.AIRING_TODAY_TV -> state.showMoreAiringTodayTvShow
+                    ShowMoreType.TOP_RATED_TV -> state.showMoreTopRatedTvShow
+                    ShowMoreType.POPULAR_TV -> state.showMorePopularTvShow
+                    ShowMoreType.ON_THE_AIR_TV -> state.showMoreOnTheAirTvShow
+                }
+            }
+            .distinctUntilChanged()
+            .flatMapLatest { it }
+
+        collectFlow(pagingFlow) { itemsPagingData ->
+            showMoreAdapter.submitData(itemsPagingData)
+        }
+    }
+
+    private fun collectLoadStates() {
+        collectFlow(showMoreAdapter.loadStateFlow) { loadStates ->
+            viewModel.setErrorUiState(loadStates)
+            binding.lottieAnimationEmpty.isVisible =
+                loadStates.refresh is LoadState.NotLoading && showMoreAdapter.itemCount == 0
+        }
+    }
+
     override fun render(state: ShowMoreUiState) {
         binding.toolbar.title = state.title
         binding.progressBar.isVisible = state.isLoading
@@ -62,20 +99,6 @@ class ShowMoreFragment : BaseFragment<FragmentShowMoreBinding, ShowMoreUiState, 
             binding.lottieAnimation.setAnimation(it.animationRes)
             binding.lottieAnimation.playAnimation()
         }
-
-        val flow = when (state.showMoreType) {
-            ShowMoreType.POPULAR_MOVIES -> state.showMorePopularMovies
-            ShowMoreType.TOP_RATED_MOVIES -> state.showMoreTopRatedMovies
-            ShowMoreType.TRENDING_MOVIES -> state.showMoreTrendingMovies
-            ShowMoreType.AIRING_TODAY_TV -> state.showMoreAiringTodayTvShow
-            ShowMoreType.TOP_RATED_TV -> state.showMoreTopRatedTvShow
-            ShowMoreType.POPULAR_TV -> state.showMorePopularTvShow
-            ShowMoreType.ON_THE_AIR_TV -> state.showMoreOnTheAirTvShow
-        }
-        collectFlow(flow) { itemsPagingData ->
-            showMoreAdapter.submitData(itemsPagingData)
-        }
-        collectFlow(showMoreAdapter.loadStateFlow) { viewModel.setErrorUiState(it) }
     }
 
     override fun onEffect(effect: ShowMoreUiEffect) {
