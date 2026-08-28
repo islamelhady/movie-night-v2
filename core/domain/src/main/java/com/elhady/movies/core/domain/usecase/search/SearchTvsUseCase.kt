@@ -12,10 +12,10 @@ class SearchTvsUseCase @Inject constructor(
         keyword: String,
         genreId: Int? = null
     ): List<Tv> {
-        return searchRepository.searchForTv(keyword).filter { tv ->
-            tv.genreEntities.takeIf { genreId != null }
-                ?.map { it.genreID }
-                ?.contains(genreId) ?: true && tv.rate != 0.0
-        }.sortedByDescending { it.rate }
+        return searchRepository.searchForTv(keyword)
+            .filter { tv ->
+                ((genreId == null) || tv.genreEntities.any { it.genreID == genreId }) && tv.rate != 0.0
+            }
+            .sortedByDescending { it.rate }
     }
 }
