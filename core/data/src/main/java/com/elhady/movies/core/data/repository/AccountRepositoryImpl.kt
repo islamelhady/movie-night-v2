@@ -29,6 +29,7 @@ import com.elhady.movies.core.network.dto.account.WatchlistRequest
 import com.elhady.movies.core.network.dto.movie.RatingRequest
 import com.elhady.movies.core.network.exception.SafeApiCaller
 import javax.inject.Inject
+import javax.inject.Provider
 
 class AccountRepositoryImpl @Inject constructor(
     private val accountApiService: AccountApiService,
@@ -38,8 +39,8 @@ class AccountRepositoryImpl @Inject constructor(
     private val domainStatusMapper: StatusDtoMapper,
     private val myRatedMoviesDetailsDtoMapper: MyRatedMoviesDetailsDtoMapper,
     private val domainUserListsMapper: UserListsDtoMapper,
-    private val ratedMoviesPagingSource: RatedMoviesPagingSource,
-    private val ratedTvShowPagingSource: RatedTvShowPagingSource,
+    private val ratedMoviesPagingSource: Provider<RatedMoviesPagingSource>,
+    private val ratedTvShowPagingSource: Provider<RatedTvShowPagingSource>,
     private val myRatedTvShowDtoMapper: MyRatedTvShowDtoMapper,
     private val safeApiCaller: SafeApiCaller
 ) : AccountRepository {
@@ -215,14 +216,14 @@ class AccountRepositoryImpl @Inject constructor(
     override suspend fun getRatedMovies(): Pager<Int, MyRatedMovie> {
         return Pager(
             config = PagingConfig(pageSize = 20),
-            pagingSourceFactory = { ratedMoviesPagingSource }
+            pagingSourceFactory = { ratedMoviesPagingSource.get() }
         )
     }
 
     override suspend fun getRatedTvShows(): Pager<Int, MyRatedTvShow> {
         return Pager(
             config = PagingConfig(pageSize = 20),
-            pagingSourceFactory = { ratedTvShowPagingSource }
+            pagingSourceFactory = { ratedTvShowPagingSource.get() }
         )
     }
 

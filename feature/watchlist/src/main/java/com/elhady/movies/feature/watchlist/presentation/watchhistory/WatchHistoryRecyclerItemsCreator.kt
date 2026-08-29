@@ -1,19 +1,19 @@
 package com.elhady.movies.feature.watchlist.presentation.watchhistory
 
 import com.elhady.movies.core.ui.resource.StringsRes
-import com.elhady.movies.feature.watchlist.presentation.watchhistory.MovieUiState
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
-import kotlin.math.abs
+import java.util.Locale
 
 class WatchHistoryRecyclerItemsCreator(private val stringsRes: StringsRes) {
-    private val currentDate = Date()
 
     fun createItems(moviesInDataBase: List<MovieUiState>): List<WatchHistoryRecyclerItem> {
         val moviesForRecyclerView = mutableListOf<WatchHistoryRecyclerItem>()
         var latestDateFound: Date? = null
 
         for (movie in moviesInDataBase.sortedByDescending { it.dateWatched }) {
-            if (isNotSameTitle(latestDateFound, movie)) {
+            if (isNotSameDay(latestDateFound, movie.dateWatched)) {
                 moviesForRecyclerView +=
                     WatchHistoryRecyclerItem.Title(composeTitle(movie.dateWatched))
                 latestDateFound = movie.dateWatched
@@ -24,45 +24,34 @@ class WatchHistoryRecyclerItemsCreator(private val stringsRes: StringsRes) {
         return moviesForRecyclerView
     }
 
-    private fun isNotSameTitle(
-        latestDateFound: Date?,
-        movie: MovieUiState
-    ): Boolean {
-        return latestDateFound == null ||
-                movie.dateWatched?.getDaysDifferenceCount(latestDateFound) != THE_SAME_DAY
+    private fun isNotSameDay(date1: Date?, date2: Date?): Boolean {
+        if (date1 == null || date2 == null) return true
+        val cal1 = Calendar.getInstance().apply { time = date1 }
+        val cal2 = Calendar.getInstance().apply { time = date2 }
+        return cal1.get(Calendar.YEAR) != cal2.get(Calendar.YEAR) ||
+                cal1.get(Calendar.DAY_OF_YEAR) != cal2.get(Calendar.DAY_OF_YEAR)
     }
 
     private fun composeTitle(movieWatchedDate: Date?): String {
         if (movieWatchedDate == null) return ""
-        return when (currentDate.getDaysDifferenceCount(movieWatchedDate)) {
-            THE_SAME_DAY -> stringsRes.today
-            YESTERDAY -> stringsRes.yesterday
-            else -> movieWatchedDate.toString().substring(0..9)
-        }
-    }
+        val now = Calendar.getInstance()
+        val watched = Calendar.getInstance().apply { time = movieWatchedDate }
 
-    private fun Date.getDaysDifferenceCount(otherDate: Date): Int {
-        val firstDateText = this.toString().substring(4..9)
-        val otherDateText = otherDate.toString().substring(4..9)
         return when {
-            firstDateText == otherDateText -> THE_SAME_DAY
-            isOneDayDifference(firstDateText, otherDateText) -> YESTERDAY
-            else -> OTHER_DAYS
+            isSameDay(now, watched) -> stringsRes.today
+            isYesterday(now, watched) -> stringsRes.yesterday
+            else -> SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(movieWatchedDate)
         }
     }
 
-    private fun isOneDayDifference(firstDateText: String, otherDateText: String): Boolean {
-        val month1 = firstDateText.substring(0..2)
-        val month2 = otherDateText.substring(0..2)
-        val day1 = firstDateText.substring(4..5).toInt()
-        val day2 = otherDateText.substring(4..5).toInt()
-
-        return month1 == month2 && abs(day1 - day2) == 1
+    private fun isSameDay(cal1: Calendar, cal2: Calendar): Boolean {
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)
     }
 
-    private companion object {
-        const val THE_SAME_DAY = 0
-        const val YESTERDAY = 1
-        const val OTHER_DAYS = 1124
+    private fun isYesterday(now: Calendar, watched: Calendar): Boolean {
+        val yesterday = now.clone() as Calendar
+        yesterday.add(Calendar.DAY_OF_YEAR, -1)
+        return isSameDay(yesterday, watched)
     }
 }

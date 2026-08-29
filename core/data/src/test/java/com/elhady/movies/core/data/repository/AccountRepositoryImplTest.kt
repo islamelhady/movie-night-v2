@@ -18,12 +18,14 @@ import com.elhady.movies.core.network.dto.movie.MovieDto
 import com.elhady.movies.core.network.exception.SafeApiCaller
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import javax.inject.Provider
 
 class AccountRepositoryImplTest {
 
@@ -34,8 +36,8 @@ class AccountRepositoryImplTest {
     private val domainStatusMapper: StatusDtoMapper = mockk()
     private val myRatedMoviesDetailsDtoMapper: MyRatedMoviesDetailsDtoMapper = mockk()
     private val domainUserListsMapper: UserListsDtoMapper = mockk()
-    private val ratedMoviesPagingSource: RatedMoviesPagingSource = mockk()
-    private val ratedTvShowPagingSource: RatedTvShowPagingSource = mockk()
+    private val ratedMoviesPagingSourceProvider: Provider<RatedMoviesPagingSource> = mockk()
+    private val ratedTvShowPagingSourceProvider: Provider<RatedTvShowPagingSource> = mockk()
     private val myRatedTvShowDtoMapper: MyRatedTvShowDtoMapper = mockk()
     private val safeApiCaller: SafeApiCaller = mockk()
 
@@ -46,7 +48,7 @@ class AccountRepositoryImplTest {
         repository = AccountRepositoryImpl(
             accountApiService, genreRepository, movieDtoMapper,
             tvDtoMapper, domainStatusMapper, myRatedMoviesDetailsDtoMapper,
-            domainUserListsMapper, ratedMoviesPagingSource, ratedTvShowPagingSource,
+            domainUserListsMapper, ratedMoviesPagingSourceProvider, ratedTvShowPagingSourceProvider,
             myRatedTvShowDtoMapper, safeApiCaller
         )
     }
@@ -60,15 +62,10 @@ class AccountRepositoryImplTest {
         val requestSlot = slot<AddMediaToListRequest>()
         
         coEvery { safeApiCaller.execute<StatusResponse>(any()) } coAnswers {
-            val call = it.invocation.args[0] as suspend () -> retrofit2.Response<StatusResponse>
-            // We just need it to return something, the verification is on the API call within safeApiCaller
-            mockk() 
+            val block = it.invocation.args[0] as suspend () -> retrofit2.Response<StatusResponse>
+            block() 
+            mockk()
         }
-        
-        // This is tricky because safeApiCaller.execute wraps the call. 
-        // We can mock accountApiService directly if we want to verify the lambda argument passed to execute.
-        // But mockk doesn't easily verify lambda contents.
-        // Instead, let's mock repository and verify usage if possible, or just mock the API call inside the lambda.
         
         coEvery { accountApiService.postUserMedia(any(), any()) } returns mockk()
         coEvery { domainStatusMapper.map(any<StatusResponse>()) } returns mockk<Status>()
@@ -77,17 +74,6 @@ class AccountRepositoryImplTest {
         repository.postUserLists(listId, mediaId, mediaType)
 
         // Then
-        // Since we can't easily coVerify inside safeApiCaller's lambda from here without more complex setup,
-        // we check if postUserLists at least triggers the expected sequence.
-        // To be 100% sure of the request body, we'd need to mock safeApiCaller to execute the lambda.
-        
-        coEvery { safeApiCaller.execute<StatusResponse>(any()) } coAnswers {
-            val block = it.invocation.args[0] as suspend () -> retrofit2.Response<StatusResponse>
-            block() // Execute the actual API call
-            mockk()
-        }
-
-        repository.postUserLists(listId, mediaId, mediaType)
         coVerify { accountApiService.postUserMedia(listId, capture(requestSlot)) }
         assertEquals(mediaId, requestSlot.captured.mediaId)
         assertEquals(mediaType, requestSlot.captured.mediaType)

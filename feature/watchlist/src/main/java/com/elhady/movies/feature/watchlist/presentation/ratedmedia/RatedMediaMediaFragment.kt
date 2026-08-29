@@ -10,6 +10,10 @@ import com.elhady.movies.feature.watchlist.R
 import com.elhady.movies.feature.watchlist.databinding.FragmentMyRatedBinding
 import com.elhady.movies.feature.watchlist.presentation.ratedmedia.adapter.RatedMediaAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -37,7 +41,27 @@ class RatedMediaMediaFragment : BaseFragment<FragmentMyRatedBinding, RatedMediaU
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
+        collectPagingData()
+        collectLoadStates()
         binding.listener = this
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun collectPagingData() {
+        val pagingFlow = viewModel.state
+            .map { it.movies }
+            .distinctUntilChanged()
+            .flatMapLatest { it }
+
+        collectFlow(pagingFlow) { itemsPagingData ->
+            movieAdapter.submitData(itemsPagingData)
+        }
+    }
+
+    private fun collectLoadStates() {
+        collectFlow(movieAdapter.loadStateFlow) { loadState ->
+            viewModel.setErrorUiState(loadState)
+        }
     }
 
     override fun onEffect(effect: RatedMediaUiEffect) {
@@ -67,12 +91,6 @@ class RatedMediaMediaFragment : BaseFragment<FragmentMyRatedBinding, RatedMediaU
 
     override fun render(state: RatedMediaUiState) {
         binding.state = state
-        collectFlow(flow = state.movies) { itemsPagingData ->
-            movieAdapter.submitData(itemsPagingData)
-        }
-        collectFlow(movieAdapter.loadStateFlow) { loadState ->
-            viewModel.setErrorUiState(loadState)
-        }
     }
 
 

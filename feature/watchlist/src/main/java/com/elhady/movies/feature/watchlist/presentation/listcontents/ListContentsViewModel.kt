@@ -12,6 +12,7 @@ import com.elhady.movies.core.domain.usecase.account.GetMyFavoriteListUseCase
 import com.elhady.movies.core.domain.usecase.account.GetMyListDetailsByListIdUseCase
 import com.elhady.movies.core.domain.usecase.account.GetMyWatchlistListUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
+import com.elhady.movies.core.ui.base.ErrorUiState
 import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.watchlist.presentation.listcontents.mapper.ListContentsUiMapper
@@ -248,20 +249,19 @@ class ListContentsViewModel @Inject constructor(
         getData()
     }
 
-    private fun onError(
-        throwable: AppException
-    ) {
+    private fun onError(error: AppException) {
+        val errorUiState = error.toErrorUiState()
         _state.update {
             it.copy(
                 isLoading = false,
-                error = throwable.toErrorUiState()
+                error = errorUiState
             )
         }
-        sendEffect(
-            ListContentsUiEffect.ShowSnackBar(
-                throwable.message
-                    ?: "No Network Connection"
-            )
-        )
+        val message = when (errorUiState) {
+            is ErrorUiState.NoNetwork -> stringsRes.noNetworkConnection
+            is ErrorUiState.Timeout -> stringsRes.timeOut
+            else -> stringsRes.someThingError
+        }
+        sendEffect(ListContentsUiEffect.ShowSnackBar(message))
     }
 }

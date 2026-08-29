@@ -92,9 +92,9 @@ class ListsFragment :
     }
 
     private fun showCreateListBottomSheet() {
-        val bottomSheet = CreateListBottomSheetFragment()
+        createListBottomSheet = CreateListBottomSheetFragment()
 
-        bottomSheet.setListener(this)
+        createListBottomSheet.setListener(this)
 
         createListBottomSheet.show(
             childFragmentManager,

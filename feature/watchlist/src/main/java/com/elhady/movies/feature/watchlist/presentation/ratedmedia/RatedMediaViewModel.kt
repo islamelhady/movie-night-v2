@@ -12,6 +12,7 @@ import com.elhady.movies.core.ui.state.MovieHorizontalUiState
 import com.elhady.movies.feature.watchlist.presentation.ratedmedia.mapper.RatedMediaMovieToMovieHorizontalUiMapper
 import com.elhady.movies.feature.watchlist.presentation.ratedmedia.mapper.RatedMediaTvShowToMovieHorizontalUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -25,6 +26,8 @@ class RatedMediaViewModel @Inject constructor(
 ) : BaseViewModel<RatedMediaUiState, RatedMediaUiEffect>(
     RatedMediaUiState()
 ) {
+
+    private var pagingJob: Job? = null
 
     init {
         getData()
@@ -96,7 +99,8 @@ class RatedMediaViewModel @Inject constructor(
             )
         }
 
-        wrapperPager(
+        pagingJob?.cancel()
+        pagingJob = wrapperPager(
             data = {
                 getMyRatedMoviesUseCase()
             },
@@ -115,7 +119,8 @@ class RatedMediaViewModel @Inject constructor(
             )
         }
 
-        wrapperPager(
+        pagingJob?.cancel()
+        pagingJob = wrapperPager(
             data = {
                 getMyRatedTvShowUseCase()
             },
