@@ -382,7 +382,7 @@ class TvDetailsViewModel @Inject constructor(
         state.value.userSelectedLists.forEach { listId ->
 
             tryToExecute(
-                call = { addToUserListUseCase(listId, tvShowId!!) },
+                call = { addToUserListUseCase(listId, tvShowId!!, "tv") },
                 onSuccess = {
                     sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))
                 },

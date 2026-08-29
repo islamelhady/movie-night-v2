@@ -7,7 +7,7 @@ import com.elhady.movies.core.domain.model.movie.Movie
 import javax.inject.Inject
 
 class MovieDtoMapper @Inject constructor() {
-    fun map(input: MovieDto, genres: List<Genre>, mediaType:String ="movie"): Movie {
+    fun map(input: MovieDto, genres: List<Genre>, mediaType: String = "movie"): Movie {
         return Movie(
             id = input.id ?: 0,
             title = input.title ?: "",
@@ -15,7 +15,7 @@ class MovieDtoMapper @Inject constructor() {
             imageUrl = BuildConfig.IMAGE_BASE_PATH + input.posterPath,
             year = input.releaseDate ?: "",
             genreEntities = genres,
-            mediaType = "movie",
+            mediaType = mediaType,
         )
     }
 

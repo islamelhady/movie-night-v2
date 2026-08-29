@@ -7,7 +7,7 @@ import javax.inject.Inject
 class AddToUserListUseCase @Inject constructor(
     private val accountRepository: AccountRepository
 ) {
-    suspend operator fun invoke(listId: Int, mediaId: Int): Status {
-        return accountRepository.postUserLists(listId, mediaId)
+    suspend operator fun invoke(listId: Int, mediaId: Int, mediaType: String): Status {
+        return accountRepository.postUserLists(listId, mediaId, mediaType)
     }
 }

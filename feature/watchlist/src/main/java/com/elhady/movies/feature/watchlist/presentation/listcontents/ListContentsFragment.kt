@@ -77,9 +77,11 @@ class ListContentsFragment :
     }
 
     override fun onClickItem(itemId: Int, mediaType: String) {
-        viewModel.onEvent(
-            ListContentsUiEvent.MovieClicked(itemId)
-        )
+        if (mediaType == "tv") {
+            viewModel.onEvent(ListContentsUiEvent.TvShowClicked(itemId))
+        } else {
+            viewModel.onEvent(ListContentsUiEvent.MovieClicked(itemId))
+        }
     }
 
     override fun onClickBackButton() {

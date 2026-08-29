@@ -10,7 +10,7 @@ import com.elhady.movies.core.domain.model.account.MyRatedTvShow
 
 interface AccountRepository {
     suspend fun getUserLists(): List<UserList>
-    suspend fun postUserLists(listId: Int, mediaId: Int): Status
+    suspend fun postUserLists(listId: Int, mediaId: Int, mediaType: String): Status
     suspend fun createUserList(listName: String): Status
 
     suspend fun getFavoriteMovies(): List<Movie>
@@ -19,7 +19,7 @@ interface AccountRepository {
     suspend fun getWatchlistTv(): List<Movie>
 
     suspend fun addList(name: String): Boolean
-    suspend fun getDetailsList(listId: Int): List<Movie>
+    suspend fun getDetailsList(listId: Int, mediaType: String): List<Movie>
     suspend fun deleteMovieDetailsList(listId: Int, mediaId: Int): Status
     suspend fun deleteList(listId: Int): Status
     suspend fun getListCreated(): List<ListCreated>

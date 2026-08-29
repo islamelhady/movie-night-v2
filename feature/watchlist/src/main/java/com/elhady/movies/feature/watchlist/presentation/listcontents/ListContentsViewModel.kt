@@ -141,7 +141,7 @@ class ListContentsViewModel @Inject constructor(
     private fun getMovieListDetails() {
         tryToExecute(
             call = {
-                getMovieListDetailsUseCase(listId)
+                getMovieListDetailsUseCase(listId, listType)
                     .map(listContentsUiMapper::map)
             },
             onSuccess = ::onGetMoviesSuccess,
@@ -257,9 +257,11 @@ class ListContentsViewModel @Inject constructor(
                 error = throwable.toErrorUiState()
             )
         }
-        ListContentsUiEffect.ShowSnackBar(
-            throwable.message
-                ?: "No Network Connection"
+        sendEffect(
+            ListContentsUiEffect.ShowSnackBar(
+                throwable.message
+                    ?: "No Network Connection"
+            )
         )
     }
 }

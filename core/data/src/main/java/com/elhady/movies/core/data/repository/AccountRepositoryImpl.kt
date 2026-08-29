@@ -49,8 +49,8 @@ class AccountRepositoryImpl @Inject constructor(
         return domainUserListsMapper.map(call)
     }
 
-    override suspend fun postUserLists(listId: Int, mediaId: Int): Status {
-        val addMediaRequest = AddMediaToListRequest(mediaId)
+    override suspend fun postUserLists(listId: Int, mediaId: Int, mediaType: String): Status {
+        val addMediaRequest = AddMediaToListRequest(mediaId, mediaType)
         val call = safeApiCaller.execute { accountApiService.postUserMedia(listId, addMediaRequest) }
         return domainStatusMapper.map(call)
     }
@@ -125,7 +125,7 @@ class AccountRepositoryImpl @Inject constructor(
         return accountApiService.addList(ListRequest(name = name)).isSuccessful
     }
 
-    override suspend fun getDetailsList(listId: Int): List<Movie> {
+    override suspend fun getDetailsList(listId: Int, mediaType: String): List<Movie> {
         val genresEntities = genreRepository.getGenresMovies()
         val result = safeApiCaller.execute { accountApiService.getDetailsList(listId) }.items
         return result?.map { item ->
@@ -134,7 +134,8 @@ class AccountRepositoryImpl @Inject constructor(
                 genres = filterGenres(
                     item.genreIds?.filterNotNull() ?: emptyList(),
                     genresEntities
-                )
+                ),
+                mediaType = mediaType
             )
         } ?: emptyList()
     }
@@ -162,7 +163,7 @@ class AccountRepositoryImpl @Inject constructor(
                         itemCount = input.itemCount,
                         listType = input.listType,
                         name = input.name,
-                        posterPath = getDetailsList(input.id ?: 0)
+                        posterPath = getDetailsList(input.id ?: 0, input.listType ?: "movie")
                             .map { items ->
                                 items.imageUrl
                             }

@@ -200,7 +200,7 @@ class MovieDetailsViewModel @Inject constructor(
     private fun onDone() {
         state.value.userSelectedLists.forEach { id ->
             tryToExecute(
-                call = { addToUserListUseCase(id, movieId!!) },
+                call = { addToUserListUseCase(id, movieId!!, "movie") },
                 onSuccess = { showMessageWithSnackBar(stringsRes.newListAddSuccessFully) },
                 onError = ::onError
             )

@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetMyListDetailsByListIdUseCase @Inject constructor(
     private val accountRepository: AccountRepository,
 ) {
-    suspend operator fun invoke(listId: Int = 0): List<Movie> {
-        return  accountRepository.getDetailsList(listId)
+    suspend operator fun invoke(listId: Int, mediaType: String): List<Movie> {
+        return  accountRepository.getDetailsList(listId, mediaType)
     }
 }
