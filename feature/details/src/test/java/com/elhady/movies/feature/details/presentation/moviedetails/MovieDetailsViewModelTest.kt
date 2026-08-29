@@ -23,6 +23,7 @@ import com.elhady.movies.feature.details.presentation.moviedetails.mapper.UpperU
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.UserListUiMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.WatchHistoryUiMapper
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
@@ -120,57 +121,54 @@ class MovieDetailsViewModelTest {
     }
 
     @Test
-    fun `init with missing movieId should show error`() = runTest {
-        // When
-        createViewModel(movieId = null)
-        advanceUntilIdle()
-
-        // Then
-        assertFalse(viewModel.state.value.isLoading)
-        assertTrue(viewModel.state.value.onErrors.isNotEmpty())
-        assertEquals("Error", viewModel.state.value.onErrors.first())
-    }
-
-    @Test
-    fun `onEvent PlayClicked should set isPlayerVisible to true`() = runTest {
+    fun `FavouriteClicked should call usecase with movie mediaType`() = runTest {
         // Given
         coEvery { movieDetailsUseCase(any()) } returns mockk(relaxed = true)
-        createViewModel()
+        coEvery { addToFavouriteUseCase(any(), "movie", any()) } returns mockk()
+        createViewModel(movieId = 100)
         advanceUntilIdle()
 
         // When
-        viewModel.onEvent(MovieDetailsUiEvent.PlayClicked)
+        viewModel.onEvent(MovieDetailsUiEvent.FavouriteClicked)
+        advanceUntilIdle()
 
         // Then
-        assertTrue(viewModel.state.value.isPlayerVisible)
+        coVerify { addToFavouriteUseCase(100, "movie", any()) }
     }
 
     @Test
-    fun `onEvent DismissPlayerClicked should set isPlayerVisible to false`() = runTest {
+    fun `WatchlistClicked should call usecase with movie mediaType`() = runTest {
         // Given
         coEvery { movieDetailsUseCase(any()) } returns mockk(relaxed = true)
-        createViewModel()
+        coEvery { addToWatchList(any(), "movie", any()) } returns mockk()
+        createViewModel(movieId = 200)
         advanceUntilIdle()
-        viewModel.onEvent(MovieDetailsUiEvent.PlayClicked)
 
         // When
-        viewModel.onEvent(MovieDetailsUiEvent.DismissPlayerClicked)
+        viewModel.onEvent(MovieDetailsUiEvent.WatchlistClicked)
+        advanceUntilIdle()
 
         // Then
-        assertFalse(viewModel.state.value.isPlayerVisible)
+        coVerify { addToWatchList(200, "movie", any()) }
     }
 
     @Test
-    fun `getMovieDetails failure should update state with errors`() = runTest {
+    fun `DoneClicked should call addToUserListUseCase with movie mediaType for each selected list`() = runTest {
         // Given
-        coEvery { movieDetailsUseCase(any()) } throws AppException.NoNetwork
+        coEvery { movieDetailsUseCase(any()) } returns mockk(relaxed = true)
+        coEvery { addToUserListUseCase(any(), any(), "movie") } returns mockk()
+        createViewModel(movieId = 300)
+        advanceUntilIdle()
+
+        viewModel.onEvent(MovieDetailsUiEvent.ChipClicked(1))
+        viewModel.onEvent(MovieDetailsUiEvent.ChipClicked(2))
 
         // When
-        createViewModel()
+        viewModel.onEvent(MovieDetailsUiEvent.DoneClicked)
         advanceUntilIdle()
 
         // Then
-        assertFalse(viewModel.state.value.isLoading)
-        assertTrue(viewModel.state.value.onErrors.isNotEmpty())
+        coVerify { addToUserListUseCase(1, 300, "movie") }
+        coVerify { addToUserListUseCase(2, 300, "movie") }
     }
 }

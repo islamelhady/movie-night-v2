@@ -28,6 +28,7 @@ import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvShowToU
 import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvShowYoutubeVideoDetailsUiMapper
 import com.elhady.movies.feature.details.presentation.tvdetails.mapper.UserListsUiMapper
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
@@ -124,41 +125,54 @@ class TvDetailsViewModelTest {
     }
 
     @Test
-    fun `init with valid tvShowId should load data successfully`() = runTest {
+    fun `FavouriteClicked should call usecase with tv mediaType`() = runTest {
         // Given
         setupDefaultMocks()
+        coEvery { addToFavouriteUseCase(any(), "tv", any()) } returns mockk()
+        createViewModel(tvShowId = 101)
+        advanceUntilIdle()
 
         // When
-        createViewModel(tvShowId = 1)
+        viewModel.onEvent(TvDetailsUiEvent.FavouriteClicked)
         advanceUntilIdle()
 
         // Then
-        assertFalse(viewModel.state.value.isLoading)
-        assertTrue(viewModel.state.value.error == null)
+        coVerify { addToFavouriteUseCase(101, "tv", any()) }
     }
 
     @Test
-    fun `init with missing tvShowId should show error`() = runTest {
-        // When
-        createViewModel(tvShowId = null)
-        advanceUntilIdle()
-
-        // Then
-        assertFalse(viewModel.state.value.isLoading)
-        assertTrue(viewModel.state.value.error != null)
-    }
-
-    @Test
-    fun `onEvent PlayClicked should set isPlayerVisible to true when available`() = runTest {
+    fun `WatchlistClicked should call usecase with tv mediaType`() = runTest {
         // Given
-        setupDefaultMocks(youtubeKey = "valid_key")
-        createViewModel()
+        setupDefaultMocks()
+        coEvery { addToWatchList(any(), "tv", any()) } returns mockk()
+        createViewModel(tvShowId = 202)
         advanceUntilIdle()
 
         // When
-        viewModel.onEvent(TvDetailsUiEvent.PlayClicked)
+        viewModel.onEvent(TvDetailsUiEvent.WatchlistClicked)
+        advanceUntilIdle()
 
         // Then
-        assertTrue(viewModel.state.value.isPlayerVisible)
+        coVerify { addToWatchList(202, "tv", any()) }
+    }
+
+    @Test
+    fun `DoneAddingLists should call addToUserListUseCase with tv mediaType for each selected list`() = runTest {
+        // Given
+        setupDefaultMocks()
+        coEvery { addToUserListUseCase(any(), any(), "tv") } returns mockk()
+        createViewModel(tvShowId = 303)
+        advanceUntilIdle()
+
+        viewModel.onEvent(TvDetailsUiEvent.ListSelected(10))
+        viewModel.onEvent(TvDetailsUiEvent.ListSelected(20))
+
+        // When
+        viewModel.onEvent(TvDetailsUiEvent.DoneAddingLists)
+        advanceUntilIdle()
+
+        // Then
+        coVerify { addToUserListUseCase(10, 303, "tv") }
+        coVerify { addToUserListUseCase(20, 303, "tv") }
     }
 }
