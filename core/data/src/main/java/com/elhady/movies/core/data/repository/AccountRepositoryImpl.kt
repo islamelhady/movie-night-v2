@@ -28,6 +28,9 @@ import com.elhady.movies.core.network.dto.account.ListRequest
 import com.elhady.movies.core.network.dto.account.WatchlistRequest
 import com.elhady.movies.core.network.dto.movie.RatingRequest
 import com.elhady.movies.core.network.exception.SafeApiCaller
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -155,21 +158,23 @@ class AccountRepositoryImpl @Inject constructor(
         return domainStatusMapper.map(safeApiCaller.execute { accountApiService.deleteList(listId = listId) })
     }
 
-    override suspend fun getListCreated(): List<ListCreated> {
-        return safeApiCaller.execute { accountApiService.getLists() }.results
+    override suspend fun getListCreated(): List<ListCreated> = coroutineScope {
+        safeApiCaller.execute { accountApiService.getLists() }.results
             ?.filterNotNull()?.let { lists ->
                 lists.map { input ->
-                    ListCreated(
-                        id = input.id,
-                        itemCount = input.itemCount,
-                        listType = input.listType,
-                        name = input.name,
-                        posterPath = getDetailsList(input.id ?: 0, input.listType ?: "movie")
-                            .map { items ->
-                                items.imageUrl
-                            }
-                    )
-                }
+                    async {
+                        ListCreated(
+                            id = input.id,
+                            itemCount = input.itemCount,
+                            listType = input.listType,
+                            name = input.name,
+                            posterPath = getDetailsList(input.id ?: 0, input.listType ?: "movie")
+                                .map { items ->
+                                    items.imageUrl
+                                }
+                        )
+                    }
+                }.awaitAll()
             } ?: emptyList()
     }
 
@@ -216,15 +221,23 @@ class AccountRepositoryImpl @Inject constructor(
     override suspend fun getRatedMovies(): Pager<Int, MyRatedMovie> {
         return Pager(
             config = PagingConfig(pageSize = 20),
-            pagingSourceFactory = { ratedMoviesPagingSource.get() }
+            pagingSourceFactory = ::createRatedMoviesPagingSource
         )
+    }
+
+    internal fun createRatedMoviesPagingSource(): RatedMoviesPagingSource {
+        return ratedMoviesPagingSource.get()
     }
 
     override suspend fun getRatedTvShows(): Pager<Int, MyRatedTvShow> {
         return Pager(
             config = PagingConfig(pageSize = 20),
-            pagingSourceFactory = { ratedTvShowPagingSource.get() }
+            pagingSourceFactory = ::createRatedTvShowPagingSource
         )
+    }
+
+    internal fun createRatedTvShowPagingSource(): RatedTvShowPagingSource {
+        return ratedTvShowPagingSource.get()
     }
 
     private fun filterGenres(

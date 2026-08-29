@@ -168,7 +168,5 @@ class ListsFragment :
         viewModel.onEvent(
             ListsUiEvent.CreateList(listName)
         )
-
-        createListBottomSheet.dismiss()
     }
 }

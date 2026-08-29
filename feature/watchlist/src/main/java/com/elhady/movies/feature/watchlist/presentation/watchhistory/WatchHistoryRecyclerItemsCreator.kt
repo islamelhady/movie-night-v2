@@ -6,7 +6,10 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-class WatchHistoryRecyclerItemsCreator(private val stringsRes: StringsRes) {
+class WatchHistoryRecyclerItemsCreator(
+    private val stringsRes: StringsRes,
+    private val referenceDate: Date = Date()
+) {
 
     fun createItems(moviesInDataBase: List<MovieUiState>): List<WatchHistoryRecyclerItem> {
         val moviesForRecyclerView = mutableListOf<WatchHistoryRecyclerItem>()
@@ -34,7 +37,7 @@ class WatchHistoryRecyclerItemsCreator(private val stringsRes: StringsRes) {
 
     private fun composeTitle(movieWatchedDate: Date?): String {
         if (movieWatchedDate == null) return ""
-        val now = Calendar.getInstance()
+        val now = Calendar.getInstance().apply { time = referenceDate }
         val watched = Calendar.getInstance().apply { time = movieWatchedDate }
 
         return when {

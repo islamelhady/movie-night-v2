@@ -23,6 +23,7 @@ import io.mockk.mockk
 import io.mockk.slot
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.Test
 import javax.inject.Provider
@@ -77,6 +78,22 @@ class AccountRepositoryImplTest {
         coVerify { accountApiService.postUserMedia(listId, capture(requestSlot)) }
         assertEquals(mediaId, requestSlot.captured.mediaId)
         assertEquals(mediaType, requestSlot.captured.mediaType)
+    }
+
+    @Test
+    fun `createRatedMoviesPagingSource should return a NEW instance from provider on every call`() {
+        // Given
+        val mockPagingSource1: RatedMoviesPagingSource = mockk()
+        val mockPagingSource2: RatedMoviesPagingSource = mockk()
+        every { ratedMoviesPagingSourceProvider.get() } returns mockPagingSource1 andThen mockPagingSource2
+
+        // When
+        val instance1 = repository.createRatedMoviesPagingSource()
+        val instance2 = repository.createRatedMoviesPagingSource()
+
+        // Then
+        coVerify(exactly = 2) { ratedMoviesPagingSourceProvider.get() }
+        assertNotEquals(instance1, instance2)
     }
 
     @Test
