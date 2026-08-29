@@ -3,6 +3,7 @@ package com.elhady.movies.feature.watchlist.presentation.watchhistory
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -44,6 +45,13 @@ class WatchHistoryFragment :
 
         setupRecyclerView()
         setupSwipeToDelete()
+        setupSearchInput()
+    }
+
+    private fun setupSearchInput() {
+        binding.edittextSearch.addTextChangedListener {
+            viewModel.onEvent(WatchHistoryUiEvent.SearchQueryChanged(it.toString()))
+        }
     }
 
     private fun setupRecyclerView() {
