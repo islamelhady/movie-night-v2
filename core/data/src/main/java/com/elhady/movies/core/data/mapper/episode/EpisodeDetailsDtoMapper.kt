@@ -1,7 +1,7 @@
 package com.elhady.movies.core.data.mapper.episode
 
 import com.elhady.movies.core.data.BuildConfig
-import com.elhady.movies.core.common.mapper.Mapper
+import com.elhady.movies.core.common.Mapper
 import com.elhady.movies.core.network.dto.tvshow.EpisodeDetailsDto
 import com.elhady.movies.core.domain.model.tvshow.EpisodeDetails
 import javax.inject.Inject

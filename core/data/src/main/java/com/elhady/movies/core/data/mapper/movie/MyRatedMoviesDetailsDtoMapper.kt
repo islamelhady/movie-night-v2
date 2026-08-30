@@ -3,7 +3,7 @@ package com.elhady.movies.core.data.mapper.movie
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.network.dto.account.MyRatedMovieDto
 import com.elhady.movies.core.domain.model.account.MyRatedMovie
-import com.elhady.movies.core.common.mapper.Mapper
+import com.elhady.movies.core.common.Mapper
 import javax.inject.Inject
 
 class MyRatedMoviesDetailsDtoMapper @Inject constructor() : Mapper<MyRatedMovieDto, MyRatedMovie>{

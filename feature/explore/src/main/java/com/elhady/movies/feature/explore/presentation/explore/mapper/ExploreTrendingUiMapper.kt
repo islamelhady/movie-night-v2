@@ -1,7 +1,7 @@
 package com.elhady.movies.feature.explore.presentation.explore.mapper
 
 import com.elhady.movies.core.domain.model.movie.Movie
-import com.elhady.movies.core.common.mapper.Mapper
+import com.elhady.movies.core.common.Mapper
 import com.elhady.movies.feature.explore.presentation.explore.ExploreUiState
 import javax.inject.Inject
 

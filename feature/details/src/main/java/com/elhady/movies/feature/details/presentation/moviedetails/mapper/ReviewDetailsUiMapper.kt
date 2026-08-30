@@ -1,6 +1,6 @@
 package com.elhady.movies.feature.details.presentation.moviedetails.mapper
 
-import com.elhady.movies.core.common.mapper.Mapper
+import com.elhady.movies.core.common.Mapper
 import com.elhady.movies.core.domain.model.movie.MovieDetails
 import com.elhady.movies.feature.details.presentation.moviedetails.ReviewDetailsUiState
 import javax.inject.Inject
