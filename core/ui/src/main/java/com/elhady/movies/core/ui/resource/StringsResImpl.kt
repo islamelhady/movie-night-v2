@@ -22,6 +22,7 @@ class StringsResImpl @Inject constructor(
     override val ratingAddSuccessFully: String = context.getString(R.string.rating_was_added_successfully)
     override val notLoggedInToRate: String = context.getString(R.string.you_re_not_logged_in_to_rate)
     override val someThingErrorWhenAddRating: String = context.getString(R.string.something_went_wrong_please_try_again_later)
+    override val emptyField: String = context.getString(R.string.empty_field)
     override val watchlist: String = context.getString(R.string.watchlist)
     override val favourite: String = context.getString(R.string.favorite)
     override val popularMovies: String = context.getString(R.string.popular)

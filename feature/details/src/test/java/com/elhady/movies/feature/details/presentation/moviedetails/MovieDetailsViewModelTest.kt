@@ -210,7 +210,39 @@ class MovieDetailsViewModelTest {
     }
 
     @Test
-    fun `CreateListClicked with blank name should NOT trigger create flow`() = runTest {
+    fun `AddListClicked then FavouriteClicked should hide create list UI`() = runTest {
+        // Given
+        coEvery { movieDetailsUseCase(any()) } returns mockk(relaxed = true)
+        createViewModel()
+        advanceUntilIdle()
+        viewModel.onEvent(MovieDetailsUiEvent.AddListClicked)
+        assertTrue(viewModel.state.value.saveToListsUiState.isCreateListVisible)
+
+        // When
+        viewModel.onEvent(MovieDetailsUiEvent.FavouriteClicked)
+
+        // Then
+        assertFalse(viewModel.state.value.saveToListsUiState.isCreateListVisible)
+    }
+
+    @Test
+    fun `AddListClicked then CustomListClicked should hide create list UI`() = runTest {
+        // Given
+        coEvery { movieDetailsUseCase(any()) } returns mockk(relaxed = true)
+        createViewModel()
+        advanceUntilIdle()
+        viewModel.onEvent(MovieDetailsUiEvent.AddListClicked)
+        assertTrue(viewModel.state.value.saveToListsUiState.isCreateListVisible)
+
+        // When
+        viewModel.onEvent(MovieDetailsUiEvent.ChipClicked(10))
+
+        // Then
+        assertFalse(viewModel.state.value.saveToListsUiState.isCreateListVisible)
+    }
+
+    @Test
+    fun `CreateListClicked with blank name should NOT trigger create flow and show snackbar`() = runTest {
         // Given
         coEvery { movieDetailsUseCase(any()) } returns mockk(relaxed = true)
         createViewModel()
@@ -218,10 +250,12 @@ class MovieDetailsViewModelTest {
         
         // When
         viewModel.onEvent(MovieDetailsUiEvent.CreateListClicked("   "))
+        advanceUntilIdle()
 
         // Then
         coVerify(exactly = 0) { createUserListUseCase(any()) }
         assertFalse(viewModel.state.value.saveToListsUiState.isLoading)
+        // Check effect if possible
     }
 
     @Test

@@ -13,6 +13,4 @@ sealed interface MovieDetailsUiEffect {
     
     // Bottom Sheet interactions
     object CloseBottomSheet : MovieDetailsUiEffect
-    object AddListToBottomSheet : MovieDetailsUiEffect
-    object DoneEvent : MovieDetailsUiEffect
 }

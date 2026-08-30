@@ -30,7 +30,6 @@ class SaveMovieToListBottomSheet :
 
     private fun onEffect(effect: MovieDetailsUiEffect) {
         when (effect) {
-            MovieDetailsUiEffect.DoneEvent -> dismiss()
             MovieDetailsUiEffect.CloseBottomSheet -> dismiss()
             else -> {}
         }

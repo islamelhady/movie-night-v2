@@ -2,6 +2,7 @@ package com.elhady.movies.feature.details.presentation.moviedetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.common.MediaType
 import com.elhady.movies.core.common.ForbiddenThrowable
 import com.elhady.movies.core.common.NoNetworkThrowable
@@ -123,7 +124,10 @@ class MovieDetailsViewModel @Inject constructor(
                         currentSelected.add(event.id)
                     }
                     it.copy(
-                        saveToListsUiState = it.saveToListsUiState.copy(selectedUserLists = currentSelected)
+                        saveToListsUiState = it.saveToListsUiState.copy(
+                            selectedUserLists = currentSelected,
+                            isCreateListVisible = false
+                        )
                     )
                 }
             }
@@ -131,14 +135,20 @@ class MovieDetailsViewModel @Inject constructor(
             MovieDetailsUiEvent.FavouriteClicked -> {
                 _state.update {
                     it.copy(
-                        saveToListsUiState = it.saveToListsUiState.copy(isFavouriteSelected = !it.saveToListsUiState.isFavouriteSelected)
+                        saveToListsUiState = it.saveToListsUiState.copy(
+                            isFavouriteSelected = !it.saveToListsUiState.isFavouriteSelected,
+                            isCreateListVisible = false
+                        )
                     )
                 }
             }
             MovieDetailsUiEvent.WatchlistClicked -> {
                 _state.update {
                     it.copy(
-                        saveToListsUiState = it.saveToListsUiState.copy(isWatchlistSelected = !it.saveToListsUiState.isWatchlistSelected)
+                        saveToListsUiState = it.saveToListsUiState.copy(
+                            isWatchlistSelected = !it.saveToListsUiState.isWatchlistSelected,
+                            isCreateListVisible = false
+                        )
                     )
                 }
             }
@@ -244,51 +254,55 @@ class MovieDetailsViewModel @Inject constructor(
         val currentId = movieId!!
         val currentState = state.value.saveToListsUiState
 
-        // Sync Favorite if changed
-        if (currentState.isFavouriteSelected != initialSaveToListsState.isFavouriteSelected) {
-            tryToExecute(
-                call = { addToFavouriteUseCase(currentId, MediaType.MOVIE, currentState.isFavouriteSelected) },
-                onSuccess = {},
-                onError = {}
-            )
+        viewModelScope.launch {
+            try {
+                // Execute required operations
+                if (currentState.isFavouriteSelected != initialSaveToListsState.isFavouriteSelected) {
+                    addToFavouriteUseCase(currentId, MediaType.MOVIE, currentState.isFavouriteSelected)
+                }
+
+                if (currentState.isWatchlistSelected != initialSaveToListsState.isWatchlistSelected) {
+                    addToWatchList(currentId, MediaType.MOVIE, currentState.isWatchlistSelected)
+                }
+
+                val added = currentState.selectedUserLists.filter { it !in initialSaveToListsState.selectedUserLists }
+                val removed = initialSaveToListsState.selectedUserLists.filter { it !in currentState.selectedUserLists }
+
+                added.forEach { listId ->
+                    addToUserListUseCase(listId, currentId, MediaType.MOVIE)
+                }
+
+                removed.forEach { listId ->
+                    deleteMovieFromDetailsListUseCase(listId, currentId)
+                }
+
+                // If we reach here, all operations succeeded
+                val isChanged = currentState.isFavouriteSelected != initialSaveToListsState.isFavouriteSelected ||
+                        currentState.isWatchlistSelected != initialSaveToListsState.isWatchlistSelected ||
+                        added.isNotEmpty() || removed.isNotEmpty()
+
+                if (isChanged) {
+                    showMessageWithSnackBar(stringsRes.addSuccessfully)
+                }
+
+                _state.update {
+                    it.copy(
+                        saveToListsUiState = it.saveToListsUiState.copy(selectedUserLists = emptyList())
+                    )
+                }
+                sendEffect(MovieDetailsUiEffect.CloseBottomSheet)
+            } catch (e: Exception) {
+                onError(e)
+            }
         }
-
-        // Sync Watchlist if changed
-        if (currentState.isWatchlistSelected != initialSaveToListsState.isWatchlistSelected) {
-            tryToExecute(
-                call = { addToWatchList(currentId, MediaType.MOVIE, currentState.isWatchlistSelected) },
-                onSuccess = {},
-                onError = {}
-            )
-        }
-
-        // Sync Custom Lists Diff
-        val added = currentState.selectedUserLists.filter { it !in initialSaveToListsState.selectedUserLists }
-        val removed = initialSaveToListsState.selectedUserLists.filter { it !in currentState.selectedUserLists }
-
-        added.forEach { listId ->
-            tryToExecute(
-                call = { addToUserListUseCase(listId, currentId, MediaType.MOVIE) },
-                onSuccess = { showMessageWithSnackBar(stringsRes.addSuccessfully) },
-                onError = ::onError
-            )
-        }
-
-        removed.forEach { listId ->
-            tryToExecute(
-                call = { deleteMovieFromDetailsListUseCase(listId, currentId) },
-                onSuccess = { showMessageWithSnackBar(stringsRes.addSuccessfully) },
-                onError = ::onError
-            )
-        }
-
-        _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(selectedUserLists = emptyList())) }
-        sendEffect(MovieDetailsUiEffect.DoneEvent)
     }
 
     private fun createUserNewList(listName: String) {
         if (state.value.saveToListsUiState.isLoading) return
-        if (listName.isBlank()) return
+        if (listName.isBlank()) {
+            showMessageWithSnackBar(stringsRes.emptyField)
+            return
+        }
 
         _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isLoading = true)) }
         tryToExecute(

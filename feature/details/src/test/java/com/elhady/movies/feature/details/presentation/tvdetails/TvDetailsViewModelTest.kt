@@ -216,6 +216,38 @@ class TvDetailsViewModelTest {
     }
 
     @Test
+    fun `AddNewListClicked then FavouriteClicked should hide create list UI`() = runTest {
+        // Given
+        setupDefaultMocks()
+        createViewModel()
+        advanceUntilIdle()
+        viewModel.onEvent(TvDetailsUiEvent.AddNewListClicked)
+        assertTrue(viewModel.state.value.saveToListsUiState.isCreateListVisible)
+
+        // When
+        viewModel.onEvent(TvDetailsUiEvent.FavouriteClicked)
+
+        // Then
+        assertFalse(viewModel.state.value.saveToListsUiState.isCreateListVisible)
+    }
+
+    @Test
+    fun `AddNewListClicked then ListSelected should hide create list UI`() = runTest {
+        // Given
+        setupDefaultMocks()
+        createViewModel()
+        advanceUntilIdle()
+        viewModel.onEvent(TvDetailsUiEvent.AddNewListClicked)
+        assertTrue(viewModel.state.value.saveToListsUiState.isCreateListVisible)
+
+        // When
+        viewModel.onEvent(TvDetailsUiEvent.ListSelected(15))
+
+        // Then
+        assertFalse(viewModel.state.value.saveToListsUiState.isCreateListVisible)
+    }
+
+    @Test
     fun `CreateNewListClicked with blank name should NOT trigger create flow`() = runTest {
         // Given
         setupDefaultMocks()

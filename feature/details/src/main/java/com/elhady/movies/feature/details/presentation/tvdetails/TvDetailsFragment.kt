@@ -193,10 +193,6 @@ class TvDetailsFragment :
                 showSnackBar(effect.message)
             }
 
-            TvDetailsUiEffect.AddListToBottomSheet -> {
-                // Handled in BottomSheet
-            }
-
             TvDetailsUiEffect.CloseBottomSheet -> {
                 // Handled in BottomSheet
             }
