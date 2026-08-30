@@ -1,5 +1,7 @@
 package com.elhady.movies.core.data.mapper.movie
 
+import com.elhady.movies.core.common.MediaType
+import com.elhady.movies.core.common.toMediaType
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.common.Mapper
 import com.elhady.movies.core.network.dto.movie.CreditsDto
@@ -86,7 +88,7 @@ class MovieDetailsDtoMapper @Inject constructor(
                     backdropPath = BuildConfig.IMAGE_BASE_PATH + it.backdropPath,
                     genreIds = it.genreIds ?: emptyList(),
                     id = it.id ?: 0,
-                    mediaType = it.mediaType ?: "",
+                    mediaType = it.mediaType.toMediaType(),
                     originalLanguage = it.originalLanguage ?: "",
                     originalTitle = it.originalTitle ?: "",
                     overview = it.overview ?: "",

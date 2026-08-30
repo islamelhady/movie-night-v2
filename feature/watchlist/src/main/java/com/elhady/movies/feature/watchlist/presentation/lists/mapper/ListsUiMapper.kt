@@ -12,7 +12,7 @@ class ListsUiMapper @Inject constructor() : Mapper<ListCreated, ListMovieUiState
             itemCount = input.itemCount,
             listType = input.listType,
             name = input.name,
-            posterPath = input.posterPath,
+            posterPath = input.posterPath ?: emptyList(),
         )
     }
 }

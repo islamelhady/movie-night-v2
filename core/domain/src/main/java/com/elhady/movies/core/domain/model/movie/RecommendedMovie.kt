@@ -1,11 +1,13 @@
 package com.elhady.movies.core.domain.model.movie
 
+import com.elhady.movies.core.common.MediaType
+
 data class RecommendedMovie(
     val adult: Boolean=false,
     val backdropPath: String="",
     val genreIds: List<Int> = emptyList(),
     val id: Int=0,
-    val mediaType: String="",
+    val mediaType: MediaType = MediaType.MOVIE,
     val originalLanguage: String="",
     val originalTitle: String="",
     val overview: String="",

@@ -1,5 +1,6 @@
 package com.elhady.movies.core.domain.usecase.account
 
+import com.elhady.movies.core.common.MediaType
 import com.elhady.movies.core.domain.model.common.Status
 import com.elhady.movies.core.domain.repository.AccountRepository
 import javax.inject.Inject
@@ -9,7 +10,7 @@ class AddToFavouriteUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         mediaId: Int,
-        mediaType: String,
+        mediaType: MediaType,
         isFavorite: Boolean = true
     ): Status {
         return accountRepository.addFavouriteList(mediaId, mediaType, isFavorite)

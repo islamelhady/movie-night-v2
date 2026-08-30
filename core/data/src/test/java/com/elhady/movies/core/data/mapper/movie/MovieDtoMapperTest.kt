@@ -1,5 +1,6 @@
 package com.elhady.movies.core.data.mapper.movie
 
+import com.elhady.movies.core.common.MediaType
 import com.elhady.movies.core.network.dto.movie.MovieDto
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -29,10 +30,10 @@ class MovieDtoMapperTest {
         )
 
         // When
-        val result = mapper.map(dto, emptyList(), mediaType = "movie")
+        val result = mapper.map(dto, emptyList(), mediaType = MediaType.MOVIE)
 
         // Then
-        assertEquals("movie", result.mediaType)
+        assertEquals(MediaType.MOVIE, result.mediaType)
     }
 
     @Test
@@ -56,9 +57,9 @@ class MovieDtoMapperTest {
         )
 
         // When
-        val result = mapper.map(dto, emptyList(), mediaType = "tv")
+        val result = mapper.map(dto, emptyList(), mediaType = MediaType.TV_SHOW)
 
         // Then
-        assertEquals("tv", result.mediaType)
+        assertEquals(MediaType.TV_SHOW, result.mediaType)
     }
 }

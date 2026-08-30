@@ -3,6 +3,7 @@ package com.elhady.movies.feature.details.presentation.moviedetails
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import com.elhady.movies.core.common.AppException
+import com.elhady.movies.core.common.MediaType
 import com.elhady.movies.core.domain.model.account.CreateList
 import com.elhady.movies.core.domain.model.movie.MovieDetails
 import com.elhady.movies.core.domain.usecase.account.AddToFavouriteUseCase
@@ -138,7 +139,7 @@ class MovieDetailsViewModelTest {
         // Then
         assertTrue(viewModel.state.value.saveToListsUiState.isFavouriteSelected)
         assertTrue(viewModel.state.value.saveToListsUiState.isWatchlistSelected)
-        coVerify { getUserListsUseCase(1, "movie") }
+        coVerify { getUserListsUseCase(1, MediaType.MOVIE) }
     }
 
     @Test
@@ -170,8 +171,8 @@ class MovieDetailsViewModelTest {
             every { accountStates?.watchlist } returns true
         }
         coEvery { movieDetailsUseCase(any()) } returns movieDetails
-        coEvery { addToFavouriteUseCase(any(), "movie", true) } returns mockk()
-        coEvery { addToWatchList(any(), "movie", false) } returns mockk()
+        coEvery { addToFavouriteUseCase(any(), MediaType.MOVIE, true) } returns mockk()
+        coEvery { addToWatchList(any(), MediaType.MOVIE, false) } returns mockk()
         createViewModel(movieId = 500)
         advanceUntilIdle()
         
@@ -186,8 +187,8 @@ class MovieDetailsViewModelTest {
         advanceUntilIdle()
 
         // Then
-        coVerify { addToFavouriteUseCase(500, "movie", true) }
-        coVerify { addToWatchList(500, "movie", false) }
+        coVerify { addToFavouriteUseCase(500, MediaType.MOVIE, true) }
+        coVerify { addToWatchList(500, MediaType.MOVIE, false) }
     }
 
     @Test
@@ -205,7 +206,7 @@ class MovieDetailsViewModelTest {
             statusCode = 1,
             statusMessage = "Success"
         )
-        coEvery { addToUserListUseCase(newListId, 100, "movie") } returns mockk()
+        coEvery { addToUserListUseCase(newListId, 100, MediaType.MOVIE) } returns mockk()
         coEvery { getUserListsUseCase(any(), any()) } returns emptyList()
 
         // When
@@ -216,7 +217,7 @@ class MovieDetailsViewModelTest {
         advanceUntilIdle()
         
         coVerify { createUserListUseCase(listName) }
-        coVerify { addToUserListUseCase(newListId, 100, "movie") }
+        coVerify { addToUserListUseCase(newListId, 100, MediaType.MOVIE) }
         assertFalse(viewModel.state.value.saveToListsUiState.isLoading)
         // Verify CloseBottomSheet effect was sent
         // (In a real test we'd check effects flow, but let's assume if it reached here it's fine)

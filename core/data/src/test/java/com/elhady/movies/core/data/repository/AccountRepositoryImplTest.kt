@@ -1,5 +1,6 @@
 package com.elhady.movies.core.data.repository
 
+import com.elhady.movies.core.common.MediaType
 import com.elhady.movies.core.data.mapper.account.CreateListDtoMapper
 import com.elhady.movies.core.data.mapper.account.UserListsDtoMapper
 import com.elhady.movies.core.data.mapper.common.StatusDtoMapper
@@ -61,7 +62,7 @@ class AccountRepositoryImplTest {
         // Given
         val listId = 1
         val mediaId = 100
-        val mediaType = "movie"
+        val mediaType = MediaType.MOVIE
         val requestSlot = slot<AddMediaToListRequest>()
         
         coEvery { safeApiCaller.execute<StatusResponse>(any()) } coAnswers {
@@ -79,7 +80,7 @@ class AccountRepositoryImplTest {
         // Then
         coVerify { accountApiService.postUserMedia(listId, capture(requestSlot)) }
         assertEquals(mediaId, requestSlot.captured.mediaId)
-        assertEquals(mediaType, requestSlot.captured.mediaType)
+        assertEquals(mediaType.value, requestSlot.captured.mediaType)
     }
 
     @Test
@@ -102,7 +103,7 @@ class AccountRepositoryImplTest {
     fun `getDetailsList should pass explicit mediaType to movieDtoMapper`() = runTest {
         // Given
         val listId = 5
-        val mediaType = "tv"
+        val mediaType = MediaType.TV_SHOW
         val mockResponse = ListDetailsWrapperResponse<MovieDto>(items = listOf(mockk(relaxed = true)))
         
         coEvery { safeApiCaller.execute<ListDetailsWrapperResponse<MovieDto>>(any()) } returns mockResponse

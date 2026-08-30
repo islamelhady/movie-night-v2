@@ -2,6 +2,7 @@ package com.elhady.movies.feature.details.presentation.moviedetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.core.common.MediaType
 import com.elhady.movies.core.common.ForbiddenThrowable
 import com.elhady.movies.core.common.NoNetworkThrowable
 import com.elhady.movies.core.common.UnauthorizedThrowable
@@ -212,7 +213,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun getUserLists() {
         tryToExecute(
-            call = { getUserListsUseCase(movieId, "movie") },
+            call = { getUserListsUseCase(movieId, MediaType.MOVIE) },
             mapper = userListsUiMapper,
             onSuccess = ::onSuccessUserLists,
             onError = ::onError
@@ -238,7 +239,7 @@ class MovieDetailsViewModel @Inject constructor(
         // Sync Favorite if changed
         if (currentState.isFavouriteSelected != initialSaveToListsState.isFavouriteSelected) {
             tryToExecute(
-                call = { addToFavouriteUseCase(currentId, "movie", currentState.isFavouriteSelected) },
+                call = { addToFavouriteUseCase(currentId, MediaType.MOVIE, currentState.isFavouriteSelected) },
                 onSuccess = {},
                 onError = {}
             )
@@ -247,7 +248,7 @@ class MovieDetailsViewModel @Inject constructor(
         // Sync Watchlist if changed
         if (currentState.isWatchlistSelected != initialSaveToListsState.isWatchlistSelected) {
             tryToExecute(
-                call = { addToWatchList(currentId, "movie", currentState.isWatchlistSelected) },
+                call = { addToWatchList(currentId, MediaType.MOVIE, currentState.isWatchlistSelected) },
                 onSuccess = {},
                 onError = {}
             )
@@ -259,7 +260,7 @@ class MovieDetailsViewModel @Inject constructor(
 
         added.forEach { listId ->
             tryToExecute(
-                call = { addToUserListUseCase(listId, currentId, "movie") },
+                call = { addToUserListUseCase(listId, currentId, MediaType.MOVIE) },
                 onSuccess = { showMessageWithSnackBar(stringsRes.addSuccessfully) },
                 onError = ::onError
             )
@@ -293,7 +294,7 @@ class MovieDetailsViewModel @Inject constructor(
         if (createList.success == true && listId != null) {
             val currentId = movieId!!
             tryToExecute(
-                call = { addToUserListUseCase(listId, currentId, "movie") },
+                call = { addToUserListUseCase(listId, currentId, MediaType.MOVIE) },
                 onSuccess = {
                     _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isLoading = false)) }
                     showMessageWithSnackBar(stringsRes.newListAddSuccessFully)

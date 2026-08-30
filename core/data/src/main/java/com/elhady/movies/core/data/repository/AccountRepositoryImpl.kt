@@ -2,6 +2,8 @@ package com.elhady.movies.core.data.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import com.elhady.movies.core.common.MediaType
+import com.elhady.movies.core.common.toMediaType
 import com.elhady.movies.core.data.mapper.account.CreateListDtoMapper
 import com.elhady.movies.core.data.mapper.account.UserListsDtoMapper
 import com.elhady.movies.core.data.mapper.common.StatusDtoMapper
@@ -50,7 +52,7 @@ class AccountRepositoryImpl @Inject constructor(
     private val safeApiCaller: SafeApiCaller
 ) : AccountRepository {
 
-    override suspend fun getUserLists(mediaId: Int?, mediaType: String): List<UserList> = coroutineScope {
+    override suspend fun getUserLists(mediaId: Int?, mediaType: MediaType): List<UserList> = coroutineScope {
         val call = safeApiCaller.execute { accountApiService.getUserLists() }.results?.filterNotNull() ?: emptyList()
         val userLists = domainUserListsMapper.map(call)
 
@@ -70,8 +72,8 @@ class AccountRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun postUserLists(listId: Int, mediaId: Int, mediaType: String): Status {
-        val addMediaRequest = AddMediaToListRequest(mediaId, mediaType)
+    override suspend fun postUserLists(listId: Int, mediaId: Int, mediaType: MediaType): Status {
+        val addMediaRequest = AddMediaToListRequest(mediaId, mediaType.value)
         val call = safeApiCaller.execute { accountApiService.postUserMedia(listId, addMediaRequest) }
         return domainStatusMapper.map(call)
     }
@@ -92,7 +94,7 @@ class AccountRepositoryImpl @Inject constructor(
                     item.genreIds?.filterNotNull() ?: emptyList(),
                     genresEntities
                 ),
-                mediaType = "movie",
+                mediaType = MediaType.MOVIE,
             )
         } ?: emptyList()
     }
@@ -107,7 +109,7 @@ class AccountRepositoryImpl @Inject constructor(
                     item.genreIds?.filterNotNull() ?: emptyList(),
                     genresEntities
                 ),
-                mediaType = "tv",
+                mediaType = MediaType.TV_SHOW,
             )
         } ?: emptyList()
     }
@@ -122,7 +124,7 @@ class AccountRepositoryImpl @Inject constructor(
                     item.genreIds?.filterNotNull() ?: emptyList(),
                     genresEntities
                 ),
-                mediaType = "movie",
+                mediaType = MediaType.MOVIE,
             )
         } ?: emptyList()
     }
@@ -137,7 +139,7 @@ class AccountRepositoryImpl @Inject constructor(
                     item.genreIds?.filterNotNull() ?: emptyList(),
                     genresEntities
                 ),
-                mediaType = "tv"
+                mediaType = MediaType.TV_SHOW
             )
         } ?: emptyList()
     }
@@ -146,7 +148,7 @@ class AccountRepositoryImpl @Inject constructor(
         return safeApiCaller.execute { accountApiService.createUserList(ListRequest(name = name)) }.success ?: false
     }
 
-    override suspend fun getDetailsList(listId: Int, mediaType: String): List<Movie> {
+    override suspend fun getDetailsList(listId: Int, mediaType: MediaType): List<Movie> {
         val genresEntities = genreRepository.getGenresMovies()
         val result = safeApiCaller.execute { accountApiService.getDetailsList(listId) }.items
         return result?.map { item ->
@@ -183,9 +185,9 @@ class AccountRepositoryImpl @Inject constructor(
                         ListCreated(
                             id = input.id,
                             itemCount = input.itemCount,
-                            listType = input.listType,
+                            listType = input.listType.toMediaType(),
                             name = input.name,
-                            posterPath = getDetailsList(input.id ?: 0, input.listType ?: "movie")
+                            posterPath = getDetailsList(input.id ?: 0, input.listType.toMediaType())
                                 .map { items ->
                                     items.imageUrl
                                 }
@@ -197,12 +199,12 @@ class AccountRepositoryImpl @Inject constructor(
 
     override suspend fun addWatchlist(
         mediaId: Int,
-        mediaType: String,
+        mediaType: MediaType,
         isWatchList: Boolean
     ): Status {
         val watchlistRequest = WatchlistRequest(
             mediaId = mediaId,
-            mediaType = mediaType,
+            mediaType = mediaType.value,
             watchlist = isWatchList
         )
         return domainStatusMapper.map(safeApiCaller.execute { accountApiService.addWatchlist(watchlistRequest) })
@@ -210,12 +212,12 @@ class AccountRepositoryImpl @Inject constructor(
 
     override suspend fun addFavouriteList(
         mediaId: Int,
-        mediaType: String,
+        mediaType: MediaType,
         isFavourite: Boolean
     ): Status {
         val favoriteRequest = FavoriteRequest(
             mediaId = mediaId,
-            mediaType = mediaType,
+            mediaType = mediaType.value,
             favorite = isFavourite
         )
         return domainStatusMapper.map(safeApiCaller.execute { accountApiService.addFavorite(favoriteRequest) })

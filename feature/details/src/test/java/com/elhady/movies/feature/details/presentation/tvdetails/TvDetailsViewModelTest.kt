@@ -2,6 +2,7 @@ package com.elhady.movies.feature.details.presentation.tvdetails
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
+import com.elhady.movies.core.common.MediaType
 import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.domain.model.account.CreateList
 import com.elhady.movies.core.domain.model.account.UserList
@@ -144,7 +145,7 @@ class TvDetailsViewModelTest {
         // Then
         assertTrue(viewModel.state.value.saveToListsUiState.isFavouriteSelected)
         assertTrue(viewModel.state.value.saveToListsUiState.isWatchlistSelected)
-        coVerify { getUserListsUseCase(1, "tv") }
+        coVerify { getUserListsUseCase(1, MediaType.TV_SHOW) }
     }
 
     @Test
@@ -176,8 +177,8 @@ class TvDetailsViewModelTest {
             every { accountStates?.favorite } returns true
             every { accountStates?.watchlist } returns false
         }
-        coEvery { addToFavouriteUseCase(any(), "tv", false) } returns mockk()
-        coEvery { addToWatchList(any(), "tv", true) } returns mockk()
+        coEvery { addToFavouriteUseCase(any(), MediaType.TV_SHOW, false) } returns mockk()
+        coEvery { addToWatchList(any(), MediaType.TV_SHOW, true) } returns mockk()
         createViewModel(tvShowId = 600)
         advanceUntilIdle()
         
@@ -192,8 +193,8 @@ class TvDetailsViewModelTest {
         advanceUntilIdle()
 
         // Then
-        coVerify { addToFavouriteUseCase(600, "tv", false) }
-        coVerify { addToWatchList(600, "tv", true) }
+        coVerify { addToFavouriteUseCase(600, MediaType.TV_SHOW, false) }
+        coVerify { addToWatchList(600, MediaType.TV_SHOW, true) }
     }
 
     @Test
@@ -211,7 +212,7 @@ class TvDetailsViewModelTest {
             statusCode = 1,
             statusMessage = "Success"
         )
-        coEvery { addToUserListUseCase(newListId, 200, "tv") } returns mockk()
+        coEvery { addToUserListUseCase(newListId, 200, MediaType.TV_SHOW) } returns mockk()
         coEvery { getUserListsUseCase(any(), any()) } returns emptyList()
 
         // When
@@ -222,7 +223,7 @@ class TvDetailsViewModelTest {
         advanceUntilIdle()
         
         coVerify { createUserListUseCase(listName) }
-        coVerify { addToUserListUseCase(newListId, 200, "tv") }
+        coVerify { addToUserListUseCase(newListId, 200, MediaType.TV_SHOW) }
         assertFalse(viewModel.state.value.saveToListsUiState.isLoading)
     }
 }

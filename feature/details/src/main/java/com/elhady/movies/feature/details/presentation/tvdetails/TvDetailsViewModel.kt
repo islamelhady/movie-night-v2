@@ -1,6 +1,7 @@
 package com.elhady.movies.feature.details.presentation.tvdetails
 
 import androidx.lifecycle.SavedStateHandle
+import com.elhady.movies.core.common.MediaType
 import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.domain.model.account.CreateList
 import com.elhady.movies.core.domain.model.account.UserList
@@ -351,7 +352,7 @@ class TvDetailsViewModel @Inject constructor(
     //region user lists
     private fun getUserLists() {
         tryToExecute(
-            call = { getUserListsUseCase(tvShowId, "tv") },
+            call = { getUserListsUseCase(tvShowId, MediaType.TV_SHOW) },
             onSuccess = ::onGetUserListsSuccess,
             onError = { sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError)) }
         )
@@ -401,7 +402,7 @@ class TvDetailsViewModel @Inject constructor(
         // Sync Favorite if changed
         if (currentState.isFavouriteSelected != initialSaveToListsState.isFavouriteSelected) {
             tryToExecute(
-                call = { addToFavouriteUseCase(currentId, "tv", currentState.isFavouriteSelected) },
+                call = { addToFavouriteUseCase(currentId, MediaType.TV_SHOW, currentState.isFavouriteSelected) },
                 onSuccess = {},
                 onError = {}
             )
@@ -410,7 +411,7 @@ class TvDetailsViewModel @Inject constructor(
         // Sync Watchlist if changed
         if (currentState.isWatchlistSelected != initialSaveToListsState.isWatchlistSelected) {
             tryToExecute(
-                call = { addToWatchList(currentId, "tv", currentState.isWatchlistSelected) },
+                call = { addToWatchList(currentId, MediaType.TV_SHOW, currentState.isWatchlistSelected) },
                 onSuccess = {},
                 onError = {}
             )
@@ -422,7 +423,7 @@ class TvDetailsViewModel @Inject constructor(
 
         added.forEach { listId ->
             tryToExecute(
-                call = { addToUserListUseCase(listId, currentId, "tv") },
+                call = { addToUserListUseCase(listId, currentId, MediaType.TV_SHOW) },
                 onSuccess = {
                     sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))
                 },
@@ -464,7 +465,7 @@ class TvDetailsViewModel @Inject constructor(
         if (createList.success == true && listId != null) {
             val currentId = tvShowId!!
             tryToExecute(
-                call = { addToUserListUseCase(listId, currentId, "tv") },
+                call = { addToUserListUseCase(listId, currentId, MediaType.TV_SHOW) },
                 onSuccess = {
                     _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isLoading = false)) }
                     sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))

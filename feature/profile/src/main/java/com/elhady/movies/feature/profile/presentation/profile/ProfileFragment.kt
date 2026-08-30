@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import com.elhady.movies.core.common.MediaType
 import com.elhady.movies.core.domain.model.account.ListName
 import com.elhady.movies.core.domain.model.account.ListType
 import com.elhady.movies.core.ui.base.BaseFragment
@@ -94,11 +95,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
     override fun onEffect(effect: ProfileUiEffect) {
         when (effect) {
             ProfileUiEffect.NavigateToFavoriteScreen -> {
-                navigator.navigateToMyListDetails(0, ListType.MOVIE.name, ListName.FAVORITE.name)
+                navigator.navigateToMyListDetails(0, MediaType.MOVIE, ListName.FAVORITE.name)
             }
 
             ProfileUiEffect.NavigateToWatchlistScreen -> {
-                navigator.navigateToMyListDetails(0, ListType.MOVIE.name, ListName.WATCHLIST.name)
+                navigator.navigateToMyListDetails(0, MediaType.MOVIE, ListName.WATCHLIST.name)
             }
 
             ProfileUiEffect.NavigateToRateScreen -> {

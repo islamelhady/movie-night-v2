@@ -1,5 +1,6 @@
 package com.elhady.movies.core.domain.usecase.account
 
+import com.elhady.movies.core.common.MediaType
 import com.elhady.movies.core.domain.model.common.Status
 import com.elhady.movies.core.domain.repository.AccountRepository
 import javax.inject.Inject
@@ -7,7 +8,7 @@ import javax.inject.Inject
 class AddToUserListUseCase @Inject constructor(
     private val accountRepository: AccountRepository
 ) {
-    suspend operator fun invoke(listId: Int, mediaId: Int, mediaType: String): Status {
+    suspend operator fun invoke(listId: Int, mediaId: Int, mediaType: MediaType): Status {
         return accountRepository.postUserLists(listId, mediaId, mediaType)
     }
 }

@@ -8,6 +8,7 @@ import com.elhady.movies.core.domain.usecase.account.DeleteMovieFromDetailsListU
 import com.elhady.movies.core.domain.usecase.account.GetMyFavoriteListUseCase
 import com.elhady.movies.core.domain.usecase.account.GetMyListDetailsByListIdUseCase
 import com.elhady.movies.core.domain.usecase.account.GetMyWatchlistListUseCase
+import com.elhady.movies.core.common.MediaType
 import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.watchlist.presentation.listcontents.mapper.ListContentsUiMapper
 import io.mockk.coEvery
@@ -61,10 +62,10 @@ class ListContentsViewModelTest {
         unmockkStatic(Dispatchers::class)
     }
 
-    private fun createViewModel(listName: String = "Custom", listType: String = "movie") {
+    private fun createViewModel(listName: String = "Custom", listType: MediaType = MediaType.MOVIE) {
         val savedStateHandle = SavedStateHandle(mapOf(
             "listName" to listName,
-            "listType" to listType,
+            "listType" to listType.value,
             "listId" to 123
         ))
         
@@ -100,7 +101,7 @@ class ListContentsViewModelTest {
     @Test
     fun `TvShowClicked should emit NavigateToTvShowContents effect`() = runTest {
         // Given
-        createViewModel(listType = "tv")
+        createViewModel(listType = MediaType.TV_SHOW)
         val effects = mutableListOf<ListContentsUiEffect>()
         val job = launch { viewModel.effect.toList(effects) }
         advanceUntilIdle()
@@ -118,7 +119,7 @@ class ListContentsViewModelTest {
     fun `getData for Custom list should pass listType to usecase`() = runTest {
         // Given
         val listId = 123
-        val listType = "tv"
+        val listType = MediaType.TV_SHOW
         createViewModel(listName = "My TV List", listType = listType)
         
         // When

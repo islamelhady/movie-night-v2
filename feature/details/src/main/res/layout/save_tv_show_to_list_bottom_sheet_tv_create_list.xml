@@ -225,6 +225,7 @@
                 app:userListChips="@{state.userLists}"
                 app:selectedIds="@{state.saveToListsUiState.selectedUserLists}"
                 app:chipListener="@{listener}"
+                android:layout_marginTop="@dimen/spacing_small_8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/chip_group_static">

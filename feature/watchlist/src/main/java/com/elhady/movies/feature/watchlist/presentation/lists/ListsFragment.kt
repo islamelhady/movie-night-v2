@@ -3,6 +3,7 @@ package com.elhady.movies.feature.watchlist.presentation.lists
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import com.elhady.movies.core.common.MediaType
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.watchlist.R
@@ -123,7 +124,7 @@ class ListsFragment :
 
     override fun onClickItem(
         listId: Int,
-        listType: String,
+        listType: MediaType,
         listName: String
     ) {
         viewModel.onEvent(

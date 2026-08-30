@@ -4,6 +4,8 @@ package com.elhady.movies.feature.watchlist.presentation.listcontents
 import androidx.lifecycle.SavedStateHandle
 import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.domain.model.account.ListName
+import com.elhady.movies.core.common.MediaType
+import com.elhady.movies.core.common.toMediaType
 import com.elhady.movies.core.domain.model.common.Status
 import com.elhady.movies.core.domain.usecase.account.AddToFavouriteUseCase
 import com.elhady.movies.core.domain.usecase.account.AddToWatchList
@@ -36,8 +38,8 @@ class ListContentsViewModel @Inject constructor(
 ) {
 
 
-    private val listType =
-        savedStateHandle.get<String>("listType") ?: ""
+    private val listType: MediaType =
+        savedStateHandle.get<String>("listType").toMediaType()
 
     private val listName =
         savedStateHandle.get<String>("listName") ?: ""
@@ -196,7 +198,7 @@ class ListContentsViewModel @Inject constructor(
 
     private fun deleteFavorite(
         mediaId: Int,
-        mediaType: String,
+        mediaType: MediaType,
     ) {
         tryToExecute(
             call = {
@@ -213,7 +215,7 @@ class ListContentsViewModel @Inject constructor(
 
     private fun deleteWatchlist(
         mediaId: Int,
-        mediaType: String,
+        mediaType: MediaType,
     ) {
         tryToExecute(
             call = {

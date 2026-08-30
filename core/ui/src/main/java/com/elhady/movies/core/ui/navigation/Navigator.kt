@@ -1,5 +1,6 @@
 package com.elhady.movies.core.ui.navigation
 
+import com.elhady.movies.core.common.MediaType
 import com.elhady.movies.core.common.ShowMoreType
 
 
@@ -12,7 +13,7 @@ interface Navigator {
     fun navigateToShowMore(showMoreType: ShowMoreType)
     fun navigateToLogin()
     fun navigateToMyList()
-    fun navigateToMyListDetails(listId: Int, listType: String, listName: String)
+    fun navigateToMyListDetails(listId: Int, listType: MediaType, listName: String)
     fun navigateToWatchHistory()
     fun navigateToMyRated()
     fun navigateToSearch()
