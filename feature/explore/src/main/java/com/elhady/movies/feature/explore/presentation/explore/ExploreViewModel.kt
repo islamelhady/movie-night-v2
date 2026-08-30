@@ -54,7 +54,7 @@ class ExploreViewModel @Inject constructor(
     private fun getTrendingMovies() {
         _state.update { it.copy(isLoading = true, errors = null) }
         viewModelScope.launch {
-            tryToExecuteAsync(
+            tryToExecute(
                 call = { trendingMoviesUseCase() },
                 onSuccess = ::onSuccessTrendingMovies,
                 mapper = trendingUiMapper,

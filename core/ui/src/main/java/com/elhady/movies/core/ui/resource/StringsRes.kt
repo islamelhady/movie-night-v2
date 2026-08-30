@@ -13,6 +13,7 @@ interface StringsRes {
     val ratingAddSuccessFully: String
     val notLoggedInToRate: String
     val someThingErrorWhenAddRating: String
+    val emptyField: String
     val watchlist:String
     val favourite:String
     val popularMovies:String

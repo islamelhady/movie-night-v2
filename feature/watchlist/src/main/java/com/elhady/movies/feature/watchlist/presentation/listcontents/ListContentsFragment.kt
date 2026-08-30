@@ -3,6 +3,7 @@ package com.elhady.movies.feature.watchlist.presentation.listcontents
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import com.elhady.movies.core.common.MediaType
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.watchlist.R
@@ -76,10 +77,12 @@ class ListContentsFragment :
         }
     }
 
-    override fun onClickItem(itemId: Int, mediaType: String) {
-        viewModel.onEvent(
-            ListContentsUiEvent.MovieClicked(itemId)
-        )
+    override fun onClickItem(itemId: Int, mediaType: MediaType) {
+        if (mediaType == MediaType.TV_SHOW) {
+            viewModel.onEvent(ListContentsUiEvent.TvShowClicked(itemId))
+        } else {
+            viewModel.onEvent(ListContentsUiEvent.MovieClicked(itemId))
+        }
     }
 
     override fun onClickBackButton() {

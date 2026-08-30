@@ -1,7 +1,10 @@
 package com.elhady.movies.feature.details.presentation.tvdetails
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
+import com.elhady.movies.core.common.MediaType
 import com.elhady.movies.core.common.AppException
+import com.elhady.movies.core.domain.model.account.CreateList
 import com.elhady.movies.core.domain.model.account.UserList
 import com.elhady.movies.core.domain.model.common.Review
 import com.elhady.movies.core.domain.model.common.YoutubeVideoDetails
@@ -13,6 +16,7 @@ import com.elhady.movies.core.domain.usecase.account.AddToFavouriteUseCase
 import com.elhady.movies.core.domain.usecase.account.AddToUserListUseCase
 import com.elhady.movies.core.domain.usecase.account.AddToWatchList
 import com.elhady.movies.core.domain.usecase.account.CreateUserListUseCase
+import com.elhady.movies.core.domain.usecase.account.DeleteMovieFromDetailsListUseCase
 import com.elhady.movies.core.domain.usecase.account.GetUserListsUseCase
 import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetRatingTvUseCase
@@ -27,6 +31,7 @@ import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.core.ui.interaction.ChipListener
 import com.elhady.movies.core.ui.resource.StringsRes
+import com.elhady.movies.core.ui.state.SaveToListsUiState
 import com.elhady.movies.feature.details.presentation.tvdetails.listener.TvDetailsListeners
 import com.elhady.movies.feature.details.presentation.tvdetails.mapper.CastUiMapper
 import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvDetailsInfoToInfoUIStateMapper
@@ -45,6 +50,7 @@ import com.elhady.movies.feature.details.presentation.tvdetails.state.TvDetailsU
 import com.elhady.movies.feature.details.presentation.tvdetails.state.UserListsUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -64,6 +70,7 @@ class TvDetailsViewModel @Inject constructor(
     private val getUserListsUseCase: GetUserListsUseCase,
     private val addToUserListUseCase: AddToUserListUseCase,
     private val createUserListUseCase: CreateUserListUseCase,
+    private val deleteMovieFromDetailsListUseCase: DeleteMovieFromDetailsListUseCase,
     private val addToFavouriteUseCase: AddToFavouriteUseCase,
     private val addToWatchList: AddToWatchList,
     private val checkIsUserLoggedInUseCase: CheckIsUserLoggedInUseCase,
@@ -76,6 +83,8 @@ class TvDetailsViewModel @Inject constructor(
 
     private val tvShowId: Int? =
         savedStateHandle.get<Int>(TV_SHOW_ID) ?: savedStateHandle.get<String>(TV_SHOW_ID)?.toIntOrNull()
+
+    private var initialSaveToListsState = SaveToListsUiState()
 
     init {
         if (tvShowId != null) {
@@ -118,10 +127,18 @@ class TvDetailsViewModel @Inject constructor(
                 infoUIState = InfoUIState.Success(
                     info = infoUIState
                 ),
-                isLoading = false
+                isLoading = false,
+                saveToListsUiState = it.saveToListsUiState.copy(
+                    isFavouriteSelected = data.accountStates?.favorite ?: false,
+                    isWatchlistSelected = data.accountStates?.watchlist ?: false
+                )
             )
             newState.copy(tvDetailsItems = updateTvDetailsItems(newState))
         }
+        initialSaveToListsState = initialSaveToListsState.copy(
+            isFavouriteSelected = data.accountStates?.favorite ?: false,
+            isWatchlistSelected = data.accountStates?.watchlist ?: false
+        )
     }
 
     private fun onTvDetailsInfoError(error: AppException) {
@@ -337,23 +354,29 @@ class TvDetailsViewModel @Inject constructor(
     //region user lists
     private fun getUserLists() {
         tryToExecute(
-            call = { getUserListsUseCase() },
+            call = { getUserListsUseCase(tvShowId, MediaType.TV_SHOW) },
             onSuccess = ::onGetUserListsSuccess,
             onError = { sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError)) }
         )
     }
 
     private fun onGetUserListsSuccess(data: List<UserList>) {
-        val lists = userListsUiMapper.map(data)
+        val lists = data.map { userListsUiMapper.map(it) }
+        val selectedIds = data.filter { it.isContainsMovie }.map { it.id }
         _state.update {
             it.copy(
-                userListsUIState = UserListsUIState.Success(lists)
+                userListsUIState = UserListsUIState.Success(lists),
+                saveToListsUiState = it.saveToListsUiState.copy(
+                    selectedUserLists = selectedIds,
+                    isCreateListVisible = false
+                )
             )
         }
+        initialSaveToListsState = initialSaveToListsState.copy(selectedUserLists = selectedIds)
         sendEffect(
             TvDetailsUiEffect.ShowSaveToListBottomSheet(
                 lists = lists,
-                selectedLists = _state.value.userSelectedLists
+                selectedLists = selectedIds
             )
         )
     }
@@ -362,7 +385,7 @@ class TvDetailsViewModel @Inject constructor(
         _state.update { currentState ->
 
             val selectedLists =
-                currentState.userSelectedLists.toMutableList()
+                currentState.saveToListsUiState.selectedUserLists.toMutableList()
 
             if (listId in selectedLists) {
                 selectedLists.remove(listId)
@@ -371,70 +394,105 @@ class TvDetailsViewModel @Inject constructor(
             }
 
             currentState.copy(
-                userSelectedLists = selectedLists
+                saveToListsUiState = currentState.saveToListsUiState.copy(
+                    selectedUserLists = selectedLists,
+                    isCreateListVisible = false
+                )
             )
         }
-
     }
 
 
     private fun addToSelectedLists() {
-        state.value.userSelectedLists.forEach { listId ->
+        val currentId = tvShowId!!
+        val currentState = state.value.saveToListsUiState
 
-            tryToExecute(
-                call = { addToUserListUseCase(listId, tvShowId!!) },
-                onSuccess = {
-                    sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))
-                },
-                onError = {
-                    sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
+        viewModelScope.launch {
+            try {
+                // Execute required operations
+                if (currentState.isFavouriteSelected != initialSaveToListsState.isFavouriteSelected) {
+                    addToFavouriteUseCase(currentId, MediaType.TV_SHOW, currentState.isFavouriteSelected)
                 }
-            )
+
+                if (currentState.isWatchlistSelected != initialSaveToListsState.isWatchlistSelected) {
+                    addToWatchList(currentId, MediaType.TV_SHOW, currentState.isWatchlistSelected)
+                }
+
+                val added = currentState.selectedUserLists.filter { it !in initialSaveToListsState.selectedUserLists }
+                val removed = initialSaveToListsState.selectedUserLists.filter { it !in currentState.selectedUserLists }
+
+                added.forEach { listId ->
+                    addToUserListUseCase(listId, currentId, MediaType.TV_SHOW)
+                }
+
+                removed.forEach { listId ->
+                    deleteMovieFromDetailsListUseCase(listId, currentId)
+                }
+
+                // If we reach here, all operations succeeded
+                val isChanged = currentState.isFavouriteSelected != initialSaveToListsState.isFavouriteSelected ||
+                        currentState.isWatchlistSelected != initialSaveToListsState.isWatchlistSelected ||
+                        added.isNotEmpty() || removed.isNotEmpty()
+
+                if (isChanged) {
+                    sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))
+                }
+
+                _state.update {
+                    it.copy(
+                        saveToListsUiState = it.saveToListsUiState.copy(selectedUserLists = emptyList())
+                    )
+                }
+                sendEffect(TvDetailsUiEffect.CloseBottomSheet)
+            } catch (e: Exception) {
+                sendEffect(TvDetailsUiEffect.ShowSnackBar(e.message ?: stringsRes.someThingError))
+            }
         }
-        _state.update { it.copy(userSelectedLists = emptyList()) }
     }
 
 
     private fun createUserNewList(listName: String) {
+        if (state.value.saveToListsUiState.isLoading) return
+        if (listName.isBlank()) {
+            sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.emptyField))
+            return
+        }
+
+        _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isLoading = true)) }
         tryToExecute(
             call = { createUserListUseCase(listName) },
-            onSuccess = {
-                getUserLists()
-            },
-            onError = {
-                sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
-            }
+            onSuccess = ::onCreateListSuccess,
+            onError = ::onCreateListError
         )
+    }
+
+    private fun onCreateListSuccess(createList: CreateList) {
+        val listId = createList.listId
+        if (createList.success == true && listId != null) {
+            val currentId = tvShowId!!
+            tryToExecute(
+                call = { addToUserListUseCase(listId, currentId, MediaType.TV_SHOW) },
+                onSuccess = {
+                    _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isLoading = false)) }
+                    sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))
+                    getUserLists()
+                    sendEffect(TvDetailsUiEffect.CloseBottomSheet)
+                },
+                onError = ::onCreateListError
+            )
+        } else {
+            onCreateListError(Exception(createList.statusMessage ?: stringsRes.someThingError))
+        }
+    }
+
+    private fun onCreateListError(throwable: Throwable) {
+        _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isLoading = false)) }
+        sendEffect(TvDetailsUiEffect.ShowSnackBar(throwable.message ?: stringsRes.someThingError))
     }
 
     //endregion
 
-    // region favourite / watchlist
-    private fun addToFavourite() {
-        tryToExecute(
-            call = { addToFavouriteUseCase(tvShowId!!, "tv") },
-            onSuccess = {
-                sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))
-            },
-            onError = {
-                sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
-            }
-        )
-    }
-
-    private fun addToWatchlist() {
-        tryToExecute(
-            call = { addToWatchList(tvShowId!!, "tv") },
-            onSuccess = {
-                sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))
-            },
-            onError = {
-                sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
-            }
-        )
-    }
-
-    // endregion
+    //endregion
 
 
     //region events
@@ -462,11 +520,25 @@ class TvDetailsViewModel @Inject constructor(
             }
 
             TvDetailsUiEvent.FavouriteClicked -> {
-                addToFavourite()
+                _state.update {
+                    it.copy(
+                        saveToListsUiState = it.saveToListsUiState.copy(
+                            isFavouriteSelected = !it.saveToListsUiState.isFavouriteSelected,
+                            isCreateListVisible = false
+                        )
+                    )
+                }
             }
 
             TvDetailsUiEvent.WatchlistClicked -> {
-                addToWatchlist()
+                _state.update {
+                    it.copy(
+                        saveToListsUiState = it.saveToListsUiState.copy(
+                            isWatchlistSelected = !it.saveToListsUiState.isWatchlistSelected,
+                            isCreateListVisible = false
+                        )
+                    )
+                }
             }
 
             TvDetailsUiEvent.ShowMoreCastClicked -> {
@@ -508,10 +580,11 @@ class TvDetailsViewModel @Inject constructor(
 
             TvDetailsUiEvent.DoneAddingLists -> {
                 addToSelectedLists()
+                sendEffect(TvDetailsUiEffect.CloseBottomSheet)
             }
 
             TvDetailsUiEvent.AddNewListClicked -> {
-                // Handled via UI visibility
+                _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isCreateListVisible = true)) }
             }
 
             is TvDetailsUiEvent.CreateNewListClicked -> {

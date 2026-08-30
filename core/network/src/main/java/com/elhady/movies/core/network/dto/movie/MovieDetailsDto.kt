@@ -1,5 +1,6 @@
 package com.elhady.movies.core.network.dto.movie
 
+import com.elhady.movies.core.network.dto.common.AccountStatesDto
 import com.google.gson.annotations.SerializedName
 
 data class MovieDetailsDto(
@@ -60,5 +61,7 @@ data class MovieDetailsDto(
     @SerializedName("vote_count")
     val voteCount: Int?,
     @SerializedName("reviews")
-    val reviews: ReviewsDto?
+    val reviews: ReviewsDto?,
+    @SerializedName("account_states")
+    val accountStates: AccountStatesDto?
 )

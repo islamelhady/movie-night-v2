@@ -1,13 +1,16 @@
 package com.elhady.movies.core.data.mapper.tvshow
 
 import com.elhady.movies.core.data.BuildConfig
-import com.elhady.movies.core.common.mapper.Mapper
+import com.elhady.movies.core.common.Mapper
 import com.elhady.movies.core.network.dto.tvshow.TvDetailsDto
 import com.elhady.movies.core.domain.model.common.Genre
 import com.elhady.movies.core.domain.model.tvshow.TvDetailsInfo
+import com.elhady.movies.core.data.mapper.common.AccountStatesDtoMapper
 import javax.inject.Inject
 
-class TvDetailsDtoMapper @Inject constructor() :
+class TvDetailsDtoMapper @Inject constructor(
+    private val accountStatesDtoMapper: AccountStatesDtoMapper
+) :
     Mapper<TvDetailsDto, TvDetailsInfo> {
     override fun map(input: TvDetailsDto): TvDetailsInfo {
         return TvDetailsInfo(
@@ -15,7 +18,8 @@ class TvDetailsDtoMapper @Inject constructor() :
             name = input.name ?: "",
             rating = input.voteAverage?.toFloat()?.times(0.5f) ?: 0.0f,
             description = input.overview ?: "",
-            genres = mapGenreToEntity(input.genres)
+            genres = mapGenreToEntity(input.genres),
+            accountStates = accountStatesDtoMapper.map(input.accountStates)
         )
     }
 

@@ -1,7 +1,9 @@
 package com.elhady.movies.core.data.mapper.movie
 
+import com.elhady.movies.core.common.MediaType
+import com.elhady.movies.core.common.toMediaType
 import com.elhady.movies.core.data.BuildConfig
-import com.elhady.movies.core.common.mapper.Mapper
+import com.elhady.movies.core.common.Mapper
 import com.elhady.movies.core.network.dto.movie.CreditsDto
 import com.elhady.movies.core.network.dto.movie.MovieDetailsDto
 import com.elhady.movies.core.network.dto.movie.RecommendationsDto
@@ -17,9 +19,12 @@ import com.elhady.movies.core.domain.model.movie.RecommendedMovie
 import com.elhady.movies.core.domain.model.common.Review
 import com.elhady.movies.core.domain.model.movie.ReviewResponse
 import com.elhady.movies.core.domain.model.movie.Videos
+import com.elhady.movies.core.data.mapper.common.AccountStatesDtoMapper
 import javax.inject.Inject
 
-class MovieDetailsDtoMapper @Inject constructor() : Mapper<MovieDetailsDto, MovieDetails> {
+class MovieDetailsDtoMapper @Inject constructor(
+    private val accountStatesDtoMapper: AccountStatesDtoMapper
+) : Mapper<MovieDetailsDto, MovieDetails> {
     override fun map(input: MovieDetailsDto): MovieDetails {
         return MovieDetails(
             backdropPath = BuildConfig.IMAGE_BASE_PATH + input.backdropPath,
@@ -33,7 +38,8 @@ class MovieDetailsDtoMapper @Inject constructor() : Mapper<MovieDetailsDto, Movi
             videos = mapVideos(input.videos),
             voteAverage = input.voteAverage ?: 0.0,
             reviewEntity = mapReviews(input.reviews),
-            year = input.releaseDate ?: ""
+            year = input.releaseDate ?: "",
+            accountStates = accountStatesDtoMapper.map(input.accountStates)
         )
     }
 
@@ -82,7 +88,7 @@ class MovieDetailsDtoMapper @Inject constructor() : Mapper<MovieDetailsDto, Movi
                     backdropPath = BuildConfig.IMAGE_BASE_PATH + it.backdropPath,
                     genreIds = it.genreIds ?: emptyList(),
                     id = it.id ?: 0,
-                    mediaType = it.mediaType ?: "",
+                    mediaType = requireNotNull(it.mediaType.toMediaType()),
                     originalLanguage = it.originalLanguage ?: "",
                     originalTitle = it.originalTitle ?: "",
                     overview = it.overview ?: "",

@@ -1,6 +1,6 @@
 package com.elhady.movies.feature.watchlist.presentation.ratedmedia.mapper
 
-import com.elhady.movies.core.common.mapper.Mapper
+import com.elhady.movies.core.common.Mapper
 import com.elhady.movies.core.domain.model.account.MyRatedTvShow
 import com.elhady.movies.core.ui.state.MovieHorizontalUiState
 import javax.inject.Inject

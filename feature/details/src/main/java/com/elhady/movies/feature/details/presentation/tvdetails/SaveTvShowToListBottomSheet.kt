@@ -14,39 +14,38 @@ import com.elhady.movies.feature.details.presentation.tvdetails.listener.Watchli
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SaveTvShowToListBottomSheet(private val watchlistFavouriteBottomSheet: WatchlistFavouriteListener) :
+class SaveTvShowToListBottomSheet :
     BaseBottomSheet<SaveTvShowToListBottomSheetTvCreateListBinding>(), ChipListener {
     override val layoutIdFragment: Int = R.layout.save_tv_show_to_list_bottom_sheet_tv_create_list
     override val viewModel by viewModels<TvDetailsViewModel>({ requireParentFragment() })
-    private var userLists: List<UserListUiState> = emptyList()
-
-    fun setItems(lists: List<UserListUiState>) {
-        this.userLists = lists
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.listener = this
+
+        collectFlow(viewModel.effect) { onEffect(it) }
+
         collectFlow(viewModel.state) {
             binding.state = it
         }
-        binding.listener = watchlistFavouriteBottomSheet
+    }
 
-        binding.chipAddNewList.visibility = View.GONE
-        binding.apply {
-            chipAddNewList.setOnClickListener {
-                groupCreateList.visibility =
-                    if (chipAddNewList.isChecked) View.VISIBLE else View.GONE
-            }
+    private fun onEffect(effect: TvDetailsUiEffect) {
+        when (effect) {
+            TvDetailsUiEffect.CloseBottomSheet -> dismiss()
+            else -> {}
         }
     }
 
     override fun onChipClick(id: Int) {
-        watchlistFavouriteBottomSheet.onChipClick(id)
+        viewModel.onEvent(TvDetailsUiEvent.ListSelected(id))
     }
 
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        watchlistFavouriteBottomSheet.onDismiss()
-    }
+    fun onDismiss() = dismiss()
+    fun onDone() = viewModel.onEvent(TvDetailsUiEvent.DoneAddingLists)
+    fun onCreateList(name: String) = viewModel.onEvent(TvDetailsUiEvent.CreateNewListClicked(name))
+    fun onFavourite() = viewModel.onEvent(TvDetailsUiEvent.FavouriteClicked)
+    fun onWatchlist() = viewModel.onEvent(TvDetailsUiEvent.WatchlistClicked)
+    fun onAddList() = viewModel.onEvent(TvDetailsUiEvent.AddNewListClicked)
 }

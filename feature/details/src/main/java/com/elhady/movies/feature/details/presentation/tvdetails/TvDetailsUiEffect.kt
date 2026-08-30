@@ -12,5 +12,6 @@ sealed interface TvDetailsUiEffect {
     data class ShowRatingBottomSheet(val rating: Float) : TvDetailsUiEffect
     data class ShowSaveToListBottomSheet(val lists: List<UserListUiState>, val selectedLists: List<Int>) : TvDetailsUiEffect
     data class ShowSnackBar(val message: String) : TvDetailsUiEffect
+    object CloseBottomSheet : TvDetailsUiEffect
 
 }

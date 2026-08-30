@@ -3,6 +3,7 @@ package com.elhady.movies.feature.details.presentation.peopledetails
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import com.elhady.movies.core.common.MediaType
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.details.R
@@ -79,16 +80,16 @@ class PeopleDetailsFragment :
 
     override fun onClickMedia(
         itemId: Int,
-        type: PeopleDetailsUiState.MediaType,
+        type: MediaType,
     ) {
         when (type) {
-            PeopleDetailsUiState.MediaType.MOVIE -> {
+            MediaType.MOVIE -> {
                 viewModel.onEvent(
                     PeopleDetailsUiEvent.MovieClicked(itemId)
                 )
             }
 
-            PeopleDetailsUiState.MediaType.TV_SHOW -> {
+            MediaType.TV_SHOW -> {
                 viewModel.onEvent(
                     PeopleDetailsUiEvent.TvShowClicked(itemId)
                 )

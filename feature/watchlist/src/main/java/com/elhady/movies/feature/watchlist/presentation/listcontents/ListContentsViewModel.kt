@@ -4,6 +4,8 @@ package com.elhady.movies.feature.watchlist.presentation.listcontents
 import androidx.lifecycle.SavedStateHandle
 import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.domain.model.account.ListName
+import com.elhady.movies.core.common.MediaType
+import com.elhady.movies.core.common.toMediaType
 import com.elhady.movies.core.domain.model.common.Status
 import com.elhady.movies.core.domain.usecase.account.AddToFavouriteUseCase
 import com.elhady.movies.core.domain.usecase.account.AddToWatchList
@@ -12,6 +14,7 @@ import com.elhady.movies.core.domain.usecase.account.GetMyFavoriteListUseCase
 import com.elhady.movies.core.domain.usecase.account.GetMyListDetailsByListIdUseCase
 import com.elhady.movies.core.domain.usecase.account.GetMyWatchlistListUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
+import com.elhady.movies.core.ui.base.ErrorUiState
 import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.watchlist.presentation.listcontents.mapper.ListContentsUiMapper
@@ -35,14 +38,14 @@ class ListContentsViewModel @Inject constructor(
 ) {
 
 
-    private val listType =
-        savedStateHandle.get<String>("listType") ?: ""
+    private val listType: MediaType =
+        requireNotNull(savedStateHandle.get<String>(LIST_TYPE).toMediaType())
 
     private val listName =
-        savedStateHandle.get<String>("listName") ?: ""
+        savedStateHandle.get<String>(LIST_NAME).orEmpty()
 
     private val listId =
-        savedStateHandle.get<Int>("listId") ?: 0
+        savedStateHandle.get<Int>(LIST_ID) ?: 0
 
 
 
@@ -100,6 +103,7 @@ class ListContentsViewModel @Inject constructor(
     }
 
     private fun getData() {
+        _state.update { it.copy(isLoading = true, error = null) }
         when (listName) {
 
             ListName.FAVORITE.name -> {
@@ -141,7 +145,7 @@ class ListContentsViewModel @Inject constructor(
     private fun getMovieListDetails() {
         tryToExecute(
             call = {
-                getMovieListDetailsUseCase(listId)
+                getMovieListDetailsUseCase(listId, listType)
                     .map(listContentsUiMapper::map)
             },
             onSuccess = ::onGetMoviesSuccess,
@@ -195,7 +199,7 @@ class ListContentsViewModel @Inject constructor(
 
     private fun deleteFavorite(
         mediaId: Int,
-        mediaType: String,
+        mediaType: MediaType,
     ) {
         tryToExecute(
             call = {
@@ -212,7 +216,7 @@ class ListContentsViewModel @Inject constructor(
 
     private fun deleteWatchlist(
         mediaId: Int,
-        mediaType: String,
+        mediaType: MediaType,
     ) {
         tryToExecute(
             call = {
@@ -248,18 +252,25 @@ class ListContentsViewModel @Inject constructor(
         getData()
     }
 
-    private fun onError(
-        throwable: AppException
-    ) {
+    private fun onError(error: AppException) {
+        val errorUiState = error.toErrorUiState()
         _state.update {
             it.copy(
                 isLoading = false,
-                error = throwable.toErrorUiState()
+                error = errorUiState
             )
         }
-        ListContentsUiEffect.ShowSnackBar(
-            throwable.message
-                ?: "No Network Connection"
-        )
+        val message = when (errorUiState) {
+            is ErrorUiState.NoNetwork -> stringsRes.noNetworkConnection
+            is ErrorUiState.Timeout -> stringsRes.timeOut
+            else -> stringsRes.someThingError
+        }
+        sendEffect(ListContentsUiEffect.ShowSnackBar(message))
+    }
+
+    companion object {
+        private const val LIST_TYPE = "listType"
+        private const val LIST_NAME = "listName"
+        private const val LIST_ID = "listId"
     }
 }
