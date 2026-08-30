@@ -20,6 +20,7 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -55,6 +56,47 @@ class ListsViewModelTest {
             listsUiMapper,
             stringsRes
         )
+    }
+
+    @Test
+    fun `Initial state should have isLoading as true`() = runTest {
+        // Given
+        coEvery { getListsCreatedUseCase() } coAnswers {
+            kotlinx.coroutines.delay(1000)
+            emptyList()
+        }
+
+        // When
+        initViewModel()
+
+        // Then
+        assertTrue(viewModel.state.value.isLoading)
+    }
+
+    @Test
+    fun `getData success should set isLoading to false`() = runTest {
+        // Given
+        initViewModel()
+
+        // When
+        advanceUntilIdle()
+
+        // Then
+        assertFalse(viewModel.state.value.isLoading)
+    }
+
+    @Test
+    fun `getData error should set isLoading to false and set error`() = runTest {
+        // Given
+        coEvery { getListsCreatedUseCase() } throws AppException.NoNetwork
+        
+        // When
+        initViewModel()
+        advanceUntilIdle()
+
+        // Then
+        assertFalse(viewModel.state.value.isLoading)
+        assertTrue(viewModel.state.value.isFailure)
     }
 
     @Test

@@ -103,6 +103,7 @@ class ListContentsViewModel @Inject constructor(
     }
 
     private fun getData() {
+        _state.update { it.copy(isLoading = true, error = null) }
         when (listName) {
 
             ListName.FAVORITE.name -> {

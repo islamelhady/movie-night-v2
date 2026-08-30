@@ -2,6 +2,7 @@ package com.elhady.movies.feature.watchlist.presentation.listcontents
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
+import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.domain.usecase.account.AddToFavouriteUseCase
 import com.elhady.movies.core.domain.usecase.account.AddToWatchList
 import com.elhady.movies.core.domain.usecase.account.DeleteMovieFromDetailsListUseCase
@@ -26,6 +27,8 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -62,14 +65,23 @@ class ListContentsViewModelTest {
         unmockkStatic(Dispatchers::class)
     }
 
-    private fun createViewModel(listName: String = "Custom", listType: MediaType = MediaType.MOVIE) {
-        val savedStateHandle = SavedStateHandle(mapOf(
-            "listName" to listName,
-            "listType" to listType.value,
-            "listId" to 123
-        ))
-        
-        coEvery { getMovieListDetailsUseCase(any(), any()) } returns emptyList()
+    private fun createViewModel(
+        listName: String = "Custom",
+        listType: MediaType = MediaType.MOVIE,
+        shouldDelay: Boolean = false
+    ) {
+        val savedStateHandle = SavedStateHandle(
+            mapOf(
+                "listName" to listName,
+                "listType" to listType.value,
+                "listId" to 123
+            )
+        )
+
+        coEvery { getMovieListDetailsUseCase(any(), any()) } coAnswers {
+            if (shouldDelay) kotlinx.coroutines.delay(1000)
+            emptyList()
+        }
         coEvery { getFavoriteUseCase() } returns emptyList()
         coEvery { getWatchlistUseCase() } returns emptyList()
 
@@ -79,6 +91,54 @@ class ListContentsViewModelTest {
             deleteMovieFromDetailsListUseCase, deleteWatchlistUseCase,
             listContentsUiMapper, savedStateHandle
         )
+    }
+
+    @Test
+    fun `Initial state should have isLoading as true`() = runTest {
+        // When
+        createViewModel(shouldDelay = true)
+
+        // Then
+        assertTrue(viewModel.state.value.isLoading)
+    }
+
+    @Test
+    fun `getData success should set isLoading to false`() = runTest {
+        // Given
+        createViewModel()
+
+        // When
+        advanceUntilIdle()
+
+        // Then
+        assertFalse(viewModel.state.value.isLoading)
+        assertTrue(viewModel.state.value.movies.isEmpty())
+    }
+
+    @Test
+    fun `getData error should set isLoading to false and set error`() = runTest {
+        // Given
+        val savedStateHandle = SavedStateHandle(
+            mapOf(
+                "listName" to "Custom",
+                "listType" to MediaType.MOVIE.value,
+                "listId" to 123
+            )
+        )
+        coEvery { getMovieListDetailsUseCase(any(), any()) } throws AppException.NoNetwork
+
+        // When
+        viewModel = ListContentsViewModel(
+            stringsRes, getFavoriteUseCase, getWatchlistUseCase,
+            getMovieListDetailsUseCase, deleteFavoriteUseCase,
+            deleteMovieFromDetailsListUseCase, deleteWatchlistUseCase,
+            listContentsUiMapper, savedStateHandle
+        )
+        advanceUntilIdle()
+
+        // Then
+        assertFalse(viewModel.state.value.isLoading)
+        assertTrue(viewModel.state.value.isFailure)
     }
 
     @Test
