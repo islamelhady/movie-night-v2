@@ -3,6 +3,8 @@ package com.elhady.movies.feature.details.presentation.tvdetails
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import com.elhady.movies.core.common.AppException
+import com.elhady.movies.core.domain.model.account.CreateList
+import com.elhady.movies.core.domain.model.account.UserList
 import com.elhady.movies.core.domain.model.common.YoutubeVideoDetails
 import com.elhady.movies.core.domain.model.tvshow.TvDetailsInfo
 import com.elhady.movies.core.domain.usecase.account.AddToFavouriteUseCase
@@ -195,34 +197,32 @@ class TvDetailsViewModelTest {
     }
 
     @Test
-    fun `Custom list selection changes should send ADD and REMOVE on Done for TV`() = runTest {
+    fun `CreateNewListClicked should enter loading, create list, add tv show, and close sheet`() = runTest {
         // Given
-        coEvery { tvDetailsInfoUseCase(any()) } returns mockk(relaxed = true)
+        val listName = "Comedy"
+        val newListId = 456
         setupDefaultMocks()
-        
-        val userLists = listOf(
-            com.elhady.movies.core.domain.model.account.UserList(id = 15, name = "List 15", isContainsMovie = true),
-            com.elhady.movies.core.domain.model.account.UserList(id = 25, name = "List 25", isContainsMovie = false)
-        )
-        coEvery { getUserListsUseCase(any(), "tv") } returns userLists
-        coEvery { addToUserListUseCase(any(), any(), any()) } returns mockk()
-        coEvery { deleteMovieFromDetailsListUseCase(any(), any()) } returns mockk()
-
         createViewModel(tvShowId = 200)
         advanceUntilIdle()
         
-        viewModel.onEvent(TvDetailsUiEvent.SaveClicked) // initial state: [15]
-        advanceUntilIdle()
-        
-        viewModel.onEvent(TvDetailsUiEvent.ListSelected(15)) // remove 15
-        viewModel.onEvent(TvDetailsUiEvent.ListSelected(25)) // add 25
-        
+        coEvery { createUserListUseCase(listName) } returns CreateList(
+            listId = newListId,
+            success = true,
+            statusCode = 1,
+            statusMessage = "Success"
+        )
+        coEvery { addToUserListUseCase(newListId, 200, "tv") } returns mockk()
+        coEvery { getUserListsUseCase(any(), any()) } returns emptyList()
+
         // When
-        viewModel.onEvent(TvDetailsUiEvent.DoneAddingLists)
-        advanceUntilIdle()
+        viewModel.onEvent(TvDetailsUiEvent.CreateNewListClicked(listName))
         
         // Then
-        coVerify { deleteMovieFromDetailsListUseCase(15, 200) }
-        coVerify { addToUserListUseCase(25, 200, "tv") }
+        assertTrue(viewModel.state.value.saveToListsUiState.isLoading)
+        advanceUntilIdle()
+        
+        coVerify { createUserListUseCase(listName) }
+        coVerify { addToUserListUseCase(newListId, 200, "tv") }
+        assertFalse(viewModel.state.value.saveToListsUiState.isLoading)
     }
 }

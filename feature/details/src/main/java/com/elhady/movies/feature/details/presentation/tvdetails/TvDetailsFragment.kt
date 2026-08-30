@@ -186,11 +186,19 @@ class TvDetailsFragment :
             }
 
             is TvDetailsUiEffect.ShowSaveToListBottomSheet -> {
-                showSaveToListBottomSheet(effect.lists)
+                showSaveToListBottomSheet()
             }
 
             is TvDetailsUiEffect.ShowSnackBar -> {
                 showSnackBar(effect.message)
+            }
+
+            TvDetailsUiEffect.AddListToBottomSheet -> {
+                // Handled in BottomSheet
+            }
+
+            TvDetailsUiEffect.CloseBottomSheet -> {
+                // Handled in BottomSheet
             }
         }
     }
@@ -230,41 +238,13 @@ class TvDetailsFragment :
         return viewModel.state.value.ratingUIState.rating.div(2)
     }
 
-    private fun showSaveToListBottomSheet(lists: List<UserListUiState>) {
+    private fun showSaveToListBottomSheet() {
 
         binding.saveButton.setBackgroundResource(
             CoreUiR.drawable.ic_save_pressed
         )
 
-        saveTvShowToListBottomSheet =
-            SaveTvShowToListBottomSheet(object : WatchlistFavouriteListener {
-                override fun onFavourite() {
-                    viewModel.onEvent(TvDetailsUiEvent.FavouriteClicked)
-                }
-
-                override fun onWatchlist() {
-                    viewModel.onEvent(TvDetailsUiEvent.WatchlistClicked)
-                }
-
-                override fun onDone() {
-                    viewModel.onEvent(TvDetailsUiEvent.DoneAddingLists)
-                    saveTvShowToListBottomSheet.dismiss()
-                }
-
-                override fun onChipClick(id: Int) {
-                    viewModel.onEvent(TvDetailsUiEvent.ListSelected(id))
-                }
-
-                override fun onCreateList(name: String) {
-                    viewModel.onEvent(TvDetailsUiEvent.CreateNewListClicked(name))
-                }
-
-                override fun onDismiss() {
-                    saveTvShowToListBottomSheet.dismiss()
-                }
-            })
-
-        saveTvShowToListBottomSheet.setItems(lists)
+        saveTvShowToListBottomSheet = SaveTvShowToListBottomSheet()
 
         saveTvShowToListBottomSheet.show(
             childFragmentManager,

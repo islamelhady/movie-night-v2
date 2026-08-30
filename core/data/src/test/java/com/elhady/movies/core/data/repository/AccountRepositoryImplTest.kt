@@ -1,5 +1,6 @@
 package com.elhady.movies.core.data.repository
 
+import com.elhady.movies.core.data.mapper.account.CreateListDtoMapper
 import com.elhady.movies.core.data.mapper.account.UserListsDtoMapper
 import com.elhady.movies.core.data.mapper.common.StatusDtoMapper
 import com.elhady.movies.core.data.mapper.movie.MovieDtoMapper
@@ -37,6 +38,7 @@ class AccountRepositoryImplTest {
     private val domainStatusMapper: StatusDtoMapper = mockk()
     private val myRatedMoviesDetailsDtoMapper: MyRatedMoviesDetailsDtoMapper = mockk()
     private val domainUserListsMapper: UserListsDtoMapper = mockk()
+    private val createListDtoMapper: CreateListDtoMapper = mockk()
     private val ratedMoviesPagingSourceProvider: Provider<RatedMoviesPagingSource> = mockk()
     private val ratedTvShowPagingSourceProvider: Provider<RatedTvShowPagingSource> = mockk()
     private val myRatedTvShowDtoMapper: MyRatedTvShowDtoMapper = mockk()
@@ -49,8 +51,8 @@ class AccountRepositoryImplTest {
         repository = AccountRepositoryImpl(
             accountApiService, genreRepository, movieDtoMapper,
             tvDtoMapper, domainStatusMapper, myRatedMoviesDetailsDtoMapper,
-            domainUserListsMapper, ratedMoviesPagingSourceProvider, ratedTvShowPagingSourceProvider,
-            myRatedTvShowDtoMapper, safeApiCaller
+            domainUserListsMapper, createListDtoMapper, ratedMoviesPagingSourceProvider,
+            ratedTvShowPagingSourceProvider, myRatedTvShowDtoMapper, safeApiCaller
         )
     }
 

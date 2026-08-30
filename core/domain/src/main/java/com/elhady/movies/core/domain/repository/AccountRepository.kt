@@ -4,6 +4,7 @@ import androidx.paging.Pager
 import com.elhady.movies.core.domain.model.movie.Movie
 import com.elhady.movies.core.domain.model.common.Status
 import com.elhady.movies.core.domain.model.account.UserList
+import com.elhady.movies.core.domain.model.account.CreateList
 import com.elhady.movies.core.domain.model.account.ListCreated
 import com.elhady.movies.core.domain.model.account.MyRatedMovie
 import com.elhady.movies.core.domain.model.account.MyRatedTvShow
@@ -11,7 +12,7 @@ import com.elhady.movies.core.domain.model.account.MyRatedTvShow
 interface AccountRepository {
     suspend fun getUserLists(mediaId: Int? = null, mediaType: String = "movie"): List<UserList>
     suspend fun postUserLists(listId: Int, mediaId: Int, mediaType: String): Status
-    suspend fun createUserList(listName: String): Status
+    suspend fun createUserList(listName: String): CreateList
 
     suspend fun getFavoriteMovies(): List<Movie>
     suspend fun getFavoriteTv(): List<Movie>

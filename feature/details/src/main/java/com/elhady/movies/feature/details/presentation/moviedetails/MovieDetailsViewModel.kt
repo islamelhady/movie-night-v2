@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.common.ForbiddenThrowable
 import com.elhady.movies.core.common.NoNetworkThrowable
 import com.elhady.movies.core.common.UnauthorizedThrowable
+import com.elhady.movies.core.domain.model.account.CreateList
 import com.elhady.movies.core.domain.model.movie.MovieDetails
 import com.elhady.movies.core.domain.usecase.account.AddToFavouriteUseCase
 import com.elhady.movies.core.domain.usecase.account.AddToUserListUseCase
@@ -277,14 +278,38 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun createUserNewList(listName: String) {
+        if (state.value.saveToListsUiState.isLoading) return
+
+        _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isLoading = true)) }
         tryToExecute(
             call = { createUserListUseCase(listName) },
-            onSuccess = { 
-                showMessageWithSnackBar(stringsRes.newListAddSuccessFully)
-                getUserLists() 
-            },
-            onError = ::onError
+            onSuccess = ::onCreateListSuccess,
+            onError = ::onCreateListError
         )
+    }
+
+    private fun onCreateListSuccess(createList: CreateList) {
+        val listId = createList.listId
+        if (createList.success == true && listId != null) {
+            val currentId = movieId!!
+            tryToExecute(
+                call = { addToUserListUseCase(listId, currentId, "movie") },
+                onSuccess = {
+                    _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isLoading = false)) }
+                    showMessageWithSnackBar(stringsRes.newListAddSuccessFully)
+                    getUserLists()
+                    sendEffect(MovieDetailsUiEffect.CloseBottomSheet)
+                },
+                onError = ::onCreateListError
+            )
+        } else {
+            onCreateListError(Exception(createList.statusMessage ?: stringsRes.someThingError))
+        }
+    }
+
+    private fun onCreateListError(throwable: Throwable) {
+        _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isLoading = false)) }
+        onError(throwable)
     }
 
     private fun tryAgain(movieId: Int) {

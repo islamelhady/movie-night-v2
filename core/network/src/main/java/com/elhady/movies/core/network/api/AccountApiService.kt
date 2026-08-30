@@ -1,7 +1,6 @@
 package com.elhady.movies.core.network.api
 
 import com.elhady.movies.core.network.dto.account.AddMediaToListRequest
-import com.elhady.movies.core.network.dto.account.CreateUserListRequest
 import com.elhady.movies.core.network.dto.account.DeleteMovieRequest
 import com.elhady.movies.core.network.dto.account.FavoriteRequest
 import com.elhady.movies.core.network.dto.account.ListRequest
@@ -42,7 +41,7 @@ interface AccountApiService {
     ): Response<StatusResponse>
 
     @POST("list")
-    suspend fun createUserList(@Body name: CreateUserListRequest): Response<StatusResponse>
+    suspend fun createUserList(@Body name: ListRequest): Response<ListResponse>
 
     @GET("account/{account_id}/favorite/movies")
     suspend fun getFavoriteMovies(): Response<DataWrapperResponse<MovieDto>>
@@ -60,9 +59,6 @@ interface AccountApiService {
     suspend fun addWatchlist(
         @Body watchlistRequest: WatchlistRequest,
     ): Response<StatusResponse>
-
-    @POST("list")
-    suspend fun addList(@Body listRequest: ListRequest): Response<ListResponse>
 
     @DELETE("list/{list_id}")
     suspend fun deleteList(@Path("list_id") listId: Int): Response<StatusResponse>

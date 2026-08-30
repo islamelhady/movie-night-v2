@@ -15,7 +15,7 @@
 
         <variable
             name="listener"
-            type="com.elhady.movies.feature.details.presentation.tvdetails.listener.WatchlistFavouriteListener" />
+            type="com.elhady.movies.feature.details.presentation.tvdetails.SaveTvShowToListBottomSheet" />
 
     </data>
 
@@ -126,9 +126,23 @@
                 android:text="@string/create"
                 android:onClick="@{() -> listener.onCreateList(editTextListName.getText().toString())}"
                 android:textColor="@color/on_primary"
+                app:isVisible="@{!state.saveToListsUiState.loading}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_input_layout_list_name" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/primary"
+                android:indeterminateTintMode="src_atop"
+                app:isVisibleOrGone="@{state.saveToListsUiState.loading}"
+                app:layout_constraintBottom_toBottomOf="@+id/material_button_create"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/material_button_create" />
             <!--endregion-->
 
             <!--region save to list-->
@@ -171,7 +185,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:enabled="true"
-                    android:visibility="gone"
+                    android:onClick="@{() -> listener.onAddList()}"
                     android:paddingVertical="8dp"
                     android:text="@string/add_list"
                     android:textAppearance="@style/TextStyle.BodySmall" />

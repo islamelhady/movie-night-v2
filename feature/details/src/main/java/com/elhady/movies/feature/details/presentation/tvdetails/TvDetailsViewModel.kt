@@ -2,6 +2,7 @@ package com.elhady.movies.feature.details.presentation.tvdetails
 
 import androidx.lifecycle.SavedStateHandle
 import com.elhady.movies.core.common.AppException
+import com.elhady.movies.core.domain.model.account.CreateList
 import com.elhady.movies.core.domain.model.account.UserList
 import com.elhady.movies.core.domain.model.common.Review
 import com.elhady.movies.core.domain.model.common.YoutubeVideoDetails
@@ -448,15 +449,38 @@ class TvDetailsViewModel @Inject constructor(
 
 
     private fun createUserNewList(listName: String) {
+        if (state.value.saveToListsUiState.isLoading) return
+
+        _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isLoading = true)) }
         tryToExecute(
             call = { createUserListUseCase(listName) },
-            onSuccess = {
-                getUserLists()
-            },
-            onError = {
-                sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
-            }
+            onSuccess = ::onCreateListSuccess,
+            onError = ::onCreateListError
         )
+    }
+
+    private fun onCreateListSuccess(createList: CreateList) {
+        val listId = createList.listId
+        if (createList.success == true && listId != null) {
+            val currentId = tvShowId!!
+            tryToExecute(
+                call = { addToUserListUseCase(listId, currentId, "tv") },
+                onSuccess = {
+                    _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isLoading = false)) }
+                    sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))
+                    getUserLists()
+                    sendEffect(TvDetailsUiEffect.CloseBottomSheet)
+                },
+                onError = ::onCreateListError
+            )
+        } else {
+            onCreateListError(Exception(createList.statusMessage ?: stringsRes.someThingError))
+        }
+    }
+
+    private fun onCreateListError(throwable: Throwable) {
+        _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isLoading = false)) }
+        sendEffect(TvDetailsUiEffect.ShowSnackBar(throwable.message ?: stringsRes.someThingError))
     }
 
     //endregion
@@ -543,10 +567,11 @@ class TvDetailsViewModel @Inject constructor(
 
             TvDetailsUiEvent.DoneAddingLists -> {
                 addToSelectedLists()
+                sendEffect(TvDetailsUiEffect.CloseBottomSheet)
             }
 
             TvDetailsUiEvent.AddNewListClicked -> {
-                // Handled via UI visibility
+                sendEffect(TvDetailsUiEffect.AddListToBottomSheet)
             }
 
             is TvDetailsUiEvent.CreateNewListClicked -> {

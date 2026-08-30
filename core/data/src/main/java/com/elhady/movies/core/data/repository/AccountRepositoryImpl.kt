@@ -2,6 +2,7 @@ package com.elhady.movies.core.data.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import com.elhady.movies.core.data.mapper.account.CreateListDtoMapper
 import com.elhady.movies.core.data.mapper.account.UserListsDtoMapper
 import com.elhady.movies.core.data.mapper.common.StatusDtoMapper
 import com.elhady.movies.core.data.mapper.movie.MovieDtoMapper
@@ -11,6 +12,7 @@ import com.elhady.movies.core.data.mapper.tvshow.MyRatedTvShowDtoMapper
 import com.elhady.movies.core.data.paging.movie.RatedMoviesPagingSource
 import com.elhady.movies.core.data.paging.tvshow.RatedTvShowPagingSource
 import com.elhady.movies.core.domain.model.account.ListCreated
+import com.elhady.movies.core.domain.model.account.CreateList
 import com.elhady.movies.core.domain.model.account.MyRatedMovie
 import com.elhady.movies.core.domain.model.account.MyRatedTvShow
 import com.elhady.movies.core.domain.model.account.UserList
@@ -21,7 +23,6 @@ import com.elhady.movies.core.domain.repository.AccountRepository
 import com.elhady.movies.core.domain.repository.GenreRepository
 import com.elhady.movies.core.network.api.AccountApiService
 import com.elhady.movies.core.network.dto.account.AddMediaToListRequest
-import com.elhady.movies.core.network.dto.account.CreateUserListRequest
 import com.elhady.movies.core.network.dto.account.DeleteMovieRequest
 import com.elhady.movies.core.network.dto.account.FavoriteRequest
 import com.elhady.movies.core.network.dto.account.ListRequest
@@ -42,6 +43,7 @@ class AccountRepositoryImpl @Inject constructor(
     private val domainStatusMapper: StatusDtoMapper,
     private val myRatedMoviesDetailsDtoMapper: MyRatedMoviesDetailsDtoMapper,
     private val domainUserListsMapper: UserListsDtoMapper,
+    private val createListDtoMapper: CreateListDtoMapper,
     private val ratedMoviesPagingSource: Provider<RatedMoviesPagingSource>,
     private val ratedTvShowPagingSource: Provider<RatedTvShowPagingSource>,
     private val myRatedTvShowDtoMapper: MyRatedTvShowDtoMapper,
@@ -74,10 +76,10 @@ class AccountRepositoryImpl @Inject constructor(
         return domainStatusMapper.map(call)
     }
 
-    override suspend fun createUserList(listName: String): Status {
-        val newList = CreateUserListRequest(listName)
+    override suspend fun createUserList(listName: String): CreateList {
+        val newList = ListRequest(name = listName)
         val call = safeApiCaller.execute { accountApiService.createUserList(newList) }
-        return domainStatusMapper.map(call)
+        return createListDtoMapper.map(call)
     }
 
     override suspend fun getFavoriteMovies(): List<Movie> {
@@ -141,7 +143,7 @@ class AccountRepositoryImpl @Inject constructor(
     }
 
     override suspend fun addList(name: String): Boolean {
-        return accountApiService.addList(ListRequest(name = name)).isSuccessful
+        return safeApiCaller.execute { accountApiService.createUserList(ListRequest(name = name)) }.success ?: false
     }
 
     override suspend fun getDetailsList(listId: Int, mediaType: String): List<Movie> {
