@@ -17,9 +17,12 @@ import com.elhady.movies.core.domain.model.movie.RecommendedMovie
 import com.elhady.movies.core.domain.model.common.Review
 import com.elhady.movies.core.domain.model.movie.ReviewResponse
 import com.elhady.movies.core.domain.model.movie.Videos
+import com.elhady.movies.core.data.mapper.common.AccountStatesDtoMapper
 import javax.inject.Inject
 
-class MovieDetailsDtoMapper @Inject constructor() : Mapper<MovieDetailsDto, MovieDetails> {
+class MovieDetailsDtoMapper @Inject constructor(
+    private val accountStatesDtoMapper: AccountStatesDtoMapper
+) : Mapper<MovieDetailsDto, MovieDetails> {
     override fun map(input: MovieDetailsDto): MovieDetails {
         return MovieDetails(
             backdropPath = BuildConfig.IMAGE_BASE_PATH + input.backdropPath,
@@ -33,7 +36,8 @@ class MovieDetailsDtoMapper @Inject constructor() : Mapper<MovieDetailsDto, Movi
             videos = mapVideos(input.videos),
             voteAverage = input.voteAverage ?: 0.0,
             reviewEntity = mapReviews(input.reviews),
-            year = input.releaseDate ?: ""
+            year = input.releaseDate ?: "",
+            accountStates = accountStatesDtoMapper.map(input.accountStates)
         )
     }
 

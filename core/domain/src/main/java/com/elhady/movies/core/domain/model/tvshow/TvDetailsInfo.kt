@@ -1,5 +1,6 @@
 package com.elhady.movies.core.domain.model.tvshow
 
+import com.elhady.movies.core.domain.model.common.AccountStates
 import com.elhady.movies.core.domain.model.common.Genre
 
 data class TvDetailsInfo(
@@ -7,5 +8,6 @@ data class TvDetailsInfo(
     val name: String,
     val rating: Float,
     val description: String,
-    val genres: List<Genre>
+    val genres: List<Genre>,
+    val accountStates: AccountStates? = null
 )

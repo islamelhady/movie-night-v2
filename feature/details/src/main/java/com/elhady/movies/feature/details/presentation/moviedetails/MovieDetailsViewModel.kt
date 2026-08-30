@@ -10,6 +10,7 @@ import com.elhady.movies.core.domain.usecase.account.AddToFavouriteUseCase
 import com.elhady.movies.core.domain.usecase.account.AddToUserListUseCase
 import com.elhady.movies.core.domain.usecase.account.AddToWatchList
 import com.elhady.movies.core.domain.usecase.account.CreateUserListUseCase
+import com.elhady.movies.core.domain.usecase.account.DeleteMovieFromDetailsListUseCase
 import com.elhady.movies.core.domain.usecase.account.GetUserListsUseCase
 import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetMovieDetailsUseCase
@@ -38,6 +39,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val getUserListsUseCase: GetUserListsUseCase,
     private val addToUserListUseCase: AddToUserListUseCase,
     private val createUserListUseCase: CreateUserListUseCase,
+    private val deleteMovieFromDetailsListUseCase: DeleteMovieFromDetailsListUseCase,
     private val addToFavouriteUseCase: AddToFavouriteUseCase,
     private val addToWatchList: AddToWatchList,
     private val insertMovieToWatchHistoryUseCase: InsertMovieToWatchHistoryUseCase,
@@ -120,8 +122,12 @@ class MovieDetailsViewModel @Inject constructor(
                 }
             }
             MovieDetailsUiEvent.DoneClicked -> onDone()
-            MovieDetailsUiEvent.FavouriteClicked -> addToFavourite()
-            MovieDetailsUiEvent.WatchlistClicked -> addToWatchlist()
+            MovieDetailsUiEvent.FavouriteClicked -> {
+                _state.update { it.copy(isFavouriteSelected = !it.isFavouriteSelected) }
+            }
+            MovieDetailsUiEvent.WatchlistClicked -> {
+                _state.update { it.copy(isWatchlistSelected = !it.isWatchlistSelected) }
+            }
             is MovieDetailsUiEvent.CreateListClicked -> createUserNewList(event.name)
             MovieDetailsUiEvent.CloseClicked -> sendEffect(MovieDetailsUiEffect.CloseBottomSheet)
             MovieDetailsUiEvent.AddListClicked -> sendEffect(MovieDetailsUiEffect.AddListToBottomSheet)
@@ -146,7 +152,11 @@ class MovieDetailsViewModel @Inject constructor(
                 castUiState = castUiMapper.map(movieDetails.credits.cast),
                 reviewsDetails = reviewDetailsUiStateMapper.map(movieDetails),
                 isLoading = false,
-                onErrors = emptyList()
+                onErrors = emptyList(),
+                isFavouriteSelected = movieDetails.accountStates?.favorite ?: false,
+                isWatchlistSelected = movieDetails.accountStates?.watchlist ?: false,
+                initialFavouriteSelected = movieDetails.accountStates?.favorite ?: false,
+                initialWatchlistSelected = movieDetails.accountStates?.watchlist ?: false
             )
         }
         viewModelScope.launch(Dispatchers.IO) {
@@ -185,7 +195,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun getUserLists() {
         tryToExecute(
-            call = { getUserListsUseCase() },
+            call = { getUserListsUseCase(movieId, "movie") },
             mapper = userListsUiMapper,
             onSuccess = ::onSuccessUserLists,
             onError = ::onError
@@ -193,18 +203,58 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun onSuccessUserLists(userListsEntity: List<com.elhady.movies.core.ui.state.UserListUiState>) {
-        _state.update { it.copy(userLists = userListsEntity) }
+        val selectedIds = userListsEntity.filter { it.isSelected }.map { it.id }
+        _state.update { 
+            it.copy(
+                userLists = userListsEntity, 
+                userSelectedLists = selectedIds,
+                initialUserSelectedLists = selectedIds
+            ) 
+        }
         sendEffect(MovieDetailsUiEffect.ShowSaveToListBottomSheet(userListsEntity))
     }
 
     private fun onDone() {
-        state.value.userSelectedLists.forEach { id ->
+        val currentId = movieId!!
+
+        // Sync Favorite if changed
+        if (state.value.isFavouriteSelected != state.value.initialFavouriteSelected) {
             tryToExecute(
-                call = { addToUserListUseCase(id, movieId!!, "movie") },
-                onSuccess = { showMessageWithSnackBar(stringsRes.newListAddSuccessFully) },
+                call = { addToFavouriteUseCase(currentId, "movie", state.value.isFavouriteSelected) },
+                onSuccess = {},
+                onError = {}
+            )
+        }
+
+        // Sync Watchlist if changed
+        if (state.value.isWatchlistSelected != state.value.initialWatchlistSelected) {
+            tryToExecute(
+                call = { addToWatchList(currentId, "movie", state.value.isWatchlistSelected) },
+                onSuccess = {},
+                onError = {}
+            )
+        }
+
+        // Sync Custom Lists Diff
+        val added = state.value.userSelectedLists.filter { it !in state.value.initialUserSelectedLists }
+        val removed = state.value.initialUserSelectedLists.filter { it !in state.value.userSelectedLists }
+
+        added.forEach { listId ->
+            tryToExecute(
+                call = { addToUserListUseCase(listId, currentId, "movie") },
+                onSuccess = { showMessageWithSnackBar(stringsRes.addSuccessfully) },
                 onError = ::onError
             )
         }
+
+        removed.forEach { listId ->
+            tryToExecute(
+                call = { deleteMovieFromDetailsListUseCase(listId, currentId) },
+                onSuccess = { showMessageWithSnackBar(stringsRes.addSuccessfully) },
+                onError = ::onError
+            )
+        }
+
         _state.update { it.copy(userSelectedLists = emptyList()) }
         sendEffect(MovieDetailsUiEffect.DoneEvent)
     }
@@ -218,26 +268,6 @@ class MovieDetailsViewModel @Inject constructor(
             },
             onError = ::onError
         )
-    }
-
-    private fun addToFavourite() {
-        movieId?.let { id ->
-            tryToExecute(
-                call = { addToFavouriteUseCase(mediaId = id, mediaType = "movie") },
-                onSuccess = { showMessageWithSnackBar(stringsRes.addSuccessfully) },
-                onError = ::onError
-            )
-        }
-    }
-
-    private fun addToWatchlist() {
-        movieId?.let { id ->
-            tryToExecute(
-                call = { addToWatchList(movieId = id, mediaType = "movie") },
-                onSuccess = { showMessageWithSnackBar(stringsRes.addSuccessfully) },
-                onError = ::onError
-            )
-        }
     }
 
     private fun tryAgain(movieId: Int) {

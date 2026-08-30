@@ -9,7 +9,8 @@ class UserListsUiMapper @Inject constructor() : Mapper<UserList, UserListUiState
     override fun map(input: UserList): UserListUiState {
         return UserListUiState(
             id = input.id,
-            name = input.name
+            name = input.name,
+            isSelected = input.isContainsMovie
         )
     }
 }

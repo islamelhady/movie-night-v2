@@ -53,7 +53,7 @@ interface TvShowApiService {
         @Path("season_number") seasonNumber: Int
     ): Response<SeasonDetailsDto>
 
-    @GET("tv/{tv_id}")
+    @GET("tv/{tv_id}?append_to_response=account_states")
     suspend fun getTvDetails(
         @Path("tv_id") tvShowId: Int
     ): Response<TvDetailsDto>

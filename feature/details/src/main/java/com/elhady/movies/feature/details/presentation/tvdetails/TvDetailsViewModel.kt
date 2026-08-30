@@ -13,6 +13,7 @@ import com.elhady.movies.core.domain.usecase.account.AddToFavouriteUseCase
 import com.elhady.movies.core.domain.usecase.account.AddToUserListUseCase
 import com.elhady.movies.core.domain.usecase.account.AddToWatchList
 import com.elhady.movies.core.domain.usecase.account.CreateUserListUseCase
+import com.elhady.movies.core.domain.usecase.account.DeleteMovieFromDetailsListUseCase
 import com.elhady.movies.core.domain.usecase.account.GetUserListsUseCase
 import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetRatingTvUseCase
@@ -64,6 +65,7 @@ class TvDetailsViewModel @Inject constructor(
     private val getUserListsUseCase: GetUserListsUseCase,
     private val addToUserListUseCase: AddToUserListUseCase,
     private val createUserListUseCase: CreateUserListUseCase,
+    private val deleteMovieFromDetailsListUseCase: DeleteMovieFromDetailsListUseCase,
     private val addToFavouriteUseCase: AddToFavouriteUseCase,
     private val addToWatchList: AddToWatchList,
     private val checkIsUserLoggedInUseCase: CheckIsUserLoggedInUseCase,
@@ -118,7 +120,9 @@ class TvDetailsViewModel @Inject constructor(
                 infoUIState = InfoUIState.Success(
                     info = infoUIState
                 ),
-                isLoading = false
+                isLoading = false,
+                isFavouriteSelected = data.accountStates?.favorite ?: false,
+                isWatchlistSelected = data.accountStates?.watchlist ?: false
             )
             newState.copy(tvDetailsItems = updateTvDetailsItems(newState))
         }
@@ -337,23 +341,26 @@ class TvDetailsViewModel @Inject constructor(
     //region user lists
     private fun getUserLists() {
         tryToExecute(
-            call = { getUserListsUseCase() },
+            call = { getUserListsUseCase(tvShowId) },
             onSuccess = ::onGetUserListsSuccess,
             onError = { sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError)) }
         )
     }
 
     private fun onGetUserListsSuccess(data: List<UserList>) {
-        val lists = userListsUiMapper.map(data)
+        val lists = data.map { userListsUiMapper.map(it) }
+        val selectedIds = data.filter { it.isContainsMovie }.map { it.id }
         _state.update {
             it.copy(
-                userListsUIState = UserListsUIState.Success(lists)
+                userListsUIState = UserListsUIState.Success(lists),
+                userSelectedLists = selectedIds,
+                initialUserSelectedLists = selectedIds
             )
         }
         sendEffect(
             TvDetailsUiEffect.ShowSaveToListBottomSheet(
                 lists = lists,
-                selectedLists = _state.value.userSelectedLists
+                selectedLists = selectedIds
             )
         )
     }
@@ -379,10 +386,33 @@ class TvDetailsViewModel @Inject constructor(
 
 
     private fun addToSelectedLists() {
-        state.value.userSelectedLists.forEach { listId ->
+        val currentId = tvShowId!!
 
+        // Sync Favorite if changed
+        if (state.value.isFavouriteSelected != state.value.initialFavouriteSelected) {
             tryToExecute(
-                call = { addToUserListUseCase(listId, tvShowId!!, "tv") },
+                call = { addToFavouriteUseCase(currentId, "tv", state.value.isFavouriteSelected) },
+                onSuccess = {},
+                onError = {}
+            )
+        }
+
+        // Sync Watchlist if changed
+        if (state.value.isWatchlistSelected != state.value.initialWatchlistSelected) {
+            tryToExecute(
+                call = { addToWatchList(currentId, "tv", state.value.isWatchlistSelected) },
+                onSuccess = {},
+                onError = {}
+            )
+        }
+
+        // Sync Custom Lists Diff
+        val added = state.value.userSelectedLists.filter { it !in state.value.initialUserSelectedLists }
+        val removed = state.value.initialUserSelectedLists.filter { it !in state.value.userSelectedLists }
+
+        added.forEach { listId ->
+            tryToExecute(
+                call = { addToUserListUseCase(listId, currentId, "tv") },
                 onSuccess = {
                     sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))
                 },
@@ -391,6 +421,19 @@ class TvDetailsViewModel @Inject constructor(
                 }
             )
         }
+
+        removed.forEach { listId ->
+            tryToExecute(
+                call = { deleteMovieFromDetailsListUseCase(listId, currentId) },
+                onSuccess = {
+                    sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))
+                },
+                onError = {
+                    sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
+                }
+            )
+        }
+
         _state.update { it.copy(userSelectedLists = emptyList()) }
     }
 
@@ -409,32 +452,7 @@ class TvDetailsViewModel @Inject constructor(
 
     //endregion
 
-    // region favourite / watchlist
-    private fun addToFavourite() {
-        tryToExecute(
-            call = { addToFavouriteUseCase(tvShowId!!, "tv") },
-            onSuccess = {
-                sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))
-            },
-            onError = {
-                sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
-            }
-        )
-    }
-
-    private fun addToWatchlist() {
-        tryToExecute(
-            call = { addToWatchList(tvShowId!!, "tv") },
-            onSuccess = {
-                sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.addSuccessfully))
-            },
-            onError = {
-                sendEffect(TvDetailsUiEffect.ShowSnackBar(stringsRes.someThingError))
-            }
-        )
-    }
-
-    // endregion
+    //endregion
 
 
     //region events
@@ -462,11 +480,11 @@ class TvDetailsViewModel @Inject constructor(
             }
 
             TvDetailsUiEvent.FavouriteClicked -> {
-                addToFavourite()
+                _state.update { it.copy(isFavouriteSelected = !it.isFavouriteSelected) }
             }
 
             TvDetailsUiEvent.WatchlistClicked -> {
-                addToWatchlist()
+                _state.update { it.copy(isWatchlistSelected = !it.isWatchlistSelected) }
             }
 
             TvDetailsUiEvent.ShowMoreCastClicked -> {

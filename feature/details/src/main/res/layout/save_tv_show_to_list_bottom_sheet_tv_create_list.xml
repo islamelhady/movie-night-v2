@@ -103,7 +103,7 @@
                 app:layout_constraintTop_toBottomOf="@id/text_view_list_name">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_text_list_name"
+                    android:id="@+id/editTextListName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/edittext_background"
@@ -156,14 +156,11 @@
                 app:layout_constraintTop_toTopOf="@+id/text_view_save_to" />
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chip_group_genre"
+                android:id="@+id/chip_group_static"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:chipSpacingHorizontal="@dimen/spacing_tiny_4dp"
-                app:userListChips="@{state.userLists}"
-                app:selectedIds="@{state.userSelectedLists}"
-                app:chipListener="@{listener}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_view_save_to">
@@ -185,6 +182,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:enabled="true"
+                    android:checkable="true"
+                    android:checked="@{state.isFavouriteSelected}"
                     android:paddingVertical="8dp"
                     android:onClick="@{() -> listener.onFavourite()}"
                     android:text="@string/favorite"
@@ -196,10 +195,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:enabled="true"
+                    android:checkable="true"
+                    android:checked="@{state.isWatchlistSelected}"
                     android:paddingVertical="8dp"
                     android:onClick="@{() -> listener.onWatchlist()}"
                     android:text="@string/watchlist"
                     android:textAppearance="@style/TextStyle.BodySmall" />
+            </com.google.android.material.chip.ChipGroup>
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_genre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:chipSpacingHorizontal="@dimen/spacing_tiny_4dp"
+                app:userListChips="@{state.userLists}"
+                app:selectedIds="@{state.userSelectedLists}"
+                app:chipListener="@{listener}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/chip_group_static">
             </com.google.android.material.chip.ChipGroup>
             <!--endregion-->
         </androidx.constraintlayout.widget.ConstraintLayout>

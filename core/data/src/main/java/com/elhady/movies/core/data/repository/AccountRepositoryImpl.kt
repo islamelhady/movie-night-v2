@@ -48,9 +48,24 @@ class AccountRepositoryImpl @Inject constructor(
     private val safeApiCaller: SafeApiCaller
 ) : AccountRepository {
 
-    override suspend fun getUserLists(): List<UserList> {
+    override suspend fun getUserLists(mediaId: Int?, mediaType: String): List<UserList> = coroutineScope {
         val call = safeApiCaller.execute { accountApiService.getUserLists() }.results?.filterNotNull() ?: emptyList()
-        return domainUserListsMapper.map(call)
+        val userLists = domainUserListsMapper.map(call)
+
+        if (mediaId == null) {
+            userLists
+        } else {
+            userLists.map { userList ->
+                async {
+                    try {
+                        val details = getDetailsList(userList.id, mediaType)
+                        userList.copy(isContainsMovie = details.any { it.id == mediaId })
+                    } catch (e: Exception) {
+                        userList.copy(isContainsMovie = false)
+                    }
+                }
+            }.awaitAll()
+        }
     }
 
     override suspend fun postUserLists(listId: Int, mediaId: Int, mediaType: String): Status {
@@ -188,8 +203,7 @@ class AccountRepositoryImpl @Inject constructor(
             mediaType = mediaType,
             watchlist = isWatchList
         )
-        val call = safeApiCaller.execute { accountApiService.addWatchlist(watchlistRequest) }
-        return domainStatusMapper.map(call)
+        return domainStatusMapper.map(safeApiCaller.execute { accountApiService.addWatchlist(watchlistRequest) })
     }
 
     override suspend fun addFavouriteList(
@@ -202,8 +216,7 @@ class AccountRepositoryImpl @Inject constructor(
             mediaType = mediaType,
             favorite = isFavourite
         )
-        val call = safeApiCaller.execute { accountApiService.addFavorite(favoriteRequest) }
-        return domainStatusMapper.map(call)
+        return domainStatusMapper.map(safeApiCaller.execute { accountApiService.addFavorite(favoriteRequest) })
     }
 
     override suspend fun setMovieRate(movieId: Int, rate: Float): Status {

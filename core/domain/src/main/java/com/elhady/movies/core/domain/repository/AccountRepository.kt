@@ -9,7 +9,7 @@ import com.elhady.movies.core.domain.model.account.MyRatedMovie
 import com.elhady.movies.core.domain.model.account.MyRatedTvShow
 
 interface AccountRepository {
-    suspend fun getUserLists(): List<UserList>
+    suspend fun getUserLists(mediaId: Int? = null, mediaType: String = "movie"): List<UserList>
     suspend fun postUserLists(listId: Int, mediaId: Int, mediaType: String): Status
     suspend fun createUserList(listName: String): Status
 

@@ -75,17 +75,15 @@ class MovieDetailsViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        mockkStatic(Dispatchers::class)
-        every { Dispatchers.IO } returns testDispatcher
         
         every { checkIsUserLoggedInUseCase() } returns true
         coEvery { getRatingMovieUseCase(any()) } returns 4.5f
+        coEvery { getUserListsUseCase() } returns emptyList()
         every { stringsRes.someThingError } returns "Error"
     }
 
     @After
     fun tearDown() {
-        unmockkStatic(Dispatchers::class)
     }
 
     private fun createViewModel(movieId: Int? = 1) {
@@ -121,54 +119,58 @@ class MovieDetailsViewModelTest {
     }
 
     @Test
-    fun `FavouriteClicked should call usecase with movie mediaType`() = runTest {
+    fun `SaveClicked should initialize Favourite and Watchlist as selected`() = runTest {
         // Given
         coEvery { movieDetailsUseCase(any()) } returns mockk(relaxed = true)
-        coEvery { addToFavouriteUseCase(any(), "movie", any()) } returns mockk()
-        createViewModel(movieId = 100)
+        createViewModel()
+        advanceUntilIdle()
+
+        // When
+        viewModel.onEvent(MovieDetailsUiEvent.SaveClicked)
+        advanceUntilIdle()
+
+        // Then
+        assertTrue(viewModel.state.value.isFavouriteSelected)
+        assertTrue(viewModel.state.value.isWatchlistSelected)
+    }
+
+    @Test
+    fun `FavouriteClicked should toggle selection state in UI without calling API`() = runTest {
+        // Given
+        coEvery { movieDetailsUseCase(any()) } returns mockk(relaxed = true)
+        createViewModel()
+        advanceUntilIdle()
+        viewModel.onEvent(MovieDetailsUiEvent.SaveClicked) // Sets both to true
         advanceUntilIdle()
 
         // When
         viewModel.onEvent(MovieDetailsUiEvent.FavouriteClicked)
-        advanceUntilIdle()
 
         // Then
-        coVerify { addToFavouriteUseCase(100, "movie", any()) }
+        assertFalse(viewModel.state.value.isFavouriteSelected)
+        coVerify(exactly = 0) { addToFavouriteUseCase(any(), any(), any()) }
     }
 
     @Test
-    fun `WatchlistClicked should call usecase with movie mediaType`() = runTest {
+    fun `DoneClicked should sync all selections and send movie mediaType`() = runTest {
         // Given
         coEvery { movieDetailsUseCase(any()) } returns mockk(relaxed = true)
-        coEvery { addToWatchList(any(), "movie", any()) } returns mockk()
-        createViewModel(movieId = 200)
+        coEvery { addToFavouriteUseCase(any(), "movie", true) } returns mockk()
+        coEvery { addToWatchList(any(), "movie", false) } returns mockk()
+        createViewModel(movieId = 500)
         advanceUntilIdle()
-
-        // When
-        viewModel.onEvent(MovieDetailsUiEvent.WatchlistClicked)
+        
+        viewModel.onEvent(MovieDetailsUiEvent.SaveClicked) // Favourite=T, Watchlist=T
         advanceUntilIdle()
-
-        // Then
-        coVerify { addToWatchList(200, "movie", any()) }
-    }
-
-    @Test
-    fun `DoneClicked should call addToUserListUseCase with movie mediaType for each selected list`() = runTest {
-        // Given
-        coEvery { movieDetailsUseCase(any()) } returns mockk(relaxed = true)
-        coEvery { addToUserListUseCase(any(), any(), "movie") } returns mockk()
-        createViewModel(movieId = 300)
+        viewModel.onEvent(MovieDetailsUiEvent.WatchlistClicked) // Watchlist=F
         advanceUntilIdle()
-
-        viewModel.onEvent(MovieDetailsUiEvent.ChipClicked(1))
-        viewModel.onEvent(MovieDetailsUiEvent.ChipClicked(2))
 
         // When
         viewModel.onEvent(MovieDetailsUiEvent.DoneClicked)
         advanceUntilIdle()
 
         // Then
-        coVerify { addToUserListUseCase(1, 300, "movie") }
-        coVerify { addToUserListUseCase(2, 300, "movie") }
+        coVerify { addToFavouriteUseCase(500, "movie", true) }
+        coVerify { addToWatchList(500, "movie", false) }
     }
 }

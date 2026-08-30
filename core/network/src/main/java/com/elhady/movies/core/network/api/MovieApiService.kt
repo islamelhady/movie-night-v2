@@ -57,7 +57,7 @@ interface MovieApiService {
         @Path("movie_id") tvShowId: Int
     ): Response<DataWrapperResponse<YoutubeVideoDetailsDto>>
 
-    @GET("movie/{movieId}?&append_to_response=videos,credits,recommendations,reviews")
+    @GET("movie/{movieId}?&append_to_response=videos,credits,recommendations,reviews,account_states")
     suspend fun getMovieDetails(
         @Path("movieId") movieId: Int
     ): Response<MovieDetailsDto>

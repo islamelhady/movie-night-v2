@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetUserListsUseCase @Inject constructor(
     private val accountRepository: AccountRepository,
 ) {
-    suspend operator fun invoke(): List<UserList> {
-        return accountRepository.getUserLists()
+    suspend operator fun invoke(mediaId: Int? = null, mediaType: String = "movie"): List<UserList> {
+        return accountRepository.getUserLists(mediaId, mediaType)
     }
 }

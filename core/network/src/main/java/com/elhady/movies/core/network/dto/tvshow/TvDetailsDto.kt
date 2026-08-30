@@ -1,6 +1,7 @@
 package com.elhady.movies.core.network.dto.tvshow
 
 
+import com.elhady.movies.core.network.dto.common.AccountStatesDto
 import com.google.gson.annotations.SerializedName
 
 data class TvDetailsDto(
@@ -25,7 +26,9 @@ data class TvDetailsDto(
     @SerializedName("vote_average")
     val voteAverage: Double?,
     @SerializedName("vote_count")
-    val voteCount: Int?
+    val voteCount: Int?,
+    @SerializedName("account_states")
+    val accountStates: AccountStatesDto?
 ) {
     data class Genre(
         @SerializedName("id")

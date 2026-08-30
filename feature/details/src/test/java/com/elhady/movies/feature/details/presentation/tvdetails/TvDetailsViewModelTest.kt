@@ -82,8 +82,6 @@ class TvDetailsViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        mockkStatic(Dispatchers::class)
-        every { Dispatchers.IO } returns testDispatcher
 
         every { checkIsUserLoggedInUseCase() } returns true
         coEvery { getRatingTvUseCase(any()) } returns 4.0f
@@ -91,7 +89,6 @@ class TvDetailsViewModelTest {
 
     @After
     fun tearDown() {
-        unmockkStatic(Dispatchers::class)
     }
 
     private fun setupDefaultMocks(youtubeKey: String = "key") {
@@ -100,6 +97,7 @@ class TvDetailsViewModelTest {
         coEvery { getTvDetailsSeasonsUseCase(any()) } returns emptyList()
         coEvery { getTvDetailsReviewsUseCase(any()) } returns emptyList()
         coEvery { getTvShowRecommendationsUseCase(any()) } returns emptyList()
+        coEvery { getUserListsUseCase() } returns emptyList()
         coEvery { getTvShowYoutubeDetailsUseCase(any()) } returns mockk<YoutubeVideoDetails> {
             every { key } returns youtubeKey
         }
@@ -125,54 +123,58 @@ class TvDetailsViewModelTest {
     }
 
     @Test
-    fun `FavouriteClicked should call usecase with tv mediaType`() = runTest {
+    fun `SaveClicked should initialize Favourite and Watchlist as selected`() = runTest {
         // Given
         setupDefaultMocks()
-        coEvery { addToFavouriteUseCase(any(), "tv", any()) } returns mockk()
-        createViewModel(tvShowId = 101)
+        createViewModel()
+        advanceUntilIdle()
+
+        // When
+        viewModel.onEvent(TvDetailsUiEvent.SaveClicked)
+        advanceUntilIdle()
+
+        // Then
+        assertTrue(viewModel.state.value.isFavouriteSelected)
+        assertTrue(viewModel.state.value.isWatchlistSelected)
+    }
+
+    @Test
+    fun `FavouriteClicked should toggle selection state in UI without calling API`() = runTest {
+        // Given
+        setupDefaultMocks()
+        createViewModel()
+        advanceUntilIdle()
+        viewModel.onEvent(TvDetailsUiEvent.SaveClicked)
         advanceUntilIdle()
 
         // When
         viewModel.onEvent(TvDetailsUiEvent.FavouriteClicked)
-        advanceUntilIdle()
 
         // Then
-        coVerify { addToFavouriteUseCase(101, "tv", any()) }
+        assertFalse(viewModel.state.value.isFavouriteSelected)
+        coVerify(exactly = 0) { addToFavouriteUseCase(any(), any(), any()) }
     }
 
     @Test
-    fun `WatchlistClicked should call usecase with tv mediaType`() = runTest {
+    fun `DoneAddingLists should sync all selections and send tv mediaType`() = runTest {
         // Given
         setupDefaultMocks()
-        coEvery { addToWatchList(any(), "tv", any()) } returns mockk()
-        createViewModel(tvShowId = 202)
+        coEvery { addToFavouriteUseCase(any(), "tv", false) } returns mockk()
+        coEvery { addToWatchList(any(), "tv", true) } returns mockk()
+        createViewModel(tvShowId = 600)
         advanceUntilIdle()
-
-        // When
-        viewModel.onEvent(TvDetailsUiEvent.WatchlistClicked)
+        
+        viewModel.onEvent(TvDetailsUiEvent.SaveClicked) // Fav=T, Watch=T
         advanceUntilIdle()
-
-        // Then
-        coVerify { addToWatchList(202, "tv", any()) }
-    }
-
-    @Test
-    fun `DoneAddingLists should call addToUserListUseCase with tv mediaType for each selected list`() = runTest {
-        // Given
-        setupDefaultMocks()
-        coEvery { addToUserListUseCase(any(), any(), "tv") } returns mockk()
-        createViewModel(tvShowId = 303)
+        viewModel.onEvent(TvDetailsUiEvent.FavouriteClicked) // Fav=F
         advanceUntilIdle()
-
-        viewModel.onEvent(TvDetailsUiEvent.ListSelected(10))
-        viewModel.onEvent(TvDetailsUiEvent.ListSelected(20))
 
         // When
         viewModel.onEvent(TvDetailsUiEvent.DoneAddingLists)
         advanceUntilIdle()
 
         // Then
-        coVerify { addToUserListUseCase(10, 303, "tv") }
-        coVerify { addToUserListUseCase(20, 303, "tv") }
+        coVerify { addToFavouriteUseCase(600, "tv", false) }
+        coVerify { addToWatchList(600, "tv", true) }
     }
 }
