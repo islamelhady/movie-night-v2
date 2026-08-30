@@ -15,10 +15,10 @@ interface AccountRepository {
     suspend fun postUserLists(listId: Int, mediaId: Int, mediaType: MediaType): Status
     suspend fun createUserList(listName: String): CreateList
 
-    suspend fun getFavoriteMovies(): List<Movie>
-    suspend fun getFavoriteTv(): List<Movie>
-    suspend fun getWatchlistMovies(): List<Movie>
-    suspend fun getWatchlistTv(): List<Movie>
+    suspend fun getFavoriteMovies(sortBy: String? = "created_at.desc"): List<Movie>
+    suspend fun getFavoriteTv(sortBy: String? = "created_at.desc"): List<Movie>
+    suspend fun getWatchlistMovies(sortBy: String? = "created_at.desc"): List<Movie>
+    suspend fun getWatchlistTv(sortBy: String? = "created_at.desc"): List<Movie>
 
     suspend fun addList(name: String): Boolean
     suspend fun getDetailsList(listId: Int, mediaType: MediaType): List<Movie>

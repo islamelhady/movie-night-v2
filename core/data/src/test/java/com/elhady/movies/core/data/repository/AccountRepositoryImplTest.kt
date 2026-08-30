@@ -15,8 +15,10 @@ import com.elhady.movies.core.domain.repository.GenreRepository
 import com.elhady.movies.core.network.api.AccountApiService
 import com.elhady.movies.core.network.dto.account.AddMediaToListRequest
 import com.elhady.movies.core.network.dto.account.ListDetailsWrapperResponse
+import com.elhady.movies.core.network.dto.common.DataWrapperResponse
 import com.elhady.movies.core.network.dto.common.StatusResponse
 import com.elhady.movies.core.network.dto.movie.MovieDto
+import com.elhady.movies.core.network.dto.tvshow.TvDto
 import com.elhady.movies.core.network.exception.SafeApiCaller
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -81,6 +83,82 @@ class AccountRepositoryImplTest {
         coVerify { accountApiService.postUserMedia(listId, capture(requestSlot)) }
         assertEquals(mediaId, requestSlot.captured.mediaId)
         assertEquals(mediaType.value, requestSlot.captured.mediaType)
+    }
+
+    @Test
+    fun `getFavoriteMovies should pass sort_by to API`() = runTest {
+        // Given
+        val sortBy = "created_at.desc"
+        coEvery { safeApiCaller.execute<DataWrapperResponse<MovieDto>>(any()) } coAnswers {
+            val block = it.invocation.args[0] as suspend () -> retrofit2.Response<DataWrapperResponse<MovieDto>>
+            block()
+            DataWrapperResponse(1, emptyList(), 1, 0)
+        }
+        coEvery { accountApiService.getFavoriteMovies(any()) } returns mockk()
+        coEvery { genreRepository.getGenresMovies() } returns emptyList()
+
+        // When
+        repository.getFavoriteMovies(sortBy)
+
+        // Then
+        coVerify { accountApiService.getFavoriteMovies(sortBy) }
+    }
+
+    @Test
+    fun `getFavoriteTv should pass sort_by to API`() = runTest {
+        // Given
+        val sortBy = "created_at.desc"
+        coEvery { safeApiCaller.execute<DataWrapperResponse<TvDto>>(any()) } coAnswers {
+            val block = it.invocation.args[0] as suspend () -> retrofit2.Response<DataWrapperResponse<TvDto>>
+            block()
+            DataWrapperResponse(1, emptyList(), 1, 0)
+        }
+        coEvery { accountApiService.getFavoriteTv(any()) } returns mockk()
+        coEvery { genreRepository.getGenresMovies() } returns emptyList()
+
+        // When
+        repository.getFavoriteTv(sortBy)
+
+        // Then
+        coVerify { accountApiService.getFavoriteTv(sortBy) }
+    }
+
+    @Test
+    fun `getWatchlistMovies should pass sort_by to API`() = runTest {
+        // Given
+        val sortBy = "created_at.desc"
+        coEvery { safeApiCaller.execute<DataWrapperResponse<MovieDto>>(any()) } coAnswers {
+            val block = it.invocation.args[0] as suspend () -> retrofit2.Response<DataWrapperResponse<MovieDto>>
+            block()
+            DataWrapperResponse(1, emptyList(), 1, 0)
+        }
+        coEvery { accountApiService.getWatchlist(any()) } returns mockk()
+        coEvery { genreRepository.getGenresMovies() } returns emptyList()
+
+        // When
+        repository.getWatchlistMovies(sortBy)
+
+        // Then
+        coVerify { accountApiService.getWatchlist(sortBy) }
+    }
+
+    @Test
+    fun `getWatchlistTv should pass sort_by to API`() = runTest {
+        // Given
+        val sortBy = "created_at.desc"
+        coEvery { safeApiCaller.execute<DataWrapperResponse<TvDto>>(any()) } coAnswers {
+            val block = it.invocation.args[0] as suspend () -> retrofit2.Response<DataWrapperResponse<TvDto>>
+            block()
+            DataWrapperResponse(1, emptyList(), 1, 0)
+        }
+        coEvery { accountApiService.getWatchlistTv(any()) } returns mockk()
+        coEvery { genreRepository.getGenresMovies() } returns emptyList()
+
+        // When
+        repository.getWatchlistTv(sortBy)
+
+        // Then
+        coVerify { accountApiService.getWatchlistTv(sortBy) }
     }
 
     @Test

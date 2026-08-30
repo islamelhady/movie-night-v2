@@ -44,16 +44,24 @@ interface AccountApiService {
     suspend fun createUserList(@Body name: ListRequest): Response<ListResponse>
 
     @GET("account/{account_id}/favorite/movies")
-    suspend fun getFavoriteMovies(): Response<DataWrapperResponse<MovieDto>>
+    suspend fun getFavoriteMovies(
+        @Query("sort_by") sortBy: String? = "created_at.desc"
+    ): Response<DataWrapperResponse<MovieDto>>
 
     @GET("account/{account_id}/favorite/tv")
-    suspend fun getFavoriteTv(): Response<DataWrapperResponse<TvDto>>
+    suspend fun getFavoriteTv(
+        @Query("sort_by") sortBy: String? = "created_at.desc"
+    ): Response<DataWrapperResponse<TvDto>>
 
     @GET("account/{account_id}/watchlist/movies")
-    suspend fun getWatchlist(): Response<DataWrapperResponse<MovieDto>>
+    suspend fun getWatchlist(
+        @Query("sort_by") sortBy: String? = "created_at.desc"
+    ): Response<DataWrapperResponse<MovieDto>>
 
     @GET("account/{account_id}/watchlist/tv")
-    suspend fun getWatchlistTv(): Response<DataWrapperResponse<TvDto>>
+    suspend fun getWatchlistTv(
+        @Query("sort_by") sortBy: String? = "created_at.desc"
+    ): Response<DataWrapperResponse<TvDto>>
 
     @POST("account/{account_id}/watchlist")
     suspend fun addWatchlist(

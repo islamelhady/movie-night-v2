@@ -84,9 +84,9 @@ class AccountRepositoryImpl @Inject constructor(
         return createListDtoMapper.map(call)
     }
 
-    override suspend fun getFavoriteMovies(): List<Movie> {
+    override suspend fun getFavoriteMovies(sortBy: String?): List<Movie> {
         val genresEntities = genreRepository.getGenresMovies()
-        val result = safeApiCaller.execute { accountApiService.getFavoriteMovies() }.results
+        val result = safeApiCaller.execute { accountApiService.getFavoriteMovies(sortBy) }.results
         return result?.map { item ->
             movieDtoMapper.map(
                 input = item!!,
@@ -99,9 +99,9 @@ class AccountRepositoryImpl @Inject constructor(
         } ?: emptyList()
     }
 
-    override suspend fun getFavoriteTv(): List<Movie> {
+    override suspend fun getFavoriteTv(sortBy: String?): List<Movie> {
         val genresEntities = genreRepository.getGenresMovies()
-        val result = safeApiCaller.execute { accountApiService.getFavoriteTv() }.results
+        val result = safeApiCaller.execute { accountApiService.getFavoriteTv(sortBy) }.results
         return result?.map { item ->
             tvDtoMapper.map(
                 input = item!!,
@@ -114,9 +114,9 @@ class AccountRepositoryImpl @Inject constructor(
         } ?: emptyList()
     }
 
-    override suspend fun getWatchlistMovies(): List<Movie> {
+    override suspend fun getWatchlistMovies(sortBy: String?): List<Movie> {
         val genresEntities = genreRepository.getGenresMovies()
-        val result = safeApiCaller.execute { accountApiService.getWatchlist() }.results
+        val result = safeApiCaller.execute { accountApiService.getWatchlist(sortBy) }.results
         return result?.map { item ->
             movieDtoMapper.map(
                 input = item!!,
@@ -129,9 +129,9 @@ class AccountRepositoryImpl @Inject constructor(
         } ?: emptyList()
     }
 
-    override suspend fun getWatchlistTv(): List<Movie> {
+    override suspend fun getWatchlistTv(sortBy: String?): List<Movie> {
         val genresEntities = genreRepository.getGenresMovies()
-        val result = safeApiCaller.execute { accountApiService.getWatchlistTv() }.results
+        val result = safeApiCaller.execute { accountApiService.getWatchlistTv(sortBy) }.results
         return result?.map { item ->
             tvDtoMapper.map(
                 input = item!!,
