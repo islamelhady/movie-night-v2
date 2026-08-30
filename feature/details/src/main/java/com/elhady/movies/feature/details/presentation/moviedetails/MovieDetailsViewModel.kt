@@ -19,6 +19,7 @@ import com.elhady.movies.core.domain.usecase.movie.InsertMovieToWatchHistoryUseC
 import com.elhady.movies.core.domain.usecase.movie.SetRatingUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.resource.StringsRes
+import com.elhady.movies.core.ui.state.SaveToListsUiState
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.CastUiMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.RecommendedUiMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.ReviewDetailsUiMapper
@@ -57,6 +58,7 @@ class MovieDetailsViewModel @Inject constructor(
 ) : BaseViewModel<MovieDetailsUiState, MovieDetailsUiEffect>(MovieDetailsUiState()) {
 
     private val movieId = savedStateHandle.get<Int>("movieId")
+    private var initialSaveToListsState = SaveToListsUiState()
 
     init {
         if (movieId != null) {
@@ -112,21 +114,31 @@ class MovieDetailsViewModel @Inject constructor(
             is MovieDetailsUiEvent.RetryClicked -> tryAgain(event.movieId)
             is MovieDetailsUiEvent.ChipClicked -> {
                 _state.update {
-                    val currentSelected = it.userSelectedLists.toMutableList()
+                    val currentSelected = it.saveToListsUiState.selectedUserLists.toMutableList()
                     if (event.id in currentSelected) {
                         currentSelected.remove(event.id)
                     } else {
                         currentSelected.add(event.id)
                     }
-                    it.copy(userSelectedLists = currentSelected)
+                    it.copy(
+                        saveToListsUiState = it.saveToListsUiState.copy(selectedUserLists = currentSelected)
+                    )
                 }
             }
             MovieDetailsUiEvent.DoneClicked -> onDone()
             MovieDetailsUiEvent.FavouriteClicked -> {
-                _state.update { it.copy(isFavouriteSelected = !it.isFavouriteSelected) }
+                _state.update {
+                    it.copy(
+                        saveToListsUiState = it.saveToListsUiState.copy(isFavouriteSelected = !it.saveToListsUiState.isFavouriteSelected)
+                    )
+                }
             }
             MovieDetailsUiEvent.WatchlistClicked -> {
-                _state.update { it.copy(isWatchlistSelected = !it.isWatchlistSelected) }
+                _state.update {
+                    it.copy(
+                        saveToListsUiState = it.saveToListsUiState.copy(isWatchlistSelected = !it.saveToListsUiState.isWatchlistSelected)
+                    )
+                }
             }
             is MovieDetailsUiEvent.CreateListClicked -> createUserNewList(event.name)
             MovieDetailsUiEvent.CloseClicked -> sendEffect(MovieDetailsUiEffect.CloseBottomSheet)
@@ -153,12 +165,16 @@ class MovieDetailsViewModel @Inject constructor(
                 reviewsDetails = reviewDetailsUiStateMapper.map(movieDetails),
                 isLoading = false,
                 onErrors = emptyList(),
-                isFavouriteSelected = movieDetails.accountStates?.favorite ?: false,
-                isWatchlistSelected = movieDetails.accountStates?.watchlist ?: false,
-                initialFavouriteSelected = movieDetails.accountStates?.favorite ?: false,
-                initialWatchlistSelected = movieDetails.accountStates?.watchlist ?: false
+                saveToListsUiState = it.saveToListsUiState.copy(
+                    isFavouriteSelected = movieDetails.accountStates?.favorite ?: false,
+                    isWatchlistSelected = movieDetails.accountStates?.watchlist ?: false
+                )
             )
         }
+        initialSaveToListsState = initialSaveToListsState.copy(
+            isFavouriteSelected = movieDetails.accountStates?.favorite ?: false,
+            isWatchlistSelected = movieDetails.accountStates?.watchlist ?: false
+        )
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 insertMovieToWatchHistoryUseCase(watchHistoryUiStateMapper.map(movieDetails))
@@ -204,40 +220,41 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun onSuccessUserLists(userListsEntity: List<com.elhady.movies.core.ui.state.UserListUiState>) {
         val selectedIds = userListsEntity.filter { it.isSelected }.map { it.id }
-        _state.update { 
+        _state.update {
             it.copy(
-                userLists = userListsEntity, 
-                userSelectedLists = selectedIds,
-                initialUserSelectedLists = selectedIds
-            ) 
+                userLists = userListsEntity,
+                saveToListsUiState = it.saveToListsUiState.copy(selectedUserLists = selectedIds)
+            )
         }
+        initialSaveToListsState = initialSaveToListsState.copy(selectedUserLists = selectedIds)
         sendEffect(MovieDetailsUiEffect.ShowSaveToListBottomSheet(userListsEntity))
     }
 
     private fun onDone() {
         val currentId = movieId!!
+        val currentState = state.value.saveToListsUiState
 
         // Sync Favorite if changed
-        if (state.value.isFavouriteSelected != state.value.initialFavouriteSelected) {
+        if (currentState.isFavouriteSelected != initialSaveToListsState.isFavouriteSelected) {
             tryToExecute(
-                call = { addToFavouriteUseCase(currentId, "movie", state.value.isFavouriteSelected) },
+                call = { addToFavouriteUseCase(currentId, "movie", currentState.isFavouriteSelected) },
                 onSuccess = {},
                 onError = {}
             )
         }
 
         // Sync Watchlist if changed
-        if (state.value.isWatchlistSelected != state.value.initialWatchlistSelected) {
+        if (currentState.isWatchlistSelected != initialSaveToListsState.isWatchlistSelected) {
             tryToExecute(
-                call = { addToWatchList(currentId, "movie", state.value.isWatchlistSelected) },
+                call = { addToWatchList(currentId, "movie", currentState.isWatchlistSelected) },
                 onSuccess = {},
                 onError = {}
             )
         }
 
         // Sync Custom Lists Diff
-        val added = state.value.userSelectedLists.filter { it !in state.value.initialUserSelectedLists }
-        val removed = state.value.initialUserSelectedLists.filter { it !in state.value.userSelectedLists }
+        val added = currentState.selectedUserLists.filter { it !in initialSaveToListsState.selectedUserLists }
+        val removed = initialSaveToListsState.selectedUserLists.filter { it !in currentState.selectedUserLists }
 
         added.forEach { listId ->
             tryToExecute(
@@ -255,7 +272,7 @@ class MovieDetailsViewModel @Inject constructor(
             )
         }
 
-        _state.update { it.copy(userSelectedLists = emptyList()) }
+        _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(selectedUserLists = emptyList())) }
         sendEffect(MovieDetailsUiEffect.DoneEvent)
     }
 

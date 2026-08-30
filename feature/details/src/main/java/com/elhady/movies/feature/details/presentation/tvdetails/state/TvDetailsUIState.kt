@@ -1,5 +1,6 @@
 package com.elhady.movies.feature.details.presentation.tvdetails.state
 
+import com.elhady.movies.core.ui.state.SaveToListsUiState
 import com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsItem
 
 data class TvDetailsUIState(
@@ -15,12 +16,7 @@ data class TvDetailsUIState(
     val trailerUIState: TrailerUIState = TrailerUIState.Loading,
     val ratingUIState: RatingUIState = RatingUIState(),
     val userListsUIState: UserListsUIState = UserListsUIState.Idle,
-    val userSelectedLists: List<Int> = emptyList(),
-    val isFavouriteSelected: Boolean = false,
-    val isWatchlistSelected: Boolean = false,
-    val initialFavouriteSelected: Boolean = false,
-    val initialWatchlistSelected: Boolean = false,
-    val initialUserSelectedLists: List<Int> = emptyList(),
+    val saveToListsUiState: SaveToListsUiState = SaveToListsUiState(),
     val isLogin: Boolean = false,
     val isLoading: Boolean = false,
     val isPlayerVisible: Boolean = false,
