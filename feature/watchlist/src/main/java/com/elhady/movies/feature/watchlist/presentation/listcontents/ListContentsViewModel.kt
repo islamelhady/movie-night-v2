@@ -39,13 +39,13 @@ class ListContentsViewModel @Inject constructor(
 
 
     private val listType: MediaType =
-        savedStateHandle.get<String>("listType").toMediaType()
+        requireNotNull(savedStateHandle.get<String>(LIST_TYPE).toMediaType())
 
     private val listName =
-        savedStateHandle.get<String>("listName") ?: ""
+        savedStateHandle.get<String>(LIST_NAME).orEmpty()
 
     private val listId =
-        savedStateHandle.get<Int>("listId") ?: 0
+        savedStateHandle.get<Int>(LIST_ID) ?: 0
 
 
 
@@ -265,5 +265,11 @@ class ListContentsViewModel @Inject constructor(
             else -> stringsRes.someThingError
         }
         sendEffect(ListContentsUiEffect.ShowSnackBar(message))
+    }
+
+    companion object {
+        private const val LIST_TYPE = "listType"
+        private const val LIST_NAME = "listName"
+        private const val LIST_ID = "listId"
     }
 }

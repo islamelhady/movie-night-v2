@@ -5,10 +5,10 @@ enum class MediaType(val value: String) {
     TV_SHOW("tv")
 }
 
-fun String?.toMediaType(): MediaType {
+fun String?.toMediaType(): MediaType? {
     return when (this) {
-        "movie" -> MediaType.MOVIE
-        "tv" -> MediaType.TV_SHOW
-        else -> MediaType.MOVIE 
+        MediaType.MOVIE.value -> MediaType.MOVIE
+        MediaType.TV_SHOW.value -> MediaType.TV_SHOW
+        else -> null
     }
 }

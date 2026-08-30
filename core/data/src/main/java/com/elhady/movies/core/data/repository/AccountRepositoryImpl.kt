@@ -185,9 +185,9 @@ class AccountRepositoryImpl @Inject constructor(
                         ListCreated(
                             id = input.id,
                             itemCount = input.itemCount,
-                            listType = input.listType.toMediaType(),
+                            listType = requireNotNull(input.listType.toMediaType()),
                             name = input.name,
-                            posterPath = getDetailsList(input.id ?: 0, input.listType.toMediaType())
+                            posterPath = getDetailsList(input.id ?: 0, requireNotNull(input.listType.toMediaType()))
                                 .map { items ->
                                     items.imageUrl
                                 }

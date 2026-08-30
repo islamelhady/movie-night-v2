@@ -143,8 +143,13 @@ class MovieDetailsViewModel @Inject constructor(
                 }
             }
             is MovieDetailsUiEvent.CreateListClicked -> createUserNewList(event.name)
-            MovieDetailsUiEvent.CloseClicked -> sendEffect(MovieDetailsUiEffect.CloseBottomSheet)
-            MovieDetailsUiEvent.AddListClicked -> sendEffect(MovieDetailsUiEffect.AddListToBottomSheet)
+            MovieDetailsUiEvent.CloseClicked -> {
+                _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isCreateListVisible = false)) }
+                sendEffect(MovieDetailsUiEffect.CloseBottomSheet)
+            }
+            MovieDetailsUiEvent.AddListClicked -> {
+                _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isCreateListVisible = true)) }
+            }
         }
     }
 
@@ -225,7 +230,10 @@ class MovieDetailsViewModel @Inject constructor(
         _state.update {
             it.copy(
                 userLists = userListsEntity,
-                saveToListsUiState = it.saveToListsUiState.copy(selectedUserLists = selectedIds)
+                saveToListsUiState = it.saveToListsUiState.copy(
+                    selectedUserLists = selectedIds,
+                    isCreateListVisible = false
+                )
             )
         }
         initialSaveToListsState = initialSaveToListsState.copy(selectedUserLists = selectedIds)
@@ -280,6 +288,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun createUserNewList(listName: String) {
         if (state.value.saveToListsUiState.isLoading) return
+        if (listName.isBlank()) return
 
         _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isLoading = true)) }
         tryToExecute(

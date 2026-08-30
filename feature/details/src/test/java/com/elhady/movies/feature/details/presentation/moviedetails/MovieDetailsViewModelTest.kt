@@ -139,11 +139,12 @@ class MovieDetailsViewModelTest {
         // Then
         assertTrue(viewModel.state.value.saveToListsUiState.isFavouriteSelected)
         assertTrue(viewModel.state.value.saveToListsUiState.isWatchlistSelected)
+        assertFalse(viewModel.state.value.saveToListsUiState.isCreateListVisible)
         coVerify { getUserListsUseCase(1, MediaType.MOVIE) }
     }
 
     @Test
-    fun `FavouriteClicked should toggle selection state in UI without calling API`() = runTest {
+    fun `FavouriteClicked should toggle selection state in UI without calling API or showing create list`() = runTest {
         // Given
         val movieDetails = mockk<MovieDetails>(relaxed = true) {
             every { accountStates?.favorite } returns true
@@ -160,6 +161,7 @@ class MovieDetailsViewModelTest {
 
         // Then
         assertFalse(viewModel.state.value.saveToListsUiState.isFavouriteSelected)
+        assertFalse(viewModel.state.value.saveToListsUiState.isCreateListVisible)
         coVerify(exactly = 0) { addToFavouriteUseCase(any(), any(), any()) }
     }
 
@@ -189,6 +191,37 @@ class MovieDetailsViewModelTest {
         // Then
         coVerify { addToFavouriteUseCase(500, MediaType.MOVIE, true) }
         coVerify { addToWatchList(500, MediaType.MOVIE, false) }
+    }
+
+    @Test
+    fun `AddListClicked should show create list UI`() = runTest {
+        // Given
+        coEvery { movieDetailsUseCase(any()) } returns mockk(relaxed = true)
+        createViewModel()
+        advanceUntilIdle()
+        viewModel.onEvent(MovieDetailsUiEvent.SaveClicked)
+        advanceUntilIdle()
+
+        // When
+        viewModel.onEvent(MovieDetailsUiEvent.AddListClicked)
+
+        // Then
+        assertTrue(viewModel.state.value.saveToListsUiState.isCreateListVisible)
+    }
+
+    @Test
+    fun `CreateListClicked with blank name should NOT trigger create flow`() = runTest {
+        // Given
+        coEvery { movieDetailsUseCase(any()) } returns mockk(relaxed = true)
+        createViewModel()
+        advanceUntilIdle()
+        
+        // When
+        viewModel.onEvent(MovieDetailsUiEvent.CreateListClicked("   "))
+
+        // Then
+        coVerify(exactly = 0) { createUserListUseCase(any()) }
+        assertFalse(viewModel.state.value.saveToListsUiState.isLoading)
     }
 
     @Test

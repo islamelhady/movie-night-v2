@@ -88,7 +88,7 @@ class MovieDetailsDtoMapper @Inject constructor(
                     backdropPath = BuildConfig.IMAGE_BASE_PATH + it.backdropPath,
                     genreIds = it.genreIds ?: emptyList(),
                     id = it.id ?: 0,
-                    mediaType = it.mediaType.toMediaType(),
+                    mediaType = requireNotNull(it.mediaType.toMediaType()),
                     originalLanguage = it.originalLanguage ?: "",
                     originalTitle = it.originalTitle ?: "",
                     overview = it.overview ?: "",

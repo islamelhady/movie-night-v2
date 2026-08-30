@@ -145,11 +145,12 @@ class TvDetailsViewModelTest {
         // Then
         assertTrue(viewModel.state.value.saveToListsUiState.isFavouriteSelected)
         assertTrue(viewModel.state.value.saveToListsUiState.isWatchlistSelected)
+        assertFalse(viewModel.state.value.saveToListsUiState.isCreateListVisible)
         coVerify { getUserListsUseCase(1, MediaType.TV_SHOW) }
     }
 
     @Test
-    fun `FavouriteClicked should toggle selection state in UI without calling API`() = runTest {
+    fun `FavouriteClicked should toggle selection state in UI without calling API or showing create list`() = runTest {
         // Given
         setupDefaultMocks()
         coEvery { tvDetailsInfoUseCase(any()) } returns mockk<TvDetailsInfo>(relaxed = true) {
@@ -166,6 +167,7 @@ class TvDetailsViewModelTest {
 
         // Then
         assertFalse(viewModel.state.value.saveToListsUiState.isFavouriteSelected)
+        assertFalse(viewModel.state.value.saveToListsUiState.isCreateListVisible)
         coVerify(exactly = 0) { addToFavouriteUseCase(any(), any(), any()) }
     }
 
@@ -195,6 +197,37 @@ class TvDetailsViewModelTest {
         // Then
         coVerify { addToFavouriteUseCase(600, MediaType.TV_SHOW, false) }
         coVerify { addToWatchList(600, MediaType.TV_SHOW, true) }
+    }
+
+    @Test
+    fun `AddNewListClicked should show create list UI`() = runTest {
+        // Given
+        setupDefaultMocks()
+        createViewModel()
+        advanceUntilIdle()
+        viewModel.onEvent(TvDetailsUiEvent.SaveClicked)
+        advanceUntilIdle()
+
+        // When
+        viewModel.onEvent(TvDetailsUiEvent.AddNewListClicked)
+
+        // Then
+        assertTrue(viewModel.state.value.saveToListsUiState.isCreateListVisible)
+    }
+
+    @Test
+    fun `CreateNewListClicked with blank name should NOT trigger create flow`() = runTest {
+        // Given
+        setupDefaultMocks()
+        createViewModel()
+        advanceUntilIdle()
+
+        // When
+        viewModel.onEvent(TvDetailsUiEvent.CreateNewListClicked(""))
+
+        // Then
+        coVerify(exactly = 0) { createUserListUseCase(any()) }
+        assertFalse(viewModel.state.value.saveToListsUiState.isLoading)
     }
 
     @Test

@@ -364,7 +364,10 @@ class TvDetailsViewModel @Inject constructor(
         _state.update {
             it.copy(
                 userListsUIState = UserListsUIState.Success(lists),
-                saveToListsUiState = it.saveToListsUiState.copy(selectedUserLists = selectedIds)
+                saveToListsUiState = it.saveToListsUiState.copy(
+                    selectedUserLists = selectedIds,
+                    isCreateListVisible = false
+                )
             )
         }
         initialSaveToListsState = initialSaveToListsState.copy(selectedUserLists = selectedIds)
@@ -451,6 +454,7 @@ class TvDetailsViewModel @Inject constructor(
 
     private fun createUserNewList(listName: String) {
         if (state.value.saveToListsUiState.isLoading) return
+        if (listName.isBlank()) return
 
         _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isLoading = true)) }
         tryToExecute(
@@ -572,7 +576,7 @@ class TvDetailsViewModel @Inject constructor(
             }
 
             TvDetailsUiEvent.AddNewListClicked -> {
-                sendEffect(TvDetailsUiEffect.AddListToBottomSheet)
+                _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isCreateListVisible = true)) }
             }
 
             is TvDetailsUiEvent.CreateNewListClicked -> {

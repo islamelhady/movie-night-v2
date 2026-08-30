@@ -33,11 +33,6 @@ class SaveTvShowToListBottomSheet :
 
     private fun onEffect(effect: TvDetailsUiEffect) {
         when (effect) {
-            TvDetailsUiEffect.AddListToBottomSheet -> {
-                binding.groupCreateList.visibility =
-                    if (binding.chipAddNewList.isChecked) View.VISIBLE else View.GONE
-            }
-
             TvDetailsUiEffect.CloseBottomSheet -> dismiss()
             else -> {}
         }
