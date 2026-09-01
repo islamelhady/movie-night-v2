@@ -1,6 +1,7 @@
 package com.elhady.movies.feature.search.presentation.search
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.elhady.movies.core.domain.model.common.Genre
 import com.elhady.movies.core.domain.usecase.movie.GetAllGenresMoviesUseCase
 import com.elhady.movies.core.domain.usecase.search.InsertSearchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.search.SearchHistoryUseCase
@@ -8,12 +9,15 @@ import com.elhady.movies.core.domain.usecase.search.SearchMoviesUseCase
 import com.elhady.movies.core.domain.usecase.search.SearchPeopleUseCase
 import com.elhady.movies.core.domain.usecase.search.SearchTvsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetAllGenresTvsUseCase
+import com.elhady.movies.core.ui.base.UiText
+import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.search.presentation.search.mapper.GenreUiMapper
 import com.elhady.movies.feature.search.presentation.search.mapper.MovieUiMapper
 import com.elhady.movies.feature.search.presentation.search.mapper.PeopleUiMapper
 import com.elhady.movies.feature.search.presentation.search.mapper.TvUiMapper
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -49,6 +53,7 @@ class SearchViewModelTest {
     private val movieUiMapper = MovieUiMapper()
     private val tvUiMapper = TvUiMapper()
     private val peopleUiMapper = PeopleUiMapper()
+    private val stringsRes: StringsRes = mockk()
 
     @Before
     fun setUp() {
@@ -58,6 +63,10 @@ class SearchViewModelTest {
         coEvery { searchTvsUseCase(any(), any()) } returns emptyList()
         coEvery { searchPeopleUseCase(any()) } returns emptyList()
         coEvery { insertSearchHistoryUseCase(any()) } returns Unit
+        
+        every { stringsRes.noNetworkConnection } returns UiText.Dynamic("No Network")
+        every { stringsRes.timeOut } returns UiText.Dynamic("Timeout")
+        every { stringsRes.someThingError } returns UiText.Dynamic("Error")
     }
 
     private fun initViewModel() {
@@ -72,7 +81,8 @@ class SearchViewModelTest {
             genreUiStateMapper,
             movieUiMapper,
             tvUiMapper,
-            peopleUiMapper
+            peopleUiMapper,
+            stringsRes
         )
     }
 

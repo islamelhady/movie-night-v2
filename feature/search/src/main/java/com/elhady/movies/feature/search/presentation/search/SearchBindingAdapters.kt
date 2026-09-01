@@ -7,16 +7,13 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.elhady.movies.core.ui.base.ErrorUiState
 import com.elhady.movies.feature.search.R
 import com.google.android.material.chip.ChipGroup
 
-@BindingAdapter(value = ["app:hideResult", "app:query"])
-fun <T> View.hideResult(list: List<T>?, text: String?) {
-    if (list.isNullOrEmpty() && text?.isNotBlank() == true) {
-        this.visibility = View.VISIBLE
-    } else {
-        this.visibility = View.GONE
-    }
+@BindingAdapter(value = ["app:hideResult", "app:query"], requireAll = false)
+fun View.hideResult(error: ErrorUiState?, query: String?) {
+    this.visibility = if (error != null) View.GONE else View.VISIBLE
 }
 
 @BindingAdapter(value = ["app:showWhenQueryEmpty"])
@@ -31,20 +28,20 @@ fun View.showWhenEmptyData(query: String?) {
 @BindingAdapter(value = ["app:showWhenQueryEmpty", "app:showWhenFailure"])
 fun View.showBasedOnState(
     query: String?,
-    error: List<String>?
+    error: ErrorUiState?
 ) {
     visibility = when {
-        query.isNullOrEmpty() && error.isNullOrEmpty() -> View.VISIBLE
+        query.isNullOrEmpty() && error == null -> View.VISIBLE
         else -> View.GONE
     }
 }
 
 @BindingAdapter(value = ["app:showWhenFailure"])
 fun View.showBasedOnState(
-    error: List<String>?
+    error: ErrorUiState?
 ) {
     visibility = when {
-        error?.isNotEmpty() == true -> View.VISIBLE
+        error != null -> View.VISIBLE
         else -> View.GONE
     }
 }

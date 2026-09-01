@@ -30,7 +30,7 @@ class PlayerViewModel @Inject constructor(
             _state.update {
                 it.copy(
                     isLoading = false,
-                    errors = ErrorUiState.EmptyResponse
+                    errors = ErrorUiState.Generic
                 )
             }
         } else {

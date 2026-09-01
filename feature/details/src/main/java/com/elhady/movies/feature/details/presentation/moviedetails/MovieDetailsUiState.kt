@@ -1,5 +1,6 @@
 package com.elhady.movies.feature.details.presentation.moviedetails
 
+import com.elhady.movies.core.ui.base.ErrorUiState
 import com.elhady.movies.core.ui.state.MediaVerticalUiState
 import com.elhady.movies.core.ui.state.PeopleUiState
 import com.elhady.movies.core.ui.state.SaveToListsUiState
@@ -13,7 +14,7 @@ data class MovieDetailsUiState(
     val castUiState: List<PeopleUiState> = emptyList(),
     val reviewUiState: List<ReviewUiState> = emptyList(),
     val reviewsDetails: ReviewDetailsUiState = ReviewDetailsUiState(),
-    val onErrors: List<String> = emptyList(),
+    val error: ErrorUiState? = null,
     val isLoading: Boolean = false,
     val isLogin: Boolean = false,
     val userRating: Float = 5f,
@@ -21,7 +22,7 @@ data class MovieDetailsUiState(
     val saveToListsUiState: SaveToListsUiState = SaveToListsUiState(),
     val isPlayerVisible: Boolean = false
 ){
-    val isFailure: Boolean = onErrors.isNotEmpty()
+    val isFailure: Boolean = error != null
 }
 
 

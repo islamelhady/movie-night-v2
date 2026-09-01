@@ -1,6 +1,6 @@
 package com.elhady.movies.core.data.repository
 
-import com.elhady.movies.core.common.UnauthorizedThrowable
+import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.data.mapper.auth.ProfileDtoMapper
 import com.elhady.movies.core.datastore.local.PreferenceStorage
 import com.elhady.movies.core.domain.model.auth.Profile
@@ -39,7 +39,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     private suspend fun getRequestToken(): String {
         return safeApiCaller.execute { authApiService.createRequestToken() }
-            .requestToken ?: throw UnauthorizedThrowable()
+            .requestToken ?: throw AppException.Unauthorized
     }
 
     override suspend fun logout() {

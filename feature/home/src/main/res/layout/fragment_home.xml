@@ -71,7 +71,7 @@
             app:lottie_autoPlay="true"
             app:lottie_colorFilter="@color/primary"
             app:lottie_loop="true"
-            app:lottie_rawRes="@{state.error.animationRes}" />
+            app:errorAnimation="@{state.error}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

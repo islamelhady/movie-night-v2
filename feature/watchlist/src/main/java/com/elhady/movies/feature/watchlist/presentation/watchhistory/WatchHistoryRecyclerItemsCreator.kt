@@ -1,5 +1,6 @@
 package com.elhady.movies.feature.watchlist.presentation.watchhistory
 
+import com.elhady.movies.core.ui.base.UiText
 import com.elhady.movies.core.ui.resource.StringsRes
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -35,15 +36,15 @@ class WatchHistoryRecyclerItemsCreator(
                 cal1.get(Calendar.DAY_OF_YEAR) != cal2.get(Calendar.DAY_OF_YEAR)
     }
 
-    private fun composeTitle(movieWatchedDate: Date?): String {
-        if (movieWatchedDate == null) return ""
+    private fun composeTitle(movieWatchedDate: Date?): UiText {
+        if (movieWatchedDate == null) return UiText.Dynamic("")
         val now = Calendar.getInstance().apply { time = referenceDate }
         val watched = Calendar.getInstance().apply { time = movieWatchedDate }
 
         return when {
             isSameDay(now, watched) -> stringsRes.today
             isYesterday(now, watched) -> stringsRes.yesterday
-            else -> SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(movieWatchedDate)
+            else -> UiText.Dynamic(SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(movieWatchedDate))
         }
     }
 

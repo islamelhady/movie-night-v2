@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.elhady.movies.core.ui.base.BaseFragment
+import com.elhady.movies.core.ui.base.ErrorUiState
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.player.R
 import com.elhady.movies.feature.player.databinding.FragmentPlayerBinding
@@ -49,10 +50,17 @@ class PlayerFragment :
         }
 
         binding.lottieAnimation.isVisible = state.errors != null
-        state.errors?.let {
-            if (!binding.lottieAnimation.isAnimating) {
-                binding.lottieAnimation.setAnimation(it.animationRes)
+        when (state.errors) {
+            ErrorUiState.NoNetwork -> {
+                binding.lottieAnimation.setAnimation(com.elhady.movies.core.ui.R.raw.no_connection)
                 binding.lottieAnimation.playAnimation()
+            }
+            ErrorUiState.Generic -> {
+                binding.lottieAnimation.setAnimation(com.elhady.movies.core.ui.R.raw.error)
+                binding.lottieAnimation.playAnimation()
+            }
+            else -> {
+                binding.lottieAnimation.cancelAnimation()
             }
         }
     }

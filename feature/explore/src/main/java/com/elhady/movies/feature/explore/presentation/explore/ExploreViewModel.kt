@@ -1,10 +1,11 @@
 package com.elhady.movies.feature.explore.presentation.explore
 
 import androidx.lifecycle.viewModelScope
+import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.domain.usecase.movie.GetTrendingMoviesUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
-import com.elhady.movies.core.ui.base.ErrorUiState
 import com.elhady.movies.core.ui.base.toErrorUiState
+import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.explore.presentation.explore.mapper.ExploreTrendingUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
@@ -14,7 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ExploreViewModel @Inject constructor(
     private val trendingMoviesUseCase: GetTrendingMoviesUseCase,
-    private val trendingUiMapper: ExploreTrendingUiMapper
+    private val trendingUiMapper: ExploreTrendingUiMapper,
+    private val stringsRes: StringsRes
 ) : BaseViewModel<ExploreUiState, ExploreUiEffect>(ExploreUiState()) {
 
     init {
@@ -58,9 +60,7 @@ class ExploreViewModel @Inject constructor(
                 call = { trendingMoviesUseCase() },
                 onSuccess = ::onSuccessTrendingMovies,
                 mapper = trendingUiMapper,
-                onError = { exception ->
-                    onError(exception.toErrorUiState())
-                }
+                onError = ::onError
             )
         }
     }
@@ -87,9 +87,18 @@ class ExploreViewModel @Inject constructor(
         }
     }
 
-    private fun onError(exception: ErrorUiState) {
-        _state.update { it.copy(errors = exception, isLoading = false) }
-        sendEffect(ExploreUiEffect.ShowSnackBar(messageRes = exception.messageRes))
+    private fun onError(error: AppException) {
+        val message = when (error) {
+            is AppException.NoNetwork -> stringsRes.noNetworkConnection
+            is AppException.Timeout -> stringsRes.timeOut
+            else -> stringsRes.someThingError
+        }
+
+        if (state.value.exploreItems.isNotEmpty()) {
+            sendEffect(ExploreUiEffect.ShowSnackBar(message = message))
+        } else {
+            _state.update { it.copy(errors = error.toErrorUiState(), isLoading = false) }
+        }
     }
 
 }

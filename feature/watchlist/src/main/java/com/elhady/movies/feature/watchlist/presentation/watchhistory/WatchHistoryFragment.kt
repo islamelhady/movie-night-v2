@@ -65,6 +65,7 @@ class WatchHistoryFragment :
 
     override fun render(state: WatchHistoryUiState) {
         binding.state = state
+        binding.viewModel = viewModel
         adapter.setItems(state.movies)
     }
 
@@ -101,9 +102,7 @@ class WatchHistoryFragment :
             }
 
             is WatchHistoryUiEffect.ShowErrorSnackBar -> {
-                showSnackBar(
-                    getString(CoreUiR.string.cannot_fetch_movies)
-                )
+                showSnackBar(effect.message)
             }
 
             WatchHistoryUiEffect.NavigateBack -> {

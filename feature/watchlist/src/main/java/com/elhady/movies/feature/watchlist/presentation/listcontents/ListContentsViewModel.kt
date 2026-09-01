@@ -14,7 +14,7 @@ import com.elhady.movies.core.domain.usecase.account.GetMyFavoriteListUseCase
 import com.elhady.movies.core.domain.usecase.account.GetMyListDetailsByListIdUseCase
 import com.elhady.movies.core.domain.usecase.account.GetMyWatchlistListUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
-import com.elhady.movies.core.ui.base.ErrorUiState
+import com.elhady.movies.core.ui.base.UiText
 import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.watchlist.presentation.listcontents.mapper.ListContentsUiMapper
@@ -61,7 +61,7 @@ class ListContentsViewModel @Inject constructor(
                 title = when (listName) {
                     ListName.WATCHLIST.name -> stringsRes.watchlist
                     ListName.FAVORITE.name -> stringsRes.favourite
-                    else -> listName
+                    else -> UiText.Dynamic(listName)
                 }
             )
         }
@@ -177,21 +177,21 @@ class ListContentsViewModel @Inject constructor(
         when (listName) {
             ListName.FAVORITE.name -> {
                 deleteFavorite(
-                    mediaId = movie.id,
-                    mediaType = movie.mediaType
+                    movie.id,
+                    movie.mediaType
                 )
             }
 
             ListName.WATCHLIST.name -> {
                 deleteWatchlist(
-                    mediaId = movie.id,
-                    mediaType = movie.mediaType
+                    movie.id,
+                    movie.mediaType
                 )
             }
 
             else -> {
                 deleteFromCustomList(
-                    mediaId = movie.id
+                    movie.id
                 )
             }
         }
@@ -253,19 +253,23 @@ class ListContentsViewModel @Inject constructor(
     }
 
     private fun onError(error: AppException) {
-        val errorUiState = error.toErrorUiState()
-        _state.update {
-            it.copy(
-                isLoading = false,
-                error = errorUiState
-            )
-        }
-        val message = when (errorUiState) {
-            is ErrorUiState.NoNetwork -> stringsRes.noNetworkConnection
-            is ErrorUiState.Timeout -> stringsRes.timeOut
+        val message = when (error) {
+            is AppException.NoNetwork -> stringsRes.noNetworkConnection
+            is AppException.Timeout -> stringsRes.timeOut
             else -> stringsRes.someThingError
         }
-        sendEffect(ListContentsUiEffect.ShowSnackBar(message))
+
+        if (state.value.movies.isNotEmpty()) {
+            sendEffect(ListContentsUiEffect.ShowSnackBar(message))
+            _state.update { it.copy(isLoading = false) }
+        } else {
+            _state.update {
+                it.copy(
+                    isLoading = false,
+                    error = error.toErrorUiState()
+                )
+            }
+        }
     }
 
     companion object {

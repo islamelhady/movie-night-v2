@@ -1,6 +1,5 @@
 package com.elhady.movies.feature.details.presentation.episodedetails
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.common.AppException
@@ -56,7 +55,7 @@ class EpisodeDetailsViewModel @Inject constructor(
             _state.update {
                 it.copy(
                     isLoading = false,
-                    error = ErrorUiState.EmptyResponse // Using existing pattern
+                    error = ErrorUiState.Generic
                 )
             }
         }
@@ -191,10 +190,7 @@ class EpisodeDetailsViewModel @Inject constructor(
                 } else {
                     _state.update {
                         it.copy(
-                            error = AppException.Unknown(
-                                exception?.message
-                                    ?: stringsRes.someThingError
-                            ).toErrorUiState(),
+                            error = ErrorUiState.Generic,
                             isLoading = false,
                         )
                     }
@@ -261,13 +257,22 @@ class EpisodeDetailsViewModel @Inject constructor(
     // region Error
 
     private fun onError(error: AppException) {
-        val errorUiState = error.toErrorUiState()
+        val message = when (error) {
+            is AppException.NoNetwork -> stringsRes.noNetworkConnection
+            is AppException.Timeout -> stringsRes.timeOut
+            else -> stringsRes.someThingError
+        }
 
-        _state.update {
-            it.copy(
-                error = errorUiState,
-                isLoading = false,
-            )
+        if (state.value.episodeName.isNotBlank()) {
+            sendEffect(EpisodeDetailsUiEffect.ShowSnackBar(message))
+            _state.update { it.copy(isLoading = false) }
+        } else {
+            _state.update {
+                it.copy(
+                    error = error.toErrorUiState(),
+                    isLoading = false,
+                )
+            }
         }
     }
 

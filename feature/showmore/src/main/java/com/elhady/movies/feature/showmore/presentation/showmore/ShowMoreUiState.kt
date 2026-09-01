@@ -5,6 +5,7 @@ import com.elhady.movies.core.domain.model.account.ListType
 import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.core.common.ShowMoreType
 import com.elhady.movies.core.ui.base.ErrorUiState
+import com.elhady.movies.core.ui.base.UiText
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlin.math.roundToInt
@@ -23,7 +24,7 @@ data class ShowMoreUiState(
     private val stringsRes: StringsRes
 ) {
 
-    val title: String = when (showMoreType) {
+    val title: UiText = when (showMoreType) {
         ShowMoreType.POPULAR_MOVIES -> stringsRes.popularMovies
         ShowMoreType.TOP_RATED_MOVIES -> stringsRes.topRatedMovies
         ShowMoreType.TRENDING_MOVIES -> stringsRes.trendingMovies

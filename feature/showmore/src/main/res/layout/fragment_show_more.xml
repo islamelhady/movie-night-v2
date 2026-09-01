@@ -87,7 +87,7 @@
             android:layout_width="@dimen/lottie_error_size"
             android:layout_height="@dimen/lottie_error_size"
             app:isVisibleOrGone="@{state.errors != null}"
-            app:lottie_rawRes="@{state.errors.animationRes}"
+            app:errorAnimation="@{state.errors}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

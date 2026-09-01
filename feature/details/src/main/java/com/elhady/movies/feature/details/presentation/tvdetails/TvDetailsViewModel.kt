@@ -29,10 +29,8 @@ import com.elhady.movies.core.domain.usecase.tvshow.GetTvShowYoutubeDetailsUseCa
 import com.elhady.movies.core.domain.usecase.tvshow.RateTvShowUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.base.toErrorUiState
-import com.elhady.movies.core.ui.interaction.ChipListener
 import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.core.ui.state.SaveToListsUiState
-import com.elhady.movies.feature.details.presentation.tvdetails.listener.TvDetailsListeners
 import com.elhady.movies.feature.details.presentation.tvdetails.mapper.CastUiMapper
 import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvDetailsInfoToInfoUIStateMapper
 import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvDetailsReviewUiMapper
@@ -90,7 +88,7 @@ class TvDetailsViewModel @Inject constructor(
         if (tvShowId != null) {
             loadTvDetails()
         } else {
-            _state.update { it.copy(isLoading = false, error = listOf(stringsRes.someThingError)) }
+            _state.update { it.copy(isLoading = false, error = com.elhady.movies.core.ui.base.ErrorUiState.Generic) }
         }
     }
 
@@ -445,7 +443,7 @@ class TvDetailsViewModel @Inject constructor(
                 }
                 sendEffect(TvDetailsUiEffect.CloseBottomSheet)
             } catch (e: Exception) {
-                sendEffect(TvDetailsUiEffect.ShowSnackBar(e.message ?: stringsRes.someThingError))
+                sendEffect(TvDetailsUiEffect.ShowSnackBar(com.elhady.movies.core.ui.base.UiText.Dynamic(e.message ?: "")))
             }
         }
     }
@@ -481,13 +479,21 @@ class TvDetailsViewModel @Inject constructor(
                 onError = ::onCreateListError
             )
         } else {
-            onCreateListError(Exception(createList.statusMessage ?: stringsRes.someThingError))
+            onCreateListError(Exception(createList.statusMessage ?: ""))
         }
     }
 
     private fun onCreateListError(throwable: Throwable) {
         _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isLoading = false)) }
-        sendEffect(TvDetailsUiEffect.ShowSnackBar(throwable.message ?: stringsRes.someThingError))
+        val message = if (throwable is AppException) {
+            when (throwable) {
+                is AppException.NoNetwork -> stringsRes.noNetworkConnection
+                else -> stringsRes.someThingError
+            }
+        } else {
+            stringsRes.someThingError
+        }
+        sendEffect(TvDetailsUiEffect.ShowSnackBar(message))
     }
 
     //endregion

@@ -12,6 +12,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
+import com.elhady.movies.core.ui.base.UiText
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -78,11 +79,7 @@ abstract class BaseFragment<VDB : ViewDataBinding, STATE, EFFECT> : Fragment() {
 
     abstract fun render(state: STATE)
 
-    protected fun showSnackBar(messages: String) {
-        Snackbar.make(binding.root, messages, Snackbar.LENGTH_SHORT).show()
-    }
-
-    protected fun showSnackBar(messageRes: Int) {
-        Snackbar.make(binding.root, getString(messageRes), Snackbar.LENGTH_SHORT).show()
+    protected fun showSnackBar(message: UiText) {
+        Snackbar.make(binding.root, message.asString(requireContext()), Snackbar.LENGTH_SHORT).show()
     }
 }

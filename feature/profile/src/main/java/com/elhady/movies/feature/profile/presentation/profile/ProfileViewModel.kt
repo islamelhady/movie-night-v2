@@ -8,8 +8,8 @@ import com.elhady.movies.core.domain.usecase.auth.LogoutUseCase
 import com.elhady.movies.core.domain.usecase.common.GetThemeUseCase
 import com.elhady.movies.core.domain.usecase.common.SaveThemeUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
-import com.elhady.movies.core.ui.base.ErrorUiState
 import com.elhady.movies.core.ui.base.toErrorUiState
+import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.profile.presentation.profile.mapper.ProfileUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
@@ -23,7 +23,8 @@ class ProfileViewModel @Inject constructor(
     private val profileUiMapper: ProfileUiMapper,
     private val checkIsUserLoggedInUseCase: CheckIsUserLoggedInUseCase,
     private val getThemeUseCase: GetThemeUseCase,
-    private val saveThemeUseCase: SaveThemeUseCase
+    private val saveThemeUseCase: SaveThemeUseCase,
+    private val stringsRes: StringsRes,
 ) : BaseViewModel<ProfileUiState, ProfileUiEffect>(ProfileUiState()) {
 
     init {
@@ -115,9 +116,7 @@ class ProfileViewModel @Inject constructor(
             },
             mapper = profileUiMapper,
             onSuccess = ::onAccountDetailsSuccess,
-            onError = { exception ->
-                onAccountDetailsError(exception.toErrorUiState())
-            },
+            onError = ::onAccountDetailsError,
         )
     }
 
@@ -135,25 +134,29 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun onAccountDetailsError(
-        exception: ErrorUiState
-    ) {
-
-        if (exception is ErrorUiState.Unauthorized) {
+    private fun onAccountDetailsError(error: AppException) {
+        if (error is AppException.Unauthorized) {
             logout()
             return
         }
 
-        _state.update {
-            it.copy(
-                isLoading = false,
-                errors = exception,
-            )
+        val message = when (error) {
+            is AppException.NoNetwork -> stringsRes.noNetworkConnection
+            is AppException.Timeout -> stringsRes.timeOut
+            else -> stringsRes.someThingError
         }
 
-        sendEffect(
-            ProfileUiEffect.ShowSnackBar(message = exception.messageRes)
-        )
+        if (state.value.username.isNotBlank()) {
+            sendEffect(ProfileUiEffect.ShowSnackBar(message = message))
+            _state.update { it.copy(isLoading = false) }
+        } else {
+            _state.update {
+                it.copy(
+                    isLoading = false,
+                    errors = error.toErrorUiState(),
+                )
+            }
+        }
     }
 
     private fun onCheckLoginError(
@@ -177,7 +180,7 @@ class ProfileViewModel @Inject constructor(
                 sendEffect(ProfileUiEffect.NavigateToLogin)
             },
             onError = { exception ->
-                _state.update { it.copy(isLoading = false, errors = exception.toErrorUiState()) }
+                onAccountDetailsError(exception)
             }
         )
     }

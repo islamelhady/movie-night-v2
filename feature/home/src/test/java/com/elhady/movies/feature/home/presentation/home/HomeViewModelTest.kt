@@ -10,6 +10,8 @@ import com.elhady.movies.core.domain.usecase.movie.GetUpcomingMoviesUseCase
 import com.elhady.movies.core.domain.usecase.people.GetPopularPeopleUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetAiringTodayTvUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetTvShowUseCase
+import com.elhady.movies.core.ui.base.UiText
+import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.home.presentation.home.mapper.AiringTodayUiMapper
 import com.elhady.movies.feature.home.presentation.home.mapper.NowPlayingUiMapper
 import com.elhady.movies.feature.home.presentation.home.mapper.PopularMoviesUiMapper
@@ -19,13 +21,16 @@ import com.elhady.movies.feature.home.presentation.home.mapper.TrendingUiMapper
 import com.elhady.movies.feature.home.presentation.home.mapper.TvShowUiMapper
 import com.elhady.movies.feature.home.presentation.home.mapper.UpComingUiMapper
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -50,6 +55,7 @@ class HomeViewModelTest {
     private val upcomingMoviesUseCase: GetUpcomingMoviesUseCase = mockk()
     private val tvShowUseCase: GetTvShowUseCase = mockk()
     private val getAiringTodayTvUseCase: GetAiringTodayTvUseCase = mockk()
+    private val stringsRes: StringsRes = mockk()
 
     private val upComingUiMapper = UpComingUiMapper()
     private val nowPlayingUiMapper = NowPlayingUiMapper()
@@ -64,6 +70,10 @@ class HomeViewModelTest {
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
         
+        every { stringsRes.noNetworkConnection } returns UiText.Dynamic("No Network")
+        every { stringsRes.someThingError } returns UiText.Dynamic("Error")
+        every { stringsRes.timeOut } returns UiText.Dynamic("Timeout")
+
         // Default mocks
         coEvery { upcomingMoviesUseCase() } returns emptyList()
         coEvery { popularPeopleUseCase() } returns emptyList()
@@ -82,7 +92,8 @@ class HomeViewModelTest {
             tvShowUseCase, getAiringTodayTvUseCase,
             upComingUiMapper, nowPlayingUiMapper, trendingUiMapper,
             topRatedUiMapper, tvShowUiMapper, popularPeopleUiMapper,
-            popularMoviesUiMapper, airingTodayUiMapper
+            popularMoviesUiMapper, airingTodayUiMapper,
+            stringsRes
         )
     }
 
@@ -102,7 +113,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `getData should show error when all sections fail`() = runTest {
+    fun `getData should show screen error when all sections fail and no data`() = runTest {
         // Given
         coEvery { upcomingMoviesUseCase() } throws AppException.NoNetwork
         coEvery { popularPeopleUseCase() } throws AppException.NoNetwork
@@ -123,18 +134,29 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `getData should preserve successful data when one section fails`() = runTest {
+    fun `getData should emit ShowSnackBar and keep data when one section fails but others succeed`() = runTest {
         // Given
         coEvery { upcomingMoviesUseCase() } returns listOf(mockk(relaxed = true))
         coEvery { popularMoviesUseCase() } throws AppException.NoNetwork
 
-        // When
+        val effects = mutableListOf<HomeUiEffect>()
         initViewModel()
+        val collectJob = launch {
+            viewModel.effect.collect { effects.add(it) }
+        }
+
+        // When
         advanceUntilIdle()
 
         // Then
         assertTrue(viewModel.state.value.upcomingMovies.isNotEmpty())
-        assertTrue(viewModel.state.value.isError)
+        assertFalse(viewModel.state.value.isError) // Screen error should be null
         assertTrue(viewModel.state.value.hasData)
+        
+        assertEquals(1, effects.size)
+        assertTrue(effects[0] is HomeUiEffect.ShowSnackBar)
+        assertEquals(UiText.Dynamic("No Network"), (effects[0] as HomeUiEffect.ShowSnackBar).message)
+
+        collectJob.cancel()
     }
 }

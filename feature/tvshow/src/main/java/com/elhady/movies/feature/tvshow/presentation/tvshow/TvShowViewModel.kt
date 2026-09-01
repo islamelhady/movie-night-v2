@@ -9,7 +9,6 @@ import com.elhady.movies.core.domain.usecase.tvshow.GetOnTheAirTvShowsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetPopularTvShowsUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetTopRatedTvShowsUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
-import com.elhady.movies.core.ui.base.ErrorUiState
 import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.tvshow.presentation.tvshow.mapper.TvShowUiMapper
@@ -63,7 +62,7 @@ class TvShowViewModel @Inject constructor(
             data = { getAiringTodayTvShowsUseCase() },
             mapper = tvShowUiMapper,
             onSuccess = ::onSuccessAiringTodayTvShows,
-            onError = { onError(it.toErrorUiState()) }
+            onError = ::onError
         )
     }
 
@@ -84,7 +83,7 @@ class TvShowViewModel @Inject constructor(
             data = { getOnTheAirTvShowsUseCase() },
             mapper = tvShowUiMapper,
             onSuccess = ::onSuccessOnTheAirTvShows,
-            onError = { onError(it.toErrorUiState()) }
+            onError = ::onError
         )
     }
 
@@ -105,7 +104,7 @@ class TvShowViewModel @Inject constructor(
             data = { getPopularTvShowsUseCase() },
             mapper = tvShowUiMapper,
             onSuccess = ::onSuccessPopularTvShows,
-            onError = { onError(it.toErrorUiState()) }
+            onError = ::onError
         )
     }
 
@@ -126,7 +125,7 @@ class TvShowViewModel @Inject constructor(
             data = { getTopRatedTvShowsUseCase() },
             mapper = tvShowUiMapper,
             onSuccess = ::onSuccessTopRatedTvShows,
-            onError = { onError(it.toErrorUiState()) }
+            onError = ::onError
         )
     }
 
@@ -140,10 +139,10 @@ class TvShowViewModel @Inject constructor(
         }
     }
 
-    private fun onError(errorUiState: ErrorUiState) {
+    private fun onError(error: AppException) {
         _state.update {
             it.copy(
-                error = errorUiState,
+                error = error.toErrorUiState(),
                 isLoading = false
             )
         }
@@ -155,8 +154,15 @@ class TvShowViewModel @Inject constructor(
             ?: loadStates.source.prepend as? LoadState.Error
 
         errorState?.let {
-            if (it.error is AppException.NoNetwork) {
-                sendEffect(TvShowUiEffect.ShowSnackBar(stringsRes.noNetworkConnection))
+            val message = when (it.error) {
+                is AppException.NoNetwork -> stringsRes.noNetworkConnection
+                is AppException.Timeout -> stringsRes.timeOut
+                else -> stringsRes.someThingError
+            }
+            // For Paging, we show snackbar for non-refresh errors, 
+            // or if it's a refresh but we already have items (handled by UI usually).
+            if (loadStates.source.refresh !is LoadState.Error) {
+                sendEffect(TvShowUiEffect.ShowSnackBar(message))
             }
         }
 
@@ -174,7 +180,7 @@ class TvShowViewModel @Inject constructor(
             is LoadState.Error -> {
                 val error = refreshState.error
                 if (error is AppException) {
-                    onError(error.toErrorUiState())
+                    onError(error)
                 }
             }
         }

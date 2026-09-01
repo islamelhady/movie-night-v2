@@ -64,7 +64,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
             }
         }
         searchAdapter.setItems(searchItems)
-        state.error?.lastOrNull()?.let { showSnackBar(it) }
         binding.state = state
     }
 

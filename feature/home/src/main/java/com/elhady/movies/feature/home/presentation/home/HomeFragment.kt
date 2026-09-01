@@ -74,7 +74,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEffect
             }
 
             is HomeUiEffect.ShowSnackBar -> {
-                showSnackBar(getString(effect.messageRes))
+                showSnackBar(effect.message)
             }
 
             is HomeUiEffect.NavigateToPeopleDetails -> {
