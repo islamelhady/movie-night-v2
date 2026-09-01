@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.domain.usecase.tvshow.GetSeasonDetailsUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
+import com.elhady.movies.core.ui.base.ErrorUiState
 import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.details.presentation.seasondetails.mapper.SeasonDetailsUiMapper
@@ -31,7 +32,7 @@ class SeasonDetailsViewModel @Inject constructor(
             _state.update {
                 it.copy(
                     isLoading = false,
-                    error = com.elhady.movies.core.ui.base.ErrorUiState.EmptyResponse
+                    error = ErrorUiState.Generic
                 )
             }
         }
@@ -103,20 +104,23 @@ class SeasonDetailsViewModel @Inject constructor(
     }
 
     private fun onError(error: AppException) {
-        val errorUiState = error.toErrorUiState()
-
-        _state.update {
-            it.copy(
-                isLoading = false,
-                error = errorUiState,
-            )
+        val message = when (error) {
+            is AppException.NoNetwork -> stringsRes.noNetworkConnection
+            is AppException.Timeout -> stringsRes.timeOut
+            else -> stringsRes.someThingError
         }
 
-        sendEffect(
-            SeasonDetailsUiEffect.ShowSnackBar(
-                message = stringsRes.someThingError // Using stringsRes
-            )
-        )
+        if (state.value.episodes.isNotEmpty()) {
+            sendEffect(SeasonDetailsUiEffect.ShowSnackBar(message))
+            _state.update { it.copy(isLoading = false) }
+        } else {
+            _state.update {
+                it.copy(
+                    isLoading = false,
+                    error = error.toErrorUiState(),
+                )
+            }
+        }
     }
 
     companion object{

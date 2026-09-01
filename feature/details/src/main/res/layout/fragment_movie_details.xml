@@ -161,7 +161,7 @@
             android:id="@+id/nestedRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:isVisible="@{!state.isLoading &amp; state.onErrors.empty }"
+            app:isVisible="@{!state.isLoading &amp; !state.isFailure }"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -174,80 +174,38 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
-            app:isVisibleOrGone="@{state.onErrors.contains(`noNetwork`)}"
+            app:isVisibleOrGone="@{state.isFailure}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <include
+            <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie_animation"
-                layout="@layout/layout_no_connection"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <com.google.android.material.button.MaterialButton
-                style="@style/PrimaryButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:onClick="@{() -> listener.tryAgain(state.id)}"
-                android:text="@string/try_again" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            app:isVisibleOrGone="@{state.onErrors.contains(`timeout`)}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <include
-                android:id="@+id/lottie_animation_view_timeout"
-                layout="@layout/layout_timeout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <com.google.android.material.button.MaterialButton
-                style="@style/PrimaryButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:onClick="@{() -> listener.tryAgain(state.id)}"
-                android:text="@string/try_again" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            app:isVisibleOrGone="@{!state.onErrors.contains(`noNetwork`) &amp; !state.onErrors.contains(`timeout`)  &amp; !state.onErrors.empty }"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <include
-                android:id="@+id/lottie_animation_view_error"
-                layout="@layout/layout_error"
                 android:layout_width="@dimen/lottie_error_size"
-                android:layout_height="@dimen/lottie_error_size" />
+                android:layout_height="@dimen/lottie_error_size"
+                android:layout_gravity="center"
+                app:errorAnimation="@{state.error}"
+                app:lottie_autoPlay="true"
+                app:lottie_colorFilter="@color/primary"
+                app:lottie_loop="true" />
 
             <TextView
                 style="@style/TextStyle.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                tools:text="@string/error_occured"
-                android:onClick="@{() -> listener.tryAgain(state.id)}"
-                android:text="@{state.onErrors.toString()}"
+                app:errorText="@{state.error}"
                 android:textColor="@color/on_background_87" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/PrimaryButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/spacing_medium_16dp"
+                android:onClick="@{() -> listener.tryAgain(state.id)}"
+                android:text="@string/try_again" />
         </LinearLayout>
 
         <include

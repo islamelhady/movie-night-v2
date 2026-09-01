@@ -82,6 +82,10 @@ class RatedMediaMediaFragment : BaseFragment<FragmentMyRatedBinding, RatedMediaU
                     effect.tvShowId
                 )
             }
+
+            is RatedMediaUiEffect.ShowSnackBar -> {
+                showSnackBar(effect.message)
+            }
         }
     }
 

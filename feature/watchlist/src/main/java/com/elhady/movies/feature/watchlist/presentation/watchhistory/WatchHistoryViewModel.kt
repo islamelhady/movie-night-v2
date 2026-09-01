@@ -252,17 +252,22 @@ class WatchHistoryViewModel @Inject constructor(
     }
 
     private fun onError(exception: AppException) {
-        val error = exception.toErrorUiState()
-
-        _state.update {
-            it.copy(
-                isLoading = false,
-                error = error
-            )
+        val message = when (exception) {
+            is AppException.NoNetwork -> stringsRes.noNetworkConnection
+            is AppException.Timeout -> stringsRes.timeOut
+            else -> stringsRes.someThingError
         }
 
-        sendEffect(
-            WatchHistoryUiEffect.ShowErrorSnackBar(error)
-        )
+        if (state.value.movies.isNotEmpty()) {
+            sendEffect(WatchHistoryUiEffect.ShowErrorSnackBar(message))
+            _state.update { it.copy(isLoading = false) }
+        } else {
+            _state.update {
+                it.copy(
+                    isLoading = false,
+                    error = exception.toErrorUiState()
+                )
+            }
+        }
     }
 }

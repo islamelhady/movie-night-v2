@@ -93,7 +93,7 @@ class TvShowFragment : BaseFragment<FragmentTvShowsBinding, TvShowUiState, TvSho
             }
 
             is TvShowUiEffect.ShowSnackBar -> {
-                showSnackBar(effect.messages)
+                showSnackBar(effect.message)
             }
         }
     }

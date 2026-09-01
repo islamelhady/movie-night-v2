@@ -8,6 +8,7 @@ import com.elhady.movies.core.domain.usecase.account.GetMyRatedMoviesUseCase
 import com.elhady.movies.core.domain.usecase.account.GetMyRatedTvShowUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.base.toErrorUiState
+import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.core.ui.state.MovieHorizontalUiState
 import com.elhady.movies.feature.watchlist.presentation.ratedmedia.mapper.RatedMediaMovieToMovieHorizontalUiMapper
 import com.elhady.movies.feature.watchlist.presentation.ratedmedia.mapper.RatedMediaTvShowToMovieHorizontalUiMapper
@@ -23,6 +24,7 @@ class RatedMediaViewModel @Inject constructor(
     private val getMyRatedMoviesUseCase: GetMyRatedMoviesUseCase,
     private val ratedMediaMovieToMovieHorizontalUiMapper: RatedMediaMovieToMovieHorizontalUiMapper,
     private val ratedMediaTvShowToMovieHorizontalUiMapper: RatedMediaTvShowToMovieHorizontalUiMapper,
+    private val stringsRes: StringsRes
 ) : BaseViewModel<RatedMediaUiState, RatedMediaUiEffect>(
     RatedMediaUiState()
 ) {
@@ -168,7 +170,22 @@ class RatedMediaViewModel @Inject constructor(
     fun setErrorUiState(
         combinedLoadStates: CombinedLoadStates
     ) {
-        when (combinedLoadStates.refresh) {
+        val errorState = combinedLoadStates.source.refresh as? LoadState.Error
+            ?: combinedLoadStates.source.append as? LoadState.Error
+            ?: combinedLoadStates.source.prepend as? LoadState.Error
+
+        errorState?.let {
+            val message = when (it.error) {
+                is AppException.NoNetwork -> stringsRes.noNetworkConnection
+                is AppException.Timeout -> stringsRes.timeOut
+                else -> stringsRes.someThingError
+            }
+            if (combinedLoadStates.source.refresh !is LoadState.Error) {
+                sendEffect(RatedMediaUiEffect.ShowSnackBar(message))
+            }
+        }
+
+        when (val refreshState = combinedLoadStates.refresh) {
 
             is LoadState.NotLoading -> {
                 _state.update {
@@ -189,15 +206,14 @@ class RatedMediaViewModel @Inject constructor(
             }
 
             is LoadState.Error -> {
-                _state.update {
-                    it.copy(
-                        isLoading = false,
-                        error = (combinedLoadStates.refresh as LoadState.Error).error.let { throwable ->
-                            if (throwable is AppException) {
-                                throwable.toErrorUiState()
-                            } else null
-                        }
-                    )
+                val error = refreshState.error
+                if (error is AppException) {
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            error = error.toErrorUiState()
+                        )
+                    }
                 }
             }
         }

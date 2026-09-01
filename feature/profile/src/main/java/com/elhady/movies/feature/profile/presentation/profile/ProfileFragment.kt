@@ -110,7 +110,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileUiState, Pro
             ProfileUiEffect.NavigateToMyListsScreen -> navigator.navigateToMyList()
             ProfileUiEffect.ShowLogoutDialog -> showConfirmDialog()
             ProfileUiEffect.NavigateToLogin -> navigator.navigateToLogin()
-            is ProfileUiEffect.ShowSnackBar -> showSnackBar(getString(effect.message))
+            is ProfileUiEffect.ShowSnackBar -> showSnackBar(effect.message)
         }
     }
 

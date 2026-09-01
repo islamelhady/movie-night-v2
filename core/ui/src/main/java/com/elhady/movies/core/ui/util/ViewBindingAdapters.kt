@@ -9,6 +9,7 @@ import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
 import com.elhady.movies.core.ui.R
 import com.elhady.movies.core.ui.base.ErrorUiState
+import com.elhady.movies.core.ui.base.UiText
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.textfield.TextInputLayout
 
@@ -47,14 +48,14 @@ fun View.hideWhenNotLoggedIn(hideWhenNotLoggedIn: Boolean?) {
 }
 
 @BindingAdapter("app:setTipError")
-fun TextInputLayout.setTipError(errorMessage: String?) {
-    error = errorMessage
+fun TextInputLayout.setTipError(errorMessage: UiText?) {
+    error = errorMessage?.asString(context)
 }
 
 @BindingAdapter("app:setTipError")
-fun EditText.setTipError(errorMessage: String?) {
+fun EditText.setTipError(errorMessage: UiText?) {
     if (errorMessage == null) return
-    else error = errorMessage
+    else error = errorMessage.asString(context)
 }
 
 @BindingAdapter(value = ["app:hideWhenNoList"])
@@ -172,11 +173,30 @@ fun TextView.convertGenderText(gender: String?) {
     }.takeIf { gender != null } ?: ""
 }
 
-@BindingAdapter("app:lottie_rawRes")
-fun LottieAnimationView.setLottieRawRes(resId: Int?) {
-    if (resId != null && resId > 0) {
-        setAnimation(resId)
-    } else {
-        cancelAnimation()
+@BindingAdapter("app:errorAnimation")
+fun LottieAnimationView.bindErrorAnimation(error: ErrorUiState?) {
+    when (error) {
+        ErrorUiState.NoNetwork -> setAnimation(R.raw.no_connection)
+        ErrorUiState.Generic -> setAnimation(R.raw.error)
+        else -> cancelAnimation()
     }
+}
+
+@BindingAdapter("app:errorText")
+fun TextView.bindErrorText(error: ErrorUiState?) {
+    text = when (error) {
+        ErrorUiState.NoNetwork -> context.getString(R.string.no_network_connection)
+        ErrorUiState.Generic -> context.getString(R.string.some_thing_error)
+        null -> ""
+    }
+}
+
+@BindingAdapter("app:uiText")
+fun TextView.setUiText(uiText: UiText?) {
+    text = uiText?.asString(context) ?: ""
+}
+
+@BindingAdapter("app:title")
+fun androidx.appcompat.widget.Toolbar.setToolbarTitle(title: UiText?) {
+    this.title = title?.asString(context) ?: ""
 }

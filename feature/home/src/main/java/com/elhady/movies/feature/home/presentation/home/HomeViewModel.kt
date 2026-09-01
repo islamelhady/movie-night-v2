@@ -12,6 +12,7 @@ import com.elhady.movies.core.domain.usecase.tvshow.GetAiringTodayTvUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetTvShowUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
 import com.elhady.movies.core.ui.base.toErrorUiState
+import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.home.presentation.home.mapper.AiringTodayUiMapper
 import com.elhady.movies.feature.home.presentation.home.mapper.NowPlayingUiMapper
 import com.elhady.movies.feature.home.presentation.home.mapper.PopularMoviesUiMapper
@@ -46,6 +47,7 @@ class HomeViewModel @Inject constructor(
     private val popularPeopleUiMapper: PopularPeopleUiMapper,
     private val popularMoviesUiMapper: PopularMoviesUiMapper,
     private val airingTodayUiMapper: AiringTodayUiMapper,
+    private val stringsRes: StringsRes,
 ) : BaseViewModel<HomeUiState, HomeUiEffect>(
     HomeUiState()
 ) {
@@ -282,17 +284,21 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onError(error: AppException) {
-        val errorUiState = error.toErrorUiState()
-        _state.update {
-            it.copy(
-                error = errorUiState
-            )
+        val message = when (error) {
+            is AppException.NoNetwork -> stringsRes.noNetworkConnection
+            is AppException.Timeout -> stringsRes.timeOut
+            else -> stringsRes.someThingError
         }
 
-        sendEffect(
-            HomeUiEffect.ShowSnackBar(
-                messageRes = errorUiState.messageRes
-            )
-        )
+        if (state.value.hasData) {
+            sendEffect(HomeUiEffect.ShowSnackBar(message = message))
+        } else {
+            _state.update {
+                it.copy(
+                    error = error.toErrorUiState(),
+                    isLoading = false
+                )
+            }
+        }
     }
 }

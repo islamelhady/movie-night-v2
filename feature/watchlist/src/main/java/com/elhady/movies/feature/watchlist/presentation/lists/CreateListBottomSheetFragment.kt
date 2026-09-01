@@ -5,8 +5,8 @@ import android.view.View
 import com.elhady.movies.feature.watchlist.R
 import com.elhady.movies.core.ui.R as CoreUiR
 import com.elhady.movies.core.ui.base.BaseBottomSheet
+import com.elhady.movies.core.ui.base.UiText
 import com.elhady.movies.feature.watchlist.databinding.BottomSheetCreateListBinding
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,7 +31,7 @@ class CreateListBottomSheetFragment : BaseBottomSheet<BottomSheetCreateListBindi
 
             if (listName.isEmpty()) {
                 showSnackBar(
-                    getString(CoreUiR.string.empty_field)
+                    UiText.Resource(CoreUiR.string.empty_field)
                 )
                 return@setOnClickListener
             }
@@ -43,13 +43,5 @@ class CreateListBottomSheetFragment : BaseBottomSheet<BottomSheetCreateListBindi
         binding.textViewClose.setOnClickListener {
             dismiss()
         }
-    }
-
-    private fun showSnackBar(message: String) {
-        Snackbar.make(
-            binding.root,
-            message,
-            Snackbar.LENGTH_SHORT
-        ).show()
     }
 }

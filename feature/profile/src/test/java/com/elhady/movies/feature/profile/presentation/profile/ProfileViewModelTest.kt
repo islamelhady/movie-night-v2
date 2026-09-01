@@ -8,6 +8,8 @@ import com.elhady.movies.core.domain.usecase.auth.GetAccountDetailsUseCase
 import com.elhady.movies.core.domain.usecase.auth.LogoutUseCase
 import com.elhady.movies.core.domain.usecase.common.GetThemeUseCase
 import com.elhady.movies.core.domain.usecase.common.SaveThemeUseCase
+import com.elhady.movies.core.ui.base.UiText
+import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.profile.presentation.profile.mapper.ProfileUiMapper
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -44,6 +46,7 @@ class ProfileViewModelTest {
     private val checkIsUserLoggedInUseCase: CheckIsUserLoggedInUseCase = mockk()
     private val getThemeUseCase: GetThemeUseCase = mockk()
     private val saveThemeUseCase: SaveThemeUseCase = mockk()
+    private val stringsRes: StringsRes = mockk()
 
     @Before
     fun setUp() {
@@ -54,6 +57,10 @@ class ProfileViewModelTest {
         // Default mocks
         every { getThemeUseCase() } returns false
         every { checkIsUserLoggedInUseCase() } returns false
+
+        every { stringsRes.noNetworkConnection } returns UiText.Dynamic("No Network")
+        every { stringsRes.timeOut } returns UiText.Dynamic("Timeout")
+        every { stringsRes.someThingError } returns UiText.Dynamic("Error")
     }
 
     @org.junit.After
@@ -69,7 +76,8 @@ class ProfileViewModelTest {
             profileUiMapper,
             checkIsUserLoggedInUseCase,
             getThemeUseCase,
-            saveThemeUseCase
+            saveThemeUseCase,
+            stringsRes
         )
     }
 

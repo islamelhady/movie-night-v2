@@ -1,5 +1,7 @@
 package com.elhady.movies.feature.details.presentation.episodedetails
 
+import com.elhady.movies.core.ui.base.UiText
+
 sealed interface EpisodeDetailsUiEffect {
 
     object NavigateBack : EpisodeDetailsUiEffect
@@ -11,6 +13,6 @@ sealed interface EpisodeDetailsUiEffect {
     object ShowRatingBottomSheet : EpisodeDetailsUiEffect
 
     data class ShowSnackBar(
-        val message: String,
+        val message: UiText,
     ) : EpisodeDetailsUiEffect
 }

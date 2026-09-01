@@ -1,6 +1,7 @@
 package com.elhady.movies.feature.watchlist.presentation.lists
 
 import com.elhady.movies.core.common.MediaType
+import com.elhady.movies.core.ui.base.UiText
 
 sealed interface ListsUiEffect {
 
@@ -20,6 +21,6 @@ sealed interface ListsUiEffect {
     ) : ListsUiEffect
 
     data class ShowSnackBar(
-        val message: String,
+        val message: UiText,
     ) : ListsUiEffect
 }

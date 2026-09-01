@@ -16,6 +16,7 @@ import com.elhady.movies.core.domain.usecase.movie.GetMovieDetailsUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetRatingMovieUseCase
 import com.elhady.movies.core.domain.usecase.movie.InsertMovieToWatchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.movie.SetRatingUseCase
+import com.elhady.movies.core.ui.base.UiText
 import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.CastUiMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.RecommendedUiMapper
@@ -28,8 +29,6 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkStatic
-import io.mockk.unmockkStatic
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -37,7 +36,6 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -82,7 +80,7 @@ class MovieDetailsViewModelTest {
         every { checkIsUserLoggedInUseCase() } returns true
         coEvery { getRatingMovieUseCase(any()) } returns 4.5f
         coEvery { getUserListsUseCase(any(), any()) } returns emptyList()
-        every { stringsRes.someThingError } returns "Error"
+        every { stringsRes.someThingError } returns UiText.Dynamic("Error")
     }
 
     @After
@@ -118,7 +116,7 @@ class MovieDetailsViewModelTest {
 
         // Then
         assertFalse(viewModel.state.value.isLoading)
-        assertTrue(viewModel.state.value.onErrors.isEmpty())
+        assertTrue(viewModel.state.value.error == null)
     }
 
     @Test
@@ -255,7 +253,6 @@ class MovieDetailsViewModelTest {
         // Then
         coVerify(exactly = 0) { createUserListUseCase(any()) }
         assertFalse(viewModel.state.value.saveToListsUiState.isLoading)
-        // Check effect if possible
     }
 
     @Test
@@ -286,7 +283,5 @@ class MovieDetailsViewModelTest {
         coVerify { createUserListUseCase(listName) }
         coVerify { addToUserListUseCase(newListId, 100, MediaType.MOVIE) }
         assertFalse(viewModel.state.value.saveToListsUiState.isLoading)
-        // Verify CloseBottomSheet effect was sent
-        // (In a real test we'd check effects flow, but let's assume if it reached here it's fine)
     }
 }

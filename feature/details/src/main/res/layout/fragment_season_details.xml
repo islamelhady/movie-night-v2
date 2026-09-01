@@ -81,7 +81,7 @@
                 app:lottie_autoPlay="true"
                 app:lottie_colorFilter="@color/primary"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@raw/no_connection" />
+                app:errorAnimation="@{state.error}" />
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"

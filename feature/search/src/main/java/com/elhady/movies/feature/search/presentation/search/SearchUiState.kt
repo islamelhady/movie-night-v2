@@ -1,5 +1,6 @@
 package com.elhady.movies.feature.search.presentation.search
 
+import com.elhady.movies.core.ui.base.ErrorUiState
 import com.elhady.movies.core.ui.state.MovieHorizontalUiState
 import com.elhady.movies.core.ui.state.PeopleUiState
 
@@ -13,7 +14,7 @@ data class SearchUiState(
     val searchHistory: List<String> = emptyList(),
     val isSelectedPeople: Boolean = false,
     val isLoading: Boolean = false,
-    val error: List<String>? = null
+    val error: ErrorUiState? = null
 ) {
     data class GenresUiState(
         val genreId: Int = 0,
@@ -28,7 +29,7 @@ data class SearchUiState(
     }
 
     val isFailure: Boolean get() =
-        error?.isNotEmpty() == true
+        error != null
 
 
     val isEmptyResult: Boolean get() =

@@ -4,9 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.common.MediaType
-import com.elhady.movies.core.common.ForbiddenThrowable
-import com.elhady.movies.core.common.NoNetworkThrowable
-import com.elhady.movies.core.common.UnauthorizedThrowable
 import com.elhady.movies.core.domain.model.account.CreateList
 import com.elhady.movies.core.domain.model.movie.MovieDetails
 import com.elhady.movies.core.domain.usecase.account.AddToFavouriteUseCase
@@ -21,6 +18,9 @@ import com.elhady.movies.core.domain.usecase.movie.GetRatingMovieUseCase
 import com.elhady.movies.core.domain.usecase.movie.InsertMovieToWatchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.movie.SetRatingUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
+import com.elhady.movies.core.ui.base.ErrorUiState
+import com.elhady.movies.core.ui.base.UiText
+import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.core.ui.state.SaveToListsUiState
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.CastUiMapper
@@ -71,7 +71,7 @@ class MovieDetailsViewModel @Inject constructor(
         } else {
             _state.update { 
                 it.copy(
-                    onErrors = listOf(stringsRes.someThingError), 
+                    error = ErrorUiState.Generic, 
                     isLoading = false
                 ) 
             }
@@ -181,7 +181,7 @@ class MovieDetailsViewModel @Inject constructor(
                 castUiState = castUiMapper.map(movieDetails.credits.cast),
                 reviewsDetails = reviewDetailsUiStateMapper.map(movieDetails),
                 isLoading = false,
-                onErrors = emptyList(),
+                error = null,
                 saveToListsUiState = it.saveToListsUiState.copy(
                     isFavouriteSelected = movieDetails.accountStates?.favorite ?: false,
                     isWatchlistSelected = movieDetails.accountStates?.watchlist ?: false
@@ -196,9 +196,7 @@ class MovieDetailsViewModel @Inject constructor(
             try {
                 insertMovieToWatchHistoryUseCase(watchHistoryUiStateMapper.map(movieDetails))
             } catch (th: Throwable) {
-                // Should we show error for watch history? MovieDetailsViewModel original code called onError
-                // but usually watch history insertion shouldn't block the whole screen if it fails.
-                // Keeping original behavior for now.
+                // Silently fail or log for background tasks
             }
         }
     }
@@ -327,7 +325,7 @@ class MovieDetailsViewModel @Inject constructor(
                 onError = ::onCreateListError
             )
         } else {
-            onCreateListError(Exception(createList.statusMessage ?: stringsRes.someThingError))
+            onCreateListError(AppException.Unknown(createList.statusMessage ?: ""))
         }
     }
 
@@ -337,22 +335,27 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun tryAgain(movieId: Int) {
-        _state.update { it.copy(isLoading = true, onErrors = emptyList()) }
+        _state.update { it.copy(isLoading = true, error = null) }
         getMovieDetails(movieId)
     }
 
-    private fun showMessageWithSnackBar(message: String) {
+    private fun showMessageWithSnackBar(message: UiText) {
         sendEffect(MovieDetailsUiEffect.ShowSnackBar(message))
     }
 
     private fun onError(throwable: Throwable) {
-        val errorMessage = throwable.message ?: stringsRes.someThingError
-        when (throwable) {
-            is NoNetworkThrowable -> showMessageWithSnackBar(stringsRes.noNetworkConnection)
-            is UnauthorizedThrowable -> showMessageWithSnackBar(stringsRes.theRequestFailed)
-            is ForbiddenThrowable -> showMessageWithSnackBar(stringsRes.duplicateEntity)
-            else -> Unit
+        val message = when (throwable) {
+            is AppException.NoNetwork -> stringsRes.noNetworkConnection
+            is AppException.Timeout -> stringsRes.timeOut
+            else -> stringsRes.someThingError
         }
-        _state.update { it.copy(onErrors = listOf(errorMessage), isLoading = false) }
+
+        if (state.value.movieUiState.title.isNotBlank()) {
+            showMessageWithSnackBar(message)
+            _state.update { it.copy(isLoading = false) }
+        } else {
+            val errorUiState = if (throwable is AppException) throwable.toErrorUiState() else ErrorUiState.Generic
+            _state.update { it.copy(error = errorUiState, isLoading = false) }
+        }
     }
 }

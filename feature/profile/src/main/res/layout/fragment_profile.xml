@@ -255,7 +255,7 @@
                 app:lottie_autoPlay="true"
                 app:lottie_colorFilter="@color/primary"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@{state.errors != null ? state.errors.animationRes : 0}" />
+                app:errorAnimation="@{state.errors}" />
 
             <TextView
                 android:id="@+id/textview_error_occurred"
@@ -263,7 +263,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small_8dp"
-                android:text="@{state.errors != null ? context.getString(state.errors.messageRes) : ``}"
+                app:errorText="@{state.errors}"
                 app:layout_constraintEnd_toEndOf="@id/lottie_animation"
                 app:layout_constraintStart_toStartOf="@id/lottie_animation"
                 app:layout_constraintTop_toBottomOf="@id/lottie_animation"

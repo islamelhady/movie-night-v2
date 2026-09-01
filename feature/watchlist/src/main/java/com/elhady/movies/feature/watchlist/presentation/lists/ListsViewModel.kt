@@ -2,7 +2,6 @@ package com.elhady.movies.feature.watchlist.presentation.lists
 
 import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.ui.base.BaseViewModel
-import com.elhady.movies.core.ui.base.ErrorUiState
 import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.core.domain.usecase.account.CreateListUseCase
 import com.elhady.movies.core.domain.usecase.account.DeleteListUseCase
@@ -131,20 +130,22 @@ class ListsViewModel @Inject constructor(
     }
 
     private fun onError(error: AppException) {
-        val errorUiState = error.toErrorUiState()
-        _state.update {
-            it.copy(
-                isLoading = false,
-                error = errorUiState,
-            )
-        }
-
-        val message = when (errorUiState) {
-            is ErrorUiState.NoNetwork -> stringsRes.noNetworkConnection
-            is ErrorUiState.Timeout -> stringsRes.timeOut
+        val message = when (error) {
+            is AppException.NoNetwork -> stringsRes.noNetworkConnection
+            is AppException.Timeout -> stringsRes.timeOut
             else -> stringsRes.someThingError
         }
 
-        sendEffect(ListsUiEffect.ShowSnackBar(message))
+        if (state.value.movieLists.isNotEmpty()) {
+            sendEffect(ListsUiEffect.ShowSnackBar(message))
+            _state.update { it.copy(isLoading = false) }
+        } else {
+            _state.update {
+                it.copy(
+                    isLoading = false,
+                    error = error.toErrorUiState(),
+                )
+            }
+        }
     }
 }
