@@ -38,12 +38,10 @@ class PeopleDetailsFragment :
 
     private fun setupAdapters() {
         peopleMoviesAdapter = PeopleDetailsRecyclerAdapter(
-            items = emptyList(),
             listener = this,
         )
 
         peopleTvShowsAdapter = PeopleDetailsRecyclerAdapter(
-            items = emptyList(),
             listener = this,
         )
 
@@ -54,8 +52,8 @@ class PeopleDetailsFragment :
     override fun render(state: PeopleDetailsUiState) {
         binding.state = state
 
-        peopleMoviesAdapter.setItems(state.movies)
-        peopleTvShowsAdapter.setItems(state.tvShows)
+        peopleMoviesAdapter.submitList(state.movies)
+        peopleTvShowsAdapter.submitList(state.tvShows)
     }
 
     override fun onEffect(effect: PeopleDetailsUiEffect) {

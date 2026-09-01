@@ -60,7 +60,6 @@ class TvDetailsFragment :
     private fun setupAdapter() {
 
         tvDetailsAdapter = TvDetailsAdapter(
-            mutableListOf(),
             this
         )
 
@@ -119,7 +118,7 @@ class TvDetailsFragment :
     override fun render(state: TvDetailsUIState) {
         val videoKey = (state.trailerUIState as? TrailerUIState.Available)?.youtubeKey?.youtubeKey ?: ""
         handlePlayerState(state.isPlayerVisible, videoKey)
-        tvDetailsAdapter.setItems(state.tvDetailsItems)
+        tvDetailsAdapter.submitList(state.tvDetailsItems)
         binding.state = state
     }
 

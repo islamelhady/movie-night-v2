@@ -56,7 +56,6 @@ class WatchHistoryFragment :
 
     private fun setupRecyclerView() {
         adapter = WatchHistoryAdapter(
-            items = mutableListOf(),
             listener = this
         )
 
@@ -66,7 +65,7 @@ class WatchHistoryFragment :
     override fun render(state: WatchHistoryUiState) {
         binding.state = state
         binding.viewModel = viewModel
-        adapter.setItems(state.movies)
+        adapter.submitList(state.movies)
     }
 
     private fun setupSwipeToDelete() {

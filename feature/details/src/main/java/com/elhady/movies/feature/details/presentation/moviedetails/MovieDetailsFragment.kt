@@ -54,14 +54,14 @@ class MovieDetailsFragment :
 
     private fun setAdapter() {
         // Passing this as all listeners
-        movieDetailsAdapter = MovieDetailsAdapter(mutableListOf(), this, this, this)
+        movieDetailsAdapter = MovieDetailsAdapter(this, this, this)
         binding.nestedRecycler.adapter = movieDetailsAdapter
     }
 
     override fun render(state: MovieDetailsUiState) {
         handlePlayerState(state.isPlayerVisible, state.movieUiState.videoKey)
         binding.state = state
-        movieDetailsAdapter.setItems(
+        movieDetailsAdapter.submitList(
             mutableListOf(
                 MovieDetailsItem.Upper(state.movieUiState),
                 MovieDetailsItem.People(state.castUiState),

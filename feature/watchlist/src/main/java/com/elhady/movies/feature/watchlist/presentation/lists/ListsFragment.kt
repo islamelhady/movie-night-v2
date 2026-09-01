@@ -27,7 +27,6 @@ class ListsFragment :
 
     private val listsAdapter: ListsAdapter by lazy {
         ListsAdapter(
-            items = mutableListOf(),
             listener = this
         )
     }
@@ -57,7 +56,7 @@ class ListsFragment :
 
     override fun render(state: ListsUiState) {
         binding.state = state
-        listsAdapter.setItems(state.movieLists)
+        listsAdapter.submitList(state.movieLists)
     }
 
     override fun onEffect(effect: ListsUiEffect) {

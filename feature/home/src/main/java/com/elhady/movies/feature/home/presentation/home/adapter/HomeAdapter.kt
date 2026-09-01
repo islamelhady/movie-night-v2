@@ -5,10 +5,12 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
-import com.elhady.movies.core.ui.base.BaseAdapter
 import com.elhady.movies.feature.home.BR
 import com.elhady.movies.feature.home.R
 import com.elhady.movies.feature.home.databinding.HomeRecyclerviewAiringTodayTvBinding
@@ -24,15 +26,11 @@ import com.elhady.movies.feature.home.presentation.home.HomeItem
 import kotlin.math.abs
 
 class HomeAdapter(
-    private var items: List<HomeItem>,
     private val listener: HomeAdapterListener
-) : BaseAdapter<HomeItem>(items, listener) {
-    override val layoutID: Int = 0
-    override val itemVariableId: Int = BR.item
-    override val listenerVariableId: Int = BR.listener
+) : ListAdapter<HomeItem, RecyclerView.ViewHolder>(HomeDiffCallback()) {
 
     override fun getItemViewType(position: Int): Int {
-        return when (items[position]) {
+        return when (getItem(position)) {
             is HomeItem.Slider -> SLIDER
             is HomeItem.NowPlaying -> NOW_PLAYING
             is HomeItem.TvShow -> TV_SHOW
@@ -44,203 +42,75 @@ class HomeAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             SLIDER -> {
                 SliderViewHolder(
-                    DataBindingUtil.inflate(
-                        inflater,
-                        R.layout.home_recyclerview_slider, parent, false
-                    )
+                    DataBindingUtil.inflate(inflater, R.layout.home_recyclerview_slider, parent, false),
+                    listener
                 )
             }
-
             NOW_PLAYING -> {
                 NowPlayingViewHolder(
-                    DataBindingUtil.inflate(
-                        inflater,
-                        R.layout.home_recyclerview_now_playing, parent, false
-                    )
+                    DataBindingUtil.inflate(inflater, R.layout.home_recyclerview_now_playing, parent, false),
+                    listener
                 )
             }
-
             TV_SHOW -> {
                 TvShowViewHolder(
-                    DataBindingUtil.inflate(
-                        inflater,
-                        R.layout.home_recyclerview_tv_shows, parent, false
-                    )
+                    DataBindingUtil.inflate(inflater, R.layout.home_recyclerview_tv_shows, parent, false)
                 )
             }
-
             AIRING_TODAY -> {
                 AiringTodayTvShowViewHolder(
-                    DataBindingUtil.inflate(
-                        inflater,
-                        R.layout.home_recyclerview_airing_today_tv, parent, false
-                    )
+                    DataBindingUtil.inflate(inflater, R.layout.home_recyclerview_airing_today_tv, parent, false),
+                    listener
                 )
             }
-
             TRENDING -> {
                 TrendingViewHolder(
-                    DataBindingUtil.inflate(
-                        inflater,
-                        R.layout.home_recyclerview_trending, parent, false
-                    )
+                    DataBindingUtil.inflate(inflater, R.layout.home_recyclerview_trending, parent, false),
+                    listener
                 )
             }
-
             TOP_RATED -> {
                 TopRatedViewHolder(
-                    DataBindingUtil.inflate(
-                        inflater,
-                        R.layout.home_recyclerview_top_rated, parent, false
-                    )
+                    DataBindingUtil.inflate(inflater, R.layout.home_recyclerview_top_rated, parent, false),
+                    listener
                 )
             }
-
             POPULAR_PEOPLE -> {
                 PopularPeopleViewHolder(
-                    DataBindingUtil.inflate(
-                        inflater,
-                        R.layout.home_recyclerview_popular_people, parent, false
-                    )
+                    DataBindingUtil.inflate(inflater, R.layout.home_recyclerview_popular_people, parent, false),
+                    listener
                 )
             }
-
             POPULAR_MOVIES -> {
                 PopularMoviesViewHolder(
-                    DataBindingUtil.inflate(
-                        inflater,
-                        R.layout.home_recyclerview_popular_movies, parent, false
-                    )
+                    DataBindingUtil.inflate(inflater, R.layout.home_recyclerview_popular_movies, parent, false),
+                    listener
                 )
             }
-
-
             else -> error("Unknown HomeItem view type: $viewType")
         }
     }
 
-    override fun onBindViewHolder(
-        holder: BaseViewHolder,
-        position: Int
-    ) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val item = getItem(position)
         when (holder) {
-            is SliderViewHolder -> bindSlider(holder, position)
-            is NowPlayingViewHolder -> bindNowPlaying(holder, position)
-            is TrendingViewHolder -> bindTrending(holder, position)
-            is TopRatedViewHolder -> bindTopRated(holder, position)
-            is PopularPeopleViewHolder -> bindPopularPeople(holder, position)
-            is PopularMoviesViewHolder -> bindPopularMovies(holder, position)
-            is TvShowViewHolder -> bindTvShow(holder, position)
-            is AiringTodayTvShowViewHolder -> bindAiringTodayTvShow(holder, position)
+            is SliderViewHolder -> holder.bind(item as HomeItem.Slider)
+            is NowPlayingViewHolder -> holder.bind(item as HomeItem.NowPlaying)
+            is TrendingViewHolder -> holder.bind(item as HomeItem.TrendingMovie)
+            is TopRatedViewHolder -> holder.bind(item as HomeItem.TopRatedMovie)
+            is PopularPeopleViewHolder -> holder.bind(item as HomeItem.PopularPeople)
+            is PopularMoviesViewHolder -> holder.bind(item as HomeItem.PopularMovies)
+            is TvShowViewHolder -> holder.bind(item as HomeItem.TvShow, listener)
+            is AiringTodayTvShowViewHolder -> holder.bind(item as HomeItem.AiringTodayTvShow)
         }
     }
 
-    private fun bindSlider(
-        holder: SliderViewHolder,
-        position: Int
-    ) {
-        val upcomingSlider = items[position] as HomeItem.Slider
-        holder.bind(upcomingSlider, listener)
-    }
-
-    private fun bindNowPlaying(
-        holder: NowPlayingViewHolder,
-        position: Int
-    ) {
-        val nowPlaying = items[position] as HomeItem.NowPlaying
-        val adapter = NowPlayingMovieAdapter(nowPlayingItems = nowPlaying.items, listener)
-        holder.binding.apply {
-            recyclerViewNowPlaying.adapter = adapter
-            setVariable(BR.item, nowPlaying)
-        }
-    }
-
-    private fun bindTvShow(
-        holder: TvShowViewHolder,
-        position: Int
-    ) {
-        val tvShow = items[position] as HomeItem.TvShow
-        if (tvShow.items.isEmpty()) return
-        holder.binding.apply {
-            airingTodayTv = tvShow.items.first()
-            topRatedTv = tvShow.items.first()
-            popularTv = tvShow.items.last()
-            onTheAirTv = tvShow.items.last()
-            setVariable(BR.listener, this@HomeAdapter.listener)
-            setVariable(BR.item, tvShow)
-        }
-    }
-
-    private fun bindTopRated(holder: TopRatedViewHolder, position: Int) {
-        val topRated = items[position] as HomeItem.TopRatedMovie
-        val adapter = TopRatedMovieAdapter(
-            itemsTopRated = topRated.items, listener
-        )
-        holder.binding.apply {
-            recyclerViewTopRated.adapter = adapter
-            setVariable(BR.item, topRated)
-            setVariable(BR.listener, this@HomeAdapter.listener)
-        }
-    }
-
-    private fun bindAiringTodayTvShow(holder: AiringTodayTvShowViewHolder, position: Int) {
-        val airingToday = items[position] as HomeItem.AiringTodayTvShow
-        val adapter =
-            AiringTodayTvShowAdapter(itemsAiringToday = airingToday.items, listener = listener)
-        holder.binding.apply {
-            recyclerAiringTvShows.adapter = adapter
-            count = airingToday.items.size
-            setVariable(BR.item, airingToday)
-            setVariable(BR.listener, this@HomeAdapter.listener)
-        }
-    }
-
-    private fun bindTrending(
-        holder: TrendingViewHolder,
-        position: Int
-    ) {
-        val trending = items[position] as HomeItem.TrendingMovie
-        val adapter = TrendingMovieAdapter(trending.items, listener)
-        holder.binding.apply {
-            recyclerViewTrending.adapter = adapter
-            setVariable(BR.item, trending)
-            setVariable(BR.listener, this@HomeAdapter.listener)
-        }
-    }
-
-    private fun bindPopularPeople(
-        holder: PopularPeopleViewHolder,
-        position: Int
-    ) {
-        val popularPeople = items[position] as HomeItem.PopularPeople
-        val adapter = PopularPeopleAdapter(
-            popularPeople.items, listener
-        )
-        holder.binding.apply {
-            recyclerViewPopularPeople.adapter = adapter
-            setVariable(BR.item, popularPeople)
-        }
-    }
-
-    private fun bindPopularMovies(
-        holder: PopularMoviesViewHolder,
-        position: Int
-    ) {
-        val popularMovies = items[position] as HomeItem.PopularMovies
-        val adapter = PopularMoviesAdapter(popularMovies.items, listener)
-        holder.binding.apply {
-            recyclerViewPopularMovies.adapter = adapter
-            setVariable(BR.item, popularMovies)
-            setVariable(BR.listener, this@HomeAdapter.listener)
-        }
-    }
-
-    override fun onViewDetachedFromWindow(holder: BaseViewHolder) {
+    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
         super.onViewDetachedFromWindow(holder)
         if (holder is SliderViewHolder) {
             holder.release()
@@ -248,25 +118,26 @@ class HomeAdapter(
     }
 
     class SliderViewHolder(
-        val binding: HomeRecyclerviewSliderBinding
-    ) : BaseViewHolder(binding) {
+        val binding: HomeRecyclerviewSliderBinding,
+        listener: HomeAdapterListener
+    ) : RecyclerView.ViewHolder(binding.root) {
         private val handler = Handler(Looper.getMainLooper())
-        private val runnable = Runnable {
-            binding.viewPager.currentItem += 1
-        }
+        private val runnable = Runnable { binding.viewPager.currentItem += 1 }
         private var callback: ViewPager2.OnPageChangeCallback? = null
+        private val adapter = UpcomingMovieAdapter(listener)
 
-        fun bind(upcomingSlider: HomeItem.Slider, listener: HomeAdapterListener) {
-            val adapter = UpcomingMovieAdapter(upcomingItems = upcomingSlider.items, listener)
+        init {
             binding.viewPager.apply {
-                this.adapter = adapter
+                this.adapter = this@SliderViewHolder.adapter
                 offscreenPageLimit = 3
                 setSliderPageTransformer(this)
             }
+        }
 
-            // Clean up previous callback if any
+        fun bind(upcomingSlider: HomeItem.Slider) {
+            adapter.submitList(upcomingSlider.items)
+            
             callback?.let { binding.viewPager.unregisterOnPageChangeCallback(it) }
-
             callback = object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
@@ -292,40 +163,118 @@ class HomeAdapter(
 
         fun release() {
             handler.removeCallbacks(runnable)
-            callback?.let {
-                binding.viewPager.unregisterOnPageChangeCallback(it)
-            }
+            callback?.let { binding.viewPager.unregisterOnPageChangeCallback(it) }
             callback = null
         }
     }
 
     class NowPlayingViewHolder(
-        val binding: HomeRecyclerviewNowPlayingBinding
-    ) : BaseViewHolder(binding)
+        val binding: HomeRecyclerviewNowPlayingBinding,
+        listener: HomeAdapterListener
+    ) : RecyclerView.ViewHolder(binding.root) {
+        private val adapter = NowPlayingMovieAdapter(listener)
+        init {
+            binding.recyclerViewNowPlaying.adapter = adapter
+        }
+        fun bind(nowPlaying: HomeItem.NowPlaying) {
+            adapter.submitList(nowPlaying.items)
+            binding.setVariable(BR.item, nowPlaying)
+            binding.executePendingBindings()
+        }
+    }
 
     class TvShowViewHolder(
         val binding: HomeRecyclerviewTvShowsBinding
-    ) : BaseViewHolder(binding)
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(tvShow: HomeItem.TvShow, listener: HomeAdapterListener) {
+            if (tvShow.items.isEmpty()) return
+            binding.apply {
+                airingTodayTv = tvShow.items.first()
+                topRatedTv = tvShow.items.first()
+                popularTv = tvShow.items.last()
+                onTheAirTv = tvShow.items.last()
+                setVariable(BR.listener, listener)
+                setVariable(BR.item, tvShow)
+                executePendingBindings()
+            }
+        }
+    }
 
     class TrendingViewHolder(
-        val binding: HomeRecyclerviewTrendingBinding
-    ) : BaseViewHolder(binding)
+        val binding: HomeRecyclerviewTrendingBinding,
+        listener: HomeAdapterListener
+    ) : RecyclerView.ViewHolder(binding.root) {
+        private val adapter = TrendingMovieAdapter(listener)
+        init {
+            binding.recyclerViewTrending.adapter = adapter
+        }
+        fun bind(trending: HomeItem.TrendingMovie) {
+            adapter.submitList(trending.items)
+            binding.setVariable(BR.item, trending)
+            binding.executePendingBindings()
+        }
+    }
 
     class AiringTodayTvShowViewHolder(
-        val binding: HomeRecyclerviewAiringTodayTvBinding
-    ) : BaseViewHolder(binding)
+        val binding: HomeRecyclerviewAiringTodayTvBinding,
+        listener: HomeAdapterListener
+    ) : RecyclerView.ViewHolder(binding.root) {
+        private val adapter = AiringTodayTvShowAdapter(listener)
+        init {
+            binding.recyclerAiringTvShows.adapter = adapter
+        }
+        fun bind(airingToday: HomeItem.AiringTodayTvShow) {
+            adapter.submitList(airingToday.items)
+            binding.count = airingToday.items.size
+            binding.setVariable(BR.item, airingToday)
+            binding.executePendingBindings()
+        }
+    }
 
     class TopRatedViewHolder(
-        val binding: HomeRecyclerviewTopRatedBinding
-    ) : BaseViewHolder(binding)
+        val binding: HomeRecyclerviewTopRatedBinding,
+        listener: HomeAdapterListener
+    ) : RecyclerView.ViewHolder(binding.root) {
+        private val adapter = TopRatedMovieAdapter(listener)
+        init {
+            binding.recyclerViewTopRated.adapter = adapter
+        }
+        fun bind(topRated: HomeItem.TopRatedMovie) {
+            adapter.submitList(topRated.items)
+            binding.setVariable(BR.item, topRated)
+            binding.executePendingBindings()
+        }
+    }
 
     class PopularPeopleViewHolder(
-        val binding: HomeRecyclerviewPopularPeopleBinding
-    ) : BaseViewHolder(binding)
+        val binding: HomeRecyclerviewPopularPeopleBinding,
+        listener: HomeAdapterListener
+    ) : RecyclerView.ViewHolder(binding.root) {
+        private val adapter = PopularPeopleAdapter(listener)
+        init {
+            binding.recyclerViewPopularPeople.adapter = adapter
+        }
+        fun bind(popularPeople: HomeItem.PopularPeople) {
+            adapter.submitList(popularPeople.items)
+            binding.setVariable(BR.item, popularPeople)
+            binding.executePendingBindings()
+        }
+    }
 
     class PopularMoviesViewHolder(
-        val binding: HomeRecyclerviewPopularMoviesBinding
-    ) : BaseViewHolder(binding)
+        val binding: HomeRecyclerviewPopularMoviesBinding,
+        listener: HomeAdapterListener
+    ) : RecyclerView.ViewHolder(binding.root) {
+        private val adapter = PopularMoviesAdapter(listener)
+        init {
+            binding.recyclerViewPopularMovies.adapter = adapter
+        }
+        fun bind(popularMovies: HomeItem.PopularMovies) {
+            adapter.submitList(popularMovies.items)
+            binding.setVariable(BR.item, popularMovies)
+            binding.executePendingBindings()
+        }
+    }
 
     private fun HomeItem.order(): Int =
         when (this) {
@@ -340,28 +289,29 @@ class HomeAdapter(
         }
 
     fun setItem(item: HomeItem) {
-        val newItems = items.toMutableList()
-
-        val index = newItems.indexOfFirst {
-            it::class == item::class
-        }
-
+        val newItems = currentList.toMutableList()
+        val index = newItems.indexOfFirst { it::class == item::class }
         if (index == -1) {
             newItems.add(item)
         } else {
             newItems[index] = item
         }
-
-        setItems(newItems)
+        submitList(newItems.sortedBy { it.order() })
     }
 
-    override fun setItems(newItems: List<HomeItem>) {
-        items = newItems
-            .sortedBy { it.order() }
-            .toMutableList()
-
-        super.setItems(items)
+    fun submitHomeItems(newItems: List<HomeItem>?) {
+        submitList(newItems?.sortedBy { it.order() })
     }
+
+    class HomeDiffCallback : DiffUtil.ItemCallback<HomeItem>() {
+        override fun areItemsTheSame(oldItem: HomeItem, newItem: HomeItem): Boolean {
+            return oldItem::class == newItem::class
+        }
+        override fun areContentsTheSame(oldItem: HomeItem, newItem: HomeItem): Boolean {
+            return oldItem == newItem
+        }
+    }
+
     private companion object {
         const val SLIDER = 0
         const val NOW_PLAYING = 1
@@ -372,5 +322,4 @@ class HomeAdapter(
         const val POPULAR_PEOPLE = 6
         const val POPULAR_MOVIES = 7
     }
-
 }

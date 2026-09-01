@@ -32,7 +32,7 @@ class EpisodeDetailsFragment :
     private var loadedOverlayVideoKey: String? = null
 
     private val peopleAdapter: PeopleAdapter by lazy {
-        PeopleAdapter(mutableListOf(), this)
+        PeopleAdapter(this)
     }
 
     override fun onViewCreated(
@@ -64,7 +64,7 @@ class EpisodeDetailsFragment :
         handleOverlayPlayerState(state.isPlayerVisible, state.trailerKey)
         binding.state = state
         binding.swipeToRefreshLayout.isRefreshing = state.isRefreshing
-        peopleAdapter.setItems(state.cast)
+        peopleAdapter.submitList(state.cast)
     }
 
     private fun initYoutubePlayers() {

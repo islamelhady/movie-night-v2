@@ -1,14 +1,13 @@
 package com.elhady.movies.core.ui.util
 
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.elhady.movies.core.ui.base.BaseAdapter
 
 @BindingAdapter(value = ["app:items"])
 fun <T> RecyclerView.setRecyclerItems(items: List<T>?) {
-    (adapter as? BaseAdapter<T>)?.setItems(items ?: emptyList())
-    smoothScrollToPosition(0)
+    (adapter as? ListAdapter<T, *>)?.submitList(items ?: emptyList())
 }
 
 @BindingAdapter(value = ["app:usePagerSnapHelper"])

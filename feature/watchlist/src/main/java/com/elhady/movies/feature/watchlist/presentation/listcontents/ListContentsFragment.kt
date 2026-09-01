@@ -27,7 +27,6 @@ class ListContentsFragment :
 
     private val adapter: ListContentsAdapter by lazy {
         ListContentsAdapter(
-            items = emptyList(),
             listener = this
         )
     }
@@ -49,7 +48,7 @@ class ListContentsFragment :
 
     override fun render(state: ListContentsUiState) {
         binding.state = state
-        adapter.setItems(state.movies)
+        adapter.submitList(state.movies)
     }
 
     override fun onEffect(effect: ListContentsUiEffect) {
