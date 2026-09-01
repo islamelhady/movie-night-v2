@@ -31,8 +31,11 @@ class EpisodeDetailsFragment :
     private var loadedInlineVideoKey: String? = null
     private var loadedOverlayVideoKey: String? = null
 
+    private var inlineYoutubePlayerListener: AbstractYouTubePlayerListener? = null
+    private var overlayYoutubePlayerListener: AbstractYouTubePlayerListener? = null
+
     private val peopleAdapter: PeopleAdapter by lazy {
-        PeopleAdapter(mutableListOf(), this)
+        PeopleAdapter(this)
     }
 
     override fun onViewCreated(
@@ -60,29 +63,41 @@ class EpisodeDetailsFragment :
     }
 
     override fun render(state: EpisodeDetailsUiState) {
-        handleInlinePlayerState(state.trailerKey)
-        handleOverlayPlayerState(state.isPlayerVisible, state.trailerKey)
-        binding.state = state
-        binding.swipeToRefreshLayout.isRefreshing = state.isRefreshing
-        peopleAdapter.setItems(state.cast)
+        _binding?.let { binding ->
+            handleInlinePlayerState(state.trailerKey)
+            handleOverlayPlayerState(state.isPlayerVisible, state.trailerKey)
+            binding.state = state
+            binding.swipeToRefreshLayout.isRefreshing = state.isRefreshing
+            peopleAdapter.submitList(state.cast)
+        }
     }
 
     private fun initYoutubePlayers() {
-        binding.youtubePlayer.addYouTubePlayerListener(object :
+        inlineYoutubePlayerListener = object :
             AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                this@EpisodeDetailsFragment.inlineYoutubePlayer = youTubePlayer
-                render(viewModel.state.value)
+                _binding?.let {
+                    this@EpisodeDetailsFragment.inlineYoutubePlayer = youTubePlayer
+                    render(viewModel.state.value)
+                }
             }
-        })
+        }
+        inlineYoutubePlayerListener?.let {
+            binding.youtubePlayer.addYouTubePlayerListener(it)
+        }
 
-        binding.includePlayerOverlay.youtubePlayerView.addYouTubePlayerListener(object :
+        overlayYoutubePlayerListener = object :
             AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                this@EpisodeDetailsFragment.overlayYoutubePlayer = youTubePlayer
-                render(viewModel.state.value)
+                _binding?.let {
+                    this@EpisodeDetailsFragment.overlayYoutubePlayer = youTubePlayer
+                    render(viewModel.state.value)
+                }
             }
-        })
+        }
+        overlayYoutubePlayerListener?.let {
+            binding.includePlayerOverlay.youtubePlayerView.addYouTubePlayerListener(it)
+        }
     }
 
     private fun handleInlinePlayerState(videoKey: String) {
@@ -185,6 +200,15 @@ class EpisodeDetailsFragment :
     }
 
     override fun onDestroyView() {
+        inlineYoutubePlayerListener?.let {
+            _binding?.youtubePlayer?.removeYouTubePlayerListener(it)
+        }
+        overlayYoutubePlayerListener?.let {
+            _binding?.includePlayerOverlay?.youtubePlayerView?.removeYouTubePlayerListener(it)
+        }
+        inlineYoutubePlayerListener = null
+        overlayYoutubePlayerListener = null
+
         super.onDestroyView()
         inlineYoutubePlayer = null
         overlayYoutubePlayer = null

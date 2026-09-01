@@ -104,8 +104,8 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_loading"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
+            android:layout_width="@dimen/lottie_loading_size"
+            android:layout_height="@dimen/lottie_loading_size"
             app:isVisibleOrGone="@{state.isLoading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -118,8 +118,8 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/error_animation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/lottie_error_size"
+            android:layout_height="@dimen/lottie_error_size"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -133,7 +133,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_retry"
-            style="@style/Widget.Material3.Button.TextButton"
+            style="@style/PrimaryButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:isVisibleOrGone="@{state.errors != null &amp;&amp; state.exploreItems.isEmpty()}"

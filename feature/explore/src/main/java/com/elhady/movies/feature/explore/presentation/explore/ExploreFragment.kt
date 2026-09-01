@@ -31,7 +31,6 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
 
     private fun setAdapter() {
         adapter = ExploreAdapter(
-            items = mutableListOf(),
             listener = this
         )
         binding.recyclerTrend.adapter = adapter

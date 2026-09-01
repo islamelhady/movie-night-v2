@@ -3,9 +3,10 @@ package com.elhady.movies.feature.details.presentation.tvdetails.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import com.elhady.movies.feature.details.BR
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.feature.details.R
-import com.elhady.movies.core.ui.base.BaseAdapter
 import com.elhady.movies.feature.details.databinding.ItemCommentBinding
 import com.elhady.movies.feature.details.databinding.ItemSeasonHorizontalBinding
 import com.elhady.movies.feature.details.databinding.TvDetailsItemPeopleRvBinding
@@ -16,74 +17,46 @@ import com.elhady.movies.feature.details.presentation.tvdetails.TvDetailsItem
 import com.elhady.movies.feature.details.presentation.tvdetails.listener.TvDetailsListeners
 
 class TvDetailsAdapter(
-    private var tvDetailsItems: MutableList<TvDetailsItem>,
     private val listener: TvDetailsListeners
-) : BaseAdapter<TvDetailsItem>(tvDetailsItems, listener) {
-    override val layoutID: Int = 0 // handled in onCreateViewHolder
-    override val itemVariableId: Int = BR.item
-    override val listenerVariableId: Int = BR.listener
+) : ListAdapter<TvDetailsItem, RecyclerView.ViewHolder>(TvDetailsDiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             VIEW_TYPE_INFO -> InfoViewHolder(
-                DataBindingUtil.inflate(
-                    LayoutInflater.from(parent.context),
-                    R.layout.tv_details_item_info, parent, false
-                )
+                DataBindingUtil.inflate(inflater, R.layout.tv_details_item_info, parent, false)
             )
-
             VIEW_TYPE_PEOPLE -> PeopleViewHolder(
-                DataBindingUtil.inflate(
-                    LayoutInflater.from(parent.context),
-                    R.layout.tv_details_item_people_rv, parent, false
-                ),
+                DataBindingUtil.inflate(inflater, R.layout.tv_details_item_people_rv, parent, false),
                 listener
             )
-
             VIEW_TYPE_SEASONS -> SeasonViewHolder(
-                DataBindingUtil.inflate(
-                    LayoutInflater.from(parent.context),
-                    R.layout.item_season_horizontal, parent, false
-                )
+                DataBindingUtil.inflate(inflater, R.layout.item_season_horizontal, parent, false)
             )
-
             VIEW_TYPE_RECOMMENDED -> RecommendedViewHolder(
-                DataBindingUtil.inflate(
-                    LayoutInflater.from(parent.context),
-                    R.layout.tv_details_item_recommended_rv, parent, false
-                ),
+                DataBindingUtil.inflate(inflater, R.layout.tv_details_item_recommended_rv, parent, false),
                 listener
             )
-
             VIEW_TYPE_REVIEWS -> ReviewViewHolder(
-                DataBindingUtil.inflate(
-                    LayoutInflater.from(parent.context),
-                    R.layout.item_comment, parent, false
-                )
+                DataBindingUtil.inflate(inflater, R.layout.item_comment, parent, false)
             )
-
             else -> throw IllegalStateException("UNKNOWN VIEW TYPE $viewType")
         }
     }
 
-    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val item = getItem(position)
         when (holder) {
-            is InfoViewHolder -> bindInfo(holder, position)
-            is PeopleViewHolder -> bindPeople(holder, position)
-            is SeasonViewHolder -> bindSeason(holder, position)
-            is RecommendedViewHolder -> bindRecommended(holder, position)
-            is ReviewViewHolder -> bindReview(holder, position)
+            is InfoViewHolder -> holder.bind(item as TvDetailsItem.Info, listener)
+            is PeopleViewHolder -> holder.bind(item as TvDetailsItem.People, listener)
+            is SeasonViewHolder -> holder.bind(item as TvDetailsItem.Season, listener)
+            is RecommendedViewHolder -> holder.bind(item as TvDetailsItem.Recommended, listener)
+            is ReviewViewHolder -> holder.bind(item as TvDetailsItem.Review)
         }
     }
 
-
-    override fun setItems(newItems: List<TvDetailsItem>) {
-        tvDetailsItems = newItems.toMutableList()
-        super.setItems(newItems)
-    }
-
     override fun getItemViewType(position: Int): Int {
-        return when (tvDetailsItems[position]) {
+        return when (getItem(position)) {
             is TvDetailsItem.Info -> VIEW_TYPE_INFO
             is TvDetailsItem.People -> VIEW_TYPE_PEOPLE
             is TvDetailsItem.Season -> VIEW_TYPE_SEASONS
@@ -92,64 +65,77 @@ class TvDetailsAdapter(
         }
     }
 
-    private fun bindInfo(holder: InfoViewHolder, position: Int) {
-        val info = tvDetailsItems[position] as TvDetailsItem.Info
-        holder.binding.item = info
-        holder.binding.playButtonListener = listener
-        holder.binding.rateListener = listener
-    }
-
-    private fun bindPeople(holder: PeopleViewHolder, position: Int) {
-        val people = tvDetailsItems[position] as TvDetailsItem.People
-        holder.adapter.setItems(people.people)
-        holder.binding.listener = listener
-        holder.binding.item = people
-    }
-
-    private fun bindSeason(holder: SeasonViewHolder, position: Int) {
-        val season = tvDetailsItems[position] as TvDetailsItem.Season
-        holder.binding.item = season.season
-        holder.binding.listener = listener
-    }
-
-    private fun bindRecommended(holder: RecommendedViewHolder, position: Int) {
-        val recommendedItems = tvDetailsItems[position] as TvDetailsItem.Recommended
-        holder.adapter.setItems(recommendedItems.recommended)
-        holder.binding.listener = listener
-        holder.binding.item = recommendedItems
-    }
-
-    private fun bindReview(holder: ReviewViewHolder, position: Int) {
-        val review = tvDetailsItems[position] as TvDetailsItem.Review
-        holder.binding.item = review.review
-    }
-
-
-    class InfoViewHolder(val binding: TvDetailsItemInfoBinding) : BaseViewHolder(binding)
-
-    class PeopleViewHolder(val binding: TvDetailsItemPeopleRvBinding, listener: TvDetailsListeners) :
-        BaseViewHolder(binding) {
-        val adapter = PeopleAdapter(emptyList(), listener)
-
-        init {
-            binding.recyclerViewPeople.adapter = adapter
+    class InfoViewHolder(val binding: TvDetailsItemInfoBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: TvDetailsItem.Info, listener: TvDetailsListeners) {
+            binding.item = item
+            binding.playButtonListener = listener
+            binding.rateListener = listener
+            binding.executePendingBindings()
         }
     }
 
-    class SeasonViewHolder(val binding: ItemSeasonHorizontalBinding) : BaseViewHolder(binding)
+    class PeopleViewHolder(val binding: TvDetailsItemPeopleRvBinding, listener: TvDetailsListeners) :
+        RecyclerView.ViewHolder(binding.root) {
+        val adapter = PeopleAdapter(listener)
+        init {
+            binding.recyclerViewPeople.adapter = adapter
+        }
+        fun bind(item: TvDetailsItem.People, listener: TvDetailsListeners) {
+            adapter.submitList(item.people)
+            binding.listener = listener
+            binding.item = item
+            binding.executePendingBindings()
+        }
+    }
+
+    class SeasonViewHolder(val binding: ItemSeasonHorizontalBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: TvDetailsItem.Season, listener: TvDetailsListeners) {
+            binding.item = item.season
+            binding.listener = listener
+            binding.executePendingBindings()
+        }
+    }
 
     class RecommendedViewHolder(
         val binding: TvDetailsItemRecommendedRvBinding,
         listener: TvDetailsListeners
-    ) : BaseViewHolder(binding) {
-        val adapter = RecommendedAdapter(emptyList(), listener)
-
+    ) : RecyclerView.ViewHolder(binding.root) {
+        val adapter = RecommendedAdapter(listener)
         init {
             binding.recyclerViewRecommended.adapter = adapter
         }
+        fun bind(item: TvDetailsItem.Recommended, listener: TvDetailsListeners) {
+            adapter.submitList(item.recommended)
+            binding.listener = listener
+            binding.item = item
+            binding.executePendingBindings()
+        }
     }
 
-    class ReviewViewHolder(val binding: ItemCommentBinding) : BaseViewHolder(binding)
+    class ReviewViewHolder(val binding: ItemCommentBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: TvDetailsItem.Review) {
+            binding.item = item.review
+            binding.executePendingBindings()
+        }
+    }
+
+    class TvDetailsDiffCallback : DiffUtil.ItemCallback<TvDetailsItem>() {
+        override fun areItemsTheSame(oldItem: TvDetailsItem, newItem: TvDetailsItem): Boolean {
+            return when {
+                oldItem is TvDetailsItem.Info && newItem is TvDetailsItem.Info -> true
+                oldItem is TvDetailsItem.People && newItem is TvDetailsItem.People -> true
+                oldItem is TvDetailsItem.Season && newItem is TvDetailsItem.Season -> 
+                    oldItem.season.id == newItem.season.id
+                oldItem is TvDetailsItem.Recommended && newItem is TvDetailsItem.Recommended -> true
+                oldItem is TvDetailsItem.Review && newItem is TvDetailsItem.Review -> 
+                    oldItem.review == newItem.review
+                else -> false
+            }
+        }
+        override fun areContentsTheSame(oldItem: TvDetailsItem, newItem: TvDetailsItem): Boolean {
+            return oldItem == newItem
+        }
+    }
 
     companion object {
         private const val VIEW_TYPE_INFO = 0

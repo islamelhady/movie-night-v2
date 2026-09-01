@@ -22,7 +22,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEffect
 
     private val homeAdapter: HomeAdapter by lazy {
         HomeAdapter(
-            items = mutableListOf(),
             listener = this
         )
     }
@@ -44,7 +43,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeUiState, HomeUiEffect
     override fun render(state: HomeUiState) {
         binding.state = state
 
-        homeAdapter.setItems(
+        homeAdapter.submitList(
             listOf(
                 HomeItem.Slider(state.upcomingMovies),
                 HomeItem.NowPlaying(state.nowPlayingMovies),

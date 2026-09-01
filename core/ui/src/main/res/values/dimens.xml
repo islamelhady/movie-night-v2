@@ -58,6 +58,7 @@
     <dimen name="height_image_details">350dp</dimen>
     <dimen name="title_details_width">250dp</dimen>
     <dimen name="lottie_error_size">180dp</dimen>
+    <dimen name="lottie_loading_size">48dp</dimen>
     <dimen name="image_width">90dp</dimen>
     <dimen name="zero_height">0dp</dimen>
     <dimen name="slider_image_view_height">200dp</dimen>

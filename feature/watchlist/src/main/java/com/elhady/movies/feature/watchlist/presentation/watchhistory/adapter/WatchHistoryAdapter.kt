@@ -3,89 +3,79 @@ package com.elhady.movies.feature.watchlist.presentation.watchhistory.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import com.elhady.movies.feature.watchlist.BR
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.feature.watchlist.R
-import com.elhady.movies.core.ui.base.BaseAdapter
 import com.elhady.movies.feature.watchlist.databinding.WatchHistoryRecyclerViewCardBinding
 import com.elhady.movies.feature.watchlist.databinding.WatchHistoryRecyclerViewTitleBinding
 import com.elhady.movies.core.ui.interaction.MediaListener
 import com.elhady.movies.feature.watchlist.presentation.watchhistory.WatchHistoryRecyclerItem
 
 class WatchHistoryAdapter(
-    private var items: List<WatchHistoryRecyclerItem>,
     private val listener: MediaListener,
-) : BaseAdapter<WatchHistoryRecyclerItem>(items, listener) {
-    override val layoutID = -1
-    override val itemVariableId: Int = BR.item
-    override val listenerVariableId: Int = BR.listener
+) : ListAdapter<WatchHistoryRecyclerItem, RecyclerView.ViewHolder>(WatchHistoryDiffCallback()) {
 
-    class TitleViewHolder(val binding: WatchHistoryRecyclerViewTitleBinding) :
-        BaseViewHolder(binding)
-
-    class CardViewHolder(val binding: WatchHistoryRecyclerViewCardBinding) :
-        BaseViewHolder(binding)
-
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             TITLE_ITEM -> TitleViewHolder(
-                DataBindingUtil.inflate(
-                    LayoutInflater.from(parent.context),
-                    R.layout.watch_history_recycler_view_title,
-                    parent,
-                    false
-                )
+                DataBindingUtil.inflate(inflater, R.layout.watch_history_recycler_view_title, parent, false)
             )
-
             CARD_ITEM -> CardViewHolder(
-                DataBindingUtil.inflate(
-                    LayoutInflater.from(parent.context),
-                    R.layout.watch_history_recycler_view_card,
-                    parent,
-                    false
-                )
-
+                DataBindingUtil.inflate(inflater, R.layout.watch_history_recycler_view_card, parent, false)
             )
-
             else -> throw Exception("item not found")
         }
     }
 
-    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val item = getItem(position)
         when (holder) {
-            is TitleViewHolder -> bindTitle(holder, items[position])
-            is CardViewHolder -> bindCard(holder, items[position])
-            else -> throw Exception("recycler item not found")
+            is TitleViewHolder -> holder.bind(item as WatchHistoryRecyclerItem.Title)
+            is CardViewHolder -> holder.bind(item as WatchHistoryRecyclerItem.MovieCard, listener)
         }
     }
 
-
-    private fun bindCard(holder: CardViewHolder, item: WatchHistoryRecyclerItem) {
-        holder.binding.item = (item as WatchHistoryRecyclerItem.MovieCard).movie
-        holder.binding.listener = listener
-    }
-
-    private fun bindTitle(holder: TitleViewHolder, item: WatchHistoryRecyclerItem) {
-        holder.binding.item = (item as WatchHistoryRecyclerItem.Title).title
-    }
-
     override fun getItemViewType(position: Int): Int {
-        return when (items[position]) {
+        return when (getItem(position)) {
             is WatchHistoryRecyclerItem.Title -> TITLE_ITEM
             is WatchHistoryRecyclerItem.MovieCard -> CARD_ITEM
         }
     }
 
-
-    override fun setItems(newItems: List<WatchHistoryRecyclerItem>) {
-        items = newItems
-        super.setItems(newItems)
+    class TitleViewHolder(val binding: WatchHistoryRecyclerViewTitleBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: WatchHistoryRecyclerItem.Title) {
+            binding.item = item.title
+            binding.executePendingBindings()
+        }
     }
 
+    class CardViewHolder(val binding: WatchHistoryRecyclerViewCardBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: WatchHistoryRecyclerItem.MovieCard, listener: MediaListener) {
+            binding.item = item.movie
+            binding.listener = listener
+            binding.executePendingBindings()
+        }
+    }
+
+    class WatchHistoryDiffCallback : DiffUtil.ItemCallback<WatchHistoryRecyclerItem>() {
+        override fun areItemsTheSame(oldItem: WatchHistoryRecyclerItem, newItem: WatchHistoryRecyclerItem): Boolean {
+            return when {
+                oldItem is WatchHistoryRecyclerItem.MovieCard && newItem is WatchHistoryRecyclerItem.MovieCard -> 
+                    oldItem.movie.id == newItem.movie.id
+                oldItem is WatchHistoryRecyclerItem.Title && newItem is WatchHistoryRecyclerItem.Title -> 
+                    oldItem.title == newItem.title
+                else -> false
+            }
+        }
+        override fun areContentsTheSame(oldItem: WatchHistoryRecyclerItem, newItem: WatchHistoryRecyclerItem): Boolean {
+            return oldItem == newItem
+        }
+    }
 
     private companion object {
         const val TITLE_ITEM = 21
         const val CARD_ITEM = 14
     }
-
 }
