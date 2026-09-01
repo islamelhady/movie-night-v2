@@ -1,5 +1,6 @@
 package com.elhady.movies.feature.watchlist.presentation.watchhistory
 
+import androidx.lifecycle.viewModelScope
 import com.elhady.movies.core.common.AppException
 import com.elhady.movies.core.domain.usecase.movie.DeleteMovieFromWatchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetAllWatchHistoryMoviesUseCase
@@ -10,7 +11,12 @@ import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.feature.watchlist.presentation.watchhistory.mapper.MovieDomainMapper
 import com.elhady.movies.feature.watchlist.presentation.watchhistory.mapper.MovieUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,9 +32,16 @@ class WatchHistoryViewModel @Inject constructor(
 ) {
 
     private val itemsCreator = WatchHistoryRecyclerItemsCreator(stringsRes)
+    private var searchJob: Job? = null
 
     init {
-        getAllMovies()
+        @OptIn(kotlinx.coroutines.FlowPreview::class)
+        viewModelScope.launch {
+            state.map { it.searchInput }
+                .distinctUntilChanged()
+                .debounce(300)
+                .collect { searchMovies(it) }
+        }
     }
 
     fun onEvent(event: WatchHistoryUiEvent) {
@@ -102,21 +115,13 @@ class WatchHistoryViewModel @Inject constructor(
 
     private fun onSearchQueryChanged(query: String) {
         _state.update {
-            it.copy(searchInput = query)
+            it.copy(searchInput = query, isLoading = true)
         }
-
-        searchMovies(query)
     }
 
     private fun searchMovies(query: String) {
-        _state.update {
-            it.copy(
-                isLoading = true,
-                error = null
-            )
-        }
-
-        tryToExecute(
+        searchJob?.cancel()
+        searchJob = tryToExecute(
             call = {
                 val movies = if (query.isBlank()) {
                     getAllWatchHistoryMoviesUseCase()
@@ -247,17 +252,22 @@ class WatchHistoryViewModel @Inject constructor(
     }
 
     private fun onError(exception: AppException) {
-        val error = exception.toErrorUiState()
-
-        _state.update {
-            it.copy(
-                isLoading = false,
-                error = error
-            )
+        val message = when (exception) {
+            is AppException.NoNetwork -> stringsRes.noNetworkConnection
+            is AppException.Timeout -> stringsRes.timeOut
+            else -> stringsRes.someThingError
         }
 
-        sendEffect(
-            WatchHistoryUiEffect.ShowErrorSnackBar(error)
-        )
+        if (state.value.movies.isNotEmpty()) {
+            sendEffect(WatchHistoryUiEffect.ShowErrorSnackBar(message))
+            _state.update { it.copy(isLoading = false) }
+        } else {
+            _state.update {
+                it.copy(
+                    isLoading = false,
+                    error = exception.toErrorUiState()
+                )
+            }
+        }
     }
 }

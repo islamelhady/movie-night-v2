@@ -31,7 +31,6 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
 
     private fun setAdapter() {
         adapter = ExploreAdapter(
-            items = mutableListOf(),
             listener = this
         )
         binding.recyclerTrend.adapter = adapter
@@ -47,7 +46,7 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreUiState, Exp
     override fun onEffect(effect: ExploreUiEffect) {
         when (effect) {
             ExploreUiEffect.NavigateToSearch -> navigator.navigateToSearch()
-            is ExploreUiEffect.ShowSnackBar -> showSnackBar(getString(effect.messageRes))
+            is ExploreUiEffect.ShowSnackBar -> showSnackBar(effect.message)
             is ExploreUiEffect.NavigateToMovieDetails -> navigator.navigateToMovieDetails(effect.movieId)
         }
     }

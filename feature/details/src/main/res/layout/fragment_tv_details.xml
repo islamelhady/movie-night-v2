@@ -138,8 +138,8 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/progressBar"
-            android:layout_width="@dimen/spacing_extra_giant_48dp"
-            android:layout_height="@dimen/spacing_extra_giant_48dp"
+            android:layout_width="@dimen/lottie_loading_size"
+            android:layout_height="@dimen/lottie_loading_size"
             android:layout_gravity="center"
             app:lottie_autoPlay="true"
             app:lottie_colorFilter="@color/primary"
@@ -152,7 +152,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:isVisible="@{state.isFailure}"
+            app:isVisible="@{state.error != null &amp;&amp; state.tvDetailsItems.empty}"
             android:orientation="vertical">
 
 
@@ -167,15 +167,16 @@
                 app:lottie_autoPlay="true"
                 app:lottie_colorFilter="@color/primary"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@raw/no_connection"/>
+                app:errorAnimation="@{state.error}"/>
 
 
             <com.google.android.material.button.MaterialButton
+                style="@style/PrimaryButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/spacing_small_8dp"
-                android:text="try again"
+                android:text="@string/try_again"
                 android:onClick="@{() -> listener.onClickTryAgain()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

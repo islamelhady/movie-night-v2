@@ -25,7 +25,6 @@ class SeasonDetailsFragment :
 
     private val seasonDetailsAdapter: SeasonDetailsAdapter by lazy {
         SeasonDetailsAdapter(
-            mutableListOf(),
             this
         )
     }
@@ -57,7 +56,7 @@ class SeasonDetailsFragment :
             )
         }
 
-        seasonDetailsAdapter.setItems(items)
+        seasonDetailsAdapter.submitList(items)
     }
 
     override fun onEffect(

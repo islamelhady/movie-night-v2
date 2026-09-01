@@ -246,8 +246,8 @@
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie_animation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/lottie_error_size"
+                android:layout_height="@dimen/lottie_error_size"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -255,7 +255,7 @@
                 app:lottie_autoPlay="true"
                 app:lottie_colorFilter="@color/primary"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@{state.errors != null ? state.errors.animationRes : 0}" />
+                app:errorAnimation="@{state.errors}" />
 
             <TextView
                 android:id="@+id/textview_error_occurred"
@@ -263,31 +263,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small_8dp"
-                android:text="@{state.errors != null ? context.getString(state.errors.messageRes) : ``}"
+                app:errorText="@{state.errors}"
                 app:layout_constraintEnd_toEndOf="@id/lottie_animation"
                 app:layout_constraintStart_toStartOf="@id/lottie_animation"
                 app:layout_constraintTop_toBottomOf="@id/lottie_animation"
                 tools:text="Error occurred" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_retry"
-                style="@style/TextStyle.TitleSmall"
+                style="@style/PrimaryButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium_16dp"
-                android:background="@drawable/button_retry"
                 android:onClick="@{() -> listener.onClickRetry()}"
                 android:text="@string/retry"
-                android:textAllCaps="false"
-                android:textColor="@color/on_primary"
                 app:layout_constraintEnd_toEndOf="@id/textview_error_occurred"
                 app:layout_constraintStart_toStartOf="@id/textview_error_occurred"
                 app:layout_constraintTop_toBottomOf="@id/textview_error_occurred" />
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/progressBar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="@dimen/lottie_loading_size"
+                android:layout_height="@dimen/lottie_loading_size"
                 app:isVisibleOrGone="@{state.isLoading}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -130,17 +130,22 @@ class ListsViewModel @Inject constructor(
     }
 
     private fun onError(error: AppException) {
-        _state.update {
-            it.copy(
-                isLoading = false,
-                error = error.toErrorUiState(),
-            )
+        val message = when (error) {
+            is AppException.NoNetwork -> stringsRes.noNetworkConnection
+            is AppException.Timeout -> stringsRes.timeOut
+            else -> stringsRes.someThingError
         }
 
-        sendEffect(
-            ListsUiEffect.ShowSnackBar(
-                error.toErrorUiState().toString()
-            )
-        )
+        if (state.value.movieLists.isNotEmpty()) {
+            sendEffect(ListsUiEffect.ShowSnackBar(message))
+            _state.update { it.copy(isLoading = false) }
+        } else {
+            _state.update {
+                it.copy(
+                    isLoading = false,
+                    error = error.toErrorUiState(),
+                )
+            }
+        }
     }
 }

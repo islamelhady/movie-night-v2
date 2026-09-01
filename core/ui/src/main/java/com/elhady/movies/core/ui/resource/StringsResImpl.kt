@@ -1,52 +1,40 @@
 package com.elhady.movies.core.ui.resource
 
-import android.content.Context
-import androidx.annotation.StringRes
+import com.elhady.movies.core.ui.base.UiText
 import com.elhady.movies.core.ui.R
-import com.elhady.movies.core.ui.resource.StringsRes
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class StringsResImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
-) : StringsRes {
-    override val noTrailer: String = getString(R.string.no_trailer)
-    override val theRequestFailed: String = getString(R.string.the_request_failed)
-    override val noNetworkConnection: String = getString(R.string.no_network_connection)
-    override val passwordIsRequired: String = getString(R.string.password_is_required)
-    override val usernameIsRequired: String = getString(R.string.username_is_required)
-    override val duplicateEntity: String = getString(R.string.duplicate_entry)
-    override val someThingError: String = getString(R.string.some_thing_error)
-    override val addSuccessfully: String = getString(R.string.added_successfully)
-    override val newListAddSuccessFully: String = getString(R.string.new_list_was_added_successfully)
-    override val ratingAddSuccessFully: String = getString(R.string.rating_was_added_successfully)
-    override val notLoggedInToRate: String = getString(R.string.you_re_not_logged_in_to_rate)
-    override val someThingErrorWhenAddRating: String = getString(R.string.something_went_wrong_please_try_again_later)
-    override val watchlist: String = getString(R.string.watchlist)
-    override val favourite: String = getString(R.string.favorite)
-    override val popularMovies: String = getString(R.string.popular)
-    override val upcomingMovies: String = getString(R.string.upcoming)
-    override val nowPlayingMovies: String = getString(R.string.now_playing)
-    override val mysteryMovies: String = getString(R.string.mystery)
-    override val popularActors: String = getString(R.string.popular_actors)
-    override val adventureMovies: String = getString(R.string.adventure)
-    override val popularTvShow: String = getString(R.string.popular)
-    override val topRatedTvShow: String = getString(R.string.top_rated)
-    override val onTheAirTvShow: String = getString(R.string.on_the_air)
-    override val airingTodayTvShow: String = getString(R.string.airing_today)
-    override val topRatedMovies: String = getString(R.string.top_rated)
-    override val trendingMovies: String = getString(R.string.trending)
-    override val timeOut: String = getString(R.string.time_out)
-    override val today: String = getString(R.string.today)
-    override val yesterday: String = getString(R.string.yesterday)
-
-    private fun getString(@StringRes stringsRes: Int): String {
-        return context.getString(stringsRes)
-    }
-
-    private fun getString(@StringRes stringsRes: Int, vararg args: Any): String {
-        return context.getString(stringsRes, args)
-    }
+class StringsResImpl @Inject constructor() : StringsRes {
+    override val noTrailer: UiText = UiText.Resource(R.string.no_trailer)
+    override val theRequestFailed: UiText = UiText.Resource(R.string.the_request_failed)
+    override val noNetworkConnection: UiText = UiText.Resource(R.string.no_network_connection)
+    override val passwordIsRequired: UiText = UiText.Resource(R.string.password_is_required)
+    override val usernameIsRequired: UiText = UiText.Resource(R.string.username_is_required)
+    override val duplicateEntity: UiText = UiText.Resource(R.string.duplicate_entry)
+    override val someThingError: UiText = UiText.Resource(R.string.some_thing_error)
+    override val addSuccessfully: UiText = UiText.Resource(R.string.added_successfully)
+    override val newListAddSuccessFully: UiText = UiText.Resource(R.string.new_list_was_added_successfully)
+    override val ratingAddSuccessFully: UiText = UiText.Resource(R.string.rating_was_added_successfully)
+    override val notLoggedInToRate: UiText = UiText.Resource(R.string.you_re_not_logged_in_to_rate)
+    override val someThingErrorWhenAddRating: UiText = UiText.Resource(R.string.something_went_wrong_please_try_again_later)
+    override val emptyField: UiText = UiText.Resource(R.string.empty_field)
+    override val watchlist: UiText = UiText.Resource(R.string.watchlist)
+    override val favourite: UiText = UiText.Resource(R.string.favorite)
+    override val popularMovies: UiText = UiText.Resource(R.string.popular)
+    override val upcomingMovies: UiText = UiText.Resource(R.string.upcoming)
+    override val nowPlayingMovies: UiText = UiText.Resource(R.string.now_playing)
+    override val mysteryMovies: UiText = UiText.Resource(R.string.mystery)
+    override val popularActors: UiText = UiText.Resource(R.string.popular_actors)
+    override val adventureMovies: UiText = UiText.Resource(R.string.adventure)
+    override val popularTvShow: UiText = UiText.Resource(R.string.popular)
+    override val topRatedTvShow: UiText = UiText.Resource(R.string.top_rated)
+    override val onTheAirTvShow: UiText = UiText.Resource(R.string.on_the_air)
+    override val airingTodayTvShow: UiText = UiText.Resource(R.string.airing_today)
+    override val topRatedMovies: UiText = UiText.Resource(R.string.top_rated)
+    override val trendingMovies: UiText = UiText.Resource(R.string.trending)
+    override val timeOut: UiText = UiText.Resource(R.string.time_out)
+    override val today: UiText = UiText.Resource(R.string.today)
+    override val yesterday: UiText = UiText.Resource(R.string.yesterday)
 }

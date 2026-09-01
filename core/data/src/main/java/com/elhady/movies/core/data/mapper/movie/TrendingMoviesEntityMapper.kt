@@ -1,6 +1,6 @@
 package com.elhady.movies.core.data.mapper.movie
 
-import com.elhady.movies.core.common.mapper.Mapper
+import com.elhady.movies.core.common.Mapper
 import com.elhady.movies.core.database.entity.movie.TrendingMoviesEntity
 import com.elhady.movies.core.domain.model.common.Genre
 import com.elhady.movies.core.domain.model.movie.Movie

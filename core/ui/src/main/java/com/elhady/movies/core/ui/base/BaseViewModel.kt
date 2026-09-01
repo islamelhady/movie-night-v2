@@ -6,10 +6,8 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.elhady.movies.core.common.AppException
-import com.elhady.movies.core.common.mapper.Mapper
-import kotlinx.coroutines.Deferred
+import com.elhady.movies.core.common.Mapper
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

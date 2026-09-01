@@ -1,4 +1,4 @@
-package com.elhady.movies.core.common.mapper
+package com.elhady.movies.core.common
 
 interface Mapper<INPUT, OUTPUT> {
     fun map(input: INPUT): OUTPUT

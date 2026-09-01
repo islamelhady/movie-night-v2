@@ -1,5 +1,6 @@
 package com.elhady.movies.core.domain.model.movie
 
+import com.elhady.movies.core.common.MediaType
 import com.elhady.movies.core.domain.model.common.Genre
 
 data class Movie(
@@ -9,5 +10,5 @@ data class Movie(
     val genreEntities: List<Genre>,
     val rate: Double,
     val year: String = "",
-    val mediaType: String = "movie",
+    val mediaType: MediaType = MediaType.MOVIE,
 )

@@ -30,11 +30,6 @@ class SaveMovieToListBottomSheet :
 
     private fun onEffect(effect: MovieDetailsUiEffect) {
         when (effect) {
-            MovieDetailsUiEffect.AddListToBottomSheet -> {
-                binding.groupCreateList.visibility =
-                    if (binding.chipAddNewList.isChecked) View.VISIBLE else View.GONE
-            }
-            MovieDetailsUiEffect.DoneEvent -> dismiss()
             MovieDetailsUiEffect.CloseBottomSheet -> dismiss()
             else -> {}
         }

@@ -23,13 +23,10 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_retry"
-            style="@style/Widget.Material3.Badge"
+            style="@style/PrimaryButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_retry"
             android:text="@string/retry"
-            android:textColor="@color/background"
-            android:textAllCaps="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

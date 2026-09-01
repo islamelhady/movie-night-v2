@@ -41,7 +41,7 @@ class PeopleDetailsViewModel @Inject constructor(
                     isPersonLoading = false,
                     isMoviesLoading = false,
                     isTvShowsLoading = false,
-                    error = ErrorUiState.EmptyResponse
+                    error = ErrorUiState.Generic
                 )
             }
         }
@@ -186,19 +186,22 @@ class PeopleDetailsViewModel @Inject constructor(
         error: AppException,
         update: (PeopleDetailsUiState) -> PeopleDetailsUiState,
     ) {
-        val errorUiState = error.toErrorUiState()
-
-        _state.update { state ->
-            update(
-                state.copy(error = errorUiState)
-            )
+        val message = when (error) {
+            is AppException.NoNetwork -> stringsRes.noNetworkConnection
+            is AppException.Timeout -> stringsRes.timeOut
+            else -> stringsRes.someThingError
         }
 
-        sendEffect(
-            PeopleDetailsUiEffect.ShowSnackBar(
-                stringsRes.someThingError
-            )
-        )
+        if (state.value.peopleData.name.isNotBlank()) {
+            sendEffect(PeopleDetailsUiEffect.ShowSnackBar(message))
+            _state.update { update(it) }
+        } else {
+            _state.update { state ->
+                update(
+                    state.copy(error = error.toErrorUiState())
+                )
+            }
+        }
     }
 
     companion object {

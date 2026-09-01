@@ -1,6 +1,7 @@
 package com.elhady.movies.feature.home.presentation.home
 
 import com.elhady.movies.core.common.ShowMoreType
+import com.elhady.movies.core.ui.base.UiText
 
 sealed interface HomeUiEffect {
 
@@ -21,6 +22,6 @@ sealed interface HomeUiEffect {
     ) : HomeUiEffect
 
     data class ShowSnackBar(
-        val messageRes: Int
+        val message: UiText
     ) : HomeUiEffect
 }

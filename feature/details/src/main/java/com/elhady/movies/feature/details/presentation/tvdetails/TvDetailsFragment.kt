@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.core.ui.navigation.Navigator
-import com.elhady.movies.core.ui.state.UserListUiState
 import com.elhady.movies.feature.details.R
 import com.elhady.movies.feature.details.databinding.FragmentTvDetailsBinding
 import com.elhady.movies.feature.details.presentation.tvdetails.adapter.TvDetailsAdapter
@@ -38,6 +37,10 @@ class TvDetailsFragment :
     private var youtubePlayer: YouTubePlayer? = null
     private var loadedVideoKey: String? = null
 
+    private var youtubePlayerListener: AbstractYouTubePlayerListener? = null
+    private var onScrollListener: RecyclerView.OnScrollListener? = null
+    private var offsetChangedListener: com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener? = null
+
     override val layoutIdFragment: Int = R.layout.fragment_tv_details
     override val viewModel: TvDetailsViewModel by viewModels()
 
@@ -60,7 +63,6 @@ class TvDetailsFragment :
     private fun setupAdapter() {
 
         tvDetailsAdapter = TvDetailsAdapter(
-            mutableListOf(),
             this
         )
 
@@ -117,20 +119,27 @@ class TvDetailsFragment :
     }
 
     override fun render(state: TvDetailsUIState) {
-        val videoKey = (state.trailerUIState as? TrailerUIState.Available)?.youtubeKey?.youtubeKey ?: ""
-        handlePlayerState(state.isPlayerVisible, videoKey)
-        tvDetailsAdapter.setItems(state.tvDetailsItems)
-        binding.state = state
+        _binding?.let { binding ->
+            val videoKey = (state.trailerUIState as? TrailerUIState.Available)?.youtubeKey?.youtubeKey ?: ""
+            handlePlayerState(state.isPlayerVisible, videoKey)
+            tvDetailsAdapter.submitList(state.tvDetailsItems)
+            binding.state = state
+        }
     }
 
     private fun initYoutubePlayer() {
-        binding.includePlayerOverlay.youtubePlayerView.addYouTubePlayerListener(object :
+        youtubePlayerListener = object :
             AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                this@TvDetailsFragment.youtubePlayer = youTubePlayer
-                render(viewModel.state.value)
+                _binding?.let {
+                    this@TvDetailsFragment.youtubePlayer = youTubePlayer
+                    render(viewModel.state.value)
+                }
             }
-        })
+        }
+        youtubePlayerListener?.let {
+            binding.includePlayerOverlay.youtubePlayerView.addYouTubePlayerListener(it)
+        }
     }
 
     private fun handlePlayerState(isPlayerVisible: Boolean, videoKey: String) {
@@ -186,11 +195,15 @@ class TvDetailsFragment :
             }
 
             is TvDetailsUiEffect.ShowSaveToListBottomSheet -> {
-                showSaveToListBottomSheet(effect.lists)
+                showSaveToListBottomSheet()
             }
 
             is TvDetailsUiEffect.ShowSnackBar -> {
                 showSnackBar(effect.message)
+            }
+
+            TvDetailsUiEffect.CloseBottomSheet -> {
+                // Handled in BottomSheet
             }
         }
     }
@@ -230,41 +243,13 @@ class TvDetailsFragment :
         return viewModel.state.value.ratingUIState.rating.div(2)
     }
 
-    private fun showSaveToListBottomSheet(lists: List<UserListUiState>) {
+    private fun showSaveToListBottomSheet() {
 
         binding.saveButton.setBackgroundResource(
             CoreUiR.drawable.ic_save_pressed
         )
 
-        saveTvShowToListBottomSheet =
-            SaveTvShowToListBottomSheet(object : WatchlistFavouriteListener {
-                override fun onFavourite() {
-                    viewModel.onEvent(TvDetailsUiEvent.FavouriteClicked)
-                }
-
-                override fun onWatchlist() {
-                    viewModel.onEvent(TvDetailsUiEvent.WatchlistClicked)
-                }
-
-                override fun onDone() {
-                    viewModel.onEvent(TvDetailsUiEvent.DoneAddingLists)
-                    saveTvShowToListBottomSheet.dismiss()
-                }
-
-                override fun onChipClick(id: Int) {
-                    viewModel.onEvent(TvDetailsUiEvent.ListSelected(id))
-                }
-
-                override fun onCreateList(name: String) {
-                    viewModel.onEvent(TvDetailsUiEvent.CreateNewListClicked(name))
-                }
-
-                override fun onDismiss() {
-                    saveTvShowToListBottomSheet.dismiss()
-                }
-            })
-
-        saveTvShowToListBottomSheet.setItems(lists)
+        saveTvShowToListBottomSheet = SaveTvShowToListBottomSheet()
 
         saveTvShowToListBottomSheet.show(
             childFragmentManager,
@@ -309,60 +294,74 @@ class TvDetailsFragment :
 
         var firstVisiblePosition = 0
 
-        binding.nestedRecycler.addOnScrollListener(
-            object : RecyclerView.OnScrollListener() {
+        onScrollListener = object : RecyclerView.OnScrollListener() {
 
-                override fun onScrolled(
-                    recyclerView: RecyclerView,
-                    dx: Int,
-                    dy: Int
-                ) {
-                    val layoutManager =
-                        recyclerView.layoutManager
-                                as? LinearLayoutManager
-                            ?: return
+            override fun onScrolled(
+                recyclerView: RecyclerView,
+                dx: Int,
+                dy: Int
+            ) {
+                val layoutManager =
+                    recyclerView.layoutManager
+                            as? LinearLayoutManager
+                        ?: return
 
-                    firstVisiblePosition =
-                        layoutManager.findFirstVisibleItemPosition()
-                }
+                firstVisiblePosition =
+                    layoutManager.findFirstVisibleItemPosition()
             }
-        )
+        }
+        onScrollListener?.let { binding.nestedRecycler.addOnScrollListener(it) }
 
-        binding.appBarLayout.addOnOffsetChangedListener { appBarLayout,
+        offsetChangedListener = com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener { appBarLayout,
                                                           verticalOffset ->
+            _binding?.apply {
+                when {
 
-            when {
+                    verticalOffset == 0 -> {
 
-                verticalOffset == 0 -> {
+                        textViewToolBarName.visibility =
+                            View.INVISIBLE
 
-                    binding.textViewToolBarName.visibility =
-                        View.INVISIBLE
-
-                    if (firstVisiblePosition != 0) {
-                        appBarLayout.setExpanded(
-                            false,
-                            false
-                        )
+                        if (firstVisiblePosition != 0) {
+                            appBarLayout.setExpanded(
+                                false,
+                                false
+                            )
+                        }
                     }
-                }
 
-                abs(verticalOffset) >=
-                        appBarLayout.totalScrollRange -> {
+                    abs(verticalOffset) >=
+                            appBarLayout.totalScrollRange -> {
 
-                    binding.textViewToolBarName.visibility =
-                        View.VISIBLE
-                }
+                        textViewToolBarName.visibility =
+                            View.VISIBLE
+                    }
 
-                else -> {
+                    else -> {
 
-                    binding.textViewToolBarName.visibility =
-                        View.INVISIBLE
+                        textViewToolBarName.visibility =
+                            View.INVISIBLE
+                    }
                 }
             }
         }
+        offsetChangedListener?.let { binding.appBarLayout.addOnOffsetChangedListener(it) }
     }
 
     override fun onDestroyView() {
+        youtubePlayerListener?.let {
+            _binding?.includePlayerOverlay?.youtubePlayerView?.removeYouTubePlayerListener(it)
+        }
+        onScrollListener?.let {
+            _binding?.nestedRecycler?.removeOnScrollListener(it)
+        }
+        offsetChangedListener?.let {
+            _binding?.appBarLayout?.removeOnOffsetChangedListener(it)
+        }
+        youtubePlayerListener = null
+        onScrollListener = null
+        offsetChangedListener = null
+
         super.onDestroyView()
         youtubePlayer = null
         loadedVideoKey = null

@@ -3,6 +3,7 @@ package com.elhady.movies.feature.watchlist.presentation.watchhistory
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -44,11 +45,17 @@ class WatchHistoryFragment :
 
         setupRecyclerView()
         setupSwipeToDelete()
+        setupSearchInput()
+    }
+
+    private fun setupSearchInput() {
+        binding.edittextSearch.addTextChangedListener {
+            viewModel.onEvent(WatchHistoryUiEvent.SearchQueryChanged(it.toString()))
+        }
     }
 
     private fun setupRecyclerView() {
         adapter = WatchHistoryAdapter(
-            items = mutableListOf(),
             listener = this
         )
 
@@ -57,7 +64,8 @@ class WatchHistoryFragment :
 
     override fun render(state: WatchHistoryUiState) {
         binding.state = state
-        adapter.setItems(state.movies)
+        binding.viewModel = viewModel
+        adapter.submitList(state.movies)
     }
 
     private fun setupSwipeToDelete() {
@@ -93,9 +101,7 @@ class WatchHistoryFragment :
             }
 
             is WatchHistoryUiEffect.ShowErrorSnackBar -> {
-                showSnackBar(
-                    getString(CoreUiR.string.cannot_fetch_movies)
-                )
+                showSnackBar(effect.message)
             }
 
             WatchHistoryUiEffect.NavigateBack -> {

@@ -3,6 +3,7 @@ package com.elhady.movies.feature.watchlist.presentation.listcontents
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import com.elhady.movies.core.common.MediaType
 import com.elhady.movies.core.ui.base.BaseFragment
 import com.elhady.movies.core.ui.navigation.Navigator
 import com.elhady.movies.feature.watchlist.R
@@ -26,7 +27,6 @@ class ListContentsFragment :
 
     private val adapter: ListContentsAdapter by lazy {
         ListContentsAdapter(
-            items = emptyList(),
             listener = this
         )
     }
@@ -48,7 +48,7 @@ class ListContentsFragment :
 
     override fun render(state: ListContentsUiState) {
         binding.state = state
-        adapter.setItems(state.movies)
+        adapter.submitList(state.movies)
     }
 
     override fun onEffect(effect: ListContentsUiEffect) {
@@ -76,10 +76,12 @@ class ListContentsFragment :
         }
     }
 
-    override fun onClickItem(itemId: Int, mediaType: String) {
-        viewModel.onEvent(
-            ListContentsUiEvent.MovieClicked(itemId)
-        )
+    override fun onClickItem(itemId: Int, mediaType: MediaType) {
+        if (mediaType == MediaType.TV_SHOW) {
+            viewModel.onEvent(ListContentsUiEvent.TvShowClicked(itemId))
+        } else {
+            viewModel.onEvent(ListContentsUiEvent.MovieClicked(itemId))
+        }
     }
 
     override fun onClickBackButton() {

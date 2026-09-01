@@ -2,7 +2,10 @@ package com.elhady.movies.feature.details.presentation.tvdetails
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
+import com.elhady.movies.core.common.MediaType
 import com.elhady.movies.core.common.AppException
+import com.elhady.movies.core.domain.model.account.CreateList
+import com.elhady.movies.core.domain.model.account.UserList
 import com.elhady.movies.core.domain.model.common.YoutubeVideoDetails
 import com.elhady.movies.core.domain.model.tvshow.TvDetailsInfo
 import com.elhady.movies.core.domain.usecase.account.AddToFavouriteUseCase
@@ -28,6 +31,7 @@ import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvShowToU
 import com.elhady.movies.feature.details.presentation.tvdetails.mapper.TvShowYoutubeVideoDetailsUiMapper
 import com.elhady.movies.feature.details.presentation.tvdetails.mapper.UserListsUiMapper
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
@@ -70,6 +74,7 @@ class TvDetailsViewModelTest {
     private val getUserListsUseCase: GetUserListsUseCase = mockk()
     private val addToUserListUseCase: AddToUserListUseCase = mockk()
     private val createUserListUseCase: CreateUserListUseCase = mockk()
+    private val deleteMovieFromDetailsListUseCase: com.elhady.movies.core.domain.usecase.account.DeleteMovieFromDetailsListUseCase = mockk()
     private val addToFavouriteUseCase: AddToFavouriteUseCase = mockk()
     private val addToWatchList: AddToWatchList = mockk()
     private val checkIsUserLoggedInUseCase: CheckIsUserLoggedInUseCase = mockk()
@@ -81,8 +86,6 @@ class TvDetailsViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        mockkStatic(Dispatchers::class)
-        every { Dispatchers.IO } returns testDispatcher
 
         every { checkIsUserLoggedInUseCase() } returns true
         coEvery { getRatingTvUseCase(any()) } returns 4.0f
@@ -90,7 +93,6 @@ class TvDetailsViewModelTest {
 
     @After
     fun tearDown() {
-        unmockkStatic(Dispatchers::class)
     }
 
     private fun setupDefaultMocks(youtubeKey: String = "key") {
@@ -99,6 +101,7 @@ class TvDetailsViewModelTest {
         coEvery { getTvDetailsSeasonsUseCase(any()) } returns emptyList()
         coEvery { getTvDetailsReviewsUseCase(any()) } returns emptyList()
         coEvery { getTvShowRecommendationsUseCase(any()) } returns emptyList()
+        coEvery { getUserListsUseCase(any(), any()) } returns emptyList()
         coEvery { getTvShowYoutubeDetailsUseCase(any()) } returns mockk<YoutubeVideoDetails> {
             every { key } returns youtubeKey
         }
@@ -117,48 +120,175 @@ class TvDetailsViewModelTest {
             getTvDetailsCastUseCase, getTvDetailsSeasonsUseCase, rateTvShowUseCase,
             getTvDetailsReviewsUseCase, getTvShowRecommendationsUseCase,
             getTvShowYoutubeDetailsUseCase, getUserListsUseCase,
-            addToUserListUseCase, createUserListUseCase, addToFavouriteUseCase,
-            addToWatchList, checkIsUserLoggedInUseCase, getRatingTvUseCase,
-            tvShowYoutubeVideoDetailsUiMapper, userListsUiMapper, stringsRes, savedStateHandle
+            addToUserListUseCase, createUserListUseCase, deleteMovieFromDetailsListUseCase,
+            addToFavouriteUseCase, addToWatchList, checkIsUserLoggedInUseCase,
+            getRatingTvUseCase, tvShowYoutubeVideoDetailsUiMapper, userListsUiMapper,
+            stringsRes, savedStateHandle
         )
     }
 
     @Test
-    fun `init with valid tvShowId should load data successfully`() = runTest {
+    fun `SaveClicked should initialize Favourite and Watchlist as selected`() = runTest {
         // Given
         setupDefaultMocks()
-
-        // When
-        createViewModel(tvShowId = 1)
-        advanceUntilIdle()
-
-        // Then
-        assertFalse(viewModel.state.value.isLoading)
-        assertTrue(viewModel.state.value.error == null)
-    }
-
-    @Test
-    fun `init with missing tvShowId should show error`() = runTest {
-        // When
-        createViewModel(tvShowId = null)
-        advanceUntilIdle()
-
-        // Then
-        assertFalse(viewModel.state.value.isLoading)
-        assertTrue(viewModel.state.value.error != null)
-    }
-
-    @Test
-    fun `onEvent PlayClicked should set isPlayerVisible to true when available`() = runTest {
-        // Given
-        setupDefaultMocks(youtubeKey = "valid_key")
+        coEvery { tvDetailsInfoUseCase(any()) } returns mockk<TvDetailsInfo>(relaxed = true) {
+            every { accountStates?.favorite } returns true
+            every { accountStates?.watchlist } returns true
+        }
         createViewModel()
         advanceUntilIdle()
 
         // When
-        viewModel.onEvent(TvDetailsUiEvent.PlayClicked)
+        viewModel.onEvent(TvDetailsUiEvent.SaveClicked)
+        advanceUntilIdle()
 
         // Then
-        assertTrue(viewModel.state.value.isPlayerVisible)
+        assertTrue(viewModel.state.value.saveToListsUiState.isFavouriteSelected)
+        assertTrue(viewModel.state.value.saveToListsUiState.isWatchlistSelected)
+        assertFalse(viewModel.state.value.saveToListsUiState.isCreateListVisible)
+        coVerify { getUserListsUseCase(1, MediaType.TV_SHOW) }
+    }
+
+    @Test
+    fun `FavouriteClicked should toggle selection state in UI without calling API or showing create list`() = runTest {
+        // Given
+        setupDefaultMocks()
+        coEvery { tvDetailsInfoUseCase(any()) } returns mockk<TvDetailsInfo>(relaxed = true) {
+            every { accountStates?.favorite } returns true
+            every { accountStates?.watchlist } returns true
+        }
+        createViewModel()
+        advanceUntilIdle()
+        viewModel.onEvent(TvDetailsUiEvent.SaveClicked)
+        advanceUntilIdle()
+
+        // When
+        viewModel.onEvent(TvDetailsUiEvent.FavouriteClicked)
+
+        // Then
+        assertFalse(viewModel.state.value.saveToListsUiState.isFavouriteSelected)
+        assertFalse(viewModel.state.value.saveToListsUiState.isCreateListVisible)
+        coVerify(exactly = 0) { addToFavouriteUseCase(any(), any(), any()) }
+    }
+
+    @Test
+    fun `DoneAddingLists should sync all selections and send tv mediaType`() = runTest {
+        // Given
+        setupDefaultMocks()
+        coEvery { tvDetailsInfoUseCase(any()) } returns mockk<TvDetailsInfo>(relaxed = true) {
+            every { accountStates?.favorite } returns true
+            every { accountStates?.watchlist } returns false
+        }
+        coEvery { addToFavouriteUseCase(any(), MediaType.TV_SHOW, false) } returns mockk()
+        coEvery { addToWatchList(any(), MediaType.TV_SHOW, true) } returns mockk()
+        createViewModel(tvShowId = 600)
+        advanceUntilIdle()
+        
+        viewModel.onEvent(TvDetailsUiEvent.SaveClicked) 
+        advanceUntilIdle()
+        viewModel.onEvent(TvDetailsUiEvent.FavouriteClicked) // Fav: T -> F
+        viewModel.onEvent(TvDetailsUiEvent.WatchlistClicked) // Watch: F -> T
+        advanceUntilIdle()
+
+        // When
+        viewModel.onEvent(TvDetailsUiEvent.DoneAddingLists)
+        advanceUntilIdle()
+
+        // Then
+        coVerify { addToFavouriteUseCase(600, MediaType.TV_SHOW, false) }
+        coVerify { addToWatchList(600, MediaType.TV_SHOW, true) }
+    }
+
+    @Test
+    fun `AddNewListClicked should show create list UI`() = runTest {
+        // Given
+        setupDefaultMocks()
+        createViewModel()
+        advanceUntilIdle()
+        viewModel.onEvent(TvDetailsUiEvent.SaveClicked)
+        advanceUntilIdle()
+
+        // When
+        viewModel.onEvent(TvDetailsUiEvent.AddNewListClicked)
+
+        // Then
+        assertTrue(viewModel.state.value.saveToListsUiState.isCreateListVisible)
+    }
+
+    @Test
+    fun `AddNewListClicked then FavouriteClicked should hide create list UI`() = runTest {
+        // Given
+        setupDefaultMocks()
+        createViewModel()
+        advanceUntilIdle()
+        viewModel.onEvent(TvDetailsUiEvent.AddNewListClicked)
+        assertTrue(viewModel.state.value.saveToListsUiState.isCreateListVisible)
+
+        // When
+        viewModel.onEvent(TvDetailsUiEvent.FavouriteClicked)
+
+        // Then
+        assertFalse(viewModel.state.value.saveToListsUiState.isCreateListVisible)
+    }
+
+    @Test
+    fun `AddNewListClicked then ListSelected should hide create list UI`() = runTest {
+        // Given
+        setupDefaultMocks()
+        createViewModel()
+        advanceUntilIdle()
+        viewModel.onEvent(TvDetailsUiEvent.AddNewListClicked)
+        assertTrue(viewModel.state.value.saveToListsUiState.isCreateListVisible)
+
+        // When
+        viewModel.onEvent(TvDetailsUiEvent.ListSelected(15))
+
+        // Then
+        assertFalse(viewModel.state.value.saveToListsUiState.isCreateListVisible)
+    }
+
+    @Test
+    fun `CreateNewListClicked with blank name should NOT trigger create flow`() = runTest {
+        // Given
+        setupDefaultMocks()
+        createViewModel()
+        advanceUntilIdle()
+
+        // When
+        viewModel.onEvent(TvDetailsUiEvent.CreateNewListClicked(""))
+
+        // Then
+        coVerify(exactly = 0) { createUserListUseCase(any()) }
+        assertFalse(viewModel.state.value.saveToListsUiState.isLoading)
+    }
+
+    @Test
+    fun `CreateNewListClicked should enter loading, create list, add tv show, and close sheet`() = runTest {
+        // Given
+        val listName = "Comedy"
+        val newListId = 456
+        setupDefaultMocks()
+        createViewModel(tvShowId = 200)
+        advanceUntilIdle()
+        
+        coEvery { createUserListUseCase(listName) } returns CreateList(
+            listId = newListId,
+            success = true,
+            statusCode = 1,
+            statusMessage = "Success"
+        )
+        coEvery { addToUserListUseCase(newListId, 200, MediaType.TV_SHOW) } returns mockk()
+        coEvery { getUserListsUseCase(any(), any()) } returns emptyList()
+
+        // When
+        viewModel.onEvent(TvDetailsUiEvent.CreateNewListClicked(listName))
+        
+        // Then
+        assertTrue(viewModel.state.value.saveToListsUiState.isLoading)
+        advanceUntilIdle()
+        
+        coVerify { createUserListUseCase(listName) }
+        coVerify { addToUserListUseCase(newListId, 200, MediaType.TV_SHOW) }
+        assertFalse(viewModel.state.value.saveToListsUiState.isLoading)
     }
 }

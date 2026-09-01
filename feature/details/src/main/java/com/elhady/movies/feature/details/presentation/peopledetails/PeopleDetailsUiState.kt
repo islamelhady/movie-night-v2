@@ -1,5 +1,6 @@
 package com.elhady.movies.feature.details.presentation.peopledetails
 
+import com.elhady.movies.core.common.MediaType
 import com.elhady.movies.core.ui.base.ErrorUiState
 
 data class PeopleDetailsUiState(
@@ -24,11 +25,6 @@ data class PeopleDetailsUiState(
         val imageUrl: String,
         val rate: Double,
     )
-
-    enum class MediaType {
-        MOVIE,
-        TV_SHOW,
-    }
 
     data class PersonInfoUiState(
         val id: Int = 0,

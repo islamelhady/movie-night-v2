@@ -23,6 +23,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginUiState, LoginUiEf
     @Inject
     lateinit var navigator: Navigator
 
+    private var globalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
+
     override val layoutIdFragment = R.layout.fragment_login
     override val viewModel: LoginViewModel by viewModels()
 
@@ -36,34 +38,36 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginUiState, LoginUiEf
         binding.state = state
     }
 
+    override fun onDestroyView() {
+        _binding?.root?.viewTreeObserver?.removeOnGlobalLayoutListener(globalLayoutListener)
+        globalLayoutListener = null
+        super.onDestroyView()
+    }
+
     private fun handleKeyboardAppearanceEvent() {
-        with(binding) {
-
-            val globalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+        globalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+            _binding?.let { binding ->
                 val rect = Rect()
-                root.getWindowVisibleDisplayFrame(rect)
+                binding.root.getWindowVisibleDisplayFrame(rect)
 
-                val screenHeight = root.rootView.height
+                val screenHeight = binding.root.rootView.height
                 val keyboardHeight = screenHeight - rect.bottom
 
-                val isKeyboardVisible =
-                    keyboardHeight > screenHeight * 0.15
+                val isKeyboardVisible = keyboardHeight > screenHeight * 0.15
 
                 handleKeyboardAppearanceEvent(isKeyboardVisible)
             }
-
-            root.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
         }
-
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
     }
 
     private fun handleKeyboardAppearanceEvent(isVisible: Boolean) {
-        with(binding.loginMotionLayout) {
-            setTransitionDuration(300)
+        _binding?.loginMotionLayout?.let {
+            it.setTransitionDuration(300)
             if (isVisible) {
-                transitionToEnd()
+                it.transitionToEnd()
             } else {
-                transitionToStart()
+                it.transitionToStart()
             }
         }
     }
@@ -81,7 +85,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginUiState, LoginUiEf
             }
 
             is LoginUiEffect.ShowSnackBar -> {
-                binding.root.hideKeyboard()
+                _binding?.root?.hideKeyboard()
                 showSnackBar(effect.message)
             }
         }

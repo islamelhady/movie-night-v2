@@ -7,6 +7,7 @@ import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.findNavController
 import androidx.navigation.navOptions
 import com.elhady.movies.R
+import com.elhady.movies.core.common.MediaType
 import com.elhady.movies.core.common.ShowMoreType
 import com.elhady.movies.core.ui.navigation.Navigator
 import javax.inject.Inject
@@ -83,9 +84,9 @@ class NavigatorImpl @Inject constructor(
         navController?.navigate(request)
     }
 
-    override fun navigateToMyListDetails(listId: Int, listType: String, listName: String) {
+    override fun navigateToMyListDetails(listId: Int, listType: MediaType, listName: String) {
         val request = NavDeepLinkRequest.Builder
-            .fromUri(Uri.parse("movie://my_list_details/$listId/$listType/$listName"))
+            .fromUri(Uri.parse("movie://my_list_details/$listId/${listType.value}/$listName"))
             .build()
         navController?.navigate(request)
     }

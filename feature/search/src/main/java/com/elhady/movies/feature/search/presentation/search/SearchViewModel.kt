@@ -11,7 +11,8 @@ import com.elhady.movies.core.domain.usecase.search.InsertSearchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.search.SearchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetAllGenresMoviesUseCase
 import com.elhady.movies.core.domain.usecase.tvshow.GetAllGenresTvsUseCase
-import com.elhady.movies.core.ui.base.ErrorUiState
+import com.elhady.movies.core.ui.base.toErrorUiState
+import com.elhady.movies.core.ui.resource.StringsRes
 import com.elhady.movies.core.ui.state.MovieHorizontalUiState
 import com.elhady.movies.core.ui.state.PeopleUiState
 import com.elhady.movies.feature.search.presentation.search.mapper.GenreUiMapper
@@ -38,7 +39,8 @@ class SearchViewModel @Inject constructor(
     private val genreUiStateMapper: GenreUiMapper,
     private val movieUiMapper: MovieUiMapper,
     private val tvUiMapper: TvUiMapper,
-    private val peopleUiMapper: PeopleUiMapper
+    private val peopleUiMapper: PeopleUiMapper,
+    private val stringsRes: StringsRes
 ) : BaseViewModel<SearchUiState, SearchUiEffect>(SearchUiState()) {
 
     private var searchJob: kotlinx.coroutines.Job? = null
@@ -284,21 +286,18 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun onError(throwable: AppException) {
-        if (throwable == AppException.NoNetwork) {
-            showErrorWithSnackBar(throwable.message ?: "No Network Connection")
-        } else if (throwable == AppException.Timeout) {
-            showErrorWithSnackBar(throwable.message ?: "time out!")
+    private fun onError(error: AppException) {
+        val message = when (error) {
+            is AppException.NoNetwork -> stringsRes.noNetworkConnection
+            is AppException.Timeout -> stringsRes.timeOut
+            else -> stringsRes.someThingError
         }
-        _state.update {
-            it.copy(
-                error = listOf(throwable.message ?: "No Network Connection"),
-                isLoading = false
-            )
-        }
-    }
 
-    private fun showErrorWithSnackBar(messages: String) {
-        sendEffect(SearchUiEffect.ShowSnackBar(messages))
+        if (state.value.isEmptyResult) {
+            _state.update { it.copy(error = error.toErrorUiState(), isLoading = false) }
+        } else {
+            sendEffect(SearchUiEffect.ShowSnackBar(message = message))
+            _state.update { it.copy(isLoading = false) }
+        }
     }
 }

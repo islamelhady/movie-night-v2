@@ -226,9 +226,6 @@ class ShowMoreViewModel @Inject constructor(
     // endregion MOVIES
 
     private fun onError(appException: AppException) {
-        if (appException is AppException.NoNetwork) {
-            sendEffect(ShowMoreUiEffect.ShowSnackBar(stringsRes.noNetworkConnection))
-        }
         _state.update {
             it.copy(
                 errors = appException.toErrorUiState(),
@@ -237,18 +234,23 @@ class ShowMoreViewModel @Inject constructor(
         }
     }
 
-    fun setErrorUiState(combinedLoadStates: CombinedLoadStates) {
-        val errorState = combinedLoadStates.source.refresh as? LoadState.Error
-            ?: combinedLoadStates.source.append as? LoadState.Error
-            ?: combinedLoadStates.source.prepend as? LoadState.Error
+    fun setErrorUiState(loadStates: CombinedLoadStates) {
+        val errorState = loadStates.source.refresh as? LoadState.Error
+            ?: loadStates.source.append as? LoadState.Error
+            ?: loadStates.source.prepend as? LoadState.Error
 
         errorState?.let {
-            if (it.error is AppException.NoNetwork) {
-                sendEffect(ShowMoreUiEffect.ShowSnackBar(stringsRes.noNetworkConnection))
+            val message = when (it.error) {
+                is AppException.NoNetwork -> stringsRes.noNetworkConnection
+                is AppException.Timeout -> stringsRes.timeOut
+                else -> stringsRes.someThingError
+            }
+            if (loadStates.source.refresh !is LoadState.Error) {
+                sendEffect(ShowMoreUiEffect.ShowSnackBar(message))
             }
         }
 
-        when (combinedLoadStates.refresh) {
+        when (val refreshState = loadStates.refresh) {
             is LoadState.NotLoading -> {
                 _state.update {
                     it.copy(isLoading = false, errors = null)
@@ -262,10 +264,11 @@ class ShowMoreViewModel @Inject constructor(
             }
 
             is LoadState.Error -> {
-                _state.update {
-                    it.copy(isLoading = false, errors = (combinedLoadStates.refresh as LoadState.Error).error.let { th ->
-                        if (th is AppException) th.toErrorUiState() else null
-                    })
+                val error = refreshState.error
+                if (error is AppException) {
+                    _state.update {
+                        it.copy(isLoading = false, errors = error.toErrorUiState())
+                    }
                 }
             }
         }

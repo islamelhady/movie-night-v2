@@ -1,6 +1,6 @@
 package com.elhady.movies.feature.search.presentation.search.mapper
 
-import com.elhady.movies.core.common.mapper.Mapper
+import com.elhady.movies.core.common.Mapper
 import com.elhady.movies.core.domain.model.common.Genre
 import com.elhady.movies.core.domain.model.movie.Movie
 import com.elhady.movies.core.ui.state.MovieHorizontalUiState

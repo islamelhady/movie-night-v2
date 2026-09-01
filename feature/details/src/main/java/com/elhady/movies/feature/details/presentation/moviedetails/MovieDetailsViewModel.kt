@@ -2,14 +2,15 @@ package com.elhady.movies.feature.details.presentation.moviedetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.elhady.movies.core.common.ForbiddenThrowable
-import com.elhady.movies.core.common.NoNetworkThrowable
-import com.elhady.movies.core.common.UnauthorizedThrowable
+import com.elhady.movies.core.common.AppException
+import com.elhady.movies.core.common.MediaType
+import com.elhady.movies.core.domain.model.account.CreateList
 import com.elhady.movies.core.domain.model.movie.MovieDetails
 import com.elhady.movies.core.domain.usecase.account.AddToFavouriteUseCase
 import com.elhady.movies.core.domain.usecase.account.AddToUserListUseCase
 import com.elhady.movies.core.domain.usecase.account.AddToWatchList
 import com.elhady.movies.core.domain.usecase.account.CreateUserListUseCase
+import com.elhady.movies.core.domain.usecase.account.DeleteMovieFromDetailsListUseCase
 import com.elhady.movies.core.domain.usecase.account.GetUserListsUseCase
 import com.elhady.movies.core.domain.usecase.auth.CheckIsUserLoggedInUseCase
 import com.elhady.movies.core.domain.usecase.movie.GetMovieDetailsUseCase
@@ -17,7 +18,11 @@ import com.elhady.movies.core.domain.usecase.movie.GetRatingMovieUseCase
 import com.elhady.movies.core.domain.usecase.movie.InsertMovieToWatchHistoryUseCase
 import com.elhady.movies.core.domain.usecase.movie.SetRatingUseCase
 import com.elhady.movies.core.ui.base.BaseViewModel
+import com.elhady.movies.core.ui.base.ErrorUiState
+import com.elhady.movies.core.ui.base.UiText
+import com.elhady.movies.core.ui.base.toErrorUiState
 import com.elhady.movies.core.ui.resource.StringsRes
+import com.elhady.movies.core.ui.state.SaveToListsUiState
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.CastUiMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.RecommendedUiMapper
 import com.elhady.movies.feature.details.presentation.moviedetails.mapper.ReviewDetailsUiMapper
@@ -38,6 +43,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val getUserListsUseCase: GetUserListsUseCase,
     private val addToUserListUseCase: AddToUserListUseCase,
     private val createUserListUseCase: CreateUserListUseCase,
+    private val deleteMovieFromDetailsListUseCase: DeleteMovieFromDetailsListUseCase,
     private val addToFavouriteUseCase: AddToFavouriteUseCase,
     private val addToWatchList: AddToWatchList,
     private val insertMovieToWatchHistoryUseCase: InsertMovieToWatchHistoryUseCase,
@@ -55,6 +61,7 @@ class MovieDetailsViewModel @Inject constructor(
 ) : BaseViewModel<MovieDetailsUiState, MovieDetailsUiEffect>(MovieDetailsUiState()) {
 
     private val movieId = savedStateHandle.get<Int>("movieId")
+    private var initialSaveToListsState = SaveToListsUiState()
 
     init {
         if (movieId != null) {
@@ -64,7 +71,7 @@ class MovieDetailsViewModel @Inject constructor(
         } else {
             _state.update { 
                 it.copy(
-                    onErrors = listOf(stringsRes.someThingError), 
+                    error = ErrorUiState.Generic, 
                     isLoading = false
                 ) 
             }
@@ -110,21 +117,49 @@ class MovieDetailsViewModel @Inject constructor(
             is MovieDetailsUiEvent.RetryClicked -> tryAgain(event.movieId)
             is MovieDetailsUiEvent.ChipClicked -> {
                 _state.update {
-                    val currentSelected = it.userSelectedLists.toMutableList()
+                    val currentSelected = it.saveToListsUiState.selectedUserLists.toMutableList()
                     if (event.id in currentSelected) {
                         currentSelected.remove(event.id)
                     } else {
                         currentSelected.add(event.id)
                     }
-                    it.copy(userSelectedLists = currentSelected)
+                    it.copy(
+                        saveToListsUiState = it.saveToListsUiState.copy(
+                            selectedUserLists = currentSelected,
+                            isCreateListVisible = false
+                        )
+                    )
                 }
             }
             MovieDetailsUiEvent.DoneClicked -> onDone()
-            MovieDetailsUiEvent.FavouriteClicked -> addToFavourite()
-            MovieDetailsUiEvent.WatchlistClicked -> addToWatchlist()
+            MovieDetailsUiEvent.FavouriteClicked -> {
+                _state.update {
+                    it.copy(
+                        saveToListsUiState = it.saveToListsUiState.copy(
+                            isFavouriteSelected = !it.saveToListsUiState.isFavouriteSelected,
+                            isCreateListVisible = false
+                        )
+                    )
+                }
+            }
+            MovieDetailsUiEvent.WatchlistClicked -> {
+                _state.update {
+                    it.copy(
+                        saveToListsUiState = it.saveToListsUiState.copy(
+                            isWatchlistSelected = !it.saveToListsUiState.isWatchlistSelected,
+                            isCreateListVisible = false
+                        )
+                    )
+                }
+            }
             is MovieDetailsUiEvent.CreateListClicked -> createUserNewList(event.name)
-            MovieDetailsUiEvent.CloseClicked -> sendEffect(MovieDetailsUiEffect.CloseBottomSheet)
-            MovieDetailsUiEvent.AddListClicked -> sendEffect(MovieDetailsUiEffect.AddListToBottomSheet)
+            MovieDetailsUiEvent.CloseClicked -> {
+                _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isCreateListVisible = false)) }
+                sendEffect(MovieDetailsUiEffect.CloseBottomSheet)
+            }
+            MovieDetailsUiEvent.AddListClicked -> {
+                _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isCreateListVisible = true)) }
+            }
         }
     }
 
@@ -146,16 +181,22 @@ class MovieDetailsViewModel @Inject constructor(
                 castUiState = castUiMapper.map(movieDetails.credits.cast),
                 reviewsDetails = reviewDetailsUiStateMapper.map(movieDetails),
                 isLoading = false,
-                onErrors = emptyList()
+                error = null,
+                saveToListsUiState = it.saveToListsUiState.copy(
+                    isFavouriteSelected = movieDetails.accountStates?.favorite ?: false,
+                    isWatchlistSelected = movieDetails.accountStates?.watchlist ?: false
+                )
             )
         }
+        initialSaveToListsState = initialSaveToListsState.copy(
+            isFavouriteSelected = movieDetails.accountStates?.favorite ?: false,
+            isWatchlistSelected = movieDetails.accountStates?.watchlist ?: false
+        )
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 insertMovieToWatchHistoryUseCase(watchHistoryUiStateMapper.map(movieDetails))
             } catch (th: Throwable) {
-                // Should we show error for watch history? MovieDetailsViewModel original code called onError
-                // but usually watch history insertion shouldn't block the whole screen if it fails.
-                // Keeping original behavior for now.
+                // Silently fail or log for background tasks
             }
         }
     }
@@ -185,7 +226,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun getUserLists() {
         tryToExecute(
-            call = { getUserListsUseCase() },
+            call = { getUserListsUseCase(movieId, MediaType.MOVIE) },
             mapper = userListsUiMapper,
             onSuccess = ::onSuccessUserLists,
             onError = ::onError
@@ -193,70 +234,128 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun onSuccessUserLists(userListsEntity: List<com.elhady.movies.core.ui.state.UserListUiState>) {
-        _state.update { it.copy(userLists = userListsEntity) }
+        val selectedIds = userListsEntity.filter { it.isSelected }.map { it.id }
+        _state.update {
+            it.copy(
+                userLists = userListsEntity,
+                saveToListsUiState = it.saveToListsUiState.copy(
+                    selectedUserLists = selectedIds,
+                    isCreateListVisible = false
+                )
+            )
+        }
+        initialSaveToListsState = initialSaveToListsState.copy(selectedUserLists = selectedIds)
         sendEffect(MovieDetailsUiEffect.ShowSaveToListBottomSheet(userListsEntity))
     }
 
     private fun onDone() {
-        state.value.userSelectedLists.forEach { id ->
-            tryToExecute(
-                call = { addToUserListUseCase(id, movieId!!) },
-                onSuccess = { showMessageWithSnackBar(stringsRes.newListAddSuccessFully) },
-                onError = ::onError
-            )
+        val currentId = movieId!!
+        val currentState = state.value.saveToListsUiState
+
+        viewModelScope.launch {
+            try {
+                // Execute required operations
+                if (currentState.isFavouriteSelected != initialSaveToListsState.isFavouriteSelected) {
+                    addToFavouriteUseCase(currentId, MediaType.MOVIE, currentState.isFavouriteSelected)
+                }
+
+                if (currentState.isWatchlistSelected != initialSaveToListsState.isWatchlistSelected) {
+                    addToWatchList(currentId, MediaType.MOVIE, currentState.isWatchlistSelected)
+                }
+
+                val added = currentState.selectedUserLists.filter { it !in initialSaveToListsState.selectedUserLists }
+                val removed = initialSaveToListsState.selectedUserLists.filter { it !in currentState.selectedUserLists }
+
+                added.forEach { listId ->
+                    addToUserListUseCase(listId, currentId, MediaType.MOVIE)
+                }
+
+                removed.forEach { listId ->
+                    deleteMovieFromDetailsListUseCase(listId, currentId)
+                }
+
+                // If we reach here, all operations succeeded
+                val isChanged = currentState.isFavouriteSelected != initialSaveToListsState.isFavouriteSelected ||
+                        currentState.isWatchlistSelected != initialSaveToListsState.isWatchlistSelected ||
+                        added.isNotEmpty() || removed.isNotEmpty()
+
+                if (isChanged) {
+                    showMessageWithSnackBar(stringsRes.addSuccessfully)
+                }
+
+                _state.update {
+                    it.copy(
+                        saveToListsUiState = it.saveToListsUiState.copy(selectedUserLists = emptyList())
+                    )
+                }
+                sendEffect(MovieDetailsUiEffect.CloseBottomSheet)
+            } catch (e: Exception) {
+                onError(e)
+            }
         }
-        _state.update { it.copy(userSelectedLists = emptyList()) }
-        sendEffect(MovieDetailsUiEffect.DoneEvent)
     }
 
     private fun createUserNewList(listName: String) {
+        if (state.value.saveToListsUiState.isLoading) return
+        if (listName.isBlank()) {
+            showMessageWithSnackBar(stringsRes.emptyField)
+            return
+        }
+
+        _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isLoading = true)) }
         tryToExecute(
             call = { createUserListUseCase(listName) },
-            onSuccess = { 
-                showMessageWithSnackBar(stringsRes.newListAddSuccessFully)
-                getUserLists() 
-            },
-            onError = ::onError
+            onSuccess = ::onCreateListSuccess,
+            onError = ::onCreateListError
         )
     }
 
-    private fun addToFavourite() {
-        movieId?.let { id ->
+    private fun onCreateListSuccess(createList: CreateList) {
+        val listId = createList.listId
+        if (createList.success == true && listId != null) {
+            val currentId = movieId!!
             tryToExecute(
-                call = { addToFavouriteUseCase(mediaId = id, mediaType = "movie") },
-                onSuccess = { showMessageWithSnackBar(stringsRes.addSuccessfully) },
-                onError = ::onError
+                call = { addToUserListUseCase(listId, currentId, MediaType.MOVIE) },
+                onSuccess = {
+                    _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isLoading = false)) }
+                    showMessageWithSnackBar(stringsRes.newListAddSuccessFully)
+                    getUserLists()
+                    sendEffect(MovieDetailsUiEffect.CloseBottomSheet)
+                },
+                onError = ::onCreateListError
             )
+        } else {
+            onCreateListError(AppException.Unknown(createList.statusMessage ?: ""))
         }
     }
 
-    private fun addToWatchlist() {
-        movieId?.let { id ->
-            tryToExecute(
-                call = { addToWatchList(movieId = id, mediaType = "movie") },
-                onSuccess = { showMessageWithSnackBar(stringsRes.addSuccessfully) },
-                onError = ::onError
-            )
-        }
+    private fun onCreateListError(throwable: Throwable) {
+        _state.update { it.copy(saveToListsUiState = it.saveToListsUiState.copy(isLoading = false)) }
+        onError(throwable)
     }
 
     private fun tryAgain(movieId: Int) {
-        _state.update { it.copy(isLoading = true, onErrors = emptyList()) }
+        _state.update { it.copy(isLoading = true, error = null) }
         getMovieDetails(movieId)
     }
 
-    private fun showMessageWithSnackBar(message: String) {
+    private fun showMessageWithSnackBar(message: UiText) {
         sendEffect(MovieDetailsUiEffect.ShowSnackBar(message))
     }
 
     private fun onError(throwable: Throwable) {
-        val errorMessage = throwable.message ?: stringsRes.someThingError
-        when (throwable) {
-            is NoNetworkThrowable -> showMessageWithSnackBar(stringsRes.noNetworkConnection)
-            is UnauthorizedThrowable -> showMessageWithSnackBar(stringsRes.theRequestFailed)
-            is ForbiddenThrowable -> showMessageWithSnackBar(stringsRes.duplicateEntity)
-            else -> Unit
+        val message = when (throwable) {
+            is AppException.NoNetwork -> stringsRes.noNetworkConnection
+            is AppException.Timeout -> stringsRes.timeOut
+            else -> stringsRes.someThingError
         }
-        _state.update { it.copy(onErrors = listOf(errorMessage), isLoading = false) }
+
+        if (state.value.movieUiState.title.isNotBlank()) {
+            showMessageWithSnackBar(message)
+            _state.update { it.copy(isLoading = false) }
+        } else {
+            val errorUiState = if (throwable is AppException) throwable.toErrorUiState() else ErrorUiState.Generic
+            _state.update { it.copy(error = errorUiState, isLoading = false) }
+        }
     }
 }

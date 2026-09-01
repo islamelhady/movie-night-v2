@@ -1,7 +1,6 @@
 package com.elhady.movies.core.network.api
 
 import com.elhady.movies.core.network.dto.account.AddMediaToListRequest
-import com.elhady.movies.core.network.dto.account.CreateUserListRequest
 import com.elhady.movies.core.network.dto.account.DeleteMovieRequest
 import com.elhady.movies.core.network.dto.account.FavoriteRequest
 import com.elhady.movies.core.network.dto.account.ListRequest
@@ -42,27 +41,32 @@ interface AccountApiService {
     ): Response<StatusResponse>
 
     @POST("list")
-    suspend fun createUserList(@Body name: CreateUserListRequest): Response<StatusResponse>
+    suspend fun createUserList(@Body name: ListRequest): Response<ListResponse>
 
     @GET("account/{account_id}/favorite/movies")
-    suspend fun getFavoriteMovies(): Response<DataWrapperResponse<MovieDto>>
+    suspend fun getFavoriteMovies(
+        @Query("sort_by") sortBy: String? = "created_at.desc"
+    ): Response<DataWrapperResponse<MovieDto>>
 
     @GET("account/{account_id}/favorite/tv")
-    suspend fun getFavoriteTv(): Response<DataWrapperResponse<TvDto>>
+    suspend fun getFavoriteTv(
+        @Query("sort_by") sortBy: String? = "created_at.desc"
+    ): Response<DataWrapperResponse<TvDto>>
 
     @GET("account/{account_id}/watchlist/movies")
-    suspend fun getWatchlist(): Response<DataWrapperResponse<MovieDto>>
+    suspend fun getWatchlist(
+        @Query("sort_by") sortBy: String? = "created_at.desc"
+    ): Response<DataWrapperResponse<MovieDto>>
 
     @GET("account/{account_id}/watchlist/tv")
-    suspend fun getWatchlistTv(): Response<DataWrapperResponse<TvDto>>
+    suspend fun getWatchlistTv(
+        @Query("sort_by") sortBy: String? = "created_at.desc"
+    ): Response<DataWrapperResponse<TvDto>>
 
     @POST("account/{account_id}/watchlist")
     suspend fun addWatchlist(
         @Body watchlistRequest: WatchlistRequest,
     ): Response<StatusResponse>
-
-    @POST("list")
-    suspend fun addList(@Body listRequest: ListRequest): Response<ListResponse>
 
     @DELETE("list/{list_id}")
     suspend fun deleteList(@Path("list_id") listId: Int): Response<StatusResponse>

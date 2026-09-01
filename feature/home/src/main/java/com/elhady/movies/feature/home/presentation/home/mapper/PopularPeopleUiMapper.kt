@@ -1,6 +1,6 @@
 package com.elhady.movies.feature.home.presentation.home.mapper
 
-import com.elhady.movies.core.common.mapper.Mapper
+import com.elhady.movies.core.common.Mapper
 import com.elhady.movies.core.domain.model.people.People
 import com.elhady.movies.feature.home.presentation.home.PopularPeopleUiState
 import javax.inject.Inject

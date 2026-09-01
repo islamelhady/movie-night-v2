@@ -41,7 +41,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
     }
 
     private fun setupHomeAdapter() {
-        searchAdapter = SearchAdapter(mutableListOf(), this)
+        searchAdapter = SearchAdapter(this)
         binding.recyclerViewSearch.adapter = searchAdapter
     }
 
@@ -63,8 +63,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchUiState, Search
                 state.searchPeopleResult.map { SearchItem.PeopleItem(it) }
             }
         }
-        searchAdapter.setItems(searchItems)
-        state.error?.lastOrNull()?.let { showSnackBar(it) }
+        searchAdapter.submitList(searchItems)
         binding.state = state
     }
 

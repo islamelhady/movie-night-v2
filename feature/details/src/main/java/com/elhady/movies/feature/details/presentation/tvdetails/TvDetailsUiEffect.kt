@@ -1,5 +1,6 @@
 package com.elhady.movies.feature.details.presentation.tvdetails
 
+import com.elhady.movies.core.ui.base.UiText
 import com.elhady.movies.core.ui.state.UserListUiState
 
 sealed interface TvDetailsUiEffect {
@@ -11,6 +12,7 @@ sealed interface TvDetailsUiEffect {
     object NavigateToShowMoreRecommendation : TvDetailsUiEffect
     data class ShowRatingBottomSheet(val rating: Float) : TvDetailsUiEffect
     data class ShowSaveToListBottomSheet(val lists: List<UserListUiState>, val selectedLists: List<Int>) : TvDetailsUiEffect
-    data class ShowSnackBar(val message: String) : TvDetailsUiEffect
+    data class ShowSnackBar(val message: UiText) : TvDetailsUiEffect
+    object CloseBottomSheet : TvDetailsUiEffect
 
 }

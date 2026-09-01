@@ -3,8 +3,10 @@ package com.elhady.movies.feature.explore.presentation.explore.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.elhady.movies.feature.explore.BR
-import com.elhady.movies.core.ui.base.BaseAdapter
 import com.elhady.movies.feature.explore.R
 import com.elhady.movies.feature.explore.databinding.ExploreItemTrendingMovieGridBinding
 import com.elhady.movies.feature.explore.databinding.ExploreItemTrendingMovieHorizontalBinding
@@ -13,14 +15,10 @@ import com.elhady.movies.feature.explore.presentation.explore.ExploreAdapterList
 import com.elhady.movies.feature.explore.presentation.explore.LayoutItemType
 
 class ExploreAdapter(
-    private var items: List<ExploreItem>,
     private val listener: ExploreAdapterListener
-) : BaseAdapter<ExploreItem>(items, listener) {
-    override val layoutID: Int = 0
-    override val itemVariableId: Int = BR.item
-    override val listenerVariableId: Int = BR.listener
+) : ListAdapter<ExploreItem, RecyclerView.ViewHolder>(ExploreDiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             LayoutItemType.HORIZONTAL.ordinal -> {
                 HorizontalViewHolder(
@@ -44,38 +42,45 @@ class ExploreAdapter(
         }
     }
 
-    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val item = getItem(position)
         when (holder) {
-            is GridViewHolder -> bindGrid(holder, position)
-            is HorizontalViewHolder -> bindHorizontal(holder, position)
+            is GridViewHolder -> holder.bind(item as ExploreItem.GridItem, listener)
+            is HorizontalViewHolder -> holder.bind(item as ExploreItem.HorizontalItem, listener)
         }
     }
 
-    private fun bindGrid(holder: GridViewHolder, position: Int) {
-        val grid = items[position] as ExploreItem.GridItem
-        holder.binding.item = grid.gridItem
-        holder.binding.listener = listener
+    override fun getItemViewType(position: Int): Int = getItem(position).type.ordinal
 
+    class GridViewHolder(val binding: ExploreItemTrendingMovieGridBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: ExploreItem.GridItem, listener: ExploreAdapterListener) {
+            binding.item = item.gridItem
+            binding.listener = listener
+            binding.executePendingBindings()
+        }
     }
-
-    private fun bindHorizontal(holder: HorizontalViewHolder, position: Int) {
-        val horizontal = items[position] as ExploreItem.HorizontalItem
-        holder.binding.item = horizontal.horizontalItem
-        holder.binding.listener = listener
-    }
-
-    override fun setItems(newItems: List<ExploreItem>) {
-        items = newItems
-        super.setItems(newItems)
-    }
-
-    override fun getItemCount() = items.size
-
-    override fun getItemViewType(position: Int): Int = items[position].type.ordinal
-
-    class GridViewHolder(val binding: ExploreItemTrendingMovieGridBinding) : BaseViewHolder(binding)
 
     class HorizontalViewHolder(val binding: ExploreItemTrendingMovieHorizontalBinding) :
-        BaseViewHolder(binding)
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: ExploreItem.HorizontalItem, listener: ExploreAdapterListener) {
+            binding.item = item.horizontalItem
+            binding.listener = listener
+            binding.executePendingBindings()
+        }
+    }
 
+    class ExploreDiffCallback : DiffUtil.ItemCallback<ExploreItem>() {
+        override fun areItemsTheSame(oldItem: ExploreItem, newItem: ExploreItem): Boolean {
+            return when {
+                oldItem is ExploreItem.HorizontalItem && newItem is ExploreItem.HorizontalItem -> true
+                oldItem is ExploreItem.GridItem && newItem is ExploreItem.GridItem -> 
+                    oldItem.gridItem.id == newItem.gridItem.id
+                else -> false
+            }
+        }
+
+        override fun areContentsTheSame(oldItem: ExploreItem, newItem: ExploreItem): Boolean {
+            return oldItem == newItem
+        }
+    }
 }

@@ -1,5 +1,7 @@
 package com.elhady.movies.feature.profile.presentation.profile
 
+import com.elhady.movies.core.ui.base.UiText
+
 sealed interface ProfileUiEffect {
     object NavigateToFavoriteScreen : ProfileUiEffect
     object NavigateToWatchlistScreen : ProfileUiEffect
@@ -8,5 +10,5 @@ sealed interface ProfileUiEffect {
     object NavigateToMyListsScreen : ProfileUiEffect
     object NavigateToLogin : ProfileUiEffect
     object ShowLogoutDialog : ProfileUiEffect
-    data class ShowSnackBar(val message: Int) : ProfileUiEffect
+    data class ShowSnackBar(val message: UiText) : ProfileUiEffect
 }

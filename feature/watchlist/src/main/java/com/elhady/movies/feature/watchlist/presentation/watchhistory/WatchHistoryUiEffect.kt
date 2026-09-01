@@ -1,6 +1,6 @@
 package com.elhady.movies.feature.watchlist.presentation.watchhistory
 
-import com.elhady.movies.core.ui.base.ErrorUiState
+import com.elhady.movies.core.ui.base.UiText
 
 sealed interface WatchHistoryUiEffect {
 
@@ -11,7 +11,7 @@ sealed interface WatchHistoryUiEffect {
     object ShowDeleteSnackBar : WatchHistoryUiEffect
 
     data class ShowErrorSnackBar(
-        val error: ErrorUiState
+        val message: UiText
     ) : WatchHistoryUiEffect
 
     object NavigateBack : WatchHistoryUiEffect

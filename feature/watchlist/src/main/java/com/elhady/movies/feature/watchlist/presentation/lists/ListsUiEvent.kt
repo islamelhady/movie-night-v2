@@ -1,10 +1,12 @@
 package com.elhady.movies.feature.watchlist.presentation.lists
 
+import com.elhady.movies.core.common.MediaType
+
 sealed interface ListsUiEvent {
 
     data class ListClicked(
         val listId: Int,
-        val listType: String,
+        val listType: MediaType,
         val listName: String,
     ) : ListsUiEvent
 

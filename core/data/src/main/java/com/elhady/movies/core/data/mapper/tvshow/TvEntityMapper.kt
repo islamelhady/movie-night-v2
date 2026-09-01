@@ -2,7 +2,7 @@ package com.elhady.movies.core.data.mapper.tvshow
 
 import com.elhady.movies.core.data.BuildConfig
 import com.elhady.movies.core.database.entity.tvshow.TvShowEntity
-import com.elhady.movies.core.common.mapper.Mapper
+import com.elhady.movies.core.common.Mapper
 import com.elhady.movies.core.domain.model.tvshow.TvShows
 import javax.inject.Inject
 

@@ -1,6 +1,6 @@
 package com.elhady.movies.feature.watchlist.presentation.listcontents.mapper
 
-import com.elhady.movies.core.common.mapper.Mapper
+import com.elhady.movies.core.common.Mapper
 import com.elhady.movies.core.domain.model.movie.Movie
 import com.elhady.movies.feature.watchlist.presentation.listcontents.MovieUiState
 import javax.inject.Inject
