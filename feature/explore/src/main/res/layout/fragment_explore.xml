@@ -133,7 +133,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_retry"
-            style="@style/Widget.Material3.Button.TextButton"
+            style="@style/PrimaryButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:isVisibleOrGone="@{state.errors != null &amp;&amp; state.exploreItems.isEmpty()}"

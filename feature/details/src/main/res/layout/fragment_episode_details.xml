@@ -263,15 +263,14 @@
                         app:lottie_loop="true"
                         app:errorAnimation="@{state.error}" />
 
-                    <Button
-                        android:id="@+id/button"
-                        style="@style/TextStyle.TitleMedium"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_retry"
+                        style="@style/PrimaryButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_medium_16dp"
                         android:onClick="@{()->listener.onClickRetry()}"
                         android:text="@string/try_again"
-                        android:textColor="@color/background"
                         app:isVisibleOrGone="@{state.isFailure}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
