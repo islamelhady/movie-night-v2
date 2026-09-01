@@ -42,6 +42,10 @@ class MovieDetailsFragment :
     private var youtubePlayer: YouTubePlayer? = null
     private var loadedVideoKey: String? = null
 
+    private var youtubePlayerListener: AbstractYouTubePlayerListener? = null
+    private var onScrollListener: RecyclerView.OnScrollListener? = null
+    private var offsetChangedListener: com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycle.addObserver(binding.includePlayerOverlay.youtubePlayerView)
@@ -117,14 +121,19 @@ class MovieDetailsFragment :
 
     // Fragment UI Logic
     private fun initYoutubePlayer() {
-        binding.includePlayerOverlay.youtubePlayerView.addYouTubePlayerListener(object :
+        youtubePlayerListener = object :
             AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                this@MovieDetailsFragment.youtubePlayer = youTubePlayer
-                // Re-render to cue if player was already visible when onReady fired
-                render(viewModel.state.value)
+                _binding?.let {
+                    this@MovieDetailsFragment.youtubePlayer = youTubePlayer
+                    // Re-render to cue if player was already visible when onReady fired
+                    render(viewModel.state.value)
+                }
             }
-        })
+        }
+        youtubePlayerListener?.let {
+            binding.includePlayerOverlay.youtubePlayerView.addYouTubePlayerListener(it)
+        }
     }
 
     private fun handlePlayerState(isPlayerVisible: Boolean, videoKey: String) {
@@ -160,13 +169,15 @@ class MovieDetailsFragment :
         }
 
         var pos = 0
-        binding.nestedRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        onScrollListener = object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val firstVisibleItemPosition = recyclerView.layoutManager as LinearLayoutManager
                 pos = firstVisibleItemPosition.findFirstVisibleItemPosition()
             }
-        })
-        binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+        }
+        onScrollListener?.let { binding.nestedRecycler.addOnScrollListener(it) }
+
+        offsetChangedListener = com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
             _binding?.apply {
                 when {
                     verticalOffset == 0 -> {
@@ -185,6 +196,7 @@ class MovieDetailsFragment :
                 }
             }
         }
+        offsetChangedListener?.let { binding.appBarLayout.addOnOffsetChangedListener(it) }
     }
 
     // BottomSheetDismissListener
@@ -195,6 +207,19 @@ class MovieDetailsFragment :
     override fun getUserRating(): Float = viewModel.state.value.userRating / 2
 
     override fun onDestroyView() {
+        youtubePlayerListener?.let {
+            _binding?.includePlayerOverlay?.youtubePlayerView?.removeYouTubePlayerListener(it)
+        }
+        onScrollListener?.let {
+            _binding?.nestedRecycler?.removeOnScrollListener(it)
+        }
+        offsetChangedListener?.let {
+            _binding?.appBarLayout?.removeOnOffsetChangedListener(it)
+        }
+        youtubePlayerListener = null
+        onScrollListener = null
+        offsetChangedListener = null
+
         super.onDestroyView()
         youtubePlayer = null
         loadedVideoKey = null
