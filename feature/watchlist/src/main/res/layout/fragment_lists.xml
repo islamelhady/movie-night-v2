@@ -119,8 +119,8 @@
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/progressBar"
-                android:layout_width="@dimen/spacing_extra_giant_48dp"
-                android:layout_height="@dimen/spacing_extra_giant_48dp"
+                android:layout_width="@dimen/lottie_loading_size"
+                android:layout_height="@dimen/lottie_loading_size"
                 app:isVisible="@{state.loading}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
