@@ -202,7 +202,7 @@ class HomeAdapter(
 
     class TrendingViewHolder(
         val binding: HomeRecyclerviewTrendingBinding,
-        listener: HomeAdapterListener
+        private val listener: HomeAdapterListener
     ) : RecyclerView.ViewHolder(binding.root) {
         private val adapter = TrendingMovieAdapter(listener)
         init {
@@ -211,13 +211,14 @@ class HomeAdapter(
         fun bind(trending: HomeItem.TrendingMovie) {
             adapter.submitList(trending.items)
             binding.setVariable(BR.item, trending)
+            binding.setVariable(BR.listener, listener)
             binding.executePendingBindings()
         }
     }
 
     class AiringTodayTvShowViewHolder(
         val binding: HomeRecyclerviewAiringTodayTvBinding,
-        listener: HomeAdapterListener
+        private val listener: HomeAdapterListener
     ) : RecyclerView.ViewHolder(binding.root) {
         private val adapter = AiringTodayTvShowAdapter(listener)
         init {
@@ -227,13 +228,14 @@ class HomeAdapter(
             adapter.submitList(airingToday.items)
             binding.count = airingToday.items.size
             binding.setVariable(BR.item, airingToday)
+            binding.setVariable(BR.listener, listener)
             binding.executePendingBindings()
         }
     }
 
     class TopRatedViewHolder(
         val binding: HomeRecyclerviewTopRatedBinding,
-        listener: HomeAdapterListener
+        private val listener: HomeAdapterListener
     ) : RecyclerView.ViewHolder(binding.root) {
         private val adapter = TopRatedMovieAdapter(listener)
         init {
@@ -242,6 +244,7 @@ class HomeAdapter(
         fun bind(topRated: HomeItem.TopRatedMovie) {
             adapter.submitList(topRated.items)
             binding.setVariable(BR.item, topRated)
+            binding.setVariable(BR.listener, listener)
             binding.executePendingBindings()
         }
     }
@@ -263,7 +266,7 @@ class HomeAdapter(
 
     class PopularMoviesViewHolder(
         val binding: HomeRecyclerviewPopularMoviesBinding,
-        listener: HomeAdapterListener
+        private val listener: HomeAdapterListener
     ) : RecyclerView.ViewHolder(binding.root) {
         private val adapter = PopularMoviesAdapter(listener)
         init {
@@ -272,6 +275,7 @@ class HomeAdapter(
         fun bind(popularMovies: HomeItem.PopularMovies) {
             adapter.submitList(popularMovies.items)
             binding.setVariable(BR.item, popularMovies)
+            binding.setVariable(BR.listener, listener)
             binding.executePendingBindings()
         }
     }
