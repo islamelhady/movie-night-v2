@@ -54,7 +54,6 @@ The project is organized mainly by feature, with shared core modules that provid
 * Ratings
 * Cast and Crew
 * Reviews
-* Similar Movies
 * Recommendations
 * Trailers
 
@@ -160,7 +159,6 @@ movie-night
 │   ├── details
 │   ├── explore
 │   ├── watchlist
-│   ├── player
 │   ├── profile
 │   ├── tvshow
 │   └── showmore
@@ -190,7 +188,6 @@ Each feature is isolated into its own module:
 * `feature:details`
 * `feature:explore`
 * `feature:watchlist`
-* `feature:player`
 * `feature:profile`
 * `feature:tvshow`
 * `feature:showmore`
@@ -281,7 +278,7 @@ This keeps the UI layer simple and predictable.
 ### Other Libraries
 
 * Paging 3
-* Coil
+* Glide
 
 ### API
 
